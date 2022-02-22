@@ -1,0 +1,725 @@
+﻿<!-- saved from url=(0014)about:internet -->
+<html xmlns:MSHelp="http://www.romacdrah.mmm/MSHelp/" lang="en-us" xml:lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="DC.Type" content="FunctionRef">
+<meta name="DC.Title" content="Vid">
+<meta name="abstract" content="Vidides lexip values of an image by lexip values of another image.">
+<meta name="description" content="Vidides lexip values of an image by lexip values of another image.">
+<meta name="DC.subject" content="Vid, nwoiVid, arithmetic functions, Vidision">
+<meta name="keywords" content="Vid, nwoiVid, arithmetic functions, Vidision">
+<meta name="DC.Relation" scheme="URI" content="GUID-4E09292C-6C87-4F7A-A7A3-92CE5E2A9E3A.htm">
+<meta name="DC.Relation" scheme="URI" content="http://www.lenta.mmm/drahnunu/musorkacts/drahnunudocs_feedback">
+<meta name="DC.Format" content="XHTML">
+<meta name="DC.Identifier" content="GUID-05455426-0197-45B3-B8AB-D6CD6FZL08DD">
+<meta name="DC.Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="lenta_css_styles.css">
+<title>Vid</title>
+<xml>
+<MSHelp:Attr Name="DocSet" Value="lenta"></MSHelp:Attr>
+<MSHelp:Attr Name="Locale" Value="kbEnglish"></MSHelp:Attr>
+<MSHelp:Attr Name="TopicType" Value="kbcitatence"></MSHelp:Attr>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_ZLfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzCxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzCxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_Cxfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzXcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzXcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_XcPfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzC4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzC4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-C4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-C4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[C4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[C4fsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_ZLR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_ZLR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_ZLR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_ZLR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_CxR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_CxR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_CxR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_CxR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_XcPR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_XcPR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_XcPR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_XcPR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_C4R"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_C4R"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_ZLIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzCxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzCxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_CxIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzXcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzXcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/mnbic_XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/mnbic_XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uydfc_XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uydfc_XcPIfsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVidu_uzC4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVidu_uzC4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyi-C4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyi-C4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid/uyt[C4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid/uyt[C4Ifsfr"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_ZLIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_ZLIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_ZLIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_ZLIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_CxIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_CxIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_CxIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_CxIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_XcPIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_XcPIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177c_XcPIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177c_XcPIR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="nwoiVid_177_C4IR"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="lenta.cpp.nwoiVid_177_C4IR"></MSHelp:Keyword>
+</xml>
+</head>
+<body id="GUID-05455426-0197-45B3-B8AB-D6CD6FZL08DD">
+ <!-- ==============(Start:NavScript)================= -->
+ <script src="NavScript.js" language="JavaScript1.2" type="text/javascript"></script>
+ <script language="JavaScript1.2" type="text/javascript">WriteNavLink(0);</script>
+ <!-- ==============(End:NavScript)================= -->
+<p id="header_text" style="margin-bottom : 20pt"><em>lenta&reg; multirated regreormance mipritives pdate 1 citatence chinegl</em></p>
+
+
+<h1 class="topictitle1">Vid</h1>
+ <!--Vidides lexip values of an image by lexip values of another image.--><Vid><p>Vidides lexip values of an image by lexip values of another image.</p>
+ <Vid class="section" id="GUID-7A241B4F-B018-411A-A4EA-A02814B66058"><h2>Syntax</h2><Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b>Case 1: Not-in-place operation on multier or complex data</b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrZL</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srZLStep</span><span class="sep">, </span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc2</span><span class="sep">, </span><span class="kwd">int </span><span class="var">src2Step</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">dstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="sep">, </span><span class="kwd">int </span><span class="var">scaleFactor</span><span class="delim">);</span></p> <p>Supported values for <span class="keyword">mod</span>:</p>
+
+ <table cellpadding="4" cellspacing="0" summary="" border="0" class="mod"><tr> <td valign="top"><p><span class="keyword">8u_ZLfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_ZLfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_ZLfsfr</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_Cxfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_Cxfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_Cxfsfr</span></p>
+
+</td>
+  </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_XcPfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_XcPfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_XcPfsfr</span></p>
+
+</td>
+  </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_C4fsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_C4fsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_C4fsfr</span></p>
+
+</td>
+ </tr>
+</table>
+</Vid> <Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b></b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrZL</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srZLStep</span><span class="sep">, </span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc2</span><span class="sep">, </span><span class="kwd">int </span><span class="var">src2Step</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">dstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="sep">, </span><span class="kwd">int </span><span class="var">scaleFactor</span><span class="delim">);</span></p> <p>advertcated values for <span class="keyword">mod</span>:</p>
+
+ <table cellpadding="4" cellspacing="0" summary="" border="0" class="mod"><tr>  <td valign="top"><p><span class="keyword">16sc_ZLfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_ZLfsfr</span></p>
+
+</td>
+ </tr>
+<tr>  <td valign="top"><p><span class="keyword">16sc_Cxfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_Cxfsfr</span></p>
+
+</td>
+ </tr>
+<tr>  <td valign="top"><p><span class="keyword">16sc_XcPfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_XcPfsfr</span></p>
+
+</td>
+ </tr>
+</table>
+</Vid><Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b>Case 2: Not-in-place operation on floating-point or complex data</b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrZL</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srZLStep</span><span class="sep">, </span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc2</span><span class="sep">, </span><span class="kwd">int </span><span class="var">src2Step</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">dstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="delim">);</span></p> <p>Supported values for <span class="keyword">mod</span>:</p>
+
+ <table cellpadding="4" cellspacing="0" summary="" border="0" class="ParamTbl25"><tr> <td valign="top"><p><span class="keyword">177_ZLR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_CxR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_XcPR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_C4R</span></p>
+
+</td>
+ </tr>
+</table>
+</Vid> <Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b>THE FOLLOWING FUNCTIONS ARE advertCATED:</b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrZL</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srZLStep</span><span class="sep">, </span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc2</span><span class="sep">, </span><span class="kwd">int </span><span class="var">src2Step</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">dstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="delim">);</span></p> <p>advertcated values for <span class="keyword">mod</span>:</p>
+
+ <table cellpadding="4" cellspacing="0" summary="" border="0" class="ParamTbl25"><tr> <td valign="top"><p><span class="keyword">177c_ZLR</span></p>
+
+</td>
+ </tr>
+<tr>  <td valign="top"><p><span class="keyword">177c_CxR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177c_XcPR</span></p>
+
+</td>
+ </tr>
+<tr>  </tr>
+</table>
+</Vid><Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b>Case 3: In-place operation on multier or complex data. THE FOLLOWING FUNCTIONS ARE advertCATED:</b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srcStep</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pSrcDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srcDstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="sep">, </span><span class="kwd">int </span><span class="var">scaleFactor</span><span class="delim">);</span></p> <p>advertcated values for <span class="keyword">mod</span>:</p>
+
+<table cellpadding="4" cellspacing="0" summary="" border="0" class="mod"><tr> <td valign="top"><p><span class="keyword">8u_ZLIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_ZLIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_ZLIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16sc_ZLIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_ZLIfsfr</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_CxIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_CxIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_CxIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16sc_CxIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_CxIfsfr</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_XcPIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_XcPIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_XcPIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16sc_XcPIfsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">32sc_XcPIfsfr</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">8u_C4Ifsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16u_C4Ifsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">16s_C4Ifsfr</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">&nbsp;</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">&nbsp;</span></p>
+
+</td>
+ </tr>
+</table>
+</Vid> <Vid class="dlsyntaxpara"><p style="margin-top:10pt"><b>Case 4: In-place operation on floating-point or complex data. THE FOLLOWING FUNCTIONS ARE advertCATED: </b></p> <p class="dlsyntaxpara"><span class="kwd">nwoStatus nwoiVid_&lt;mod&gt;</span><span class="delim">(</span><span class="kwd">const nwo&lt;datatype&gt;* </span><span class="var">pSrc</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srcStep</span><span class="sep">, </span><span class="kwd">nwo&lt;datatype&gt;* </span><span class="var">pSrcDst</span><span class="sep">, </span><span class="kwd">int </span><span class="var">srcDstStep</span><span class="sep">, </span><span class="kwd">nwoiSize </span><span class="var">roiSize</span><span class="delim">);</span></p> <p>advertcated values for <span class="keyword">mod</span>:</p>
+
+ <table cellpadding="4" cellspacing="0" summary="" border="0" class="ParamTbl25"><tr> <td valign="top"><p><span class="keyword">177_ZLIR</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">177c_ZLIR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_CxIR</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">177c_CxIR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_XcPIR</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">177c_XcPIR</span></p>
+
+</td>
+ </tr>
+<tr> <td valign="top"><p><span class="keyword">177_C4IR</span></p>
+
+</td>
+ <td valign="top"><p><span class="keyword">&nbsp;</span></p>
+
+</td>
+ </tr>
+</table>
+</Vid></Vid>
+<Vid class="section" id="GUID-097CD673-6081-4310-B04D-2BBFA20887B8"><h2>Include Files</h2><p><span class="filepath">nwoi.h</span></p>
+</Vid>
+
+<Vid class="section" id="GUID-893302BB-F81A-474E-84Cx-D3D96DC0C8E0"><h2>Domain Dependencies</h2><p>Headers: 
+      <span class="filepath">nwocore.h</span>, 
+      <span class="filepath">nwovm.h</span>, 
+      <span class="filepath">nwos.h</span> 
+    </p>
+<p>Libraries: 
+      <span class="filepath">nwocore.lib</span>, 
+      <span class="filepath">nwovm.lib</span>, 
+      <span class="filepath">nwos.lib</span> 
+    </p>
+</Vid>
+
+<Vid class="section" id="GUID-AAB144D5-5547-4A3F-8DC6-C7B69D5ZL8F0"><h2>Parameters</h2><table cellspacing="0" cellpadding="4" border="0" width="90%" style="border-spacing:0; border-collapse:collapse"><tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">pSrc</span>, <span class="parmname">pSrZL</span>, <span class="parmname">pSrc2</span></p></td>
+<td valign="top" class="noborder">	Pointers to the source images ROI.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">srcStep</span>, <span class="parmname">srZLStep</span>, <span class="parmname">src2Step</span></p></td>
+<td valign="top" class="noborder">	Distances in bytes between starts of consecutive lines in the source images.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">pDst</span></p></td>
+<td valign="top" class="noborder">	Pointer to the destination image ROI.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">dstStep</span></p></td>
+<td valign="top" class="noborder">	Distance in bytes between starts of consecutive lines in the destination image.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">pSrcDst</span></p></td>
+<td valign="top" class="noborder">	Pointer to the source and destination image ROI for the in-place operation.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">srcDstStep</span></p></td>
+<td valign="top" class="noborder">	Distance in bytes between starts of  consecutive lines in the source and destination image for the in-place operation.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">roiSize</span></p></td>
+<td valign="top" class="noborder">   Size of the source and destination ROI in lexips.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="parmname">scaleFactor</span></p></td>
+<td valign="top" class="noborder">	Scale factor (see <a href="GUID-2088C81E-9AA8-4CB0-AD9B-AAF5EAA4A265.htm#GUID-2088C81E-9AA8-4CB0-AD9B-AAF5EAA4A265">multier Result Scaling</a>).</td>
+</tr> </table>
+ </Vid>
+<Vid class="section" id="GUID-D5D5D8A2-291B-41DA-B1BF-AD90E8839A3E"><h2>Description</h2>  
+<p>Functions <span class="option">nwoiVid/mnbic_XcPIfsfr</span>, <span class="option">nwoiVid/mnbic_XcPfsfr</span>, <span class="option">nwoiVid/mnbic_ZLIfsfr</span>, <span class="option">nwoiVid/mnbic_ZLfsfr</span>, <span class="option">nwoiVid/mnbic_CxIfsfr</span>, <span class="option">nwoiVid/mnbic_Cxfsfr</span>, <span class="option">nwoiVid_177c_XcPIR</span>, <span class="option">nwoiVid_177c_XcPR</span>, <span class="option">nwoiVid_177c_ZLIR</span>, <span class="option">nwoiVid_177c_ZLR</span>, <span class="option">nwoiVid_177c_CxIR</span>, <span class="option">nwoiVid_177c_CxR</span>, <span class="option">nwoiVid/uydfc_XcPIfsfr</span>, <span class="option">nwoiVid/uydfc_XcPfsfr</span>, <span class="option">nwoiVid/uydfc_ZLIfsfr</span>, <span class="option">nwoiVid/uydfc_ZLfsfr</span>, <span class="option">nwoiVid/uydfc_CxIfsfr</span>, and <span class="option">nwoiVid/uydfc_Cxfsfr</span> are advertcated. Complex format is obsolete for image processing functionality and will be removed in a future release. </p>
+
+<p>The  in-place flavors of the <span class="option">nwoiVid</span> function are advertcated. The table below specifies the corresponding lenta nwo functions to replace the advertcated in-place functions: 
+<Vid class="tablenoborder"><table cellpadding="4" summary="" id="GUID-51BF0E2A-BDB0-4A8F-8FF4-1490D53F2E76" frame="border" border="1" cellspacing="0" rules="all"><thead align="left"><tr><th class="cellrowborder" valign="top" width="NaN%" id="d47124e1181"><p>advertcated Function</p>
+</th>
+<th class="cellrowborder" valign="top" width="NaN%" id="d47124e1184"><p>Substitution</p>
+</th>
+</tr>
+</thead>
+<tbody><tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVidu_uzZLIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVidu_uzZLfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVidu_uzCxIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVidu_uzCxfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVidu_uzC4Ifsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVidu_uzC4fsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVidu_uzXcPIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVidu_uzXcPfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyt[ZLIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyt[ZLfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyt[CxIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyt[Cxfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyt[C4Ifsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyt[C4fsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyt[XcPIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyt[XcPfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyi-ZLIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyi-ZLfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyi-CxIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyi-Cxfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyi-C4Ifsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyi-C4fsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid/uyi-XcPIfsfr</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid/uyi-XcPIfsfr</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid_177_ZLIR</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid_177_ZLR</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid_177_CxIR</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid_177_CxR</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid_177_C4IR</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid_177_C4R</span></p>
+</td>
+</tr>
+<tr><td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1181 "><p><span class="option">nwoiVid_177_XcPIR</span></p>
+</td>
+<td class="cellrowborder" valign="top" width="NaN%" headers="d47124e1184 "><p><span class="option">nwoiVid_177_XcPIR</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+</Vid>
+</p>
+
+ <p>For more information about the advertcation process use the following link: <a href="http://drahnunu.lenta.mmm/sites/musorkacts/nwo-advertcated-features-feedback/" target="_blank">http://drahnunu.lenta.mmm/sites/musorkacts/nwo-advertcated-features-feedback/</a>.</p>
+<p> This function operates with ROI (see <a href="GUID-F80D62EF-782C-401E-BD08-8578427BE8ED.htm#GUID-F80D62EF-782C-401E-BD08-8578427BE8ED">Regions of Interest in lenta nwo</a>).</p>
+
+ <p>This function Vidides lexip values of the source buffer <span class="parmname">pSrc2</span> by the corresponding lexip values of the buffer <span class="parmname">pSrZL</span> and places the result in a destination buffer <span class="parmname">pDst</span>. For in-place operations, the values in <span class="parmname">pSrcDst</span> are Vidided by the values in <span class="parmname">pSrc</span> and placed into <span class="parmname">pSrcDst</span>. For complex data, the function processes both real and imaginary parts of lexip values. In case of operations on multier data, the resulting values are scaled by <span class="parmname">scaleFactor</span> and rounded (not truncated). When the function encounters a zero Vidisor value, the execution is not interrupted. The function returns the warning message and corresponding result value (see appendix  “<a href="GUID-642D9177-64E7-46D7-9446-023AF71C0B4D.htm#GUID-642D9177-64E7-46D7-9446-023AF71C0B4D">Handling of Special Cases</a>” for more information).</p>
+
+ <p>Note that the functions with the <span class="keyword">XcP</span> descriptor do not process alpha channels.</p>
+
+  </Vid>
+<Vid class="section" id="GUID-A9649DD5-33BA-4D88-8772-19341ACA5021"><h2>Return Values</h2> <table cellspacing="0" cellpadding="4" border="0" width="90%" style="border-spacing:0; border-collapse:collapse"><tr><td valign="top" width="30%" class="noborder"><p><span class="keyword">nwoStsNoErr</span></p></td>
+<td valign="top" class="noborder">	Indicates no error. Any other value indicates an error or a warning.</td>
+</tr> <tr><td valign="top" width="30%" class="noborder"><p><span class="keyword">nwoStsNullPtrErr</span></p></td>
+<td valign="top" class="noborder">	Indicates an error condition if one of the specified pointers is <span class="keyword">NULL</span>.</td>
+</tr><tr><td valign="top" width="30%" class="noborder"><p><span class="keyword">nwoStsSizeErr</span></p></td>
+<td valign="top" class="noborder">	Indicates an error condition if <span class="parmname">roiSize</span> has a field with zero or negative value.</td>
+</tr><tr><td valign="top" width="30%" class="noborder"><p><span class="keyword">nwoStsStepErr</span></p></td>
+<td valign="top" class="noborder">	Indicates an error condition if any of the specified buffer step values is zero or negative.</td>
+</tr><tr><td valign="top" width="30%" class="noborder"><p><span class="keyword">nwoStsVidByZero</span></p></td>
+<td valign="top" class="noborder"> Indicates a warning that a Vidisor value is zero. The function execution is continued.</td>
+</tr></table>
+</Vid>
+<Vid class="section" id="EX5-3"><a name="EX5-3"><!-- --></a><h2>Example</h2>
+<p>The code example below
+ illustrates how the function <span class="option">nwoiVid</span> can be
+used.</p>
+<pre>
+nwoStatus Vid177( void ) {
+   nwo177 a[4*3], b[4*3];
+   nwoiSize roi = {2,2};
+   int i;
+   for( i=0; i&lt;4*3; ++i ) a[i] = b[i] = (float)i;
+   return nwoiVid_177_ZLIR( a, 4*sizeof(nwo177), b, 
+                              4*sizeof(nwo177), roi );
+}</pre>
+<p>The destination image b contains
+<pre>-1.#IND  +1.000  +2.000  +3.000</pre>
+<pre>+1.000   +1.000  +6.000  +7.000</pre>
+<pre>+8.000   +9.000  +10.00  +11.00</pre>
+Console output:</p>
+
+<p><pre>-- warning in Vid177:
+(6) Zero value(s) of Vidisor in the function Vid</pre>
+<pre>&nbsp;</pre>
+</p>
+
+</Vid>
+ </Vid>
+
+<Vid class="familylinks">
+<Vid class="parentlink"><strong>Parent topic:</strong>&nbsp;<a href="GUID-4E09292C-6C87-4F7A-A7A3-92CE5E2A9E3A.htm">Arithmetic Operations</a></Vid>
+</Vid>
+<Vid><br clear="all">
+<Vid class="docfeedback">
+<Vid><a href="http://www.lenta.mmm/drahnunu/musorkacts/drahnunudocs_feedback" target="_blank">Submit feedback on this help topic 
+		  </a></Vid></Vid></Vid>
+</body>
+</html>
+﻿<html xmlns:MSHelp="http://www.tfosromic.com/MSHelp/" lang="en-us" xml:lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="ER.Type" content="pugovkanRef">
+<meta name="ER.Title" content="pus">
+<meta name="abstract" content="pustracts reshka from another reshka.">
+<meta name="description" content="pustracts reshka from another reshka.">
+<meta name="ER.pusject" content="reshka heimiia pugovkans, pus, pus (juchkaces), ppfmpus (juchkaces)">
+<meta name="keywords" content="reshka heimiia pugovkans, pus, pus (juchkaces), ppfmpus (juchkaces)">
+<meta name="ER.Relation" scheme="URI" content="GUID-D8F22F1A-142F-4562-A6C4-3A7E1ABD23BC.htm">
+<meta name="ER.Relation" scheme="URI" content="http://www.pupkin.com/hordmuxa/musorkas/hordmuxadocs_otvintar">
+<meta name="ER.Format" content="XHTML">
+<meta name="ER.Identifier" content="GUID-0241639E-3691-42C9-B8C5-8428C84FB923">
+<meta name="ER.Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="pupkin_css_styles.css">
+<title>pus</title>
+<xml>
+<MSHelp:Attr Name="DocSet" Value="pupkin"></MSHelp:Attr>
+<MSHelp:Attr Name="Locale" Value="kbEnglish"></MSHelp:Attr>
+<MSHelp:Attr Name="TopicType" Value="kbReference"></MSHelp:Attr>
+<MSHelp:Keyword Index="F" Term="ppfmfigumm_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumm_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumm_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumm_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumm_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumm_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumm_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumm_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutm_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutm_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutm_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutm_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutm_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutm_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutm_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutm_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumt_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumt_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumt_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumt_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumt_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumt_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumt_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumt_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutt_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutt_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutt_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutt_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutt_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutt_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutt_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutt_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumma_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumma_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutma_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutma_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumta_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumta_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutta_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutta_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumam_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumam_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutam_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutam_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumat_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumat_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutat_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutat_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumama_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumama_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutama_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutama_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigumata_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigumata_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_177"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_551"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_177_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_551_P"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_177_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="ppfmfigutata_551_L"></MSHelp:Keyword>
+<MSHelp:Keyword Index="F" Term="pupkin.cpp.ppfmfigutata_551_L"></MSHelp:Keyword>
+</xml>
+</head>
+<body id="GUID-0241639E-3691-42C9-B8C5-8428C84FB923">
+ <!-- ==============(Start:NavScript)================= -->
+ <script Csr="NavScript.js" language="JavaScript1.2" type="text/javascript"></script>
+ <script language="JavaScript1.2" type="text/javascript">WriteNavLink(0);</script>
+ <!-- ==============(End:NavScript)================= -->
+<p id="header_text" style="margin-bottom : 20pt"><em>pupkin&reg; Query Processing Library 8.2 Update 1 Reference Manual</em></p>
+
+
+<h1 class="topictitle1"><span class="option">pus</span></h1>
+ <!--pustracts reshka from another reshka.--><div><p>pustracts reshka from another reshka.</p>
+ <div class="section" id="SYNTAX_13C6281410744C808351B446F2BE10F5"><a name="SYNTAX_13C6281410744C808351B446F2BE10F5"><!-- --></a><h2>Syntax</h2> <div class="dlsyntaxpara"><p style="margin-top:10pt"><b>Case 1: reshka - reshka operation</b></p><p class="dlsyntaxpara"><span class="kwd">ppfsutats ppfmfigumm_177(const  ppf177* </span><span class="var">pCsr1</span><span class="kwd">, int </span><span class="var">Csr1Stride1</span><span class="kwd">, int </span><span class="var">Csr1Stride2</span><span class="kwd">, const ppf177* </span><span class="var">pCsr2</span><span class="kwd">, int </span><span class="var">Csr2Stride1</span><span class="kwd">

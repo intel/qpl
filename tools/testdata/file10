@@ -1,0 +1,1215 @@
+                                  vertical quarter of block edge is disabled for deblocking,
+                               •     if (EdgeDisableFlag & QPLVC_EDGE_HALF_1)  , then the upper vertical
+                                  edge of the block is disabled for deblocking,
+                               •     if (EdgeDisableFlag & QPLVC_EDGE_HALF_2)  , then the bottom
+                                  vertical edge of the block is disabled for deblocking.
+                               Conditions 1, 2, 3, 4 can be used for the internal edge of macroblock in the
+                               case of progressive P frames. Conditions 5, 6 can be used for other cases.
+
+Description
+The function performs deblocking filtering on the vertical edge (internal or external) of the luma 16x16
+macroblocks. See 8.6 of [SMPTE421M].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition when at least one of the specified pointers
+                                    is NULL.
+
+FilterDeblockingLuma_HorEdge_VC1
+Performs deblocking filtering on the horizontal edge
+(internal or external) of luma 16X16 macroblocks.
+
+Syntax
+QplStatus qpliFilterDeblockingLuma_HorEdge_VC1_8u_C1IR( Qpl8u* pSrcDst, Qpl32s
+srcdstStep, Qpl32s pQuant, Qpl32u EdgeDisableFlag          );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+  1734
+---------------------Page 1735---------------------
+
+                                                                               Video Coding  16     
+
+Parameters
+
+pSrcDst                       Pointer to the first pixel of the lower block in the Y-plane.
+
+srcdstStep                    Distance between starts of the consecutive lines in the array.
+
+pQuant                        Picture quantizer scale.
+
+EdgeDisableFlag               Flag indicating that
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_QUARTER_    1), then the first
+                                 horizontal quarter of block edge is disabled for deblocking,
+                              •  f (EdgeDisableFlag & QPLVC_EDGE_QUARTER_2    ), then the second
+                                 horizontal quarter of block edge is disabled for deblocking,
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_QUARTER_3    ), then the third
+                                 horizontal quarter of block edge is disabled for deblocking,
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_QUARTER_4    ), then the fourth
+                                 horizontal quarter of block edge is disabled for deblocking,
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_1   ), then the left horizontal
+                                 edge of the block is disabled for deblocking,
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_2   ), then the right
+                                 horizontal edge of the block is disabled for deblocking.
+                              Conditions 1, 2, 3, 4 can be used for the internal edge of macroblock in the
+                              case of progressive P frames. Conditions 5, 6 can be used for other cases.
+
+Description
+The function performs deblocking filtering on the horizontal edge (internal or external) of the luma 16x16
+macroblocks. See 8.6 of [SMPTE421M].
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition when at least one of the specified pointers
+                                   is NULL.
+
+FilterDeblockingChroma_VerEdge_VC1
+Performs deblocking filtering on the vertical edge
+(internal or external) of chroma 8X8 macroblock.
+
+Syntax
+QplStatus qpliFilterDeblockingChroma_VerEdge_VC1_8u_C1IR( Qpl8u* pSrcDst, Qpl32s
+srcdstStep, Qpl32s pQuant, Qpl32u EdgeDisableFlag        );
+THE FOLLOWING FUNCTION IS DEPRECATED:
+QplStatus qpliFilterDeblockingChroma_VerEdge_VC1_8u_C2IR( Qpl8u* pSrcDst, Qpl32u
+pQuant, Qpl32s srcdstStep, Qpl32u uEdgeDisableFlag , Qpl32u vEdgeDisableFlag            );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+
+                                                                                             1735
+---------------------Page 1736---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+pSrcDst                       Pointer to the first pixel of the right block in the U- or Y-plane.
+
+srcdstStep                    Distance in bytes between starts of the consecutive lines in the plane.
+
+pQuant                        Picture quantizer scale.
+
+EdgeDisableFlag               Flag indicating that
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_1)     , then the upper vertical
+                                 edge of the block is disabled for deblocking,
+                              •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_2)     , then the bottom
+                                 vertical edge of the block is disabled for deblocking.
+                              These conditions can be used for the internal edge of macroblock in the
+                              case of progressive P frames. In the other cases, the flag should be equal to
+                              0.
+
+Description
+The function qpliFilterDeblockingChroma_VerEdge_VC1_8u_C2IR       is deprecated. This function is
+obsolete and will be removed in a future release. Use the following link for details: http://software.intel.com/
+sites/products/qpl-deprecated-features-feedback/.
+The function performs deblocking filtering on the vertical edge (internal or external) of the chroma 8x8
+macroblock. See 8.6 of [SMPTE421M].
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition when at least one of the specified pointers
+                                   is NULL.
+
+FilterDeblockingChroma_HorEdge_VC1
+Performs deblocking filtering on the horizontal edge
+(internal or external) of chroma 8X8 macroblock.
+
+Syntax
+QplStatus qpliFilterDeblockingChroma_HorEdge_VC1_8u_C1IR( Qpl8u* pSrcDst, Qpl32s
+srcdstStep, Qpl32s pQuant, Qpl32u EdgeDisableFlag        );
+THE FOLLOWING FUNCTION IS DEPRECATED:
+QplStatus qpliFilterDeblockingChroma_HorEdge_VC1_8u_C2IR( Qpl8u* pSrcDst, Qpl32u
+pQuant, Qpl32s srcdstStep, Qpl32u uEdgeDisableFlag , Qpl32u vEdgeDisableFlag             );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+  1736
+---------------------Page 1737---------------------
+
+                                                                              Video Coding  16    
+
+Parameters
+
+pSrcDst                      Pointer to the first pixel of the lower block in the U- or Y-plane.
+
+srcdstStep                   Distance in bytes between starts of the consecutive lines in the plane.
+
+pQuant                       Picture quantizer scale.
+
+EdgeDisableFlag              Flag indicating that
+                             •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_1)   , then the upper
+                                horizontal edge of the block is disabled for deblocking,
+                             •  if (EdgeDisableFlag & QPLVC_EDGE_HALF_2)   , then the bottom
+                                horizontal edge of the block is disabled for deblocking.
+                             These conditions can be used for the internal edge of macroblock in the
+                             case of progressive P frames. In the other cases, the flag should be equal to
+                             0.
+
+Description
+The function qpliFilterDeblockingChroma_HorEdge_VC1_8u_C2IR     is deprecated. This function is
+obsolete and will be removed in a future release. Use the following link for details: http://software.intel.com/
+sites/products/qpl-deprecated-features-feedback/.
+The function performs deblocking filtering on the horizontal edge (internal or external) of the chroma 8x8
+macroblock. See 8.6 of [SMPTE421M].
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error condition when at least one of the specified pointers
+                                  is NULL.
+
+Dequantization
+
+QuantInvIntraUniform_VC1, QuantInvIntraNonuniform_VC1
+Perform uniform/nonuniform dequantization of 8X8
+intra blocks.
+
+Syntax
+QplStatus qpliQuantInvIntraUniform_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QplSize* pDstSizeNZ      );
+QplStatus qpliQuantInvIntraNonuniform_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QplSize* pDstSizeNZ      );
+QplStatus qpliQuantInvIntraUniform_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep,
+Qpl16s* pDst, Qpl32s dstStep, Qpl32s doubleQuant, QpliSize* pDstSizeNZ        );
+QplStatus qpliQuantInvIntraNonuniform_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep,
+Qpl16s* pDst, Qpl32s dstStep, Qpl32s doubleQuant, QpliSize* pDstSizeNZ        );
+
+Include Files
+qplvc.h
+
+                                                                                           1737
+---------------------Page 1738---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+pSrcDst                        Pointer to the source and destination block.
+
+srcDstStep                     Distance in bytes between starts of the consecutive lines in the source and
+                               destination blocks.
+
+doubleQuant                    Dequant coefficient; should be within the range [2, 62].
+
+pDstSizeNZ                     Pointer to a size of the top left subblock with non-zero coefficients. This
+                               value is calculated by this function and could be used for inverse
+                               transformation. See Figure "Inter 8x4 Block Dequantization".
+
+pSrc                           Pointer to the source block.
+
+srcStep                        Distance in bytes between starts of the consecutive lines in the source
+                               block.
+
+pDst                           Pointer to the destination block.
+
+dstStep                        Distance in bytes between starts of the consecutive lines in the destination
+                               block.
+
+Description
+These functions are declared in the qplvc.h file.
+The doubleQuant   parameter should be equal to 2*MQUANT+HALFQP  , where MQUANT  and HALFQP  are defined
+in VC-1 standard.
+The functions perform dequantization of all coefficients in intra block (except DC) according to 8.1.2.8 of
+[SMPTE421M].
+In the case of uniform dequantization:
+a[i]=quant_coef*a[i];
+In the case of nonuniform dequantization:
+a[i]=quant_coef*a[i] + sign(a[i])*(quant_coef >> 1);
+
+  1738
+---------------------Page 1739---------------------
+
+                                                                            Video Coding  16    
+
+where a[i] is the AC coefficient of the intra block, and quant_coef is the dequant coefficient.
+
+Intra 8x8 Block Dequantization
+
+In this case, pDstSizeNZ -> width is equal to 7, and pDstSizeNZ -> height is equal to 6.
+
+Return Values
+
+qplStsNoErr                      Indicates no error.
+
+qplStsNullPtrErr                 Indicates an error condition when pSrcDst or pDstSizeNZ is NULL.
+
+Example
+The code example below shows how to use QuantInvIntraUniform_VC1 function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QpliSize  dstSizeNZ;
+/*
+The size of top left subblock with non-zero coefficients. This value is
+calculated by this function and could be used for inverse transformation.
+Example (intra block):
+16 0 0 -3 0 1 1 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  1 0 0 0 0
+0  0 0 -1 0 0 0 0
+0  1 0  0 0 0 0 0
+0  0 0  0 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width is equal to 7, dstSizeNZ.height is equal to 6
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliQuantInvIntraUniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant, &dstSizeNZ );
+
+                                                                                         1739
+---------------------Page 1740---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+/*  Performs uniform dequantization process for all coefficients in the intra
+block (except DC) according to 8.1.2.8 "Inverse AC Coefficient Quantization"
+specification SMPTE 421M
+*/
+}
+
+The code example below shows how to use QuantInvIntraNonuniform_VC1 function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QpliSize  dstSizeNZ;
+/*
+The size of top left subblock with non-zero coefficients. This value is
+calculated by this function and could be used for inverse transformation.
+Example (intra block):
+16 0 0 -3 0 1 1 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  1 0 0 0 0
+0  0 0 -1 0 0 0 0
+0  1 0  0 0 0 0 0
+0  0 0  0 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width is equal to 7, dstSizeNZ.height is equal to 6
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliQuantInvIntraNonuniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant, &dstSizeNZ );
+
+/*  Performs nonuniform dequantization process for all coefficients in the intra
+block (except DC) according to 8.1.2.8 "Inverse AC Coefficient Quantization"
+specification SMPTE 421M
+*/
+}
+
+QuantInvInterUniform_VC1, QuantInvInterNonuniform_VC1
+Perform uniform/nonuniform dequantization of inter
+blocks.
+
+Syntax
+QplStatus qpliQuantInvInterUniform_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QpliSize roiSize, QplSize* pDstSizeNZ     );
+QplStatus qpliQuantInvInterNonuniform_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QpliSize roiSize, QplSize* pDstSizeNZ     );
+QplStatus qpliQuantInvInterUniform_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep,
+Qpl16s* pDst, Qpl32s dstStep, Qpl32s doubleQuant, QpliSize roiSize, QpliSize*
+pDstSizeNZ);
+
+  1740
+---------------------Page 1741---------------------
+
+                                                                               Video Coding  16     
+
+QplStatus qpliQuantInvInterNonuniform_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep,
+Qpl16s* pDst, Qpl32s dstStep, Qpl32s doubleQuant, QpliSize roiSize, QpliSize*
+pDstSizeNZ );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+pSrcDst                       Pointer to the source and destination block.
+
+srcDstStep                    Distance in bytes between starts of the consecutive lines in the source and
+                              destination blocks.
+
+doubleQuant                   Dequant coefficient; should be within the range [2, 62].
+
+roiSize                       Inter block size; should be 8x8, 8x4, 4x8 or 4x4.
+
+pDstSizeNZ                    Pointer to a size of the top left subblock with non-zero coefficients. This
+                              value is calculated by this function and could be used for inverse
+                              transformation. See Figure "Inter 8x4 Block Dequantization".
+
+pSrc                          Pointer to the source block.
+
+srcStep                       Distance in bytes between starts of the consecutive lines in the source
+                              block.
+
+pDst                          Pointer to the destination block.
+
+dstStep                       Distance in bytes between starts of the consecutive lines in the destination
+                              block.
+
+Description
+
+The doubleQuant  parameter should be equal to 2*MQUANT+HALFQP , where MQUANT and HALFQP  are defined
+in VC-1 standard.
+The functions perform dequantization of inter blocks according to 8.1.2.8 of [SMPTE421M].
+In the case of uniform dequantization:
+a[i]=quant_coef*a[i];
+In the case of nonuniform dequantization:
+a[i]=quant_coef*a[i] + sign(a[i])*(quant_coef >> 1);
+
+                                                                                             1741
+---------------------Page 1742---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+where a[i] is the intra block coefficient, and quant_coef is the dequant coefficient.
+
+Inter 8x4 Block Dequantization
+
+In this case, pDstSizeNZ -> width is equal to 4, and pDstSizeNZ -> height is equal to 3.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error condition when pSrcDst or pDstSizeNZ is NULL.
+
+Example
+The code example below shows how to use QuantInvInterUniform_VC1  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplSize roiSize = inter_block_size;
+/* It should be:
+8x8 (roiSize.width=8, roiSize.height=8)
+4x8 (roiSize.width=4, roiSize.height=8)
+8x4 (roiSize.width=8, roiSize.height=4)
+4x4 (roiSize.width=4, roiSize.height=4)
+*/
+QpliSize  dstSizeNZ[2];
+/*
+The size of top left subblock with non-zero coefficients. This value is
+calculated by this function and could be used for inverse transformation.
+Example (inter 8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width is equal to 4, dstSizeNZ.height is equal to 3
+*/
+
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsSizeErr       Indicates an error when roiSize.height is not equal 4 or 8
+or roiSize.width is not equal 4 or 8
+*/
+/* in case of 8x4*/
+result = qpliQuantInvInterUniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant, &dstSizeNZ[0] );
+
+  1742
+---------------------Page 1743---------------------
+
+                                                                           Video Coding  16    
+
+result = qpliQuantInvInterUniform_VC1_16s_C1IR( pSrcDstData+ (srcDstStep*2),
+srcDstStep, doubleQuant, &dstSizeNZ[1] );
+
+/*  Performs uniform dequantization process for inter block according to 8.1.2.8
+"Inverse AC Coefficient Quantization" specification SMPTE 421M
+*/
+}
+
+The code example below shows how to use QuantInvInterNonuniform_VC1 function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplSize roiSize = inter_block_size;
+/* It should be:
+8x8 (roiSize.width=8, roiSize.height=8)
+4x8 (roiSize.width=4, roiSize.height=8)
+8x4 (roiSize.width=8, roiSize.height=4)
+4x4 (roiSize.width=4, roiSize.height=4)
+*/
+QpliSize  dstSizeNZ[4];
+/*
+The size of top left subblock with non-zero coefficients. This value is
+calculated by this function and could be used for inverse transformation.
+Example (inter 4x4 block):
+16 0 0 -3
+1  1 0  1
+3  0 0  1
+0  0 0  0
+In this case dstSizeNZ.width is equal to 4, dstSizeNZ.height is equal to 3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsSizeErr       Indicates an error when roiSize.height is not equal to 4 or 8
+or roiSize.width is not equal to 4 or 8
+*/
+
+/* in case of 4x4*/
+result = qpliQuantInvInterNonuniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant, &dstSizeNZ[0] );
+result = qpliQuantInvInterNonuniform_VC1_16s_C1IR( pSrcDstData+4, srcDstStep,
+doubleQuant, &dstSizeNZ[1] );
+result = qpliQuantInvInterNonuniform_VC1_16s_C1IR( pSrcDstData+( srcDstStep*2),
+srcDstStep, doubleQuant, &dstSizeNZ[2] );
+result = qpliQuantInvInterNonuniform_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2)+4,
+srcDstStep, doubleQuant, &dstSizeNZ[3] );
+
+/*  Performs nonuniform dequantization process for inter block according to
+8.1.2.8 "Inverse AC Coefficient Quantization" specification SMPTE 421M
+*/
+}
+
+Range Reduction
+
+                                                                                        1743
+---------------------Page 1744---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+RangeMapping_VC1
+Performs range map transformation.
+
+Syntax
+QplStatus qpliRangeMapping_VC1_8u_C1R( const Qpl8u* pSrc, Qpl32s srcStep, Qpl8u* pDst,
+Qpl32s dstStep, QpliSize roiSize, Qpl32s rangeMapParam         );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+pSrc                          Pointer to the source block. Block coefficient could be within the range of
+                              [0, 255].
+
+srcStep                       Distance in bytes between starts of the consecutive lines in the source
+                              block.
+
+pDst                          Pointer to the destination block.
+
+dstStep                       Distance in bytes between starts of the consecutive lines in the destination
+                              block.
+
+roiSize                       Size of the source block.
+
+rangeMapParam                 Parameter for the range map; should be within the range of [0, 7].
+
+Description
+The function performs range map transformation according to 6.2.15.1 of [SMPTE421M].
+the function calculates each coefficient of the source block as follows:
+Y[n]=CLIP((((Y[n]-128)*(RANGE_MAPY + 9) + 4) >> 3) + 128);
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition when pSrc or pDst is NULL.
+
+qplStsOutOfRangeErr                Indicates an error condition if rangeMapParam is out of the range [0,
+                                   7].
+
+  1744
+---------------------Page 1745---------------------
+
+                                                                       Video Coding  16   
+
+VC-1 Encoder
+See Figure "VC-1 Encoding Scheme" for VC-1 encoding scheme.
+
+VC-1 Encoding Scheme
+
+Hadamard8x8Sum_VC1
+DEPRECATED. Performs Hadamard transform.
+
+Syntax
+QplStatus qpliHadamard8x8Sum_VC1_8u16s(Qpl8u* pSrc, Qpl32u srcStep, Qpl16s* pDst,
+Qpl32s* pSum);
+QplStatus qpliHadamard8x8Sum_VC1_16s(Qpl16s* pSrc, Qpl32u srcStep, Qpl16s* pDst,
+Qpl32s* pSum);
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+                                                                                   1745
+---------------------Page 1746---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Parameters
+
+pSrc                         Pointer to the source block.
+
+pDst                         Pointer to the destination block of transformed coefficients.
+
+srcStep                      Distance, in bytes, between the starting points of consecutive lines in the
+                             source plane.
+
+pSum                         Pointer to the sum of absolute values of transformed coefficients.
+
+Description
+This function is deprecated and will be removed in a future release. For more information about the
+deprecation process, use the following link: http://software.intel.com/sites/products/qpl-deprecated-
+features-feedback/.
+This function performs HSH Hadamard transform, where H is a 8x8 Hadamard matrix , S is the source 8x8
+block, and calculates the sum of absolute values of the transformed coefficients.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error when at least one of the specified pointers is NULL.
+
+Forward Transform
+
+Transform8x8Fwd_VC1, Transform4x8Fwd_VC1, Transform8x4Fwd_VC1, Transform4x4Fwd_VC1
+Perform forward transform of blocks of respective
+sizes according to VC-1 standard.
+
+Syntax
+QplStatus qpliTransform8x8Fwd_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep        );
+QplStatus qpliTransform4x8Fwd_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep        );
+QplStatus qpliTransform8x4Fwd_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep        );
+QplStatus qpliTransform4x4Fwd_VC1_16s_C1IR(Qpl16s* pSrcDst, Qpl32s srcDstStep        );
+QplStatus qpliTransform8x8Fwd_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep, Qpl16s*
+pDst, Qpl32s dstStep  );
+QplStatus qpliTransform4x8Fwd_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep, Qpl16s*
+pDst, Qpl32s dstStep  );
+QplStatus qpliTransform8x4Fwd_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep, Qpl16s*
+pDst, Qpl32s dstStep  );
+QplStatus qpliTransform4x4Fwd_VC1_16s_C1R(const Qpl16s* pSrc, Qpl32s srcStep, Qpl16s*
+pDst, Qpl32s dstStep  );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h, qpli.h
+
+  1746
+---------------------Page 1747---------------------
+
+                                                                               Video Coding  16     
+
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pSrcDst                       Pointer to the source and destination block. All samples of the source block
+                              should be in range [-512, 511). After transforming all samples of the
+                              destination block are in range [-2048; 2047).
+
+pSrc                          Pointer to the source block. All samples of the source block should be in
+                              range [-512, 511).
+
+pDst                          Pointer to the destination 8x8 block. After transforming all samples of the
+                              destination block are in range [-2048; 2047).
+
+srcStep                       Distance in bytes between starts of the consecutive lines in the source
+                              block.
+
+dstStep                       Distance in bytes between starts of the consecutive lines in the destination
+                              block.
+
+Description
+These functions perform forward transform in accordance with Annex A: Transform Specification of
+[SMPTE421M].
+qpliTransform8x8Fwd_VC1_16s_C1IR     and qpliTransform8x8Fwd_VC1_16s_C1R     perform transform of
+8x8 inter block with 8x8 transformation type or 8x8 intra block.
+qpliTransform4x8Fwd_VC1_16s_C1IR     and qpliTransform4x8Fwd_VC1_16s_C1R     perform transform of
+4x8 block into 8x8 inter block with 4x8 transformation type.
+qpliTransform8x4Fwd_VC1_16s_C1IR     and qpliTransform8x4Fwd_VC1_16s_C1R     perform transform of
+8x4 subblock into 8x8 inter block with 8x4 transformation type.
+qpliTransform4x4Fwd_VC1_16s_C1IR     and qpliTransform4x4Fwd_VC1_16s_C1R     perform transform of
+4x4 block into 8x8 inter block with 4x4 transformation type.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition when at least one of the specified pointers
+                                   is NULL.
+
+Example
+The code example below shows how to use qpliTransform8x8Fwd_VC1_16s_C1IR     function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-255;255]
+After transforming all samples of destination block will be
+in the range [-2048; 2047)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+
+                                                                                             1747
+---------------------Page 1748---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform8x8Fwd_VC1_16s_C1IR( pSrcDstData, srcDstStep );
+/*
+Performs transform of 8x8 inter block with 8x8 transformation type or 8x8 intra
+block in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform8x8Fwd_VC1_16s_C1R  function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-255;255]
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the
+range [-2048; 2047)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array) in
+bytes */
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes */
+
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform8x8Fwd_VC1_16s_C1R( pSrcData, srcStep, pDstData,
+dstStep );
+/*
+Performs transform of 8x8 inter block with 8x8 transformation type or 8x8 intra
+block in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x8Fwd_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-255;255]
+After transforming all samples of destination block will be in the range
+[-2048; 2047)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+  1748
+---------------------Page 1749---------------------
+
+                                                                           Video Coding  16    
+
+result = qpliTransform4x8Fwd_VC1_16s_C1IR(pSrcDstData, srcDstStep);
+result = qpliTransform4x8Fwd_VC1_16s_C1IR(pSrcDstData+4, srcDstStep);
+
+/*
+Performs transform of 4x8 subblock in 8x8 inter block with 4x8 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x8Fwd_VC1_16s_C1R function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-255;255]
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be
+in the range [-2048; 2047)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array)
+in bytes */
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes */
+
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform4x8Fwd_VC1_16s_C1R( pSrcData, srcStep, pDstData, dstStep );
+result = qpliTransform4x8Fwd_VC1_16s_C1R( pSrcData+4, srcStep, pDstData+4,
+dstStep );
+
+/*
+Performs transform of 4x8 subblock in 8x8 inter block with 4x8 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform8x4Fwd_VC1_16s_C1IR function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-255;255]
+After transforming all samples of destination block will be in the range
+[-2048; 2047)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+                                                                                        1749
+---------------------Page 1750---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+result = qpliTransform8x4Fwd_VC1_16s_C1IR( pSrcDstData, srcDstStep );
+result = qpliTransform8x4Fwd_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2),
+srcDstStep );
+
+/*
+Performs transform of 8x4 subblock in 8x8 inter block with 8x4 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform8x4Fwd_VC1_16s_C1R  function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-255;255]
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the range
+[-2048; 2047)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array)
+in bytes */
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes */
+
+QplStatus result;
+
+/*
+qplStsNoErr        Indicates no error
+qplStsNullPtrErr   Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform8x4Fwd_VC1_16s_C1R( pSrcData, srcStep, pDstData,
+dstStep );
+result = qpliTransform8x4Fwd_VC1_16s_C1R( pSrcData+(srcStep*2), srcStep,
+pDstData+(dstStep*2), dstStep );
+
+/*
+Performs transform of 8x4 subblock in 8x8 inter block with 8x4 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x4Fwd_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-255;255]
+After transforming all samples of destination block will be
+in the range [-2048; 2047)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+/*
+
+  1750
+---------------------Page 1751---------------------
+
+                                                                           Video Coding  16    
+
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform4x4Fwd_VC1_16s_C1IR( pSrcDstData, srcDstStep );
+result = qpliTransform4x4Fwd_VC1_16s_C1IR( pSrcDstData+4, srcDstStep );
+result = qpliTransform4x4Fwd_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2),
+srcDstStep );
+result = qpliTransform4x4Fwd_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2)+4,
+srcDstStep );
+
+/*
+Performs transform of 4x4 subblock in 8x8 inter block with 4x4 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x4Fwd_VC1_16s_C1IR function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-255;255]
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be
+in the range [-2048; 2047)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array)
+in bytes*/
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes*/
+
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform4x4Fwd_VC1_16s_C1R( pSrcData, srcStep, pDstData,
+dstStep );
+ 
+
+result = qpliTransform4x4Fwd_VC1_16s_C1R( pSrcData+4, srcStep, pDstData+4,
+dstStep );
+result = qpliTransform4x4Fwd_VC1_16s_C1R( pSrcData+(srcStep*2), srcStep,
+pDstData+(dstStep*2), dstStep );
+result = qpliTransform4x4Fwd_VC1_16s_C1R( pSrcData+(srcStep*2)+4, srcStep,
+pDstData+(dstStep*2)+4, dstStep );
+
+/*
+Performs transform of 4x4 subblock in 8x8 inter block with 4x4 transformation
+type in accordance with Annex A "Transform Specification" of SMPTE 421M
+*/
+
+}
+
+                                                                                        1751
+---------------------Page 1752---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Quantization
+
+QuantIntraUniform_VC1, QuantIntraNonuniform_VC1
+Perform uniform/nonuniform quantization of 8X8 intra
+blocks.
+
+Syntax
+QplStatus qpliQuantIntraUniform_VC1_16s_C1IR( Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant   );
+QplStatus qpliQuantIntraNonuniform_VC1_16s_C1IR( Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant   );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pSrcDst                      Pointer to the source and destination block.
+
+srcDstStep                   Distance in bytes between starts of the consecutive lines in the source and
+                             destination blocks.
+
+doubleQuant                  Quant coefficient within the range [2, 62].
+
+Description
+The functions perform quantization of all coefficients in intra block (except DC) according to 8.1.2.8 of
+[ SMPTE 421M ].
+In the case of uniform quantization:
+a[i]=a[i]/quant_coef;
+In the case of nonuniform quantization:
+a[i]=(a[i]-sign(a[i])*(quant_coef >> 1))/quant_coef;
+where a[i] is the AC coefficient of the intra block, and quant_coef is the quant coefficient.
+The doubleQuant  parameter should be equal to 2*MQUANT+HALFQP, where MQUANT and HALFQP are defined
+in the VC-1 standard. MQUANT should be within the range [1;31], HALFQP should be within the range [0,1] if
+MQUANT ? 8 and should be equal to 0, if MQUANT > 8.
+
+Example
+The code example below shows how to use qpliQuantIntraUniform_VC1_16s_C1IR    function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+  1752
+---------------------Page 1753---------------------
+
+                                                                           Video Coding  16     
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsOutOfRangeErr Indicates an error when quantizer doubleQuant is less than 2
+or higher than 62
+*/
+
+result = qpliQuantIntraUniform_VC1_16s_C1IR ( pSrcDstData, srcDstStep,
+doubleQuant );
+
+/*  Performs uniform quantization process for all coefficients in the intra
+block (except DC) according to 8.1.2.8 "Inverse AC Coefficient Quantization"
+specification of SMPTE 421M
+*/
+}
+
+Example
+The code example below shows how to use qpliQuantIntraNonuniform_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+range [2,62];*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsOutOfRangeErr Indicates an error when quantizer doubleQuant is less than 2
+or higher than 62
+*/
+
+result = qpliQuantIntraNonuniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant );
+
+/* Performs nonuniform quantization process for all coefficients in the intra
+block (except DC) according to 8.1.2.8 "Inverse AC Coefficient Quantization"
+specification of SMPTE 421M
+*/
+}
+
+Return Values
+
+qplStsNoErr                      Indicates no error.
+
+qplStsNullPtrErr                 Indicates an error condition when pSrcDst is NULL.
+
+qplStsDivByZeroErr               Indicates an error condition when the doubleQuant quantizer is equal
+                                 to zero.
+
+QuantInterUniform_VC1, QuantInterNonuniform_VC1
+Perform uniform/nonuniform quantization of inter
+blocks.
+
+                                                                                         1753
+---------------------Page 1754---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Syntax
+QplStatus qpliQuantInterUniform_VC1_16s_C1IR( Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QpliSize roiSize     );
+QplStatus qpliQuantInterNonuniform_VC1_16s_C1IR( Qpl16s* pSrcDst, Qpl32s srcDstStep,
+Qpl32s doubleQuant, QpliSize roiSize     );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pSrcDst                      Pointer to the source and destination block.
+
+srcDstStep                   Distance in bytes between starts of the consecutive lines in the source and
+                             destination blocks.
+
+doubleQuant                  Quant coefficient; should be an even number within the range [2, 62].
+
+roiSize                      Inter block size; should be 8x8, 8x4, 4x8 or 4x4.
+
+Description
+The functions perform quantization of inter blocks according to 8.1.2.8 of [SMPTE421M] .
+In the case of uniform quantization:
+a[i]=a[i]/quant_coef;
+In the case of nonuniform quantization:
+a[i]=(a[i]-sign(a[i])*(quant_coef >> 1))/quant_coef;
+where a[i] is the coefficient of the inter block, and quant_coef is the quant coefficient.
+The doubleQuant  parameter should be equal to 2*MQUANT+HALFQP, where MQUANT and HALFQP are defined
+in the VC-1 standard. MQUANT should be within the range [1;31], HALFQP should be within the range [0,1] if
+MQUANT ? 8 and should be equal to 0, if MQUANT > 8.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error condition when pSrcDst is NULL.
+
+qplStsDivByZeroErr                Indicates an error condition when the doubleQuant quantizer is equal
+                                  to zero.
+
+Example
+The code example below shows how to use qpliQuantInterUniform_VC1_16s_C1IR    function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient; /* It should be an even number in the
+
+  1754
+---------------------Page 1755---------------------
+
+                                                                           Video Coding  16    
+
+range [2,62]; */
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplSize roiSize = inter_block_size;
+/* It should be: 
+8x8 (roiSize.width=8, roiSize.height=8)
+4x8 (roiSize.width=4, roiSize.height=8)
+8x4 (roiSize.width=8, roiSize.height=4)
+4x4 (roiSize.width=4, roiSize.height=4)
+*/
+QplStatus result;
+
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsOutOfRangeErr Indicates an error when quantizer doubleQuant is less than 2
+or higher than 62 
+qplStsSizeErr       Indicates an error when roiSize.height is not equal 4 or 8
+or roiSize.width is not equal 4 or 8
+*/
+
+result = qpliQuantInterUniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant );
+
+/*  Performs uniform quantization process for inter block according to 8.1.2.8
+"Inverse AC Coefficient Quantization" specification of SMPTE 421M
+*/
+}
+
+The code example below shows how to use qpliQuantInterNonuniform_VC1_16s_C1IR function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+Qpl32s doubleQuant = quant_coefficient;  /* It should be an even number in the
+range [2,62]; */
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QplSize roiSize = inter_block_size;
+/* It should be:
+8x8 (roiSize.width=8, roiSize.height=8)
+4x8 (roiSize.width=4, roiSize.height=8)
+8x4 (roiSize.width=8, roiSize.height=4)
+4x4 (roiSize.width=4, roiSize.height=4)
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+qplStsOutOfRangeErr Indicates an error when quantizer doubleQuant is less than 2
+or higher than 62
+qplStsSizeErr       Indicates an error when roiSize.height is not equal 4 or 8
+or roiSize.width is not equal 4 or 8
+*/
+
+result = qpliQuantInterNonuniform_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+doubleQuant );
+
+/*  Performs nonuniform quantization process for inter block according to
+8.1.2.8 "Inverse AC Coefficient Quantization" specification of SMPTE 421M
+*/
+}
+
+                                                                                        1755
+---------------------Page 1756---------------------
+
+ 16       Intel® Query Processing Library Reference Manual, V

@@ -1,0 +1,282 @@
+pBeta                              Array of size 2 of Beta Thresholds (values for external and internal
+                                   vertical edge).
+
+pThresholds                        Array of size 2 of Thresholds (filter reduction parameter C) (values for
+                                   external and internal vertical edge).
+
+                                                                                               1693
+---------------------Page 1694---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+pBs                                 Array of size 4 of BS parameters (values for the left edge of each 8x8
+                                    block).
+
+The function uses arrays pAlpha, pBeta, pBs, pThresholds  as input arguments, where pAlpha[0] ,
+pBeta[0] , pThresholds  [0] are values for the external vertical edge, and pAlpha[1], pBeta [1,
+pThresholds[1]   are values for the internal vertical edge. See Figure 1 for the arrangement of pBs array
+elements.
+Values of the arrays are calculated as follows:
+– pBs  values are calculated as per 9.11.1 of [AVS] and may take the following values: 0 - if no edge is
+  filtered; 1 - if filtering is weak; 2 - if filtering is strong.
+– pAlpha   values are derived from Table 9-9 of [AVS].
+– pBeta   values are derived from Table 9-9 of [AVS].
+– pThresholds[i]    values are derived from Table 9-10 of [AVS].
+
+Arrangement of   pBs Array Elements into a Macroblock
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition if at least one of the specified pointers is
+                                    NULL.
+
+FilterDeblockingLuma_HorEdge_AVS
+DEPRECATED. Performs deblocking filtering on the
+horizontal edges of the 16X16 luma macroblock.
+
+Syntax
+QplStatus qpliFilterDeblockingLuma_HorEdge_AVS_8u_C1IR(QpliFilterDeblock_8u*
+pDeblockInfo  );
+
+Include Files
+qplvc.h
+
+  1694
+---------------------Page 1695---------------------
+
+                                                                                  Video Coding  16      
+
+Domain Dependencies
+Headers: qplcore.h  , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+pDeblockInfo                   Pointer to the deblocking parameters
+
+Description
+The function qpliFilterDeblockingLuma_HorEdge_H264_8u_C1IR         is deprecated. DV, H.263, H.261, AVS
+codecs will be removed in a future release. Use the following link for details: http://software.intel.com/sites/
+products/qpl-deprecated-features-feedback/.
+This function performs Deblocking Filtering on the horizontal edges of the 16x16 luma macroblock in
+accordance with 9.11 of [AVS].
+QpliFilterDeblock_8u    structure contains the following fields:
+
+pSrcDstPlane                        Pointer to the initial and resultant coefficients.
+
+srcDstStep                          Distance between starts of the consecutive lines in the array.
+
+pAlpha                              Array of size 2 of Alpha Thresholds (values for external and internal
+                                    vertical edge).
+
+pBeta                               Array of size 2 of Beta Thresholds (values for external and internal
+                                    vertical edge).
+
+pThresholds                         Array of size 2 of Thresholds (filter reduction parameter C) (values for
+                                    external and internal vertical edge).
+
+pBs                                 Array of size 4 of BS parameters (values for the left edge of each 8x8
+                                    block).
+
+The function uses arrays pAlpha, pBeta, pBs, pThresholds  as input arguments, where pAlpha[0]  ,
+pBeta[0] , pThresholds   [0] are values for the external horizontal edge, and pAlpha[1], pBeta [1],
+pThresholds[1]   are values for the internal horizontal edge. See Figure 1 for the arrangement of pBs array
+elements.
+Values of the arrays are calculated as follows:
+– pBs  values are calculated as per 9.11.1 of [AVS] and may take the following values: 0 - if no edge is
+  filtered; 1 - if filtering is weak; 2 - if filtering is strong.
+– pAlpha   values are derived from Table 9-9 of [AVS].
+– pBeta   values are derived from Table 9-9 of [AVS].
+
+                                                                                                 1695
+---------------------Page 1696---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+– pThresholds[i]    values are derived from Table 9-10 of [AVS].
+
+Arrangement of  pBs  Array Elements into a Macroblock
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition if at least one of the specified pointers is
+                                   NULL.
+
+FilterDeblockingChroma_VerEdge_AVS
+DEPRECATED. Performs deblocking filtering on the
+vertical edges of 8X8 chroma macroblock.
+
+Syntax
+QplStatus qpliFilterDeblockingChroma_VerEdge_AVS_8u_C1IR(QpliFilterDeblock_8u*
+pDeblockInfo );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pDeblockInfo                  Pointer to the deblocking parameters
+
+Description
+The function qpliFilterDeblockingChroma_VerEdge_AVS_8u_C1IR      is deprecated. DV, H.263, H.261, AVS
+codecs will be removed in a future release. Use the following link for details: http://software.intel.com/sites/
+products/qpl-deprecated-features-feedback/.
+
+  1696
+---------------------Page 1697---------------------
+
+                                                                                  Video Coding  16      
+
+This function performs Deblocking Filtering on the vertical edge of the 8x8 chroma macroblock in accordance
+with 9.11 of [AVS].
+QpliFilterDeblock_8u    structure contains the following fields:
+
+pSrcDstPlane                        Pointer to the initial and resultant coefficients.
+
+srcDstStep                          Distance between starts of the consecutive lines in the array.
+
+pAlpha                              Array of size 1 of Alpha Thresholds.
+
+pBeta                               Array of size 1 of Beta Thresholds.
+
+pThresholds                         Array of size 1 of Thresholds (filter reduction parameter C).
+
+pBs                                 Array of size 4 of BS parameters number (values for the left edge of
+                                    an 8x4 block), but only two of the four elements are used: element 0
+                                    and element 2.
+
+The function uses arrays pAlpha, pBeta, pBs, pThresholds  as input arguments. pAlpha , pBeta, and pBs
+are the same arrays as in FilterDeblockingLuma_VerEdge_AVS function. See Figure 1 for the arrangement of
+pBs array elements.
+
+Arrangement of   pBs Array Elements into an 8x8 Chroma Block
+
+Values of the arrays are calculated as follows:
+– pBs  values are calculated as per 9.11.1 of [AVS] and may take the following values: 0 - if no edge is
+  filtered; 1 - if filtering is weak; 2 - if filtering is strong.
+– pAlpha   values are derived from Table 9-9 of [AVS].
+– pBeta   values are derived from Table 9-9 of [AVS].
+– pThresholds[i]    values are derived from Table 9-10 of [AVS].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+                                                                                                 1697
+---------------------Page 1698---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsNullPtrErr                    Indicates an error condition if at least one of the specified pointers is
+                                    NULL.
+
+FilterDeblockingChroma_HorEdge_AVS
+Performs deblocking filtering on the horizontal edges
+of 8X8 chroma macroblock.
+
+Syntax
+QplStatus qpliFilterDeblockingChroma_HorEdge_AVS_8u_C1IR(QpliFilterDeblock_8u*
+pDeblockInfo  );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib, qpli.h
+
+Parameters
+
+pDeblockInfo                  Pointer to the deblocking parameters
+
+Description
+This function performs Deblocking Filtering on the horizontal edge of the 8x8 chroma macroblock in
+accordance with 9.11 of [AVS].
+QpliFilterDeblock_8u    structure contains the following fields:
+
+pSrcDstPlane                        Pointer to the initial and resultant coefficients.
+
+srcDstStep                          Distance between starts of the consecutive lines in the array.
+
+pAlpha                              Array of size 1 of Alpha Thresholds.
+
+pBeta                               Array of size 1 of Beta Thresholds.
+
+pThresholds                         Array of size 1 of Thresholds (filter reduction parameter C).
+
+pBs                                 Array of size 2 of BS parameters (values for the upper edge of each
+                                    4x8 block).
+
+  1698
+---------------------Page 1699---------------------
+
+                                                                                 Video Coding  16      
+
+The function uses arrays pAlpha, pBeta, pBs, pThresholds  as input arguments. pAlpha, pBeta, and pBs
+are the same arrays as in FilterDeblockingLuma_HorEdge_AVS function. See Figure 1 for the arrangement of
+pBs array elements.
+
+Arrangement of   pBs Array Elements into an 8x8 Chroma Block
+
+Values of the arrays are calculated as follows:
+– pBs  values are calculated as per 9.11.1 of [AVS] and may take the following values: 0 - if no edge is
+  filtered; 1 - if filtering is weak; 2 - if filtering is strong.
+– pAlpha   values are derived from Table 9-9 of [AVS].
+– pBeta   values are derived from Table 9-9 of [AVS].
+– pThresholds[i]    values are derived from Table 9-10 of [AVS].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition if at least one of the specified pointers is
+                                    NULL .
+
+                                                                                                1699
+---------------------Page 1700---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+AVS Encoder Functions
+This subsection describes functions for encoding of digital audio-video in accordance with the AVS ([AVS])
+standard.
+
+AVS Encoder Structure
+
+Other general functions used by the AVS Encoder for predicted blocks estimation and for obtaining residual
+blocks are SAD Functions, Sum of Differences Evaluation functions, and GetDiff8x8 function.
+The AVS Encoder uses the AVS Decoder functions for calculation of inter and intra predicted blocks, 
+Macroblock Reconstruction, and Deblocking Filtering. Forward transform and quantization, and CAVLC coding
+are performed by Encoder proper functions, which are described below.
+
+Forward Transform and Quantization
+
+TransformQuant8x8Fwd_AVS
+DEPRECATED. Performs forward transform and
+quantization for 8X8 residual blocks.
+
+Syntax
+QplStatus qpliTransformQuant8x8Fwd_AVS_16s_C1(const Qpl16s* pSrc, Qpl16s* pDst, Qpl32u*
+pNumCoeffs, Qpl32u QP, Qpl32u roundMode      );
+
+  1700
+---------------------Page 1701---------------------
+
+                                                                                Video Coding  16     
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parame

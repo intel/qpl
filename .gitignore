@@ -1,0 +1,11 @@
+/_*
+/*build*
+/*remote*
+doc/html/*
+.idea/
+.vscode/
+.cproject
+.project
+.settings/*
+/tmp
+/b.bat

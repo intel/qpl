@@ -1,0 +1,866 @@
+pBitStreamBytes               Pointer to a variable to receive the number of bytes ina bitstream.
+
+pCabacState                   Pointer to CABAC state initialized with CABACInit_H264 or 
+                              CABACInitAlloc_H264.
+
+Description
+This function terminates encoding slice with CABAC.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error when any of the pointers is NULL.
+
+                                                                                            1675
+---------------------Page 1676---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsH264BufferFullErr           Not enough free space in the bitstream. This error code can be
+                                  returned if less than 8 free bytes remain in the bitstream.
+
+CABACEncodeResidualBlock_H264
+DEPRECATED. Encodes block of residual coefficients
+with CABAC.
+
+Syntax
+QplStatus qpliCABACEncodeResidualBlock_H264_16s(const Qpl16s* pResidualCoeffs, Qpl32u
+nLastNonZeroCoeff, Qpl32u ctxBloackCat, Qpl32u log2NumC8x8, Qpl32u bFrameBlock,
+QplvcCABACState* pCabacState   );
+QplStatus qpliCABACEncodeResidualBlock_H264_32s(const Qpl32s* pResidualCoeffs, Qpl32u
+nLastNonZeroCoeff, Qpl32u ctxBloackCat, Qpl32u log2NumC8x8, Qpl32u bFrameBlock,
+QplvcCABACState* pCabacState   );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pResidualCoeffs              Pointer to an array of residual coefficients to encode. Size of an array must
+                             correspond ctxBloackCat  and NumC8x8 parameters (see Table 9-42 of
+                             [ITUH264_07])
+
+nLastNonZeroCoeff            Index of the last non-zero coefficient in the array, pointed by
+                             pResidualCoeffs  .
+
+ctxBloackCat                 Variable ctxBloackCat from the H.264 standard (for details, see Table 9-42
+                             of [ITUH264_07]).
+
+log2NumC8x8                  For ctxBloackCat  = 3, base 2 logarithm of NumC8x8 variable from H.264
+                             stadard; 0 for other values of ctxBloackCat.
+
+bFrameBlock                  Boolean value that specifies whether the frame (bFrameBlock = 1) or field
+                             (bFrameBlock   = 0) is being encoded.
+
+pCabacState                  Pointer to CABAC state initialized with qpliCABACInit_H264 or
+                             qpliCABACInitAlloc_H264    function.
+
+Description
+Functions qpliCABACEncodeResidualBlock_H264_16s    and qpliCABACEncodeResidualBlock_H264_32s
+are deprecated. These functions are obsolete and will be removed in a future release. Use the following link
+for details: http://software.intel.com/sites/products/qpl-deprecated-features-feedback/.
+These functions encode a block of residual coefficients with CABAC.
+
+  1676
+---------------------Page 1677---------------------
+
+                                                                              Video Coding  16     
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error when any of the pointers is NULL.
+
+qplStsOutOfRangeErr             ctxBloackCat     is not in range [0; 5] or bFrameBlock is not in range
+                                   [0; 1].
+
+qplStsBadArgErr                 log2NumC8x8     is not zero, while ctxBloackCat is not 3.
+
+qplStsH264BufferFullErr            Not enough free space in the bitstream. This error code can be
+                                   returned if less than 8 free bytes remain in the bitstream.
+
+Inverse Quantization and Transform
+
+QuantLuma8x8Inv_H264, QuantInvLuma8x8_H264
+Performs inverse quantization for 8X8 luma block
+coefficients including normalization of the subsequent
+inverse 8X8 transform.
+
+Syntax
+QplStatus qpliQuantLuma8x8Inv_H264_16s_C1I(Qpl16s* pSrcDst, int Qp6, const Qpl16s*
+pInvLevelScale );
+QplStatus qpliQuantInvLuma8x8_H264_32s_C1I(Qpl32s* pSrcDst, Qpl32s Qp6, const Qpl16s*
+pInvLevelScale );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pSrcDst                       Pointer to luma block coefficients - source and destination array of size 64.
+
+Qp6                           Quantization parameter divided by 6.
+
+pInvLevelScale                Pointer to an inverse scale level matrix.
+
+Description
+This function performs inverse quantization and normalization for 8x8 inverse transform of luma block
+coefficients according to 8.5.13 of [ITUH264].
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition if at least one of the specified pointers is
+                                   NULL.
+
+                                                                                            1677
+---------------------Page 1678---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsQPErr                        Indicates an error condition if Qp6 is less than 0 or greater than 8.
+
+TransformLuma8x8InvAddPred_H264
+Performs inverse 8X8 transform of 8X8 luma block
+coefficients with subsequent intra prediction or motion
+compensation.
+
+Syntax
+QplStatus qpliTransformLuma8x8InvAddPred_H264_16s8u_C1R(const Qpl8u* pPred, int
+PredStep, Qpl16s* pSrc, Qpl8u* pDst, int DstStep       );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+pPred                         Pointer to a reference 8x8 block, which is used either for intra prediction or
+                              motion compensation.
+
+PredStep                      Distance between starts of the consecutive lines in the reference frame.
+
+pSrc                          Pointer to 8x8 luma block coefficients - source and buffer array of size 64.
+
+pDst                          Pointer to the destination 8x8 block.
+
+DstStep                       Distance between starts of the consecutive lines in the destination frame.
+
+Description
+This function performs inverse transform of a 8x8 luma block described in 8.5.13 of [ITUH264], with
+subsequent intra prediction or motion compensation. Input coefficients are assumed to be inverse quantized
+and normalized. The pSrc array is used as a buffer during computations.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition if at least one of the specified pointers is
+                                   NULL .
+
+TransformInvAddPredLuma8x8_H264
+Performs inverse 8X8 transform of 8X8 Luma block
+with subsequent intra prediction or motion
+compensation, coefficients are assumed to be pre-
+normalized.
+
+Syntax
+QplStatus qpliTransformInvAddPredLuma8x8_H264_32s16u_C1R(const Qpl16u* pPred, Qpl32s
+predStep, Qpl32s* pSrcDst, Qpl16u* pDst, Qpl32s dstStep, Qpl32s bitDepth           );
+
+  1678
+---------------------Page 1679---------------------
+
+                                                                             Video Coding  16     
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib, qpli.h
+
+Parameters
+
+pPred                        Pointer to a reference 8x8 block, which is used either for intra prediction or
+                             motion compensation.
+
+predStep                     Distance, in bytes, between the starting points of consecutive lines in the
+                             reference frame.
+
+pSrcDst                      Pointer to the initial coefficients and buffer array of size 64.
+
+pDst                         Pointer to the destination 8x8 block.
+
+dstStep                      Distance, in bytes, between the staring points of consecutive lines in the
+                             destination frame.
+
+bitDepth                     Bit depth of pPred in range [1...14]
+
+Description
+This function performs inverse transform of a 8x8 luma block described in 8.5.13 of [ITUH264], with
+subsequent intra prediction or motion compensation. Input coefficients are assumed to be pre-normalized.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error condition if at least one of the specified pointers is
+                                  NULL .
+
+TransformQuantInvAddPred4x4_H264
+Performs forward transform (optional) and
+quantization for 4X4 DC luma block.
+
+Syntax
+QplStatus qpliTransformQuantInvAddPred4x4_H264_16s_C1IR(const Qpl8u* pPred, Qpl32s
+predStep, Qpl16s* pSrcDst, const Qpl16s* pDC, Qpl8u* pDst, Qpl32s dstStep, Qpl32s QP,
+Qpl32s AC, const Qpl16s* pScaleLevelsInv    );
+QplStatus qpliTransformQuantInvAddPred4x4_H264_32s_C1IR(const Qpl16u* pPred, Qpl32s
+predStep, Qpl32s* pSrcDst, const Qpl32s* pDC, Qpl16u* pDst, Qpl32s dstStep, Qpl32s QP,
+Qpl32s AC, Qpl32s bitDepth, const Qpl16s* pScaleLevelsInv      );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h, qpli.h
+
+                                                                                           1679
+---------------------Page 1680---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+pPred                          Pointer to a reference 4x4 block, which is used either for intra prediction or
+                               motion compensation.
+
+predStep                       Distance, in bytes, between the starting points of consecutive lines in the
+                               reference frame.
+
+pSrcDst                        Pointer to the initial coefficients and destination residuals 4x4 block (array
+                               of size 16).
+
+pDC                            Pointer to the DC coefficients. In case of intra 4x4 macroblock type, pDC is
+                               set to NULL.
+
+pDst                           Pointer to the destination 4x4 block.
+
+QP                             Quantization parameter.
+
+AC                             Flag value. If AC is not equal to zero, at least one AC coefficient exists;
+                               otherwise, there are no AC coefficients.
+
+bitDepth                       Bit depth of pPred in range [1...14]
+
+pScaleLevelsInv                Pointer to the scale levels. If NULL, default is applied.
+
+Description
+This function performs forward transform (optional) and quantization of the 4x4 DC luma block.
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition if at least one of the specified pointers is
+                                    NULL .
+
+qplStsOutOfRangeErr                 Indicates an error if QP > 51 for 16s (87 for 32s) or QP < 0; or
+                                    bitDepth   is not in range [1...14].
+
+AVS
+
+This section describes video coding functions for encoding, decoding, processing and presenting of digital
+audio-video in accordance with AVS ([AVS]) standard. These functions apply to high and standard resolution
+of digital broadcast, laser digital media storage, broadband network streaming and multimedia
+communication etc.
+The following enumeration is used to indicate prediction modes of the Intra_8x8 prediction process for luma
+samples (9.8.2 of [AVS]):
+typedef enum {   QPL_8x8_VERT    = 0,                          QPL_8x8_HOR      = 
+1,                        QPL_8x8_DC       = 2,                        QPL_8x8_DIAG_DL  = 
+3,                        QPL_8x8_DIAG_DR  = 4,              } QplIntra8x8PredMode_AVS;
+ 
+The table below shows the correspondence between prediction modes and constants of enum
+QplIntra8x8PredMode_AVS    .
+
+  1680
+---------------------Page 1681---------------------
+
+                                                                                Video Coding  16     
+
+ Name of Constant                  Prediction Mode                  Chapter in AVS
+ QPL_8x8_VERT                     Intra_8x8_Vertical                9.8
+ QPL_8x8_HOR                      Intra_8x8_Horizontal              9.8
+ QPL_8x8_DC                       Intra_8x8_DC                      9.8
+ QPL_8x8_DIAG_DL                  Intra_8x8_Diagonal_Down_Left      9.8
+ QPL_8x8_DIAG_DR                  Intra_8x8_Diagonal_Down_Right     9.8
+The following enumeration is used to indicate prediction modes of the intra prediction process for chroma
+samples (9.8.3 of AVS):
+typedef enum {   QPL_CHROMA_DC    = 0,                          QPL_CHROMA_HOR   = 
+1,                        QPL_CHROMA_VERT  = 2,                        QPL_CHROMA_PLANE = 
+3,               } QplIntraChromaPredMode_AVS;
+
+ 
+The table below shows the correspondence between prediction modes and constants of enum
+QplIntraChromaPredMode_AVS    .
+ Name of Constant                  Prediction Mode                  Chapter in AVS
+ QPL_CHROMA_DC                    Intra_Chroma_DC                   9.8
+ QPL_CHROMA_HOR                   Intra_Chroma_Horizontal           9.8
+ QPL_CHROMA_VERT                  Intra_Chroma_Vertical             9.8
+ QPL_CHROMA_PLANE                 Intra_Chroma_Plane                9.8
+ 
+
+                                                                                              1681
+---------------------Page 1682---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+AVS Decoder Functions
+This subsection describes functions for decoding of digital audio-video in accordance with AVS ([AVS])
+standard.
+
+AVS Intra Macroblock Decoding Process
+
+AVS Inter Macroblock Decoding Process
+
+Entropy Decoding
+
+  1682
+---------------------Page 1683---------------------
+
+                                                                                 Video Coding  16     
+
+DecodeLumaBlockIntra_AVS
+DEPRECATED. Decodes luminance coefficients of an
+intra block.
+
+Syntax
+QplStatus qpliDecodeLumaBlockIntra_AVS_1u16s(Qpl32u** ppBitStream, Qpl32s* pBitOffset,
+Qpl32s* pNumCoeff, Qpl16s* pDstCoeffs, Qpl32u scanType         );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib, qpli.h
+
+Parameters
+
+ppBitStream                   Double pointer to the current position in the bitstream. The pointer is
+                              updated by the function.
+
+pBitOffset                    Pointer to offset between the bit that ppBitStream points to and the start
+                              of the code. The pointer is updated by the function.
+
+pNumCoeff                     Pointer to the output number of non-zero coefficients.
+
+pDstCoeffs                    Pointer to an 8x8 block of coefficients. These coefficients are calculated by
+                              the function.
+
+scanType                      Type of inverse scan method. 0 means the type described in Figure 9-5(a)
+                              of [AVS]. 1 means the type described in Figure 9-5(b) of [AVS].
+
+Description
+The function qpliDecodeLumaBlockIntra_AVS_1u16s     is deprecated. This function is obsolete and will be
+removed in a future release. Use the following link for details: http://software.intel.com/sites/products/qpl-
+deprecated-features-feedback/.
+The function qpliDecodeLumaBlockIntra_AVS_1u16s     decodes luminance coefficients of intra blocks in
+accordance with 9.5.1 of [AVS].
+After decoding all coefficients of a block, the function performs inverse scanning, using the given type of
+scanning. The function returns the last coefficient index in classical scan order through the pNumCoeff
+variable as shown in Figure 9-5(a) of [AVS].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error when at least one input pointer is NULL.
+
+DecodeLumaBlockInter_AVS
+DEPRECATED. Decodes luminance coefficients of an
+inter block.
+
+                                                                                               1683
+---------------------Page 1684---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Syntax
+QplStatus qpliDecodeLumaBlockInter_AVS_1u16s(Qpl32u** ppBitStream, Qpl32s* pBitOffset,
+Qpl32s* pNumCoeff, Qpl16s* pDstCoeffs, Qpl32u scanType        );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+ppBitStream                   Double pointer to the current position in the bitstream. The pointer is
+                              updated by the function.
+
+pBitOffset                    Pointer to offset between the bit that ppBitStream points to and the start
+                              of the code. The pointer is updated by the function.
+
+pNumCoeff                     Pointer to the output number of non-zero coefficients.
+
+pDstCoeffs                    Pointer to an 8x8 block of coefficients. These coefficients are calculated by
+                              the function.
+
+scanType                      Type of inverse scan method. 0 means the type described in Figure 9-5(a)
+                              of [AVS]. 1 means the type described in Figure 9-5(b) of [AVS].
+
+Description
+The function qpliDecodeLumaBlockInter_AVS_1u16s     is deprecated. This function is obsolete and will be
+removed in a future release. Use the following link for details: http://software.intel.com/sites/products/qpl-
+deprecated-features-feedback/.
+The function qpliDecodeLumaBlockInter_AVS_1u16s     decodes luminance coefficients of inter blocks in
+accordance with 9.5.1 of [AVS].
+After decoding all coefficients of a block, the function performs inverse scanning, using the given type of
+scanning. The function returns the last coefficient index in classical scan order through the pNumCoeff
+variable as shown in Figure 9-5(a) of [AVS].
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error when at least one input pointer is NULL.
+
+DecodeChromaBlock_AVS
+DEPRECATED. Decodes chrominance coefficients of a
+block.
+
+Syntax
+QplStatus qpliDecodeChromaBlock_AVS_1u16s(Qpl32u**ppBitStream, Qpl32s* pBitOffset,
+Qpl32s* pNumCoeff, Qpl16s* pDstCoeffs, Qpl32u scanType        );
+
+  1684
+---------------------Page 1685---------------------
+
+                                                                                 Video Coding  16     
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib, qpli.h
+
+Parameters
+
+ppBitStream                   Double pointer to the current position in the bitstream. The pointer is
+                              updated by the function.
+
+pBitOffset                    Pointer to offset between the bit that ppBitStream points to and the start
+                              of the code. The pointer is updated by the function.
+
+pNumCoeff                     Pointer to the output number of non-zero coefficients.
+
+pDstCoeffs                    Pointer to an 8x8 block of coefficients. These coefficients are calculated by
+                              the function.
+
+scanType                      Type of inverse scan method. 0 means the type described in Figure 9-5(a)
+                              of [AVS]. 1 means the type described in Figure 9-5(b) of [AVS].
+
+Description
+The function qpliDecodeChromaBlock_AVS_1u16s     is deprecated. DV, H.263, H.261, AVS codecs will be
+removed in a future release. Use the following link for details: http://software.intel.com/sites/products/qpl-
+deprecated-features-feedback/.
+The function qpliDecodeChromaBlock_AVS_1u16s     decodes chrominance coefficients of blocks in
+accordance with 9.5.1 of [AVS].
+After decoding all coefficients of a block, the function performs inverse scanning, using the given type of
+scanning. The function returns the last coefficient index in classical scan order through the pNumCoeff
+variable as shown in Figure 9-5(a) of [AVS].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error when at least one input pointer is NULL.
+
+Inter Prediction
+
+InterpolateLumaBlock_AVS
+DEPRECATED. Performs interpolation for motion
+estimation of the luma component.
+
+Syntax
+QplStatus qpliInterpolateLumaBlock_AVS_8u_P1R(const QplVCInterpolateBlock_8u*
+interpolateInfo  );
+
+Include Files
+qplvc.h
+
+                                                                                               1685
+---------------------Page 1686---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Domain Dependencies
+Headers: qplcore.h  , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+interpolateInfo                Pointer to an instance of the structure holding interpolation parameters.
+                               See QplVCInterpolateBlock_8u      structure in Inter Prediction subsection.
+
+Description
+The function qpliInterpolateLumaBlock_AVS_8u_P1R       is deprecated. DV, H.263, H.261, AVS codecs will
+be removed in a future release. Use the following link for details: http://software.intel.com/sites/products/
+qpl-deprecated-features-feedback/.
+This function performs interpolation (convolution with 6x6 kernel) for motion estimation of the luminance
+component in accordance with 9.9 of [AVS]. The function uses whole motion vectors, calculating fractional
+and integer part of vectors. The function also handles overlapping cases, when the source block pointed by
+the motion vector lies out of the source frame. Non-existing samples are cloned from the nearest existing
+samples.
+
+Interpolation of Luminance Component Block for Motion Estimation
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition if the specified pointer is NULL.
+
+qplStsSizeErr                       Indicates an error condition if roi.width or roi.height take values
+                                    other than {16, 8}.
+
+  1686
+---------------------Page 1687---------------------
+
+                                                                               Video Coding  16     
+
+WeightPrediction_AVS
+DEPRECATED. Applies weighting process to a
+predicted block.
+
+Syntax
+QplStatus qpliWeightPrediction_AVS_8u_C1R(const Qpl8u* pSrc, Qpl32s srcStep, Qpl8u*
+pDst, Qpl32s dstStep, Qpl32u scale, Qpl32s shift, QpliSize sizeBlock          );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+Parameters
+
+pSrc                          Pointer to the source data.
+
+srcStep                       Distance in bytes between starts of the consecutive lines in the source data.
+
+pDst                          Pointer to the destination buffer.
+
+dstStep                       Distance in bytes between starts of the consecutive lines in the destination
+                              buffer.
+
+scale                         Scale value.
+
+shift                         Shift.
+
+sizeBlock                     Size of the pointed data block. It could be 16 or 8 in each dimension.
+
+Description
+The function qpliWeightPrediction_AVS_8u_C1R    is deprecated. DV, H.263, H.261, AVS codecs will be
+removed in a future release. Use the following link for details: http://software.intel.com/sites/products/qpl-
+deprecated-features-feedback/.
+This function applies the weighting process to predicted blocks according to 9.9.3 of [AVS] when
+slice_weighting_flag    is equal to 1.
+The function uses the following formula:
+ 
+
+ 
+where x ?  [0,roi.width-1]  , y ?  [0,roi.height-1]
+ 
+
+ 
+Values of scale and shift are parsed from the bitstream.
+
+                                                                                             1687
+---------------------Page 1688---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition if at least one of the specified pointers is
+                                   NULL .
+
+Macroblock Reconstruction
+
+ReconstructLumaIntra_AVS
+DEPRECATED. Reconstructs intra luma macroblock.
+
+Syntax
+QplStatus qpliReconstructLumaIntra_AVS_16s8u_C1R(Qpl16s** ppSrcCoeff, Qpl8u*
+pSrcDstYPlane, Qpl32s srcDstYStep, const QplIntra8x8PredMode_AVS*pMBIntraTypes, const
+Qpl32s* pSrcNumCoeffs, Qpl32u cbp8x8, Qpl32u QP, Qpl32u edgeType          );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib, qpli.h
+
+Parameters
+
+ppSrcCoeff                    Pointer to the order of 8x8 blocks of residual coefficients for this
+                              macroblock, which are taken as a result of entropy decoding (8x8
+                              luminance intra blocks, if the block is not zero-filled) in the same order as
+                              is shown in Figure 6?7 of [AVS]. The pointer is updated by the function and
+                              points to the blocks for the next macroblock.
+
+pSrcDstYPlane                 Pointer to the current macroblock that is reconstructed in Y-plane.
+
+srcDstYStep                   Y -Plane step.
+
+pMBIntraTypes                 Array of Intra_8x8  luma prediction modes for each subblock.
+                              pMBIntraTypes   [i] is defined in the same order as the coded subblocks go.
+
+pSrcNumCoeffs                 Array of indices of the last coefficient in each subblock. pSrcNumCoeffs[i]
+                              is defined in the same order as the coded subblocks go.
+
+cbp8x8                        Coded block pattern. If cbp8x8 & (1<<(1+i))  is not equal to 0 (0 ? i < 4),
+                              i -th 8x8 AC luma block is not zero-filled and it exists in ppSrcCoeff.
+
+QP                            Quantization parameter (CurrentQP  in [AVS]). It must be within the range
+                              [0;63].
+
+edgeType                      Flag that specifies the availability of the macroblocks used for prediction.
+                              If the upper macroblock is not available for 8x8 intra prediction,
+                              edgeType&QPLVC_TOP_EDGE     must be non-zero.
+
+  1688
+---------------------Page 1689---------------------
+
+                                                                                 Video Coding  16      
+
+                               If the left macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_LEFT_EDGE     must be non-zero.
+                               If the upper-left macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_TOP_LEFT_EDGE      must be non-zero.
+                               If the upper-right macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_TOP_RIGHT_EDGE      must be non-zero.
+
+Description
+The function qpliReconstructLumaIntra_AVS_16s8u_C1R       is deprecated. DV, H.263, H.261, AVS codecs
+will be removed in a future release. Use the following link for details: http://software.intel.com/sites/
+products/qpl-deprecated-features-feedback/.
+This function reconstructs intra luma macroblocks. The process for each 8x8 block in the same order as is
+shown in Figure 6?7 of [AVS] is described below:
+• Performs scaling, integer inverse transformation, and shift for an 8x8 block in accordance with 9.5 of
+  [AVS].
+• Performs intra prediction for an 8x8 luma component in accordance with 9.4.2 of [AVS].
+• Performs adding of 8x8 prediction block and 8x8 residual block in accordance with 9.10 of [AVS].
+
+Return Values
+
+qplStsNoErr                         Indicates no error.
+
+qplStsNullPtrErr                    Indicates an error condition if at least one of the specified pointers is
+                                    NULL .
+
+qplStsOutOfRangeErr             QP     is less than 0 or greater than 63.
+
+ReconstructLumaInter_AVS
+DEPRECATED. Reconstructs inter luma macroblock.
+
+Syntax
+QplStatus qpliReconstructLumaInter_AVS_16s8u_C1R(Qpl16s** ppSrcCoeff, Qpl8u*
+pSrcDstYPlane, Qpl32s srcDstYStep, const Qpl32s* pSrcNumCoeffs, Qpl32u cbp8x8, Qpl32u
+QP);
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+ppSrcCoeff                     Pointer to the order of 8x8 blocks of residual coefficients for this
+                               macroblock, which are taken as a result of entropy decoding (8x8
+                               luminance inter blocks, if the block is not zero-filled) in the same order as is
+                               shown in Figure 6?7 of [AVS]. The pointer is updated by the function and
+                               points to the blocks for the next macroblock.
+
+                                                                                                1689
+---------------------Page 1690---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+pSrcDstYPlane                 Pointer to the current macroblock that is reconstructed in Y-plane. This
+                              macroblock must contain inter prediction samples.
+
+srcDstYStep                   Y-Plane step.
+
+pSrcNumCoeffs                 Array of indices of the last coefficient in each subblock. pSrcNumCoeffs[i]
+                              is defined in the same order as the coded subblocks go.
+
+cbp8x8                        Coded block pattern. If cbp8x8 & (1<<(1+i))  is not equal to 0 (0 ? i <
+                              4), i-th 8x8 AC luma block is not zero-filled and it exists in ppSrcCoeff.
+
+QP                            Quantization parameter (CurrentQP  in [AVS]). It must be within the range
+                              [0;63].
+
+Description
+The function qpliReconstructLumaInter_AVS_16s8u_C1R      is deprecated. DV, H.263, H.261, AVS codecs
+will be removed in a future release. Use the following link for details: http://software.intel.com/sites/
+products/qpl-deprecated-features-feedback/.
+This function reconstructs inter luma macroblocks:
+• Performs scaling, integer inverse transformation, and shift for each 8x8 block in the same order as is
+  shown in Figure 6?7 of [AVS] in accordance with 9.5 of [AVS].
+• Performs adding of a 16x16 inter prediction block and a 16x16 residual block in accordance with 9.10 of
+  [AVS].
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error condition if at least one of the specified pointers is
+                                   NULL .
+
+qplStsOutOfRangeErr             QP     is less than 0 or greater than 63.
+
+ReconstructChromaIntra_AVS
+DEPRECATED. Reconstructs intra chroma macroblock.
+
+Syntax
+QplStatus qpliReconstructChromaIntra_AVS_16s8u_C1R(Qpl16s** ppSrcCoeff, Qpl8u*
+pSrcDstUPlane, Qpl8u* pSrcDstVPlane, Qpl32s srcDstUVStep, const
+QplIntraChromaPredMode_AVS predMode, const Qpl32s* pSrcNumCoeffs, Qpl32u cbp8x8, Qpl32u
+chromaQP, Qpl32u edgeType    );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h , qpli.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib , qpli.h
+
+  1690
+---------------------Page 1691---------------------
+
+                                                                                   Video Coding  16       
+
+Parameters
+
+ppSrcCoeff                     Pointer to the order of 8x8 blocks of residual coefficients for this
+                               macroblock, which are taken as a result of entropy decoding (8x8
+                               chrominance intra blocks, if the block is not zero-filled) in the same order
+                               as is shown in Figure 6?7 of [AVS]. The pointer is updated by the function
+                               and points to the blocks for the next macroblock.
+
+pSrcDstUPlane                  Pointer to the current macroblock that is reconstructed in U-plane.
+
+pSrcDstVPlane                  Pointer to the current macroblock that is reconstructed in V-plane.
+
+srcDstUVStep                   Chrominance planes step.
+
+predMode                       Chrominance prediction mode for both subblock.
+
+pSrcNumCoeffs                  Array of indices of the last coefficient in each subblock. pSrcNumCoeffs[i]
+                               is defined in the same order as the coded subblocks go.
+
+cbp8x8                         Coded block pattern. If cbp8x8 & (1<<(1+i))    is not equal to 0 (0 ? i <
+                               2), i-th 8x8 AC chroma block is not zero-filled and it exists in ppSrcCoeff.
+
+chromaQP                       Quantization parameter ( QP from Table 9-6 in [AVS]). It must be within the
+                               range [0;51].
+
+edgeType                       Flag that specifies the availability of the macroblocks used for prediction.
+                               If the upper macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_TOP_EDGE      must be non-zero.
+                               If the left macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_LEFT_EDGE       must be non-zero.
+                               If the upper-left macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_TOP_LEFT_EDGE       must be non-zero.
+                               If the upper-right macroblock is not available for 8x8 intra prediction,
+                               edgeType&QPLVC_TOP_RIGHT_EDGE       must be non-zero.
+
+Description
+The function qpliReconstructChromaIntra_AVS_16s8u_C1R         is deprecated. DV, H.263, H.261, AVS
+codecs will be removed in a future release. Use the following link for details: http://software.intel.com/sites/
+products/qpl-deprecated-features-feedback/.
+This function reconstructs intra chroma macroblocks. The process for each 8x8 block in the same order as is
+shown in Figure 6?7 of [AVS] is described below:
+•  Performs scaling, integer inverse transformation, and shift for an 8x8 block in accordance with 9.5 of
+   [AVS].
+•  Performs intra prediction for an 8x8 chroma component in accordance with 9.4.3 of [AVS].
+•  Performs adding of 8x8 prediction block and 8x8 residual block in accordance with 9.10 of [AVS].
+
+Return Values
+
+qplStsNoErr                          Indicates no error.
+
+qplStsNullPtrErr                     Indicates an error condition if at least one of the specified pointers is
+                                     NULL .
+
+                                                                                                  1691
+---------------------Page 1692---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsOutOfRangeErr             chromaQP      is less than 0 or greater than 51.
+
+ReconstructChromaInter_AVS
+DEPRECATED. Reconstructs inter chroma macroblock.
+
+Syntax
+QplStatus qpliReconstructChromaInter_AVS_16s8u_C1R(Qpl16s** ppSrcCoeff, Qpl8u*
+pSrcDstUPlane, Qpl8u* pSrcDstVPlane, Qpl32s srcDstUVStep, const Qpl32s* pSrcNumCoeffs,
+Qpl32u cbp8x8, Qpl32u chromaQP     );
+
+Include Files
+qplvc.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h, qpli.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib , qpli.h
+
+Parameters
+
+ppSrcCoeff                     Pointer to the order of 8x8 blocks of residual coefficients for this
+                               macroblock, which are taken as a result of entropy decoding (8x8
+                               chrominance inter blocks, if the block is not zero-filled) in the same order
+                               as is shown in Figure 6?7 of [AVS]. The pointer is updated by the function
+                               and points to the blocks for the next macroblock.
+
+pSrcDstUPlane                  Pointer to the current macroblock that is reconstructed in U-plane.
+
+pSrcDstVPlane                  Pointer to the current macroblock that is reconstructed in V-plane.
+
+srcDstUVStep                   Chrominance planes step.
+
+pSrcNumCoeffs                  Array of indices of the last coefficient in each subblock. pSrcNumCoeffs[i]
+                               is defined in the same order as the coded subblocks go.
+
+cbp8x8                         Coded block pattern. If cbp8x8 & (1<<(1+i)) is not equal to 0 (0 ? i < 4),
+                               i-th 8x8 AC chroma block is not zero-filled and it exists in ppSrcCoef

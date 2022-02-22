@@ -1,0 +1,1612 @@
+*) The function qpliResizeCubic  supports the interpolation with two-parameter cubic filters, where
+parameters B and C can be specified explicitly.
+**) The function qpliResizeSqrPixel   additionally supports two variants of the interpolation with two-
+parameter cubic filters.
+***) The function qpliResizeSqrPixel   supports two variants of the edge smoothing (see function
+description).
+Here NN - nearest neighbor interpolation, Lin - linear interpolation, Cub - cubic interpolation, CR - Catmull-
+Rom spline, La2, La3 - interpolation with the Lanczos window, SS - super sampling interpolation, AA -
+antialiasing, ES - edge smoothing.
+The sections that follow provide more details on each interpolation mode.
+
+Mathematical Notation
+
+In this appendix the following notation is used:
+
+(xD,yD)                  pixel coordinates in the destination image (integer values);
+
+(xS,yS)                  the computed coordinates of a point in the source image that is mapped exactly
+                         to (xD, yD);
+
+S(x,y)                   pixel value (intensity) in the source image;
+
+D(x,y)                   pixel value (intensity) in the destination image.
+
+Nearest Neighbor Interpolation
+
+This is the fastest and least accurate interpolation mode. The pixel value in the destination image is set to
+the value of the source image pixel closest to the point
+(xS,yS):D(x D,yD) = S(round(x  S), round(y  S)).
+To use the nearest neighbor interpolation, set the parameter interpolation to QPLI_INTER_NN.
+
+  1760
+---------------------Page 1761---------------------
+
+                                                  Interpolation in Image Geometric Transform Functions  B 
+
+Linear Interpolation
+
+This is the fastest and least accurate interpolation mode. The pixel value in the destination image is set to
+the value of the source image pixel closest to the point
+(xS,yS):D(x D,yD) = S(round(x   S), round(y  S)).
+The linear interpolation is slower but more accurate than the nearest neighbor interpolation. On the other
+hand, it is faster but less accurate than cubic interpolation. The linear interpolation algorithm uses source
+image intensities at the four pixels (xS0, yS0), (xS1, yS0), (xS0, yS1), (xS1, yS1) that are closest to (xS, yS) in
+the source image:
+xS0 = int(xS), xS1 = xS0 + 1, yS0 = int(yS), yS1 = yS0 + 1.
+First, the intensity values are interpolated along the x-axis to produce two intermediate results I0 and I1 (see
+Figure B-1):
+I0 = S(xS, yS0) = S(xS0, yS0)*(xS1 - xS) + S(xS1, yS0)*(xS - xS0)
+I1 = S(xS, yS1) = S(xS0, yS1)*(xS1 - xS) + S(xS1, yS1)*(xS - xS0).
+Then, the sought-for intensity D(xD, yD) is computed by interpolating the intermediate values I0 and I1 along
+the y-axis:
+D(xD, yD) = I0*(yS1 - yS) + I1*(yS - yS0).
+To use the linear interpolation, set the parameter interpolation to QPLI_INTER_LINEAR  . For images with
+8-bit unsigned color channels, the functions qpliWarpAffine, qpliRotate , and qpliShear  compute the
+coordinates (xS, y                    -16
+                 S) with the accuracy 2  = 1/65536. For images with 16-bit unsigned color channels, these
+functions compute the coordinates with floating-point precision.
+
+Linear Interpolation
+
+ 
+
+ 
+
+Cubic Interpolation
+
+The cubic interpolation algorithm (see Figure B-2) uses source image intensities at sixteen pixels in the
+neighborhood of the point (xS, yS) in the source image:
+xS0 = int(xS) - 1; xS1 = xS0 + 1; xS2 = xS0 + 2; xS3 = xS0 + 3;
+
+                                                                                                 1761
+---------------------Page 1762---------------------
+
+ B     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+yS0 = int(yS) - 1; yS1 = yS0 + 1; yS2 = yS0 + 2;yS3 = yS0 + 3.
+First, for each ySk the algorithm determines four cubic polynomials F0(x), F1( x), F2( x), and F3( x):
+Fk( x) = akx3 + bkx2 + ckx + dk, 0 ? k ? 3
+such that
+F k( xS0) = S(xS0, ySk); Fk(xS1) = S(xS1, ySk),
+Fk( xS2) = S(xS2, ySk); Fk( xS3) = S(xS3, ySk).
+In Figure B-2 , these polynomials are shown by solid curves.
+Then, the algorithm determines a cubic polynomial Fy(y) such that
+Fy(yS0) = F0( xS), Fy(yS1) = F1(xS), Fy(yS2) = F2(xS), Fy( yS3) = F3( xS).
+The polynomial Fy(y) is represented by the dashed curve in Figure B-2.
+Finally, the sought intensity D(xD, yD) is set to the value Fy(yS).
+To use the linear interpolation, set the parameter interpolation to QPLI_INTER_CUBIC   . For images with
+8-bit unsigned color channels, the functions qpliWarpAffine , qpliRotate , and qpliShear   compute the
+coordinates (xS, y                    -16
+                 S) with the accuracy 2  = 1/65536. For images with 16-bit unsigned color channels, these
+functions compute the coordinates with floating-point precision.
+
+Cubic Interpolation
+
+Super Sampling
+
+If the destination image is much smaller than the source image, the above interpolation algorithms may skip
+some pixels in the source image (that is, these algorithms not necessarily use all source pixels when
+computing intensity of the destination pixels). To use all pixel values of the source image, the qpliResize
+and qpliResizeCenter    functions support the super-sampling algorithm, which is free of the above
+drawback.
+The super-sampling algorithm is as follows:
+
+1.   Divide the source image rectangular ROI (or the whole image, if there is no ROI) into equal rectangles,
+     each rectangle corresponding to some pixel in the destination image. Note that each source pixel is
+     represented by a 1x1 square.
+2.   Compute a weighted sum of source pixel values for all pixels that are in the rectangle or have a non-
+     zero intersection with the rectangle. If a source pixel is fully contained in the rectangle, the value of
+     that pixel is taken with weight 1. If the rectangle and the square of the source pixel have an
+     intersection of area a < 1, that pixel's value is taken with weight a.
+     Figure B-3 shows the corresponding weight value for each source pixel intersecting with the rectangle.
+3.   To compute the pixel value in the destination image, divide this weighted sum by the ratio of the source
+     and destination rectangle areas SSrc/ SDst = 1/xFactor*yFactor.
+
+  1762
+---------------------Page 1763---------------------
+
+                                                   Interpolation in Image Geometric Transform Functions  B 
+
+     Here xFactor , and yFactor  are the parameters of the functions that specify the factors by which the x
+     and y dimensions of the source image ROI are changed.
+Note that supersampling interpolation can be used only for xFactor<1, and yFactor<1.
+Supersampling Weights
+ 
+
+ 
+
+Lanczos Interpolation
+
+This method is based on the 2-lobed or 3-lobed Lanczos window function as the interpolation function.
+
+Interpolation with the 2-lobed Lanczos Window Function
+The interpolation algorithm uses source image intensities at 16 pixels in the neighborhood of the point (xS,
+yS) in the source image:
+xS0 = int(xS) - 1; xS1 = xS0 + 1; xS2 = xS0 + 2; xS3 = xS0 + 3;
+yS0 = int(yS) - 1; yS1 = yS0 + 1; yS2 = yS0 + 2; yS3 = yS0 + 3;
+First, the intensity values are interpolated along the x-axis to produce four intermediate results I0, I1, I2, I3:
+ 
+
+ 
+Then the intensity D( xD, yD) is computed by interpolating the intermediate values Ik along the y-axis:
+ 
+
+ 
+Here ai and bk are the coefficients defined as
+ai = L(xS- xSi), bk = L(yS- ySi),
+where L(x) is the Lanczos windowed sinc function:
+ 
+
+                                                                                                 1763
+---------------------Page 1764---------------------
+
+ B     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+ 
+To use this interpolation, use the qpliResizeLanczos function.
+
+Interpolation with the 3-lobed Lanczos Window Function
+The interpolation algorithm uses source image intensities at 36 pixels in the neighborhood of the point (xS,
+yS) in the source image:
+xS0 = int(xS) - 2; xS1 = xS0 + 1; xS2 = xS0 + 2; xS3 = xS0 + 3; xS3 = xS0 + 4; xS3 = xS0 + 5;
+yS0 = int(yS) - 2; yS1 = yS0 + 1; yS2 = yS0 + 2; yS3 = yS0 + 3; yS2 = yS0 + 4; yS2 = yS0 + 5;
+First, the intensity values are interpolated along the x-axis to produce six intermediate results I0, I1, ... I5:
+ 
+
+ 
+Then the intensity D( xD, yD) is computed by interpolating the intermediate values Ik along the y-axis:
+ 
+
+ 
+Here ai and bk are the coefficients defined as
+ai = L(xS- xSi), bk = L(yS- ySi),
+where L(x) is the Lanczos windowed sinc function:
+ 
+
+ 
+To use this interpolation, set the parameter interpolation to QPLI_INTER_LANCZOS  , or use the
+qpliResizeLanczos    function.
+
+Interpolation with Two-Parameter Cubic Filters
+
+The two-parameter family of cubic filters have kernels of the form:
+ 
+
+ 
+where B and C are two parameters; their variations give different approximation. The Intel QPL function 
+qpliResizeSqrPixel    uses three members of this family, specifically cubic B-spline (B=1, C=0), Catmull-
+Rom spline (B=0, C=1/2), and special filter with B=1/2, C=3/10.
+
+  1764
+---------------------Page 1765---------------------
+
+                                                    Interpolation in Image Geometric Transform Functions  B 
+These interpolation methods additionally filter the output to improve quality of an image.
+
+                                                                                                    1765
+---------------------Page 1766---------------------
+
+ C     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Bibliography
+
+This bibliography provides a list of publications that might be helpful to you in using the image processing
+subset of Intel QPL. This list is not complete; it serves only as a starting point. The books [Rog85], [Rog90],
+and [Foley90] are good resources of information on image processing and computer graphics, with
+mathematical formulas and code examples.
+[Aka96]                   A.Akansu, M.Smith (editors). Subband and Wavelet transform. Design and
+                          Applications, Kluwer Academic Publishers, 1996.
+
+[AP922]                  A Fast Precise Implementation of 8x8 Discrete Cosine Transform Using the
+                          Streaming SIMD Extensions and MMX™ Instructions, Application Note AP922,
+                          Intel Corp. Order number 742474, 1999.
+
+[APMF]                   Fast Algorithms for Median Filtering, Application Note, Intel Corp. Document
+                          number 79835, 2001.
+
+[AVS]                     GB/T 200090.2-2006. China Standard. Information Technology. Coding of Audio-
+                          Visual Objects - Part 2: Visual (02/2006).
+
+[Bert01]                  M.Bertalmio, A.L.Bertozzi, G.Sapiro. Navier-Stokes, Fluid Dynamics, and Image
+                          and Video Inpainting. Proc. ICCV 2001, pp.1335-1362, 2001.
+
+[Bor86]                   G.Borgefors. Distance Transformations in Digital Images. Computer Vision,
+                          Graphics, and Image Processing 34, 1986.
+
+[Bou99]                   J-Y.Bouguet. Pyramidal Implementation of the Lucas-Kanade Feature Tracker.
+                          OpenCV Documentation, Microprocessor Research Lab, Intel Corporation, 1999.
+
+[Canny86]                 J. Canny. A Computational Approach to Edge Detection, IEEE Trans. on Pattern
+                          Analysis and Machine Intelligence 8(6), 1986.
+
+[Davis97]                 J.Davis and Bobick. The Representation and Recognition of Action Using
+                          Temporal Templates. MIT Media Lab Technical Report 402, 1997.
+
+[Davis99]                 J.Davis and G.Bradski. Real-Time Motion Template Gradients Using Intel(R)
+                          Computer Vision Library. IEEE ICCV'99 FRAME-RATE WORKSHOP, 1999.
+
+[DICOM]                   Digital Imaging and Communications in Medicine (DICOM), published by National
+                          Electrical Manufacturers Association, 2003.
+
+[Feig92]                  E. Feig and S. Winograd. Fast Algorithms for the Discrete Cosine Transform, IEEE
+                          Trans. Signal Processing, vol. 40, no. 9, pp. 2174-2193, Sep. 1992.
+
+[Felz04]                  P. Felzenszwalb, D. Hattenlocher. Distance Transforms of Sampled Functions.
+                          Cornell Computing and Information Science Technical Report TR2004-1963,
+                          September 2004.
+
+[Foley90]                 James D. Foley, Andries van Dam, Steven K. Feiner, and John F. Hughes.
+                          Computer Graphics — Principles and Practice, Second Edition. Addison Wesley,
+                          1990.
+
+[Gon93]                   R.C. Gonzalez and R.E.Wood. Digital Image Processing. Prentice Hall, 1993.
+
+[Hir05]                   K. Hirakawa, T.W. Parks, Adaptive Homogeneity-Directed Demosaicing
+                          Algorithm, IEEE Trans. Image Processing, March, 2005.
+
+  1766
+---------------------Page 1767---------------------
+
+                                                                                   Bibliography  C   
+
+[IEC61834]               IEC 61834. International Electrochemical Commission. Specifications of
+                         Consumer-Use Digital VCRs using 6.3 mm magnetic tape (the "Blue Book" DV
+                         specification).
+
+[IEEE]                   IEEE Standard Specifications for the Implementations of 8X8 Inverse Discrete
+                         Cosine Transform, IEEE #1180 (1997).
+
+[IPL]                    Intel Image Processing Library Reference Manual. Intel Corp. Order number
+                         663791, 1999.
+
+[ISO11172]               ISOCD 11172. Information Technology. Coding of Moving Pictures and Associated
+                         Audio for Digital Storage Media at up to about 1.5 Mbit/s (1993).
+
+[ISO13818]               ISO/IEC 13818. Information Technology. Coding of Moving Pictures and
+                         Associated Audio Information, (11/94).
+
+[ISO14496]               International Standard ISO/IEC 14496-2. Information Technology. Coding of
+                         Audio-Visual Objects - Part 2: Visual.
+
+[ISO14496A]              ISO/IEC 14496-2:1999/Amd.1:2000(E) . Information Technology. Coding of
+                         Audio-Visual Objects. Part2:Visual. Amendment 1: Visual Extensions (01/00).
+
+[ISO10918]               International Standard ISO/IEC 10918-1, Digital Compression and Coding of
+                         Continuous Tone Still Images, Appendix A - Requirements and guidelines.
+
+[ISO15444]               International Standard ISO/IEC 15444-1, JPEG 2000 Image coding system, part
+                         1: Core coding system.
+
+[ISO29199]               International Standard ISO/IEC 29199-2, JPEG XR Image coding system, part 2:
+                         Image coding specification. (2009-08-15)
+
+[ITUH261]                ITU-T Recommendation H.261. Line transmission of non-telephone signals. Video
+                         codec for audiovisual services at p x 64 kbits (03/93).
+
+[ITUH263]                ITU-T Recommendation H.263. Series H: AUDIOVISUAL AND MULTIMEDIA
+                         SYSTEMS. Infrastructure of audiovisual services - Coding of moving video. Video
+                         coding for low bit rate communication (02/98).
+
+[ITUH264]                ITU-T Recommendation H.264. Series H: AUDIOVISUAL AND MULTIMEDIA
+                         SYSTEMS. Infrastructure of audiovisual services - Coding of moving video.
+                         Advanced video coding for generic audiovisual services. (ITU-T Rec. H.264 |
+                         ISO/IEC 14496-10:2005)(03/05).
+
+[ITUH264_07]             ITU-T Recommendation H.264. Series H: AUDIOVISUAL AND MULTIMEDIA
+                         SYSTEMS. Infrastructure of audiovisual services - Coding of moving video.
+                         Advanced video coding for generic audiovisual services. (ITU-T Rec. H.264 |
+                         ISO/IEC 14496-10:2008)(11/07).
+
+[ITU709]                 ITU-R Recommendation BT.709, Basic Parameter Values for the HDTV Standard
+                         for the Studio and International Programme Exchange [formerly CCIR Rec.709]
+                         ITU, Geneva, Switzerland, 1990.
+
+[Jae95]                  Jaehne, Bernd. Digital Image Processing, 3rd Edition, Springer-Verlag, Berlin,
+                         1995.
+
+[Jae97]                  Jaehne, Bernd. Practical Handbook on Image Processing for Scientific
+                         Applications, CRC Press, New York, 1997.
+
+[Jack01]                 Jack, Keith. Video Demystified: a Handbook for the Digital Engineer, LLH
+                         Technology Publishing, 3rd Edition, 2001.
+
+                                                                                              1767
+---------------------Page 1768---------------------
+
+ C     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+[JVTG050]                 JVT-G050. ITU-T Recommendation and Final Draft International Standard of Joint
+                          Video Specification (ITU-T Rec. H.264 | ISO/IEC 14496-10 AVC) (03/03).
+
+[Kadew01]                 P.KadewTraKuPong, R.Bowden. An Improved Adaptive Background Mixture Model
+                          for Real-Time Tracking with Shadow Detection. Proc. 2nd European Workshop on
+                          Advanced Video-Based Surveilolance Systems, 2001.
+
+[Lein02]                  R.Leinhart, J.Maydt. An Extended Set of Haar-like Features for Rapid Object
+                          Detection. IEEE ICIP, vol.1, pp. 900-903, Sep. 2002.
+
+[Li03]                    L.Li, W.Huang, I.Gu, Q.Tian. Foreground Object Detection from Videos Containing
+                          Complex Background. Proc.ACM Multimedia Conference, Berkley, 2003.
+
+[Lim90]                   Jae S.Lim. Two-Dimensional Signal and Image Processing, Prentice Hall,
+                          Englewood Cliffs, NJ, 1990.
+
+[Lotufo00]                R.Lotufo, A.Falcao. The Ordered Queue and the Optimality of the Watershed
+                          Algorithm. Mathematical Morphology and its Applications to Image and Signal
+                          Processing, vol.18, pp.341-350. Kluwer Academic Publishers. Palo Alto, USA,
+                          June 2000.
+
+[Lowe04]                  D.G.Lowe. Distinctive Image Features from Scale-Invariant Keypoints.
+                          International Journal of Computer Vision, vol.60, No.2, pp. 91-110, 2004.
+
+[Malvar03]                H.S.Malvar, G.J.Sullivan. Transform, Scaling & Color Space Impact of
+                          Professional Extensions, ISO/IEC JTC/SC29/WG11 and ITU-T SG16 Q.6
+                          Document JVT-H031, Geneva, May 2003.
+
+[Matas00]                 J.Matas, C.Galambos, J.V.Kittler. Robust Detection of Lines Using the Progressive
+                          Probabilistic Hough Transform, CVIU 78 1, pp. 119-137, 2000.
+
+[Malvar03-1]              H.S.Malvar, G.J.Sullivan. YCoCg-R: A Color Space with RGB Reversibility and Low
+                          Dynamic Range, Joint Video Team (JVT) of ISO/IEC MPEG & ITU-T VCEG,
+                          Document No.JVT-1014r3, July 2003.
+
+[Meyer92]                 F.Meyer. Color Image Segmentation, 4th International Conference on Image
+                          Processing and its Applications, p.4, Maastricht, April 1993.
+
+[Meyer94]                 F.Meyer. Topographic Distance and Watershed Lines. Signal Processing, No.38,
+                          pp.113-125, 1994.
+
+[Myler93]                 H.Myler, A.Weeks. Computer Imaging Recipes in C, Prentice Hall, 1993.
+
+[Otsu79]                  N. Otsu. A Threshold Selection Method From Gray Level Histograms. IEEE
+                          Transactions on Systems, Man, and Cybernetics, vol.9, No.1, January 1979, pp.
+                          62-66.
+
+[Puetter05]               R.C.Puetter, T.R.Gosnell, and Amos Yahil. Digital Image Recosntuction:
+                          Deblurring and Denoising, Annual Review of Astronomy and Astrophysics, 2005.
+
+[Randy97]                 Randy Crane. A Simplified Approach to Image Processing, Prentice Hall PTR,
+                          1997.
+
+[Rao90]]                  K.R. Rao and P. Yip. Discrete Cosine Transform. Algorithms, Advantages,
+                          Applications. Academic Press, Inc, London, 1990.
+
+[Ric72]                   W.Richardson. Bayesian-Based Iterative Method of Image Reconstruction.
+                          Journal of the Optical Society of America, vol.62, No.1, January 1972.
+
+[Ritter96]                G.Ritter, J.Wilson. Computer Vision. Algorithms in Image Algebra. CRC Press,
+                          1996.
+
+  1768
+---------------------Page 1769---------------------
+
+                                                                                    Bibliography  C    
+
+[Rog85]                  David Rogers. Procedural Elements for Computer Graphics. McGraw-Hill, 1985.
+
+[Rog90]                  David Rogers and J.Alan Adams. Mathematical Elements for Computer Graphics.
+                         McGraw-Hill, 1990.
+
+[S3TC]                   S3 Texture Compression. http://en.wikipedia.org/wiki/S3TC
+
+[Sak98]                  T. Sakamoto, C. Nakanishi, and T. Hase, Software pixel interpolation for digital
+                         still cameras suitable for a 32-bit MCU, IEEE Trans. Consumer Electronics, vol.
+                         44, No. 4, November 1998.
+
+[Serra82]                J.Serra. Image Analysis and Mathematical Morphology. Academic Press, London,
+                         1982.
+
+[Schu92]                 Dale A. Schumacher. General Filtered Image Rescaling, Graphic Gems III,
+                         Academic Press, 1992.
+
+[Schu94]                 Dale A. Schumacher. A comparison of digital halftoning techniques, Graphic
+                         Gems III, Academic Press, 1994, pp. 57-71.
+
+[Sha98]                  Tom Shanley. Pentium Pro and Pentium II System Architecture. Addison-Wesley,
+                         1998.
+
+[SMPTE314M]              SMPTE 314M-2005 for Television - Data Structure for DV-Based Audio, Data and
+                         Compressed Video - 25 and 50 Mb/s. The Society of Motion Picture and
+                         Television Engineers (09/05).
+
+[SMPTE370M]              SMPTE 370M-2002 for Television - Data Structure for DV-Based Audio, Data and
+                         Compressed Video at 100 Mb/s, 1080/60i, 1080/50i, 720/60p. The Society of
+                         Motion Picture and Television Engineers (07/02).
+
+[SMPTE370M-06]           SMPTE 370M-2006 for Television - Data Structure for DV-Based Audio, Data and
+                         Compressed Video at 100 Mb/s, 1080/60i, 1080/50i, 720/60p, 720/50p. The
+                         Society of Motion Picture and Television Engineers (04/06).
+
+[SMPTE421M]              SMPTE 421M. Final Draft SMPTE Standard - VC-1 Compressed Video Bitstream
+                         Format and Decoding Process (01/06).
+
+[Telea04]                A.Telea. An Image Inprinting Technique Based on the Fast Marching Method.
+                         Journal of Graphic Tools, vol.9, No.1, ACM Press, 2004.
+
+[Tho91]                  Spencer W. Thomas and Rod G. Bogart. Color dithering, Graphic Gems II,
+                         Academic Press, 1991, pp. 72-77.
+
+[Ulichney93]             R.Ulichney. Digital halftoning. MIT press, 1993.
+
+[Vincent91]              L.Vincent, P.Soille. Watershed in Digital Spaces: An Efficient Algorithm Based on
+                         Immersion Simulation. IEEE Transactions of Pattern Analysis and Machine
+                         Intelligence, vol.3, No.6, June 1991, pp.583-598.
+
+[Vincent93]              L.Vincent. Morphological Gray Scale Reconstruction in Image Analysis:
+                         Applications and Efficient Algorithms. IEEE Transactions on Image Processing,
+                         vol.2, No.2, April 1993.
+
+[Viola01]                P.Viola, M.J.Jones. Rapid Object Detection using a Boosted Cascade of Simple
+                         Features. Proceedings IEEE Conf. on Computer Vision and Pattern Recognition
+                         (CVPR 2001), 2001.
+
+[Wang02]                 Z.Wang, A.C.Bovik. A Universal Image Quality Index. IEEE Signal Processing
+                         Letters, vol.9, No.3, March 2002, pp.81-84.
+
+                                                                                               1769
+---------------------Page 1770---------------------
+
+ C     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+[Wolberg96]                G.Wolberg. Digital Image Warping. IEEE Computer Society Press, 1996.
+
+  1770
+---------------------Page 1771---------------------
+
+Glossary
+
+absolute colors                      Colors specified by each pixel's coordinates in a color space. Intel
+                                     Query Processing Library for image processing use images
+                                     with absolute colors.
+
+alpha channel                        A color channel, also known as the opacity channel, that can be used
+                                     in color models; for example, the RGBA model.
+
+arithmetic operation                 An operation that adds, subtracts, multiplies, divides, or squares the
+                                     image pixel values.
+
+color-twist matrix                   A matrix used to multiply the pixel components in one color space for
+                                     determining the components in another color space.
+
+DCT                                  Acronym for the discrete cosine transform. See Discrete Cosine
+                                     Transforms in Chapter 10 of this manual.
+
+dilation                             A morphological operation that sets each output pixel to the minimum
+                                     of the corresponding input pixel and its 8 neighbors.
+
+dyadic operation                     An operation that has two input images. It can have other input
+                                     parameters as well.
+
+element-wise operation               An element-wise operation performs the same operation on each
+                                     element of a vector, or uses the elements of the same position in
+                                     multiple vectors as inputs to the operation.
+
+erosion                              A morphological operation that sets each output pixel to the maximum
+                                     of the corresponding input pixel and its 8 neighbors.
+
+four-channel model                   A color model that uses four color channels; for example, the RGBA
+                                     color model.
+
+gray scale image                     An image characterized by a single intensity channel so that each
+                                     intensity value corresponds to a certain shade of gray.
+
+in-place operation                   An operation whose output image is one of the input images.
+
+linear filtering                     In this manual, 2D convolution operations.
+
+linear image transforms              In this manual, the discrete cosine transform (DCT).
+
+MMX™ technology                      An enhancement to the Intel ® architecture aimed at better
+                                     performance in multimedia and communications applications. The
+                                     technology uses four additional data types, eight 64-bit MMX
+                                     registers, and 57 additional instructions implementing the SIMD
+                                     (single instruction, multiple data) technique.
+
+monadic operation                    An operation that has a single input image. It can have other input
+                                     parameters as well.
+
+morphological operation              An erosion, dilation, or their combinations.
+
+not-in-place operation               An operation whose output is an image other than the input image(s).
+                                     See in-place operation.
+
+                                                                                                   1771
+---------------------Page 1772---------------------
+
+ D     Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+pixel depth                          The number of bits determining each channel intensity for a single
+                                     pixel in the image.
+
+pixel-oriented ordering              Storing the image information in such an order that the values of all
+                                     color channels for each pixel are clustered; for example, RGBRGB... .
+
+planar-oriented ordering             Storing the image information so that all data of one color channel
+                                     follow all data of another channel, thus forming a separate “plane” for
+                                     each channel; for example, RRRRRGGGGGBBBBB....
+
+region of interest                   A rectangular image region on which an operation acts (or processing
+                                     occurs).
+
+RGB                                  Red-green-blue. A three-channel color model that uses red, green,
+                                     and blue color channels.
+
+RGBA                                 Red-green-blue-alpha. A four-channel color model that uses red,
+                                     green, blue, and alpha (or opacity) channels.
+
+ROI                                 See identity matrix.
+
+row-major order                      The default storage method for arrays in C. Memory representation is
+                                     such that the rows of an array are stored contiguously. For example,
+                                     for the array a[3][4] , the element a[1][0]  immediately follows
+                                     a[0][3]  .
+
+saturation                           Using saturation arithmetic, when a number exceeds the data-range
+                                     limit for its data type, it saturates to the upper data-range limit. For
+                                     example, a signed word greater than  7FFFh  saturates to 7FFFh . When
+                                     a number is less than the lower data-range limit, it saturates to the
+                                     lower data-range. For example, a signed word less than  8000h
+                                     saturates to 8000h .
+
+Streaming SIMD Extensions            The enhancement to the Intel architecture instruction set for the next
+                                     generation processors. It incorporates a group of general-purpose
+                                     floating-point instructions operating on packed data, additional packed
+                                     integer instructions, together with cacheability control and state
+                                     management instructions. These instructions significantly improve
+                                     performance of applications using compute-intensive processing of
+                                     floating-point and integer data.
+
+three-channel model                  A color model that uses three color channels; for example, the RGB
+                                     color model.
+
+  1772
+---------------------Page 1773---------------------
+
+                                                                                                 Index
+
+Index
+
+A                                                   BGR555ToYCbCr411 259
+                                                    BGR555ToYCbCr411LS_MCU 1135
+Abs 125                                             BGR555ToYCbCr420 256
+AbsDiff 127                                         BGR555ToYCbCr422 223
+AbsDiffC 128                                        BGR555ToYCbCr422LS_MCU 1133
+absolute color images 20                            BGR555ToYCbCr444LS_MCU 1131
+Add 81                                              BGR555ToYUV420 202
+Add128_JPEG 1162                                    BGR565ToBGR 295
+Add8x8 1315                                         BGR565ToYCbCr_JPEG 1114
+Add8x8HP 1316                                       BGR565ToYCbCr411 259
+AddBackPredPB_H263 1520                             BGR565ToYCbCr411LS_MCU 1135
+AddC 86                                             BGR565ToYCbCr420 256
+AddC8x8 1317                                        BGR565ToYCbCr422 223
+AddProduct 92                                       BGR565ToYCbCr422LS_MCU 1133
+AddRandGauss_Direct 66                              BGR565ToYCbCr444LS_MCU 1131
+AddRandUnifrom_Direct 65                            BGR565ToYUV420 202
+AddRotateShift 898                                  BGRToBGR565 294
+AddSquare 90                                        BGRToCbYCr422 227
+AddWeighted 93                                      BGRToCbYCr422_709HDTV 227
+alpha channel 20                                    BGRToHLS 273
+alpha composition functions                         BGRToLab 266
+   AlphaComp 162                                    BGRToY_JPEG 1107
+   AlphaCompC 164                                   BGRToYCbCr_JPEG 1112
+   AlphaPremul 167                                  BGRToYCbCr411 257
+   AlphaPremulC 168                                 BGRToYCbCr411_JPEG 1122
+AlphaCompColorKey 336                               BGRToYCbCr411LS_MCU 1134
+anchor cell 21                                      BGRToYCbCr420 244
+And 143                                             BGRToYCbCr420_709CSC 245
+AndC 144                                            BGRToYCbCr420_709HDTV 246
+ApplyHaarClassifier 1085                            BGRToYCbCr422 220
+arithmetic functions                                BGRToYCbCr422_JPEG 1118
+   absolute value 125                               BGRToYCbCr422LS_MCU 1132
+   addition 81                                      BGRToYCbCr444LS_MCU 1130
+   addition of a constant 86                        BGRToYCoCg 279
+   addition with accumulation 90                    BGRToYCoCg_Rev 282
+   complement 139                                   BGRToYCrCb420 255
+   division 115                                     BGRToYCrCb420_709CSC 247
+   exponential 137                                  BGRToYUV420 197
+   logarithm 134                                    Bidir_H264 1589
+   multiplication 96                                BidirWeight_H264 1594
+   multiplication with scaling 103                  BiDirWeightBlock_H264 1594
+   square 129                                       BiDirWeightBlockImplicit_H264 1596
+   square root 132                                  BidirWeightImplicit_H264 1596
+   subtraction 107                                  BinToGray 35
+arithmetic operations 81                            bitstream parsing 1472, 1500, 1511
+Average16x16 1317                                   BlockMinMax 708
+Average8x8 1317                                     border types 435
+AVS Decoder functions                               borders 435
+   FilterDeblockingChroma_HorEdge_AVS 1698          borders, in neighborhood operations 434, 445, 447, 468
+   FilterDeblockingChroma_VerEdge_AVS 1696          BoundSegments 1069
+   FilterDeblockingLuma_HorEdge_AVS 1694
+   FilterDeblockingLuma_VerEdge_AVS 1693
+   InterpolateLumaBlock_AVS 1685                    C
+   ReconstructChromaInter_AVS 1692
+                                                    CABACEncodeBin_H264 1673
+   ReconstructChromaIntra_AVS 1690
+                                                    CABACEncodeBinBypass_H264 1674
+   ReconstructLumaInter_AVS 1689
+                                                    CABACEncodeResidualBlock_H264 1676
+   ReconstructLumaIntra_AVS 1688
+                                                    CABACFree_H264 1671
+   WeightPrediction_AVS 1687
+                                                    CABACGetContexts_H264 1668
+AVS Encoder functions
+                                                    CABACGetSize_H264 1668
+   DisassembleChroma420Intra_AVS 1703
+                                                    CABACGetStreamSize_H264 1673
+   DisassembleLumaIntra_AVS 1701
+                                                    CABACInit_H264 1669
+   TransformQuant8x8Fwd_AVS 1700
+                                                    CABACInitAlloc_H264 1670
+B                                                   CABACSetStream_H264 1672
+                                                    CABACTerminateSlice_H264 1675
+BGR555ToYCbCr_JPEG 1114                             CalcGlobalMV_MPEG4 1480
+
+                                                                                               1773
+---------------------Page 1774---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+camera calibration and 3D reconstruction 1093         CompareEqualEpsC 382
+Canny 981                                             CompColorKey 335
+CannyBorder 979                                       Complement 139
+CannyBorderGetSize 978                                compressed macroblock 1430
+CannyGetSize 980                                      compressed segment 1430
+CbYCr422ToBGR 228                                     ComputeThreshold_Otsu 375
+CbYCr422ToBGR_709HDTV 229                             Conv 513
+CbYCr422ToRGB 226                                     conversion functions, for JPEG codec 1176
+CbYCr422ToYCbCr411 309                                Convert 30
+CbYCr422ToYCbCr420 306                                ConvFull 518
+CbYCr422ToYCbCr420_Interlace 307                      ConvGetBufferSize 512
+CbYCr422ToYCbCr420_Rotate 1377                        ConvValid 521
+CbYCr422ToYCbCr422 305                                Copy 42
+CbYCr422ToYCrCb420 308                                Copy16x16 1312
+CFAToRGB 291                                          Copy16x16HP 1313
+ChangeSpriteBrightness_MPEG4 1481                     Copy16x16QP_MPEG4 1474
+chromaticity coordinates 172                          Copy16x8HP 1313
+chromaticity diagram 172                              Copy16x8QP_MPEG4 1474
+CIE Lab color model 172                               Copy8x4HP 1313
+CIE LUV color model 172                               Copy8x8 1312
+CIE XYZ color model 172                               Copy8x8HP 1313
+CMYK color model 172                                  Copy8x8QP_MPEG4 1474
+CMYKToYCCK_JPEG 1124                                  CopyConstBorder 46
+CMYKToYCCK411LS_MCU 1138                              CopyManaged 45
+CMYKToYCCK422LS_MCU 1137                              CopyReplicateBorder 49
+CMYKToYCCK444LS_MCU 1136                              CopySubpix 55
+color conversion functions                            CopySubpixIntersect 56
+   between RGB and HLS 271                            CopyWrapBorder 52
+   between RGB and HSV 275                            correction of camera lens distortion
+   between RGB and Lab 266                                CreateMapCameraUndistort 1095
+   between RGB and LUV 263                                UndistortGetSize 1093
+   between RGB and XYZ 261                                UndistortRadial 1094
+   between RGB and YCbCr 206                          CountInRange 706
+   between RGB and YCbCr422 215                       CountZeros8x8 1461
+   between RGB and YCC 269                            CplxExtendToPack 665
+   between RGB and YCoCg 277                          CreateMapCameraUndistort 1095
+   between RGB and YCoCg-R 282                        CrossCorrFull_Norm 786
+   between RGB and YUV 188                            CrossCorrFull_NormLevel 797
+   between RGB and YUV420 195                         CrossCorrNorm 783
+   between RGB and YUV422 191                         CrossCorrNormGetBufferSize 782
+   color to gray scale 288                            CrossCorrSame_Norm 789
+   color twist 330, 331                               CrossCorrValid 795
+   gamma correction 338                               CrossCorrValid_Norm 792
+color conversion functions, combined, for JPEG codec 1126  CrossCorrValid_NormLevel 803
+color conversion functions, for JPEG codec 1106
+color gamut 172
+color median filter 477                               D
+color spaces
+   CIE Lab 172                                        data exchange functions
+   CIE LUV 172                                            adding Gaussian noise 66
+   CIE XYZ 172                                            adding uniform noise 65
+   CMYK 172                                               copying 42
+   HLS 172                                                copying between images 45
+   HSV 172                                                copying between images, adding border pixels 46, 52
+   Photo YCC 172                                          copying between images, replicated border 49
+   RGB 172                                                copying between images, subpixel precision 55
+   YCbCr 172                                              copying intersection values, subpixel precision 56
+   YCCK 172                                               duplicating gray scale image 59
+   YCoCg 172                                              initializing 39
+   YCoCg-R 172                                            swap channels 62
+   YUV 172                                                transpose image 60
+ColorToGray 289                                       data types 7
+ColorTwist 331                                        DCT block 1430
+ColorTwist32f 332                                     DCT2x4x8Frw 1459
+combined quantization, DCT, and level shift functions, forDCT2x4x8Inv 1455
+       JPEG codec 1154                                DCT8x4x2To4x4Inv_DV 1457
+Compare 378                                           DCT8x8Fwd 678
+compare functions 377                                 DCT8x8Fwd_8u16s_C2P2 1426
+CompareC 379                                          DCT8x8FwdLS 681
+CompareEqualEps 381                                   DCT8x8Inv 680
+                                                      DCT8x8Inv_2x2 683
+
+  1774
+---------------------Page 1775---------------------
+
+                                                                                                    Index
+
+DCT8x8Inv_4x4 683                                     DecodeLumaBlockIntra_AVS 1683
+DCT8x8Inv_A10 680                                     DeconvFFT 526
+DCT8x8Inv_AANTransposed_16s_C1R 1416                  DeconvFFTFree 525
+DCT8x8Inv_AANTransposed_16s_P2C2R 1418                DeconvFFTInitAlloc 525
+DCT8x8Inv_AANTransposed_16s8u_C1R 1417                DeconvLR 528
+DCT8x8Inv_AANTransposed_16s8u_P2C2R 1419              DeconvLRFree 528
+DCT8x8InvLSClip 682                                   DeconvLRInitAlloc 527
+DCT8x8InvOrSet 1420                                   deconvolution functions
+DCT8x8To2x2Inv 684                                       DeconvFFT 526
+DCT8x8To4x4Inv 684                                       DeconvFFTFree 525
+DCTFwd 675                                               DeconvFFTInitAlloc 525
+DCTFwdFree 672                                           DeconvLR 528
+DCTFwdGetBufSize 674                                     DeconvLRFree 528
+DCTFwdInitAlloc 671                                      DeconvLRInitAlloc 527
+DCTInv 677                                            defining anchor position 21
+DCTInvFree 673                                        deinterlace filtering functions
+DCTInvGetBufSize 675                                     YCbCr420ToYCrCb420_Filter 318
+DCTInvInitAlloc 672                                   DeinterlaceBlend 1393
+DCTQuantFwd8x8_JPEG 1154                              DeinterlaceBlendFree 1395
+DCTQuantFwd8x8LS_JPEG 1155                            DeinterlaceBlendGetSize 1389
+DCTQuantInv8x8_JPEG 1158                              DeinterlaceBlendInit 1390
+DCTQuantInv8x8LS_1x1_JPEG 1159                        DeinterlaceBlendInitAlloc 1392
+DCTQuantInv8x8LS_2x2_JPEG 1159                        DeinterlaceEdgeDetect 1386
+DCTQuantInv8x8LS_4x4_JPEG 1159                        DeinterlaceFilterCAVT 1383
+DCTQuantInv8x8LS_JPEG 1158                            DeinterlaceFilterTriangle 1382
+DCTQuantInv8x8To2x2LS_JPEG 1160                       DeinterlaceMedianThreshold 1385
+DCTQuantInv8x8To4x4LS_JPEG 1160                       DeinterlaceMotionAdaptive 1387
+DecimateFilterColumn 465                              deinterlacing 1382
+DecimateFilterRow 465                                 DemosaicAHD 292
+DecodeCAVLCChroma422DcCoeffs_H264 1548                denoising functions
+DecodeCAVLCChromaDcCoeffs_H264 1548                      DeinterlaceBlendFree 1395
+DecodeCAVLCCoeffs_H264 1545                              DeinterlaceBlendGetSize 1389
+DecodeCAVLCCoeffsIdxs_H264 1547                          DeinterlaceBlendInit 1390
+DecodeCBProgrAttach_JPEG2K 1247                          DeinterlaceBlendInitAlloc 1392
+DecodeCBProgrFree_JPEG2K 1247                            FilterDenoiseAdaptive 1401
+DecodeCBProgrGetStateSize 1245                           FilterDenoiseAdaptiveFree 1400
+DecodeCBProgrInit_JPEG2K 1246                            FilterDenoiseAdaptiveInitAlloc 1399
+DecodeCBProgrInitAlloc_JPEG2K 1246                       FilterDenoiseCAST 1397
+DecodeChromaBlock_AVS 1684                               FilterDenoiseCASTInit 1396
+DecodeCodeBlock_JPEG2K 1244                              FilterDenoiseMosquito 1404
+DecodeCoeffsInter_H261 1503                              FilterDenoiseMosquitoFree 1404
+DecodeCoeffsInter_MPEG4 1487                             FilterDenoiseMosquitoInitAlloc 1403
+DecodeCoeffsInterRVLCBack_MPEG4 1489                     FilterDenoiseSmooth 1398
+DecodeCoeffsIntra_H261 1502                           dequantization, of the DCT coefficients 1153
+DecodeCoeffsIntra_H263 1514                           DequantTransformResidual_H264 1553
+DecodeCoeffsIntra_MPEG4 1485                          DequantTransformResidual_SISP_H264 1557
+DecodeCoeffsIntraRVLCBack_MPEG4 1486                  DequantTransformResidualAndAdd_H264 1554
+DecodeDCIntra_H263 1513                               descriptors 9
+DecodeDCIntra_MPEG4 1484                              DFTFree 646
+DecodeExpGolombOne_H264 1550                          DFTFwd 648
+DecodeGetBufSize_JPEG2K 1243                          DFTGetBufSize 647
+DecodeHuffman8x8_ACFirst_JPEG 1202                    DFTGetSize 642
+DecodeHuffman8x8_ACRefine_JPEG 1203                   DFTInit 643
+DecodeHuffman8x8_DCFirst_JPEG 1200                    DFTInitAlloc 645
+DecodeHuffman8x8_DCRefine_JPEG 1201                   DFTInv 650
+DecodeHuffman8x8_Direct_JPEG 1199                     DiffPredFirstRow_JPEG 1204
+DecodeHuffman8x8_JPEG 1198                            DiffPredRow_JPEG 1206
+DecodeHuffmanOne 1283                                 Dilate 391
+DecodeHuffmanOne_JPEG 1210                            Dilate3x3 388
+DecodeHuffmanPair 1284                                DilateBorder 392
+DecodeHuffmanRow_JPEG 1213                            DilateBorderReplicate 404
+DecodeHuffmanSpecFree_JPEG 1195                       DisassembleChroma420Intra_AVS 1703
+DecodeHuffmanSpecGetBufSize_JPEG 1193                 DisassembleLumaIntra_AVS 1701
+DecodeHuffmanSpecInit_JPEG 1193                       Distance transform 997
+DecodeHuffmanSpecInitAlloc_JPEG 1194                  DistanceTransform 997
+DecodeHuffmanStateFree_JPEG 1197                      Div 115
+DecodeHuffmanStateGetBufSize_JPEG 1195                Div_Round 119
+DecodeHuffmanStateInit_JPEG 1196                      DivC 121
+DecodeHuffmanStateInitAlloc_JPEG 1197                 DotProd 140
+DecodeLumaBlockInter_AVS 1683                         DotProdCol 142
+
+                                                                                                  1775
+---------------------Page 1776---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+DownsampleFour_H263 1524                                   CannyBorderGetSize 978
+DownsampleFour16x16_H263 1539                              CannyGetSize 980
+downsampling, image 182                                    EigenValsVecs 984
+Dup 59                                                     EigenValsVecsGetBufferSize 983
+DV 1430                                                    HarrisCorner 973
+DV decoder functions                                       HarrisCornerGetBufferSize 972
+   inverse discrete cosine transformation 1455, 1457       MinEigenVal 988
+   inverse quantization 1446, 1447, 1452                   MinEigenValGetBufferSize 987
+   variable length decoding 1435, 1439, 1443–1445      FFTFree 632
+DV encoder functions                                   FFTFwd 633
+   color conversion 1462–1467, 1469, 1470              FFTGetBufSize 632
+   discrete cosine transformation 1459, 1461           FFTGetSize 628
+                                                       FFTInit 629
+                                                       FFTInitAlloc 631
+E                                                      FFTInv 637
+                                                       FillterScharrHorizGetBufferSize 596
+EdgesDetect16x16 1346                                  Filter 484
+EigenValsVecs 984                                      Filter_Round16s 490
+EigenValsVecsGetBufferSize 983                         Filter_Round32f 490
+EncodeChromaDcCoeffsCAVLC_H264_16s 1666                Filter_Round32s 490
+EncodeCoeffsCAVLC_H264_16s 1662                        Filter32f 488
+    printf(" x = %.3f %.3f %.3f %.3f \n", x[0], x[1], x[2], x[3]);
+    printf(" y1 = %.3f %.3f %.3f %.3f \n", y1[0], y1[1], y1[2], y1[3]);
+    printf(" y2 = %.3f %.3f %.3f %.3f \n", y2[0], y2[1], y2[2], y2[3]);
+}
+
+Output results:
+qplsRint_32f:
+x = -1.883 -0.265 0.176 1.752
+y1 = -2.000  0.000 0.000 2.000
+y2 = -1.000  0.000 0.000 1.000
+
+Modf
+Computes truncated integer value and remaining
+fraction part for each vector element.
+
+Syntax
+QplStatus qplsModf_32f (const Qpl32f* pSrc, Qpl32f* pDst1, Qpl32f* pDst2, Qpl32s len       );
+QplStatus qplsModf_64f (const Qpl64f* pSrc, Qpl64f* pDst1, Qpl64f* pDst2, Qpl32s len       );
+
+Include Files
+qplvm.h
+
+Domain Dependencies
+Headers: qplcore.h
+Libraries: qplcore.lib
+
+  1058
+---------------------Page 1059---------------------
+
+                                                           Fixed-Accuracy Arithmetic Functions  12 
+
+Parameters
+
+pSrc                         Pointer to the source vector.
+
+pDst1                        Pointer to the first destination vector.
+
+pDst2                        Pointer to the second destination vector.
+
+len                          Number of elements in the vectors.
+
+Description
+This function computes a truncated value and a remainder of each element of the vector pSrc. The truncated
+integer value is stored in the corresponding element of the pDst1 vector and the remainder is stored in the
+corresponding element of the pDst2 vector.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error when pSrc  or pDst1 or pDst2 pointer is NULL.
+
+qplStsSizeErr                     Indicates an error when len  is less than or equal to 0.
+
+Example
+The example below shows how to use the function qplsModf.
+QplStatus qplsModf_32f_sample(void)
+{
+    const Qpl32f x[4] = {-1.883, -0.265, 0.176, 1.752};
+    Qpl32f y1[4], y2[4];
+    QplStatus st = qplsModf_32f ( x, y1, y2, 4 );
+    printf(" qplsModf_32f:\n");
+    printf(" x = %.3f %.3f %.3f %.3f \n", x[0], x[1], x[2], x[3]);
+    printf(" y1 = %.3f %.3f %.3f %.3f \n", y1[0], y1[1], y1[2], y1[3]);
+    printf(" y2 = %.3f %.3f %.3f %.3f \n", y2[0], y2[1], y2[2], y2[3]);
+    return st;
+}
+
+Output results:
+qplsModf_32f:
+x = -1.883 -0.265 0.176 1.752
+y1 = -1.000 0.000 0.000 1.000
+y2 = -0.883 -0.265 0.176 0.752
+
+                                                                                           1059
+---------------------Page 1060---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+Data Compression Functions                                                           13
+
+This chapter describes the Intel® QPL functions for data compression that support a number of different
+compression methods: Huffman and variable-length coding, dictionary-based coding methods (including
+support of ZLIB compression), and methods based on Burrows-Wheeler Transform.
+
+Application Notes
+
+• The functions in this domain can be divided into two types: the functions that actually compress data, and
+  transformation functions. The latters do not compress data but only modify them and prepare for further
+  compression. The examples of such transformation are the Burrows-Weller Transform, or MoveToFront
+  algorithm. To do data compression efficient, you should develop the proper consequence of functions of
+  different type that will transform data and then compress them.
+• Compression ratio depends on the statistics of input data. For some types of input data no compression
+  could be achieved at all.
+• The size of memory required for the output of data compression functions typically is not obvious. As a
+  rule encoding functions uses less memory for output than the size of the input buffer, on the contrary
+  decoding functions use more memory for output than the size of the input buffer. You should account
+  these issues and allocate the proper quantity of output memory using the techniques provided by
+  functions in this domain. For example, you can use a double-pointer technique for automatic shifting the
+  user submitted pointer. For some other functions it is possible to compute the upper limit of the size of
+  the required output buffer.
+
+VLC and Huffman Coding Functions
+This section describes the Intel QPL functions for Huffman and variable-length coding.
+
+Data Compression VLC functions
+Variable length coding (VLC) is a data compression method that uses statistical modeling to define which
+values occur more frequently than others to build tables for subsequent encoding and decoding operations.
+Data in the bitstream is encoded with VLC table so that the shortest codes correspond to the most frequent
+values and the longer codes correspond to the less frequent values. Intel QPL functions use the structure
+QplsVLCTable   for storing the VLC table:
+struct VLCTable_32s {
+       Qpl32s    value,       Qpl32s    code,       Qpl32s    length;
+  } 
+ typedef struct VLCTable_32s QplsVLCTable_32s 
+Here
+value - the current code,
+code - the actual bit code for the value,
+length  - the bit length of the value.
+The value can be both positive and negative. The code denotes the length least significant bits in binary
+representation of the code value. Thus, valid lengths are within the range of 0 to 32. Note that you are
+responsible for specifying correct tables with prefix codes for values specified in the value field of the
+QplsVLCTable   structure.
+
+  1060
+---------------------Page 1061---------------------
+
+                                                                 Data Compression Functions  13   
+
+VLCEncodeInitAlloc
+DEPRECATED. Allocates memory and initializes the
+VLC encoder structure.
+
+Syntax
+QplStatus qplsVLCEncodeInitAlloc_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, QplsVLCEncodeSpec_32s** ppVLCSpec     );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pInputTable                  Pointer to the VLC table.
+
+inputTableSize               Size of the VLC table.
+
+ppVLCSpec                    Double pointer to the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeInitAlloc  is deprecated. This function is obsolete and will be removed in a
+future release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-
+features-feedback/.
+This function allocates memory and initializes the VLC encoder specification structure ppVLCSpec that uses
+the VLC table pInputTable. The VLC encoder specification structure is used by the functions 
+VLCEncodeBlock and VLCEncodeOne.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error if one of the specified pointers is NULL.
+
+qplStsMemAllocErr                 Indicates an error if memory allocation fails.
+
+qplStsVLCInputDataErr             Indicates an error if inputTableSize is less than or equal to 0.
+
+VLCEncodeFree
+DEPRECATED. Frees memory allocated for the VLC
+encoder structure.
+
+Syntax
+void qplsVLCEncodeFree_32s (QplsVLCEncodeSpec_32s* pVLCSpec       );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h
+
+                                                                                           1061
+---------------------Page 1062---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+Libraries: qplcore.lib, qplvm.lib , qpls.lib
+
+Parameters
+
+pVLCSpec                      Pointer to the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeFree   is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function frees memory allocated for the VLC encode structure by the function VLCEncodeInitAlloc.
+
+VLCEncodeInit
+DEPRECATED. Initializes the VLC encoder structure.
+
+Syntax
+QplStatus qplsVLCEncodeInit_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, QplsVLCEncodeSpec_32s* pVLCSpec        );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib
+
+Parameters
+
+pInputTable                   Pointer to the VLC table
+
+inputTableSize                Size of the VLC table
+
+pVLCSpec                      Pointer to the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeInit   is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function initializes in the external buffer the VLC encoder specification structure pVLCSpec that uses the
+VLC table pInputTable . The size of the external buffer should be computed previously by calling the
+function VLCEncodeGetSize. Alternatively, the VLC encoder structure can be initialized by the function 
+VLCEncodeInitAlloc.
+The VLC encoder specification structure is used by the functions VLCEncodeBlock and VLCEncodeOne.
+
+      NOTE
+      The parameters pInputTable   and inputTableSize   of the qplsVLCEncodeInit   and 
+      VLCEncodeGetSize functions must have equal respective values to avoid an error in subsequent
+      encoding functions.
+
+  1062
+---------------------Page 1063---------------------
+
+                                                                 Data Compression Functions  13   
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr             Indicates an error if inputTableSize is less than or equal to 0.
+
+VLCEncodeGetSize
+DEPRECATED. Computes the size of the VLC encoder
+structure.
+
+Syntax
+QplStatus qplsVLCEncodeGetSize_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, Qpl32s* pSize   );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pInputTable                  Pointer to the VLC table
+
+inputTableSize               Size of the input table
+
+pSize                        Pointer to the size of the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeGetSize  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function computes the size of the VLC encoder structure that uses the VLC table pInputTable. Its size
+is stored in the pSize. This function should be called prior to the function VLCEncodeInit.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr             Indicates an error if inputTableSize is less than or equal to 0.
+
+VLCEncodeBlock
+DEPRECATED. Performs VLC encoding of a block of
+data.
+
+Syntax
+QplStatus qplsVLCEncodeBlock_16s1u (const Qpl16s* pSrc, int srcLen, Qpl8u** ppDst, int*
+pDstBitsOffset, const QplsVLCEncodeSpec_32s* pVLCSpec      );
+
+                                                                                           1063
+---------------------Page 1064---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pSrc                          Pointer to the source buffer.
+
+srcLen                        Number of elements in the   pSrc .
+
+ppDst                         Double pointer to the destination bitstream.
+
+pDstBitsOffset                Pointer to the input/output bit position in the pDst.
+
+pVLCSpec                      Pointer to the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeBlock  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function encodes srcLen elements of the source vector pSrc and stores the result in the destination
+buffer pDst. After encoding the function shifts the pDst pointer by the number of successfully written bytes.
+The function updates pDstBitsOffset  setting it to the actual bit position in the destination buffer.
+The qplsVLCEncodeBlock   function uses the VLC table from the encoder specification structure pVLCSpec
+that must be initialized by the functions VLCEncodeInitAlloc or VLCEncodeInit beforehand.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr              Indicates an error if incorrect input is used.
+
+VLCEncodeOne
+DEPRECATED. Performs VLC encoding of a single
+element.
+
+Syntax
+QplStatus qplsVLCEncodeOne_16s1u (Qpl16s src, Qpl8u** ppDst, int* pDstBitsOffset, const
+QplsVLCEncodeSpec_32s* pVLCSpec    );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+  1064
+---------------------Page 1065---------------------
+
+                                                                   Data Compression Functions  13   
+
+Parameters
+
+src                           Source value.
+
+ppDst                         Double pointer to the destination bitstream.
+
+pDstBitsOffset                Pointer to the input/output bit position in the pDst.
+
+pVLCSpec                      Pointer to the VLC encoder specification structure.
+
+Description
+The function qplsVLCEncodeOne  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function encodes a single element src and stores the result in the destination buffer pDst. After
+encoding the function shifts the pDst pointer by the number of successfully written bytes. The function
+updates pDstBitsOffset  setting it to the actual bit position in the destination buffer.
+The function qplsVLCEncodeOne  uses the VLC table from the encoder specification structure pVLCSpec that
+must be initialized by the functions VLCEncodeInitAlloc or VLCEncodeInit beforehand.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr              Indicates an error if incorrect input is used.
+
+VLCCountBits
+DEPRECATED. Computes a number of bits required to
+encode the source block.
+
+Syntax
+QplStatus qplsVLCCountBits_16s32s (const Qpl16s* pSrc, int srcLen, Qpl32s* pCountBits,
+const QplsVLCEncodeSpec_32s* pVLCSpec     );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pSrc                          Pointer to the source buffer.
+
+srcLen                        Number of elements in the   pSrc.
+
+pCounBits                     Pointer to the computed length in bits required to encode  pSrc.
+
+pVLCSpec                      Pointer to the VLC encoder specification structure.
+
+                                                                                             1065
+---------------------Page 1066---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+Description
+The function qplsVLCCountBits  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function computes a number of bits required to encode the source data pSrc using the VLC table from
+the encoder specification structure pVLCSpec that must be initialized by the functions VLCEncodeInitAlloc or 
+VLCEncodeInit beforehand.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+VLCDecodeInitAlloc
+DEPRECATED. Allocates memory and initializes the
+VLC decoder structure.
+
+Syntax
+QplStatus qplsVLCDecodeInitAlloc_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, Qpl32s* pSubTablesSizes, int numSubTables, QplsVLCDecodeSpec_32s**
+ppVLCSpec );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h , qpls.h
+Libraries: qplcore.lib, qplvm.lib , qpls.lib
+
+Parameters
+
+pInputTable                   Pointer to the VLC table.
+
+inputTableSize                Size of the VLC table.
+
+pSubTablesSizes               Pointer to the sizes of the subtables.
+
+numSubTables                  Number of the subtables.
+
+ppVLCSpec                     Double pointer to the VLC decoder specification structure.
+
+Description
+The function qplsVLCDecodeInitAlloc   is deprecated. This function is obsolete and will be removed in a
+future release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-
+features-feedback/.
+This function allocates memory and initializes the VLC decoder structure ppVLCSpec that is specified by the
+following parameters: the VLC table pInputTable of size inputTableSize, the number of internal
+subtables numSubTables  and their sizes pSubTablesSizes. Size values for the subtables must be greater
+than 0. The sum of these values must be greater than or preferably equal to the maximum code length in the
+VLC table.
+The VLC decoder specification structure is used by the functions VLCDecodeBlock and iVLCDecodeOne.
+
+  1066
+---------------------Page 1067---------------------
+
+                                                                Data Compression Functions  13   
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error if one of the specified pointers is NULL.
+
+qplStsMemAllocErr                 Indicates an error if memory allocation fails.
+
+qplStsVLCUsrTblCodeLengthErr      Indicates an error if the maximum code length in the input
+                                  table exceeds 32; or if any size value for the subtables in
+                                  pSubTablesSizes  is less than 0; or if the sum of these values is
+                                  less than the maximum code length in the input table.
+
+VLCDecodeFree
+DEPRECATED. Frees memory allocated for the VLC
+decoder structure.
+
+Syntax
+void qplsVLCDecodeFree_32s (QplsVLCDecodeSpec_32s* pVLCSpec      );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pVLCSpec                     Pointer to the VLC decoder specification structure.
+
+Description
+The function qplsVLCDecodeFree is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function frees memory allocated for the VLC decoder structure by the function VLCDecodeInitAlloc.
+
+VLCDecodeInit
+DEPRECATED. Initializes the VLC decoder structure.
+
+Syntax
+QplStatus qplsVLCDecodeInit_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, Qpl32s* pSubTablesSizes, int numSubTables, QplsVLCDecodeSpec_32s*
+pVLCSpec);
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h, qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+                                                                                          1067
+---------------------Page 1068---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+Parameters
+
+pInputTable                   Pointer to the VLC table.
+
+inputTableSize                Size of the VLC table.
+
+pSubTablesSizes               Pointer to the sizes of the subtables.
+
+numSubTables                  Number of the subtables.
+
+pVLCSpec                      Pointer to the VLC decoder specification structure.
+
+Description
+The function qplsVLCDecodeInit  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function initializes in the external buffer the VLC decoder structure pVLCSpec that is specified by the
+following parameters: the VLC table pInputTable of size inputTableSize, the number of internal
+subtables numSubTables  and their sizes pSubTablesSizes. Size values for the subtables must be greater
+than 0. The sum of these values must be greater than or preferably equal to the maximum code length in the
+VLC table. The size of the external buffer must be computed previously by calling the function 
+VLCDecodeGetSize. Alternatively, the VLC decoder structure can be initialized by the function 
+VLCDecodeInitAlloc.
+The VLC decoder specification structure is used by the functions VLCDecodeBlock and VLCDecodeOne.
+
+      NOTE
+      The parameters pInputTable  and inputTableSize   of the qplsVLCDecodeInit  and 
+      VLCDecodeGetSize functions must have equal respective values to avoid an error in subsequent
+      decoding fu
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCUsrTblCodeLengthErr       Indicates an error if the maximum code length in the input
+                                   table exceeds 32; or if any size value for the subtables in
+                                   pSubTablesSizes   is less than 1; or if the sum of these values is
+                                   less than the maximum code length in the input table.
+
+VLCDecodeGetSize
+DEPRECATED. Computes the size of the VLC decoder
+structure.
+
+Syntax
+QplStatus qplsVLCDecodeGetSize_32s (const QplsVLCTable_32s* pInputTable, int
+inputTableSize, Qpl32s* pSubTablesSizes, int numSubTables, Qpl32s* pSize          );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+
+  1068
+---------------------Page 1069---------------------
+
+                                                                  Data Compression Functions  13   
+
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+pInputTable                  Pointer to the input table.
+
+inputTableSize               Size of the input table.
+
+pSubTablesSizes              Pointer to the sizes of the subtables.
+
+numSubTables                 Number of the subtables.
+
+pVLCSpec                     Pointer to the size of the VLC decoder specification structure.
+
+Description
+The function qplsVLCDecodeGetSize  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function computes the size of the VLC decoder structure ppVLCSpec that is specified by the following
+parameters: the VLC table pInputTable of size inputTableSize, the number of internal subtables
+numSubTables  and their sizes pSubTablesSizes. Size values for the subtables must be greater than 0. The
+sum of these values must be greater than or preferably equal to the maximum code length in the VLC table.
+This function must be called prior to the function VLCDecodeInit.
+
+Return Values
+
+qplStsNoErr                       Indicates no error.
+
+qplStsNullPtrErr                  Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCUsrTblCodeLengthErr      Indicates an error if the maximum code length in the input
+                                  table exceeds 32; or if any size value for the subtables in
+                                  pSubTablesSizes   is less than 0; or if the sum of these values is
+                                  less than the maximum code length in the input table.
+
+VLCDecodeBlock
+DEPRECATED. Decodes a block of VLC encoded data.
+
+Syntax
+QplStatus qplsVLCDecodeBlock_1u16s (const Qpl8u** ppSrc, int* pSrcBitsOffset, Qpl16s*
+pDst, int dstLen, const QplsVLCDecodeSpec_32s* pVLCSpec       );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+ppSrc                        Double pointer to the source bitstream.
+
+pSrcBitsOffset               Pointer to the input/output bit position.
+
+pDst                         Pointer to the destination buffer.
+
+                                                                                            1069
+---------------------Page 1070---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+dstLen                        Number of elements in the   pDst.
+
+pVLCSpec                      Pointer to the VLC decoder specification structure.
+
+Description
+The function qplsVLCDecodeBlock  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function decodes dstLen VLC encoded elements in the source bitstream starting from the
+pSrcBitsOffset   bit position. The function stores the result in the destination buffer pDst. After decoding
+the function shifts the source pointer by the number of successfully read and processed bytes. The function
+updates pSrcBitsOffset   setting it to the actual bit position in the source buffer.
+The function qplsVLCDecodeBlock  uses the VLC table from the decoder specification structure pVLCSpec
+that must be initialized by the functions VLCDecodeInitAlloc or VLCDecodeInit beforehand.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr              Indicates an error if incorrect input is used. It can indicate that
+                                   bitstream contains code that is not specified in the table.
+qplStsBitOffsetErr                 Indicates an error if value of the pSrcBitsOffset  is less than 0
+                                   or greater than 7.
+qplStsContextMatchErr              Indicates an error if the pVLCSpec structure is not initialized by
+                                   the function qplsVLCDecodeInitAlloc    or qplsVLCDecodeInit.
+
+VLCDecodeOne
+DEPRECATED. Decodes a single VLC encoded element.
+
+Syntax
+QplStatus qplsVLCDecodeOne_1u16s (const Qpl8u** ppSrc, int* pSrcBitsOffset, Qpl16s*
+pDst, const QplsVLCDecodeSpec_32s* pVLCSpec      );
+
+Include Files
+qplac.h
+
+Domain Dependencies
+Headers: qplcore.h , qplvm.h, qpls.h
+Libraries: qplcore.lib, qplvm.lib, qpls.lib
+
+Parameters
+
+ppSrc                         Double pointer to the source bitstream.
+
+pSrcBitsOffset                Pointer to the input/output bit position.
+
+pDst                          Pointer to the decoded value.
+
+pVLCSpec                      Pointer to the VLC decoder specification structure.
+
+  1070
+---------------------Page 1071---------------------
+
+                                                                    Data Compression Functions  13    
+
+Description
+The function qplsVLCDecodeOne  is deprecated. This function is obsolete and will be removed in a future
+release. Use the following link for details: http://software.intel.com/sites/products/qpl-deprecated-features-
+feedback/.
+This function decodes a single VLC encoded element in the ppSrc on position pSrcBitsOffset. The decoded
+element is stored in the destination buffer pDst.
+After decoding the function shifts the source pointer by the number of successfully read and processed bytes.
+The function updates pSrcBitsOffset  setting it to the actual bit position in the source buffer.
+The function qplsVLCDecodeOne  uses the VLC table from the decoder specification structure pVLCSpec that
+must be initialized by the functions VLCDecodeInitAlloc or VLCDecodeInit beforehand.
+
+Return Values
+
+qplStsNoErr                        Indicates no error.
+
+qplStsNullPtrErr                   Indicates an error if one of the specified pointers is NULL.
+
+qplStsVLCInputDataErr              Indicates an error if incorrect input is used. For decoding
+                                   functions it can indicate that bitstream contains code that is
+                                   not specified in the table.
+qplStsBitOffsetErr                 Indicates an error if value of the pSrcBitsOffset   is less than 0
+                                   or greater than 7.
+qplStsContextMatchErr              Indicates an error if the pVLCSpec  structure is not initialized by
+                                   the function qplsVLCDecodeInitAlloc     or qplsVLCDecodeInit  .
+
+Example of Using VLC Coding Functions
+The functions qplsVLCCountBits  and qplsVLCEncodeBlock    can be simply used in the wide range of
+different encoders (for example, for audio data). For example, if you need to quantize some vectors and
+encode them using no more bits than specified, these functions can be used as follows:
+• previously the table inputTable of the size inputTableSize must be created; this table is of the
+  following format:
+static QplsVLCTable_32s inputTable[]=
+{
+{value0, code0, length0};
+{value1, code1, length1};
+...
+{valueN, codeN, lengthN};
+}
+
+• initialization step:
+qplsVLCEncodeGetSize_32s(InputTable, inputTableSize, &Size);
+pVLCSpec = qplsMalloc_8u(Size); /* memory allocation */
+qplsVLCEncodeInit_32s(pInputTable, inputTableSize, pVLCSpec);
+...
+
+                                                                                              1071
+---------------------Page 1072---------------------
+
+ 13      Intel® Query Processing Library Reference Manual, Volume 1: Signal Processing
+
+• counting bits step:
+Do {
+//A some quantization algorithm should be here. Let pSrc is output of this algorithm.
+... 
+qplsVLCCountBits_16s32s(pSrc, srcLen, &bitNumber, pVLCSpec);
+} while (bitNumber > allowedBitNumber);
+
+• encoding bit stream step:
+qplsVLCEncodeBlock_16s1u (pSrc, srcLen, ppBitStream, pBitStreamBitsOffset, pVLCSpec);
+
+VLCDecodeUTupleInitAlloc
+DEPRECATED. Allocates memory and initializes the
+VLCDecodeUTuple structure based on the input
+parameters.
+
+Syntax
+QplStatus qplsVLCDecodeUTupleInitAlloc_32s(const QplsVLCTable_32s* pInputTable, int
+inputTableSize, Qpl32s* pSubTablesSizes, int numSubTables, int numElements, int
+numValueBit, QplsVLCD

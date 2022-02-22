@@ -1,0 +1,382 @@
+The code example below shows how to use qpliTransform8x8Inv_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QpliSize dstSizeNZ = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform8x8Inv_VC1_16s_C1IR(pSrcDstData, srcDstStep, dstSizeNZ);
+/*
+Performs inverse transform of 8x8 inter block with 8x8 transformation type or
+
+                                                                                         1711
+---------------------Page 1712---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+8x8 intra block in accordance with Annex A "Transform Specification"  SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform8x8Inv_VC1_16s_C1R  function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array) in bytes*/
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination array)
+in bytes*/
+QpliSize dstSizeNZ = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0 
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform8x8Inv_VC1_16s_C1R( pSrcData, srcStep, pDstData, dstStep,
+dstSizeNZ );
+/*
+Performs inverse transform of 8x8 inter block with 8x8 transformation type or
+8x8 intra block in accordance with Annex A "Transform Specification" SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x8Inv_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes*/
+QpliSize dstSizeNZ[2] = block_size_non_zero;
+/*
+
+  1712
+---------------------Page 1713---------------------
+
+                                                                           Video Coding  16    
+
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform4x8Inv_VC1_16s_C1IR(pSrcDstData,srcDstStep,dstSizeNZ[0]);
+result = qpliTransform4x8Inv_VC1_16s_C1IR(pSrcDstData+4,srcDstStep,
+dstSizeNZ[1]);
+
+/*
+Performs inverse transform of 4x8 subblock in 8x8 inter block with 4x8
+transformation type in accordance with Annex A "Transform Specification"
+SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x8Inv_VC1_16s_C1R function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the range [-512,
+511)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array)
+in bytes*/
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes*/
+QpliSize dstSizeNZ[2] = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+
+                                                                                        1713
+---------------------Page 1714---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform4x8Inv_VC1_16s_C1R( pSrcData, srcStep, pDstData, dstStep,
+dstSizeNZ[0] );
+result = qpliTransform4x8Inv_VC1_16s_C1R( pSrcData+4, srcStep, pDstData+4,
+dstStep, dstSizeNZ[1] );
+
+/*
+Performs inverse transform of 4x8 subblock in 8x8 inter block with 4x8
+transformation type in accordance with Annex A "Transform Specification" SMPTE
+421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform8x4Inv_VC1_16s_C1IR  function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+After transforming all samples of destination block will be in the range [-512,
+511)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QpliSize dstSizeNZ[2] = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform8x4Inv_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+dstSizeNZ[0] );
+result = qpliTransform8x4Inv_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2),
+srcDstStep, dstSizeNZ[1] );
+
+/*
+Performs inverse transform of 8x4 subblock in 8x8 inter block with 8x4
+transformation type in accordance with Annex A "Transform Specification"
+SMPTE 421M
+*/
+
+}
+
+  1714
+---------------------Page 1715---------------------
+
+                                                                           Video Coding  16    
+
+The code example below shows how to use qpliTransform8x4Inv_VC1_16s_C1R function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array) in
+bytes*/
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes*/
+QpliSize dstSizeNZ[2] = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform8x4Inv_VC1_16s_C1R( pSrcData, srcStep, pDstData, dstStep,
+dstSizeNZ[0] );
+result = qpliTransform8x4Inv_VC1_16s_C1R( pSrcData+(srcStep*2), srcStep,
+pDstData+(dstStep*2), dstStep, dstSizeNZ[1] );
+
+/*
+Performs inverse transform of 8x4 subblock in 8x8 inter block with 8x4
+transformation type in accordance with Annex A "Transform Specification"
+SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x4Inv_VC1_16s_C1IR function.
+{
+Qpl16s*  pSrcDstData = pointer_on_source_and_destination_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcDstStep = source_and_destination_step; /* Step of the pointer
+pSrcDstData (source and destination array) in bytes */
+QpliSize dstSizeNZ[4] = block_size_non_zero;
+
+                                                                                        1715
+---------------------Page 1716---------------------
+
+ 16      Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+0  0 0  0 0 0 0 0 
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcDstData is NULL
+*/
+
+result = qpliTransform4x4Inv_VC1_16s_C1IR( pSrcDstData, srcDstStep,
+dstSizeNZ[0] );
+result = qpliTransform4x4Inv_VC1_16s_C1IR( pSrcDstData+4, srcDstStep,
+dstSizeNZ[1] );
+result = qpliTransform4x4Inv_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2),
+srcDstStep, dstSizeNZ[2] );
+result = qpliTransform4x4Inv_VC1_16s_C1IR( pSrcDstData+(srcDstStep*2)+4,
+srcDstStep, dstSizeNZ[3] );
+
+/*
+Performs inverse transform of 4x4 subblock in 8x8 inter block with 4x4
+transformation type in accordance with Annex A "Transform Specification"
+SMPTE 421M
+*/
+
+}
+
+The code example below shows how to use qpliTransform4x4Inv_VC1_16s_C1R  function.
+{
+Qpl16s*  pSrcData = pointer_on_source_block;
+/*
+All samples of source block should be in the range [-2048; 2047)
+*/
+Qpl16s*  pDstData = pointer_on_destination_block;
+/*
+After transforming all samples of destination block will be in the range
+[-512, 511)
+*/
+Qpl32s srcStep = source_step; /* Step of the pointer pSrcData (source array)
+in bytes*/
+Qpl32s dstStep = destination_step; /* Step of the pointer pDstData (destination
+array) in bytes*/
+QpliSize dstSizeNZ[4] = block_size_non_zero;
+/*
+The size of top left subblock with non-zero coefficients. This parameter is used
+by this function for improving performance with the help of "fast" transforming
+algorithms in the case of sizeNZ less than block size. If sizeNZ is equal to
+block size, then "full" transforming algorithm is used.
+Example (8x4 block):
+16 0 0 -3 0 0 0 0
+1  1 0  1 0 0 0 0
+3  0 0  1 0 0 0 0
+
+  1716
+---------------------Page 1717---------------------
+
+                                                                            Video Coding  16    
+
+0  0 0  0 0 0 0 0 
+In this case dstSizeNZ.width=4, dstSizeNZ.height=3
+*/
+
+QplStatus result;
+/*
+qplStsNoErr         Indicates no error
+qplStsNullPtrErr    Indicates an error when pSrcData or pDstData is NULL
+*/
+
+result = qpliTransform4x4Inv_VC1_16s_C1R( pSrcData, srcStep, pDstData, dstStep,
+dstSizeNZ[0] );
+result = qpliTransform4x4Inv_VC1_16s_C1R( pSrcData+4, srcStep, pDstData+4,
+dstStep, dstSizeNZ[1] );
+result = qpliTransform4x4Inv_VC1_16s_C1R( pSrcData+(srcStep*2), srcStep,
+pDstData+(dstStep*2), dstStep,dstSizeNZ[2] );
+result = qpliTransform4x4Inv_VC1_16s_C1R( pSrcData+(srcStep*2)+4, srcStep,
+pD

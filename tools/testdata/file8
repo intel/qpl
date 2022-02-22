@@ -1,0 +1,1568 @@
+EncodeCoeffsCAVLCChromaDC2x2_H264 1665                 Filter8x8_H261 1510
+EncodeCoeffsCAVLCChromaDC2x4_H264 1665                 FilterBilateral 462
+EncodeCoeffsInter_H261 1509                            FilterBilateralBorder 442
+EncodeCoeffsInter_H263 1535                            FilterBilateralBorderGetBufferSize 439
+EncodeCoeffsInter_MPEG4 1499                           FilterBilateralBorderInit 440
+EncodeCoeffsIntra_H261 1508                            FilterBilateralGetBufSize 459
+EncodeCoeffsIntra_H263 1534                            FilterBilateralInit 460
+EncodeCoeffsIntra_MPEG4 1498                           FilterBlockBoundaryHorEdge_H263 1527
+EncodeDCIntra_H263 1533                                FilterBlockBoundaryVerEdge_H263 1527
+EncodeDCIntra_MPEG4 1497                               FilterBorder 481
+EncodeFree_JPEG2K 1237                                 FilterBorderGetSize 479
+EncodeGetDist_JPEG2K 1242                              FilterBorderInit 480
+EncodeGetRate_JPEG2K 1242                              FilterBox 434, 447
+EncodeGetTermPassLen_JPEG2K 1241                       FilterBoxBorder 445
+EncodeHuffman8x8_ACFirst_JPEG 1191                     FilterBoxBorderGetBufferSize 444
+EncodeHuffman8x8_ACRefine_JPEG 1192                    FilterColumn 494
+EncodeHuffman8x8_DCFirst_JPEG 1189                     FilterColumn32f 496
+EncodeHuffman8x8_DCRefine_JPEG 1190                    FilterColumnPipeline 505
+EncodeHuffman8x8_Direct_JPEG 1185                      FilterColumnPipeline_Low 505
+EncodeHuffman8x8_JPEG 1184                             FilterColumnPipelineGetBufferSize 501
+EncodeHuffmanOne_JPEG 1209                             FilterColumnPipelineGetBufferSize_Low 501
+EncodeHuffmanRawTableInit_JPEG 1178                    FilterDeblocking16x16_HorEdge_H263 1529
+EncodeHuffmanRow_JPEG 1211                             FilterDeblocking16x16_VerEdge_H263 1529
+EncodeHuffmanSpecFree_JPEG 1181                        FilterDeblocking8x8HorEdge_H263 1527
+EncodeHuffmanSpecGetBufSize_JPEG 1178                  FilterDeblocking8x8HorEdge_MPEG4 1491
+EncodeHuffmanSpecInit_JPEG 1179                        FilterDeblocking8x8VerEdge_H263 1527
+EncodeHuffmanSpecInitAlloc_JPEG 1180                   FilterDeblocking8x8VerEdge_MPEG4 1491
+EncodeHuffmanStateFree_JPEG 1183                       FilterDeblockingChroma_HorEdge_AVS 1698
+EncodeHuffmanStateGetBufSize_JPEG 1181                 FilterDeblockingChroma_HorEdge_H264 1643
+EncodeHuffmanStateInit_JPEG 1182                       FilterDeblockingChroma_HorEdge_VC1 1736
+EncodeHuffmanStateInitAlloc_JPEG 1182                  FilterDeblockingChroma_VerEdge_AVS 1696
+EncodeInitAlloc_JPEG2K 1236                            FilterDeblockingChroma_VerEdge_H264 1638
+EncodeLoadCodeBlock_JPEG2K 1237                        FilterDeblockingChroma_VerEdge_MBAFF_H264 1641
+EncodeStoreBits_JPEG2K 1240                            FilterDeblockingChroma_VerEdge_VC1 1735
+Enumerators in QPLI 14                                 FilterDeblockingChroma422HorEdge_H264 1643
+Erode 395                                              FilterDeblockingChroma422VerEdge_H264 1638
+Erode3x3 389                                           FilterDeblockingChromaHorEdge_H264 1643
+ErodeBorder 396                                        FilterDeblockingChromaVerEdge_H264 1638
+ErodeBorderReplicate 406                               FilterDeblockingLuma_HorEdge_AVS 1694
+error messages 11                                      FilterDeblockingLuma_HorEdge_H264 1636
+Exp 137                                                FilterDeblockingLuma_HorEdge_VC1 1734
+ExpandPlane_H264 1567                                  FilterDeblockingLuma_VerEdge_AVS 1693
+                                                       FilterDeblockingLuma_VerEdge_H264 1633
+F                                                      FilterDeblockingLuma_VerEdge_MBAFF_H264 1635
+                                                       FilterDeblockingLuma_VerEdge_VC1 1733
+                                                       FilterDenoiseAdaptive 1401
+FastArctan 95
+                                                       FilterDenoiseAdaptiveFree 1400
+feature detection functions
+                                                       FilterDenoiseAdaptiveInitAlloc 1399
+   Canny 981
+                                                       FilterDenoiseCAST 1397
+   CannyBorder 979
+
+  1776
+---------------------Page 1777---------------------
+
+                                                                                                                Index
+
+FilterDenoiseCASTInit 1396                                  FilterRobertsDownBorderGetBufferSize 593
+FilterDenoiseMosquito 1404                                  FilterRobertsUp 548
+FilterDenoiseMosquitoFree 1404                              FilterRobertsUpBorder 590
+FilterDenoiseMosquitoInitAlloc 1403                         FilterRobertsUpBorderGetBufferSize 589
+FilterDenoiseSmooth 1398                                    FilterRoundGetBufSize16s 493
+FilterDeringingSmooth8x8_MPEG4 1492                         FilterRoundGetBufSize32f 493
+FilterDeringingThreshold_MPEG4 1492                         FilterRoundGetBufSize32s 493
+FilterGauss 551                                             FilterRow 497
+FilterGaussBorder 622                                       FilterRow32f 499
+FilterGaussGetBufferSize 604                                FilterRowBorderPipeline 502
+FilterGaussianBorder 561                                    FilterRowBorderPipeline_Low 502
+FilterGaussianGetBufferSize 558                             FilterRowBorderPipelineGetBufferSize 500
+FilterGaussianInit 559                                      FilterRowBorderPipelineGetBufferSize_Low 500
+FilterGetBufSize 487                                        FilterScharrHoriz 534
+FilterHipass 554                                            FilterScharrHorizBorder 606
+filtering functions                                         FilterScharrHorizMaskBorder 576
+    bilateral filter 439, 440, 459                          FilterScharrHorizMaskBorderGetBufferSize 575
+    box filter 434, 445, 447                                FilterScharrVert 536
+    color median filter 477                                 FilterScharrVertBorder 608
+    column filter 494                                       FilterScharrVertGetBufferSize 597
+    decimate filters 465                                    FilterScharrVertMaskBorder 579
+    gaussian filter 559                                     FilterScharrVertMaskBorderGetBufferSize 578
+    Gaussian filter 551, 558                                FilterSharpen 557
+    general rectangular filter 484                          FilterSobel 568
+    highpass filter 554                                     FilterSobelCross 545
+    Laplacian filter 550                                    FilterSobelCrossBorder 618
+    lowpass filter 556                                      FilterSobelCrossGetBufferSize 602
+    max filter border replication 458                       FilterSobelGetBufferSize 567
+    max filter work buffer size 455                         FilterSobelHoriz 537
+    maximum filter 453                                      FilterSobelHorizBorder 572, 610
+    median filter 468, 471                                  FilterSobelHorizBorderGetBufferSize 571
+    median filter with weighted center pixel 476            FilterSobelHorizGetBufferSize 598
+    min filter border replication 456                       FilterSobelHorizSecond 541
+    min filter work buffer size 455                         FilterSobelHorizSecondBorder 613
+    minimum filter 452                                      FilterSobelHorizSecondGetBufferSize 600
+    Prewitt filter 530                                      FilterSobelNegVertBorder 611
+    Roberts filter 546                                      FilterSobelNegVertGetBufferSize 599
+    row filter 497                                          FilterSobelVert 539
+    Scharr filter 534                                       FilterSobelVertBorder 586, 611
+    sharpening filter 557                                   FilterSobelVertBorderGetBufferSize 585
+    Sobel filter 537, 539                                   FilterSobelVertGetBufferSize 599
+FilterLaplace 550                                           FilterSobelVertSecond 542
+FilterLaplacianBorder 620                                   FilterSobelVertSecondBorder 615
+FilterLaplacianGetBufferSize 603                            FilterSobelVertSecondGetBufferSize 601
+FilterLowpass 556                                           FilterWiener 509
+FilterLowpassBorder 623                                     FilterWienerGetBufferSize 508
+FilterLowpassGetBufferSize 605                              FindPeaks3x3 721
+FilterMax 453                                               FindPeaks3x3GetBufferSize 720
+FilterMaxBorderReplicate 458                                fixed filters 530
+FilterMaxGetBufferSize 455                                  fixed filters with border 558
+FilterMedian 471                                            FLCDecode4x4_JPEGXR 1271
+FilterMedianBorder 468                                      FLCEncode4x4_JPEGXR 1270
+FilterMedianBorderGetBufferSize 467                         flood fill functions
+FilterMedianColor 477                                           FloodFill 1021
+FilterMedianCross 475                                           FloodFill_Grad 1023
+FilterMedianGetBufferSize 470                                   FloodFill_Range¶ 1027
+FilterMedianHoriz 473                                           FloodFillGetSize 1020
+FilterMedianVert 474                                            FloodFillGetSize_Grad 1021
+FilterMedianWeightedCenter3x3 476                           FloodFill 1021
+FilterMin 452                                               FloodFill_Grad 1023
+FilterMinBorderReplicate 456                                FloodFill_Range 1027
+FilterMinGetBufferSize 455                                  FloodFillGetSize 1020
+FilterPrewittHoriz 530                                      FloodFillGetSize_Grad 1021
+FilterPrewittHorizBorder 565                                ForegroundGaussian 1078
+FilterPrewittHorizBorderGetBufferSize 564                   ForegroundGaussianFree 1077
+FilterPrewittVert 532                                       ForegroundGaussianlInitAlloc 1076
+FilterPrewittVertBorder 583                                 ForegroundHistogram 1072
+FilterPrewittVertBorderGetBufferSize 582                    ForegroundHistogramFree 1072
+FilterRobertsDown 546                                       ForegroundHistogramInitAlloc 1070
+FilterRobertsDownBorder 593                                 ForegroundHistogramUpdate 1074
+
+                                                                                                             1777
+---------------------Page 1778---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+format conversion functions                           geometric transform functions
+   BGR565ToBGR 295                                        affine warp 911
+   BGRToBGR565 294                                        bilinear warp 938
+   CbYCr422ToYCbCr411 309                                 perspective warp 925
+   CbYCr422ToYCbCr420 306                                 remapping 889
+   CbYCr422ToYCbCr420_Interlace 307                       rotation 893
+   CbYCr422ToYCbCr422 305                                 shear 905
+   CbYCr422ToYCrCb420 308                                 mirroring 886
+   RGB565ToRGB 295                                        resizing 830, 832, 833, 835–842, 846, 847, 850, 852,
+   RGBToRGB565 294                                                854, 857, 863, 864, 866, 867, 871, 873,
+   YCbCr411 325                                                   876, 878, 879, 881, 883
+   YCbCr411ToYCbCr420 328                             GetAffineBound 921
+   YCbCr411ToYCbCr422 326                             GetAffineQuad 920
+   YCbCr411ToYCrCb420 329                             GetAffineTransform 921
+   YCbCr411ToYCrCb422 327                             GetBilinearBound 946
+   YCbCr420 310                                       GetBilinearQuad 946
+   YCbCr420To422_Interlace 314                        GetBilinearTransform 947
+   YCbCr420ToCbYCr422 315                             GetCentralMoment 731
+   YCbCr420ToCbYCr422_Interlace 316                   GetDiff16x16 1319
+   YCbCr420ToYCbCr411 319                             GetDiff16x16B 1326
+   YCbCr420ToYCbCr422 311                             GetDiff16x8 1320
+   YCbCr420ToYCbCr422_Filter 312                      GetDiff16x8B 1327
+   YCbCr420ToYCrCb420 317                             GetDiff4x4 1325
+   YCbCr420ToYCrCb420_Filter 318                      GetDiff8x16 1322
+   YCbCr422 296                                       GetDiff8x16B 1330
+   YCbCr422To420_Interlace 300                        GetDiff8x4 1323
+   YCbCr422ToCbYCr422 297                             GetDiff8x4B 1331
+   YCbCr422ToYCbCr411 302                             GetDiff8x8 1321
+   YCbCr422ToYCbCr420 298                             GetDiff8x8B 1328
+   YCbCr422ToYCrCb420 301                             GetDistanceTransformMask 1000
+   YCrCb420ToCbYCr422 322                             GetHaarClassifierSize 1084
+   YCrCb420ToYCbCr411 324                             GetHuffmanStatistics8x8_ACFirst_JPEG 1187
+   YCrCb420ToYCbCr420 323                             GetHuffmanStatistics8x8_ACRefine_JPEG 1188
+   YCrCb420ToYCbCr422 321                             GetHuffmanStatistics8x8_DCFirst_JPEG 1186
+   YCrCb420ToYCbCr422_Filter 321                      GetHuffmanStatistics8x8_JPEG 1185
+   YCrCb422ToYCbCr411 305                             GetHuffmanStatisticsOne_JPEG 1209
+   YCrCb422ToYCbCr420 304                             GetHuMoments 734
+   YCrCb422ToYCbCr422 303                             GetLibVersion 25
+forward discrete cosine transformation 1426           GetNormalizedCentralMoment 733
+Fourier transforms                                    GetNormalizedSpatialMoment 732
+   DFTFree 646                                        GetPerspectiveBound 933
+   DFTFwd 648                                         GetPerspectiveQuad 932
+   DFTGetSize 642                                     GetPerspectiveTransform 934
+   DFTIGetBufSize 647                                 GetPyramidDownROI 1047
+   DFTInit 643                                        GetResizeRect 855
+   DFTInitAlloc 645                                   GetRotateBound 899
+   DFTInv 650                                         GetRotateQuad 898
+   FFTFree 632                                        GetRotateShift 897
+   FFTFwd 633                                         GetShearBound 910
+   FFTGetBufSize 632                                  GetShearQuad 909
+   FFTGetSize 628                                     GetSpatialMoment 730
+   FFTInit 629                                        GradientColorToGray 1006
+   FFTInitAlloc 631                                   GradientVectorGetBufferSize 1008
+   FFTInv 637                                         GradientVectorPrewitt 1009
+FrameFieldSAD16x16 1369                               GradientVectorScharr 1012
+Free 28                                               GradientVectorSobel 1015
+FreeHuffmanTable_DV 1445                              GrayDilateBorder 426, 427
+function context 19                                   GrayToBin 35
+function naming conventions 7                         GrayToRGB 286
+function parameters 9
+function prototypes 10
+                                                      H
+
+G                                                     H.263 decoder inverse quantization
+                                                          QuantInvInter_H263 1519
+gamma correction 171                                      QuantInvIntra_H263 1517
+GammaFwd 338                                          H.263 decoder prediction functions
+GammaInv 340                                              AddBackPredPB_H263 1520
+GenScaleLevel8x8_H264 1661                            H.263 decoder resampling functions
+GenSobelKernel 605                                        DownsampleFour_H263 1524
+
+  1778
+---------------------Page 1779---------------------
+
+                                                                                                   Index
+
+   Resample_H263 1521                                   ReconstructChroma422Inter4x4_H264High 1608
+   SpatialInterpolation_H263 1525                       ReconstructChroma422Intra4x4_H264High 1615
+   UnsampleFour_H263 1523                               ReconstructChroma422IntraHalf4x4_H264High 1614
+   UnsampleFour8x8_H263 1525                            ReconstructChromaInter4x4_H264High 1605
+H.263 Encoder functions                                 ReconstructChromaInter4x4MB_H264 1605
+   DownsampleFour16x16_H263 1539                        ReconstructChromaInterMB_H264 1598
+   EncodeCoeffsInter_H263 1535                          ReconstructChromaIntra4x4_H264High 1611
+   EncodeCoeffsIntra_H263 1534                          ReconstructChromaIntra4x4MB_H264 1611
+   EncodeDCIntra_H263 1533                              ReconstructChromaIntraHalf4x4High_H264 1609
+   QuantInter_H263 1538                                 ReconstructChromaIntraHalfs4x4MB_H264 1609
+   QuantIntra_H263 1537                                 ReconstructChromaIntraHalfsMB_H264 1602
+H.263+ functions                                        ReconstructChromaIntraHalves4x4MB_H264 1609
+   DownsampleFour_H263 1524                             ReconstructChromaIntraHalvesMB_H264 1600
+   FilterBlockBoundaryHorEdge_H263 1527                 ReconstructChromaIntraMB_H264 1603
+   FilterDeblocking16x16HorEdge_H263 1529               ReconstructLumaInter4x4_H264High 1620
+   FilterDeblocking8x8HorEdge_H263 1527                 ReconstructLumaInter4x4MB_H264 1620
+   ReconstructCoeffsInter_H263 1531                     ReconstructLumaInter8x8_H264High 1625
+   ReconstructCoeffsIntra_H263 1530                     ReconstructLumaInter8x8MB_H264 1625
+   Resample_H263 1521                                   ReconstructLumaInterMB_H264 1616
+   SpatialInterpolation_H263 1525                       ReconstructLumaIntra16x16_H264High 1631
+   UnsampleFour_H263 1523                               ReconstructLumaIntra16x16MB_H264 1629, 1631
+   UnsampleFour8x8_H263 1525                            ReconstructLumaIntra4x4_H264High 1623
+H.263+ middle-level functions                           ReconstructLumaIntra4x4MB_H264 1623
+   ReconstructCoeffsInter_H263 1531                     ReconstructLumaIntra8x8_H264High 1628
+   ReconstructCoeffsIntra_H263 1530                     ReconstructLumaIntra8x8MB_H264 1628
+H.263+ VLC decoding                                     ReconstructLumaIntraHalf4x4_H264High 1622
+   DecodeCoeffsInter_H263 1516                          ReconstructLumaIntraHalf4x4MB_H264 1622
+   DecodeCoeffsIntra_H263 1514                          ReconstructLumaIntraHalf8x8_H264High 1626
+   DecodeDCIntra_H263 1513                              ReconstructLumaIntraHalf8x8MB_H264 1626
+H263 decoder boundary filtering functions               ReconstructLumaIntraHalfMB_H264 1617
+   FilterBlockBounderyHorEdge_H263 1527                 ReconstructLumaIntraMB_H264 1619
+   FilterBlockBounderyVerEdge_H263 1527                 TransformDequantChromaDC_H264 1551
+   FilterDeblocking16x16HorEdge_H263 1529               TransformDequantChromaDC_SISP_H264 1558
+   FilterDeblocking16x16VerEdge_H263 1529               TransformDequantLumaDC_H264 1551
+   FilterDeblocking8x8HorEdge_H263 1527                 TransformPrediction_H264 1556
+   FilterDeblocking8x8VerEdge_H263 1527                 TransformResidual4x4Inv_H264 1552
+H264 Decoder functions                                  UnidirWeight_H264 1592
+   Bidir_H264 1589                                      UniDirWeightBlock_H264 1592
+   BidirWeight_H264 1594                                WeightedAverage_H264 1590
+   BiDirWeightBlock_H264 1594                        H264 Encoder functions
+   BiDirWeightBlockImplicit_H264 1596                   TransformFwdLuma8x8_H264 1659
+   BidirWeightImplicit_H264 1596                        EncodeChromaDcCoeffsCAVLC_H264_16s 1666
+   DequantTransformResidual_H264 1553                   EncodeCoeffsCAVLC_H264 1662
+   DequantTransformResidual_SISP_H264 1557              GenScaleLevel8x8_H264 1661
+   DequantTransformResidualAndAdd_H264 1554             QuantizeResidual4x4Fwd_H264 1656
+   ExpandPlane_H264 1567                                QuantLuma8x8_H264 1660
+   FilterDeblockingChroma_HorEdge_H264 1643             QuantLuma8x8Inv_H264 1677
+   FilterDeblockingChroma_VerEdge_H264 1638             TransformInvAddPredLuma8x8_H264 1678
+   FilterDeblockingChroma_VerEdge_MBAFF_H264 1641       TransformLuma8x8Fwd_H264 1659
+   FilterDeblockingChroma422HorEdge_H264 1643           TransformLuma8x8InvAddPred_H264 1678
+   FilterDeblockingChroma422VerEdge_H264 1638           TransformQuantChromaDC_H264 1649
+   FilterDeblockingChromaHorEdge_H264 1643              TransformQuantFwd4x4_H264 1652
+   FilterDeblockingChromaVerEdge_H264 1638              TransformQuantFwdChromaDC2x2_H264 1651
+   FilterDeblockingLuma_HorEdge_H264 1636               TransformQuantFwdChromaDC2x4_H264 1651
+   FilterDeblockingLuma_VerEdge_H264 1633               TransformQuantFwdLumaDC4x4_H264 1647
+   FilterDeblockingLuma_VerEdge_MBAFF_H264 1635         TransformQuantInvAddPred4x4_H264 1679
+   high profile functions 1602, 1605, 1609, 1611, 1620, TransformQuantInvChromaDC2x2_H264 1650
+           1622, 1623, 1625, 1626, 1628, 1631           TransformQuantInvChromaDC2x4_H264 1650
+   InterpolateBlock_H264 1589                           TransformQuantInvLumaDC4x4_H264 1655
+   InterpolateChroma_H264 1578                          TransformQuantLumaDC_H264 1653
+   InterpolateChromaBlock_H264 1586                     TransformQuantResidual_H264 1658
+   InterpolateChromaBottom_H264 1584                    TransformResidual4x4Fwd_H264 1656
+   InterpolateChromaTop_H264 1583                    H264 video encoder functions
+   InterpolateLuma_H264 1568                            CABACEncodeBin_H264 1673
+   InterpolateLumaBlock_H264 1576                       CABACEncodeBinBypass_H264 1674
+   InterpolateLumaBottom_H264 1574                      CABACEncodeResidualBlock_H264 1676
+   InterpolateLumaTop_H264 1572                         CABACFree_H264 1671
+   PredictIntra_16x16_H264 1562                         CABACGetContexts_H264 1668
+   PredictIntra_4x4_H264 1559                           CABACGetSize_H264 1668
+   PredictIntraChroma8x8_H264 1563                      CABACGetStreamSize_H264 1673
+
+                                                                                                1779
+---------------------Page 1780---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+   CABACInit_H264 1669                                 interfield compression 1430
+   CABACInitAlloc_H264 1670                            InterpolateAverage16x16 1314
+   CABACSetStream_H264 1672                            InterpolateAverage16x8 1314
+   CABACTerminateSlice_H264 1675                       InterpolateAverage8x4 1314
+Haar Features 1080                                     InterpolateBlock_H264 1589
+HaarClassifierFree 1083                                InterpolateChroma_H264 1578
+HaarClassifierInitAlloc 1081                           InterpolateChromaBlock_H264 1586
+Hadamard8x8Sum_VC1 1745                                InterpolateChromaBottom_H264 1584
+HarrisCorner 973                                       InterpolateChromaTop_H264 1583
+HarrisCornerGetBufferSize 972                          InterpolateICBicubicBlock_VC1 1724
+Hint arguments for Image Moment functions 725          InterpolateICBilinearBlock_VC1 1721
+HistogramEven 704                                      InterpolateLuma_H264 1568
+HistogramRange 702                                     InterpolateLumaBlock_AVS 1685
+HLS color model 172                                    InterpolateLumaBlock_H264 1576
+HLSToBGR 274                                           InterpolateLumaBottom_H264 1574
+HLSToRGB 272                                           InterpolateLumaTop_H264 1572
+horizontal sampling, in a JPEG codec 1163              InterpolateQPBicubic_VC1 1720
+Hough transform 990                                    InterpolateQPBilinear_VC1 1718
+Hough transform functions                              interpolation method
+   HoughLine 991                                       INTRA macroblock decoding 1501, 1512
+   HoughLine_Region 992                                inverse discrete cosine transformation 1416
+   HoughLineGetSize 990                                ipiFloodFill 1021
+   HoughProbLine 995                                   QPL functionality
+   HoughProbLineGetSize 993                                image statistics
+   HoughProbLineInit 994                                   alpha composition 161
+HoughLine 991                                              computer vision
+HoughLine_Region 992                                       data exchange functions
+HoughLineGetSize 990                                       geometric transforms
+HoughProbLine 995                                          H.261 video decoder 1500
+HoughProbLineGetSize 993                                   H.263 video decoder 1511
+HoughProbLineInit 994                                      image arithmetic and logical operations
+HSV color model 172                                        image color conversion functions
+HSVToRGB 276                                               intensity transformation 343
+Huffman codec functions, for JPEG codec 1178               linear transforms
+HuffmanDecodeSegment_DV 1439                               morphological functions
+HuffmanDecodeSegment_DV100 1443                            MPEG-4 video decoder 1472
+HuffmanDecodeSegmentOnePass_DV 1444                        threshold and compare functions
+HuffmanRunLevelTableInitAlloc 1282                     qplGetStatusString 26
+HuffmanTableFree 1283                                  qpliAbs 125
+HuffmanTableInitAlloc 1281                             qpliAbsDiff 127
+                                                       qpliAbsDiffC 128
+                                                       qpliAdd 81
+I                                                      qpliAdd128_JPEG 1162
+                                                       qpliAdd8x8 1315
+ICTFwd_JPEG2K 1256                                     qpliAdd8x8HP 1316
+ICTInv_JPEG2K 1257                                     qpliAddBackPredPB_H263 1520
+image area extension 434, 445, 447                     qpliAddC 86
+image bit depth 20                                     qpliAddC8x8 1317
+image data storage 20                                  qpliAddProduct 92
+image format conversion 294                            qpliAddRandGauss_Direct 66
+image segmentation 1057                                qpliAddRandUniform_Direct 65
+ImageJaehne 67                                         qpliAddRotateShift 898
+ImageRamp 69                                           qpliAddSquare 90
+InitAllocHuffmanTable_DV 1435                          qpliAddWeighted 93
+initialization functions                               qpliAlphaComp 162
+   creating a test image 67, 69                        qpliAlphaCompC 164
+Inpaint 1056                                           qpliAlphaCompColorKey 336
+InpaintFree 1055                                       qpliAlphaPremul 167
+InpaintingInitAlloc 1054                               qpliAlphaPremulC 168
+integer labels 1089                                    qpliAnd 143
+Integral 687                                           qpliAndC 144
+intensity transformation functions                     qpliAverage16x16 1317
+   LUT 346                                             qpliAverage8x8 1317
+   LUT_Cubic 352                                       qplibFastArctan 95
+   LUT_Linear 349                                      qpliBGR555ToYCbCr_JPEG 1114
+   LUTPalette 355                                      qpliBGR555ToYCbCr411 259
+   LUTPaletteSwap 355                                  qpliBGR555ToYCbCr411LS_MCU 1135
+   ReduceBits 343                                      qpliBGR555ToYCbCr420 256
+   ToneMapLinear 358                                   qpliBGR555ToYCbCr422 223
+   ToneMapMean 358                                     qpliBGR555ToYCbCr422LS_MCU 1133
+INTER macroblock decoding 1501, 1512
+
+  1780
+---------------------Page 1781---------------------
+
+                                                                                                   Index
+
+qpliBGR555ToYCbCr444LS_MCU 1131                      qpliColorTwist32f 332
+qpliBGR565ToBGR 295                                  qpliColumnPipeline_Low 505
+qpliBGR565ToYCbCr411 259                             qpliCompare 378
+qpliBGR565ToYCbCr411LS_MCU 1135                      qpliCompareC 379
+qpliBGR565ToYCbCr420 256                             qpliCompareEqualEps 381
+qpliBGR565ToYCbCr422 223                             qpliCompareEqualEpsC 382
+qpliBGR565ToYCbCr422LS_MCU 1133                      qpliCompColorKey 335
+qpliBGR565ToYCbCr444LS_MCU 1131                      qpliComplement 139
+qpliBGRToBGR565 294                                  qpliComputeThreshold_Otsu 375
+qpliBGRToCbYCr422 227                                qpliConv 513
+qpliBGRToCbYCr422_709HDTV 227                        qpliConvert 30
+qpliBGRToHLS 273                                     qpliConvFull 518
+qpliBGRToLab 266                                     qpliConvGetBufferSize 512
+qpliBGRToY_JPEG 1107                                 qpliConvValid 521
+qpliBGRToYCbCr_JPEG 1112                             qpliCopy 42
+qpliBGRToYCbCr411_JPEG 1122                          qpliCopy16x16 1312
+qpliBGRToYCbCr411LS_MCU 1134                         qpliCopy16x16HP 1313
+qpliBGRToYCbCr420 244                                qpliCopy16x16QP_MPEG4 1474
+qpliBGRToYCbCr420_709CSC 245                         qpliCopy16x8HP 1313
+qpliBGRToYCbCr420_709HDTV 246                        qpliCopy16x8QP_MPEG4 1474
+qpliBGRToYCbCr422 220                                qpliCopy8x4HP 1313
+qpliBGRToYCbCr422_JPEG 1118                          qpliCopy8x8 1312
+qpliBGRToYCbCr422LS_MCU 1132                         qpliCopy8x8HP 1313
+qpliBGRToYCbCr444LS_MCU 1130                         qpliCopy8x8QP_MPEG4 1474
+qpliBGRToYCoCg 279                                   qpliCopyConstBorder 46
+qpliBGRToYCoCg_Rev 282                               qpliCopyManaged 45
+qpliBGRToYCrCb420 255                                qpliCopyReplicateBorder 49
+qpliBGRToYCrCb420_709CSC 247                         qpliCopySubpix 55
+qpliBGRToYUV420 197                                  qpliCopySubpixIntersect 56
+qpliBidir_H264 1589                                  qpliCopyWrapBorder 52
+qpliBidirWeight_H264 1594                            qpliCountInRange 706
+qpliBiDirWeightBlock_H264 1594                       qpliCountZeros8x8 1461
+qpliBiDirWeightBlockImplicit_H264 1596               qpliCreateMapCameraUndistort 1095
+qpliBidirWeightImplicit_H264 1596                    qpliCrossCorrFull_Norm 786
+qpliBinToGray 35                                     qpliCrossCorrFull_NormLevel 797
+qpliBlockMinMax 708                                  qpliCrossCorrNorm 783
+qpliBoundSegments 1069                               qpliCrossCorrNormGetBufferSize 782
+qpliCABACEncodeBin_H264 1673                         qpliCrossCorrSame_Norm 789
+qpliCABACEncodeBinBypass_H264 1674                   qpliCrossCorrValid 795
+qpliCABACEncodeResidualBlock_H264 1676               qpliCrossCorrValid_Norm 792
+qpliCABACFree_H264 1671                              qpliCrossCorrValid_NormLevel 803
+qpliCABACGetContexts_H264 1668                       qpliDCT2x4x8Frw 1459
+qpliCABACGetSize_H264 1668                           qpliDCT2x4x8Inv 1455
+qpliCABACGetStreamSize_H264 1673                     qpliDCT8x4x2To4x4Inv_DV 1457
+qpliCABACInit_H264 1669                              qpliDCT8x8Fwd 678
+qpliCABACInitAlloc_H264 1670                         qpliDCT8x8Fwd_8u16s_C2P2 1426
+qpliCABACSetStream_H264 1672                         qpliDCT8x8FwdLS 681
+qpliCABACTerminateSlice_H264 1675                    qpliDCT8x8Inv 680
+qpliCalcGlobalMV_MPEG4 1480                          qpliDCT8x8Inv_2x2 683
+qpliCanny 981                                        qpliDCT8x8Inv_4x4 683
+qpliCannyBorder 979                                  qpliDCT8x8Inv_A10 680
+qpliCannyBorderGetSize 978                           qpliDCT8x8Inv_AANTransposed_16s_C1R 1416
+qpliCannyGetSize 980                                 qpliDCT8x8Inv_AANTransposed_16s_P2C2R 1418
+qpliCbYCr422ToBGR 228                                qpliDCT8x8Inv_AANTransposed_16s8u_C1R 1417
+qpliCbYCr422ToBGR_709HDTV 229                        qpliDCT8x8Inv_AANTransposed_16s8u_P2C2R 1419
+qpliCbYCr422ToRGB 226                                qpliDCT8x8InvLSClip 682
+qpliCbYCr422ToYCbCr411 309                           qpliDCT8x8InvOrSet 1420
+qpliCbYCr422ToYCbCr420 306                           qpliDCT8x8To2x2Inv 684
+qpliCbYCr422ToYCbCr420_Interlace 307                 qpliDCT8x8To4x4Inv 684
+qpliCbYCr422ToYCbCr422 305                           qpliDCTFwd 675
+qpliCbYCr422ToYCbCr422_Rotate 1377                   qpliDCTFwdFree 672
+qpliCbYCr422ToYCrCb420 308                           qpliDCTFwdGetBufSize 674
+qpliCFAToRGB 291                                     qpliDCTFwdInitAlloc 671
+qpliChangeSpriteBrightness_MPEG4 1481                qpliDCTInv 677
+qpliCMYKToYCCK_JPEG 1124                             qpliDCTInvFree 673
+qpliCMYKToYCCK411LS_MCU 1138                         qpliDCTInvGetBufSize 675
+qpliCMYKToYCCK422LS_MCU 1137                         qpliDCTInvInitAlloc 672
+qpliCMYKToYCCK444LS_MCU 1136                         qpliDCTQuantFwd8x8_JPEG 1154
+qpliColorToGray 289                                  qpliDCTQuantFwd8x8LS_JPEG 1155
+qpliColorTwist 331                                   qpliDCTQuantInv8x8_4x4LS_JPEG 1160
+
+                                                                                                 1781
+---------------------Page 1782---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qpliDCTQuantInv8x8_JPEG 1158                           qpliDequantTransformResidualAndAdd_H264 1554
+qpliDCTQuantInv8x8LS_1x1_JPEG 1159                     qpliDFTFree 646
+qpliDCTQuantInv8x8LS_2x2_JPEG 1159                     qpliDFTFwd 648
+qpliDCTQuantInv8x8LS_4x4_JPEG 1159                     qpliDFTGetBufSize 647
+qpliDCTQuantInv8x8LS_JPEG 1158                         qpliDFTGetSize 642
+qpliDCTQuantInv8x8To2x2LS_JPEG 1160                    qpliDFTInit 643
+qpliDCTQuantInv8x8To4x4LS_JPEG 1160                    qpliDFTInitAlloc 645
+qpliDecimateFilterColumn 465                           qpliDFTInv 650
+qpliDecimateFilterRow 465                              qpliDiffPredFirstRow_JPEG 1204
+qpliDecodeCAVLCChroma422DcCoeffs_H264 1548             qpliDiffPredRow_JPEG 1206
+qpliDecodeCAVLCChromaDcCoeffs_H264 1548                qpliDilate 391
+qpliDecodeCAVLCCoeffs_H264 1545                        qpliDilate3x3 388
+qpliDecodeCAVLCCoeffsIdxs_H264 1547                    qpliDilateBorder 392
+qpliDecodeCBProgrAttach_JPEG2K 1247                    qpliDilateBorderReplicate 404
+qpliDecodeCBProgrFree_JPEG2K 1247                      qpliDisassembleChroma420Intra_AVS 1703
+qpliDecodeCBProgrGetStateSize 1245                     qpliDisassembleLumaIntra_AVS 1701
+qpliDecodeCBProgrInit_JPEG2K 1246                      qpliDistanceTransform 997
+qpliDecodeCBProgrInitAlloc_JPEG2K 1246                 qpliDiv 115
+qpliDecodeChromaBlock_AVS 1684                         qpliDiv_Round 119
+qpliDecodeCodeBlock_JPEG2K 1244                        qpliDivC 121
+qpliDecodeCoeffsInter_H261 1503                        qpliDotProd 140
+qpliDecodeCoeffsInter_MPEG4 1487                       qpliDotProdCol 142
+qpliDecodeCoeffsInterRVLCBack_MPEG4 1489               qpliDownsampleFour_H263 1524
+qpliDecodeCoeffsIntra_H261 1502                        qpliDownsampleFour16x16_H263 1539
+qpliDecodeCoeffsIntra_H263 1514                        qpliDup 59
+qpliDecodeCoeffsIntra_MPEG4 1485                       qpliEdgesDetect16x16 1346
+qpliDecodeCoeffsIntraRVLCBack_MPEG4 1486               qpliEigenValsVecs 984
+qpliDecodeDCIntra_H263 1513                            qpliEigenValsVecsGetBufferSize 983
+qpliDecodeDCIntra_MPEG4 1484                           qpliEncodeChromaDcCoeffsCAVLC_H264_16s 1666
+qpliDecodeExpGolombOne_H264 1550                       qpliEncodeCoeffsCAVLC_H264s 1662
+qpliDecodeGetBufSize_JPEG2K 1243                       qpliEncodeCoeffsCAVLCChromaDC2x2_H264 1665
+qpliDecodeHuffman8x8_ACFirst_JPEG 1202                 qpliEncodeCoeffsCAVLCChromaDC2x4_H264 1665
+qpliDecodeHuffman8x8_ACRefine_JPEG 1203                qpliEncodeCoeffsInter_H261 1509
+qpliDecodeHuffman8x8_DCFirst_JPEG 1200                 qpliEncodeCoeffsInter_H263 1535
+qpliDecodeHuffman8x8_DCRefine_JPEG 1201                qpliEncodeCoeffsInter_MPEG4 1499
+qpliDecodeHuffman8x8_Direct_JPEG 1199                  qpliEncodeCoeffsIntra_H261 1508
+qpliDecodeHuffman8x8_JPEG 1198                         qpliEncodeCoeffsIntra_H263 1534
+qpliDecodeHuffmanOne 1283                              qpliEncodeCoeffsIntra_MPEG4 1498
+qpliDecodeHuffmanOne_JPEG 1210                         qpliEncodeDCIntra_H263 1533
+qpliDecodeHuffmanPair 1284                             qpliEncodeDCIntra_MPEG4 1497
+qpliDecodeHuffmanRow_JPEG 1213                         qpliEncodeFree_JPEG2K 1237
+qpliDecodeHuffmanSpecFree_JPEG 1195                    qpliEncodeGetDist_JPEG2K 1242
+qpliDecodeHuffmanSpecGetBufSize_JPEG 1193              qpliEncodeGetRate_JPEG2K 1242
+qpliDecodeHuffmanSpecInit_JPEG 1193                    qpliEncodeGetTermPassLen_JPEG2K 1241
+qpliDecodeHuffmanSpecInitAlloc_JPEG 1194               qpliEncodeHuffman8x8_ACFirst_JPEG 1191
+qpliDecodeHuffmanStateFree_JPEG 1197                   qpliEncodeHuffman8x8_ACRefine_JPEG 1192
+qpliDecodeHuffmanStateGetBufSize_JPEG 1195             qpliEncodeHuffman8x8_DCFirst_JPEG 1189
+qpliDecodeHuffmanStateInit_JPEG 1196                   qpliEncodeHuffman8x8_DCRefine_JPEG 1190
+qpliDecodeHuffmanStateInitAlloc_JPEG 1197              qpliEncodeHuffman8x8_Direct_JPEG 1185
+qpliDecodeLumaBlockInter_AVS 1683                      qpliEncodeHuffman8x8_JPEG 1184
+qpliDecodeLumaBlockIntra_AVS 1683                      qpliEncodeHuffmanOne_JPEG 1209
+qpliDeconvFFT 526                                      qpliEncodeHuffmanRawTableInit_JPEG 1178
+qpliDeconvFFTFree 525                                  qpliEncodeHuffmanRow_JPEG 1211
+qpliDeconvFFTInitAlloc 525                             qpliEncodeHuffmanSpecFree_JPEG 1181
+qpliDeconvLR 528                                       qpliEncodeHuffmanSpecGetBufSize_JPEG 1178
+qpliDeconvLRFree 528                                   qpliEncodeHuffmanSpecInit_JPEG 1179
+qpliDeconvLRInitAlloc 527                              qpliEncodeHuffmanSpecInitAlloc_JPEG 1180
+qpliDeinterlaceBlend 1393                              qpliEncodeHuffmanStateFree_JPEG 1183
+qpliDeinterlaceBlendFree 1395                          qpliEncodeHuffmanStateGetBufSize_JPEG 1181
+qpliDeinterlaceBlendGetSize 1389                       qpliEncodeHuffmanStateInit_JPEG 1182
+qpliDeinterlaceBlendInit 1390                          qpliEncodeHuffmanStateInitAlloc_JPEG 1182
+qpliDeinterlaceBlendInitAlloc 1392                     qpliEncodeInitAlloc_JPEG2K 1236
+qpliDeinterlaceEdgeDetect 1386                         qpliEncodeLoadCodeBlock_JPEG2K 1237
+qpliDeinterlaceFilterCAVT 1383                         qpliEncodeStoreBits_JPEG2K 1240
+qpliDeinterlaceFilterTriangle 1382                     qpliEncodeTableInitAlloc 1427
+qpliDeinterlaceMedianThreshold 1385                    qpliErode 395
+qpliDeinterlaceMotionAdaptive 1387                     qpliErode3x3 389
+qpliDemosaicAHD 292                                    qpliErodeBorder 396
+qpliDequantTransformResidual_H264 1553                 qpliErodeBorderReplicate 406
+qpliDequantTransformResidual_SISP_H264 1557            qpliExp 137
+
+  1782
+---------------------Page 1783---------------------
+
+                                                                                                               Index
+
+qpliExpandPlane_H264 1567                                  qpliFilterGaussBorder 622
+qpliFFTFree 632                                            qpliFilterGaussianBorder 561
+qpliFFTFwd 633                                             qpliFilterGaussianGetBufferSize 558
+qpliFFTGetBufSize 632                                      qpliFilterGaussianInit 559
+qpliFFTGetSize 628                                         qpliFilterGetBufSize 487
+qpliFFTInit 629                                            qpliFilterHipass 554
+qpliFFTInitAlloc 631                                       qpliFilterLaplace 550
+qpliFFTInv 637                                             qpliFilterLaplacianBorder 620
+qpliFilteBorder 481                                        qpliFilterLowpass 556
+qpliFilter 484                                             qpliFilterLowpassBorder 623
+qpliFilter_Round16s 490                                    qpliFilterLowpassGetBufferSize 605
+qpliFilter_Round32f 490                                    qpliFilterMax 453
+qpliFilter_Round32s 490                                    qpliFilterMaxBorderReplicate 458
+qpliFilter32f 488                                          qpliFilterMaxGetBufferSize 455
+qpliFilter8x8_H261 1510                                    qpliFilterMedian 471
+qpliFilterBilateral 462                                    qpliFilterMedianBorder 468
+qpliFilterBilateralBorder 442                              qpliFilterMedianBorderGetBufferSize 467
+qpliFilterBilateralBorderGetBufferSize 439                 qpliFilterMedianColor 477
+qpliFilterBilateralBorderInit 440                          qpliFilterMedianCross 475
+qpliFilterBilateralGetBufSize 459                          qpliFilterMedianGetBufferSize 470
+qpliFilterBilateralInit 460                                qpliFilterMedianHoriz 473
+qpliFilterBlockBoundaryHorEdge_H263 1527                   qpliFilterMedianVert 474
+qpliFilterBlockBoundaryVerEdge_H263 1527                   qpliFilterMedianWeightedCenter3x3 476
+qpliFilterBorderGetSize 479                                qpliFilterMin 452
+qpliFilterBorderInit 480                                   qpliFilterMinBorderReplicate 456
+qpliFilterBox 434, 447                                     qpliFilterMinGetBufferSize 455
+qpliFilterBoxBorder 445                                    qpliFilterPrewittHoriz 530
+qpliFilterBoxBorderGetBufferSize 444                       qpliFilterPrewittHorizBorder 565
+qpliFilterColumn 494                                       qpliFilterPrewittHorizBorderGetBufferSize 564
+qpliFilterColumn32f 496                                    qpliFilterPrewittVert 532
+qpliFilterColumnPipeline 505                               qpliFilterPrewittVertBorder 583
+qpliFilterColumnPipeline_Low 505                           qpliFilterPrewittVertBorderGetBufferSize 582
+qpliFilterColumnPipelineGetBufferSize 501                  qpliFilterRobertsDown 546
+qpliFilterColumnPipelineGetBufferSize_Low 501              qpliFilterRobertsDownBorder 593
+qpliFilterDeblocking16x16_HorEdge_H263 1529                qpliFilterRobertsDownBorderGetBufferSize 593
+qpliFilterDeblocking16x16_VerEdge_H263 1529                qpliFilterRobertsUp 548
+qpliFilterDeblocking8x8HorEdge_H263 1527                   qpliFilterRobertsUpBorder 590
+qpliFilterDeblocking8x8HorEdge_MPEG4 1491                  qpliFilterRobertsUpBorderGetBufferSize 589
+qpliFilterDeblocking8x8VerEdge_H263 1527                   qpliFilterRoundGetBufSize16s 493
+qpliFilterDeblocking8x8VerEdge_MPEG4 1491                  qpliFilterRoundGetBufSize32f 493
+qpliFilterDeblockingChroma_HorEdge_AVS 1698                qpliFilterRoundGetBufSize32s 493
+qpliFilterDeblockingChroma_HorEdge_H264 1643               qpliFilterRow 497
+qpliFilterDeblockingChroma_HorEdge_VC1 1736                qpliFilterRow32f 499
+qpliFilterDeblockingChroma_VerEdge_AVS 1696                qpliFilterRowBorderPipeline 502
+qpliFilterDeblockingChroma_VerEdge_H264 1638               qpliFilterRowBorderPipeline_Low 502
+qpliFilterDeblockingChroma_VerEdge_MBAFF_H264 1641         qpliFilterRowBorderPipelineGetBufferSize 500
+qpliFilterDeblockingChroma_VerEdge_VC1 1735                qpliFilterRowBorderPipelineGetBufferSize_Low 500
+qpliFilterDeblockingChroma422HorEdge_H264 1643             qpliFilterScharrHoriz 534
+qpliFilterDeblockingChroma422VerEdge_H264 1638             qpliFilterScharrHorizBorder 606
+qpliFilterDeblockingChromaHorEdge_H264 1643                qpliFilterScharrHorizGetBufferSize 596
+qpliFilterDeblockingChromaVerEdge_H264 1638                qpliFilterScharrHorizMaskBorder 576
+qpliFilterDeblockingLuma_HorEdge_AVS 1694                  qpliFilterScharrHorizMaskBorderGetBufferSize 575
+qpliFilterDeblockingLuma_HorEdge_H264 1636                 qpliFilterScharrVert 536
+qpliFilterDeblockingLuma_HorEdge_VC1 1734                  qpliFilterScharrVertBorder 608
+qpliFilterDeblockingLuma_VerEdge_AVS 1693                  qpliFilterScharrVertGetBufferSize 597
+qpliFilterDeblockingLuma_VerEdge_H264 1633                 qpliFilterScharrVertMaskBorder 579
+qpliFilterDeblockingLuma_VerEdge_MBAFF_H264 1635           qpliFilterScharrVertMaskBorderGetBufferSize 578
+qpliFilterDeblockingLuma_VerEdge_VC1 1733                  qpliFilterSharpen 557
+qpliFilterDenoiseAdaptive 1401                             qpliFilterSobel 568
+qpliFilterDenoiseAdaptiveFree 1400                         qpliFilterSobelCross 545
+qpliFilterDenoiseAdaptiveInitAlloc 1399                    qpliFilterSobelCrossBorder 618
+qpliFilterDenoiseCAST 1397                                 qpliFilterSobelCrossGetBufferSize 602
+qpliFilterDenoiseCASTInit 1396                             qpliFilterSobelGetBufferSize 567
+qpliFilterDenoiseMosquito 1404                             qpliFilterSobelHoriz 537
+qpliFilterDenoiseMosquitoFree 1404                         qpliFilterSobelHorizBorder 572, 610
+qpliFilterDenoiseMosquitoInitAlloc 1403                    qpliFilterSobelHorizBorderGetBufferSize 571
+qpliFilterDenoiseSmooth 1398                               qpliFilterSobelHorizGetBufferSize 598
+qpliFilterDeringingSmooth8x8_MPEG4 1492                    qpliFilterSobelHorizSecond 541
+qpliFilterDeringingThreshold_MPEG4 1492                    qpliFilterSobelHorizSecondBorder 613
+qpliFilterGauss 551                                        qpliFilterSobelHorizSecondGetBufferSize 600
+
+                                                                                                            1783
+---------------------Page 1784---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qpliFilterSobelNegVertBorder 611                         qpliGetShearBound 910
+qpliFilterSobelNegVertGetBufferSize 599                  qpliGetShearQuad 909
+qpliFilterSobelVert 539                                  qpliGetSpatialMoment 730
+qpliFilterSobelVertBorder 586, 611                       qpliGradientColorToGray 1006
+qpliFilterSobelVertBorderGetBufferSize 585               qpliGradientVectorGetBufferSize 1008
+qpliFilterSobelVertGetBufferSize 599                     qpliGradientVectorPrewitt 1009
+qpliFilterSobelVertSecond 542                            qpliGradientVectorScharr 1012
+qpliFilterSobelVertSecondBorder 615                      qpliGradientVectorSobel 1015
+qpliFilterSobelVertSecondGetBufferSize 601               qpliGrayDilateBorder 426, 427
+qpliFilterWiener 509                                     qpliGrayToBin 35
+qpliFilterWienerGetBufferSize 508                        qpliGrayToRGB 286
+qpliFindPeaks3x3 721                                     qpliHaarClassifierFree 1083
+qpliFindPeaks3x3GetBufferSize 720                        qpliHaarClassifierInitAlloc 1081
+qpliFLCEncode4x4_JPEGXR 1270                             qpliHadamard8x8Sum_VC1 1745
+qpliFloodFill_Grad 1023                                  qpliHarrisCorner 973
+qpliFloodFill_Range 1027                                 qpliHarrisCornerGetBufferSize 972
+qpliFloodFillGetSize 1020                                qpliHistogramEven 704
+qpliFloodFillGetSize_Grad 1021                           qpliHistogramRange 702
+qpliForegroundGaussian 1078                              qpliHLSToBGR 274
+qpliForegroundGaussianFree 1077                          qpliHLSToRGB 272
+qpliForegroundGaussianlInitAlloc 1076                    qpliHoughLine 991
+qpliForegroundHistogram 1072                             qpliHoughLine_Region 992
+qpliForegroundHistogramFree 1072                         qpliHoughLineGetSize 990
+qpliForegroundHistogramInitAlloc 1070                    qpliHoughProbLine 995
+qpliForegroundHistogramUpdate 1074                       qpliHoughProbLineGetSize 993
+qpliFrameFieldSAD16x16 1369                              qpliHoughProbLineInit 994
+qpliFree 28                                              qpliHSVToRGB 276
+qpliFreeHuffmanTable_DV 1445                             qpliHuffmanDecodeSegment_DV 1439
+qpliFVLCDecode4x4 _JPEGXR 1271                           qpliHuffmanDecodeSegment_DV100 1443
+qpliGammaFwd 338                                         qpliHuffmanDecodeSegmentOnePass_DV 1444
+qpliGammaInv 340                                         qpliHuffmanRunLevelTableInitAlloc 1282
+qpliGenScaleLevel8x8_H264 1661                           qpliHuffmanTableFree 1283
+qpliGenSobelKernel 605                                   qpliHuffmanTableInitAlloc 1281
+qpliGetAffineBound 921                                   qpliICTFwd_JPEG2K 1256
+qpliGetAffineQuad 920                                    qpliICTInv_JPEG2K 1257
+qpliGetAffineTransform 921                               qpliImageJaehne 67
+qpliGetBilinearBound 946                                 qpliImageRamp 69
+qpliGetBilinearQuad 946                                  qpliInitAllocHuffmanTable_DV 1435
+qpliGetBilinearTransform 947                             qpliInpaint 1056
+qpliGetCentralMoment 731                                 qpliInpaintFree 1055
+qpliGetDiff16x16 1319                                    qpliInpaintInitAlloc 1054
+qpliGetDiff16x16B 1326                                   qpliIntegral 687
+qpliGetDiff16x8 1320                                     qpliInterpolateAverage16x16 1314
+qpliGetDiff16x8B 1327                                    qpliInterpolateAverage16x8 1314
+qpliGetDiff4x4 1325                                      qpliInterpolateAverage8x4 1314
+qpliGetDiff8x16 1322                                     qpliInterpolateAverage8x8 1314
+qpliGetDiff8x16B 1330                                    qpliInterpolateBlock_H264 1589
+qpliGetDiff8x4 1323                                      qpliInterpolateChroma_H264 1578
+qpliGetDiff8x4B 1331                                     qpliInterpolateChromaBlock_H264 1586
+qpliGetDiff8x8 1321                                      qpliInterpolateChromaBottom_H264 1584
+qpliGetDiff8x8B 1328                                     qpliInterpolateChromaTop_H264 1583
+qpliGetDistanceTransformMask 1000                        qpliInterpolateICBicubicBlock_VC1 1724
+qpliGetHaarClassifierSize 1084                           qpliInterpolateICBilinearBlock_VC1 1721
+qpliGetHuffmanStatistics8x8_ACFirst_JPEG 1187            qpliInterpolateLuma_H264 1568
+qpliGetHuffmanStatistics8x8_ACRefine_JPEG 1188           qpliInterpolateLumaBlock_AVS 1685
+qpliGetHuffmanStatistics8x8_DCFirst_JPEG 1186            qpliInterpolateLumaBlock_H264 1576
+qpliGetHuffmanStatistics8x8_JPEG 1185                    qpliInterpolateLumaBottom_H264 1574
+qpliGetHuffmanStatisticsOne_JPEG 1209                    qpliInterpolateLumaTop_H264 1572
+qpliGetHuMoments 734                                     qpliInterpolateQPBicubic_VC1 1720
+qpliGetLibVersion 25                                     qpliInterpolateQPBilinear_VC1 1718
+qpliGetNormalizedCentralMoment 733                       qpliJoin422LS_MCU 1177
+qpliGetNormalizedSpatialMoment 732                       qpliLabelMarkers 1058
+qpliGetPerspectiveBound 933                              qpliLabelMarkersGetBufferSize 1057
+qpliGetPerspectiveQuad 932                               qpliLabToBGR 267
+qpliGetPerspectiveTransform 934                          qpliLBPImage 1090
+qpliGetPyramidDownROI 1047                               qpliLBPImageHorizCorr 1091
+qpliGetResizeRect 855                                    qplilFilterGaussGetBufferSize 604
+qpliGetRotateBound 899                                   qplilFilterLaplacianGetBufferSize 603
+qpliGetRotateQuad 898                                    qpliLn 134
+qpliGetRotateShift 897                                   qpliLShiftC 159
+
+   1784
+---------------------Page 1785---------------------
+
+                                                                                                      Index
+
+qpliLUT 346                                           qpliMorphologyInitAlloc 400
+qpliLUT_Cubic 352                                     qpliMorphOpenBorder 412
+qpliLUT_Linear 349                                    qpliMorphReconstructErode 431
+qpliLUTPalette 355                                    qpliMorphReconstructGetBufferSize 428
+qpliLUTPaletteSwap 355                                qpliMorphTophatBorder 417
+qpliLUVToRGB 264                                      qpliMul 96
+qpliMagnitude 657                                     qpliMulC 99
+qpliMagnitudePack 659                                 qpliMulCScale 105
+qpliMalloc 27                                         qpliMulPack 653
+qpliMarkSpeckles 1061                                 qpliMulPackConj 656
+qpliMarkSpecklesGetBufferSize 1060                    qpliMulScale 103
+qpliMax 712                                           qpliNorm_Inf 736
+qpliMaxEvery 718                                      qpliNorm_L1 739
+qpliMaxIndx 713                                       qpliNorm_L2 742
+qpliMC16x16 1286                                      qpliNormDiff_Inf 744
+qpliMC16x16B 1298                                     qpliNormDiff_L1 747
+qpliMC16x4 1296                                       qpliNormDiff_L2 750
+qpliMC16x4B 1310                                      qpliNormRel_Inf 753
+qpliMC16x8 1286                                       qpliNormRel_L1 755
+qpliMC16x8B 1299                                      qpliNormRel_L2 759
+qpliMC16x8BUV 1311                                    qpliNot 155
+qpliMC16x8UV 1297                                     qpliOBMC16x16HP_MPEG4 1475
+qpliMC2x2 1295                                        qpliOBMC8x8HP_MPEG4 1475
+qpliMC2x2B 1309                                       qpliOBMC8x8QP_MPEG4 1475
+qpliMC2x4 1293                                        qpliOpticalFlowPyrLKFree 1032
+qpliMC2x4B 1307                                       qpliOpticalFlowPyrLKInitAlloc 1031
+qpliMC4x2 1294                                        qpliOr 147
+qpliMC4x2B 1308                                       qpliOrC 149
+qpliMC4x4 1292                                        qpliPackToCplxExtend 664
+qpliMC4x4B 1305                                       qpliPCTFwd_JPEGXR 1262
+qpliMC4x8 1291                                        qpliPCTFwd16x16_JPEGXR 1262
+qpliMC4x8B 1304                                       qpliPCTFwd8x16_JPEGXR 1262
+qpliMC8x16 1287                                       qpliPCTFwd8x8_JPEGXR 1262
+qpliMC8x16B 1300                                      qpliPCTInv_JPEGXR 1263
+qpliMC8x4 1290                                        qpliPCTInv16x16_JPEGXR 1263
+qpliMC8x4B 1303                                       qpliPCTInv8x16_JPEGXR 1263
+qpliMC8x8 1288                                        qpliPCTInv8x8_JPEGXR 1263
+qpliMC8x8B 1301                                       qpliPhase 660
+qpliMean 694                                          qpliPhasePack 661
+qpliMean_StdDev 697                                   qpliPredictIntra_16x16_H264 1562
+qpliMeanAbsDev16x16 1345                              qpliPredictIntra_4x4_H264 1559
+qpliMeanAbsDev8x8 1344                                qpliPredictIntraChroma8x8_H264 1563
+qpliMedian 1384                                       qpliPutIntraBlock 1428
+qpliMin 709                                           qpliPutNonIntraBlock 1429
+qpliMinEigenVal 988                                   qpliPyramidFree 1042
+qpliMinEigenValGetBufferSize 987                      qpliPyramidInitAlloc 1041
+qpliMinEvery 719                                      qpliPyramidLayerDown 1049
+qpliMinIndx 711                                       qpliPyramidLayerDownFree 1044
+qpliMinMax 715                                        qpliPyramidLayerUp 1050
+qpliMinMaxIndx 716                                    qpliPyramidLayerUpFree 1046
+qpliMirror 886                                        qpliPyramidLayerUpInitAlloc 1045
+qpliMomentFree 726                                    qpliPyrDown 1038
+qpliMomentGetStateSize 727                            qpliPyrDownGetBufSize 1037
+qpliMomentInit 728                                    qpliPyrUp 1040
+qpliMomentInitAlloc 726                               qpliPyrUpGetBufSize 1037
+qpliMoments 728                                       qpliQualityIndex 763
+qpliMorpAdvGetSize 411                                qpliQuant_MPEG2 1425
+qpliMorpGrayGetSize 425                               qpliQuantFwd8x8_JPEG 1150
+qpliMorphAdvFree 408                                  qpliQuantFwdRawTableInit_JPEG 1149
+qpliMorphAdvInit 409, 424                             qpliQuantFwdTableInit_JPEG 1149
+qpliMorphAdvInitAlloc 407, 422                        qpliQuantInter_H263 1538
+qpliMorphBlackhatBorder 419                           qpliQuantInter_MPEG4 1496
+qpliMorphCloseBorder 414                              qpliQuantInterGetSize_MPEG4 1495
+qpliMorphGradientBorder 421                           qpliQuantInterInit_MPEG4 1494
+qpliMorphGrayFree 423                                 qpliQuantInterNonuniform_VC1 1753
+qpliMorphologyBorderGetSize 398                       qpliQuantInterUniform_VC1 1753
+qpliMorphologyBorderInit 399                          qpliQuantIntra_H263 1537
+qpliMorphologyFree 401                                qpliQuantIntra_MPEG2 1424
+qpliMorphologyGetSize 403                             qpliQuantIntra_MPEG4 1496
+qpliMorphologyInit 402                                qpliQuantIntraGetSize_MPEG4 1495
+
+                                                                                                   1785
+---------------------Page 1786---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qpliQuantIntraInit_MPEG4 1494                          qpliReconstructLumaIntraHalfMB_H264 1617
+qpliQuantIntraNonuniform_VC1 1752                      qpliReconstructLumaIntraMB_H264 1619
+qpliQuantIntraUniform_VC1 1752                         qpliReconstructPredFirstRow_JPEG 1207
+qpliQuantInv_DV 1446                                   qpliReconstructPredRow 1208
+qpliQuantInv_MPEG2 1415                                qpliRectStsDev 699
+qpliQuantInv8x8_JPEG 1153                              qpliReduceBits 343
+qpliQuantInvInter_H263 1519                            qpliRemap 889
+qpliQuantInvInter_MPEG4 1483                           qpliResample_H263 1521
+qpliQuantInvInterGetSize_MPEG4 1482                    qpliResampleRow 79
+qpliQuantInvInterInit_MPEG4 1481                       qpliResampleRowGetBorderWidth 78
+qpliQuantInvInterNonuniform_VC1 1740                   qpliResampleRowGetSize 76
+qpliQuantInvInterUniform_VC1 1740                      qpliResampleRowInit 77
+qpliQuantInvIntra_H263 1517                            qpliResampleRowReplicateBorder 79
+qpliQuantInvIntra_MPEG2 1415                           qpliResizeAntialiasing 842
+qpliQuantInvIntra_MPEG4 1483                           qpliResizeAntialiasingCubicInit 837
+qpliQuantInvIntraGetSize_MPEG4 1482                    qpliResizeAntialiasingLanczosInit 838
+qpliQuantInvIntraInit_MPEG4 1481                       qpliResizeAntialiasingLinearInit 837
+qpliQuantInvIntraNonuniform_VC1 1737                   qpliResizeCCRotate 1379
+qpliQuantInvIntraUniform_VC1 1737                      qpliResizeCubic 850
+qpliQuantInvTableInit_JPEG 1153                        qpliResizeCubicInit 833
+qpliQuantizeResidual4x4Fwd_H264 1656                   qpliResizeFilter 885
+qpliQuantLuma8x8_H264 1660                             qpliResizeFilterGetSize 867
+qpliQuantLuma8x8Inv_H264 1677                          qpliResizeFilterInit 884
+qpliQuantWeightBlockInv_DV 1447                        qpliResizeGetBorderSize 839
+qpliQuantWeightBlockInv_DV100 1452                     qpliResizeGetBufferSize 829
+qpliRangeMapping_VC1 1744                              qpliResizeGetBufSize 828
+qpliRCTFwd_JPEG2K 1251                                 qpliResizeGetSize 830
+qpliRCTInv_JPEG2K 1254                                 qpliResizeGetSrcOffset 840
+qpliReconstructChroma422Inter4x4_H264High 1608         qpliResizeGetSrcRoi 841
+qpliReconstructChroma422Intra4x4_H264High 1615         qpliResizeLanczos 852
+qpliReconstructChroma422IntraHalf4x4_H264High 1614     qpliResizeLanczosInit 835
+qpliReconstructChromaInter_AVS 1692                    qpliResizeLinear 847
+qpliReconstructChromaInter4x4_H264High 1605            qpliResizeNearest 846
+qpliReconstructChromaInter4x4MB_H264 1605              qpliResizeNearestInit 832
+qpliReconstructChromaInterMB_H264 1598                 qpliResizeSqrPixel 821
+qpliReconstructChromaIntra_AVS 1690                    qpliResizeSuper 854
+qpliReconstructChromaIntra4x4_H264High 1611            qpliResizeSuperInit 836
+qpliReconstructChromaIntra4x4MB_H264 1611              qpliResizeYCbCr422 860
+qpliReconstructChromaIntraHalf4x4High_H264 1609        qpliResizeYCbCr422GetBufSize 859
+qpliReconstructChromaIntraHalfs4x4MB_H264 1609         qpliResizeYUV420 869
+qpliReconstructChromaIntraHalfsMB_H264 1602            qpliResizeYUV420GetBorderSize 866
+qpliReconstructChromaIntraHalves4x4MB_H264 1609        qpliResizeYUV420GetBufferSize 868
+qpliReconstructChromaIntraHalvesMB_H264 1600           qpliResizeYUV420GetBufSize 865
+qpliReconstructChromaIntraMB_H264 1603                 qpliResizeYUV420GetSize 862
+qpliReconstructCoeffsInter_H261 1506                   qpliResizeYUV420GetSrcOffset 867
+qpliReconstructCoeffsInter_H263 1531                   qpliResizeYUV420Lanczos 871
+qpliReconstructCoeffsInter_MPEG4 1489                  qpliResizeYUV420LanczosInit 863
+qpliReconstructCoeffsIntra_H261 1505                   qpliResizeYUV420Super 873
+qpliReconstructCoeffsIntra_H263 1530                   qpliResizeYUV420SuperInit 864
+qpliReconstructDCTBlock_MPEG1 1409                     qpliResizeYUV422 880
+qpliReconstructDCTBlock_MPEG2 1411                     qpliResizeYUV422GetBorderSize 876
+qpliReconstructDCTBlockIntra_MPEG1 1410                qpliResizeYUV422GetBufSize 877
+qpliReconstructDCTBlockIntra_MPEG2 1413                qpliResizeYUV422GetSize 874
+qpliReconstructLumaInter_AVS 1689                      qpliResizeYUV422GetSrcOffset 876
+qpliReconstructLumaInter4x4_H264High 1620              qpliResizeYUV422Linear 883
+qpliReconstructLumaInter4x4MB_H264 1620                qpliResizeYUV422LinearInit 879
+qpliReconstructLumaInter8x8_H264High 1625              qpliResizeYUV422Nearest 881
+qpliReconstructLumaInter8x8MB_H264 1625                qpliResizeYUV422NearestInit 878
+qpliReconstructLumaIntera4x4MB_H264 1623               qpliRGB555ToYCbCr_JPEG 1110
+qpliReconstructLumaInteraHalf4x4MB_H264 1622           qpliRGB565ToRGB 295
+qpliReconstructLumaInterMB_H264 1616                   qpliRGB565ToYCbCr_JPEG 1110
+qpliReconstructLumaIntra_AVS 1688                      qpliRGB565ToYUV420 199
+qpliReconstructLumaIntra16x16_H264High 1631            qpliRGB565ToYUV422 194
+qpliReconstructLumaIntra16x16MB_H264 1629, 1631        qpliRGBToCbYCr422 225
+qpliReconstructLumaIntra4x4_H264High 1623              qpliRGBToCbYCr422Gamma 225
+qpliReconstructLumaIntra8x8_H264High 1628              qpliRGBToGray 288
+qpliReconstructLumaIntra8x8MB_H264 1628                qpliRGBToHLS 271
+qpliReconstructLumaIntraHalf4x4_H264High 1622          qpliRGBToHSV 275
+qpliReconstructLumaIntraHalf8x8_H264High 1626          qpliRGBToLUV 263
+qpliReconstructLumaIntraHalf8x8MB_H264 1626            qpliRGBToRGB565 294
+
+  1786
+---------------------Page 1787---------------------
+
+                                                                                                  Index
+
+qpliRGBToXYZ 261                                    qpliSmoothingChroma_HorEdge_VC1 1731
+qpliRGBToY_JPEG 1106                                qpliSmoothingChroma_VerEdge_VC1 1730
+qpliRGBToYCbCr 206                                  qpliSmoothingLuma_HorEdge_VC1 1728
+qpliRGBToYCbCr_JPEG 1108                            qpliSmoothingLuma_VerEdge_VC1 1726
+qpliRGBToYCbCr411_JPEG 1120                         qpliSpatialInterpolation_H263 1525
+qpliRGBToYCbCr411LS_MCU 1130                        qpliSplit422LS_MCU 1176
+qpliRGBToYCbCr420 236, 241                          qpliSqr 129
+qpliRGBToYCbCr422 215                               qpliSqrDiff16x16 1334
+qpliRGBToYCbCr422_JPEG 1116                         qpliSqrDiff16x16B 1336
+qpliRGBToYCbCr422LS_MCU 1127                        qpliSqrDistanceFull_Norm 773
+qpliRGBToYCbCr444LS_MCU 1126                        qpliSqrDistanceNorm 770
+qpliRGBToYCC 269                                    qpliSqrDistanceNormGetBufferSize 769
+qpliRGBToYCoCg 277                                  qpliSqrDistanceSame_Norm 776
+qpliRGBToYUV 188                                    qpliSqrDistanceValid_Norm 779
+qpliRGBToYUV420 195                                 qpliSqrIntegral 689
+qpliRGBToYUV422 191                                 qpliSqrt 132
+qpliRotate 893                                      qpliSRHNInitAlloc_PSF2x2 1100
+qpliRotateCenter 902                                qpliSRHNInitAlloc_PSF3x3 1100
+qpliRShiftC 156                                     qpliSSD4x4 1338
+qpliSAD 808                                         qpliSSD8x8 1337
+qpliSAD16x16 1348                                   qpliSSIM 766
+qpliSAD16x16Blocks4x4 1360                          qpliSub 107
+qpliSAD16x16Blocks8x8 1359                          qpliSub128_JPEG 1161
+qpliSAD16x16xN 1349                                 qpliSub16x16 1332, 1333
+qpliSAD16x16xNI 1349                                qpliSub8x8 1332
+qpliSAD16x8 1351                                    qpliSubC 111
+qpliSAD2x2xN 1347                                   qpliSubSAD8x8 1333
+qpliSAD4x4 1357                                     qpliSum 685
+qpliSAD4x4xN 1358                                   qpliSumsDiff16x16Blocks4x4 1371
+qpliSAD4x4xNI 1358                                  qpliSumsDiff16x16Blocks4x4_8u16s_C1 1371
+qpliSAD4x8 1356                                     qpliSumsDiff8x8Blocks4x4 1372
+qpliSAD8x16 1352                                    qpliSumsDiff8x8Blocks4x4_8u16s_C1 1372
+qpliSAD8x4 1355                                     qpliSumWindowColumn 451
+qpliSAD8x8 1353                                     qpliSumWindowRow 450
+qpliSAD8x8xN 1354                                   qpliSuperSampling 857
+qpliSAD8x8xNI 1354                                  qpliSuperSamplingGetBufSize 858
+qpliSADGetBufferSize 807                            qpliSwapChannels 62
+qpliSampleDown411LS_MCU 1172                        qpliThreshold 360
+qpliSampleDown422LS_MCU 1172                        qpliThreshold_GT 363
+qpliSampleDown444LS_MCU 1171                        qpliThreshold_GTVal 368
+qpliSampleDownH2V1_JPEG 1163                        qpliThreshold_LT 364
+qpliSampleDownH2V2_JPEG 1164                        qpliThreshold_LTVal 370
+qpliSampleDownRowH2V1_Box_JPEG 1165                 qpliThreshold_LTValGTVal 373
+qpliSampleDownRowH2V2_Box_JPEG 1166                 qpliThreshold_Val 366
+qpliSampleLine 71                                   qpliTiltedHaarClassifierInitAlloc 1082
+qpliSampleUp411LS_MCU 1175                          qpliTiltedIntegral 691
+qpliSampleUp444LS_MCU 1173                          qpliTiltedRectStdDev 700
+qpliSampleUpH2V1_JPEG 1167                          qpliTiltedSqrIntegral 692
+qpliSampleUpH2V2_JPEG 1168                          qpliToneMapLinear 358
+qpliSampleUpRowH2V1_Triangle_JPEG 1169              qpliToneMapMean 358
+qpliSampleUpRowH2V2_Triangle_JPEG 1170              qpliTransform4x4Fwd_VC1_16s_C1IR 1746
+qpliSAT8x8D 1368                                    qpliTransform4x4Fwd_VC1_16s_C1R 1746
+qpliSATD16x16 1361                                  qpliTransform4x4Inv_VC1_16s_C1IR 1709
+qpliSATD16x8 1362                                   qpliTransform4x4Inv_VC1_16s_C1R 1709
+qpliSATD4x4 1367                                    qpliTransform4x8Fwd_VC1_16s_C1IR 1746
+qpliSATD4x8 1366                                    qpliTransform4x8Fwd_VC1_16s_C1R 1746
+qpliSATD8x16 1363                                   qpliTransform4x8Inv_VC1_16s_C1IR 1709
+qpliSATD8x4 1365                                    qpliTransform4x8Inv_VC1_16s_C1R 1709
+qpliSATD8x8 1364                                    qpliTransform8x4Fwd_VC1_16s_C1IR 1746
+qpliSBGRToYCoCg 280                                 qpliTransform8x4Fwd_VC1_16s_C1R 1746
+qpliSBGRToYCoCg_Rev 283                             qpliTransform8x4Inv_VC1_16s_C1IR 1709
+qpliScale 36                                        qpliTransform8x4Inv_VC1_16s_C1R 1709
+qpliScanFwd 1376                                    qpliTransform8x8Fwd_VC1_16s_C1IR 1746
+qpliScanInv 1375                                    qpliTransform8x8Fwd_VC1_16s_C1R 1746
+qpliSegmentGradient 1067                            qpliTransform8x8Inv_VC1_16s_C1IR 1709
+qpliSegmentGradientGetBufferSize 1067               qpliTransform8x8Inv_VC1_16s_C1R 1709
+qpliSegmentWatershed 1064                           qpliTransformDequantChromaDC_H264 1551
+qpliSegmentWatershedGetBufferSize 1063              qpliTransformDequantChromaDC_SISP_H264 1558
+qpliSet 39                                          qpliTransformDequantLumaDC_H264 1551
+qpliShear 905                                       qpliTransformFwdLuma8x8_H264 1659
+
+                                                                                                1787
+---------------------Page 1788---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+qpliTransformInvAddPredLuma8x8_H264 1678             qpliWTFwdColLift_D97_JPEG2K 1225
+qpliTransformLuma8x8Fwd_H264 1659                    qpliWTFwdFree 956
+qpliTransformLuma8x8InvAddPred_H264 1678             qpliWTFwdGetBufSize 957
+qpliTransformPrediction_H264 1556                    qpliWTFwdInitAlloc 954
+qpliTransformQuant8x8Fwd_AVS 1700                    qpliWTFwdRow_B53_JPEG2K 1215
+qpliTransformQuantChromaDC_H264 1649                 qpliWTFwdRow_D97_JPEG2K 1222
+qpliTransformQuantFwd4x4_H264 1652                   qpliWTInv 964
+qpliTransformQuantFwdChromaDC2x2_H264 1651           qpliWTInv_B53_JPEG2K 1231
+qpliTransformQuantFwdChromaDC2x4_H264 1651           qpliWTInv_D97_JPEG2K 1235
+qpliTransformQuantFwdLumaDC4x4_H264 1647             qpliWTInvCol_B53_JPEG2K 1219
+qpliTransformQuantInvAddPred4x4_H264 1679            qpliWTInvCol_D97_JPEG2K 1227
+qpliTransformQuantInvChromaDC2x2_H264 1650           qpliWTInvColLift_B53_JPEG2K 1221
+qpliTransformQuantInvChromaDC2x4_H264 1650           qpliWTInvColLift_D97_JPEG2K 1228
+qpliTransformQuantInvLumaDC4x4_H264 1655             qpliWTInvFree 963
+qpliTransformQuantLumaDC_H264 1653                   qpliWTInvGetBufSize 964
+qpliTransformQuantResidual_H264 1658                 qpliWTInvInitAlloc 961
+qpliTransformResidual4x4Fwd_H264 1656                qpliWTInvRow_B53_JPEG2K 1216
+qpliTransformResidual4x4Inv_H264 1552                qpliWTInvRow_D97_JPEG2K 1223
+qpliTranspose 60                                     qpliXor 151
+qpliTrueDistanceTransform 1005                       qpliXorC 153
+qpliTrueDistanceTransformGetBufferSize 1004          qpliXYZToRGB 262
+qpliUndistortGetSize 1093                            qpliYCbCr411 325
+qpliUndistortRadial 1094                             qpliYCbCr411To420 328
+qpliUnidirWeight_H264 1592                           qpliYCbCr411ToBGR 258
+qpliUniDirWeightBlock_H264 1592                      qpliYCbCr411ToBGR_JPEG 1123
+qpliUpdateMotionHistory 1029                         qpliYCbCr411ToBGR555 260
+qpliUpsampleFour_H263 1523                           qpliYCbCr411ToBGR555LS_MCU 1145
+qpliUpsampleFour8x8_H263 1525                        qpliYCbCr411ToBGR565 260
+qpliVariance16x16 1343                               qpliYCbCr411ToBGR565LS_MCU 1145
+qpliVarMean8x8_8u32s 1339                            qpliYCbCr411ToBGRLS_MCU 1144
+qpliVarMeanDiff16x16 1341                            qpliYCbCr411ToRGB_JPEG 1121
+qpliVarMeanDiff16x8 1342                             qpliYCbCr411ToRGBLS_MCU 1140
+qpliVarSum8x8 1340                                   qpliYCbCr411ToYCbCr420 328
+qpliVLCAdapt_JPEGXR 1266                             qpliYCbCr411ToYCbCr422 326
+qpliVLCDecode4x4_JPEGXR 1269                         qpliYCbCr411ToYCrCb420 329
+qpliVLCDecodeDC420_JPEGXR 1269                       qpliYCbCr411ToYCrCb422 327
+qpliVLCDecodeDC422_JPEGXR 1269                       qpliYCbCr420 310
+qpliVLCDecodeDC444_JPEGXR 1269                       qpliYCbCr420To422_Interlace 314
+qpliVLCEncode4x4 _JPEGXR 1268                        qpliYCbCr420ToBGR 248
+qpliVLCEncode4x4Flex _JPEGXR 1268                    qpliYCbCr420ToBGR_709CSC 249
+qpliVLCEncodeDC420 _JPEGXR 1268                      qpliYCbCr420ToBGR_709HDTV 251
+qpliVLCEncodeDC444 _JPEGXR 1268                      qpliYCbCr420ToBGR444Dither 254
+qpliVLCGetStateSize_JPEGXR 1265                      qpliYCbCr420ToBGR555Dither 254
+qpliVLCInit_JPEGXR 1265                              qpliYCbCr420ToBGR565Dither 254
+qpliVLCScan4x4DC_JPEGXR 1267                         qpliYCbCr420ToCbYCr422 315
+qpliVLCScanReset_JPEGXR 1266                         qpliYCbCr420ToCbYCr422_Interlace 316
+qpliVLCScanSet_JPEGXR 1266                           qpliYCbCr420ToRGB 237
+qpliWarpAffine 911                                   qpliYCbCr420ToRGB444Dither 240
+qpliWarpAffineBack 915                               qpliYCbCr420ToRGB555Dither 240
+qpliWarpAffineQuad 917                               qpliYCbCr420ToRGB565Dither 240
+qpliWarpBilinear 938                                 qpliYCbCr420ToYCbCr411 319
+qpliWarpBilinearBack 941                             qpliYCbCr420ToYCbCr422 311
+qpliWarpBilinearQuad 943                             qpliYCbCr420ToYCbCr422_Filter 312
+qpliWarpChroma_MPEG4 1479                            qpliYCbCr420ToYCrCb420 317
+qpliWarpGetSize_MPEG4 1477                           qpliYCbCr420ToYCrCb420_Filter 318
+qpliWarpInit_MPEG4 1476                              qpliYCbCr422 296
+qpliWarpLuma_MPEG4 1478                              qpliYCbCr422To420_Interlace 300
+qpliWarpPerspective 925                              qpliYCbCr422ToBGR 221
+qpliWarpPerspectiveBack 928                          qpliYCbCr422ToBGR_JPEG 1119
+qpliWarpPerspectiveQuad 930                          qpliYCbCr422ToBGR444 233
+qpliWeightedAverage_H264 1590                        qpliYCbCr422ToBGR444Dither 234
+qpliWeightPrediction_AVS 1687                        qpliYCbCr422ToBGR555 233
+qpliWinBartlett 667                                  qpliYCbCr422ToBGR555Dither 234
+qpliWinHumming 669                                   qpliYCbCr422ToBGR555LS_MCU 1144
+qpliWinHummingSep 669                                qpliYCbCr422ToBGR565 233
+qpliWTFwd 957                                        qpliYCbCr422ToBGR565Dither 234
+qpliWTFwd_B53_JPEG2K 1230                            qpliYCbCr422ToBGR565LS_MCU 1144
+qpliWTFwdCol_B53_JPEG2K 1217                         qpliYCbCr422ToBGRLS_MCU 1143
+qpliWTFwdCol_D97_JPEG2K 1224                         qpliYCbCr422ToCbYCr422 297
+qpliWTFwdColLift_B53_JPEG2K 1218                     qpliYCbCr422ToGray 222
+
+  1788
+---------------------Page 1789---------------------
+
+                                                                                                  Index
+
+qpliYCbCr422ToRGB 216, 218                           qpliYCrCb422ToYCbCr411 305
+qpliYCbCr422ToRGB_JPEG 1117                          qpliYCrCb422ToYCbCr420 304
+qpliYCbCr422ToRGB444 231                             qpliYCrCb422ToYCbCr422 303
+qpliYCbCr422ToRGB444Dither 232                       qpliYCrCb422ToYCbCr422_10HalvesMB16x8_DV100 1470
+qpliYCbCr422ToRGB555 231                             qpliYCrCb422ToYCbCr422_5MBDV 1467
+qpliYCbCr422ToRGB555Dither 232                       qpliYCrCb422ToYCbCr422_8x4x5MB_DV 1469
+qpliYCbCr422ToRGB565 231                             qpliYCrCb422ToYCbCr422_ZoomOut2_5MBDV 1467
+qpliYCbCr422ToRGB565Dither 232                       qpliYCrCb422ToYCbCr422_ZoomOut4_5MBDV 1467
+qpliYCbCr422ToRGBLS_MCU 1139                         qpliYCrCb422ToYCbCr422_ZoomOut8_5MBDV 1467
+qpliYCbCr422ToYCbCr411 302                           qpliYUV420ToBGR 198
+qpliYCbCr422ToYCbCr420 298                           qpliYUV420ToBGR444 203
+qpliYCbCr422ToYCrCb420 301                           qpliYUV420ToBGR444Dither 204
+qpliYCbCr444ToBGR555LS_MCU 1142                      qpliYUV420ToBGR555 203
+qpliYCbCr444ToBGR565LS_MCU 1142                      qpliYUV420ToBGR555Dither 204
+qpliYCbCr444ToBGRLS_MCU 1141                         qpliYUV420ToBGR565 203
+qpliYCbCr444ToRGBLS_MCU 1138                         qpliYUV420ToBGR565Dither 204
+qpliYCbCrToBGR 208                                   qpliYUV420ToRGB 196
+qpliYCbCrToBGR_709CSC 209                            qpliYUV420ToRGB444 200
+qpliYCbCrToBGR_JPEG 1113                             qpliYUV420ToRGB444Dither 201
+qpliYCbCrToBGR444 212                                qpliYUV420ToRGB555 200
+qpliYCbCrToBGR444Dither 214                          qpliYUV420ToRGB555Dither 201
+qpliYCbCrToBGR555 212                                qpliYUV420ToRGB565 200
+qpliYCbCrToBGR555_JPEG 1115                          qpliYUV420ToRGB565Dither 201
+qpliYCbCrToBGR555Dither 214                          qpliYUV422ToRGB 192
+qpliYCbCrToBGR565 212                                qpliYUVToRGB 190
+qpliYCbCrToBGR565_JPEG 1115                          qpliZigzagFwd8x8 73
+qpliYCbCrToBGR565Dither 214                          qpliZigzagInv8x8 75
+qpliYCbCrToRGB 207                                   qpljGetLibVersion 1105
+qpliYCbCrToRGB_JPEG 1109                             qplsApplyHaarClassifier 1085
+qpliYCbCrToRGB444 210
+qpliYCbCrToRGB444Dither 211
+qpliYCbCrToRGB555 210                                J
+qpliYCbCrToRGB555_JPEG 1111
+qpliYCbCrToRGB555Dither 211                          Join422LS_MCU 1177
+qpliYCbCrToRGB565 210                                JPEG 2000 Codec
+qpliYCbCrToRGB565_JPEG 1111                             entropy coding and decoding functions 1236
+qpliYCbCrToRGB565Dither 211                             wavelet transform functions 1214
+qpliYCCK444ToCMYKLS_MCU 1146                         JPEG Codec
+qpliYCCKToCMYK_JPEG 1125                                color conversion functions 1106
+qpliYCCKToCMYK411LS_MCU 1148                            combined color conversion functions 1126
+qpliYCCKToCMYK422LS_MCU 1147                            combined quantization, DCT, and level shift functions
+qpliYCCToRGB 270                                                1154
+qpliYCiCgToSBGR 281                                     Huffman codec functions 1178
+qpliYCoCgToBGR 280                                      level shift functions 1161
+qpliYCoCgToBGR_Rev 284                                  library version 1105
+qpliYCoCgToRGB 278                                      quantization functions 1149
+qpliYCoCgToSBGR_Rev 285                                 sampling functions 1163
+qpliYCrCb411ToYCbCr422_16x4x5MB_DV 1463              JPEG coding
+qpliYCrCb411ToYCbCr422_5MBDV 1462                       color conversion functions 1106–1125
+qpliYCrCb411ToYCbCr422_8x8MB_DV 1463                    combined DCT functions 1154, 1155, 1158–1160
+qpliYCrCb411ToYCbCr422_EdgeDV 1464                      level shift functions 1161, 1162
+qpliYCrCb411ToYCbCr422_ZoomOut2_5MBDV 1462           JPEG coding, lossless 1204
+qpliYCrCb411ToYCbCr422_ZoomOut2_EdgeDV 1464          JPEG XR adaptive variable and fixed length coding 1265
+qpliYCrCb411ToYCbCr422_ZoomOut4_5MBDV 1462           JPEG XR adaptive VLC/FLC functions 1265
+qpliYCrCb411ToYCbCr422_ZoomOut4_EdgeDV 1464          JPEG XR coding 1262, 1265
+qpliYCrCb411ToYCbCr422_ZoomOut8_5MBDV 1462           JPEG XR core transform 1262
+qpliYCrCb411ToYCbCr422_ZoomOut8_EdgeDV 1464
+qpliYCrCb420ToCbYCr422 322
+qpliYCrCb420ToRGB 242                                L
+qpliYCrCb420ToYCbCr411 324
+                                                     LabelMarkers 1058
+qpliYCrCb420ToYCbCr420 323
+                                                     LabelMarkersGetBufferSize 1057
+qpliYCrCb420ToYCbCr422 321
+                                                     LabToBGR 267
+qpliYCrCb420ToYCbCr422_5MBDV 1465
+                                                     lbp, operator 1089
+qpliYCrCb420ToYCbCr422_8x8x5MB_DV 1466
+                                                     LBPImage 1090
+qpliYCrCb420ToYCbCr422_Filter 321
+                                                     LBPImageHorizCorr 1091
+qpliYCrCb420ToYCbCr422_ZoomOut2_5MBDV 1465
+                                                     level shift functions, for JPEG codec 1161
+qpliYCrCb420ToYCbCr422_ZoomOut4_5MBDV 1465
+                                                     library version information 25
+qpliYCrCb420ToYCbCr422_ZoomOut8_5MBDV 1465
+                                                     lines padding 21
+qpliYCrCb422ToBGR 219
+                                                     Ln 134
+qpliYCrCb422ToRGB 219
+                                                     local binary pattern 1089
+
+                                                                                                1789
+---------------------Page 1790---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+logical functions                                     MinMax 715
+   bitwise AND 143                                    MinMaxIndx 716
+   bitwise NOT 155                                    Mirror 886
+   bitwise OR 147                                     MomentFree 726
+   bitwise XOR 151                                    MomentGetStateSize 727
+   left shift 159                                     MomentInit 728
+   right shift 156                                    MomentInitAlloc 726
+logical operations 143                                Moments 728
+LShiftC 159                                           moments, of an image 725
+LUT 346                                               MorphAdvFree 408
+LUT_Cubic 352                                         MorphAdvGetSize 411
+LUT_Linear 349                                        MorphAdvInit 409
+LUTPalette 355                                        MorphAdvInitAlloc 407
+LUTPaletteSwap 355                                    MorphBlackhatBorder 419
+LUVToRGB 264                                          MorphCloseBorder 414
+                                                      MorphGradientBorder 421
+                                                      MorphGrayFree 423
+M                                                     MorphGrayGetSize 425
+                                                      MorphGrayInit 424
+macroblock 1430, 1501                                 MorphGrayInitAlloc 422
+macropixel 182                                        morphological functions
+Magnitude 657                                             DilateBorder 392
+MagnitudePack 659                                         DilateBorderReplicate 404
+Malloc 27                                                 dilation 388
+mapping, of data range 36                                 ErodeBorder 396
+MarkSpeckles 1061                                         ErodeBorderReplicate 406
+MarkSpecklesGetBufferSize 1060                            erosion 389
+mask, in median filtering 466                             GrayDilateBorder 426, 427
+Max 712                                                   MorphAdvFree 408
+MaxEvery 718                                              MorphAdvGetSize 411
+MaxIndx 713                                               MorphBlackhatBorder 419
+MC16x16 1286                                              MorphCloseBorder 414
+MC16x16B 1298                                             MorphGradientBorder 421
+MC16x4 1296                                               MorphGrayFree 423
+MC16x4B 1310                                              MorphGrayGetSize 425
+MC16x8 1286                                               MorphologyFree 401
+MC16x8B 1299                                              MorphOpenBorder 412
+MC16x8BUV 1311                                            MorphReconstructErode 431
+MC16x8UV 1297                                             MorphReconstructGetBufferSize 428
+MC2x2 1295                                                MorphTophatBorder 417
+MC2x2B 1309                                           MorphologyBorderGetSize 398
+MC2x4 1293                                            MorphologyBorderInit 399
+MC2x4B 1307                                           MorphologyFree 401
+MC4x2 1294                                            MorphologyGetSize 403
+MC4x2B 1308                                           MorphologyInit 402
+MC4x4 1292                                            MorphologyInitAlloc 400
+MC4x4B 1305                                           MorphOpenBorder 412
+MC4x8 1291                                            MorphReconstructErode 431
+MC4x8B 1304                                           MorphReconstructGetBufferSize 428
+MC8x16 1287                                           MorphTophatBorder 417
+MC8x16B 1300                                          motion Analysis and object tracking 1028
+MC8x4 1290                                            motion analysis and object tracking functions
+MC8x4B 1303                                               OpticalFlowPyrLK 1032
+MC8x8 1288                                                OpticalFlowPyrLKFree 1032
+MC8x8B 1301                                               OpticalFlowPyrLKInitAlloc 1031
+MCU, minimum coded units 1126                             UpdateMotionHistory 1029
+Mean 694                                              motion compensation adding functions 1315–1317
+Mean_StdDev 697                                       motion compensation averaging functions 1317
+MeanAbsDev16x16 1345                                  motion compensation copying functions 1312, 1313
+MeanAbsDev8x8 1344                                    motion compensation interpolating functions 1314
+Median 1384                                           motion estimation subtracting functions 1332, 1333
+median filters 466                                    MPEG4 video decoder functions
+memory allocation 27                                      CalcGlobalMV_MPEG4 1480
+memory allocation functions                               ChangeSpriteBrightness_MPEG4 1481
+   qpliFree 28                                            Copy16x16QP_MPEG4 1474
+   qpliMalloc 27                                          Copy16x8QP_MPEG4 1474
+Min 709                                                   Copy8x8QP_MPEG4 1474
+MinEigenVal 988                                           DecodeCoeffsInter_MPEG4 1487
+MinEigenValGetBufferSize 987                              DecodeCoeffsInterRVLCBack_MPEG4 1489
+MinEvery 719                                              DecodeCoeffsIntra_MPEG4 1485
+MinIndx 711
+
+  1790
+---------------------Page 1791---------------------
+
+                                                                                                  Index
+
+   DecodeCoeffsIntraRVLCBack_MPEG4 1486             pattern recognition 1080, 1090, 1091
+   DecodeDCIntra_MPEG4 1484                         PCTFwd_JPEGXR 1262
+   EncodeCoeffsInter_MPEG4 1499                     PCTFwd16x16_JPEGXR 1262
+   EncodeCoeffsIntra_MPEG4 1498                     PCTFwd8x16_JPEGXR 1262
+   EncodeDCIntra_MPEG4 1497                         PCTFwd8x8_JPEGXR 1262
+   FilterDeblocking8x8HorEdge_MPEG4 1491            PCTInv_JPEGXR 1263
+   FilterDeblocking8x8VerEdge_MPEG4 1491            PCTInv16x16_JPEGXR 1263
+   FilterDeringingSmooth8x8_MPEG4 1492              PCTInv8x16_JPEGXR 1263
+   FilterDeringingThreshold_MPEG4 1492              PCTInv8x8_JPEGXR 1263
+   OBMC16x16HP_MPEG4 1475                           Phase 660
+   OBMC8x8HP_MPEG4 1475                             PhasePack 661
+   OBMC8x8QP_MPEG4 1475                             Photo YCC color model 172
+   QuantInter_MPEG4 1496                            pixel order images 20
+   QuantInterGetSize_MPEG4 1495                     planar order images 20
+   QuantInterInit_MPEG4 1494                        pOffset 1277
+   QuantIntra_MPEG4 1496                            point operation 21
+   QuantIntraGetSize_MPEG4 1495                     ppBitStream 1277
+   QuantIntraInit_MPEG4 1494                        PredictIntra_16x16_H264 1562
+   QuantInvInter_MPEG4 1483                         PredictIntra_4x4_H264 1559
+   QuantInvInterGetSize_MPEG4 1482                  PredictIntraChroma8x8_H264 1563
+   QuantInvInterInit_MPEG4 1481                     purple line 172
+   QuantInvIntra_MPEG4 1483                         PutIntraBlock 1428
+   QuantInvIntraGetSize_MPEG4 1482                  PutNonIntraBlock 1429
+   QuantInvIntraInit_MPEG4 1481                     PyramidFree 1042
+   ReconstructCoeffsInter_MPEG4 1489                PyramidInitAlloc 1041
+   WarpChroma_MPEG4 1479                            PyramidLayerDown 1049
+   WarpGetSize_MPEG4 1477                           PyramidLayerDownFree 1044
+   WarpInit_MPEG4 1476                              PyramidLayerUp 1050
+   WarpLuma_MPEG4 1478                              PyramidLayerUpFree 1046
+Mul 96                                              PyramidLayerUpInitAlloc 1045
+MulC 99                                             pyramids function
+MulCScale 105                                           PyramidFree 1042
+MulPack 653                                             PyramidLayerDownFree 1044
+MulPackConj 656                                         PyramidLayerUp 1050
+MulScale 103                                            PyramidLayerUpFree 1046
+                                                        PyramidLayerUpInitAlloc 1045
+N                                                   PyrDown 1038
+                                                    PyrDownGetBufSize 1037
+naming conventions 5                                PyrUp 1040
+neighborhood operation 21                           PyrUpGetBufSize 1037
+Norm_Inf 736
+Norm_L1 739
+Norm_L2 742                                         Q
+NormDiff_Inf 744
+NormDiff_L1 747                                     quality factor, in JPEG compression 1149
+NormDiff_L2 750                                     QualityIndex 763
+NormRel_Inf 753                                     Quant_MPEG2 1425
+NormRel_L1 755                                      QuantFwd8x8_JPEG 1150
+NormRel_L2 759                                      QuantFwdRawTableInit_JPEG 1149
+norms, of an image 736                              QuantFwdTableInit_JPEG 1149
+Not 155                                             QuantInter_H263 1538
+                                                    QuantInter_MPEG4 1496
+O                                                   QuantInterGetSize_MPEG4 1495
+object detection functions                          QuantInterInit_MPEG4 1494
+   HaarClassifierFree 1083                          QuantInterNonuniform_VC1 1753
+   HaarClassifierInitAlloc 1081                     QuantInterUniform_VC1 1753
+   TiltedHaarClassifierInitAlloc 1082               QuantIntra_H263 1537
+OBMC16x16HP_MPEG4 1475                              QuantIntra_MPEG2 1424
+OBMC8x8HP_MPEG4 1475                                QuantIntra_MPEG4 1496
+OBMC8x8QP_MPEG4 1475                                QuantIntraGetSize_MPEG4 1495
+operation models 21                                 QuantIntraInit_MPEG4 1494
+optical flow 1031                                   QuantIntraNonuniform_VC1 1752
+OpticalFlowPyrLK 1032                               QuantIntraUniform_VC1 1752
+OpticalFlowPyrLKFree 1032                           QuantInv_DV 1446
+OpticalFlowPyrLKInitAlloc 1031                      QuantInv_MPEG2 1415
+Or 147                                              QuantInv8x8_JPEG 1153
+OrC 149                                             QuantInvInter_H263 1519
+                                                    QuantInvInter_MPEG4 1483
+P                                                   QuantInvInterGetSize_MPEG4 1482
+                                                    QuantInvInterInit_MPEG4 1481
+PackToCplxExtend 664                                QuantInvInterNonuniform_VC1 1740
+
+                                                                                                1791
+---------------------Page 1792---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+QuantInvInterUniform_VC1 1740                         Remap 889
+QuantInvIntra_H263 1517                               Resample_H263 1521
+QuantInvIntra_MPEG2 1415                              ResampleRow 79
+QuantInvIntra_MPEG4 1483                              ResampleRowGetBorderWidth 78
+QuantInvIntraGetSize_MPEG4 1482                       ResampleRowGetSize 76
+QuantInvIntraInit_MPEG4 1481                          ResampleRowInit 77
+QuantInvIntraNonuniform_VC1 1737                      ResampleRowReplicateBorder 79
+QuantInvIntraUniform_VC1 1737                         ResizeAntialiasing 842
+QuantInvTableInit_JPEG 1153                           ResizeAntialiasingCubicInit 837
+quantization functions, for JPEG codec 1149           ResizeAntialiasingLanczosInit 838
+quantization table 1149                               ResizeAntialiasingLinearInit 837
+QuantizeResidual4x4Fwd_H264 1656                      ResizeCCRotate 1379
+QuantLuma8x8_H264 1660                                ResizeCubic 850
+QuantLuma8x8Inv_H264 1677                             ResizeCubicInit 833
+QuantWeightBlockInv_DV 1447                           ResizeFilter 885
+QuantWeightBlockInv_DV100 1452                        ResizeFilterGetSize 867
+                                                      ResizeFilterInit 884
+                                                      ResizeGetBorderSize 839
+R                                                     ResizeGetBufferSize 829
+                                                      ResizeGetBufSize 828
+RangeMapping_VC1 1744                                 ResizeGetSize 830
+RCTFwd_JPEG2K 1251                                    ResizeGetSrcOffset 840
+RCTInv_JPEG2K 1254                                    ResizeGetSrcRoi 841
+ReconstructChroma422Inter4x4_H264High 1608            ResizeLanczos 852
+ReconstructChroma422Intra4x4_H264High 1615            ResizeLanczosInit 835
+ReconstructChroma422IntraHalf4x4_H264High 1614        ResizeLinear 847
+ReconstructChromaInter_AVS 1692                       ResizeNearest 846
+ReconstructChromaInter4x4_H264High 1605               ResizeNearestInit 832
+ReconstructChromaInter4x4MB_H264 1605                 ResizeSqrPixel 821
+ReconstructChromaInterMB_H264 1598                    ResizeSuper 854
+ReconstructChromaIntra_AVS 1690                       ResizeSuperInit 836
+ReconstructChromaIntra4x4MB_H264 1611                 ResizeYCbCr422 860
+ReconstructChromaIntraHalf4x4High_H264 1609           ResizeYCbCr422GetBufSize 859
+ReconstructChromaIntraHalfs4x4MB_H264 1609            ResizeYUV420 869
+ReconstructChromaIntraHalfsMB_H264 1602               ResizeYUV420GetBorderSize 866
+ReconstructChromaIntraHalves4x4MB_H264 1609           ResizeYUV420GetBufferSize 868
+ReconstructChromaIntraHalvesMB_H264 1600              ResizeYUV420GetBufSize 865
+ReconstructChromaIntraMB_H264 1603                    ResizeYUV420GetSize 862
+ReconstructCoeffsInter_H261 1506                      ResizeYUV420GetSrcOffset 867
+ReconstructCoeffsInter_H263 1531                      ResizeYUV420Lanczos 871
+ReconstructCoeffsInter_MPEG4 1489                     ResizeYUV420LanczosInit 863
+ReconstructCoeffsIntra_H261 1505                      ResizeYUV420Super 873
+ReconstructCoeffsIntra_H263 1530                      ResizeYUV420SuperInit 864
+ReconstructDCTBlock_MPEG1 1409                        ResizeYUV422 880
+ReconstructDCTBlock_MPEG2 1411                        ResizeYUV422GetBorderSize 876
+ReconstructDCTBlockIntra_MPEG1 1410                   ResizeYUV422GetBufSize 877
+ReconstructDCTBlockIntra_MPEG2 1413                   ResizeYUV422GetSize 874
+ReconstructLumaInter_AVS 1689                         ResizeYUV422GetSrcOffset 876
+ReconstructLumaInter4x4_H264High 1620                 ResizeYUV422Linear 883
+ReconstructLumaInter4x4MB_H264 1620                   ResizeYUV422LinearInit 879
+ReconstructLumaInter8x8_H264High 1625                 ResizeYUV422Nearest 881
+ReconstructLumaInter8x8MB_H264 1625                   ResizeYUV422NearestInit 878
+ReconstructLumaInterMB_H264 1616                      RGB color model 172
+ReconstructLumaIntra_AVS 1688                         RGB image formats 183
+ReconstructLumaIntra16x16_H264High 1631               RGB555ToYCbCr_JPEG 1110
+ReconstructLumaIntra16x16MB_H264 1629, 1631           RGB565ToRGB 295
+ReconstructLumaIntra4x4_H264High 1623                 RGB565ToYCbCr_JPEG 1110
+ReconstructLumaIntra4x4MB_H264 1623                   RGB565ToYUV420 199
+ReconstructLumaIntra8x8_H264High 1628                 RGB565ToYUV422 194
+ReconstructLumaIntra8x8MB_H264 1628                   RGBToCbYCr422 225
+ReconstructLumaIntraHalf4x4_H264High 1622             RGBToCbYCr422Gamma 225
+ReconstructLumaIntraHalf4x4MB_H264 1622               RGBToGray 288
+ReconstructLumaIntraHalf8x8_H264High 1626             RGBToHLS 271
+ReconstructLumaIntraHalf8x8MB_H264 1626               RGBToHSV 275
+ReconstructLumaIntraHalfMB_H264 1617                  RGBToLUV 263
+ReconstructLumaIntraMB_H264 1619                      RGBToRGB565 294
+ReconstructPredFirstRow_JPEG 1207                     RGBToXYZ 261
+ReconstructPredRow 1208                               RGBToY_JPEG 1106
+RectStdDev 699                                        RGBToYCbCr 206
+ReduceBits 343                                        RGBToYCbCr_JPEG 1108
+region of interest 21
+
+  1792
+---------------------Page 1793---------------------
+
+                                                                                                  Index
+
+RGBToYCbCr411_JPEG 1120                             Scale 36
+RGBToYCbCr411LS_MCU 1130                            scaling of output results 11
+RGBToYCbCr420 236, 241                              ScanFwd 1376
+RGBToYCbCr422 215                                   ScanInv 1375
+RGBToYCbCr422_JPEG 1116                             scanline padding 812
+RGBToYCbCr422LS_MCU 1127                            scanning
+RGBToYCbCr444LS_MCU 1126                                ScanFwd 1376
+RGBToYCC 269                                            ScanInv 1375
+RGBToYCoCg 277                                      segment 1430
+RGBToYCrCb422 218                                   SegmentGradient 1067
+RGBToYUV 188                                        SegmentGradientGetBufferSize 1067
+RGBToYUV420 195                                     SegmentWatershed 1064
+RGBToYUV422 191                                     SegmentWatershedGetBufferSize 1063
+RLE coding functions                                Set 39
+   JoinRow_TIFF 1261                                Shear 905
+   PackBitsRow_TIFF 1259                            SmoothingChroma_HorEdge_VC1 1731
+   SplitRow_TIFF 1261                               SmoothingChroma_VerEdge_VC1 1730
+   UnpackBitsRow_TIFF 1260                          SmoothingLuma_HorEdge_VC1 1728
+ROI 21                                              SmoothingLuma_VerEdge_VC1 1726
+ROI processing, in geometric transforms 812         SpatialInterpolation_H263 1525
+Rotate 893                                          spectrum locus 172
+RotateCenter 902                                    Split422LS_MCU 1176
+rounding mode 11                                    Sqr 129
+RShiftC 156                                         SqrDiff16x16 1334
+                                                    SqrDiff16x16B 1336
+                                                    SqrDistanceFull_Norm 773
+S                                                   SqrDistanceNorm 770
+                                                    SqrDistanceNormGetBufferSize 769
+SAD 808                                             SqrDistanceSame_Norm 776
+SAD16x16 1348                                       SqrDistanceValid_Norm 779
+SAD16x16Blocks4x4 1360                              SqrIntegral 689
+SAD16x16Blocks8x8 1359                              Sqrt 132
+SAD16x16xN 1349                                     SRHNInitAlloc_PSF2x2 1100
+SAD16x16xNI 1349                                    SRHNInitAlloc_PSF3x3 1100
+SAD16x8 1351                                        SSD4x4 1338
+SAD2x2xN 1347                                       SSD8x8 1337
+SAD4x4 1357                                         SSIM 766
+SAD4x4xN 1358                                       statistics functions
+SAD4x4xNI 1358                                          computing image moments 728
+SAD4x8 1356                                             context initializing 726
+SAD8x16 1352                                            deallocation 726
+SAD8x4 1355                                             HistogramEven 704
+SAD8x8 1353                                             HistogramRange 702
+SAD8x8xN 1354                                           image norms 736, 739, 742, 744, 747, 750, 753
+SAD8x8xNI 1354                                          integral of pixel squares 689
+SADGetBufferSize 807                                    integral representation 687
+SampleDown411LS_MCU 1172                                maximum 712
+SampleDown422LS_MCU 1172                                maximum value for a pair of pixels 718
+SampleDown444LS_MCU 1171                                maximum with index 713
+SampleDownH2V1_JPEG 1163                                mean and stdev value 697
+SampleDownH2V2_JPEG 1164                                mean value 694
+SampleDownRowH2V1_Box_JPEG 1165                         minimum 709
+SampleDownRowH2V2_Box_JPEG 1166                         minimum and maximum 715
+SampleLine 71                                           minimum and maximum with indexes 716
+SampleUp411LS_MCU 1175                                  minimum value for a pair of pixels 719
+SampleUp444LS_MCU 1173                                  minimum with index 711
+SampleUpH2V1_JPEG 1167                                  pixels count 706
+SampleUpH2V2_JPEG 1168                                  retrieving central moments 731
+SampleUpRowH2V1_Triangle_JPEG 1169                      retrieving Hu moments 734
+SampleUpRowH2V2_Triangle_JPEG 1170                      retrieving spatial moments 730
+sampling functions, for JPEG codec 1163                 standard deviation of integral images 699
+SAT8x8D 1368                                            standard deviation of tilted integral images 700
+SATD16x16 1361                                          sum 685
+SATD16x8 1362                                           tilted integral of pixel squares 692
+SATD4x4 1367                                            tilted integral representation 691
+SATD4x8 1366                                        status codes 11
+SATD8x16 1363                                       status information 26
+SATD8x4 1365                                        status information function 26
+SATD8x8 1364                                        Structures in QPLI 14
+SBGRToYCoCg 280                                     Sub 107
+SBGRToYCoCg_Rev 283
+
+                                                                                                1793
+---------------------Page 1794---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+Sub128_JPEG 1161                                      UndistortRadial 1094
+Sub16x16 1332, 1333                                   UnidirWeight_H264 1592
+Sub8x8 1332                                           UniDirWeightBlock_H264 1592
+SubC 111                                              uniform chromaticity scale diagram 172
+SubSAD8x8 1333                                        universal pyramids 1041
+Sum 685                                               UpdateMotionHistory 1029
+SumsDiff16x16Blocks4x4 1371                           UpsampleFour_H263 1523
+SumsDiff8x8Blocks4x4 1372                             UpsampleFour8x8_H263 1525
+SumWindowColumn 451                                   user-defined borders 435
+SumWindowRow 450
+superblock 1430
+SuperSampling 857                                     V
+SuperSamplingGetBufSize 858
+support functions                                     Variance16x16 1343
+SwapChannels 62                                       VarMean8x8 1339
+                                                      VarMeanDiff16x16 1341
+                                                      VarMeanDiff16x8 1342
+T                                                     VarSum8x8 1340
+                                                      VC-1 decoder functions
+Threshold 360                                             bicubic interpolation 1720, 1724
+threshold functions 360                                   bilinear interpolation 1718, 1721
+Threshold_GT 363                                          deblocking filtering 1733–1736
+Threshold_GTVal 368                                       dequantization 1737, 1740
+Threshold_LT 364                                          range reduction 1744
+Threshold_LTVal 370                                       smoothing filtering 1726, 1728, 1730, 1731
+Threshold_LTValGTVal 373                                  bicubic interpolation 1720, 1724
+Threshold_Val 366                                         bilinear interpolation 1718, 1721
+tiled image processing 24                                 intensity compensation 1721, 1724
+Tilted RectStdDev 700                                 VC-1 encoder functions
+TiltedHaarClassifierInitAlloc 1082                        quantization 1752, 1753
+TiltedIntegral 691                                    VC1 decoder functions
+TiltedSqrIntegral 692                                     inverse transform 1709
+ToneMapLinear 358                                     VC1 encoder functions
+ToneMapMean 358                                           forward transform 1746
+Transform4x4Fwd_VC1 1746                              version information function 25
+Transform4x4Inv_VC1 1709                              version information, for JPEG library 1105
+Transform4x8Fwd_VC1 1746                              vertical sampling, in a JPEG codec 1163
+Transform4x8Inv_VC1 1709                              video coding color conversion 1377
+Transform8x4Fwd_VC1 1746                              video coding general functions 1273
+Transform8x4Inv_VC1 1709                              video encoder functions, motion estimation
+Transform8x8Fwd_VC1 1746                                  MeanAbsDev16x16 1345
+Transform8x8Inv_VC1 1709                                  MeanAbsDev8x8 1344
+TransformDequantChromaDC_H264 1551                    video processing functions
+TransformDequantChromaDC_SISP_H264 1558                   general color conversion 1377, 1379
+TransformDequantLumaDC_H264 1551                          SAD 808
+TransformFwdLuma8x8_H264 1659                             SADGetBufferSize 807
+TransformInvAddPredLuma8x8_H264 1678                      sum of absolute differences, computing 808
+TransformLuma8x8Fwd_H264 1659                         video processing functions, general
+TransformLuma8x8InvAddPred_H264 1678                      DeinterlaceBlend 1393
+TransformPrediction_H264 1556                             DeinterlaceBlendFree 1395
+TransformQuant8x8Fwd_AVS 1700                             DeinterlaceBlendGetSize 1389
+TransformQuantChromaDC_H264 1649                          DeinterlaceBlendInit 1390
+TransformQuantFwd4x4_H264 1652                            DeinterlaceBlendInitAlloc 1392
+TransformQuantFwdChromaDC2x2_H264 1651                    DeinterlaceEdgeDetect 1386
+TransformQuantFwdChromaDC2x4_H264 1651                    DeinterlaceFilterCAVT 1383
+TransformQuantFwdLumaDC4x4_H264 1647                      DeinterlaceFilterTriangle 1382
+TransformQuantInvAddPred4x4_H264 1679                     DeinterlaceMedianThreshold 1385
+TransformQuantInvChromaDC2x2_H264 1650                    DeinterlaceMotionAdaptive 1387
+TransformQuantInvChromaDC2x4_H264 1650                    FilterDenoiseAdaptive 1401
+TransformQuantInvLumaDC4x4_H264 1655                      FilterDenoiseAdaptiveFree 1400
+TransformQuantLumaDC_H264 1653                            FilterDenoiseAdaptiveInitAlloc 1399
+TransformQuantResidual_H264_16s_C1I 1658                  FilterDenoiseCAST 1397
+TransformResidual4x4Fwd_H264 1656                         FilterDenoiseCASTInit 1396
+TransformResidual4x4Inv_H264 1552                         FilterDenoiseMosquito 1404
+Transpose 60                                              FilterDenoiseMosquitoFree 1404
+TrueDistanceTransform 1005                                FilterDenoiseMosquitoInitAlloc 1403
+TrueDistanceTransformGetBufferSize 1004                   FilterDenoiseSmooth 1398
+                                                          Median 1384
+U                                                     VLCAdapt_JPEGXR 1266
+                                                      VLCDecode4x4_JPEGXR 1269
+UndistortGetSize 1093                                 VLCDecodeDC420_JPEGXR 1269
+
+  1794
+---------------------Page 1795---------------------
+
+                                                                                               Index
+
+VLCDecodeDC422_JPEGXR 1269                         XorC 153
+VLCDecodeDC444_JPEGXR 1269                         XYZToRGB 262
+VLCEncode4x4_JPEGXR 1268
+VLCEncode4x4Flex_JPEGXR 1268
+VLCEncodeDC420_JPEGXR 1268                         Y
+VLCEncodeDC444_JPEGXR 1268
+VLCGetStateSize_JPEGXR 1265                        YCbCr411 325
+VLCInit_JPEGXR 1265                                YCbCr411To420 328
+VLCScan4x4DC_JPEGXR 1267                           YCbCr411ToBGR 258
+VLCScanReset_JPEGXR 1266                           YCbCr411ToBGR_JPEG 1123
+VLCScanSet_JPEGXR 1266                             YCbCr411ToBGR555 260
+VOP, video object plane 1473                       YCbCr411ToBGR555LS_MCU 1145
+                                                   YCbCr411ToBGR565 260
+W                                                  YCbCr411ToBGR565LS_MCU 1145
+                                                   YCbCr411ToBGRLS_MCU 1144
+WarpAffine 911                                     YCbCr411ToRGB_JPEG 1121
+WarpAffineBack 915                                 YCbCr411ToRGBLS_MCU 1140
+WarpAffineQuad 917                                 YCbCr411ToYCbCr420 328
+WarpBilinear 938                                   YCbCr411ToYCbCr422 326
+WarpBilinearBack 941                               YCbCr411ToYCrCb420 329
+WarpBilinearQuad 943                               YCbCr411ToYCrCb422 327
+WarpChroma_MPEG4 1479                              YCbCr420 310
+WarpGetSize_MPEG4 1477                             YCbCr420To422_Interlace 314
+WarpInit_MPEG4 1476                                YCbCr420ToBGR 248
+WarpLuma_MPEG4 1478                                YCbCr420ToBGR_709CSC 249
+WarpPerspective 925                                YCbCr420ToBGR_709HDTV 251
+WarpPerspectiveBack 928                            YCbCr420ToBGR444Dither 254
+WarpPerspectiveQuad 930                            YCbCr420ToBGR555Dither 254
+wavelet transform functions                        YCbCr420ToBGR565Dither 254
+   buffer size calculation 957, 964                YCbCr420ToCbYCr422 315
+   deallocation 956, 963                           YCbCr420ToCbYCr422_Interlace 316
+   forward transform 957                           YCbCr420ToRGB 237
+   initialization 954, 961                         YCbCr420ToRGB444Dither 240
+   inverse transform 964                           YCbCr420ToRGB555Dither 240
+wavelet transforms, for lossless compression 1214  YCbCr420ToRGB565Dither 240
+WeightedAverage_H264 1590                          YCbCr420ToYCbCr411 319
+WeightPrediction_AVS 1687                          YCbCr420ToYCbCr422 311
+WinBartlett 667                                    YCbCr420ToYCbCr422_Filter 312
+WinBartlettSep 667                                 YCbCr420ToYCrCb420 317
+windowing functions                                YCbCr420ToYCrCb420_Filter 318
+   Bartlett window 667                             YCbCr422 296
+   Hamming window 669                              YCbCr422To420_Interlace 300
+WinHamming 669                                     YCbCr422ToBGR 221
+WinHummingSep 669                                  YCbCr422ToBGR_JPEG 1119
+WTFwd 957                                          YCbCr422ToBGR444 233
+WTFwd_B53_JPEG2K 1230                              YCbCr422ToBGR444Dither 234
+WTFwdCol_B53_JPEG2K 1217                           YCbCr422ToBGR555 233
+WTFwdCol_D97_JPEG2K 1224                           YCbCr422ToBGR555Dither 234
+WTFwdColLift_B53_JPEG2K 1218                       YCbCr422ToBGR555LS_MCU 1144
+WTFwdColLift_D97_JPEG2K 1225                       YCbCr422ToBGR565 233
+WTFwdFree 956                                      YCbCr422ToBGR565Dither 234
+WTFwdGetBufSize 957                                YCbCr422ToBGR565LS_MCU 1144
+WTFwdInitAlloc 954                                 YCbCr422ToBGRLS_MCU 1143
+WTFwdRow_B53_JPEG2K 1215                           YCbCr422ToCbYCr422 297
+WTFwdRow_D97_JPEG2K 1222                           YCbCr422ToGray 222
+WTInv 964                                          YCbCr422ToRGB 216
+WTInv_B53_JPEG2K 1231                              YCbCr422ToRGB_JPEG 1117
+WTInv_D97_JPEG2K 1235                              YCbCr422ToRGB444 231
+WTInvCol_B53_JPEG2K 1219                           YCbCr422ToRGB444Dither 232
+WTInvCol_D97_JPEG2K 1227                           YCbCr422ToRGB555 231
+WTInvColLift_B53_JPEG2K 1221                       YCbCr422ToRGB555Dither 232
+WTInvColLift_D97_JPEG2K 1228                       YCbCr422ToRGB565 231
+WTInvFree 963                                      YCbCr422ToRGB565Dither 232
+WTInvGetBufSize 964                                YCbCr422ToRGBLS_MCU 1139
+WTInvInitAlloc 961                                 YCbCr422ToYCbCr411 302
+WTInvRow_B53_JPEG2K 1216                           YCbCr422ToYCbCr420 298
+WTInvRow_D97_JPEG2K 1223                           YCbCr422ToYCrCb420 301
+                                                   YCbCr444ToBGR555LS_MCU 1142
+X                                                  YCbCr444ToBGR565LS_MCU 1142
+                                                   YCbCr444ToBGRLS_MCU 1141
+Xor 151                                            YCbCr444ToRGBLS_MCU 1138
+
+                                                                                             1795
+---------------------Page 1796---------------------
+
+Intel® Query Processing Library Reference Manual, Volume 2: Image and Video Processing
+
+YCbCrToBGR 208                                    YCrCb420ToYCbCr411 324
+YCbCrToBGR_709CSC 209                             YCrCb420ToYCbCr420 323
+YCbCrToBGR_JPEG 1113                              YCrCb420ToYCbCr422 321
+YCbCrToBGR444 212                                 YCrCb420ToYCbCr422_5MBDV 1465
+YCbCrToBGR444Dither 214                           YCrCb420ToYCbCr422_8x8x5MB_DV 1466
+YCbCrToBGR555 212                                 YCrCb420ToYCbCr422_Filter 321
+YCbCrToBGR555_JPEG 1115                           YCrCb420ToYCbCr422_ZoomOut2_5MBDV 1465
+YCbCrToBGR555Dither 214                           YCrCb420ToYCbCr422_ZoomOut4_5MBDV 1465
+YCbCrToBGR565 212                                 YCrCb420ToYCbCr422_ZoomOut8_5MBDV 1465
+YCbCrToBGR565_JPEG 1115                           YCrCb422ToBGR 219
+YCbCrToBGR565Dither 214                           YCrCb422ToRGB 219
+YCbCrToRGB 207                                    YCrCb422ToYCbCr411 305
+YCbCrToRGB_JPEG 1109                              YCrCb422ToYCbCr420 304
+YCbCrToRGB444 210                                 YCrCb422ToYCbCr422 303
+YCbCrToRGB444Dither 211                           YCrCb422ToYCbCr422_10HalvesMB16x8_DV100 1470
+YCbCrToRGB555 210                                 YCrCb422ToYCbCr422_5MBDV 1467
+YCbCrToRGB555_JPEG 1111                           YCrCb422ToYCbCr422_8x4x5MB_DV 1469
+YCbCrToRGB555Dither 211                           YCrCb422ToYCbCr422_ZoomOut2_5MBDV 1467
+YCbCrToRGB565 210                                 YCrCb422ToYCbCr422_ZoomOut4_5MBDV 1467
+YCbCrToRGB565_JPEG 1111                           YCrCb422ToYCbCr422_ZoomOut8_5MBDV 1467
+YCbCrToRGB565Dither 211                           YUV color model 172
+YCCK color model 172                              YUV420ToBGR 198
+YCCK444ToCMYKLS_MCU 1146                          YUV420ToBGR444 203
+YCCKToCMYK_JPEG 1125                              YUV420ToBGR444Dither 204
+YCCKToCMYK411LS_MCU 1148                          YUV420ToBGR555 203
+YCCKToCMYK422LS_MCU 1147                          YUV420ToBGR555Dither 204
+YCCToRGB 270                                      YUV420ToBGR565 203
+YCnCr color model 172                             YUV420ToBGR565Dither 204
+YCoCg color model 172                             YUV420ToRGB 196
+YCoCgToBGR 280                                    YUV420ToRGB444 200
+YCoCgToBGR_Rev 284                                YUV420ToRGB444Dither 201
+YCoCgToRGB 278                                    YUV420ToRGB555 200
+YCoCgToSBGR 281                                   YUV420ToRGB555Dither 201
+YCoCgToSBGR_Rev 285                               YUV420ToRGB565 200
+YCrCb411ToYCbCr422_16x4x5MB_DV 1463               YUV420ToRGB565Dither 201
+YCrCb411ToYCbCr422_5MBDV 1462                     YUV422ToRGB 192
+YCrCb411ToYCbCr422_EdgeDV 1464                    YUVToRGB 190
+YCrCb411ToYCbCr422_ZoomOut2_5MBDV 1462
+YCrCb411ToYCbCr422_ZoomOut2_EdgeDV 1464
+YCrCb411ToYCbCr422_ZoomOut4_5MBDV 1462            Z
+YCrCb411ToYCbCr422_ZoomOut4_EdgeDV 1464
+YCrCb411ToYCbCr422_ZoomOut8_5MBDV 1462            zigzag order of elements 1149
+YCrCb411ToYCbCr422_ZoomOut8_EdgeDV 1464           ZigzagFwd8x8 73
+YCrCb420ToCbYCr422 322                            ZigzagInv8x8 75
+YCrCb420ToRGB 242
+
+  1796
