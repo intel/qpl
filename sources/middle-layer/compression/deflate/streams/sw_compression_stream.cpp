@@ -129,7 +129,7 @@ auto deflate_state<execution_path_t::software>::init_level_buffer() noexcept -> 
 }
 
 [[nodiscard]] auto deflate_state<execution_path_t::software>::should_start_new_block() const noexcept -> bool {
-    return start_new_block_;
+    return start_new_block_ || is_first_chunk();
 }
 
 [[nodiscard]] auto deflate_state<execution_path_t::software>::compression_level() const noexcept -> compression_level_t {

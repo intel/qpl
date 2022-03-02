@@ -106,8 +106,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
         if (job_ptr->flags & QPL_FLAG_DYNAMIC_HUFFMAN) {
             builder.collect_statistics_step(true);
         } else {
-            if (job_ptr->flags & QPL_FLAG_FIRST || job_ptr->flags & QPL_FLAG_START_NEW_BLOCK) {
-                builder.start_new_block(true); // @todo segregate logic on start new block
+            if (job_ptr->flags & QPL_FLAG_START_NEW_BLOCK) {
+                builder.start_new_block(true);
             }
             if (job_ptr->compression_huffman_table) {
                 builder.compression_table(job_ptr->compression_huffman_table);

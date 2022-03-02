@@ -132,7 +132,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                 uint32_t code_length  = get_literals_lengths_table_ptr(huffman_table_ptr)[256];
                 uint32_t eob_code_len = code_length >> 15u;
                 state_ptr->eob_code.code   = reverse_bits(static_cast<uint16_t>(code_length)) >> (16u - eob_code_len);
-                state_ptr->eob_code.length = code_length;
+                state_ptr->eob_code.length = eob_code_len;
             } else {
                 // Fixed mode used
                 uint32_t status = hw_iaa_aecs_compress_write_deflate_fixed_header(configuration_ptr,

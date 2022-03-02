@@ -287,7 +287,7 @@ inline auto deflate_state_builder<execution_path_t::hardware>::compression_table
     uint32_t code_length  = get_literals_lengths_table_ptr(state_.huffman_table_)[256];
     uint32_t eob_code_len = code_length >> 15u;
     state_.meta_data_->eob_code.code   = util::revert_bits((uint16_t) code_length) >> (16u - eob_code_len);
-    state_.meta_data_->eob_code.length = code_length;
+    state_.meta_data_->eob_code.length = eob_code_len;
 
     return *this;
 }

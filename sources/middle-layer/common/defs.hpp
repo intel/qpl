@@ -24,29 +24,30 @@ typedef uint32_t qpl_ml_status;
 
 namespace status_list {
 
-constexpr qpl_ml_status ok                              = 0;
-constexpr qpl_ml_status more_output_needed              = QPL_STS_MORE_OUTPUT_NEEDED;
-constexpr qpl_ml_status internal_error                  = QPL_STS_LIBRARY_INTERNAL_ERR;
-constexpr qpl_ml_status nullptr_error                   = QPL_STS_NULL_PTR_ERR;
-constexpr qpl_ml_status verify_error                    = QPL_STS_VERIFY_ERR;
-constexpr qpl_ml_status index_generation_error          = QPL_STS_INDEX_GENERATION_ERR;
-constexpr qpl_ml_status gzip_header_error               = QPL_STS_ARCHIVE_HEADER_ERR;
-constexpr qpl_ml_status need_dictionary_error           = QPL_STS_INFLATE_NEED_DICT_ERR;
-constexpr qpl_ml_status input_too_small                 = QPL_STS_MORE_INPUT_NEEDED;
-constexpr qpl_ml_status invalid_compression_style_error = QPL_STS_INVALID_COMPRESS_STYLE_ERR;
-constexpr qpl_ml_status not_supported_err               = QPL_STS_NOT_SUPPORTED_MODE_ERR;
-constexpr qpl_ml_status not_supported_level_err         = QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL;
-constexpr qpl_ml_status status_invalid_params           = QPL_STS_INVALID_PARAM_ERR;
-constexpr qpl_ml_status hardware_error_base             = QPL_OPERATION_ERROR_BASE;
-constexpr qpl_ml_status destination_is_short_error      = QPL_STS_DST_IS_SHORT_ERR;
-constexpr qpl_ml_status source_is_short_error           = QPL_STS_SRC_IS_SHORT_ERR;
-constexpr qpl_ml_status bit_width_error                 = QPL_STS_BIT_WIDTH_ERR;
-constexpr qpl_ml_status source_2_is_short_error         = QPL_STS_SRC2_IS_SHORT_ERR;
-constexpr qpl_ml_status drop_bits_overflow_error        = QPL_STS_DROP_BITS_OVERFLOW_ERR;
-constexpr qpl_ml_status size_error                      = QPL_STS_SIZE_ERR;
-constexpr qpl_ml_status invalid_rle_count               = QPL_STS_INVALID_RLE_COUNT;
-constexpr qpl_ml_status output_overflow_error           = QPL_STS_OUTPUT_OVERFLOW_ERR;
-constexpr qpl_ml_status buffers_overlap                 = QPL_STS_BUFFER_OVERLAP_ERR;
+constexpr qpl_ml_status ok                                 = 0;
+constexpr qpl_ml_status more_output_needed                 = QPL_STS_MORE_OUTPUT_NEEDED;
+constexpr qpl_ml_status internal_error                     = QPL_STS_LIBRARY_INTERNAL_ERR;
+constexpr qpl_ml_status nullptr_error                      = QPL_STS_NULL_PTR_ERR;
+constexpr qpl_ml_status verify_error                       = QPL_STS_VERIFY_ERR;
+constexpr qpl_ml_status index_generation_error             = QPL_STS_INDEX_GENERATION_ERR;
+constexpr qpl_ml_status gzip_header_error                  = QPL_STS_ARCHIVE_HEADER_ERR;
+constexpr qpl_ml_status need_dictionary_error              = QPL_STS_INFLATE_NEED_DICT_ERR;
+constexpr qpl_ml_status input_too_small                    = QPL_STS_MORE_INPUT_NEEDED;
+constexpr qpl_ml_status invalid_compression_style_error    = QPL_STS_INVALID_COMPRESS_STYLE_ERR;
+constexpr qpl_ml_status not_supported_err                  = QPL_STS_NOT_SUPPORTED_MODE_ERR;
+constexpr qpl_ml_status not_supported_level_err            = QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL;
+constexpr qpl_ml_status status_invalid_params              = QPL_STS_INVALID_PARAM_ERR;
+constexpr qpl_ml_status hardware_error_base                = QPL_OPERATION_ERROR_BASE;
+constexpr qpl_ml_status destination_is_short_error         = QPL_STS_DST_IS_SHORT_ERR;
+constexpr qpl_ml_status source_is_short_error              = QPL_STS_SRC_IS_SHORT_ERR;
+constexpr qpl_ml_status bit_width_error                    = QPL_STS_BIT_WIDTH_ERR;
+constexpr qpl_ml_status source_2_is_short_error            = QPL_STS_SRC2_IS_SHORT_ERR;
+constexpr qpl_ml_status drop_bits_overflow_error           = QPL_STS_DROP_BITS_OVERFLOW_ERR;
+constexpr qpl_ml_status size_error                         = QPL_STS_SIZE_ERR;
+constexpr qpl_ml_status invalid_rle_count                  = QPL_STS_INVALID_RLE_COUNT;
+constexpr qpl_ml_status output_overflow_error              = QPL_STS_OUTPUT_OVERFLOW_ERR;
+constexpr qpl_ml_status buffers_overlap                    = QPL_STS_BUFFER_OVERLAP_ERR;
+constexpr qpl_ml_status compression_reference_before_start = QPL_STS_REF_BEFORE_START_ERR;
 
 }
 

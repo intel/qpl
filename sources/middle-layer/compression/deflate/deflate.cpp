@@ -148,15 +148,28 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(&state.meta_data_->aecs_[actual_aecs],
                                                                          &state.meta_data_->aecs_[actual_aecs].histogram,
                                                                          state.is_last_chunk());
+
+        hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
+                                                        hw_iaa_terminator_t::end_of_block);
     } else {
-        if (state.huffman_table_) { // Static mode used
-            result.status_code_ = hw_iaa_aecs_compress_write_deflate_dynamic_header(&state.meta_data_->aecs_[actual_aecs],
-                                                                                    get_deflate_header_ptr(state.huffman_table_),
-                                                                                    get_deflate_header_bits_size(state.huffman_table_),
-                                                                                    state.is_last_chunk());
-        } else { // Fixed mode used
-            result.status_code_ = hw_iaa_aecs_compress_write_deflate_fixed_header(&state.meta_data_->aecs_[actual_aecs],
-                                                                                  state.is_last_chunk());
+        if (state.is_first_chunk() || state.start_new_block) {
+            // If we want to write a new deflate block and it's a continuable compression task, then insert EOB
+            if (!state.is_first_chunk()) {
+                hw_iaa_aecs_compress_accumulator_insert_eob(&state.meta_data_->aecs_[actual_aecs],
+                                                            state.meta_data_->eob_code);
+            }
+
+            if (state.huffman_table_) { // Static mode used
+                result.status_code_ = hw_iaa_aecs_compress_write_deflate_dynamic_header(
+                        &state.meta_data_->aecs_[actual_aecs],
+                        get_deflate_header_ptr(state.huffman_table_),
+                        get_deflate_header_bits_size(state.huffman_table_),
+                        state.is_last_chunk());
+            } else { // Fixed mode used
+                result.status_code_ = hw_iaa_aecs_compress_write_deflate_fixed_header(
+                        &state.meta_data_->aecs_[actual_aecs],
+                        state.is_last_chunk());
+            }
         }
 
         if (result.status_code_) {
@@ -171,10 +184,14 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
                                         state.meta_data_->aecs_,
                                         access_policy);
-    hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_, end_of_block);
+
+    if (state.is_last_chunk()) {
+        hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
+                                                        hw_iaa_terminator_t::final_end_of_block);
+    }
 
     result = util::process_descriptor<compression_operation_result_t,
-                                      util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
+            util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
 
     if (result.status_code_ == status_list::destination_is_short_error) {
         result = write_stored_block(state);
@@ -189,11 +206,19 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         if (state.is_first_chunk()) {
             auto initial_bit_offset = static_cast<uint32_t> (state.meta_data_->prologue_size_ * byte_bits_size);
 
-            hw_iaa_descriptor_compress_verification_write_initial_index(state.verify_descriptor_,
-                                                                        state.aecs_verify_,
-                                                                        0u,
-                                                                        initial_bit_offset);
-            result.indexes_written_ += 1;
+            if (state.meta_data_->mini_block_size_) {
+                // Write initial index if indexing is enabled
+                hw_iaa_descriptor_compress_verification_write_initial_index(state.verify_descriptor_,
+                                                                            state.aecs_verify_,
+                                                                            0u,
+                                                                            initial_bit_offset);
+                result.indexes_written_ += 1;
+            } else {
+                // Just set initial decompression step otherwise
+                hw_iaa_aecs_decompress_set_decompression_state(&state.aecs_verify_->inflate_options,
+                                                               hw_iaa_aecs_decompress_state::hw_aecs_at_start_block_header);
+            }
+
 
             if (initial_bit_offset) {
                 verify_access_policy = static_cast<hw_iaa_aecs_access_policy>(verify_access_policy | hw_aecs_access_read);

@@ -36,6 +36,13 @@ auto initialize_inflate_state_from_deflate_header(uint8_t *deflate_header_data_p
 
     auto status = inflate<execution_path_t::software>(state, end_processing_condition).status_code_;
 
+    // This is work-around, current inflate function can perform not just deflate header decompression
+    // but go further and perform decompression of deflate block, which may cause the following error. Ignore it.
+    // TODO: fix
+    if (status_list::compression_reference_before_start == status) {
+        status = status_list::ok;
+    }
+
     isal_state_ptr->tmp_out_valid = 0;
 
     return status;
