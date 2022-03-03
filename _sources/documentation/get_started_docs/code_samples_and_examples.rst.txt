@@ -1,0 +1,342 @@
+ .. ***************************************************************************
+ .. * Copyright (C) 2022 Intel Corporation
+ .. *
+ .. * SPDX-License-Identifier: MIT
+ .. ***************************************************************************/
+
+Code Samples and Examples
+#########################
+
+
+Low-level C API Examples
+************************
+
+
+This section contains a number of simple examples, illustrating how you
+can use the Intel® Query Processing Library (Intel® QPL). Note that these 
+examples are intended to be illustrative and functional, but they are not 
+intended to be examples of a complete implementation. In particular, their 
+handling of error conditions is rather primitive.
+
+These examples use two common definitions:
+
+.. code-block:: c
+
+   const uint32_t BITS_PER_BYTE = 8;
+   #define BITS_TO_BYTES(x) ((x) + BITS_PER_BYTE - 1) / BITS_PER_BYTE;
+
+
+The examples are:
+
++---------------------+------------------------------------------------+
+| Analytics: Simple   | Scan a uint32 vector for a particular value    |
+| Scan                |                                                |
++=====================+================================================+
+| Analytics: Scan for | Scan a packed array for a unique value         |
+| Unique Value        |                                                |
++---------------------+------------------------------------------------+
+| Analytics:          | Scan a key array for a range; return matching  |
+| Key-Value Lookup    | elements of value array.                       |
++---------------------+------------------------------------------------+
+| Decompress: Single  | Decompress a single input buffer into a single |
+| Buffer              | output buffer                                  |
++---------------------+------------------------------------------------+
+| Decompress: Files   | Decompress one file into another, using        |
+| using Fixed-size    | fixed-size buffers, and handling               |
+| Buffers             | QPL_MORE_OUTPUT_NEEDED.                        |
++---------------------+------------------------------------------------+
+
+
+Analytics: Simple Scan
+======================
+
+
+This example routine scans an array of *uint32* for a particular value,
+fills in an array with the indices of the matching elements, and returns
+the number of indices/elements found.
+
+.. code-block:: c
+
+   // Scan, and return a list of indices of matching values
+   // returns number of values found, or 0 if output overflow or error
+   uint32_t QPLScanVec(uint32_t *inVec,  // Input vector
+                     uint32_t nelem,   // number of input elements
+                     uint32_t value,   // value to search for
+                     uint32_t *outVec, // pointer to output vector
+                     uint32_t numout)  // max number of output elements
+   {
+       qpl_job *job;
+       QplStaus status;
+       uint32_t  size, ret;
+
+       status = qpl_get_job_size( qpl_path_auto, &size );
+       job = (qpl_job*)malloc( size );
+       status = qpl_init_job( qpl_path_auto, job);
+       job->next_in_ptr = (uint8_t*)inVec;
+       job->available_in = nelem * sizeof(inVec[0]);
+       job->next_out_ptr = (uint8_t*)outVec;
+       job->available_out = numout * sizeof(outVec[0]);
+       job->op = qpl_op_scan_eq;
+       job->src1_bit_width = sizeof(inVec[0]) * BITS_PER_BYTE;
+       job->num_input_elements = nelem;
+       job->out_bit_width = qpl_ow_32; // unpack output to dwords
+       job->param_low = value;
+
+       status = qpl_execute_job(job);
+       ret = job->total_out / sizeof(outVec[0])
+       free( job );
+       if (status != QPL_OK)
+           return 0;
+
+       return ret;
+   }
+
+
+Analytics: Scan for Unique Value
+================================
+
+
+This example routine searches a packed array (with a specified
+bit-width) for a unique value. If this value is found, it returns the
+index. It also returns indications if the value is not found or if it is
+found multiple times.
+
+.. code-block:: c
+
+   // Look for a particular value in a list of unique values.
+   // Return the index of the matching value or
+   // -1 if it wasn't found, or
+   // -2 if it was found more than once, or
+   // -3 if there was an error.
+   // Input array is packed with some bit width.
+   int QPLScanPVecUniq(uint8_t *inVec,  // Input packed vector
+                       uint32_t nelem,   // number of input elements
+                       uint32_t width,   // bit width of input elements
+                       uint32_t value)   // value to search for
+   {
+       qpl_job *job;
+       qpl_status status;
+       uint32_t outVec;
+       uint32_t  size, ret;
+
+       status = qpl_get_job_size( qpl_path_auto, &size );
+       job = (qpl_job*)malloc( size );
+       status = qpl_init_job( qpl_path_auto, job);
+       job->next_in_ptr = inVec;
+       job->available_in = BITS_TO_BYTES(nelem * width);
+       job->next_out_ptr = (uint8_t*)&outVec;
+       job->available_out = sizeof(outVec);
+       job->op = qpl_op_scan_eq;
+       job->src1_bit_width = width;
+       job->num_input_elements = nelem;
+       job->out_bit_width = qpl_ow_32; // unpack output to dwords
+       job->param_low = value;
+
+       status = qpl_execute_job(job);
+       ret = job->total_out;
+       free( job );
+       if (status != QPL_OK) {
+           if (status == 225)
+               return -2;
+           else
+               return -3;
+       }
+
+       if ( ret != 4)
+           return -1;
+       return (int)outVec;
+   }
+
+
+Analytics: Key-Value Lookup
+===========================
+
+
+This example illustrates using two different queries to answer a more
+complicated question. In this case, the routine will look in a “key”
+packed array for entries falling within a specified range. It will then
+return an unpacked (i.e. *uint32*) array of elements from “value” packed
+array, which corresponds to those selected keys. It also uses a
+temporary bit-vector array for intermediate results. It assumes that all
+the arrays have the same length (in terms of number of elements).
+**Note** that the key/value arrays do not need to have the same bit-width.
+
+.. code-block:: c
+
+   // Look up keys in a range of key, 
+   // return corresponding value elements
+   int QPLLookup(uint8_t *keys,        // key array, packed uints
+                 uint32_t keyWidth,    // bit width of key array
+                 uint8_t *values,      // value array, packed uints
+                 uint32_t valWidth,    // bit width of value array
+                 uint32_t *results,    // result array, uint32
+                 uint32_t nelem,       // num of elements in each array
+                 uint32_t rangeLow,    // low end of key range
+                 uint32_t rangeHigh,   // high end of key range
+                 uint8_t *tmp)         // temp array nelem bits long
+   {
+       qpl_job *job;
+       qpl_status status;
+       uint32_t  size, ret;
+
+       status = qpl_get_job_size( qpl_path_auto, &size );
+       job = (qpl_job*)malloc( size );
+       status = qpl_init_job( qpl_path_auto, job);
+       job->next_in_ptr = keys;
+       job->available_in = BITS_TO_BYTES(nelem * keyWidth);
+       job->next_out_ptr = tmp;
+       job->available_out = BITS_TO_BYTES(nelem * 1);
+       job->op = qpl_op_scan_range;
+       job->src1_bit_width = keyWidth;
+       job->num_input_elements = nelem;
+       job->out_bit_width = qpl_ow_nom; // no output mod
+       job->param_low = rangeLow;
+       job->param_high = rangeHigh;
+
+       status = qpl_execute_job(job);
+       if (status != QPL_OK)
+       {
+           free( job );
+           return -1;
+       }
+       job->next_in_ptr = values;
+       job->available_in = BITS_TO_BYTES(nelem * valWidth);
+       job->next_out_ptr = (uint8_t*)results;
+       job->available_out = BITS_TO_BYTES(nelem * sizeof(results[0]));
+       job->next_src2_ptr = tmp;
+       job->available_src2 = BITS_TO_BYTES(nelem * 1);
+       job->op = qpl_op_select;
+       job->src1_bit_width = valWidth;
+       job->src2_bit_width = 1;
+       job->num_input_elements = nelem;
+       job->out_bit_width = qpl_ow_32; // 32-bit output width
+
+       status = qpl_execute_job(job);
+       ret = job->total_out / 4;
+       free( job );
+       if (status != QPL_OK)
+           return -1;
+
+       return ret;
+   }
+
+
+Decompress: Single Buffer
+=========================
+
+
+This example takes a single buffer, compressed as a GZIP file, and tries
+to decompress it into a single buffer. It then checks that the CRC
+computed by Intel QPL matches that in the GZIP trailer.
+
+.. code-block:: c
+
+   // Decompress a single gzip buffer in a single job
+   // returns the size of the decompressed buffer, or a negative value
+   // if there is an error
+   int QPLDecompBuffer(uint8_t *inBuf,    // ptr to input (compressed) buffer
+                       uint32_t inSize,   // size of input buffer
+                       uint8_t *out_buf,   // pointer to output (uncompressed) buffer
+                       uint32_t outSize)  // size of output buffer
+   {
+       qpl_job *job;
+       qpl_status status;
+       uint32_t bufferCRC, bufferSize;
+       uint32_t  size, ret;
+
+       status = qpl_get_job_size( qpl_path_auto, &size );
+       job = (qpl_job*)malloc( size );
+       status = qpl_init_job( qpl_path_auto, job);
+       job->next_in_ptr = inBuf;
+       job->available_in = inSize;
+       job->next_out_ptr = out_buf;
+       job->available_out = outSize;
+       job->op = qpl_op_decompress;
+       job->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GZIP_MODE;
+
+       status = qpl_execute_job(&job);
+       ret = job->total_out;
+       free( job );
+       if (status != QPL_OK)
+           return -(int)status;
+
+       // get gzip CRC
+       bufferCRC = *(uint32_t*)(inBuf + inSize - 8);
+       if (bufferCRC != job->crc)
+           return -1000;
+       bufferSize = *(uint32_t*)(inBuf + inSize - 4);
+       if (bufferSize != ret)
+           return -1001;
+       return ret;
+   }
+
+
+Decompress: Files Using Fixed-Size Buffers
+==========================================
+
+
+This example illustrates decompressing a gzip file into another file,
+using fixed-size buffers. In particular, the output buffers are the same
+size as the input buffers, so it is expected that for each input buffer
+read, the decompressor is called a number of times before all the input
+data is processed (i.e. it will have to gracefully handle the
+``QPL_MORE_OUTPUT_NEEDED`` return status).
+
+.. code-block:: c
+
+   // decompress inFile into outFile using fixed buffers
+   // returns 0 on success
+   int QPLDecompFiles(char *inFile, char *outFile)
+   {
+       qpl_job job;
+       qpl_status status;
+       const uint32_t BSIZE = 32*1024;
+       uint8_t inBuf[BSIZE], out_buf[BSIZE];
+       FILE *fpin, *fpout;
+       uint32_t  size;
+
+       fpin = fopen(inFile,"rb");
+       if (fpin == NULL)
+           return 1;
+       fpout = fopen(outFile,"wb");
+       if (fpout == NULL) {
+           fclose(fpin);
+           return 2;
+       }
+    
+       status = qpl_get_job_size( qpl_path_auto, &size );
+       job = (qpl_job*)malloc( size );
+       status = qpl_init_job( qpl_path_auto, job);
+
+       job->flags = QPL_FLAG_FIRST | QPL_FLAG_GZIP_MODE;
+       job->op = qpl_op_decompress;
+
+       while (!feof(fpin)) {
+           size = (uint32_t) fread(inBuf, 1, BSIZE, fpin);
+           if (size == 0)
+               break;
+           if (feof(fpin))
+               job->flags |= QPL_FLAG_LAST;
+           job->next_in_ptr = inBuf;
+           job->available_in = size;
+           while (1) {
+               job->next_out_ptr = out_buf;
+               job->available_out = BSIZE;
+               status = qpl_execute_job(&job);
+               fwrite(out_buf, 1, BSIZE - job->available_out, fpout);
+               job->flags &= ~QPL_FLAG_FIRST;
+               if (status != QPL_MORE_OUTPUT_NEEDED)
+                   break;
+           }
+           if (status != QPL_OK) {
+               fclose(fpin);
+               fclose(fpout);
+               free( job );
+               return 3;
+           }
+       } // end if (!feof(fpin))
+       fclose(fpin);
+       fclose(fpout);
+       free( job );
+       return 0;
+   }

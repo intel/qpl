@@ -1,0 +1,1631 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compression Streams &#8212; Intel® QPL v0.1.20-beta documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Filtering Unit" href="c_filtering_unit.html" />
+    <link rel="prev" title="Compression Styles" href="c_compression_styles.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.1.20-beta documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  About:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/system_requirements.html">
+   System Requirements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/license.html">
+   License
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Get Started:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/quick_start.html">
+   Quick start
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/code_samples_and_examples.html">
+   Code Samples and Examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/testing.html">
+   Test Library
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../high_level_api.html">
+   High-level C++ API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../concepts/index_api_design.html">
+     C++ API Overview
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/abstraction_layers.html">
+       Abstraction Layers
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/deflate_block.html">
+       Deflate Block
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/status_codes.html">
+       Status Codes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/exceptions.html">
+       Exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/asynchronous_execution.html">
+       Asynchronous Execution
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/execution_result.html">
+       Execution Result
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../operations/index_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/compression_operations/index_compression_operations.html">
+       Compression Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/deflate_operation.html">
+         deflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/inflate_operation.html">
+         inflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_compress_operation.html">
+         zero_compress_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_decompress_operation.html">
+         zero_decompress_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/analytics_operations/index_analytics_operations.html">
+       Analytics Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_operation.html">
+         scan_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_range_operation.html">
+         scan_range_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/extract_operation.html">
+         extract_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/find_unique_operation.html">
+         find_unique_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/mask_operations/index_mask_operations.html">
+       Operations with Mask
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/select_operation.html">
+         select_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/expand_operation.html">
+         expand_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/set_membership_operation.html">
+         set_membership_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../operations/copy_operation.html">
+       copy_operation
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../operations/crc_operation.html">
+       crc_operation
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../low_level_api.html">
+   Low-level C API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="index_c_api_design.html">
+     C API Overview
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_job_structure.html">
+       Job Structure
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/status_codes.html">
+       Status Codes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_%28de%29compression.html">
+       Compression and Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_filtering_unit.html">
+       Filtering Unit
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_parser.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../c_operations/index_c_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_scan.html">
+       qpl_scan
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_set_membership.html">
+       qpl_set_membership
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_extract.html">
+       qpl_extract
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_select.html">
+       qpl_select
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_expand_rle.html">
+       qpl_expand_rle
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_find_unique.html">
+       qpl_find_unique
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_expand.html">
+       qpl_expand
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qplZeroCompress.html">
+       qplZeroCompress
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_crc64.html">
+       qpl_crc64
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_memcpu.html">
+       qpl_memcpy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_gather_deflate_statistics.html">
+       qpl_gather_deflate_statistics
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Guide:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/high_level_developer_guide.html">
+   High-level C++ API Developer Guide
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_library.html">
+     Library Usage Scenarios
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/integrate_with_other_projects.html">
+     Integrating into Other Projects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/select_execution_path.html">
+     Selecting Execution Path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/set_parser.html">
+     Setting Parser
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/create_huffman_table.html">
+     Creating Huffman Table
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_deflate_block.html">
+     Building Deflate Block
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_execution_result.html">
+     Using execution_result
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_exceptions.html">
+     Using Exceptions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_compression_streams.html">
+     Using Compression Streams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/build_custom_operation.html">
+     Building Custom Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/chain_operations.html">
+     Chaining Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/optimize_hw_path.html">
+     Hardware Path Optimizations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/low_level_developer_guide.html">
+   Low-level C API Developer Guide
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_library.html">
+     Library Usage Scenarios
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_optimize_hw_path.html">
+     Hardware Path Optimizations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_compress_dictionary.html">
+     Compressing with Preset Dictionary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_huffman_tables.html">
+     Huffman Tables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_indices.html">
+     Creating and Using Indices
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Release Notes:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../release_notes.html">
+   Release Notes
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/documentation/api_docs/c_concepts/c_compression_streams.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/api_docs/c_concepts/c_compression_streams.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/api_docs/c_concepts/c_compression_streams.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indexing">
+   Indexing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-indices">
+   Creating Indices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#format-of-indices">
+   Format of Indices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#many-identical-blocks">
+     Many Identical Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-block">
+     Single Block
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">
+   Computing the Size of the Index Array
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-deflate-usages">
+   Non-DEFLATE Usages
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#big-endian-16-format">
+     Big Endian 16 Format
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Compression Streams</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indexing">
+   Indexing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-indices">
+   Creating Indices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#format-of-indices">
+   Format of Indices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#many-identical-blocks">
+     Many Identical Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-block">
+     Single Block
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">
+   Computing the Size of the Index Array
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-deflate-usages">
+   Non-DEFLATE Usages
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#big-endian-16-format">
+     Big Endian 16 Format
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="compression-streams">
+<span id="c-compression-streams-reference-link"></span><h1>Compression Streams<a class="headerlink" href="#compression-streams" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="indexing">
+<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<p>For information on creating and using indices, refer to the
+<a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_indices.html#c-creating-and-using-indices-reference-link"><span class="std std-ref">Creating and Using Indices</span></a> chapter.</p>
+<p>Indexing is used to generate a fully-compliant DEFLATE stream. This
+stream can be decompressed in its entirety with any compliant DEFLATE
+decompressor, with “random access” in the middle of the stream.</p>
+<p>Key to using this feature is the concept of “mini-blocks”. These are
+fixed-size regions of the uncompressed data that can be decompressed
+independently. The size of the mini-blocks can be set at powers of 2
+from 512 through 32768. This is also called the “index-size”.</p>
+<p>A compressed DEFLATE stream is composed of a series of DEFLATE blocks.
+The indexing feature requires that all blocks except for the last one to
+be a multiple of the mini-block size. For example, one could have 1kB
+mini-blocks and 32kB blocks, or 2kB mini-blocks and put the entire input
+into a single DEFLATE block.</p>
+<p>The significance of the mini-blocks is the following:</p>
+<ul class="simple">
+<li><p>no references from a given mini-block to any previous one</p></li>
+<li><p>no matches that span mini-block boundaries</p></li>
+</ul>
+<p>This means that each mini-block can be decompressed independently of any
+other mini-block.</p>
+<p>The size of the mini-block becomes the granularity at which “random
+access” can be done. To get one particular uncompressed byte, one needs
+to decompress the entire mini-block containing that byte (One could
+decompress that mini-block up to and including the needed data, but then
+one would lose the CRC check). So the smaller the mini-block, the less
+work is needed to access any particular byte. On the other hand, the
+smaller the mini-blocks become, the worse the compression ratio becomes.
+So an application needs to make a reasonable trade-off between having
+the mini-blocks be too small or too large.</p>
+</div>
+<div class="section" id="creating-indices">
+<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Permalink to this headline">¶</a></h2>
+<p>To generate indices, the application needs to allocate an array large
+enough to hold all of the index values. The application then defines the
+mini-block size using the mini_block_size field, points to the index
+table memory with the idx_array field, and specifies the size of the
+table with the idx_max_size field.</p>
+<p>The index generation is done as part of the verification pass, so the
+application cannot specify the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code> flag.</p>
+</div>
+<div class="section" id="format-of-indices">
+<h2>Format of Indices<a class="headerlink" href="#format-of-indices" title="Permalink to this headline">¶</a></h2>
+<p>The index array consists of 64-bit records, where each record contains
+two 32-bit fields:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>63:32</p></th>
+<th class="head"><p>CRC</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>31:0</p></td>
+<td><p>Bit Offset</p></td>
+</tr>
+</tbody>
+</table>
+<p>To use indices for access and understand where the different indices for
+each block point to, use the following description:</p>
+<ul class="simple">
+<li><p>The start of the header</p></li>
+<li><p>The start of the first mini-block</p></li>
+<li><p>The starts of the next mini-blocks</p></li>
+<li><p>The start of the End Of Block token</p></li>
+</ul>
+<p>Additionally, there is one extra entry at the end pointing to the end of
+the DEFLATE stream.</p>
+<p>So in general, if there are B blocks and M mini-blocks, the total number
+of index entries generated will be (M+2B+1).</p>
+<p>The library supports two common usage models: many-identical-blocks and
+single-block.</p>
+<p>In both cases, the size of the compression input needs to be a multiple
+of the mini-block size, unless it is a LAST job.</p>
+<div class="section" id="many-identical-blocks">
+<h3>Many Identical Blocks<a class="headerlink" href="#many-identical-blocks" title="Permalink to this headline">¶</a></h3>
+<p>The library has no restriction for different blocks to be the same size
+or to be a power of 2 in size, still these settings are recommended for
+more convenience. For example, one could have 1kB mini-blocks and 32kB
+blocks.</p>
+<p>In this case, each block corresponds to one compression operation, where
+the input size (except for the last one) is the block size. Each such
+job can use dynamic Huffman generation, or static Huffman tables. With
+static Huffman tables, each job can specify the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code>
+flag to cause each job to create a block.</p>
+<p>The output buffer (the buffer to receive the compressed data) should be
+sized large enough to hold the input data as a DEFLATE stored block,
+i.e. slightly larger than the uncompressed size. If the data is
+incompressible and the compression operation results in data expansion,
+such that the compressed data does not fit in the output buffer, the
+software library attempt to encode that block as a stored block. If the
+output buffer does not have size large enough for this, the compression
+fails.</p>
+<p>If the input data is encoded as a stored block, it must be encoded as a
+single stored block. When it becomes multiple stored blocks, the
+application is not able to determine where the header indices are
+located.</p>
+<p>This means that either the output buffer needs to be large enough to
+receive the compressed data (even if the “compressed” data is expanded),
+or the size of the input (i.e. the block size) must be <strong>less than</strong>
+64kB.</p>
+<p>If the compressed block is replaced by a stored block, the indexing is
+done in the same manner as if it is a compressed block: the first index
+points to the beginning of the stored-block header, the second to the
+start of the (uncompressed) data, the third points to the data that is
+one “mini-block size” further, etc. After the last mini-block, there are
+two pointers that both point to the start of the next DEFLATE header.
+The first of these points to a zero-length EOB, and the second to the
+block header itself.</p>
+<p>To achieve such behavior, there must be exactly one stored block. Since
+the largest size of a stored block is (64k-1), if the block-size if 64kB
+or larger, one would need more than one stored-block, and the indexing
+scheme would be jumbled.</p>
+<p>In this operation mode, if a stored-block is required (assuming indexing
+is requested) and the input size is at least 64kB, then the compression
+operation will fail with an error.</p>
+</div>
+<div class="section" id="single-block">
+<h3>Single Block<a class="headerlink" href="#single-block" title="Permalink to this headline">¶</a></h3>
+<p>The case happens when the entire input is represented as a single
+DEFLATE block, even though multiple compress operations may have been
+done. This is invoked by not using dynamic Huffman codes, and
+<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code> flag.</p>
+<p>If the output does not fit into output buffer (requiring a stored
+block), then the compression will fail, due to a disruption in the block
+structure. The exception to this is if the compression is a single job
+(i.e. both a FIRST job and LAST job). In that case, the entire file is
+represented as a single stored block, so the compression succeeds.</p>
+</div>
+</div>
+<div class="section" id="computing-the-size-of-the-index-array">
+<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Permalink to this headline">¶</a></h2>
+<p>The expected number of index values can be obtained from:</p>
+<p><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">num_index_values(uint32_t</span> <span class="pre">buf_size,</span> <span class="pre">uint32_t</span> <span class="pre">idx_size,</span> <span class="pre">uint32_t</span> <span class="pre">blk_size);</span></code></p>
+<p>where the arguments are the size of the uncompressed data, the size of
+the mini-block, and the size of the block. It assumes all the blocks to
+have the same (uncompressed) size (as specified) or this value is 0. If
+the value is 0, all of the input is compressed into a single block
+(whose size is the same as buf_size).</p>
+<p>One index value is stored per mini-block, two values are stored per
+block, and one extra index value. In the first example (multi-block
+usage), 3 blocks and 11 mini-blocks present, so the total number of
+indices is 3*2+11+1 = 18. In the second example (single-block usage), 1
+block and 11 mini-blocks present, so the total number of indices is
+1*2+11+1 = 14.</p>
+</div>
+<div class="section" id="non-deflate-usages">
+<h2>Non-DEFLATE Usages<a class="headerlink" href="#non-deflate-usages" title="Permalink to this headline">¶</a></h2>
+<p>To use the hardware for non-DEFLATE usages, three advanced flags can be
+specified:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 30%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>H
+UFFMAN_BE</p></th>
+<th class="head"><p>compress or
+decompress</p></th>
+<th class="head"><p>Huffman tokens are in Big Endian
+Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>NO_HDRS</p></td>
+<td><p>decompress</p></td>
+<td><p>Parse only Huffman Tokens</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>compress</p></td>
+<td><p>Write no headers or EOBs</p></td>
+</tr>
+<tr class="row-even"><td><p>GEN
+_LITERALS</p></td>
+<td><p>compress-only</p></td>
+<td><p>Generate only Literals</p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> can be used with any compression job. If <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> is
+specified, then <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> must be specified as well. The only allowed
+combination of these are: <code class="docutils literal notranslate"><span class="pre">none</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_HDRS+HUFFMAN_BE</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> flag tells the hardware that the Huffman tokens are in a
+16-bit big-endian format. When <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> is specified, then <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>
+must be specified as well, although the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag itself can be used
+without <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code>.</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag is used for decompress jobs, it should be used for
+all jobs, although it is needed for the FIRST job and the LAST job
+(i.e. the jobs with the FIRST and LAST flags set).</p>
+<p>When a decompress job has <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> and FIRST set, it instructs the driver
+to configure the hardware to expect the bit-stream to start with a
+Huffman token rather than with a block header. It also requires a
+decompress Huffman table to be provided, which is used to configure the
+hardware appropriately.</p>
+<p>When a decompress job has <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> and LAST set, it instructs the driver
+to tell the hardware not to expect the stream to end with an EOB token.</p>
+<p>The decompress Huffman table can be constructed by the application, or
+it can be constructed by the auxiliary functions
+<code class="docutils literal notranslate"><span class="pre">qpl_triplets_to_decompression_table()</span></code> or
+<code class="docutils literal notranslate"><span class="pre">qpl_comp_to_decompression_table()</span></code>.</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag is used for compress jobs, it instructs the driver
+not to write any block header or trailer (i.e. EOB tokens) to the
+stream.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> is used with <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, then the entire file must be
+contained in the single block. This means that both FIRST and LAST must
+be specified. Also in this case the user must include a compress Huffman
+table structure. This structure is to be overwritten with the generated
+Huffman Table.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> flag is only for compress jobs. This instructs the
+hardware to generate only literal tokens and no match tokens. Currently,
+the decompressor, when using the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag, can only parse literal
+tokens. So the compressor, when using <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>, must use the <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code>
+flag, otherwise the result would not be decompressed with the Intel QPL.</p>
+<div class="section" id="big-endian-16-format">
+<h3>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">¶</a></h3>
+<p>Normal DEFLATE streams are little-endian (LE). Tokens are written
+starting at bit-0 of each byte and extending from bit-7 of byte-0 to
+bit-0 of byte-1.</p>
+<p>For example, if there are four 5-bit tokens, then would be written to
+the first 3 bytes as:</p>
+<table class="table">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>B
+yt
+es</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>Bi
+ts</p></td>
+</tr>
+<tr class="row-odd"><td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>To
+ke
+ns</p></td>
+</tr>
+</tbody>
+</table>
+<p>The Huffman codes can be used either
+in non-bit-reversed, or bit-reversed form:</p>
+<table class="table">
+<colgroup>
+<col style="width: 57%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Non-bit-reversed</p></th>
+<th class="head"><p>Bit-reversed</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>000</p></td>
+<td><p>000</p></td>
+</tr>
+<tr class="row-odd"><td><p>001</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-even"><td><p>0100</p></td>
+<td><p>0010</p></td>
+</tr>
+<tr class="row-odd"><td><p>0101</p></td>
+<td><p>1010</p></td>
+</tr>
+<tr class="row-even"><td><p>0110</p></td>
+<td><p>0110</p></td>
+</tr>
+<tr class="row-odd"><td><p>0111</p></td>
+<td><p>1110</p></td>
+</tr>
+<tr class="row-even"><td><p>1000</p></td>
+<td><p>0001</p></td>
+</tr>
+<tr class="row-odd"><td><p>1001</p></td>
+<td><p>1001</p></td>
+</tr>
+<tr class="row-even"><td><p>10100</p></td>
+<td><p>00101</p></td>
+</tr>
+</tbody>
+</table>
+<p>The difference is:</p>
+<ul class="simple">
+<li><p>the non-bit-reversed forms need to be parsed starting at the high-order bit,</p></li>
+<li><p>the bit-reversed forms need to be parsed starting at the low-order bit.</p></li>
+</ul>
+<p>Normal (LE) DEFLATE streams use the Bit-reversed form, as the tokens are
+parsed starting at bit-0.</p>
+<p>In the Big-Endian-16 format, the tokens are written in each 16-bit Word,
+starting at the high-order bit:</p>
+<table class="table">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>W
+or
+ds</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>B
+yt
+es</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>Bi
+ts</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>To
+ke
+ns</p></td>
+</tr>
+</tbody>
+</table>
+<p>Here, the non-bit-reversed form of the Huffman Tokens needs to be used.</p>
+<p>When the data (while being read/written to the user’s buffer) is
+bit-reversed within every 16-bit word, after the bit reversal, it looks
+like:</p>
+<table class="table">
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 3%" />
+<col style="width: 4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>W
+or
+ds</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>B
+yt
+es</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>Bi
+ts</p></td>
+</tr>
+<tr class="row-even"><td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>To
+ke
+ns</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong> that in the figure earlier, “Words”, “Bytes”, and “Bits” refer
+to the original value before the bit reversal.</p>
+<p>After the bit-reversal, the tokens appear as if the input stream is
+encoded in LE format. To process BE16 data, all we need to bit-reverse
+each 16-bit word as we read it or write it, and otherwise pretend that
+it is LE data. Note that as we pretending that the data is LE, we need
+to use the bit-reversed form of the Huffman Codes as well.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="c_compression_styles.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Compression Styles</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="c_filtering_unit.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Filtering Unit</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Intel<br/>
+    
+        &copy; Copyright 2022, Intel.<br/>
+      <div class="extra_footer">
+        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

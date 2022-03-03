@@ -1,0 +1,1201 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Status Codes &#8212; Intel® QPL v0.1.20-beta documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="Deflate Block" href="deflate_block.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.1.20-beta documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  About:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/system_requirements.html">
+   System Requirements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/license.html">
+   License
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Get Started:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/quick_start.html">
+   Quick start
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/code_samples_and_examples.html">
+   Code Samples and Examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/testing.html">
+   Test Library
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../high_level_api.html">
+   High-level C++ API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="index_api_design.html">
+     C++ API Overview
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="abstraction_layers.html">
+       Abstraction Layers
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="deflate_block.html">
+       Deflate Block
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Status Codes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="exceptions.html">
+       Exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="asynchronous_execution.html">
+       Asynchronous Execution
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="execution_result.html">
+       Execution Result
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../operations/index_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/compression_operations/index_compression_operations.html">
+       Compression Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/deflate_operation.html">
+         deflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/inflate_operation.html">
+         inflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_compress_operation.html">
+         zero_compress_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_decompress_operation.html">
+         zero_decompress_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/analytics_operations/index_analytics_operations.html">
+       Analytics Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_operation.html">
+         scan_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_range_operation.html">
+         scan_range_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/extract_operation.html">
+         extract_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/find_unique_operation.html">
+         find_unique_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/mask_operations/index_mask_operations.html">
+       Operations with Mask
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/select_operation.html">
+         select_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/expand_operation.html">
+         expand_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/set_membership_operation.html">
+         set_membership_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../operations/copy_operation.html">
+       copy_operation
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../operations/crc_operation.html">
+       crc_operation
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../low_level_api.html">
+   Low-level C API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../c_concepts/index_c_api_design.html">
+     C API Overview
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_job_structure.html">
+       Job Structure
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Status Codes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_%28de%29compression.html">
+       Compression and Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_filtering_unit.html">
+       Filtering Unit
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_parser.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_concepts/c_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../c_operations/index_c_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_scan.html">
+       qpl_scan
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_set_membership.html">
+       qpl_set_membership
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_extract.html">
+       qpl_extract
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_select.html">
+       qpl_select
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_expand_rle.html">
+       qpl_expand_rle
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_find_unique.html">
+       qpl_find_unique
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_expand.html">
+       qpl_expand
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qplZeroCompress.html">
+       qplZeroCompress
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_crc64.html">
+       qpl_crc64
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_memcpu.html">
+       qpl_memcpy
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_operations/c_qpl_gather_deflate_statistics.html">
+       qpl_gather_deflate_statistics
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Guide:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/high_level_developer_guide.html">
+   High-level C++ API Developer Guide
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_library.html">
+     Library Usage Scenarios
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/integrate_with_other_projects.html">
+     Integrating into Other Projects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/select_execution_path.html">
+     Selecting Execution Path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/set_parser.html">
+     Setting Parser
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/create_huffman_table.html">
+     Creating Huffman Table
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_deflate_block.html">
+     Building Deflate Block
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_execution_result.html">
+     Using execution_result
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_exceptions.html">
+     Using Exceptions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_compression_streams.html">
+     Using Compression Streams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/build_custom_operation.html">
+     Building Custom Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/chain_operations.html">
+     Chaining Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/optimize_hw_path.html">
+     Hardware Path Optimizations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/low_level_developer_guide.html">
+   Low-level C API Developer Guide
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_library.html">
+     Library Usage Scenarios
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_optimize_hw_path.html">
+     Hardware Path Optimizations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_compress_dictionary.html">
+     Compressing with Preset Dictionary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_huffman_tables.html">
+     Huffman Tables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_indices.html">
+     Creating and Using Indices
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Release Notes:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../release_notes.html">
+   Release Notes
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/documentation/api_docs/concepts/status_codes.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/api_docs/concepts/status_codes.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/api_docs/concepts/status_codes.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Status Codes</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="status-codes">
+<h1>Status Codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv410qpl_status">
+<span id="_CPPv310qpl_status"></span><span id="_CPPv210qpl_status"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_status</span></span></span><a class="headerlink" href="#_CPPv410qpl_status" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Intel QPL return status list. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status10QPL_STS_OKE">
+<span id="_CPPv3N10qpl_status10QPL_STS_OKE"></span><span id="_CPPv2N10qpl_status10QPL_STS_OKE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9918f410dc40b6e48614d5287bbc2ddb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OK</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status10QPL_STS_OKE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base Operation completed successfully </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status23QPL_STS_BEING_PROCESSEDE">
+<span id="_CPPv3N10qpl_status23QPL_STS_BEING_PROCESSEDE"></span><span id="_CPPv2N10qpl_status23QPL_STS_BEING_PROCESSEDE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adce2b1aa1acc4406fe788827e1c40832"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BEING_PROCESSED</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status23QPL_STS_BEING_PROCESSEDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base Job is still being processed </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_MORE_OUTPUT_NEEDEDE">
+<span id="_CPPv3N10qpl_status26QPL_STS_MORE_OUTPUT_NEEDEDE"></span><span id="_CPPv2N10qpl_status26QPL_STS_MORE_OUTPUT_NEEDEDE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a97995ad4e340d995009a1ab3805aa57f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_MORE_OUTPUT_NEEDEDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base Decompression operation filled output buffer before finishing input <dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Todo:</span></em></dt>
+<dd><p>deprecate in the future </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_MORE_INPUT_NEEDEDE">
+<span id="_CPPv3N10qpl_status25QPL_STS_MORE_INPUT_NEEDEDE"></span><span id="_CPPv2N10qpl_status25QPL_STS_MORE_INPUT_NEEDEDE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ad22db651860f838e4a12408f5bdc4c4b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_MORE_INPUT_NEEDED</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_MORE_INPUT_NEEDEDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base Compress/Decompress operation need more input <dl>
+<dt class="sig sig-object cpp">
+<em><span class="pre">Todo:</span></em></dt>
+<dd><p>deprecate in the future </p>
+</dd></dl>
+
+</p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status31QPL_STS_JOB_NOT_CONTINUABLE_ERRE">
+<span id="_CPPv3N10qpl_status31QPL_STS_JOB_NOT_CONTINUABLE_ERRE"></span><span id="_CPPv2N10qpl_status31QPL_STS_JOB_NOT_CONTINUABLE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a4edd3284715db19ae7d310c545d8a568"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_JOB_NOT_CONTINUABLE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status31QPL_STS_JOB_NOT_CONTINUABLE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base A job after a LAST job was not marked as FIRST </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_QUEUES_ARE_BUSY_ERRE">
+<span id="_CPPv3N10qpl_status27QPL_STS_QUEUES_ARE_BUSY_ERRE"></span><span id="_CPPv2N10qpl_status27QPL_STS_QUEUES_ARE_BUSY_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a02e3fc8a5fa4acf87ac6018c3bfe40db"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_QUEUES_ARE_BUSY_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_QUEUES_ARE_BUSY_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Processing error base Calculates Processing error base Descriptor can’t be submitted into filled work queue </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status20QPL_STS_NULL_PTR_ERRE">
+<span id="_CPPv3N10qpl_status20QPL_STS_NULL_PTR_ERRE"></span><span id="_CPPv2N10qpl_status20QPL_STS_NULL_PTR_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ab08eb6b06f84739715dd8573f4344b31"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_NULL_PTR_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status20QPL_STS_NULL_PTR_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Null pointer error </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status21QPL_STS_OPERATION_ERRE">
+<span id="_CPPv3N10qpl_status21QPL_STS_OPERATION_ERRE"></span><span id="_CPPv2N10qpl_status21QPL_STS_OPERATION_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9d394ff14864a62381286ceaaddeeccf"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OPERATION_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status21QPL_STS_OPERATION_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Non-supported value in the qplJob operation field </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_NOT_SUPPORTED_MODE_ERRE">
+<span id="_CPPv3N10qpl_status30QPL_STS_NOT_SUPPORTED_MODE_ERRE"></span><span id="_CPPv2N10qpl_status30QPL_STS_NOT_SUPPORTED_MODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a4cdb844f4e2955d8e14e6f2ddd744dac"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_NOT_SUPPORTED_MODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_NOT_SUPPORTED_MODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Indicates an error if the requested mode is not supported </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_BAD_JOB_STRUCT_ERRE">
+<span id="_CPPv3N10qpl_status26QPL_STS_BAD_JOB_STRUCT_ERRE"></span><span id="_CPPv2N10qpl_status26QPL_STS_BAD_JOB_STRUCT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aec1bc8de119846af00758707185ceeb2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_JOB_STRUCT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_BAD_JOB_STRUCT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Indicates that the job structure does not match the operation </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status16QPL_STS_PATH_ERRE">
+<span id="_CPPv3N10qpl_status16QPL_STS_PATH_ERRE"></span><span id="_CPPv2N10qpl_status16QPL_STS_PATH_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a902c4394f786d81896580df45c92a85c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_PATH_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status16QPL_STS_PATH_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Incorrect value for the qpl_path input parameter </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_INVALID_PARAM_ERRE">
+<span id="_CPPv3N10qpl_status25QPL_STS_INVALID_PARAM_ERRE"></span><span id="_CPPv2N10qpl_status25QPL_STS_INVALID_PARAM_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a91ba362ab8ef206635f68c5cbafb92fd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_PARAM_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_INVALID_PARAM_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Invalid combination of fields in the <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_FLAG_CONFLICT_ERRE">
+<span id="_CPPv3N10qpl_status25QPL_STS_FLAG_CONFLICT_ERRE"></span><span id="_CPPv2N10qpl_status25QPL_STS_FLAG_CONFLICT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a4455540f1c5356735bb6c5d47bc0e91b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_FLAG_CONFLICT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_FLAG_CONFLICT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> flags field contains conflicted values </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status16QPL_STS_SIZE_ERRE">
+<span id="_CPPv3N10qpl_status16QPL_STS_SIZE_ERRE"></span><span id="_CPPv2N10qpl_status16QPL_STS_SIZE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ac90d09c6e5e56b3d1df34efc51a96a16"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_SIZE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status16QPL_STS_SIZE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Incorrect size error </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_BUFFER_TOO_LARGE_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_BUFFER_TOO_LARGE_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_BUFFER_TOO_LARGE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ad7c8a057313036557348527607254c6b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BUFFER_TOO_LARGE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_BUFFER_TOO_LARGE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Buffer exceeds max size supported by library </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_BUFFER_OVERLAP_ERRE">
+<span id="_CPPv3N10qpl_status26QPL_STS_BUFFER_OVERLAP_ERRE"></span><span id="_CPPv2N10qpl_status26QPL_STS_BUFFER_OVERLAP_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a100bc9043362b04e27aee04341c00253"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BUFFER_OVERLAP_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_BUFFER_OVERLAP_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Buffers overlap </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_CRC64_BAD_POLYNOME">
+<span id="_CPPv3N10qpl_status25QPL_STS_CRC64_BAD_POLYNOME"></span><span id="_CPPv2N10qpl_status25QPL_STS_CRC64_BAD_POLYNOME"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a90d8b4adb3ef9642f5046306c9281d69"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_CRC64_BAD_POLYNOM</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_CRC64_BAD_POLYNOME" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Incorrect polynomial value for CRC64 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_SET_TOO_LARGE_ERRE">
+<span id="_CPPv3N10qpl_status25QPL_STS_SET_TOO_LARGE_ERRE"></span><span id="_CPPv2N10qpl_status25QPL_STS_SET_TOO_LARGE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906af87082b70d7b7751cb7bed3b551333eb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_SET_TOO_LARGE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_SET_TOO_LARGE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Set is too large for operation </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status18QPL_STS_PARSER_ERRE">
+<span id="_CPPv3N10qpl_status18QPL_STS_PARSER_ERRE"></span><span id="_CPPv2N10qpl_status18QPL_STS_PARSER_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a5e7ec0f937dac9c96d38de92b0ce1fe9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_PARSER_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status18QPL_STS_PARSER_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Non-supported value in the qplJob parser field </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status22QPL_STS_OUT_FORMAT_ERRE">
+<span id="_CPPv3N10qpl_status22QPL_STS_OUT_FORMAT_ERRE"></span><span id="_CPPv2N10qpl_status22QPL_STS_OUT_FORMAT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a150a4588745933be1e7bbf037da7965a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OUT_FORMAT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status22QPL_STS_OUT_FORMAT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base qplJob out_bit_width field contains invalid value </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_DROP_BITS_OVERFLOW_ERRE">
+<span id="_CPPv3N10qpl_status30QPL_STS_DROP_BITS_OVERFLOW_ERRE"></span><span id="_CPPv2N10qpl_status30QPL_STS_DROP_BITS_OVERFLOW_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aeb2e698610bad55af954ef3744585ad8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_DROP_BITS_OVERFLOW_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_DROP_BITS_OVERFLOW_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Incorrect dropBits value (param_low + param_high must be beyond 0..32) </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status34QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERRE">
+<span id="_CPPv3N10qpl_status34QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERRE"></span><span id="_CPPv2N10qpl_status34QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a47d07af7936c21b3858cfe989549d7cb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status34QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> bit-width field contains an invalid value for current output format </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status22QPL_STS_DROP_BYTES_ERRE">
+<span id="_CPPv3N10qpl_status22QPL_STS_DROP_BYTES_ERRE"></span><span id="_CPPv2N10qpl_status22QPL_STS_DROP_BYTES_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a653e51710029b36ed026a209217948f2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_DROP_BYTES_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status22QPL_STS_DROP_BYTES_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> drop_initial_bytes field contains an invalid value </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status33QPL_STS_MISSING_HUFFMAN_TABLE_ERRE">
+<span id="_CPPv3N10qpl_status33QPL_STS_MISSING_HUFFMAN_TABLE_ERRE"></span><span id="_CPPv2N10qpl_status33QPL_STS_MISSING_HUFFMAN_TABLE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a8895946b4eaeb9f4ad0d341bafd99935"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_MISSING_HUFFMAN_TABLE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status33QPL_STS_MISSING_HUFFMAN_TABLE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Flags specify NO_HDRS and DYNAMIC_HUFFMAN, but no Huffman table provided </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status33QPL_STS_INVALID_HUFFMAN_TABLE_ERRE">
+<span id="_CPPv3N10qpl_status33QPL_STS_INVALID_HUFFMAN_TABLE_ERRE"></span><span id="_CPPv2N10qpl_status33QPL_STS_INVALID_HUFFMAN_TABLE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a01b7e411ca4d54e5145974f5a77e3e2c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_HUFFMAN_TABLE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status33QPL_STS_INVALID_HUFFMAN_TABLE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Invalid Huffman table data </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status31QPL_STS_MISSING_INDEX_TABLE_ERRE">
+<span id="_CPPv3N10qpl_status31QPL_STS_MISSING_INDEX_TABLE_ERRE"></span><span id="_CPPv2N10qpl_status31QPL_STS_MISSING_INDEX_TABLE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906acc227e11e3458a56f8eb008c0c030fc1"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_MISSING_INDEX_TABLE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status31QPL_STS_MISSING_INDEX_TABLE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Indexing enabled but Indexing table is not set </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status34QPL_STS_INVALID_COMPRESS_STYLE_ERRE">
+<span id="_CPPv3N10qpl_status34QPL_STS_INVALID_COMPRESS_STYLE_ERRE"></span><span id="_CPPv2N10qpl_status34QPL_STS_INVALID_COMPRESS_STYLE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a275fc853d82ae6d57f7a55121f2cf10d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_COMPRESS_STYLE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status34QPL_STS_INVALID_COMPRESS_STYLE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base The style of a compression job does not match the style of the previous related job </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status29QPL_STS_INFLATE_NEED_DICT_ERRE">
+<span id="_CPPv3N10qpl_status29QPL_STS_INFLATE_NEED_DICT_ERRE"></span><span id="_CPPv2N10qpl_status29QPL_STS_INFLATE_NEED_DICT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a2ecf70f90dc2c21ab6a9b4536fa9a7d6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INFLATE_NEED_DICT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status29QPL_STS_INFLATE_NEED_DICT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Inflate needs dictionary to perform decompression </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status35QPL_STS_INVALID_DECOMP_END_PROC_ERRE">
+<span id="_CPPv3N10qpl_status35QPL_STS_INVALID_DECOMP_END_PROC_ERRE"></span><span id="_CPPv2N10qpl_status35QPL_STS_INVALID_DECOMP_END_PROC_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a333c90a239e50334a0c6628dd0ce75ad"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_DECOMP_END_PROC_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status35QPL_STS_INVALID_DECOMP_END_PROC_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base The <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> field for decompression manipulation is incorrect </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_INVALID_BLOCK_SIZE_ERRE">
+<span id="_CPPv3N10qpl_status30QPL_STS_INVALID_BLOCK_SIZE_ERRE"></span><span id="_CPPv2N10qpl_status30QPL_STS_INVALID_BLOCK_SIZE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a8061771506ea693e5d7e3d81304079a7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_BLOCK_SIZE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_INVALID_BLOCK_SIZE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Invalid block size used during indexing </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status37QPL_STD_UNSUPPORTED_COMPRESSION_LEVELE">
+<span id="_CPPv3N10qpl_status37QPL_STD_UNSUPPORTED_COMPRESSION_LEVELE"></span><span id="_CPPv2N10qpl_status37QPL_STD_UNSUPPORTED_COMPRESSION_LEVELE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a12ab1e662eefb9976d3631231e4e3b38"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status37QPL_STD_UNSUPPORTED_COMPRESSION_LEVELE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parameter check step errors base Calculates parameter check step errors base Compression level is not supported </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status32QPL_STS_INVALID_DEFLATE_DATA_ERRE">
+<span id="_CPPv3N10qpl_status32QPL_STS_INVALID_DEFLATE_DATA_ERRE"></span><span id="_CPPv2N10qpl_status32QPL_STS_INVALID_DEFLATE_DATA_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aa57e418984097291f4317ae6698c554e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_DEFLATE_DATA_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status32QPL_STS_INVALID_DEFLATE_DATA_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Currently unused </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status18QPL_STS_NO_MEM_ERRE">
+<span id="_CPPv3N10qpl_status18QPL_STS_NO_MEM_ERRE"></span><span id="_CPPv2N10qpl_status18QPL_STS_NO_MEM_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ae7434c18099f130264855f3a59110672"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_NO_MEM_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status18QPL_STS_NO_MEM_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Not enough memory for the operation </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status29QPL_STS_INDEX_ARRAY_TOO_SMALLE">
+<span id="_CPPv3N10qpl_status29QPL_STS_INDEX_ARRAY_TOO_SMALLE"></span><span id="_CPPv2N10qpl_status29QPL_STS_INDEX_ARRAY_TOO_SMALLE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a80d78253c4cbf2218377d40798f1d7e8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INDEX_ARRAY_TOO_SMALL</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status29QPL_STS_INDEX_ARRAY_TOO_SMALLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Indexing buffer is too small </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_INDEX_GENERATION_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_INDEX_GENERATION_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_INDEX_GENERATION_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a41cfbdbc290c94461c4c11806bd96870"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INDEX_GENERATION_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_INDEX_GENERATION_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Mini-block creation error </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_ARCHIVE_HEADER_ERRE">
+<span id="_CPPv3N10qpl_status26QPL_STS_ARCHIVE_HEADER_ERRE"></span><span id="_CPPv2N10qpl_status26QPL_STS_ARCHIVE_HEADER_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a85d8b0a7c3264b0cbbf09af2409676c9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_ARCHIVE_HEADER_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_ARCHIVE_HEADER_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Invalid GZIP/Zlib header </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status32QPL_STS_ARCHIVE_UNSUP_METHOD_ERRE">
+<span id="_CPPv3N10qpl_status32QPL_STS_ARCHIVE_UNSUP_METHOD_ERRE"></span><span id="_CPPv2N10qpl_status32QPL_STS_ARCHIVE_UNSUP_METHOD_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a29248b00fc6158113d303c4ed69dd28e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_ARCHIVE_UNSUP_METHOD_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status32QPL_STS_ARCHIVE_UNSUP_METHOD_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error in operation preprocessing or postprocessing Calculates parameter check step errors base Gzip/Zlib header specifies unsupported compress method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status22QPL_STS_BIG_HEADER_ERRE">
+<span id="_CPPv3N10qpl_status22QPL_STS_BIG_HEADER_ERRE"></span><span id="_CPPv2N10qpl_status22QPL_STS_BIG_HEADER_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aa75c2c77e4788c56683ff67bdd8dd3fc"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BIG_HEADER_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status22QPL_STS_BIG_HEADER_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Reached the end of the input stream before decoding header and header is too big to fit in input buffer </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_UNDEF_CL_CODE_ERRE">
+<span id="_CPPv3N10qpl_status25QPL_STS_UNDEF_CL_CODE_ERRE"></span><span id="_CPPv2N10qpl_status25QPL_STS_UNDEF_CL_CODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a82717b91f5f07b1eb9cd3dd343219bec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_UNDEF_CL_CODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_UNDEF_CL_CODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Bad CL code </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_FIRST_LL_CODE_16_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_FIRST_LL_CODE_16_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_FIRST_LL_CODE_16_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a0d0d25d6fc06aaabe15a4725201007a4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_FIRST_LL_CODE_16_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_FIRST_LL_CODE_16_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base First code in LL tree is 16 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_FIRST_D_CODE_16_ERRE">
+<span id="_CPPv3N10qpl_status27QPL_STS_FIRST_D_CODE_16_ERRE"></span><span id="_CPPv2N10qpl_status27QPL_STS_FIRST_D_CODE_16_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a6d65ef0e95cdccb20ab9ca694c235c00"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_FIRST_D_CODE_16_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_FIRST_D_CODE_16_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base First code in D tree is 16 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status22QPL_STS_NO_LL_CODE_ERRE">
+<span id="_CPPv3N10qpl_status22QPL_STS_NO_LL_CODE_ERRE"></span><span id="_CPPv2N10qpl_status22QPL_STS_NO_LL_CODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a547ac7909b09eb757160c2fecf433078"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_NO_LL_CODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status22QPL_STS_NO_LL_CODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base All LL codes are specified with 0 length </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_WRONG_NUM_LL_CODES_ERRE">
+<span id="_CPPv3N10qpl_status30QPL_STS_WRONG_NUM_LL_CODES_ERRE"></span><span id="_CPPv2N10qpl_status30QPL_STS_WRONG_NUM_LL_CODES_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ae1fb57dc0a9b481e45f2bb1dafd0bcc1"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_WRONG_NUM_LL_CODES_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_WRONG_NUM_LL_CODES_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base After parsing LL code lengths, total codes != expected value </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status32QPL_STS_WRONG_NUM_DIST_CODES_ERRE">
+<span id="_CPPv3N10qpl_status32QPL_STS_WRONG_NUM_DIST_CODES_ERRE"></span><span id="_CPPv2N10qpl_status32QPL_STS_WRONG_NUM_DIST_CODES_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a6765fe977bfec24b0a738b7c5e9630cb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_WRONG_NUM_DIST_CODES_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status32QPL_STS_WRONG_NUM_DIST_CODES_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base After parsing D code lengths, total codes != expected value </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_BAD_CL_CODE_LEN_ERRE">
+<span id="_CPPv3N10qpl_status27QPL_STS_BAD_CL_CODE_LEN_ERRE"></span><span id="_CPPv2N10qpl_status27QPL_STS_BAD_CL_CODE_LEN_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a450eb7f218dc35b54fb28a6bcf3cad6f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_CL_CODE_LEN_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_BAD_CL_CODE_LEN_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base First CL code of length N is greater than 2^N-1 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_BAD_LL_CODE_LEN_ERRE">
+<span id="_CPPv3N10qpl_status27QPL_STS_BAD_LL_CODE_LEN_ERRE"></span><span id="_CPPv2N10qpl_status27QPL_STS_BAD_LL_CODE_LEN_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a11df569e78b1ec89255707d7594fe3f7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_LL_CODE_LEN_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_BAD_LL_CODE_LEN_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base First LL code of length N is greater than 2^N-1 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status29QPL_STS_BAD_DIST_CODE_LEN_ERRE">
+<span id="_CPPv3N10qpl_status29QPL_STS_BAD_DIST_CODE_LEN_ERRE"></span><span id="_CPPv2N10qpl_status29QPL_STS_BAD_DIST_CODE_LEN_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9b66d88d8fada19fb1665bf77bc1ac7a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_DIST_CODE_LEN_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status29QPL_STS_BAD_DIST_CODE_LEN_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base First D code of length N is greater than 2^N-1 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status23QPL_STS_BAD_LL_CODE_ERRE">
+<span id="_CPPv3N10qpl_status23QPL_STS_BAD_LL_CODE_ERRE"></span><span id="_CPPv2N10qpl_status23QPL_STS_BAD_LL_CODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adff516a36cc3277decfd91e32a6ab7e2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_LL_CODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status23QPL_STS_BAD_LL_CODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Incorrect LL code </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status22QPL_STS_BAD_D_CODE_ERRE">
+<span id="_CPPv3N10qpl_status22QPL_STS_BAD_D_CODE_ERRE"></span><span id="_CPPv2N10qpl_status22QPL_STS_BAD_D_CODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a4683a38947ba1c1be5abf6328605c499"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_D_CODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status22QPL_STS_BAD_D_CODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Incorrect D code </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_INVALID_BLOCK_TYPEE">
+<span id="_CPPv3N10qpl_status26QPL_STS_INVALID_BLOCK_TYPEE"></span><span id="_CPPv2N10qpl_status26QPL_STS_INVALID_BLOCK_TYPEE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906add278d482cf4c08cfe61265dc86ddcd7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_BLOCK_TYPE</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_INVALID_BLOCK_TYPEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Invalid type of deflate block </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_INVALID_STORED_LEN_ERRE">
+<span id="_CPPv3N10qpl_status30QPL_STS_INVALID_STORED_LEN_ERRE"></span><span id="_CPPv2N10qpl_status30QPL_STS_INVALID_STORED_LEN_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a67b19caa78e291d147cc4e619bdd821d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_STORED_LEN_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_INVALID_STORED_LEN_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Length of stored block doesn’t match inverse length </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status19QPL_STS_BAD_EOF_ERRE">
+<span id="_CPPv3N10qpl_status19QPL_STS_BAD_EOF_ERRE"></span><span id="_CPPv2N10qpl_status19QPL_STS_BAD_EOF_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a6544bb339a2104dfb818d361e967be4d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_EOF_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status19QPL_STS_BAD_EOF_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base EOB flag was set but last token was not EOB </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status19QPL_STS_BAD_LEN_ERRE">
+<span id="_CPPv3N10qpl_status19QPL_STS_BAD_LEN_ERRE"></span><span id="_CPPv2N10qpl_status19QPL_STS_BAD_LEN_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a545b943fc0642f9a0ca61daf02b3eea0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_LEN_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status19QPL_STS_BAD_LEN_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Decoded Length code is 0 or greater 258 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status20QPL_STS_BAD_DIST_ERRE">
+<span id="_CPPv3N10qpl_status20QPL_STS_BAD_DIST_ERRE"></span><span id="_CPPv2N10qpl_status20QPL_STS_BAD_DIST_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ad72abec4f30086e57b25e651184ff6e2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_DIST_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status20QPL_STS_BAD_DIST_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Decoded Distance is 0 or greater than History Buffer </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_REF_BEFORE_START_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_REF_BEFORE_START_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_REF_BEFORE_START_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a86bbe2a8a187bab742fed54fe7ca63ac"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_REF_BEFORE_START_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_REF_BEFORE_START_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Distance of reference is before start of file </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status19QPL_STS_TIMEOUT_ERRE">
+<span id="_CPPv3N10qpl_status19QPL_STS_TIMEOUT_ERRE"></span><span id="_CPPv2N10qpl_status19QPL_STS_TIMEOUT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a10bd44aceee7e7e841282f05f050c1bf"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_TIMEOUT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status19QPL_STS_TIMEOUT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Library has input data, but is not making forward progress </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status23QPL_STS_PRLE_FORMAT_ERRE">
+<span id="_CPPv3N10qpl_status23QPL_STS_PRLE_FORMAT_ERRE"></span><span id="_CPPv2N10qpl_status23QPL_STS_PRLE_FORMAT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a517f0fa7af5f7232865e1368d85c4182"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_PRLE_FORMAT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status23QPL_STS_PRLE_FORMAT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base PRLE format is incorrect or is truncated </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_OUTPUT_OVERFLOW_ERRE">
+<span id="_CPPv3N10qpl_status27QPL_STS_OUTPUT_OVERFLOW_ERRE"></span><span id="_CPPv2N10qpl_status27QPL_STS_OUTPUT_OVERFLOW_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a80c16c7129b003d6f524dbc5ebceaf01"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OUTPUT_OVERFLOW_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_OUTPUT_OVERFLOW_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Output index value is greater than max available for current output data type </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_LIBRARY_INTERNAL_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_LIBRARY_INTERNAL_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_LIBRARY_INTERNAL_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a67545d7c007293f7fdac6e0987d68024"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_LIBRARY_INTERNAL_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_LIBRARY_INTERNAL_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Unexpected internal error condition </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status26QPL_STS_SRC1_TOO_SMALL_ERRE">
+<span id="_CPPv3N10qpl_status26QPL_STS_SRC1_TOO_SMALL_ERRE"></span><span id="_CPPv2N10qpl_status26QPL_STS_SRC1_TOO_SMALL_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a62e4538a63d39f55cebfa603f33b40c4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_SRC1_TOO_SMALL_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status26QPL_STS_SRC1_TOO_SMALL_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Source 1 contained fewer than expected elements/bytes </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_SRC2_IS_SHORT_ERRE">
+<span id="_CPPv3N10qpl_status25QPL_STS_SRC2_IS_SHORT_ERRE"></span><span id="_CPPv2N10qpl_status25QPL_STS_SRC2_IS_SHORT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aac254511302473fd962a6b8095c97f9f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_SRC2_IS_SHORT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_SRC2_IS_SHORT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Source 2 contained fewer than expected elements/bytes </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status24QPL_STS_DST_IS_SHORT_ERRE">
+<span id="_CPPv3N10qpl_status24QPL_STS_DST_IS_SHORT_ERRE"></span><span id="_CPPv2N10qpl_status24QPL_STS_DST_IS_SHORT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a0b39d80f98b2fab69116bfff51e704a6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_DST_IS_SHORT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status24QPL_STS_DST_IS_SHORT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base <a class="reference internal" href="../c_concepts/c_job_structure.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> destination buffer has less bytes than required to process num_input_elements/bytes </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status30QPL_STS_DIST_SPANS_MINI_BLOCKSE">
+<span id="_CPPv3N10qpl_status30QPL_STS_DIST_SPANS_MINI_BLOCKSE"></span><span id="_CPPv2N10qpl_status30QPL_STS_DIST_SPANS_MINI_BLOCKSE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a659565762b0f15e66c7d2b032c83a29e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_DIST_SPANS_MINI_BLOCKS</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status30QPL_STS_DIST_SPANS_MINI_BLOCKSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Distance spans mini-block boundary on indexing </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status29QPL_STS_LEN_SPANS_MINI_BLOCKSE">
+<span id="_CPPv3N10qpl_status29QPL_STS_LEN_SPANS_MINI_BLOCKSE"></span><span id="_CPPv2N10qpl_status29QPL_STS_LEN_SPANS_MINI_BLOCKSE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a21a2c55579ada7b547a3ec86b34732aa"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_LEN_SPANS_MINI_BLOCKS</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status29QPL_STS_LEN_SPANS_MINI_BLOCKSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Length spans mini-block boundary on indexing </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status32QPL_STS_VERIF_INVALID_BLOCK_SIZEE">
+<span id="_CPPv3N10qpl_status32QPL_STS_VERIF_INVALID_BLOCK_SIZEE"></span><span id="_CPPv2N10qpl_status32QPL_STS_VERIF_INVALID_BLOCK_SIZEE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a0e5e6ee459466ca89a98e98e28ae49cd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_VERIF_INVALID_BLOCK_SIZE</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status32QPL_STS_VERIF_INVALID_BLOCK_SIZEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Invalid block size (not multiple of mini-block size) </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status18QPL_STS_VERIFY_ERRE">
+<span id="_CPPv3N10qpl_status18QPL_STS_VERIFY_ERRE"></span><span id="_CPPv2N10qpl_status18QPL_STS_VERIFY_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906af13297f8889f6b093b8f0e39b0292c07"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_VERIFY_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status18QPL_STS_VERIFY_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Verify logic for decompress detected incorrect output </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_INVALID_HUFFCODE_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_INVALID_HUFFCODE_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_INVALID_HUFFCODE_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a6573e3ed92fb7cd6a0a56e74243ed2ec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_HUFFCODE_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_INVALID_HUFFCODE_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Compressor tried to use an invalid huffman code </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status21QPL_STS_BIT_WIDTH_ERRE">
+<span id="_CPPv3N10qpl_status21QPL_STS_BIT_WIDTH_ERRE"></span><span id="_CPPv2N10qpl_status21QPL_STS_BIT_WIDTH_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a1d7c08ba1a9a5cf778fea10d4330818b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BIT_WIDTH_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status21QPL_STS_BIT_WIDTH_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Bit width is out of range [1..32] </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status24QPL_STS_SRC_IS_SHORT_ERRE">
+<span id="_CPPv3N10qpl_status24QPL_STS_SRC_IS_SHORT_ERRE"></span><span id="_CPPv2N10qpl_status24QPL_STS_SRC_IS_SHORT_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a0e7a8bd20b78f02da98a218b50e0d8cb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_SRC_IS_SHORT_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status24QPL_STS_SRC_IS_SHORT_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base The input stream ended before specified Number of input Element was seen </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_STS_INVALID_RLE_COUNTE">
+<span id="_CPPv3N10qpl_status25QPL_STS_INVALID_RLE_COUNTE"></span><span id="_CPPv2N10qpl_status25QPL_STS_INVALID_RLE_COUNTE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a8fc82f8d3e6a648c065ca1e172b8fff8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_RLE_COUNT</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_STS_INVALID_RLE_COUNTE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Invalid value for a counter (32bit) in PrleExpand, specifically, counter &lt; prev counter or exceeds 2^16 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status31QPL_STS_INVALID_ZERO_DECOMP_HDRE">
+<span id="_CPPv3N10qpl_status31QPL_STS_INVALID_ZERO_DECOMP_HDRE"></span><span id="_CPPv2N10qpl_status31QPL_STS_INVALID_ZERO_DECOMP_HDRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a7e18059aa100e5b8024f360a7f21ed5f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_ZERO_DECOMP_HDR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status31QPL_STS_INVALID_ZERO_DECOMP_HDRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base Invalid header for the ZeroDecompress functionality </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status29QPL_STS_TOO_MANY_LL_CODES_ERRE">
+<span id="_CPPv3N10qpl_status29QPL_STS_TOO_MANY_LL_CODES_ERRE"></span><span id="_CPPv2N10qpl_status29QPL_STS_TOO_MANY_LL_CODES_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ac1c0f2b6f97f97cdbfd8dccaa5d8273c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_TOO_MANY_LL_CODES_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status29QPL_STS_TOO_MANY_LL_CODES_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base The number of LL codes specified in the DEFLATE header exceed 286 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status28QPL_STS_TOO_MANY_D_CODES_ERRE">
+<span id="_CPPv3N10qpl_status28QPL_STS_TOO_MANY_D_CODES_ERRE"></span><span id="_CPPv2N10qpl_status28QPL_STS_TOO_MANY_D_CODES_ERRE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a5d23e63dd3ee161fc6007a60db11055e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_TOO_MANY_D_CODES_ERR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status28QPL_STS_TOO_MANY_D_CODES_ERRE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation execution step errors base Calculates operation execution step errors base The number of D codes specified in the DEFLATE header exceed 30 </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status25QPL_INIT_HW_NOT_SUPPORTEDE">
+<span id="_CPPv3N10qpl_status25QPL_INIT_HW_NOT_SUPPORTEDE"></span><span id="_CPPv2N10qpl_status25QPL_INIT_HW_NOT_SUPPORTEDE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adf4b57ea01ef8fff9821aab3f3a6b596"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_INIT_HW_NOT_SUPPORTED</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status25QPL_INIT_HW_NOT_SUPPORTEDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialization step errors base Calculates initialization step errors base Hardware path is not supported </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status31QPL_STS_INIT_LIBACCEL_NOT_FOUNDE">
+<span id="_CPPv3N10qpl_status31QPL_STS_INIT_LIBACCEL_NOT_FOUNDE"></span><span id="_CPPv2N10qpl_status31QPL_STS_INIT_LIBACCEL_NOT_FOUNDE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a28f7f5897a55811c2849b6837cb3952f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INIT_LIBACCEL_NOT_FOUND</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status31QPL_STS_INIT_LIBACCEL_NOT_FOUNDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialization step errors base Calculates initialization step errors base libaccel is not found or not compatible </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status27QPL_STS_INIT_LIBACCEL_ERRORE">
+<span id="_CPPv3N10qpl_status27QPL_STS_INIT_LIBACCEL_ERRORE"></span><span id="_CPPv2N10qpl_status27QPL_STS_INIT_LIBACCEL_ERRORE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ae5c8d94c22a51bf7945f64c99c328bea"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INIT_LIBACCEL_ERROR</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status27QPL_STS_INIT_LIBACCEL_ERRORE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialization step errors base Calculates initialization step errors base libaccel internal error </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N10qpl_status38QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLEE">
+<span id="_CPPv3N10qpl_status38QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLEE"></span><span id="_CPPv2N10qpl_status38QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLEE"></span><span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ad6e406db9c9c7f5a6f7238a58b355dfb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE</span></span></span><a class="headerlink" href="#_CPPv4N10qpl_status38QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialization step errors base Calculates initialization step errors base Supported and enabled work queues are not found </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="deflate_block.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Deflate Block</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="exceptions.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exceptions</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Intel<br/>
+    
+        &copy; Copyright 2022, Intel.<br/>
+      <div class="extra_footer">
+        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
