@@ -109,7 +109,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     version_minor_ = hw_device_get_version(device_ptr)&0xFF;
 
     DIAG("%5s: ", name_ptr);
-    if (!is_iaa_device || version_major_ != 1) {
+    if (!is_iaa_device) {
         DIAGA("UNSUPPORTED\n", name_ptr);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
