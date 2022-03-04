@@ -52,7 +52,7 @@ QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(compression_stream_test,default_dynamic, 
             .compression_mode<compression_mode>()
             .build();
 
-    auto deflate_stream    = qpl::deflate_stream(std::move(deflate_operation), destination.size());
+    auto deflate_stream    = qpl::deflate_stream(std::move(deflate_operation), destination.size() * 2);
     auto current_chunk     = source.begin();
     auto current_chunk_end = (current_test_case.chunk_size < source.size())
                              ? current_chunk + current_test_case.chunk_size
@@ -213,7 +213,7 @@ QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(compression_stream_test, high_dynamic, Co
             .compression_mode<compression_mode>()
             .build();
 
-    auto deflate_stream    = qpl::deflate_stream(std::move(deflate_operation), destination.size());
+    auto deflate_stream    = qpl::deflate_stream(std::move(deflate_operation), destination.size() * 2);
     auto current_chunk     = source.begin();
     auto current_chunk_end = (current_test_case.chunk_size < source.size())
                              ? current_chunk + current_test_case.chunk_size
