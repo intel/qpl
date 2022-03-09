@@ -58,7 +58,7 @@ PROJECT_LOGO           =
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = doc
+OUTPUT_DIRECTORY       = doc/build
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -815,22 +815,13 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = README.md \
-                         include \
+INPUT                  = include \
                          sources/c_api/other_operations/crc64.hpp \
                          sources/c_api/other_operations/copy.hpp \
                          sources/c_api/filter_operations/filter_operations.hpp \
                          sources/c_api/compression_operations/compressor.hpp \
                          sources/c_api/compression_operations/zero_compressor.hpp \
                          sources/core-iaa/include \
-                         doc/QPL_C_API_MANUAL.md \
-                         doc/QPL_HIGH_LEVEL_API_MANUAL.md \
-                         doc/QPL_REFERENCE_MANUAL.md \
-                         doc/STATUS_CODES.md \
-                         doc/QPL_TESTING.md \
-                         doc/QPL_ISSUE_REPORTING.md \
-                         CONTRIBUTING.md \
-                         SECURITY.md \
                          examples
 
 # This tag can be used to specify the character encoding of the source files
@@ -1140,7 +1131,7 @@ IGNORE_PREFIX          =
 # If the GENERATE_HTML tag is set to YES, doxygen will generate HTML output
 # The default value is: YES.
 
-GENERATE_HTML          = YES
+GENERATE_HTML          = NO
 
 # The HTML_OUTPUT tag is used to specify where the HTML docs will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -1148,7 +1139,7 @@ GENERATE_HTML          = YES
 # The default directory is: html.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_OUTPUT            = html
+HTML_OUTPUT            = doxygen_html
 
 # The HTML_FILE_EXTENSION tag can be used to specify the file extension for each
 # generated HTML page (for example: .htm, .php, .asp).
@@ -2003,7 +1994,7 @@ MAN_LINKS              = NO
 # captures the structure of the code including all documentation.
 # The default value is: NO.
 
-GENERATE_XML           = NO
+GENERATE_XML           = YES
 
 # The XML_OUTPUT tag is used to specify where the XML pages will be put. If a
 # relative path is entered the value of OUTPUT_DIRECTORY will be put in front of
@@ -2011,7 +2002,7 @@ GENERATE_XML           = NO
 # The default directory is: xml.
 # This tag requires that the tag GENERATE_XML is set to YES.
 
-XML_OUTPUT             = xml
+XML_OUTPUT             = doxygen_xml
 
 # If the XML_PROGRAMLISTING tag is set to YES, doxygen will dump the program
 # listings (including syntax highlighting and cross-referencing information) to

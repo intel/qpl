@@ -9,3 +9,6 @@ doc/html/*
 .settings/*
 /tmp
 /b.bat
+
+# Doc build folder
+doc/build
