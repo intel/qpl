@@ -725,7 +725,7 @@ Three ways of creating a custom operation are supported. Those are described nex
 <p>The first option of creating a custom operation is inheritance from the
 appropriate interface called <code class="docutils literal notranslate"><span class="pre">custom_operation</span></code>.</p>
 <p>Example:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">my_operation</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">custom_operation</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">my_operation</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">custom_operation</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="k">public</span><span class="o">:</span><span class="w"></span>
 <span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">execute</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="p">,</span><span class="w"></span>
@@ -799,7 +799,7 @@ appropriate interface called <code class="docutils literal notranslate"><span cl
 requirements on passed arguments into the chain(they are listed in the
 first option).</p>
 <p>Example:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">custom_functor</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">custom_functor</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">source</span><span class="p">,</span><span class="w"></span>
 <span class="w">                    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="p">,</span><span class="w"></span>

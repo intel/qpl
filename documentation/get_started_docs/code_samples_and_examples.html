@@ -2656,8 +2656,8 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 <span class="cm"> * @brief Implements a simple memory buffer that works as stack.</span>
 <span class="cm"> * @tparam T Type of elements contained by buffer</span>
 <span class="cm"> */</span><span class="w"></span>
-<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
-<span class="k">class</span> <span class="nc">memory_blocks_stack</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">memory_blocks_stack</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="cm">/**</span>
 <span class="cm">     * @brief Defines maximal allocation buffer</span>
 <span class="cm">     */</span><span class="w"></span>
@@ -2731,8 +2731,8 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 <span class="cm"> *</span>
 <span class="cm"> * @tparam T - allocated type</span>
 <span class="cm"> */</span><span class="w"></span>
-<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
-<span class="k">class</span> <span class="nc">stack_allocator</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">stack_allocator</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="k">public</span><span class="o">:</span><span class="w"></span>
 <span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">value_type</span><span class="p">;</span><span class="w"> </span><span class="cm">/**&lt; Alias for the type that is managed by allocator */</span><span class="w"></span>
 
@@ -2745,7 +2745,7 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 <span class="w">    </span><span class="cm">/**</span>
 <span class="cm">     * @brief Copy constructor is not available for allocator</span>
 <span class="cm">     */</span><span class="w"></span>
-<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="k">constexpr</span><span class="w"> </span><span class="n">stack_allocator</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">stack_allocator</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span><span class="w"></span>
 
 <span class="w">    </span><span class="cm">/**</span>
@@ -2779,12 +2779,12 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 <span class="w">    </span><span class="n">memory_blocks_stack</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">memory_stack_</span><span class="p">;</span><span class="w"> </span><span class="cm">/**&lt; Internal allocation buffer */</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span> <span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
 <span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">stack_allocator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">stack_allocator</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span> <span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">U</span><span class="o">&gt;</span><span class="w"></span>
 <span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">!=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">stack_allocator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">stack_allocator</span><span class="o">&lt;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -4362,7 +4362,7 @@ can use the Intel QPL library.</p>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">dataset_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Source and output containers</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="nl">path</span> <span class="p">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">directory_iterator</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">path</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">directory_iterator</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ifstream</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">path</span><span class="p">().</span><span class="n">string</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ifstream</span><span class="o">::</span><span class="n">binary</span><span class="p">);</span><span class="w"></span>
 
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">file</span><span class="p">.</span><span class="n">is_open</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>

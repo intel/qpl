@@ -677,7 +677,7 @@ or asynchronous execution.</p>
 <ol class="arabic simple">
 <li><p>Constructor for synchronous execution:</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">result_t</span><span class="o">&gt;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">result_t</span><span class="o">&gt;</span><span class="w"></span>
 <span class="k">constexpr</span><span class="w"> </span><span class="k">explicit</span><span class="w"> </span><span class="n">execution_result</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">result_t</span><span class="w"> </span><span class="n">result</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">status_</span><span class="p">(</span><span class="n">status</span><span class="p">),</span><span class="w"></span>
 <span class="w">          </span><span class="n">result_</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">result</span><span class="p">))</span><span class="w"></span>
@@ -689,7 +689,7 @@ or asynchronous execution.</p>
 <ol class="arabic simple" start="2">
 <li><p>Constructor for asynchronous execution:</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">result_t</span><span class="o">&gt;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">result_t</span><span class="o">&gt;</span><span class="w"></span>
 <span class="k">constexpr</span><span class="w"> </span><span class="k">explicit</span><span class="w"> </span><span class="n">execution_result</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">shared_future</span><span class="o">&lt;</span><span class="n">result_t</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">future</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">future_</span><span class="p">(</span><span class="n">future</span><span class="p">)</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>

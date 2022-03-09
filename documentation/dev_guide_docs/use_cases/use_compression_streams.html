@@ -766,11 +766,11 @@
 <h2>Deflate Stream<a class="headerlink" href="#deflate-stream" title="Permalink to this headline">¶</a></h2>
 <p>See two main methods for processing input data for the
 <code class="docutils literal notranslate"><span class="pre">qpl::deflate_stream</span></code>:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">input_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">input_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
 <span class="k">auto</span><span class="w"> </span><span class="n">push</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">input_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">source_begin</span><span class="p">,</span><span class="w"></span>
 <span class="w">          </span><span class="k">const</span><span class="w"> </span><span class="n">input_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">source_end</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">deflate_stream</span><span class="w"> </span><span class="o">&amp;</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">input_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">input_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
 <span class="kt">void</span><span class="w"> </span><span class="n">flush</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">input_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">source_begin</span><span class="p">,</span><span class="w"></span>
 <span class="w">           </span><span class="k">const</span><span class="w"> </span><span class="n">input_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">source_end</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="p">;</span><span class="w"></span>
 </pre></div>
@@ -849,7 +849,7 @@ no copying is performed.</p>
 <h2>Inflate Stream<a class="headerlink" href="#inflate-stream" title="Permalink to this headline">¶</a></h2>
 <p>The main method for processing input data for the
 <code class="docutils literal notranslate"><span class="pre">qpl::inflate_stream</span></code>:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">output_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">output_iterator_t</span><span class="o">&gt;</span><span class="w"></span>
 <span class="k">auto</span><span class="w"> </span><span class="n">extract</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">output_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">destination_begin</span><span class="p">,</span><span class="w"></span>
 <span class="w">             </span><span class="k">const</span><span class="w"> </span><span class="n">output_iterator_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">destination_end</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">inflate_stream</span><span class="w"> </span><span class="o">&amp;</span><span class="p">;</span><span class="w"></span>
 </pre></div>

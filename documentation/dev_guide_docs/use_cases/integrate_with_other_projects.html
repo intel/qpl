@@ -723,10 +723,10 @@ After that you are ready to use the Intel QPL high-level API.</p>
 integration, use the standard <code class="docutils literal notranslate"><span class="pre">find_package</span></code> function after library
 installation.</p>
 <p>A simple example of <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">Qpl</span> <span class="s">REQUIRED</span> <span class="s">COMPONENTS</span> <span class="s">qplhl</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">find_package</span><span class="p">(</span><span class="s">Qpl</span><span class="w"> </span><span class="s">REQUIRED</span><span class="w"> </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">qplhl</span><span class="p">)</span>
 
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">test</span> <span class="s">main.cpp</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test</span> <span class="s">Qpl::qplhl</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test</span><span class="w"> </span><span class="s">main.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test</span><span class="w"> </span><span class="s">Qpl::qplhl</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The Intel QPL library package consists of several components. High-level
