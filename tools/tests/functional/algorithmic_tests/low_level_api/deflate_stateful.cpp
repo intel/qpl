@@ -256,6 +256,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_stateful_compression)
         source = dataset.second;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
+
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
@@ -307,6 +311,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_stateful_compression) {
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -351,6 +358,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_verify_stateful_compr
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -400,6 +410,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_verify_stateful_compress
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -444,6 +457,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_stateful_compression) {
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -493,6 +509,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_stateful_compression) {
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -537,6 +556,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_verify_stateful_compres
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -586,6 +608,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_verify_stateful_compressio
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -646,6 +671,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
 
 
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -711,6 +739,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
 
 
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -771,6 +802,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
 
 
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -836,6 +870,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
 
 
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
@@ -880,6 +917,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
@@ -987,6 +1027,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
         std::vector<uint8_t> source;
         source = dataset.second;
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
@@ -1109,6 +1152,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
+            if (block_size == 0) {
+                block_size = source.size();
+            }
             std::string error_message = "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
