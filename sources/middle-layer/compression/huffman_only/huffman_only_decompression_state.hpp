@@ -88,6 +88,8 @@ private:
 template <>
 class huffman_only_decompression_state<execution_path_t::hardware> {
 public:
+    uint8_t ignore_end_bits = 0;
+
     explicit huffman_only_decompression_state(const qpl::ml::util::linear_allocator &allocator) {
         descriptor_        = allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>(1u);
         completion_record_ = allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>(1u);
@@ -233,7 +235,7 @@ inline auto huffman_only_decompression_state<execution_path_t::hardware>::decomp
 inline auto huffman_only_decompression_state<execution_path_t::hardware>::build_descriptor() noexcept -> hw_descriptor * {
     hw_iaa_aecs_decompress_set_crc_seed(decompress_aecs_, crc_);
 
-    hw_iaa_descriptor_init_huffman_only_decompress(descriptor_, decompress_aecs_, endianness_);
+    hw_iaa_descriptor_init_huffman_only_decompress(descriptor_, decompress_aecs_, endianness_, ignore_end_bits);
 
     hw_iaa_descriptor_set_completion_record(descriptor_, completion_record_);
 

@@ -488,7 +488,8 @@ HW_PATH_IAA_API(void, descriptor_compress_verification_write_initial_index, (hw_
  */
 HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *const descriptor_ptr,
                                                                 hw_iaa_aecs *const aecs_ptr,
-                                                                const bool huffman_be));
+                                                                const bool huffman_be,
+                                                                const uint8_t ignore_end_bits));
 
 
 /**

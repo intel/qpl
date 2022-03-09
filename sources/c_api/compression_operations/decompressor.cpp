@@ -95,6 +95,8 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         // @todo Add ignore last bits option
         if constexpr (path == qpl::ml::execution_path_t::software) {
             state.last_bits_offset(static_cast<uint8_t>(qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
+        } else {
+            state.ignore_end_bits = job_ptr->ignore_end_bits;
         }
 
         result = decompress_huffman_only<path>(state, decompression_table);

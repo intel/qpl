@@ -59,7 +59,38 @@ namespace qpl::test
 
             job_ptr->op = qpl_op_decompress;
 
+            uint8_t*    next_in_ptr_save = job_ptr->next_in_ptr;
+            uint32_t    available_in_save = job_ptr->available_in;
+            uint32_t    total_in_save = job_ptr->total_in;
+            uint8_t*    next_out_ptr_save = job_ptr->next_out_ptr;
+            uint32_t    available_out_save = job_ptr->available_out;
+            uint32_t    total_out_save = job_ptr->total_out;
+            qpl_status  ref_status = (job_ptr->data_ptr.path == qpl_path_software) ?
+                            QPL_STS_MORE_OUTPUT_NEEDED : QPL_STS_LIBRARY_INTERNAL_ERR;
+
             qpl_status status = run_job_api(job_ptr);
+
+            if (ref_status == status) {
+                if (test_type == NO_ERR_HUFFMAN_ONLY) {
+                    for (uint8_t ign_end_bits = 1; ign_end_bits < 8; ign_end_bits++) {
+                        job_ptr->next_in_ptr = next_in_ptr_save;
+                        job_ptr->available_in = available_in_save;
+                        job_ptr->total_in = total_in_save;
+                        job_ptr->next_out_ptr = next_out_ptr_save;
+                        job_ptr->available_out = available_out_save;
+                        job_ptr->total_out = total_out_save;
+                        job_ptr->ignore_end_bits = ign_end_bits;
+                        job_ptr->last_bit_offset = ign_end_bits;
+                        status = run_job_api(job_ptr);
+                        if (QPL_STS_OK == status) {
+                            break;
+                        }
+                        if (ref_status != status) {
+                            break;
+                        }
+                    }
+                }
+            }
 
             EXPECT_EQ(QPL_STS_OK, status);
 
@@ -67,7 +98,7 @@ namespace qpl::test
                                   reference_data,
                                   test_type != NO_ERR_HUFFMAN_ONLY ?
                                   job_ptr->total_out :
-                                  static_cast<uint32_t>(destination.size() - 5));
+                                  static_cast<uint32_t>(destination.size()));
         }
 
     private:
@@ -124,9 +155,7 @@ namespace qpl::test
                       encoded_data_buffer.end(),
                       source.begin());
 
-            auto destination_size = NO_ERR_HUFFMAN_ONLY == test_type ?
-                                    decoded_data_buffer.size() + 5 :
-                                    decoded_data_buffer.size();
+            auto destination_size = decoded_data_buffer.size();
 
             destination.resize(destination_size);
             reference_data.resize(destination_size);
