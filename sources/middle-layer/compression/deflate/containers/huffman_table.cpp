@@ -152,13 +152,13 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
 
         // Perform RLE for literal/length length codes
         num_cl_tokens = rl_encode(combined_table,
-                                  huffman_table.max_ll_code_index_ + 2,
+                                  huffman_table.max_ll_code_index_ + 1,
                                   cl_counts,
                                   cl_tokens);
 
         // Perform RLE for distance length codes
-        num_cl_tokens += rl_encode(combined_table + huffman_table.max_ll_code_index_ + 2,
-                                   huffman_table.max_d_code_index_,
+        num_cl_tokens += rl_encode(combined_table + huffman_table.max_ll_code_index_ + 1,
+                                   huffman_table.max_d_code_index_ + 1,
                                    cl_counts,
                                    cl_tokens + num_cl_tokens);
 
