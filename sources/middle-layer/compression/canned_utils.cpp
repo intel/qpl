@@ -258,7 +258,6 @@ auto comp_to_decompression_table(compression_huffman_table &compression_table,
 
         hw_iaa_descriptor_init_inflate_header(&descriptor,
                                               reinterpret_cast<hw_iaa_aecs_analytic *const>(aecs_ptr),
-                                              0,
                                               ignore_end_bits,
                                               hw_aecs_toggle_rw);
 

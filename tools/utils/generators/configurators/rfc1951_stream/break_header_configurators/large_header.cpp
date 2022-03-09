@@ -181,7 +181,7 @@ gz_generator::LargeHeaderConfigurator::writeLiteralLengthCodes(Gen32u header_bit
             pLiteralLengthCodes.push_back(13u);
             pLiteralLengthCodes.push_back(15u);
         }
-        for (code; code < 143u; code++)
+        for (code = code; code < 143u; code++)
         {
             pLiteralLengthCodes.push_back(14u);
             pLiteralLengthCodes.push_back(15u);

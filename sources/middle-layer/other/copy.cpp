@@ -28,8 +28,7 @@ auto call_copy<execution_path_t::hardware>(const uint8_t *src_ptr,
     hw_iaa_descriptor_init_mem_copy(&descriptor,
                                     src_ptr,
                                     dst_ptr,
-                                    length,
-                                    0u);
+                                    length);
 
     return util::process_descriptor<copy_operation_result_t, util::execution_mode_t::sync>(&descriptor,
                                                                                            &completion_record,

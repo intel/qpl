@@ -82,6 +82,11 @@ static void hw_build_heap64(uint64_t *heap_ptr, uint32_t len) {
     }
 }
 
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstack-usage=4096"
+#endif
+
 /**
  * @brief Helper for building Huffman tree
  *
@@ -225,6 +230,10 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
     }
 }
 
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
+
 /**
  * @brief helper to compute Huffman codes
  *
@@ -233,11 +242,10 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
  * @param[in]   num_codes     number of codes
  * @param[in]   bl_count_ptr  pointer to code lengths
  * @param[in]   max_code_len  maximum Huffman code length
- *
- * @return max code value
+ * @param[out]  max_code_ptr  pointer to calculated max code value. Can be set to NULL to ignore max code value
  *
  */
-uint32_t hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_count_ptr, uint32_t max_code_len) {
+void hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_count_ptr, uint32_t max_code_len, uint32_t *max_code_ptr) {
     uint32_t next_code[MAX_CODE_LEN + 1u];
     uint32_t code     = 0u;
     uint32_t max_code = 0u;
@@ -258,7 +266,10 @@ uint32_t hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_
         }
     }
 
-    return max_code;
+    // if max_code is needed, return it.
+    if (max_code_ptr) {
+        *max_code_ptr = max_code;
+    }
 }
 
 /**
@@ -439,7 +450,6 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
 
     hw_create_huff_tree(cl_counts, 19u, bl_count, cl_codes, MAX_BL_CODE_LEN);
 
-    uint32_t max_code = 0u;
     uint32_t next_code[MAX_CODE_LEN + 1u];
 
     code = bl_count[0] = 0u;
@@ -527,9 +537,9 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
     }
 
     hw_create_huff_tree(ll_hist_ptr, 286u, bl_count, ll_codes_ptr, MAX_CODE_LEN);
-    max_ll_code = hw_compute_codes(ll_codes_ptr, 286u, bl_count, MAX_CODE_LEN);
+    hw_compute_codes(ll_codes_ptr, 286u, bl_count, MAX_CODE_LEN, &max_ll_code);
     hw_create_huff_tree(d_hist_ptr, 30u, bl_count, d_codes_ptr, MAX_CODE_LEN);
-    max_d_code = hw_compute_codes(d_codes_ptr, 30u, bl_count, MAX_CODE_LEN);
+    hw_compute_codes(d_codes_ptr, 30u, bl_count, MAX_CODE_LEN, &max_d_code);
 
     bit_off  = oa_valid_bits & 7u;
     byte_off = oa_valid_bits >> 3u;
@@ -561,10 +571,9 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
  */
 void hw_create_huff_tables_no_hdr(uint32_t *ll_codes_ptr, uint32_t *ll_hist_ptr) {
     uint32_t bl_count[MAX_CODE_LEN + 1u];
-    uint32_t max_ll_code;
 
     hw_create_huff_tree(ll_hist_ptr, 286u, bl_count, ll_codes_ptr, MAX_CODE_LEN);
-    max_ll_code = hw_compute_codes(ll_codes_ptr, 286u, bl_count, MAX_CODE_LEN);
+    hw_compute_codes(ll_codes_ptr, 286u, bl_count, MAX_CODE_LEN, NULL);
 }
 
 /** @} */

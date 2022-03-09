@@ -347,8 +347,7 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
             hw_iaa_descriptor_init_mem_copy(descriptor_ptr,
                                             job_ptr->next_in_ptr,
                                             job_ptr->next_out_ptr,
-                                            job_ptr->available_in,
-                                            job_ptr->flags);
+                                            job_ptr->available_in);
             break;
 
         case qpl_op_crc64:
@@ -381,8 +380,7 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
                                                  job_ptr->next_in_ptr,
                                                  job_ptr->next_out_ptr,
                                                  job_ptr->available_in,
-                                                 job_ptr->available_out,
-                                                 job_ptr->flags);
+                                                 job_ptr->available_out);
             break;
         }
 

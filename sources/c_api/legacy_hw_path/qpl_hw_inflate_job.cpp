@@ -350,7 +350,7 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
 
     hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, header_ptr, input_bytes_count);
 
-    hw_iaa_descriptor_init_inflate_header((hw_descriptor *) desc_ptr, aecs_ptr, start_bit_offset, ignore_end_bits,
+    hw_iaa_descriptor_init_inflate_header((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bits,
                                           static_cast<const hw_iaa_aecs_access_policy>(aecs_policy));
 
     return QPL_STS_OK;
@@ -386,7 +386,7 @@ extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor 
     hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, (*data_ptr), (*data_size));
     hw_iaa_descriptor_set_output_buffer((hw_descriptor*) desc_ptr, out_ptr, out_size);
 
-    hw_iaa_descriptor_init_inflate_body((hw_descriptor *) desc_ptr, aecs_ptr, 0u, ignore_end_bit);
+    hw_iaa_descriptor_init_inflate_body((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bit);
 
     return QPL_STS_OK;
 }

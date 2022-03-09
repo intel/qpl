@@ -37,8 +37,7 @@ static_assert(sizeof(own_hw_mem_copy_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "De
 HW_PATH_IAA_API(void, descriptor_init_mem_copy, (hw_descriptor *const descriptor_ptr,
                                                  const uint8_t *const source_ptr,
                                                  uint8_t *const destination_ptr,
-                                                 const uint32_t size,
-                                                 const hw_operation_flags_t operation_flags)) {
+                                                 const uint32_t size)) {
     avx512_qplc_zero_8u((uint8_t *) descriptor_ptr, sizeof(hw_iaa_analytics_descriptor));
 
     own_hw_mem_copy_descriptor *const this_ptr = (own_hw_mem_copy_descriptor *) descriptor_ptr;

@@ -31,25 +31,25 @@ OWN_QPLC_API(qplc_status_t, qplc_zero_compress_16u, (uint8_t *source_ptr,
                                                      uint32_t source_size,
                                                      uint8_t *destination_ptr,
                                                      uint32_t destination_max_size,
-                                                     uint32_t *output_size));
+                                                     uint32_t *output_size))
 
 OWN_QPLC_API(qplc_status_t, qplc_zero_decompress_16u, (uint8_t *source_ptr,
                                                        uint32_t source_size,
                                                        uint8_t *destination_ptr,
                                                        uint32_t destination_max_size,
-                                                       uint32_t *output_size));
+                                                       uint32_t *output_size))
 
 OWN_QPLC_API(qplc_status_t, qplc_zero_compress_32u, (uint8_t *source_ptr,
                                                      uint32_t source_size,
                                                      uint8_t *destination_ptr,
                                                      uint32_t destination_max_size,
-                                                     uint32_t *output_size));
+                                                     uint32_t *output_size))
 
 OWN_QPLC_API(qplc_status_t, qplc_zero_decompress_32u, (uint8_t *source_ptr,
                                                        uint32_t source_size,
                                                        uint8_t *destination_ptr,
                                                        uint32_t destination_max_size,
-                                                       uint32_t *output_size));
+                                                       uint32_t *output_size))
 
 #ifdef __cplusplus
 }

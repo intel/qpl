@@ -154,7 +154,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
                            uint8_t **const pp_destination,
                            const uint8_t *const destination_end_ptr,
                            uint32_t *const index_ptr,
-                           const qpl_out_format output_format) {
+                           const uint32_t output_format) {
     // Destination pointer
     uint8_t  *destination_8u_ptr;
     uint16_t *destination_16u_ptr;

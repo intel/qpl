@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-set(QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS "$<$<C_COMPILER_ID:GNU>:-Wstack-usage=4096>;-Wall;-Wextra;-fPIC;-fstack-protector;-fstack-protector-strong;-fstack-clash-protection;--param=ssp-buffer-size=4")
+set(QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS "$<$<C_COMPILER_ID:GNU>:-Wstack-usage=4096>;-Wall;-Wextra;-pedantic;-fPIC;-fstack-protector;-fstack-protector-strong;-fstack-clash-protection;--param=ssp-buffer-size=4")
 set(QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS "-Wl,-z,relro,-z,now;-Wl,-z,noexecstack")
 set(QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS "-fno-exceptions;-fno-rtti;-fno-threadsafe-statics")
 

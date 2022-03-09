@@ -78,7 +78,6 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
 //
 //        hw_iaa_descriptor_init_inflate_header(state.verify_descriptor_,
 //                                              state.aecs_verify_,
-//                                              0u,
 //                                              8u - header_bit_size & 7u,
 //                                              static_cast<const hw_aecs_access_policy>(hw_aecs_access_write
 //                                                                                       | hw_aecs_toggle_rw));

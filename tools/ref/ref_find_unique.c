@@ -44,7 +44,7 @@ qpl_status ref_write_in_output_format(uint8_t **const pp_destination,
                                       uint8_t *const bit_vector_ptr,
                                       const uint8_t *const destination_end_ptr,
                                       uint64_t bit_vector_size,
-                                      qpl_out_format output_format,
+                                      uint32_t output_format,
                                       uint32_t initial_output_index);
 
 /**
@@ -123,7 +123,7 @@ qpl_status ref_write_in_output_format(uint8_t **const pp_destination,
                                       uint8_t *const bit_vector_ptr,
                                       const uint8_t *const destination_end_ptr,
                                       uint64_t bit_vector_size,
-                                      qpl_out_format output_format,
+                                      uint32_t output_format,
                                       uint32_t initial_output_index) {
     switch (output_format) {
         case qpl_ow_nom: {
@@ -413,8 +413,8 @@ REF_INLINE qpl_status own_find_uniqueOutputToFormat(const uint32_t *const source
 
     uint32_t output_index = qpl_job_ptr->initial_output_index;
 
-    qpl_out_format output_format = (qpl_out_format) ((qpl_job_ptr->flags & QPL_FLAG_OUT_BE)
-                                                     + qpl_job_ptr->out_bit_width);
+    uint32_t output_format = (qpl_job_ptr->flags & QPL_FLAG_OUT_BE)
+                                                     + qpl_job_ptr->out_bit_width;
 
     if (qpl_ow_nom == output_format || (qpl_ow_nom | QPL_FLAG_OUT_BE) == output_format) {
         current_destination_ptr = destination_ptr;

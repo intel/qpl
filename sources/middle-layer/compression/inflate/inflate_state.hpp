@@ -580,7 +580,6 @@ template <>
 
     hw_iaa_descriptor_init_inflate_header(descriptor_,
                                           decompress_aecs_,
-                                          access_properties_.ignore_start_bits,
                                           access_properties_.ignore_end_bits,
                                           aecs_policy);
     hw_iaa_descriptor_set_completion_record(descriptor_, completion_record_);
@@ -609,7 +608,6 @@ template <>
     hw_iaa_aecs_decompress_set_crc_seed(decompress_aecs_, inflate_state_.crc);
     hw_iaa_descriptor_init_inflate_body(descriptor_,
                                         decompress_aecs_,
-                                        access_properties_.ignore_start_bits,
                                         access_properties_.ignore_end_bits);
     hw_iaa_descriptor_set_completion_record(descriptor_, completion_record_);
 

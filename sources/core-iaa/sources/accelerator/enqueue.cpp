@@ -36,7 +36,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
         const auto &device = dispatcher.device(device_idx);
         device_idx = (device_idx+1) % device_count;
 
-        if (device.numa_id() != numa_id) {
+        if (device.numa_id() != (uint64_t)numa_id) {
             continue;
         }
 

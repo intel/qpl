@@ -58,8 +58,7 @@ extern "C" {
 HW_PATH_IAA_API(void, descriptor_init_mem_copy, (hw_descriptor * descriptor_ptr,
                                                  const uint8_t        *source_ptr,
                                                  uint8_t              *destination_ptr,
-                                                 uint32_t             size,
-                                                 hw_operation_flags_t operation_flags));
+                                                 uint32_t             size));
 
 
 /**
@@ -99,8 +98,7 @@ HW_PATH_IAA_API(void, descriptor_init_zero_compress, (hw_descriptor * descriptor
                                                       const uint8_t        *source_ptr,
                                                       uint8_t              *destination_ptr,
                                                       uint32_t             input_size,
-                                                      uint32_t             output_size,
-                                                      hw_operation_flags_t operation_flags));
+                                                      uint32_t             output_size));
 /** @} */
 
 
@@ -505,7 +503,6 @@ HW_PATH_IAA_API(void, descriptor_init_inflate, (hw_descriptor *const descriptor_
  */
 HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const descriptor_ptr,
                                                        hw_iaa_aecs *const aecs_ptr,
-                                                       const uint8_t ignore_start_bit,
                                                        const uint8_t ignore_end_bits,
                                                        const hw_iaa_aecs_access_policy access_policy));
 
@@ -514,7 +511,6 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const desc
  */
 HW_PATH_IAA_API(void, descriptor_init_inflate_body, (hw_descriptor *const descriptor_ptr,
                                                      hw_iaa_aecs *const aecs_ptr,
-                                                     const uint8_t ignore_start_bit,
                                                      const uint8_t ignore_end_bit));
 
 /**

@@ -140,7 +140,7 @@ static inline void TestZeroDecompressDstNotEnough(qpl_job *const job_ptr) {
 
     // src was filled with non zero elements
     // now make tag elements thus dst length should be equal to <length>
-    DataType firstTagWord = ((DataType) 0 - 1) << zerosNum;
+    DataType firstTagWord = (DataType)(std::numeric_limits<uint32_t>::max() << zerosNum);
 
     for (int i = 0; i < numOfBlocks; i++)
     {

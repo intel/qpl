@@ -140,9 +140,9 @@ HW_PATH_IAA_AECS_API(void, decompress_set_dictionary, (hw_iaa_aecs_decompress *c
         aecs_ptr->history_buffer[i] = raw_dictionary_ptr[i];
     }
 
-    aecs_ptr->history_buffer_write_offset = (uint16_t) dictionary_length;
+    aecs_ptr->history_buffer_params.history_buffer_write_offset = (uint16_t) dictionary_length;
 
-    aecs_ptr->is_history_buffer_overflowed = 1;
+    aecs_ptr->history_buffer_params.is_history_buffer_overflowed = 1;
 }
 
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr,

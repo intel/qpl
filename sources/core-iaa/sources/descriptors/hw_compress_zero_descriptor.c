@@ -39,8 +39,7 @@ HW_PATH_IAA_API(void, descriptor_init_zero_compress, (hw_descriptor *const descr
                                                       const uint8_t *const source_ptr,
                                                       uint8_t *const destination_ptr,
                                                       const uint32_t input_size,
-                                                      const uint32_t output_size,
-                                                      const hw_operation_flags_t operation_flags)) {
+                                                      const uint32_t output_size)) {
     avx512_qplc_zero_8u((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 
     own_hw_compress_zero_descriptor *const this_ptr = (own_hw_compress_zero_descriptor *) descriptor_ptr;

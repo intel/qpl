@@ -114,7 +114,7 @@ typedef struct {
     struct {
         uint16_t history_buffer_write_offset  : 15;         /**< Offset to the first unwritten byte in history_buffer */
         uint16_t is_history_buffer_overflowed : 1;          /**< True or false value, which indicates whenever history buffer capacity was exceed */
-    };
+    } history_buffer_params;
     uint16_t reserved4;                                      /**< Reserved bytes */
     uint8_t  history_buffer[4096];                           /**< History buffer */
     uint32_t reserved5[6];                                   /**< Reserved bytes */

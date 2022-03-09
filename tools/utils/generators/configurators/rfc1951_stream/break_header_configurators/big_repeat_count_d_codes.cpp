@@ -41,11 +41,11 @@ GenStatus gz_generator::BigRepeatCountDistanceLengthCodesConfigurator::generate(
     {
         Gen32u code = 0u;
         random.set_range(9u, 15u);
-        for (code; code < repeatedCode; code++)
+        for (code = code; code < repeatedCode; code++)
         {
             pDistanceLengthCodesTable[code] = static_cast<Gen32u>(random);
         }
-        for (code; code < repeatedCode + repeatingCount; code++)
+        for (code = code; code < repeatedCode + repeatingCount; code++)
         {
             pDistanceLengthCodesTable[code] = code_length;
         }

@@ -139,7 +139,7 @@ namespace qpl::test
         /**
         * @briеf This method resets qpl_job structure for the next test case
         */
-        virtual void CleanUpAfterIteration()
+        virtual void CleanUpAfterIteration() override
         {
             JobFixture::TearDown();
             JobFixture::SetUp();
@@ -181,7 +181,7 @@ namespace qpl::test
         /**
         * @briеf This method resets qpl_job structure for the next test case
         */
-        virtual void CleanUpAfterIteration()
+        virtual void CleanUpAfterIteration() override
         {
             ReferenceFixture::TearDown();
             ReferenceFixture::SetUp();

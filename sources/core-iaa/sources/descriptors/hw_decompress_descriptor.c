@@ -66,7 +66,6 @@ HW_PATH_IAA_API(void, descriptor_init_inflate, (hw_descriptor *const descriptor_
 
 HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const descriptor_ptr,
                                                        hw_iaa_aecs *const aecs_ptr,
-                                                       const uint8_t ignore_start_bit,
                                                        const uint8_t ignore_end_bits,
                                                        const hw_iaa_aecs_access_policy access_policy)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
@@ -98,7 +97,6 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const desc
 
 HW_PATH_IAA_API(void, descriptor_init_inflate_body, (hw_descriptor *const descriptor_ptr,
                                                      hw_iaa_aecs *const aecs_ptr,
-                                                     const uint8_t ignore_start_bit,
                                                      const uint8_t ignore_end_bit)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
     hw_iaa_aecs_analytic *this_aecs_ptr = (hw_iaa_aecs_analytic *) aecs_ptr;

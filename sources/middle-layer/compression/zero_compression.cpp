@@ -94,8 +94,7 @@ auto call_zero_operation_hw(const zero_input_format_t input_format,
                                          source_buffer.data(),
                                          destination_buffer.data(),
                                          source_buffer.size(),
-                                         destination_buffer.size(),
-                                         crc_type == crc_type_t::crc_32c ? QPL_FLAG_CRC32C : 0u);
+                                         destination_buffer.size());
 
     return util::process_descriptor<zero_operation_result_t, util::execution_mode_t::sync>(&descriptor,
                                                                                            &completion_record,

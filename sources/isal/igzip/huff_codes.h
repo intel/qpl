@@ -152,7 +152,7 @@ create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf * hufftables,
                   struct isal_mod_hist *hist, uint32_t end_of_block);
 #ifdef QPL_LIB
 #ifdef __cplusplus
-}; // extern "C"
+} // extern "C"
 #endif
 #endif
 
