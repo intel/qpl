@@ -32,19 +32,19 @@ static inline auto convert_status_iaa_to_qpl(HW_PATH_VOLATILE const hw_completio
 }
 
 template <class return_t>
-inline auto completion_record_convert_to_result(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr) noexcept -> return_t;
+inline auto completion_record_convert_to_result(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr) noexcept -> return_t;
 
 template <>
-inline auto completion_record_convert_to_result<uint32_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr) noexcept -> qpl_ml_status {
+inline auto completion_record_convert_to_result<uint32_t>(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr) noexcept -> qpl_ml_status {
     return convert_status_iaa_to_qpl(completion_record_ptr);
 }
 
 template <>
-inline auto completion_record_convert_to_result<analytics::analytic_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<analytics::analytic_operation_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
 noexcept -> analytics::analytic_operation_result_t {
     analytics::analytic_operation_result_t analytic_operation_result{};
 
-    auto *analytic_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const analytic_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     analytic_operation_result.status_code_           = convert_status_iaa_to_qpl(completion_record_ptr);
     analytic_operation_result.last_bit_offset_       = analytic_completion_record->output_bits;
@@ -59,7 +59,7 @@ noexcept -> analytics::analytic_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<other::copy_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<other::copy_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr)
 noexcept -> other::copy_operation_result_t {
     other::copy_operation_result_t copy_operation_result{};
 
@@ -69,11 +69,11 @@ noexcept -> other::copy_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<other::crc_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<other::crc_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr)
 noexcept -> other::crc_operation_result_t {
     other::crc_operation_result_t crc_operation_result{};
 
-    auto *analytic_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const analytic_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     crc_operation_result.status_code_ = convert_status_iaa_to_qpl(completion_record_ptr);
     crc_operation_result.crc_ = (static_cast<uint64_t>(analytic_completion_record->sum_agg) << 32u)
@@ -83,11 +83,11 @@ noexcept -> other::crc_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<compression::zero_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<compression::zero_operation_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
 noexcept -> compression::zero_operation_result_t {
     compression::zero_operation_result_t zero_operation_result{};
 
-    auto *zero_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const zero_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     zero_operation_result.status_code_           = convert_status_iaa_to_qpl(completion_record_ptr);
     zero_operation_result.aggregates_.min_value_ = zero_completion_record->min_first_agg;
@@ -101,11 +101,11 @@ noexcept -> compression::zero_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<compression::decompression_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<compression::decompression_operation_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
 noexcept -> compression::decompression_operation_result_t {
     compression::decompression_operation_result_t decompression_operation_result{};
 
-    auto *completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     decompression_operation_result.status_code_      = convert_status_iaa_to_qpl(completion_record_ptr);
     decompression_operation_result.output_bytes_     = completion_record->output_size;
@@ -117,11 +117,11 @@ noexcept -> compression::decompression_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<compression::compression_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<compression::compression_operation_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
 noexcept -> compression::compression_operation_result_t {
     compression::compression_operation_result_t compression_operation_result{};
 
-    auto *completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     compression_operation_result.status_code_      = convert_status_iaa_to_qpl(completion_record_ptr);
     compression_operation_result.output_bytes_     = completion_record->output_size;
@@ -134,11 +134,11 @@ noexcept -> compression::compression_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<compression::verification_pass_result_t>(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr)
+inline auto completion_record_convert_to_result<compression::verification_pass_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
 noexcept -> compression::verification_pass_result_t {
     compression::verification_pass_result_t verification_pass_result{};
 
-    auto *completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *const>(completion_record_ptr);
+    auto *const completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     verification_pass_result.status_code_      = convert_status_iaa_to_qpl(completion_record_ptr);
     verification_pass_result.indexes_written_  = completion_record->output_size / sizeof (uint64_t);

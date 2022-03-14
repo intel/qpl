@@ -117,12 +117,15 @@ OWN_QPLC_FUN(void, qplc_pack_be_8u7u, (const uint8_t *src_ptr,
     qplc_pack_be_8u_nu(src_ptr, num_elements, 7u, dst_ptr, start_bit);
 }
 
+#if defined(__linux__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 OWN_QPLC_FUN(void, qplc_pack_be_8u8u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    OWN_UNREFERENCED_PARAMETER(start_bit);
-
     CALL_CORE_FUN(qplc_copy_8u)(src_ptr, dst_ptr, num_elements);
 }
 
@@ -130,8 +133,6 @@ OWN_QPLC_FUN(void, qplc_pack_be_8u16u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    OWN_UNREFERENCED_PARAMETER(start_bit);
-
     uint16_t *dst_16u_ptr = (uint16_t *) dst_ptr;
 
     for (uint32_t i = 0u; i < num_elements; i++) {
@@ -143,11 +144,13 @@ OWN_QPLC_FUN(void, qplc_pack_be_8u32u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    OWN_UNREFERENCED_PARAMETER(start_bit);
-
     uint32_t *dst_32u_ptr = (uint32_t *) dst_ptr;
 
     for (uint32_t i = 0u; i < num_elements; i++) {
         dst_32u_ptr[i] = qplc_swap_bytes_32u((uint32_t) src_ptr[i]);
     }
 }
+
+#if defined(__linux__)
+#pragma GCC diagnostic pop
+#endif

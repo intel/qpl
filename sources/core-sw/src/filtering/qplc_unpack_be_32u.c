@@ -319,6 +319,11 @@ OWN_QPLC_FUN(void, qplc_unpack_be_31u32u, (const uint8_t *src_ptr,
 
 // ********************** 32u ****************************** //
 
+#if defined(__linux__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
 OWN_QPLC_FUN(void, qplc_unpack_be_32u32u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint32_t start_bit,
@@ -329,11 +334,13 @@ OWN_QPLC_FUN(void, qplc_unpack_be_32u32u, (const uint8_t *src_ptr,
     uint32_t *src32u_ptr = (uint32_t *)src_ptr;
     uint32_t *dst32u_ptr = (uint32_t *)dst_ptr;
 
-    OWN_UNREFERENCED_PARAMETER(start_bit);
-
     for (uint32_t i = 0u; i < num_elements; i++)
     {
         dst32u_ptr[i] = qplc_swap_bytes_32u(src32u_ptr[i]);
     }
 #endif
 }
+
+#if defined(__linux__)
+#pragma GCC diagnostic pop
+#endif

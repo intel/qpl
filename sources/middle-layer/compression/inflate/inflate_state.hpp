@@ -97,7 +97,7 @@ public:
     static constexpr auto execution_path = execution_path_t::software;
 
     // todo make private
-    access_properties access_properties_ = {0u};
+    access_properties access_properties_ = {false, 0u, 0u};
 
     inflate_state() noexcept = default;
 
@@ -248,7 +248,7 @@ private:
     bool flush_enabled_ = false;
 
     util::multitask_status     processing_step           = util::multitask_status::ready;
-    access_properties          access_properties_        = {0u};
+    access_properties          access_properties_        = {false, 0u, 0u};
     end_processing_condition_t end_processing_condition_ = stop_and_check_for_bfinal_eob;
 
     struct execution_state {
