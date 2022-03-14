@@ -42,6 +42,10 @@ std::ostream &operator<<(std::ostream &os, const DeflateTestCase &test_case) {
 }
 
 class DeflateTest : public JobFixtureWithTestCases<DeflateTestCase> {
+
+public:
+    int32_t num_test = 0;
+
 protected:
     void InitializeTestCases() override {
         auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
@@ -86,6 +90,13 @@ protected:
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
+
+        if (qpl_path_hardware == job_ptr->data_ptr.path) {
+            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
+                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
+                return;
+            }
+        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         if (no_header == current_test_case.header) {
@@ -124,6 +135,13 @@ protected:
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
+
+        if (qpl_path_hardware == job_ptr->data_ptr.path) {
+            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
+                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
+                return;
+            }
+        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         destination.resize(job_ptr->total_out);
@@ -153,6 +171,13 @@ protected:
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
+
+        if (qpl_path_hardware == job_ptr->data_ptr.path) {
+            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
+                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
+                return;
+            }
+        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         destination.resize(job_ptr->total_out);
@@ -214,6 +239,12 @@ private:
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, dynamic_blocks_high_level, DeflateTest) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        if (0 == DeflateTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     CompressDynamicMode(qpl_high_level);
 }
 
@@ -222,6 +253,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, dynamic_blocks_default_level, Def
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, static_blocks_high_level, DeflateTest) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        if (0 == DeflateTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     CompressStaticMode(qpl_high_level);
 }
 
@@ -230,6 +267,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, static_blocks_default_level, Defl
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, fixed_blocks_high_level, DeflateTest) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        if (0 == DeflateTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     CompressFixedMode(qpl_high_level);
 }
 
@@ -295,7 +338,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_default_level
     CompressStaticMode(qpl_default_level, omit_verification);
 }
 
-GTEST_TEST(ta_c_api_deflate_verify, dynamic_high_level) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, DeflateTest) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        if (0 == DeflateTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
 
     uint32_t job_size = 0;
     auto     path     = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -355,7 +404,14 @@ GTEST_TEST(ta_c_api_deflate_verify, dynamic_high_level) {
     qpl_fini_job(decompr_job);
 }
 
-GTEST_TEST(ta_c_api_deflate_verify, static_high_level) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, DeflateTest) {
+
+    if (GetExecutionPath() == qpl_path_hardware) {
+        if (0 == DeflateTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
 
     auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data();
     auto table_source = dataset.begin()->second;

@@ -44,9 +44,13 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 
     qpl_path_t path = qpl_job_ptr->data_ptr.path;
 
-    if ((qpl_op_compress == qpl_job_ptr->op && qpl_high_level == qpl_job_ptr->level) ||
-        QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
-        qpl_job_ptr->data_ptr.path = qpl_path_software;
+    if (qpl_path_hardware == path) {
+        if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
+            return QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL;
+        }
+        if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
+            return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+        }
     }
 
     if (qpl_path_hardware == qpl_job_ptr->data_ptr.path || qpl_path_auto == qpl_job_ptr->data_ptr.path) {

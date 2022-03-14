@@ -135,10 +135,22 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_by_chunks_default
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_high_level, JobReusageTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == JobReusageTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     CompressWithJobReusage(false, qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_by_chunks_high_level, JobReusageTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == JobReusageTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     CompressWithJobReusage(true, qpl_high_level);
 }
 

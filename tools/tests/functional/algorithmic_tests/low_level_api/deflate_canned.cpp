@@ -258,6 +258,12 @@ namespace qpl::test
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture)
     {
         auto path = GetExecutionPath();
+        if (path == qpl_path_hardware) {
+            if (0 == JobFixture::num_test++) {
+                GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+            }
+            return;
+        }
         auto table_representation = (path != qpl_path_hardware) ? QPL_SW_REPRESENTATION : QPL_HW_REPRESENTATION;
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data())

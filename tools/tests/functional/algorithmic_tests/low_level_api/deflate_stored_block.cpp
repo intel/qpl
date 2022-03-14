@@ -29,6 +29,12 @@ class StoredBlockTest : public JobFixture {
 public:
     template<uint32_t input_size>
     void dynamic_compression_failed_test(qpl_compression_levels level) {
+        if (GetExecutionPath() == qpl_path_hardware) {
+            if (0 == JobFixture::num_test++) {
+                GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+            }
+            return;
+        }
         constexpr uint32_t number_of_stored_blocks = (input_size + max_stored_block_size - 1) / max_stored_block_size;
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
 
@@ -73,6 +79,12 @@ public:
 
     template<uint32_t input_size>
     void fixed_compression_failed_test(qpl_compression_levels level) {
+        if (GetExecutionPath() == qpl_path_hardware) {
+            if (0 == JobFixture::num_test++) {
+                GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+            }
+            return;
+        }
         constexpr uint32_t number_of_stored_blocks = (input_size + max_stored_block_size - 1) / max_stored_block_size;
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
 
@@ -117,6 +129,12 @@ public:
 
     template<uint32_t input_size>
     void static_compression_failed_test(qpl_compression_levels level) {
+        if (GetExecutionPath() == qpl_path_hardware) {
+            if (0 == JobFixture::num_test++) {
+                GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+            }
+            return;
+        }
         constexpr uint32_t number_of_stored_blocks = (input_size + max_stored_block_size - 1) / max_stored_block_size;
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
 
@@ -271,10 +289,22 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_dynamic_overflo
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_dynamic_overflow_check_high_level, StoredBlockTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == StoredBlockTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     dynamic_overflow_check_test<small_input_data_size>(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_dynamic_overflow_check_high_level, StoredBlockTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == StoredBlockTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     dynamic_overflow_check_test<large_input_data_size>(qpl_high_level);
 }
 
@@ -287,10 +317,22 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_overflow
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_static_overflow_check_high_level, StoredBlockTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == StoredBlockTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     static_overflow_check_test<small_input_data_size>(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_overflow_check_high_level, StoredBlockTest) {
+    if (GetExecutionPath()== qpl_path_hardware) {
+        if (0 == StoredBlockTest::num_test++) {
+            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+        }
+        return;
+    }
     static_overflow_check_test<large_input_data_size>(qpl_high_level);
 }
 
