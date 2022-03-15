@@ -16,8 +16,8 @@ Indexing
 ********
 
 
-For information on creating and using indices, refer to the
-:ref:`Creating and Using Indices <c_creating_and_using_indices_reference_link>` chapter.
+For information on creating and using indices in Intel® Query Processing Library (Intel® QPL), 
+refer to the :ref:`Creating and Using Indices <c_creating_and_using_indices_reference_link>` chapter.
 
 Indexing is used to generate a fully-compliant DEFLATE stream. This
 stream can be decompressed in its entirety with any compliant DEFLATE

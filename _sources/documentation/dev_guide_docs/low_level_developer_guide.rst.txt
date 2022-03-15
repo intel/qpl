@@ -9,8 +9,8 @@ Low-level C API Developer Guide
 ###############################
 
 
-This document provides instructions on how to use the Intel® Query
-Processing Library (Intel® QPL) C API (also called as Job API).
+This document provides instructions on how to use the 
+Intel® Query Processing Library (Intel® QPL) C API (also called as Job API).
 
 **Disclaimer**
 

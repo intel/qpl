@@ -9,8 +9,8 @@ Operations with Mask
 ####################
 
 
-This section describes the Intel® Query Processing Library 
-(Intel® QPL) high-level API operations with mask.
+This section describes the Intel® Query Processing Library (Intel® QPL) 
+high-level API operations with mask.
 
 For all operations with the mask, you can leave the mask value as
 ``nullptr`` and the mask byte size equal to zero, and calculate the mask
