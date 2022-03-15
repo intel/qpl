@@ -5,6 +5,9 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
+
+# Intel® Query Processing Library (Intel® QPL) documentation generation script.
+
 set -ex
 
 # This file is required for local build of Doxygen for Sphinx to use docs preview in VSCode

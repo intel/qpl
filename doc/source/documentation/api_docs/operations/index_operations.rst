@@ -11,8 +11,8 @@ Operations
 ##########
 
 
-This section describes the Intel® Query Processing Library 
-(Intel® QPL) high-level API operations.
+This section describes the Intel® Query Processing Library (Intel® QPL) 
+high-level API operations.
 
 
 Operation Overview

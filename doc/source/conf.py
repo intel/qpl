@@ -4,6 +4,10 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
+
+# Intel® Query Processing Library (Intel® QPL) Documentation Configuration file.
+
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,

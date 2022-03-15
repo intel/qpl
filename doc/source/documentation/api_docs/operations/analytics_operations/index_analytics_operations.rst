@@ -8,8 +8,8 @@ Analytics Operations
 ####################
 
 
-This section describes the Intel® Query Processing Library 
-(Intel® QPL) high-level API analytics operations.
+This section describes the Intel® Query Processing Library (Intel® QPL) 
+high-level API analytics operations.
 
 
 Supported Methods

@@ -9,8 +9,8 @@ Exceptions
 ##########
 
 
-The high-level API implements its own exception system, which is based
-on ``std::exception``.
+The Intel® Query Processing Library (Intel® QPL) high-level API implements 
+its own exception system, which is based on ``std::exception``.
 
 
 Inheritance Hierarchy

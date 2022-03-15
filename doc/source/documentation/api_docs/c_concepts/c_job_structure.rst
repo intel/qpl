@@ -12,7 +12,8 @@ Job Structure
 #############
 
 
-The job structure contains three types of data:
+The Intel® Query Processing Library (Intel® QPL) 
+job structure contains three types of data:
 
 1. Parameters defining the job to be done.
 

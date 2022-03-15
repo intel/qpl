@@ -8,8 +8,8 @@ Compression Operations
 ######################
 
 
-This section describes the Intel® Query Processing Library 
-(Intel® QPL) high-level API compression operations.
+This section describes the Intel® Query Processing Library (Intel® QPL) 
+high-level API compression operations.
 
 
 .. toctree::

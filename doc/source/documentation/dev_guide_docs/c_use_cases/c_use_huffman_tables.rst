@@ -10,9 +10,9 @@ Huffman Tables
 
 
 Two formats can be applied for Huffman Tables (one for the compressor
-and one for the decompressor). The decompression Huffman Table is needed
-for certain advanced use cases. Normally, the user never needs to deal
-with it.
+and one for the decompressor) in Intel® Query Processing Library (Intel® QPL). 
+The decompression Huffman Table is needed for certain advanced use cases. Normally, 
+the user never needs to deal with it.
 
 These structures are not public. The user cannot access or modify its
 fields. Consider the following snippet:
