@@ -76,8 +76,8 @@ set_target_properties(isal PROPERTIES
                       C_STANDARD 99)
 
 target_compile_options(isal PRIVATE
-                       "$<$<C_COMPILER_ID:GNU>:${QPL_GNU_REQUIRED_FLAGS}>"
-                       "$<$<C_COMPILER_ID:MSVC>:/WX;${DISABLED_WARNINGS_FLAGS}>"
+                       "$<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS}>"
+                       "$<$<C_COMPILER_ID:MSVC>:/WX;${DISABLED_WARNINGS_FLAGS};${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS}>"
                        "$<$<CONFIG:Debug>:>"
                        "$<$<CONFIG:Release>:>")
 
