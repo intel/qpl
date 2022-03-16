@@ -14,6 +14,7 @@
 #define QPL_LITERALS_MATCHES_TABLE_SIZE    286u  /**< Size of Huffman table with codes for literals and match lengths */ // @todo remove dependency
 #define QPL_DEFAULT_OFFSETS_NUMBER         30u   /**< Default number of possible offsets in a Huffman table */ // @todo remove dependency
 #define QPL_DEFAULT_LITERALS_NUMBER        257u  /**< Default number of literals in a Huffman table */ // @todo remove dependency
+#define BFINAL_BIT                         1u    /**< Bfinal bit value in deflate header */
 typedef struct qpl_compression_huffman_table  qpl_compression_huffman_table;
 
 #include "../../../../include/qpl/c_api/status.h" // @todo remove dependency
@@ -108,7 +109,11 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
         // Byte aligned
         byte_offset = aecs_ptr->num_output_accum_bits / 8u;
         avx512_qplc_copy_8u(header_ptr, aecs_ptr->output_accum + byte_offset, (header_bit_size + 7u) / 8u);
+
+        // Clear bfinal bit and set corresponding value to it
+        aecs_ptr->output_accum[byte_offset] &= ~(BFINAL_BIT);
         aecs_ptr->output_accum[byte_offset] |= b_final;
+
         aecs_ptr->num_output_accum_bits += header_bit_size;
     } else {
         // Not byte aligned
@@ -130,7 +135,11 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
 
         *(uint64_t *) (aecs_ptr->histogram.ll_sym) = tmp;
         bit_ptr[idx] = bit_buf;
+
+        // Clear bfinal bit and set corresponding value to it
+        aecs_ptr->output_accum[byte_offset] &= ~(BFINAL_BIT << bit_offset);
         aecs_ptr->output_accum[byte_offset] |= b_final << bit_offset;
+
         aecs_ptr->num_output_accum_bits += header_bit_size;
     }
 

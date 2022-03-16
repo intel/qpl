@@ -143,6 +143,14 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
         bool do_next_inflate_pass = !utility::is_inflate_complete(end_processing_condition,
                                                                   *inflate_state_ptr);
 
+        // If there was no decompression into internal buffer and we are ready to
+        // Read new deflate header, then next_inflate_pass should be true, regardless of
+        // what end_processing_condition is
+        if (is_internal_buffer_available == false &&
+            inflate_state_ptr->block_state == ISAL_BLOCK_NEW_HDR) {
+            do_next_inflate_pass = true;
+        }
+
         // Main pipeline cycle
         while (do_next_inflate_pass) {
             result.status_code_ = inflate_pass(*inflate_state_ptr, output_start_ptr);

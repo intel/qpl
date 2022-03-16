@@ -909,10 +909,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
     auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
 
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
-
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
@@ -933,6 +929,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
             }
             // Perform compression
             {
+                // Initialize compression job
+                status = qpl_init_job(execution_path, job_ptr);
+                ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+
                 // Configure job
                 job_ptr->op = qpl_op_compress;
                 job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_OMIT_VERIFY;
@@ -986,6 +986,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
                 // So if we set qpl_stop_on_any_eob option, then we will be able to run decompress exactly N times without any fails
                 // (N + 1)th iteration may not fail (probably decoder will spot a block of type btype == 0),
                 // however we expect no output at this iteration
+                uint32_t saved_output_bytes = 0;
                 for (uint32_t iteration_count = 0; iteration_count < deflate_blocks_count; iteration_count++) {
 
                     if (iteration_count == deflate_blocks_count - 1) {
@@ -995,8 +996,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
                     status = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
+
+                    if (iteration_count != deflate_blocks_count - 1) {
+                        const auto last_block_size = job_ptr->total_out - saved_output_bytes;
+                        ASSERT_EQ(last_block_size, block_size) << "Deflate block contained more bytes than expected";
+                    }
+                    saved_output_bytes = job_ptr->total_out;
                 }
-                uint32_t saved_output_bytes = job_ptr->total_out;
 
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes) << "More deflate blocks found than expected! " << error_message;
@@ -1019,10 +1025,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
     auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
 
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
-
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
@@ -1043,6 +1045,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
             }
             // Perform compression
             {
+                // Initialize compression job
+                status = qpl_init_job(execution_path, job_ptr);
+                ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+
                 // Configure job
                 job_ptr->op = qpl_op_compress;
                 job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_OMIT_VERIFY;
@@ -1096,6 +1102,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
                 // So if we set qpl_stop_on_any_eob option, then we will be able to run decompress exactly N times without any fails
                 // (N + 1)th iteration may not fail (probably decoder will spot a block of type btype == 0),
                 // however we expect no output at this iteration
+                uint32_t saved_output_bytes = 0;
                 for (uint32_t iteration_count = 0; iteration_count < deflate_blocks_count; iteration_count++) {
 
                     if (iteration_count == deflate_blocks_count - 1) {
@@ -1105,8 +1112,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
                     status = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
+
+                    if (iteration_count != deflate_blocks_count - 1) {
+                        const auto last_block_size = job_ptr->total_out - saved_output_bytes;
+                        ASSERT_EQ(last_block_size, block_size) << "Deflate block contained more bytes than expected";
+                    }
+                    saved_output_bytes = job_ptr->total_out;
                 }
-                uint32_t saved_output_bytes = job_ptr->total_out;
 
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes) << "More deflate blocks found than expected! " << error_message;
@@ -1128,10 +1140,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
     auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
-
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
@@ -1168,6 +1176,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
             }
             // Perform compression
             {
+                // Initialize compression job
+                status = qpl_init_job(execution_path, job_ptr);
+                ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+
                 // Configure job
                 job_ptr->op = qpl_op_compress;
                 job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_OMIT_VERIFY;
@@ -1222,6 +1234,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
                 // So if we set qpl_stop_on_any_eob option, then we will be able to run decompress exactly N times without any fails
                 // (N + 1)th iteration may not fail (probably decoder will spot a block of type btype == 0),
                 // however we expect no output at this iteration
+                uint32_t saved_output_bytes = job_ptr->total_out;
                 for (uint32_t iteration_count = 0; iteration_count < deflate_blocks_count; iteration_count++) {
 
                     if (iteration_count == deflate_blocks_count - 1) {
@@ -1231,8 +1244,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
                     status = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
+
+                    if (iteration_count != deflate_blocks_count - 1) {
+                        const auto last_block_size = job_ptr->total_out - saved_output_bytes;
+                        ASSERT_EQ(last_block_size, block_size) << "Deflate block contained more bytes than expected";
+                    }
+                    saved_output_bytes = job_ptr->total_out;
                 }
-                uint32_t saved_output_bytes = job_ptr->total_out;
 
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes) << "More deflate blocks found than expected! " << error_message;
