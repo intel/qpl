@@ -17,8 +17,7 @@ void check_less_elements_in_mask_than_required(qpl_job *job_ptr, uint64_t flags)
     std::vector<uint8_t> source = { 1, 2, 3, 4, 5};
     constexpr uint32_t mask_length = 1;
     std::vector<uint8_t> mask = { 0b10010111 };
-    constexpr uint32_t destination_length = 10;
-    std::vector<uint8_t> destination = {0};
+    std::vector<uint8_t> destination(DESTINATION_ARRAY_SIZE);
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
     set_mask_stream(job_ptr, mask.data(), mask_length, MASK_BIT_WIDTH);
