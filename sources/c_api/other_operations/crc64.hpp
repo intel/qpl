@@ -19,7 +19,7 @@
  * @anchor CRC_OPERATION
  * @brief Calculates CRC64 calculation
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *          - @ref qpl_job.next_in_ptr            - start address of the input stream

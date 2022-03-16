@@ -14,9 +14,9 @@
 #include "qpl/qpl.hpp"
 
 /**
- * @brief @ref qpl::software (`Software Path`) means that computations will be done with CPU.
- * Accelerator can be used instead of CPU. In this case, @ref qpl::hardware (`Hardware Path`) must be specified.
- * If there is no difference where calculations should be done, @ref qpl::auto_detect (`Auto Path`) can be used to allow
+ * @brief qpl::software (`Software Path`) means that computations will be done with CPU.
+ * Accelerator can be used instead of CPU. In this case, qpl::hardware (`Hardware Path`) must be specified.
+ * If there is no difference where calculations should be done, qpl::auto_detect (`Auto Path`) can be used to allow
  * the library to chose the path to execute.
  *
  * @warning ---! Important !---

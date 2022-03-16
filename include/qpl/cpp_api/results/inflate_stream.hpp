@@ -83,7 +83,7 @@ protected:
 
 private:
     /**
-     * Instance of @ref inflate_stateful_operation that is used for decompression
+     * Instance of inflate_stateful_operation that is used for decompression
      */
     std::unique_ptr<internal::inflate_stateful_operation> operation_;
 };

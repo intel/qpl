@@ -48,7 +48,7 @@ namespace qpl {
 /**
  * @brief Compress `Input` stream using deflate method.
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
  *
  * @details For operation execution, set the following parameters in `qpl_job_ptr`:
  *      - `Input` properties:
@@ -219,7 +219,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *    - @ref QPL_STS_INVALID_DEFLATE_DATA_ERR
  *    - @ref QPL_STS_INVALID_PARAM_ERR
  *    - @ref QPL_STS_ARCHIVE_UNSUP_METHOD_ERR
- *    - @ref QPL_INFLATE_NEED_DICT_ERR
+ *    - @ref QPL_STS_INFLATE_NEED_DICT_ERR
  *    - @ref QPL_STS_LIBRARY_INTERNAL_ERR
  *
  * Example of main usage:

@@ -63,7 +63,7 @@ namespace qpl {
 /**
  * @brief Compress/Decompresses data is compressed in zero compress format for 16-bit/32-bit words
  *
- * @param [in,out] qpl_job_ptr pointer onto the user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto the user specified @ref qpl_job
  * @param [in] buffer_ptr  pointer onto buffer
  * @param [in] buffer_size buffer size
  *

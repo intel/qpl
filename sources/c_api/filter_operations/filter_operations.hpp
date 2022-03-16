@@ -15,23 +15,6 @@
  *
  * @details Contains functions that can be used to perform a data filtration.
  *
- *  | OP_CODE                     | Function                |
- *  |-----------------------------|-------------------------|
- *  | @ref qpl_op_set_membership  | @ref qpl_set_membership |
- *  | @ref qpl_op_extract         | @ref qpl_extract        |
- *  | @ref qpl_op_select          | @ref qpl_select         |
- *  | @ref qpl_op_rle_burst       | @ref qpl_rle_burst      |
- *  | @ref qpl_op_find_unique     | @ref qpl_find_unique    |
- *  | @ref qpl_op_expand          | @ref qpl_expand         |
- *  | @ref qpl_op_scan_eq         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_ne         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_lt         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_le         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_gt         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_ge         | @ref qpl_scan           |
- *  | @ref qpl_op_scan_range      | @ref qpl_scan           |
- *  | @ref qpl_op_scan_not_range  | @ref qpl_scan           |
- *
  * @note Functions can work with 3 streams:
  *           - A `Source-1` stream contains data to process
  *           - A `Source-2` stream contains extra data to perform data processing. Can be presented:
@@ -69,7 +52,9 @@
 /**
  * @brief Scans `Source` for values that are meet the requirement that are described in the @ref qpl_job
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] buffer_ptr  unpack buffer
+ * @param [in] buffer_size unpack buffer size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -143,7 +128,9 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
 /**
  * @brief Extracts a sub-vector from the `Source` starting from index param_low and finishing at index param_high
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] buffer_ptr  unpack buffer
+ * @param [in] buffer_size unpack buffer size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -203,7 +190,11 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
 /**
  * @brief  Finds values that are present in the `Source` and marks them into the `Set`.
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] unpack_buffer_ptr  unpack buffer
+ * @param [in] unpack_buffer_size unpack buffer size
+ * @param [in] set_buffer_ptr     buffer to keep set
+ * @param [in] set_buffer_size    set byte size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -280,7 +271,11 @@ uint32_t perform_find_unique(qpl_job *job_ptr,
 /**
  * @brief Checks that element from the `Source` is a part of a specified `Set`.
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] unpack_buffer_ptr  unpack buffer
+ * @param [in] unpack_buffer_size unpack buffer size
+ * @param [in] set_buffer_ptr     buffer to keep set
+ * @param [in] set_buffer_size    set byte size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -364,7 +359,13 @@ uint32_t perform_set_membership(qpl_job *job_ptr,
  *      - Each 0-bit element from `Mask Stream` writes a zero into the output stream
  *      - Each 1-bit element from `Mask Stream` writes the next entry from input stream
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] unpack_buffer_ptr  unpack buffer
+ * @param [in] unpack_buffer_size unpack buffer size
+ * @param [in] output_buffer_ptr  output buffer
+ * @param [in] output_buffer_size output buffer size
+ * @param [in] mask_buffer_ptr    mask
+ * @param [in] mask_buffer_size   mask byte size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -432,7 +433,13 @@ uint32_t perform_expand(qpl_job *job_ptr,
 /**
  * @brief Selects elements from the `Source` in accordance with indexes of non-zero elements in the `Index Stream`.
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] unpack_buffer_ptr   unpack buffer
+ * @param [in] unpack_buffer_size  unpack buffer size
+ * @param [in] output_buffer_ptr   output buffer
+ * @param [in] output_buffer_size  output buffer size
+ * @param [in] mask_buffer_ptr     mask
+ * @param [in] mask_buffer_size    mask byte size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
@@ -500,7 +507,13 @@ uint32_t perform_select(qpl_job *job_ptr,
  * @brief Replicates each element in the `Source` by the number of times defined by the `Counter Stream` element
  *        with the same index.
  *
- * @param [in,out] qpl_job_ptr pointer onto user specified @ref qpl_job
+ * @param [in,out] job_ptr pointer onto user specified @ref qpl_job
+ * @param [in] unpack_buffer_ptr   unpack buffer
+ * @param [in] unpack_buffer_size  unpack buffer size
+ * @param [in] output_buffer_ptr   output buffer
+ * @param [in] output_buffer_size  output buffer size
+ * @param [in] mask_buffer_ptr     mask
+ * @param [in] mask_buffer_size    mask byte size
  *
  * @details For operation execution, you must set the following parameters in `qpl_job_ptr`:
  *      - Operation options:
