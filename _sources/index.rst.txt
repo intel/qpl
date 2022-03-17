@@ -22,7 +22,8 @@ scientific/technical applications.
 
 .. toctree::
    :maxdepth: 4
-   :caption: About:
+   :hidden:
+   :caption: About
 
 
    documentation/introduction_docs/introduction.rst
@@ -33,7 +34,8 @@ scientific/technical applications.
 
 .. toctree::
    :maxdepth: 4
-   :caption: Get Started:
+   :hidden:
+   :caption: Get Started
 
 
    documentation/get_started_docs/installation.rst
@@ -44,7 +46,8 @@ scientific/technical applications.
 
 .. toctree::
    :maxdepth: 4
-   :caption: Developer Reference:
+   :hidden:
+   :caption: Developer Reference
 
 
    documentation/api_docs/high_level_api.rst
@@ -53,16 +56,9 @@ scientific/technical applications.
 
 .. toctree::
    :maxdepth: 4
-   :caption: Developer Guide:
+   :hidden:
+   :caption: Developer Guide
 
 
    documentation/dev_guide_docs/high_level_developer_guide.rst
    documentation/dev_guide_docs/low_level_developer_guide.rst
-
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Release Notes:
-
-
-   documentation/release_notes.rst
