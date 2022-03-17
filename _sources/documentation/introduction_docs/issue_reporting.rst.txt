@@ -32,7 +32,7 @@ actions must be done:
 4. Check if the issue wasn't reported by the Intel QPL team or other contributors. 
    Information about already known issues can be found in: 
    
-   1. Release notes: `Known Issues <https://github.com/intel/qpl/releases>`__ section. 
+   1. Release notes: `Known Issues <https://intel.github.io/qpl/documentation/release_notes.html>`__ section. 
    2. Issues tab on GitHub (see `Issues tab <https://github.com/intel/qpl/issues>`__). 
 
 5. Submit an issue report if it is a new issue, or subscribe to an already existing issue on GitHub.
