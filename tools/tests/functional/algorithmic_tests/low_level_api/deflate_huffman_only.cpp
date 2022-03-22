@@ -65,10 +65,7 @@ constexpr uint64_t no_flag = 0;
             destination.resize(max_length * 2);
             std::fill(destination.begin(), destination.end(), 0u);
 
-            // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decomressed size;
-            // This also should be mentioned in the manual: decompression can generate up to 7 extra
-            // bytes from the last byte padding bits.
-            reference_buffer.resize(max_length + 7u);
+            reference_buffer.resize(max_length);
             std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
 
             job_ptr->op       = qpl_op_compress;
@@ -95,11 +92,12 @@ constexpr uint64_t no_flag = 0;
 
             decompression_job_ptr->next_out_ptr                   = reference_buffer.data();
             decompression_job_ptr->available_in                   = job_ptr->total_out;
-            decompression_job_ptr->available_out                  = max_length + 7u;
-            decompression_job_ptr->decompression_huffman_table = decompression_table_ptr;
-            decompression_job_ptr->flags                     = QPL_FLAG_NO_HDRS |
-                                                               ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
-            decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
+            decompression_job_ptr->available_out                  = max_length;
+            decompression_job_ptr->ignore_end_bits                =  (8 - job_ptr->last_bit_offset) & 7;
+            decompression_job_ptr->decompression_huffman_table    = decompression_table_ptr;
+            decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS |
+                                                                    ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
+            decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
             // Decompress
             std::vector<qpl_huffman_triplet> triplets_tmp(256u);
@@ -152,10 +150,7 @@ constexpr uint64_t no_flag = 0;
             destination.resize(max_length * 2);
             std::fill(destination.begin(), destination.end(), 0u);
 
-            // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decomressed size;
-            // This also should be mentioned in the manual: decompression can generate up to 7 extra
-            // bytes from the last byte padding bits.
-            reference_buffer.resize(max_length + 7u);
+            reference_buffer.resize(max_length);
             std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
 
             job_ptr->op       = qpl_op_compress;
@@ -197,7 +192,6 @@ constexpr uint64_t no_flag = 0;
                     }
                 }
             }
-
             uint32_t result_size = job_ptr->total_out;
 
             ASSERT_NE(0u, result_size);
@@ -225,10 +219,7 @@ constexpr uint64_t no_flag = 0;
             destination.resize(max_length * 2);
             std::fill(destination.begin(), destination.end(), 0u);
 
-            // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decomressed size;
-            // This also should be mentioned in the manual: decompression can generate up to 7 extra
-            // bytes from the last byte padding bits.
-            reference_buffer.resize(max_length + 7u);
+            reference_buffer.resize(max_length);
             std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
 
             // Building table
@@ -332,10 +323,11 @@ constexpr uint64_t no_flag = 0;
 
             decompression_job_ptr->next_out_ptr                   = reference_buffer.data();
             decompression_job_ptr->available_in                   = job_ptr->total_out;
-            decompression_job_ptr->available_out                  = max_length + 7u;
-            decompression_job_ptr->decompression_huffman_table = decompression_table_ptr;
-            decompression_job_ptr->flags                     = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
-            decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
+            decompression_job_ptr->available_out                  = max_length;
+            decompression_job_ptr->ignore_end_bits                = (8 - job_ptr->last_bit_offset) & 7;
+            decompression_job_ptr->decompression_huffman_table    = decompression_table_ptr;
+            decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
+            decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
             // Decompress
 
