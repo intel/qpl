@@ -47,7 +47,6 @@ public:
 
     [[nodiscard]] auto get_cache_write_available() const noexcept -> bool;
 
-protected:
     [[nodiscard]] auto get_max_set_size() const noexcept -> uint32_t;
 
     [[nodiscard]] auto get_max_decompressed_set_size() const noexcept -> uint32_t;

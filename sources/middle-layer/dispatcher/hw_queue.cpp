@@ -111,7 +111,8 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     }
     DIAGA("\n");
 
-    priority_ = hw_work_queue_get_priority(work_queue_ptr);
+    priority_       = hw_work_queue_get_priority(work_queue_ptr);
+    block_on_fault_ = hw_work_queue_get_block_on_fault(work_queue_ptr);
 
 #if 0
     DIAG("     %7s: size:        %d\n", work_queue_dev_name, accfg_wq_get_size(work_queue_ptr));
@@ -127,6 +128,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     }
 #else
     DIAG("     %7s: priority:    %d\n", work_queue_dev_name, priority_);
+    DIAG("     %7s: bof:         %d\n", work_queue_dev_name, block_on_fault_);
 #endif
 
     hw_queue::set_portal_ptr(region_ptr);
@@ -136,6 +138,10 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
 
 auto hw_queue::priority() const noexcept -> int32_t {
     return priority_;
+}
+
+auto hw_queue::get_block_on_fault() const noexcept -> bool {
+    return block_on_fault_;
 }
 
 }

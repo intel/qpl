@@ -50,6 +50,10 @@ def accel_enable_wq(device, wq):
     ret, out, err = run_cmd(cmd="accel-config", args=["enable-wq", "-v", device + "/" + wq], is_root=True)
     return [ret, err, out]
 
+def accel_set_block_on_fault(device, wq, bof_flag):
+    ret, out, err = run_cmd(cmd="accel-config", args=["config-wq", device + "/" + wq, "-b", str(int(bof_flag))], is_root=True)
+    return [ret, err, out]
+
 
 def get_aggregated(dev_filter):
     numas   = 0
@@ -163,6 +167,20 @@ def config_device(conf_file, dev_filter):
  
     config_devices = open(conf_file, "r")
     config_devices = json.load(config_devices)
+    print("Additional configuration steps")
+    print("    Force block on fault: " + str(args.bof))
+    for device in config_devices:
+        if device['dev'].find(dev_filter) != -1:
+            if device["groups"][0]["grouped_workqueues"]:
+                for wq in device["groups"][0]["grouped_workqueues"]:
+                    if args.bof:
+                        ret, err, out = accel_set_block_on_fault(device["dev"], wq["dev"], True)
+                        if ret:
+                            print(" - error")
+                            print("---------")
+                            print(err)
+                            print("---------")
+    
     print("Enabling configured devices")
     for device in config_devices:
         print("    " + device["dev"], end='')
@@ -216,6 +234,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Accelerator configurator')
     parser.add_argument('--load', default='', metavar='FILE_NAME', help='Configuration file')
     parser.add_argument('--filter', default='', metavar='FILTER', help='Device filter')
+    parser.add_argument('--bof', default=False, action='store_true', help='Set block on fault flag')
     args = parser.parse_args()
 
     if args.load:

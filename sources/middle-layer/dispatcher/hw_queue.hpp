@@ -36,15 +36,18 @@ public:
 
     [[nodiscard]] auto priority() const noexcept -> int32_t;
 
+    [[nodiscard]] auto get_block_on_fault() const noexcept -> bool;
+
     void set_portal_ptr(void *portal_ptr) noexcept;
 
     virtual ~hw_queue() noexcept;
 
 private:
-    int32_t                       priority_      = 0u;
-    uint64_t                      portal_mask_   = 0u;      /**< Mask for incrementing portals */
-    mutable void                  *portal_ptr_   = nullptr;
-    mutable std::atomic<uint64_t> portal_offset_ = 0u;      /**< Portal for enqcmd (mod page size)*/
+    bool                          block_on_fault_ = false;
+    int32_t                       priority_       = 0u;
+    uint64_t                      portal_mask_    = 0u;      /**< Mask for incrementing portals */
+    mutable void                  *portal_ptr_    = nullptr;
+    mutable std::atomic<uint64_t> portal_offset_  = 0u;      /**< Portal for enqcmd (mod page size)*/
 };
 
 }

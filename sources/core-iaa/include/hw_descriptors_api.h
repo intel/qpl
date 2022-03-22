@@ -714,11 +714,25 @@ HW_PATH_IAA_API(void, descriptor_compress_verification_set_index_table, (hw_desc
  * @todo API will be described after refactoring completed
  */
 static inline
-HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *const descriptor_ptr)) {
-    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK     = 0x01u;
+HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *const descriptor_ptr, bool flag)) {
+    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01u;
     const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5u;
 
-    descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] |= CACHE_CONTROL_FLAG_BIT_MASK;
+    if(flag)
+        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] |= CACHE_CONTROL_FLAG_BIT_MASK;
+    else
+        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] &= ~CACHE_CONTROL_FLAG_BIT_MASK;
+}
+
+static inline
+HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr, bool flag)) {
+    const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
+    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 5u;
+
+    if(flag)
+        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] |= BLOCK_ON_FAULT_FLAG_BIT_MASK;
+    else
+        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] &= ~BLOCK_ON_FAULT_FLAG_BIT_MASK;
 }
 
 /**

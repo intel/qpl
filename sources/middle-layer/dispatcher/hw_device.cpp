@@ -10,6 +10,7 @@
 
 #include "hw_device.hpp"
 #include "hw_configuration_driver.h"
+#include "hw_descriptors_api.h"
 
 static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
 static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
@@ -53,6 +54,8 @@ auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> bool {
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
     for (uint64_t try_count = 0u; try_count < queue_count_; ++try_count) {
+        hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) desc_ptr, working_queues_[wq_idx].get_block_on_fault());
+
         retry = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
         wq_idx = (wq_idx+1) % queue_count_;
         if (!retry) {

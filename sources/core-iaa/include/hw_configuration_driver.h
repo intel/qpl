@@ -85,6 +85,8 @@ HW_PATH_GENERAL_API (const char *, work_queue_get_device_name, (accfg_wq *wq));
 
 HW_PATH_GENERAL_API (unsigned int,  device_get_version, (accfg_dev *device));
 
+HW_PATH_GENERAL_API (int,  work_queue_get_block_on_fault, (accfg_wq *wq));
+
 #ifdef __cplusplus
 }
 #endif

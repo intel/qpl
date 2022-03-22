@@ -10,16 +10,6 @@
 #define PLATFORM 2
 #include "qplc_memop.h"
 
-static inline
-HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr)) {
-    own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
-
-#if defined(BLOCK_ON_FAULT_ENABLED)
-    const uint32_t FLAG_BLOCK_ON_FAULT = 0x02u;
-    this_ptr->op_code_op_flags |= FLAG_BLOCK_ON_FAULT;
-#endif
-}
-
 HW_PATH_IAA_API(void, descriptor_reset, (hw_descriptor *const descriptor_ptr)) {
     avx512_qplc_zero_8u((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 }
@@ -33,6 +23,4 @@ HW_PATH_IAA_API(void, descriptor_set_completion_record, (hw_descriptor *const de
 
     this_ptr->op_code_op_flags |= FLAG_REQ_COMP | FLAG_COMP_VALID;
     this_ptr->completion_record_ptr = (uint8_t *) completion_record;
-
-    hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) this_ptr);
 }

@@ -40,9 +40,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
             continue;
         }
 
-        if (device.get_cache_write_available()) {
-            hw_iaa_descriptor_hint_cpu_cache_as_destination((hw_descriptor *) desc_ptr);
-        }
+        hw_iaa_descriptor_hint_cpu_cache_as_destination((hw_descriptor *) desc_ptr, device.get_cache_write_available());
 
         enqueue_failed = device.enqueue_descriptor(desc_ptr);
         if (enqueue_failed) {

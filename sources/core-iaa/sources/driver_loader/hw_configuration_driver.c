@@ -49,6 +49,8 @@ typedef const char *            (*accfg_wq_get_devname_ptr)(accfg_wq *wq);
 
 typedef unsigned int            (*accfg_device_get_version_ptr)(accfg_dev *device);
 
+typedef int                     (*accfg_wq_get_block_on_fault_ptr)(accfg_wq *wq);
+
 /**
  * @brief Table with functions required from accelerator configuration library
  */
@@ -70,6 +72,7 @@ static qpl_desc_t functions_table[] = {
         {NULL, "accfg_wq_get_user_dev_path"},
         {NULL, "accfg_wq_get_devname"},
         {NULL, "accfg_device_get_version"},
+        {NULL, "accfg_wq_get_block_on_fault"},
         // Terminate list/init
         {NULL, NULL}
 };
@@ -176,6 +179,10 @@ const char * hw_work_queue_get_device_name(accfg_wq *wq) {
 
 unsigned int hw_device_get_version(accfg_dev *device) {
     return ((accfg_device_get_version_ptr) functions_table[16].function)(device);
+}
+
+int hw_work_queue_get_block_on_fault(accfg_wq *wq) {
+    return ((accfg_wq_get_block_on_fault_ptr) functions_table[17].function)(wq);
 }
 
 /* ------ Internal functions implementation ------ */
