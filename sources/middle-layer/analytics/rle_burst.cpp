@@ -24,14 +24,11 @@ static inline auto rle_burst(input_stream_t &counter_stream,
     const auto  index          = dispatcher::get_expand_rle_index(counter_stream.bit_width(),
                                                                   symbol_stream.bit_width());
     const auto  rle_burst_impl = table[index];
-
-    const auto counter_element_byte_size = util::bit_width_to_bytes(counter_stream.bit_width());
     const auto symbol_element_byte_size  = util::bit_width_to_bytes(symbol_stream.bit_width());
 
     uint32_t elements_to_process     = 0;
     uint32_t counter_idx             = 0;
     uint32_t rle_count               = 0;
-    uint32_t counter_processed_bytes = 0;
 
     uint32_t current_uninflated_elements = 0;
 
@@ -68,7 +65,6 @@ static inline auto rle_burst(input_stream_t &counter_stream,
             }
 
             elements_to_process     = unpack_result.unpacked_elements;
-            counter_processed_bytes = elements_to_process * counter_element_byte_size;
 
             // Check if we should inflate more elements
             if (current_uninflated_elements < elements_to_process) {
@@ -94,7 +90,7 @@ static inline auto rle_burst(input_stream_t &counter_stream,
         auto *output_position   = output_buffer.data();
         auto counter_idx_cached = counter_idx;
 
-        auto sts = rle_burst_impl(inflate_buffer_begin,
+        auto status = rle_burst_impl(inflate_buffer_begin,
                                   0,
                                   symbol_buffer.data(),
                                   elements_to_process,
@@ -103,12 +99,16 @@ static inline auto rle_burst(input_stream_t &counter_stream,
                                   &rle_count,
                                   &counter_idx);
 
+        if (status != status_list::ok && status != status_list::destination_is_short_error) {
+            return status;
+        }
+
         const auto output_elements = (output_position - output_buffer.data()) / symbol_element_byte_size;
 
         if (output_elements != 0) {
-            auto status = output_stream.perform_pack(output_buffer.data(), static_cast<uint32_t>(output_elements));
+            auto pack_status = output_stream.perform_pack(output_buffer.data(), static_cast<uint32_t>(output_elements));
 
-            if (status != status_list::ok) {
+            if (pack_status != status_list::ok) {
                 return status;
             }
 
@@ -337,7 +337,7 @@ auto call_rle_burst<execution_path_t::software>(input_stream_t &counter_stream,
                                                 limited_buffer_t &unpack_buffer,
                                                 limited_buffer_t &symbol_buffer,
                                                 limited_buffer_t &output_buffer,
-                                                int32_t numa_id) noexcept -> analytic_operation_result_t {
+                                                int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
     auto aggregates_table    = dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = dispatcher::get_aggregates_index(1u);
@@ -422,9 +422,9 @@ template <>
 auto call_rle_burst<execution_path_t::hardware>(input_stream_t &counter_stream,
                                                 input_stream_t &symbol_stream,
                                                 output_stream_t<array_stream> &output_stream,
-                                                limited_buffer_t &unpack_buffer,
-                                                limited_buffer_t &symbol_buffer,
-                                                limited_buffer_t &output_buffer,
+                                                limited_buffer_t &UNREFERENCED_PARAMETER(unpack_buffer),
+                                                limited_buffer_t &UNREFERENCED_PARAMETER(symbol_buffer),
+                                                limited_buffer_t &UNREFERENCED_PARAMETER(output_buffer),
                                                 int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE aecs_analytic{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};

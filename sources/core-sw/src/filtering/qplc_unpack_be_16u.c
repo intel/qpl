@@ -176,17 +176,12 @@ OWN_QPLC_FUN(void, qplc_unpack_be_15u16u, (const uint8_t *src_ptr,
 
 // ********************** 16u ****************************** //
 
-#if defined(__linux__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-
 OWN_QPLC_FUN(void, qplc_unpack_be_16u16u, (const uint8_t *src_ptr,
         uint32_t num_elements,
-        uint32_t start_bit,
+        uint32_t UNREFERENCED_PARAMETER(start_bit),
         uint8_t *dst_ptr)) {
 #if PLATFORM >= K0
-    CALL_OPT_FUNCTION(k0_qplc_unpack_be_16u16u)(src_ptr, num_elements, start_bit, dst_ptr);
+    CALL_OPT_FUNCTION(k0_qplc_unpack_be_16u16u)(src_ptr, num_elements, dst_ptr);
 #else
     uint16_t *src16u_ptr = (uint16_t *)src_ptr;
     uint16_t *dst16u_ptr = (uint16_t *)dst_ptr;
@@ -197,7 +192,3 @@ OWN_QPLC_FUN(void, qplc_unpack_be_16u16u, (const uint8_t *src_ptr,
     }
 #endif
 }
-
-#if defined(__linux__)
-#pragma GCC diagnostic pop
-#endif

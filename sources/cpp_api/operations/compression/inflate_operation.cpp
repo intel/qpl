@@ -160,7 +160,7 @@ auto execute<execution_path::hardware>(inflate_operation &operation) -> executio
 
 } // namespace qpl::internal
 
-void inflate_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void inflate_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

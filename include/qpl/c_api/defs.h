@@ -35,6 +35,14 @@ extern "C" {
 #define QPL_API(type, name, arg) type name arg;
 #endif
 
+#if !defined( UNREFERENCED_PARAMETER )
+#if defined( __GNUC__ )
+#define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
+#else
+#define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
+#endif        
+#endif
+
 /**
  * Marker for the last enumerator of qpl_decomp_end_proc
  */

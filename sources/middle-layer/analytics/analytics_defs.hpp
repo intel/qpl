@@ -42,23 +42,14 @@ struct analytic_operation_result_t {
     checksums_t  checksums_;
 };
 
-#if defined(__linux__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-
-void inline aggregates_empty_callback(const uint8_t *src_ptr,
-                                      uint32_t length,
-                                      uint32_t *min_value_ptr,
-                                      uint32_t *max_value_ptr,
-                                      uint32_t *sum_ptr,
-                                      uint32_t *index_ptr) {
+void inline aggregates_empty_callback(const uint8_t *UNREFERENCED_PARAMETER(src_ptr),
+                                      uint32_t UNREFERENCED_PARAMETER(length),
+                                      uint32_t *UNREFERENCED_PARAMETER(min_value_ptr),
+                                      uint32_t *UNREFERENCED_PARAMETER(max_value_ptr),
+                                      uint32_t *UNREFERENCED_PARAMETER(sum_ptr),
+                                      uint32_t *UNREFERENCED_PARAMETER(index_ptr)) {
     // Don't do anything, this is just a stub
 }
-
-#if defined(__linux__)
-#pragma GCC diagnostic pop
-#endif
 
 } // namespace qpl::ml::analytics
 

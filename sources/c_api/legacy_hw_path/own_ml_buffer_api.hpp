@@ -21,7 +21,7 @@ static inline uint32_t own_qpl_buffer_get_size(qpl_buffer *const buffer_ptr) {
     return buffer_ptr->actual_bytes;
 }
 
-static inline uint32_t own_qpl_buffer_get_capacity(qpl_buffer *const buffer_ptr) {
+static inline uint32_t own_qpl_buffer_get_capacity(qpl_buffer *const UNREFERENCED_PARAMETER(buffer_ptr)) {
     return QPL_INTERNAL_BUFFER_SIZE;
 }
 

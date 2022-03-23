@@ -52,7 +52,8 @@ public:
 
     static auto read_header(const uint8_t *destination_ptr, uint32_t stream_size, gzip_header &header) noexcept -> qpl_ml_status;
 
-    static inline void write_header_unsafe(const uint8_t *destination_ptr, uint32_t size) noexcept {
+    static inline void write_header_unsafe(const uint8_t *destination_ptr, 
+                                           uint32_t UNREFERENCED_PARAMETER(size)) noexcept {
         *(uint64_t *) (destination_ptr)      = *(uint64_t *) (&default_gzip_header[0]);
         *(uint16_t *) (destination_ptr + 8u) = *(uint16_t *) (&default_gzip_header[8]);
     }
@@ -61,7 +62,9 @@ public:
 
     static inline auto read_trailer(const uint8_t *destination_ptr, uint32_t size, gzip_trailer &trailer) noexcept -> int32_t;
 
-    static inline void write_trailer_unsafe(const uint8_t *destination_ptr, uint32_t size, gzip_trailer &trailer) noexcept {
+    static inline void write_trailer_unsafe(const uint8_t *destination_ptr, 
+                                            uint32_t UNREFERENCED_PARAMETER(size), 
+                                            gzip_trailer &trailer) noexcept {
         *(uint32_t *) (destination_ptr)      = trailer.crc32;
         *(uint32_t *) (destination_ptr + 4u) = trailer.input_size;
     }

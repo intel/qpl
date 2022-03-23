@@ -23,7 +23,7 @@ extern "C" {
 /**
  * @brief Type of function that should be loaded from accelerator configuration driver
  */
-typedef int (*library_function)();
+typedef void *library_function;
 
 /**
  * @brief Structure that maps function implementation to its name

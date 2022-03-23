@@ -84,7 +84,7 @@ template <zero_operation_type operation_type>
 auto call_zero_operation_hw(const zero_input_format_t input_format,
                             const buffer_t &source_buffer,
                             const buffer_t &destination_buffer,
-                            const crc_type_t crc_type,
+                            const crc_type_t UNREFERENCED_PARAMETER(crc_type),
                             int32_t numa_id) noexcept -> zero_operation_result_t {
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};
     hw_descriptor HW_PATH_ALIGN_STRUCTURE                         descriptor{};
@@ -195,7 +195,7 @@ auto call_zero_operation_sw(const zero_input_format_t input_format,
                             const buffer_t &source_buffer,
                             const buffer_t &destination_buffer,
                             const crc_type_t crc_type,
-                            int32_t numa_id) noexcept -> zero_operation_result_t {
+                            int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> zero_operation_result_t {
     if constexpr (operation_type == zero_operation_type::compress) {
         return perform_zero_compress(input_format,
                                      source_buffer,

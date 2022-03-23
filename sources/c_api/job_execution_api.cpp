@@ -54,10 +54,9 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
     }
 
     if (qpl_path_hardware == qpl_job_ptr->data_ptr.path || qpl_path_auto == qpl_job_ptr->data_ptr.path) {
-
-        auto *state_ptr = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
-
 #if defined(KEEP_DESCRIPTOR_ENABLED)
+        auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
+
         if (state_ptr->descriptor_not_submitted) {
             status = hw_enqueue_descriptor(&state_ptr->desc_ptr, qpl_job_ptr->numa_id);
 

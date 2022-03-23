@@ -211,8 +211,8 @@ auto deflate_finish(deflate_state<execution_path_t::software> &stream, compressi
     }
 
     if (stream.is_last_chunk() && stream.mini_blocks_support() == mini_blocks_support_t::disabled) {
-        if (!status) {
-            auto status = write_end_of_block(stream, state);
+        if (status_list::ok == status) {
+            status = write_end_of_block(stream, state);
         }
 
         if (stream.is_first_chunk() && !(stream.compression_mode() == canned_mode) &&
@@ -231,7 +231,8 @@ auto deflate_finish(deflate_state<execution_path_t::software> &stream, compressi
     return status;
 }
 
-auto write_end_of_block(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto write_end_of_block(deflate_state<execution_path_t::software> &stream, 
+                        compression_state_t &UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
 
@@ -369,13 +370,15 @@ auto preprocess_static_block(deflate_state<execution_path_t::software> &stream, 
     return status_list::ok;
 }
 
-auto skip_header(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto skip_header(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+                 compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::compression_body;
 
     return status_list::ok;
 }
 
-auto skip_preprocessing(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto skip_preprocessing(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+                        compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::start_new_block;
 
     return status_list::ok;

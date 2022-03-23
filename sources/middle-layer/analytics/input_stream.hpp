@@ -291,7 +291,8 @@ public:
     }
 
     template <execution_path_t path>
-    inline auto build(allocation_buffer_t buffer = allocation_buffer_t::empty()) -> input_stream_t {
+    inline auto build(allocation_buffer_t UNREFERENCED_PARAMETER(buffer) 
+                          = allocation_buffer_t::empty()) -> input_stream_t {
         stream_.current_source_ptr_         = stream_.data();
         stream_.current_number_of_elements_ = stream_.number_of_elements_;
         stream_.current_source_size_        = stream_.size();

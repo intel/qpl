@@ -190,7 +190,7 @@ auto call_crc<execution_path_t::software>(const uint8_t *src_ptr,
                                           uint64_t polynomial,
                                           bool is_be_bit_order,
                                           bool is_inverse,
-                                          int32_t numa_id) noexcept -> crc_operation_result_t {
+                                          int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> crc_operation_result_t {
     crc_operation_result_t operation_result{};
     uint32_t               status_code = status_list::ok;
 

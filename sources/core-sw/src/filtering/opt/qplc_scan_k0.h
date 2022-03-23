@@ -44,10 +44,7 @@
 
 OWN_OPT_FUN(void, k0_qplc_scan_lt_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
-
+    uint32_t low_value)) {
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
     __m512i       broadcasted_value = _mm512_set1_epi8(low_value);
@@ -70,11 +67,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_lt_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
-
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
     __m512i       broadcasted_value = _mm512_set1_epi16(low_value);
@@ -97,11 +91,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_lt_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;
@@ -126,9 +117,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_32u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_eq_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
+    uint32_t low_value)) {
 
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
@@ -152,10 +141,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_eq_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
@@ -179,10 +166,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_eq_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;
@@ -207,10 +192,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_32u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_ne_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
-
+    uint32_t low_value)) {
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
     __m512i       broadcasted_value = _mm512_set1_epi8(low_value);
@@ -233,10 +215,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_ne_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
@@ -260,10 +240,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_ne_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;
@@ -288,9 +266,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_32u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_le_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
+    uint32_t low_value)) {
 
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
@@ -314,10 +290,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_le_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
@@ -341,10 +315,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_le_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;
@@ -369,10 +341,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_32u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_gt_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
-
+    uint32_t low_value)) {
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
     __m512i       broadcasted_value = _mm512_set1_epi8(low_value);
@@ -395,10 +364,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_gt_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
@@ -422,10 +389,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_gt_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;
@@ -450,10 +415,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_32u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_ge_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
-    OWN_UNREFERENCED_PARAMETER(high_value);
-
+    uint32_t low_value)) {
     uint32_t      length64 = length & (-64);
     uint32_t      tail = length - length64;
     __m512i       broadcasted_value = _mm512_set1_epi8(low_value);
@@ -476,10 +438,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_ge_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_scan_ge_16u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t      length32 = length & (-32);
     uint32_t      tail = length - length32;
@@ -503,10 +463,8 @@ OWN_OPT_FUN(void, k0_qplc_scan_ge_16u8u, (const uint8_t *src_ptr, uint8_t *dst_p
 
 OWN_OPT_FUN(void, k0_qplc_scan_ge_32u8u, (const uint8_t *src_ptr, uint8_t *dst_ptr,
     uint32_t length,
-    uint32_t low_value,
-    uint32_t high_value)) {
+    uint32_t low_value)) {
     uint32_t idx;
-    OWN_UNREFERENCED_PARAMETER(high_value);
 
     uint32_t length16 = length & (-16);
     uint32_t tail = length - length16;

@@ -40,7 +40,9 @@ static zero_function call_zero_compress[3][2] = {
 };
 
 namespace qpl {
-uint32_t perform_zero_compress(qpl_job *job_ptr, uint8_t *buffer_ptr, const uint32_t buffer_size) noexcept {
+uint32_t perform_zero_compress(qpl_job *job_ptr, 
+                               uint8_t *UNREFERENCED_PARAMETER(buffer_ptr), 
+                               const uint32_t UNREFERENCED_PARAMETER(buffer_size)) noexcept {
     using namespace qpl::ml;
 
     OWN_QPL_CHECK_STATUS(qpl::job::validate_operation<qpl_op_z_compress16>(job_ptr))

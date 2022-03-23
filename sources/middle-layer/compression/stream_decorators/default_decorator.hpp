@@ -22,8 +22,14 @@ class default_decorator {
 public:
     template <class F, class state_t, class ...arguments>
     static auto unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t {
-        uint8_t* saved_output_ptr  = state.get_output_data(); //state.get_output_buffer;
-
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#endif
+        uint8_t *saved_output_ptr = state.get_output_data(); //state.get_output_buffer;
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
         auto result = function(state, args...);
 
         if (result.status_code_) {
@@ -33,7 +39,7 @@ public:
         auto crc = state.get_crc();
 
         // @todo Add both crc32 support
-        if constexpr (state_t::execution_path == execution_path_t::hardware) {
+        if constexpr (execution_path_t::hardware == state_t::execution_path) {
             crc = result.checksums_.crc32_;
         } else {
             crc = util::crc32_gzip(saved_output_ptr, saved_output_ptr + result.output_bytes_, crc);

@@ -107,7 +107,7 @@ auto perform_verification<execution_path_t::software, verification_mode_t::verif
 // ------ HARDWARE PATH ------ //
 template<>
 auto perform_verification<execution_path_t::hardware, verification_mode_t::verify_deflate_default>(
-        verify_state<execution_path_t::hardware> &state) -> verification_result_t {
+        verify_state<execution_path_t::hardware> &UNREFERENCED_PARAMETER(state)) -> verification_result_t {
     // Implementation here ...
     verification_result_t verification_result;
     return verification_result;
@@ -115,7 +115,7 @@ auto perform_verification<execution_path_t::hardware, verification_mode_t::verif
 
 template<>
 auto perform_verification<execution_path_t::hardware, verification_mode_t::verify_deflate_no_headers>(
-        verify_state<execution_path_t::hardware> &state) -> verification_result_t {
+        verify_state<execution_path_t::hardware> &UNREFERENCED_PARAMETER(state)) -> verification_result_t {
     // Implementation here ...
     verification_result_t verification_result;
     return verification_result;

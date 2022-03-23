@@ -70,7 +70,7 @@ auto input_stream_t::unpack<analytic_pipeline::prle>(limited_buffer_t &output_bu
         // Situation when (prle_count_ == elements_left(), but current_source_size == 0) means the following:
         // The whole PRLE stream was unpacked, but there are not enough place in internal buffer to store all these values.
         // So all remaining repeating values will be stored in the next iteration, everything's OK, that's not an error.
-        if (prle_count_ != input_stream_t::elements_left()) {
+        if ((uint32_t)prle_count_ != input_stream_t::elements_left()) {
             return unpack_result_t(status_list::source_is_short_error);
         }
     }

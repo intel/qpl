@@ -60,7 +60,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
     return result;
 }
 
-extern "C" hw_accelerator_status hw_accelerator_submit_descriptor(hw_accelerator_context *const accel_context_ptr,
+extern "C" hw_accelerator_status hw_accelerator_submit_descriptor(hw_accelerator_context *const UNREFERENCED_PARAMETER(accel_context_ptr),
                                                                   const hw_descriptor *const descriptor_ptr,
                                                                   hw_accelerator_submit_options *const submit_options) {
     return hw_enqueue_descriptor((void *) descriptor_ptr, submit_options->numa_id);

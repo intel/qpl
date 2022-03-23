@@ -47,7 +47,6 @@ constexpr std::array<uint8_t, zlib_sizes::zlib_header_size> default_zlib_header 
 auto zlib_decorator::read_header(const uint8_t *stream_ptr,
                                  uint32_t stream_size,
                                  zlib_header &header) noexcept -> qpl_ml_status {
-    const uint8_t *stream_begin_ptr = stream_ptr;
     const uint8_t *stream_end_ptr   = stream_ptr + stream_size;
 
     if (stream_size < zlib_fields::ZLIB_MIN_HEADER_SIZE) {
@@ -115,7 +114,6 @@ static inline auto own_write_header(uint8_t *const destination_ptr, const uint32
 
 static inline auto own_write_trailer(uint8_t *destination_ptr,
                                      const uint32_t size,
-                                     const uint32_t length,
                                      const uint32_t adler32) noexcept -> wrapper_result_t {
     wrapper_result_t result{};
 
@@ -246,7 +244,6 @@ auto zlib_decorator::wrap(F function, state_t &state, arguments... args) noexcep
     if (!result.status_code_ && state.is_last_chunk()) {
         auto wrapper_result = own_write_trailer(data_ptr + result.output_bytes_,
                                                 data_size - result.output_bytes_,
-                                                result.output_bytes_,
                                                 result.checksums_.crc32_);
 
         if (wrapper_result.status_code_) {

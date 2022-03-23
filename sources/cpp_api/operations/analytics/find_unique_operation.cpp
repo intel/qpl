@@ -165,7 +165,7 @@ auto find_unique_operation::get_output_vector_width() const noexcept -> uint32_t
     return output_vector_bit_width_;
 }
 
-void find_unique_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void find_unique_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

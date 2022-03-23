@@ -48,7 +48,7 @@ auto deflate_state_builder<execution_path_t::software>::compression_level(compre
     return *reinterpret_cast<common_type *>(this);
 }
 
-auto deflate_state_builder<execution_path_t::software>::start_new_block(bool value) noexcept -> common_type & {
+auto deflate_state_builder<execution_path_t::software>::start_new_block(bool UNREFERENCED_PARAMETER(value)) noexcept -> common_type & {
     stream_.start_new_block_ = true;
 
     return *reinterpret_cast<common_type *>(this);

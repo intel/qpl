@@ -118,7 +118,7 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
     int                  hash_mask = hash_table_ptr->hash_mask;
     int                  win_mask = OWN_MAXIMAL_OFFSET - 1;
     int                  hash_key = 0;
-    int                  bound, win_bound, tmp, candidat, index, indx_lit;
+    int                  bound, win_bound, tmp, candidat, index;
     uint32_t             win_size = OWN_MAXIMAL_OFFSET;
     uint16_t             dist;
     uint8_t              length;
@@ -452,7 +452,6 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
                 }
                 dist = 0;
                 length = p_str[0];
-                indx_lit = (int)length;
                 if (bound >= _CMP_MATCH_LENGTH)  {
                     uint32_t distance = 0;
                     uint32_t extra_bits = 0;
@@ -529,7 +528,6 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
                     }
                     dist = 0;
                     length = p_str[0];
-                    indx_lit = (int)length;
                     if (bound >= _CMP_MATCH_LENGTH) {
                         uint32_t distance = 0;
                         uint32_t extra_bits = 0;

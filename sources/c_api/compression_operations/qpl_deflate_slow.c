@@ -119,7 +119,9 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
     uint8_t         *current_match_ptr         = (uint8_t *) (lower_bound_ptr + index);
     uint32_t        match_length               = 0u;
     uint32_t        attempt_number             = 0u;
-    uint32_t  match_score                = 0u;
+#ifdef SCORE_FUNCTION
+    uint32_t        match_score                = 0u;
+#endif
     uint32_t        current_number_of_attempts = hash_table_ptr->attempts;
     deflate_match_t best_match                 = {
             .index = (uint32_t) (current_match_ptr - lower_bound_ptr),

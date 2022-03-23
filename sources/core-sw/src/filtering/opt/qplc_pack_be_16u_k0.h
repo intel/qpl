@@ -1180,8 +1180,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u15u, (const uint8_t* src_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_pack_be_16u16u, (const uint8_t* src_ptr,
     uint32_t num_elements,
-    uint8_t* dst_ptr,
-    uint32_t start_bit))
+    uint8_t* dst_ptr))
 {
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
     uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
@@ -1189,7 +1188,6 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u16u, (const uint8_t* src_ptr,
     uint32_t tail = num_elements & 31u;
     __m512i zmm0;
 
-    OWN_UNREFERENCED_PARAMETER(start_bit);
     __m512i pshufb_idx = _mm512_loadu_si512(pshufb_idx_ptr);
 
     for (uint32_t i = 0u; i < num_elements_32; i++) {
@@ -1216,8 +1214,7 @@ static uint8_t pshufb16u32u_idx_ptr[64] = {
 
 OWN_OPT_FUN(void, k0_qplc_pack_be_16u32u, (const uint8_t* src_ptr,
     uint32_t num_elements,
-    uint8_t* dst_ptr,
-    uint32_t start_bit))
+    uint8_t* dst_ptr))
 {
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
     uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
@@ -1225,8 +1222,6 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u32u, (const uint8_t* src_ptr,
     uint32_t tail = num_elements & 15u;
     __m512i zmm0;
     __m512i pshufb_idx = _mm512_loadu_si512(pshufb16u32u_idx_ptr);
-
-    OWN_UNREFERENCED_PARAMETER(start_bit);
 
     for (uint32_t i = 0u; i < num_elements_16; i++) {
         zmm0 = _mm512_cvtepu16_epi32(_mm256_loadu_si256((const __m256i*)src_16u_ptr));

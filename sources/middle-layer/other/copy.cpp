@@ -43,7 +43,7 @@ template <>
 auto call_copy<execution_path_t::software>(const uint8_t *src_ptr,
                                            uint8_t *dst_ptr,
                                            uint32_t length,
-                                           int32_t numa_id) noexcept -> copy_operation_result_t {
+                                           int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> copy_operation_result_t {
 
     copy_operation_result_t operation_result{};
     uint32_t                status_code = status_list::ok;

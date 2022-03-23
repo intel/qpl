@@ -111,7 +111,7 @@ auto call_expand<execution_path_t::software>(input_stream_t &input_stream,
                                              limited_buffer_t &unpack_source_buffer,
                                              limited_buffer_t &unpack_mask_buffer,
                                              limited_buffer_t &output_buffer,
-                                             int32_t numa_id) noexcept -> analytic_operation_result_t {
+                                             int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
     auto aggregates_table    = dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = dispatcher::get_aggregates_index(1u);
@@ -191,9 +191,9 @@ template <>
 auto call_expand<execution_path_t::hardware>(input_stream_t &input_stream,
                                              input_stream_t &mask_stream,
                                              output_stream_t<array_stream> &output_stream,
-                                             limited_buffer_t &unpack_source_buffer,
-                                             limited_buffer_t &unpack_mask_buffer,
-                                             limited_buffer_t &output_buffer,
+                                             limited_buffer_t &UNREFERENCED_PARAMETER(unpack_source_buffer),
+                                             limited_buffer_t &UNREFERENCED_PARAMETER(unpack_mask_buffer),
+                                             limited_buffer_t &UNREFERENCED_PARAMETER(output_buffer),
                                              int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE aecs_analytic{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};

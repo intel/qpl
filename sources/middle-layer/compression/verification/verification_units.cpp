@@ -42,17 +42,18 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
             inflate_state.read_in = initial_read_in_buffer;
             inflate_state.next_in = initial_next_in_ptr;
 
-            result.status = parser_status_t::need_more_input;
+            parser_status = parser_status_t::need_more_input;
         } else if (ISAL_BLOCK_TYPE0 == inflate_state.block_state &&
                    0u == inflate_state.type0_block_len) {
-            result.status = parser_status_t::error;
+            parser_status = parser_status_t::error;
         } else {
-            result.status = parser_status_t::ok;
+            parser_status = parser_status_t::ok;
         }
     } else {
-        result.status = parser_status_t::error;
+        parser_status = parser_status_t::error;
     }
 
+    result.status = parser_status;
     return result;
 }
 

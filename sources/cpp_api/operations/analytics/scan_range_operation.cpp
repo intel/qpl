@@ -171,7 +171,7 @@ auto execute<execution_path::auto_detect>(scan_range_operation &operation,
 
 } // namespace qpl::internal
 
-void scan_range_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void scan_range_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

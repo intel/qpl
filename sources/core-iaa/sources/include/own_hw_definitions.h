@@ -138,7 +138,11 @@ extern "C" {
  */
 #define QPL_IS_SRC2_OP(op) (((uint64_t)QPL_SRC2_OP >> op) & 1u)
 
-#define OWN_UNREFERENCED_PARAMETER(p) ((p)= 0) /**< Unreferenced parameter - warning removal */
+#ifdef __GNUC__
+#define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
+#else
+#define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
+#endif
 
 /**
  * @todo

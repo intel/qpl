@@ -21,7 +21,7 @@
 
 namespace qpl::ml::compression {
 
-constexpr auto build_huffman_only_implementation(compression_mode_t mode = fixed_mode) {
+constexpr auto build_huffman_only_implementation() {
     using state_t = huffman_only_state<execution_path_t::software>;
     return implementation<state_t>(
             {

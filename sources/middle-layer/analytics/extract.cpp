@@ -120,7 +120,7 @@ auto call_extract<execution_path_t::hardware>(input_stream_t &input_stream,
                                               output_stream_t<array_stream> &output_stream,
                                               uint32_t param_low,
                                               uint32_t param_high,
-                                              limited_buffer_t &temporary_buffer,
+                                              limited_buffer_t &UNREFERENCED_PARAMETER(temporary_buffer),
                                               int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE aecs_analytic{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};
@@ -146,7 +146,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
                                               uint32_t param_low,
                                               uint32_t param_high,
                                               limited_buffer_t &temporary_buffer,
-                                              int32_t numa_id) noexcept -> analytic_operation_result_t {
+                                              int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     aggregates_t                aggregates;
     analytic_operation_result_t operation_result;
     uint32_t                    input_bit_width = input_stream.bit_width();

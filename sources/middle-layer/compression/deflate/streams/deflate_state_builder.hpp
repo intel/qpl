@@ -96,7 +96,7 @@ public:
         return *reinterpret_cast<common_type *>(this);
     }
 
-    auto collect_statistics_step(bool value) noexcept -> common_type & {
+    auto collect_statistics_step(bool UNREFERENCED_PARAMETER(value)) noexcept -> common_type & {
         stream_.compression_mode_ = dynamic_mode;
 
         return *reinterpret_cast<common_type *>(this);
@@ -211,7 +211,7 @@ private:
 };
 
 /* ------ HARDWARE ------ */
-inline auto deflate_state_builder<execution_path_t::hardware>::compression_level(compression_level_t level) noexcept -> common_type & {
+inline auto deflate_state_builder<execution_path_t::hardware>::compression_level(compression_level_t UNREFERENCED_PARAMETER(level)) noexcept -> common_type & {
     // HW supports only default level
     return *this;
 }
@@ -222,7 +222,7 @@ inline auto deflate_state_builder<execution_path_t::hardware>::start_new_block(b
     return *this;
 }
 
-inline auto deflate_state_builder<execution_path_t::hardware>::load_current_position(uint32_t total_bytes_written) noexcept -> common_type & {
+inline auto deflate_state_builder<execution_path_t::hardware>::load_current_position(uint32_t UNREFERENCED_PARAMETER(total_bytes_written)) noexcept -> common_type & {
     return *this;
 }
 

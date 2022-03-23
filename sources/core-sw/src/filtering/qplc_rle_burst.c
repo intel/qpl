@@ -27,14 +27,13 @@
 /******** out-of-place rle_burst functions ********/
 
 OWN_QPLC_FUN(qplc_status_t, qplc_rle_burst_8u, (const uint8_t *src1_ptr,
-        uint32_t flag_be,
+        uint32_t UNREFERENCED_PARAMETER(flag_be),
         const uint8_t *src2_ptr,
         uint32_t src_length,
         uint8_t **pp_dst,
         uint8_t *dst_end_ptr,
         uint32_t *count_ptr,
         uint32_t *index_ptr)) {
-    OWN_UNREFERENCED_PARAMETER(flag_be);
     qplc_status_t status   = QPLC_STS_OK;
     uint32_t      count;
     uint32_t      max_count;
@@ -74,14 +73,13 @@ OWN_QPLC_FUN(qplc_status_t, qplc_rle_burst_8u, (const uint8_t *src1_ptr,
 }
 
 OWN_QPLC_FUN(qplc_status_t, qplc_rle_burst_8u16u, (const uint8_t *src1_ptr,
-        uint32_t flag_be,
+        uint32_t UNREFERENCED_PARAMETER(flag_be),
         const uint8_t *src2_ptr,
         uint32_t src_length,
         uint8_t **pp_dst,
         uint8_t *dst_end_ptr,
         uint32_t *count_ptr,
         uint32_t *index_ptr)) {
-    OWN_UNREFERENCED_PARAMETER(flag_be);
     qplc_status_t status        = QPLC_STS_OK;
     uint32_t      count;
     uint32_t      max_count;
@@ -122,14 +120,13 @@ OWN_QPLC_FUN(qplc_status_t, qplc_rle_burst_8u16u, (const uint8_t *src1_ptr,
 }
 
 OWN_QPLC_FUN(qplc_status_t, qplc_rle_burst_8u32u, (const uint8_t *src1_ptr,
-        uint32_t flag_be,
+        uint32_t UNREFERENCED_PARAMETER(flag_be),
         const uint8_t *src2_ptr,
         uint32_t src_length,
         uint8_t **pp_dst,
         uint8_t *dst_end_ptr,
         uint32_t *count_ptr,
         uint32_t *index_ptr)) {
-    OWN_UNREFERENCED_PARAMETER(flag_be);
     qplc_status_t status        = QPLC_STS_OK;
     uint32_t      count;
     uint32_t      max_count;

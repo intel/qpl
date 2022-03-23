@@ -460,6 +460,9 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
                 return QPL_STS_OK;
             }
+#if defined(__linux__)
+            [[fallthrough]];
+#endif
         case qpl_op_find_unique:
         case qpl_op_select:
         case qpl_op_expand:
@@ -497,7 +500,9 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
             job::reset<qpl_op_decompress>(qpl_job_ptr);
             state_ptr->aecs_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
-
+#if defined(__linux__)
+            [[fallthrough]];
+#endif
         case qpl_op_compress:
         case qpl_op_memcpy:
         case qpl_op_crc64:

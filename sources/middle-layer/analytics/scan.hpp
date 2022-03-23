@@ -223,7 +223,6 @@ constexpr static inline auto own_get_scan_range(const uint32_t low_limit,
     scan_range_t   range{};
     const auto     range_mask = (uint32_t) ((1ULL << element_bit_width) - 1u);
     const uint32_t param_low  = low_limit & range_mask;
-    const uint32_t param_high = high_limit & range_mask;
 
     if constexpr (comparator == equals || comparator == not_equals) {
         range.low  = param_low;
@@ -261,6 +260,7 @@ constexpr static inline auto own_get_scan_range(const uint32_t low_limit,
     }
 
     if constexpr (comparator == in_range || comparator == out_of_range) {
+        const uint32_t param_high = high_limit & range_mask;
         range.low  = param_low;
         range.high = param_high;
     }
@@ -278,7 +278,7 @@ auto call_scan_hw(input_stream_t &input_stream,
                   output_stream_t<bit_stream> &output_stream,
                   const uint32_t param_low,
                   const uint32_t param_high,
-                  limited_buffer_t &temporary_buffer,
+                  limited_buffer_t &UNREFERENCED_PARAMETER(temporary_buffer),
                   int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE aecs_analytic{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};
@@ -307,7 +307,7 @@ auto call_scan_multidescriptor(input_stream_t &input_stream,
                                output_stream_t<bit_stream> &output_stream,
                                const uint32_t param_low,
                                const uint32_t param_high,
-                               limited_buffer_t &temporary_buffer,
+                               limited_buffer_t &UNREFERENCED_PARAMETER(temporary_buffer),
                                int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE reference_aecs{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE reference_completion_record{};
@@ -346,7 +346,7 @@ auto call_scan(input_stream_t &input_stream,
                const uint32_t param_low,
                const uint32_t param_high,
                limited_buffer_t &temporary_buffer,
-               int32_t numa_id = -1) noexcept -> analytic_operation_result_t {
+               int32_t UNREFERENCED_PARAMETER(numa_id) = -1) noexcept -> analytic_operation_result_t {
     if constexpr (path == execution_path_t::auto_detect) {
         analytic_operation_result_t hw_result{};
 

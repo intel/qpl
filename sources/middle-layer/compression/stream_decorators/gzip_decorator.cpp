@@ -137,7 +137,7 @@ auto gzip_decorator::read_header(const uint8_t *stream_ptr,
     const uint8_t  flags              = current_stream_ptr[3];
     const uint32_t modification_time  = *(reinterpret_cast<const uint32_t *>(current_stream_ptr + 4));
 
-    const uint8_t extra_flags = current_stream_ptr[8];
+    // const uint8_t extra_flags = current_stream_ptr[8];
     const uint8_t os          = current_stream_ptr[9];
 
     current_stream_ptr += gzip_fields::GZIP_HEADER_MIN_BYTE_SIZE;

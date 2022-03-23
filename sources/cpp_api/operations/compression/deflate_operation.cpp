@@ -148,7 +148,7 @@ auto execute<execution_path::hardware>(deflate_operation &operation) -> executio
 
 } // namespace qpl::internal
 
-void deflate_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void deflate_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // @todo will be removed after ML introduction
 }
 

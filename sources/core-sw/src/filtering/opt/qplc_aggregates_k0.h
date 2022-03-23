@@ -124,8 +124,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u, (const uint8_t* src_ptr,
     uint32_t length,
     uint32_t* min_value_ptr,
     uint32_t* max_value_ptr,
-    uint32_t* sum_ptr,
-    uint32_t* index_ptr)) {
+    uint32_t* sum_ptr)) {
     uint32_t    min_value = *min_value_ptr;
     uint32_t    max_value = *max_value_ptr;
     __m512i     z_data;
@@ -137,8 +136,6 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u, (const uint8_t* src_ptr,
     __m128i     x_data;
     __mmask64   msk64;
     uint32_t    remind = length & 63;
-
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
 
     length -= remind;
 
@@ -250,8 +247,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u, (const uint8_t* src_ptr,
     uint32_t  length,
     uint32_t* min_value_ptr,
     uint32_t* max_value_ptr,
-    uint32_t* sum_ptr,
-    uint32_t* index_ptr)) {
+    uint32_t* sum_ptr)) {
     const uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
     uint32_t    min_value = *min_value_ptr;
     uint32_t    max_value = *max_value_ptr;
@@ -264,8 +260,6 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u, (const uint8_t* src_ptr,
     __m128i     x_data;
     __mmask32   msk32;
     uint32_t    remind = length & 31;
-
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
 
     length -= remind;
 
@@ -396,8 +390,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u, (const uint8_t* src_ptr,
     uint32_t  length,
     uint32_t* min_value_ptr,
     uint32_t* max_value_ptr,
-    uint32_t* sum_ptr,
-    uint32_t* index_ptr)) {
+    uint32_t* sum_ptr)) {
     const uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t    min_value = *min_value_ptr;
     uint32_t    max_value = *max_value_ptr;
@@ -409,8 +402,6 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u, (const uint8_t* src_ptr,
     __m128i     x_data;
     __mmask16   msk16;
     uint32_t    remind = length & 15;
-
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
 
     length -= remind;
 

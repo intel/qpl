@@ -893,10 +893,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_be_15u16u, (const uint8_t *src_ptr,
 
 OWN_OPT_FUN(void, k0_qplc_unpack_be_16u16u, (const uint8_t *src_ptr,
         uint32_t num_elements,
-        uint32_t start_bit,
         uint8_t *dst_ptr)) {
-    OWN_UNREFERENCED_PARAMETER(start_bit);
-
     if (num_elements >= 32u) {
         __m512i reverse_mask_16u = _mm512_load_si512(reverse_mask_table_16u);
         while (num_elements >= 32u) {

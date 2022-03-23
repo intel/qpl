@@ -98,8 +98,12 @@ extern "C" {
 #define OWN_PRLE_COUNT(x) (((x) & OWN_7_BIT_MASK) >> 1u)      /**< PRLE count field extraction */
 #define OWN_MAX(a, b) (((a) > (b)) ? (a) : (b))               /**< Maximum from 2 values */
 #define OWN_MIN(a, b) (((a) < (b)) ? (a) : (b))               /**< Minimum from 2 values */
-#ifndef OWN_UNREFERENCED_PARAMETER
-#define OWN_UNREFERENCED_PARAMETER(p) ((p)= 0)        /**< Unreferenced parameter - warning removal */
+#ifndef UNREFERENCED_PARAMETER
+#ifdef __GNUC__
+#define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
+#else
+#define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
+#endif        
 #endif
 
 /**

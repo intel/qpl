@@ -36,6 +36,6 @@ extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_conte
     return dispatcher.get_hw_init_status();
 }
 
-extern "C" hw_accelerator_status hw_accelerator_finalize(hw_accelerator_context *const accel_context_ptr) {
+extern "C" hw_accelerator_status hw_accelerator_finalize(hw_accelerator_context *const UNREFERENCED_PARAMETER(accel_context_ptr)) {
     return HW_ACCELERATOR_STATUS_OK;
 }

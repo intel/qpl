@@ -52,7 +52,7 @@ auto execute<execution_path::auto_detect>(crc_operation &operation,
 
 } // namespace qpl::internal
 
-void crc_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void crc_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

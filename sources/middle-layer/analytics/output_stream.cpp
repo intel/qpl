@@ -44,7 +44,7 @@ auto output_stream_t<bit_stream>::perform_pack(const uint8_t *buffer_ptr,
 template <>
 uint32_t output_stream_t<array_stream>::perform_pack(const uint8_t *buffer_ptr,
                                                      const uint32_t elements_count,
-                                                     const bool is_start_bit_used) noexcept {
+                                                     const bool UNREFERENCED_PARAMETER(is_start_bit_used)) noexcept {
     uint32_t status = status_list::ok;
 
     if (bit_width_format_ == output_bit_width_format_t::same_as_input ||

@@ -199,12 +199,14 @@ auto comp_to_decompression_table(compression_huffman_table &compression_table,
         auto deflate_header_byte_size = util::bit_to_byte(compression_table.get_deflate_header_bit_size());
 
         util::copy(compression_table.get_deflate_header_data(),
-                   compression_table.get_deflate_header_data() + deflate_header_byte_size,
-                   decompression_table.get_deflate_header_data());
+            compression_table.get_deflate_header_data() + deflate_header_byte_size,
+            decompression_table.get_deflate_header_data());
 
         decompression_table.set_deflate_header_bit_size(compression_table.get_deflate_header_bit_size());
 
-        isal_inflate_state temporary_state = {0u};
+        isal_inflate_state temporary_state = {nullptr, 0u, 0u, nullptr, 0u, 0u, 0, {{0u}, {0u}}, 
+                                              {{0u}, {0u}}, (isal_block_state)0, 0u, 0u, 0u, 0u, 0u,
+                                              0u, 0, 0, 0, 0, 0u, 0, 0, 0, 0, {0u}, {0u}, 0u, 0u, 0u};
 
         // Parse deflate header and load it into the temporary state
         auto status = initialize_inflate_state_from_deflate_header(decompression_table.get_deflate_header_data(),

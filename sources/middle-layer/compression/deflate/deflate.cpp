@@ -46,7 +46,7 @@ template<>
 auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(deflate_state<execution_path_t::hardware> &state,
                                                                              uint8_t *begin,
                                                                              const uint32_t size) noexcept -> compression_operation_result_t {
-    auto output_begin_ptr = state.next_out();
+//    auto output_begin_ptr = state.next_out();
 
     hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_, end_of_block);
     hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, begin, size);

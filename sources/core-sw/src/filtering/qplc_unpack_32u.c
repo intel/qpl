@@ -301,18 +301,9 @@ OWN_QPLC_FUN(void, qplc_unpack_31u32u, (const uint8_t *src_ptr,
 
 // ********************** 32u ****************************** //
 
-#if defined(__linux__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-
 OWN_QPLC_FUN(void, qplc_unpack_32u32u, (const uint8_t *src_ptr,
         uint32_t num_elements,
-        uint32_t start_bit,
+        uint32_t UNREFERENCED_PARAMETER(start_bit),
         uint8_t *dst_ptr)) {
     CALL_CORE_FUN(qplc_copy_8u)(src_ptr, dst_ptr, num_elements * sizeof(uint32_t));
 }
-
-#if defined(__linux__)
-#pragma GCC diagnostic pop
-#endif

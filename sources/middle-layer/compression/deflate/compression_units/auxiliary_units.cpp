@@ -212,7 +212,6 @@ auto flush_bit_buffer(stream_t &stream, compression_state_t &state) noexcept -> 
 
     uint64_t bits_to_write = 0xFFFF0000;
     uint32_t bits_length   = 0;
-    uint32_t bytes         = 0;
     int      flush_size    = 0;
 
     if (is_last_chunk(stream)) {
@@ -273,7 +272,8 @@ auto flush_write_buffer(stream_t &stream, compression_state_t &state) noexcept -
            : status_list::ok;
 }
 
-auto skip_rest_units(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto skip_rest_units(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+                     compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::finish_compression_process;
     
     return status_list::ok;
@@ -312,7 +312,6 @@ auto get_history_size(deflate_state<execution_path_t::software> &stream,
                       uint8_t *start_in,
                       int32_t buffered_history_start) noexcept -> uint32_t {
     isal_zstate *isal_state      = &stream.isal_stream_ptr_->internal_state;
-    uint32_t    buffered_size    = isal_state->b_bytes_valid - isal_state->b_bytes_processed;
     uint32_t    input_history    = 0;
     uint32_t    buffered_history = 0;
 

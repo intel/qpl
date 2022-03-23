@@ -49,12 +49,10 @@ OWN_QPLC_FUN(void, qplc_aggregates_8u, (const uint8_t *src_ptr,
         uint32_t *min_value_ptr,
         uint32_t *max_value_ptr,
         uint32_t *sum_ptr,
-        uint32_t *index_ptr)) {
+        uint32_t *UNREFERENCED_PARAMETER(index_ptr))) {
 #if PLATFORM >= K0
-    CALL_OPT_FUNCTION(k0_qplc_aggregates_8u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr, index_ptr);
+    CALL_OPT_FUNCTION(k0_qplc_aggregates_8u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr);
 #else
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
-
     for (uint32_t idx = 0u; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         *min_value_ptr = (src_ptr[idx] < *min_value_ptr) ? src_ptr[idx] : *min_value_ptr;
@@ -68,14 +66,11 @@ OWN_QPLC_FUN(void, qplc_aggregates_16u, (const uint8_t *src_ptr,
         uint32_t *min_value_ptr,
         uint32_t *max_value_ptr,
         uint32_t *sum_ptr,
-        uint32_t *index_ptr)) {
+        uint32_t *UNREFERENCED_PARAMETER(index_ptr))) {
 #if PLATFORM >= K0
-    CALL_OPT_FUNCTION(k0_qplc_aggregates_16u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr, index_ptr);
+    CALL_OPT_FUNCTION(k0_qplc_aggregates_16u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr);
 #else
-
     const uint16_t *src_16u_ptr = (uint16_t *) src_ptr;
-
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
 
     for (uint32_t idx = 0u; idx < length; idx++) {
         *sum_ptr += src_16u_ptr[idx];
@@ -90,14 +85,11 @@ OWN_QPLC_FUN(void, qplc_aggregates_32u, (const uint8_t *src_ptr,
         uint32_t *min_value_ptr,
         uint32_t *max_value_ptr,
         uint32_t *sum_ptr,
-        uint32_t *index_ptr)) {
+        uint32_t *UNREFERENCED_PARAMETER(index_ptr))) {
 #if PLATFORM >= K0
-    CALL_OPT_FUNCTION(k0_qplc_aggregates_32u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr, index_ptr);
+    CALL_OPT_FUNCTION(k0_qplc_aggregates_32u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr);
 #else
-
     const uint32_t *src_32u_ptr = (uint32_t *) src_ptr;
-
-    OWN_UNREFERENCED_PARAMETER(index_ptr);
 
     for (uint32_t idx = 0u; idx < length; idx++) {
         *sum_ptr += src_32u_ptr[idx];

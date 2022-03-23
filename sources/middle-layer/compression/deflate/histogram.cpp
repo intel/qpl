@@ -28,7 +28,7 @@ template<>
 auto update_histogram<execution_path_t::hardware>(uint8_t *begin,
                                                   uint8_t *end,
                                                   deflate_histogram &histogram,
-                                                  deflate_level level) noexcept -> qpl_ml_status {
+                                                  deflate_level UNREFERENCED_PARAMETER(level)) noexcept -> qpl_ml_status {
     hw_descriptor HW_PATH_ALIGN_STRUCTURE descriptor;
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record;
     qpl_histogram hw_histogram;

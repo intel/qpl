@@ -234,11 +234,11 @@ void own_get_literal_code(const struct isal_hufftables *const huffman_table_ptr,
     *code_length_ptr = huffman_table_ptr->lit_table_sizes[literal];
 }
 
-void own_deflate_job_callback_stub(own_deflate_job *job_ptr) {
+void own_deflate_job_callback_stub(own_deflate_job *UNREFERENCED_PARAMETER(job_ptr)) {
     // This is just a stub
 }
 
-uint8_t own_deflate_job_predicate_stub(own_deflate_job *const job_ptr) {
+uint8_t own_deflate_job_predicate_stub(own_deflate_job *const UNREFERENCED_PARAMETER(job_ptr)) {
     // This is just a stub
     return 1u;
 }

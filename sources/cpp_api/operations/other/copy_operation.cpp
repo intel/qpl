@@ -55,7 +55,7 @@ auto execute<execution_path::auto_detect>(copy_operation &operation,
 
 } // namespace qpl::internal
 
-void copy_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void copy_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

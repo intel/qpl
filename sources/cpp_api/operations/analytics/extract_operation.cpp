@@ -202,7 +202,7 @@ auto execute<execution_path::auto_detect>(extract_operation &operation,
 
 } // namespace qpl::internal
 
-void extract_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void extract_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

@@ -211,7 +211,7 @@ auto set_membership_operation::set_membership_operation_builder::number_high_ord
     return *this;
 }
 
-void set_membership_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void set_membership_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

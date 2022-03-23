@@ -169,7 +169,7 @@ void expand_operation::reset_mask(const uint8_t *mask, size_t mask_byte_length) 
     mask_byte_length_ = mask_byte_length;
 }
 
-void expand_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void expand_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

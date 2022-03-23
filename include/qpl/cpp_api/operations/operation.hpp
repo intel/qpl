@@ -314,7 +314,7 @@ private:
     /**
      * @brief Stub that will be removed later
      */
-    void set_job_buffer(uint8_t *buffer) noexcept final {
+    void set_job_buffer(uint8_t * /* buffer */) noexcept final {
         // No job buffer is required with custom operations
     }
 };

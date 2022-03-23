@@ -13,7 +13,6 @@
 #include "bitbuf2.h"
 
 #include "compression/deflate/containers/huffman_table.hpp"
-#include "compression/deflate/utils/fixed_huffman_table.hpp"
 
 namespace qpl::ml::compression {
 
@@ -168,7 +167,6 @@ auto huffman_only_finalize(huffman_only_state<execution_path_t::software> &strea
 auto huffman_only_create_huffman_table(huffman_only_state<execution_path_t::software> &stream,
                                        compression_state_t &state) noexcept -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
-    auto bit_buffer = &isal_state->bitbuf;
 
     if (stream.compression_mode_ == dynamic_mode) {
         isal_huff_histogram *histogram = reinterpret_cast<isal_huff_histogram *>(isal_state->buffer);
@@ -184,7 +182,7 @@ auto huffman_only_create_huffman_table(huffman_only_state<execution_path_t::soft
 }
 
 auto convert_output_to_big_endian(huffman_only_state<execution_path_t::software> &stream,
-                                  compression_state_t &state) noexcept -> qpl_ml_status {
+                                  compression_state_t &UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
     // Setting new pointer to treat stream as uint16_t
     const uint32_t actual_length = stream.isal_stream_ptr_->total_out >> 1u;
     auto           *array_ptr    = reinterpret_cast<uint16_t *>(stream.isal_stream_ptr_->next_out -

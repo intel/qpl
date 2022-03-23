@@ -74,7 +74,7 @@ auto call_set_membership<execution_path_t::software>(input_stream_t &input_strea
                                                      uint32_t high_bits_to_ignore,
                                                      limited_buffer_t &unpack_buffer,
                                                      limited_buffer_t &set_buffer,
-                                                     int32_t numa_id) noexcept -> analytic_operation_result_t {
+                                                     int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
     auto aggregates_table    = dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = dispatcher::get_aggregates_index(1u);
@@ -158,8 +158,8 @@ auto call_set_membership_multidescriptor(input_stream_t &input_stream,
                                          output_stream_t<bit_stream> &output_stream,
                                          uint32_t low_bits_to_ignore,
                                          uint32_t high_bits_to_ignore,
-                                         limited_buffer_t &unpack_buffer,
-                                         limited_buffer_t &set_buffer,
+                                         limited_buffer_t &UNREFERENCED_PARAMETER(unpack_buffer),
+                                         limited_buffer_t &UNREFERENCED_PARAMETER(set_buffer),
                                          int32_t numa_id) noexcept -> analytic_operation_result_t {
     hw_iaa_aecs_analytic HW_PATH_ALIGN_STRUCTURE reference_aecs{};
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE reference_completion_record{};

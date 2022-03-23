@@ -316,7 +316,7 @@ auto inflate<execution_path_t::hardware, inflate_mode_t::inflate_default>(
 template<>
 auto inflate<execution_path_t::hardware, inflate_mode_t::inflate_header>(
         inflate_state<execution_path_t::hardware> &decompression_state,
-        end_processing_condition_t end_processing_condition) noexcept -> decompression_operation_result_t {
+        end_processing_condition_t UNREFERENCED_PARAMETER(end_processing_condition)) noexcept -> decompression_operation_result_t {
 
     return own_inflate<inflate_mode_t::inflate_header>(decompression_state);
 }
@@ -324,7 +324,7 @@ auto inflate<execution_path_t::hardware, inflate_mode_t::inflate_header>(
 template<>
 auto inflate<execution_path_t::hardware, inflate_mode_t::inflate_body>(
         inflate_state<execution_path_t::hardware> &decompression_state,
-        end_processing_condition_t end_processing_condition) noexcept -> decompression_operation_result_t {
+        end_processing_condition_t UNREFERENCED_PARAMETER(end_processing_condition)) noexcept -> decompression_operation_result_t {
 
     return own_inflate<inflate_mode_t::inflate_body>(decompression_state);
 }

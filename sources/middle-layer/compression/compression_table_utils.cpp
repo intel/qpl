@@ -51,10 +51,7 @@ void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
                                    sw_compression_huffman_table *qpl_table_ptr) noexcept {
     // Variables
     const auto isal_match_lengths_mask   = util::build_mask<uint16_t, 15u>();
-    const auto header_complete_byte_size = isal_table_ptr->deflate_hdr_count;
     const auto header_extra_bit_size     = isal_table_ptr->deflate_hdr_extra_bits;
-    const uint32_t header_extra_byte     = (0u == header_extra_bit_size) ? 0u : 1u;
-    const auto header_bit_size           = header_complete_byte_size * byte_bits_size + header_extra_byte;
 
     // Convert literals codes
     for (uint32_t i = 0; i < literals_table_size; i++) {

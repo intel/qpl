@@ -78,7 +78,7 @@ auto execute<execution_path::auto_detect>(zero_decompress_operation &operation,
 
 } // namespace internal
 
-void zero_decompress_operation::set_job_buffer(uint8_t *buffer) noexcept {
+void zero_decompress_operation::set_job_buffer(uint8_t * /* buffer */) noexcept {
     // will be removed after ML introduction
 }
 

@@ -276,8 +276,8 @@ void *get_aecs_decompress(qpl_decompression_huffman_table *decompression_table_p
 uint32_t own_collect_statistic(uint8_t *const source_ptr,
                                const uint32_t source_size,
                                qpl_histogram *const histogram_ptr,
-                               const qpl_compression_levels level,
-                               const qpl_path_t path) {
+                               const qpl_compression_levels UNREFERENCED_PARAMETER(level),
+                               const qpl_path_t UNREFERENCED_PARAMETER(path)) {
     return qpl::ml::compression::update_histogram<qpl::ml::execution_path_t::hardware>(source_ptr,
                                                                                        source_ptr + source_size,
                                                                                        *histogram_ptr);
