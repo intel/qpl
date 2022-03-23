@@ -3,8 +3,8 @@ Copyright (C) 2022 Intel Corporation
 SPDX-License-Identifier: MIT
 -->
 
-Software Implementation of the Intel® Query Processing Library (Intel® QPL) Beta
-================================================================================
+Intel® Query Processing Library (Intel® QPL) Beta
+=================================================
 
 The Intel® Query Processing Library (Intel® QPL) provides a common interface for 
 a number of commonly used algorithms. Using this library enables you to
