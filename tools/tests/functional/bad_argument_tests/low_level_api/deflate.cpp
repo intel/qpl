@@ -213,4 +213,24 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, dictionary_and_verification) {
 
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR);
 }
+
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(compress_huffman_only, fixed) {
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
+
+    set_operation_properties(job_ptr,
+        DROP_INITIAL_BYTES,
+        QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS,
+        qpl_op_compress);
+
+    job_ptr->compression_huffman_table = NULL;
+
+    ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR);
+
+}
+
 }

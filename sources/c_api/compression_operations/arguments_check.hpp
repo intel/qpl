@@ -119,6 +119,10 @@ inline auto validate_flags<qpl_operation::qpl_op_compress>(const qpl_job *const 
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
+    if (!(job->compression_huffman_table) && job::is_huffman_only_compression(job)) {
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
+
     return QPL_STS_OK;
 }
 
@@ -160,6 +164,10 @@ inline auto validate_operation<qpl_op_decompress>(const qpl_job *const job_ptr) 
     }
 
     OWN_QPL_CHECK_STATUS(details::bad_arguments_check(job_ptr))
+
+    if (!(job_ptr->decompression_huffman_table) && job::is_huffman_only_decompression(job_ptr)) {
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
 
     return QPL_STS_OK;
 }

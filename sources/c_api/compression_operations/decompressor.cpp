@@ -143,10 +143,10 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                     .endianness(endianness);
             state.last_bits_offset(static_cast<uint8_t>(qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
         } else {
-            // workaround: there is bug in HW path for Huffman Only + BE
+            // @todo  workaround: there is bug in HW path for Huffman Only + BE
             // this code should be removed after fix in HW
             uint32_t flag_wrkrnd = workaround_huffman_only_be_hw(job_ptr, &endianness);
-            // the end of code for removing
+            // @todo the end of code for removing
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
                     .crc_seed(job_ptr->crc)

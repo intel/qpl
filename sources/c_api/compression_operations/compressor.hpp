@@ -99,17 +99,20 @@ namespace qpl {
  *        - @ref QPL_FLAG_NO_HDRS
  *        - @ref QPL_FLAG_GEN_LITERALS
  *
- *    `Huffman Only Mode` supports 3 sub-modes:
+ *    `Huffman Only Mode` supports 2 sub-modes:
  *        - `DYNAMIC` generates optimal Huffman table for the stream specified and encodes one. Conditions for enabling:
  *          - the @ref QPL_FLAG_DYNAMIC_HUFFMAN additionally specified flag
  *          - the @ref qpl_job.compression_huffman_table must point onto the @ref qpl_compression_huffman_table that
  *            contains the correct Huffman table after the job execution.
  *        - `STATIC` encodes stream using custom Huffman table. Condition for enabling:
  *          - the @ref qpl_job.compression_huffman_table must contain the correct @ref qpl_compression_huffman_table
- *        - `FIXED` as default (Huffman table as for general mode). Condition for enabling:
- *          - the @ref qpl_job.compression_huffman_table must be `nullptr`
  *
  *     To write literals in the big-endian format, the @ref QPL_FLAG_HUFFMAN_BE must be set additionally.
+ *
+ *    `Huffman Only Mode` doesn't support 1 sub-modes:
+ *        - `FIXED` as default (Huffman table as for general mode). Condition for this case:
+ *          - the @ref qpl_job.compression_huffman_table must be `nullptr`
+ *
  *
  * <b> `Canned mode:` </b><br>
  *    ...
@@ -182,6 +185,11 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *        - @ref QPL_FLAG_LAST
  *    In case when literals are written in the big-endian format, the @ref QPL_FLAG_HUFFMAN_BE must be set additionally.
  *    Decompressor must be provided with the corresponding Huffman table in the @ref qpl_job.decomp_end_processing field.
+ *
+ *    `Huffman Only Mode` doesn't support 1 sub-modes:
+ *        - `FIXED` as default (Huffman table as for general mode). Condition for this case:
+ *          - the @ref qpl_job.decompression_huffman_table must be `nullptr`
+
  *
  * <b> `Canned mode:` </b><br>
  *    ...

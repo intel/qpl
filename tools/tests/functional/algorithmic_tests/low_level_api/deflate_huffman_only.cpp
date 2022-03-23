@@ -132,71 +132,6 @@ constexpr uint64_t no_flag = 0;
             ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
         }
 
-        void RunHuffmanOnlyFixedTest(bool is_big_endian = false, bool omit_verification = true)
-        {
-            // Variables
-            uint32_t                     seed                      = GetSeed();
-            uint32_t                     max_length                = 4096;
-            std::vector<uint8_t>         reference_buffer;
-            uint32_t                     status                    = QPL_STS_OK;
-
-            // Initializing buffers
-            source_provider source_generator(max_length,
-                                             8u,
-                                             seed);
-
-            ASSERT_NO_THROW(source = source_generator.get_source());
-
-            destination.resize(max_length * 2);
-            std::fill(destination.begin(), destination.end(), 0u);
-
-            reference_buffer.resize(max_length);
-            std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
-
-            job_ptr->op       = qpl_op_compress;
-            job_ptr->next_in_ptr   = source.data();
-            job_ptr->next_out_ptr  = destination.data();
-            job_ptr->available_in  = max_length;
-            job_ptr->available_out = max_length * 2;
-
-            job_ptr->compression_huffman_table = nullptr;
-            job_ptr->flags                   = QPL_FLAG_FIRST |
-                                               QPL_FLAG_LAST |
-                                               QPL_FLAG_NO_HDRS |
-                                               QPL_FLAG_GEN_LITERALS |
-                                               ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
-                                               ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
-
-            // Compress
-            status = run_job_api(job_ptr);
-
-            if (qpl_path_software == job_ptr->data_ptr.path)
-            {
-                ASSERT_EQ(QPL_STS_OK, status);
-            }
-            else
-            {
-                if (QPL_STS_OK != status)
-                {
-                    if (211u == status) // QPL_AD_ERROR_CODE_BAD_LL_CODE
-                    {
-                        std::cout << "Deflate verify stage failed with status: "
-                                  << " " << status << "\n";
-                        std::cout << "It is known issue for NO_HDR Fixed Huffman Table version 1.0 - ignoring\n";
-                    }
-                    else
-                    {
-                        std::cout << "Deflate status: "
-                                  << " " << status << "\n";
-                        FAIL();
-                    }
-                }
-            }
-            uint32_t result_size = job_ptr->total_out;
-
-            ASSERT_NE(0u, result_size);
-        }
-
         void RunHuffmanOnlyStaticTest(bool is_big_endian = false, bool omit_verification = true)
         {
             // Variables
@@ -383,16 +318,6 @@ constexpr uint64_t no_flag = 0;
         RunHuffmanOnlyStaticTest(true);
     }
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, fixed_lE, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyFixedTest();
-    }
-
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, fixed_be, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyFixedTest(true);
-    }
-
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, dynamic_le, DeflateTestHuffmanOnly)
     {
         RunHuffmanOnlyDynamicTest(false, false);
@@ -411,15 +336,5 @@ constexpr uint64_t no_flag = 0;
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, static_be, DeflateTestHuffmanOnly)
     {
         RunHuffmanOnlyStaticTest(true, false);
-    }
-
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, fixed_lE, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyFixedTest(false, false);
-    }
-
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, fixed_be, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyFixedTest(true, false);
     }
 }
