@@ -244,6 +244,11 @@ it can be constructed by the auxiliary functions
 ``qpl_triplets_to_decompression_table()`` or
 ``qpl_comp_to_decompression_table()``.
 
+If ``NO_HDRS` and ``GEN_LITERALS`` flags are used for decompression,
+then the pointer to the decompression Huffman table must be non-null.
+Either it must point to a reserved memory area where the table be created
+in the case ``DYNAMIC_HUFFMAN``, or to already created table otherwise.
+
 When the ``NO_HDRS`` flag is used for compress jobs, it instructs the driver
 not to write any block header or trailer (i.e. EOB tokens) to the
 stream.
@@ -259,6 +264,11 @@ hardware to generate only literal tokens and no match tokens. Currently,
 the decompressor, when using the ``NO_HDRS`` flag, can only parse literal
 tokens. So the compressor, when using ``NO_HDRS``, must use the ``GEN_LITERALS``
 flag, otherwise the result would not be decompressed with the Intel QPL.
+
+If ``GEN_LITERALS`` flag is used for compression, then the pointer to the
+compression Huffman table must be non-null. Either it must point to a reserved
+memory area where the table be created in the case ``DYNAMIC_HUFFMAN``, or to
+already created table otherwise.
 
 
 Big Endian 16 Format

@@ -970,6 +970,10 @@ to tell the hardware not to expect the stream to end with an EOB token.</p>
 it can be constructed by the auxiliary functions
 <code class="docutils literal notranslate"><span class="pre">qpl_triplets_to_decompression_table()</span></code> or
 <code class="docutils literal notranslate"><span class="pre">qpl_comp_to_decompression_table()</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">NO_HDRS`</span> <span class="pre">and</span> <span class="pre">``GEN_LITERALS</span></code> flags are used for decompression,
+then the pointer to the decompression Huffman table must be non-null.
+Either it must point to a reserved memory area where the table be created
+in the case <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, or to already created table otherwise.</p>
 <p>When the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag is used for compress jobs, it instructs the driver
 not to write any block header or trailer (i.e. EOB tokens) to the
 stream.</p>
@@ -983,6 +987,10 @@ hardware to generate only literal tokens and no match tokens. Currently,
 the decompressor, when using the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag, can only parse literal
 tokens. So the compressor, when using <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>, must use the <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code>
 flag, otherwise the result would not be decompressed with the Intel QPL.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> flag is used for compression, then the pointer to the
+compression Huffman table must be non-null. Either it must point to a reserved
+memory area where the table be created in the case <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, or to
+already created table otherwise.</p>
 <div class="section" id="big-endian-16-format">
 <h3>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">¶</a></h3>
 <p>Normal DEFLATE streams are little-endian (LE). Tokens are written
