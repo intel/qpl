@@ -652,8 +652,6 @@
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job14available_src2E">qpl_job::available_src2 (C++ member)</a>
 </li>
-      <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job25compression_huffman_tableE">qpl_job::compression_huffman_table (C++ member)</a>
-</li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job3crcE">qpl_job::crc (C++ member)</a>
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job5crc64E">qpl_job::crc64 (C++ member)</a>
@@ -664,8 +662,6 @@
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job21decomp_end_processingE">qpl_job::decomp_end_processing (C++ member)</a>
 </li>
-      <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job27decompression_huffman_tableE">qpl_job::decompression_huffman_table (C++ member)</a>
-</li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job10dictionaryE">qpl_job::dictionary (C++ member)</a>
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job18drop_initial_bytesE">qpl_job::drop_initial_bytes (C++ member)</a>
@@ -673,6 +669,8 @@
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job21first_index_min_valueE">qpl_job::first_index_min_value (C++ member)</a>
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job5flagsE">qpl_job::flags (C++ member)</a>
+</li>
+      <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job13huffman_tableE">qpl_job::huffman_table (C++ member)</a>
 </li>
       <li><a href="documentation/api_docs/c_concepts/c_job_structure.html#_CPPv4N7qpl_job9idx_arrayE">qpl_job::idx_array (C++ member)</a>
 </li>
@@ -764,12 +762,12 @@
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status34QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERRE">qpl_status::QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR (C++ enumerator)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status26QPL_STS_BUFFER_OVERLAP_ERRE">qpl_status::QPL_STS_BUFFER_OVERLAP_ERR (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status28QPL_STS_BUFFER_TOO_LARGE_ERRE">qpl_status::QPL_STS_BUFFER_TOO_LARGE_ERR (C++ enumerator)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status25QPL_STS_CRC64_BAD_POLYNOME">qpl_status::QPL_STS_CRC64_BAD_POLYNOM (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status30QPL_STS_DIST_SPANS_MINI_BLOCKSE">qpl_status::QPL_STS_DIST_SPANS_MINI_BLOCKS (C++ enumerator)</a>
@@ -785,6 +783,8 @@
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status28QPL_STS_FIRST_LL_CODE_16_ERRE">qpl_status::QPL_STS_FIRST_LL_CODE_16_ERR (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status25QPL_STS_FLAG_CONFLICT_ERRE">qpl_status::QPL_STS_FLAG_CONFLICT_ERR (C++ enumerator)</a>
+</li>
+      <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status32QPL_STS_HUFFMAN_TABLE_TYPE_ERRORE">qpl_status::QPL_STS_HUFFMAN_TABLE_TYPE_ERROR (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status29QPL_STS_INDEX_ARRAY_TOO_SMALLE">qpl_status::QPL_STS_INDEX_ARRAY_TOO_SMALL (C++ enumerator)</a>
 </li>
@@ -859,6 +859,10 @@
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status27QPL_STS_QUEUES_ARE_BUSY_ERRE">qpl_status::QPL_STS_QUEUES_ARE_BUSY_ERR (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status28QPL_STS_REF_BEFORE_START_ERRE">qpl_status::QPL_STS_REF_BEFORE_START_ERR (C++ enumerator)</a>
+</li>
+      <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status36QPL_STS_SERIALIZATION_CORRUPTED_DUMPE">qpl_status::QPL_STS_SERIALIZATION_CORRUPTED_DUMP (C++ enumerator)</a>
+</li>
+      <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status34QPL_STS_SERIALIZATION_FORMAT_ERRORE">qpl_status::QPL_STS_SERIALIZATION_FORMAT_ERROR (C++ enumerator)</a>
 </li>
       <li><a href="documentation/api_docs/concepts/status_codes.html#_CPPv4N10qpl_status25QPL_STS_SET_TOO_LARGE_ERRE">qpl_status::QPL_STS_SET_TOO_LARGE_ERR (C++ enumerator)</a>
 </li>
