@@ -12,7 +12,7 @@
 #ifndef QPL_PROJECT_OWN_DEFLATE_JOB_H
 #define QPL_PROJECT_OWN_DEFLATE_JOB_H
 
-#include "qpl/c_api/compression_table.h"
+#include "qpl/c_api/statistics.h"
 #include "stdbool.h"
 
 #ifdef __cplusplus

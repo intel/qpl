@@ -80,9 +80,8 @@ inline auto validate_mode<qpl_operation::qpl_op_compress>(const qpl_job * const 
     auto *compression_state = reinterpret_cast<own_compression_state_t *>(qpl_job_ptr->data_ptr.compress_state_ptr);
 
     auto compression_style = (qpl_job_ptr->flags & QPL_FLAG_DYNAMIC_HUFFMAN) |
-                             ((qpl_job_ptr->compression_huffman_table) ?
-                              USER_HUFFMAN_TABLE_USED : NO_USER_HUFFMAN_TABLE
-                             );
+                             ((qpl_job_ptr->huffman_table) ?
+                              USER_HUFFMAN_TABLE_USED : NO_USER_HUFFMAN_TABLE);
 
     if (!(qpl_job_ptr->flags & QPL_FLAG_FIRST) &&
         compression_state->meta_data.middle_layer_compression_style != compression_style) {
@@ -119,7 +118,7 @@ inline auto validate_flags<qpl_operation::qpl_op_compress>(const qpl_job *const 
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
-    if (!(job->compression_huffman_table) && job::is_huffman_only_compression(job)) {
+    if (!(job->huffman_table) && job::is_huffman_only_compression(job)) {
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
@@ -165,7 +164,7 @@ inline auto validate_operation<qpl_op_decompress>(const qpl_job *const job_ptr) 
 
     OWN_QPL_CHECK_STATUS(details::bad_arguments_check(job_ptr))
 
-    if (!(job_ptr->decompression_huffman_table) && job::is_huffman_only_decompression(job_ptr)) {
+    if (!(job_ptr->huffman_table) && job::is_huffman_only_decompression(job_ptr)) {
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 

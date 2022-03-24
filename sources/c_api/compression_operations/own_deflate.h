@@ -30,7 +30,7 @@ extern "C" {
 
 #include "own_defs.h"
 #include "own_deflate_job.h"
-#include "canned_utility.h"
+#include "compression/huffman_table/canned_utility.h"
 
 #include <types.h>
 #include <assert.h>

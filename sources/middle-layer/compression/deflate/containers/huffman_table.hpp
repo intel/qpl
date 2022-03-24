@@ -10,7 +10,7 @@
 #include "huff_codes.h"
 #include "bitbuf2.h"
 
-#include "compression/compression_table.hpp"
+#include "compression/huffman_table/compression_table.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "common/bit_reverse.hpp"
 

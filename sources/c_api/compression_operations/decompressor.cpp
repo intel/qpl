@@ -12,15 +12,16 @@
 #include "own_defs.h"
 #include "compression_state_t.h"
 #include "common/defs.hpp"
-#include "compression/decompression_table.hpp"
+#include "compression/huffman_table/decompression_table.hpp"
+#include "compression/huffman_table/canned_utility.h"
 #include "compression/inflate/inflate.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
-#include "canned_utility.h"
 #include "job.hpp"
 #include "arguments_check.hpp"
+#include "huffman_table.hpp"
 
 namespace qpl {
 
@@ -111,14 +112,13 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
 
     OWN_QPL_CHECK_STATUS(qpl::job::validate_operation<qpl_op_decompress>(job_ptr));
 
-    auto *decompression_table_ptr = job_ptr->decompression_huffman_table;
-
     qpl::ml::allocation_buffer_t state_buffer(job_ptr->data_ptr.middle_layer_buffer_ptr,
                                               job_ptr->data_ptr.hw_state_ptr);
 
     const qpl::ml::util::linear_allocator allocator(state_buffer);
 
     if (job_ptr->flags & QPL_FLAG_NO_HDRS) {
+        auto *decompression_table_ptr = own_huffman_table_get_decompression_table(job_ptr->huffman_table);
         // Initialize decompression table
         decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
                                                         get_hw_decompression_table_buffer(decompression_table_ptr),
@@ -186,6 +186,7 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         }
 
         if (job_ptr->flags & QPL_FLAG_CANNED_MODE) { // Canned decompression
+            auto *decompression_table_ptr = own_huffman_table_get_decompression_table(job_ptr->huffman_table);
             // Initialize decompression table
             decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
                                                             get_hw_decompression_table_buffer(decompression_table_ptr),

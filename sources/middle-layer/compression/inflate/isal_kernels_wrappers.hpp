@@ -9,7 +9,8 @@
 
 #include <cstdint>
 #include "common/defs.hpp"
-#include "compression/decompression_table.hpp"
+
+typedef struct inflate_state isal_inflate_state;
 
 namespace qpl::ml::compression {
     namespace isal_kernels {

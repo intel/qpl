@@ -43,7 +43,8 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
     std::vector<uint8_t> destination(destination_size, 0xaa);
 
     {
-        qpl_histogram   histogram{};
+        qpl_histogram       histogram{};
+        qpl_huffman_table_t c_huffman_table{};
         qpl_status      status = QPL_STS_OK;
 
         status = qpl_gather_deflate_statistics(source.data(),
@@ -51,16 +52,23 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
             &histogram,
             compression_level,
             qpl_path_software);
+
         if (status != QPL_STS_OK) {
             return 0;
         }
 
-        auto  huffman_table_buffer = std::make_unique<uint8_t[]>(QPL_COMPRESSION_TABLE_SIZE);
-        auto* huffman_table = reinterpret_cast<qpl_compression_huffman_table*>(huffman_table_buffer.get());
-        status = qpl_build_compression_table(&histogram,
-            huffman_table,
-            QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION);
+        status = qpl_deflate_huffman_table_create(combined_table_type,
+                                                  qpl_path_software,
+                                                  DEFAULT_ALLOCATOR_C,
+                                                  &c_huffman_table);
         if (status != QPL_STS_OK) {
+            return 0;
+        }
+
+        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+
+        if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(c_huffman_table);
             return 0;
         }
 
@@ -69,6 +77,7 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
 
         status = qpl_get_job_size(qpl_path_software, &job_size);
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(c_huffman_table);
             return 0;
         }
 
@@ -78,6 +87,7 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
 
         status = qpl_init_job(qpl_path_software, job_ptr);
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(c_huffman_table);
             return 0;
         }
 
@@ -85,7 +95,7 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
         job_ptr->available_in = source.size();
         job_ptr->next_out_ptr = destination.data();
         job_ptr->available_out = static_cast<uint32_t>(destination.size());
-        job_ptr->compression_huffman_table = huffman_table;
+        job_ptr->huffman_table = c_huffman_table;
         job_ptr->total_out = 0;
 
         job_ptr->op = qpl_op_compress;
@@ -93,6 +103,8 @@ static inline int deflate_canned_nodict_fuzz(const uint8_t* Data, size_t Size,
         job_ptr->flags = QPL_FLAG_CANNED_MODE | QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
 
         status = qpl_execute_job(job_ptr);
+
+        qpl_huffman_table_destroy(c_huffman_table);
     }
 
     return 0;

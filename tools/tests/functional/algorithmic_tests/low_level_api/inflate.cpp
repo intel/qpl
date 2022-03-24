@@ -12,52 +12,57 @@
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
 
-namespace qpl::test
-{
-    class Inflate : public JobFixture
-    {
-    public:
-        void SetUp() override {
-            JobFixture::SetUp();
+typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
 
-            decompression_table_buffer.resize(QPL_DECOMPRESSION_TABLE_SIZE);
-            std::fill(decompression_table_buffer.begin(), decompression_table_buffer.end(), 0u);
-            decompression_huffman_table_ptr = reinterpret_cast<qpl_decompression_huffman_table *>(
-                                                           decompression_table_buffer.data());
+extern "C" qpl_decompression_huffman_table *own_huffman_table_get_decompression_table(const qpl_huffman_table_t table);
+
+namespace qpl::test {
+class Inflate : public JobFixture {
+public:
+    void SetUp() override {
+        JobFixture::SetUp();
+        auto status = qpl_deflate_huffman_table_create(decompression_table_type,
+                                                       GetExecutionPath(),
+                                                       DEFAULT_ALLOCATOR_C,
+                                                       &d_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+    }
+
+    ~Inflate() {
+        if (d_huffman_table) {
+            qpl_huffman_table_destroy(d_huffman_table);
+            d_huffman_table = nullptr;
+        }
+    }
+
+    testing::AssertionResult RunTestOnDataPreset(std::string &compressed_file_name,
+                                                 std::string &decompressed_file_name) {
+        SetSourceFromFile(compressed_file_name);
+
+        job_ptr->op    = qpl_op_decompress;
+        job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+
+        auto dataset = util::TestEnvironment::GetInstance().GetCompleteDataset();
+
+        try {
+            reference_data = dataset[decompressed_file_name];
+        } catch (std::exception &e) {
+            std::cout << e.what() << std::endl;
+
+            return testing::AssertionFailure();
         }
 
-        testing::AssertionResult RunTestOnDataPreset(std::string &compressed_file_name,
-                                                     std::string &decompressed_file_name)
-        {
-            SetSourceFromFile(compressed_file_name);
+        qpl_status status = run_job_api(job_ptr);
 
-            job_ptr->op    = qpl_op_decompress;
-            job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+        EXPECT_EQ(QPL_STS_OK, status);
 
-            auto dataset = util::TestEnvironment::GetInstance().GetCompleteDataset();
+        return CompareVectors(destination, reference_data, job_ptr->total_out);
+    }
 
-            try
-            {
-                reference_data = dataset[decompressed_file_name];
-            } catch (std::exception &e)
-            {
-                std::cout << e.what() << std::endl;
+    testing::AssertionResult RunTestOnGeneratedData(TestType test_type) {
+        SetSourceFromGenerator(test_type);
 
-                return testing::AssertionFailure();
-            }
-
-            qpl_status status = run_job_api(job_ptr);
-
-            EXPECT_EQ(QPL_STS_OK, status);
-
-            return CompareVectors(destination, reference_data, job_ptr->total_out);
-        }
-
-        testing::AssertionResult RunTestOnGeneratedData(TestType test_type)
-        {
-            SetSourceFromGenerator(test_type);
-
-            job_ptr->op = qpl_op_decompress;
+        job_ptr->op = qpl_op_decompress;
 
             uint8_t*    next_in_ptr_save = job_ptr->next_in_ptr;
             uint32_t    available_in_save = job_ptr->available_in;
@@ -101,158 +106,138 @@ namespace qpl::test
                                   static_cast<uint32_t>(destination.size()));
         }
 
-    private:
-        void SetSourceFromFile(std::string &file_name)
-        {
-            auto dataset = util::TestEnvironment::GetInstance().GetCompleteDataset();
+private:
+    void SetSourceFromFile(std::string &file_name) {
+        auto dataset = util::TestEnvironment::GetInstance().GetCompleteDataset();
 
-            source = dataset[file_name]; // store to original data to reference vector
+        source = dataset[file_name]; // store to original data to reference vector
 
-            destination.resize(source.size() * 10);
+        destination.resize(source.size() * 10);
 
-            job_ptr->available_in = static_cast<uint32_t>(source.size());
-            job_ptr->next_in_ptr  = source.data();
+        job_ptr->available_in = static_cast<uint32_t>(source.size());
+        job_ptr->next_in_ptr  = source.data();
 
-            job_ptr->next_out_ptr  = destination.data();
-            job_ptr->available_out = static_cast<uint32_t>(destination.size());
+        job_ptr->next_out_ptr  = destination.data();
+        job_ptr->available_out = static_cast<uint32_t>(destination.size());
+    }
+
+    void SetSourceFromGenerator(TestType test_type) {
+        std::vector<uint8_t> encoded_data_buffer(0);
+        std::vector<uint8_t> decoded_data_buffer(0);
+
+        GenStatus  generator_status = GEN_OK;
+        TestFactor test_factor;
+        test_factor.seed = GetSeed();
+        test_factor.type = test_type;
+
+        gz_generator::InflateGenerator data_generator;
+
+        generator_status = data_generator.generate(encoded_data_buffer,
+                                                   decoded_data_buffer,
+                                                   test_factor);
+
+        if (NO_ERR_HUFFMAN_ONLY == test_type) {
+            job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS;
+
+            std::memcpy(own_huffman_table_get_decompression_table(d_huffman_table),
+                        &test_factor.specialTestOptions.decompression_huffman_table,
+                        sizeof(test_factor.specialTestOptions.decompression_huffman_table));
+
+            job_ptr->huffman_table = d_huffman_table;
+        } else {
+            job_ptr->flags = (QPL_FLAG_FIRST | QPL_FLAG_LAST) & ~QPL_FLAG_GZIP_MODE;
         }
 
-        void SetSourceFromGenerator(TestType test_type)
-        {
-            std::vector<uint8_t> encoded_data_buffer(0);
-            std::vector<uint8_t> decoded_data_buffer(0);
+        EXPECT_EQ(GEN_OK, generator_status);
 
-            GenStatus  generator_status = GEN_OK;
-            TestFactor test_factor;
-            test_factor.seed = GetSeed();
-            test_factor.type = test_type;
+        source.resize(encoded_data_buffer.size());
+        std::copy(encoded_data_buffer.begin(),
+                  encoded_data_buffer.end(),
+                  source.begin());
 
-            gz_generator::InflateGenerator data_generator;
+        auto destination_size = decoded_data_buffer.size();
 
-            generator_status = data_generator.generate(encoded_data_buffer,
-                                                       decoded_data_buffer,
-                                                       test_factor);
+        destination.resize(destination_size);
+        reference_data.resize(destination_size);
+        std::copy(decoded_data_buffer.begin(),
+                  decoded_data_buffer.end(),
+                  reference_data.begin());
 
-            if (NO_ERR_HUFFMAN_ONLY == test_type)
-            {
-                job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS;
+        job_ptr->next_in_ptr  = source.data();
+        job_ptr->available_in = static_cast<uint32_t>(source.size());
 
-                std::memcpy(decompression_huffman_table_ptr,
-                            &test_factor.specialTestOptions.decompression_huffman_table,
-                            sizeof(test_factor.specialTestOptions.decompression_huffman_table));
+        job_ptr->next_out_ptr  = destination.data();
+        job_ptr->available_out = static_cast<uint32_t>(destination.size());
+    }
 
-                job_ptr->decompression_huffman_table = decompression_huffman_table_ptr;
-            }
-            else
-            {
-                job_ptr->flags = (QPL_FLAG_FIRST | QPL_FLAG_LAST) & ~QPL_FLAG_GZIP_MODE;
-            }
-
-            EXPECT_EQ(GEN_OK, generator_status);
-
-            source.resize(encoded_data_buffer.size());
-            std::copy(encoded_data_buffer.begin(),
-                      encoded_data_buffer.end(),
-                      source.begin());
-
-            auto destination_size = decoded_data_buffer.size();
-
-            destination.resize(destination_size);
-            reference_data.resize(destination_size);
-            std::copy(decoded_data_buffer.begin(),
-                      decoded_data_buffer.end(),
-                      reference_data.begin());
-
-            job_ptr->next_in_ptr  = source.data();
-            job_ptr->available_in = static_cast<uint32_t>(source.size());
-
-            job_ptr->next_out_ptr  = destination.data();
-            job_ptr->available_out = static_cast<uint32_t>(destination.size());
-        }
-
-        testing::AssertionResult CompareDecompressedStreamToReference()
-        {
-            if (destination.size() != reference_data.size())
-            {
-                return testing::AssertionFailure() << "Num of elements after decompression: " << destination.size()
-                                                   << " , actual size: " << reference_data.size();
-            }
-            else
-            {
-                for (uint32_t i = 0; i < destination.size(); i++)
-                {
-                    if (destination[i] != reference_data[i])
-                    {
-                        return testing::AssertionFailure() << "Output differs at " << i << " index";
-                    }
+    testing::AssertionResult CompareDecompressedStreamToReference() {
+        if (destination.size() != reference_data.size()) {
+            return testing::AssertionFailure() << "Num of elements after decompression: " << destination.size()
+                                               << " , actual size: " << reference_data.size();
+        } else {
+            for (uint32_t i = 0; i < destination.size(); i++) {
+                if (destination[i] != reference_data[i]) {
+                    return testing::AssertionFailure() << "Output differs at " << i << " index";
                 }
             }
-
-            return testing::AssertionSuccess();
         }
 
-        std::vector<uint8_t>         reference_data;
-        std::vector<uint8_t>         decompression_table_buffer;
-        qpl_decompression_huffman_table *decompression_huffman_table_ptr;
-    };
-
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, small_data, Inflate)
-    {
-        TestType test_type = CANNED_SMALL;
-
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+        return testing::AssertionSuccess();
     }
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, large_literal_lengths, Inflate)
-    {
-        TestType test_type = CANNED_LARGE_LL;
+    std::vector<uint8_t> reference_data;
+    qpl_huffman_table_t  d_huffman_table{};
+};
 
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, small_data, Inflate) {
+    TestType test_type = CANNED_SMALL;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, dynamic_block, Inflate)
-    {
-        TestType test_type = NO_ERR_DYNAMIC_BLOCK;
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, large_literal_lengths, Inflate) {
+    TestType test_type = CANNED_LARGE_LL;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, fixed_block, Inflate)
-    {
-        TestType test_type = NO_ERR_FIXED_BLOCK;
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, dynamic_block, Inflate) {
+    TestType test_type = NO_ERR_DYNAMIC_BLOCK;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, static_block, Inflate)
-    {
-        TestType test_type = NO_ERR_STORED_BLOCK;
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, fixed_block, Inflate) {
+    TestType test_type = NO_ERR_FIXED_BLOCK;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_huffman_only, generated_data, Inflate)
-    {
-        TestType test_type = NO_ERR_HUFFMAN_ONLY;
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnGeneratedData(test_type));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, static_block, Inflate) {
+    TestType test_type = NO_ERR_STORED_BLOCK;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, large_distance, Inflate)
-    {
-        std::string compressed_source = "gen_large_dist.def";
-        std::string encoded_source    = "gen_large_dist.bin";
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnDataPreset(compressed_source,
-                                        encoded_source));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_huffman_only, generated_data, Inflate) {
+    TestType test_type = NO_ERR_HUFFMAN_ONLY;
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, all_literal_lengths, Inflate)
-    {
-        std::string compressed_source = "gen_all_ll.def";
-        std::string encoded_source    = "gen_all_ll.bin";
+    ASSERT_TRUE(RunTestOnGeneratedData(test_type));
+}
 
-        ASSERT_TRUE(RunTestOnDataPreset(compressed_source,
-                                        encoded_source));
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, large_distance, Inflate) {
+    std::string compressed_source = "gen_large_dist.def";
+    std::string encoded_source    = "gen_large_dist.bin";
+
+    ASSERT_TRUE(RunTestOnDataPreset(compressed_source,
+                                    encoded_source));
+}
+
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, all_literal_lengths, Inflate) {
+    std::string compressed_source = "gen_all_ll.def";
+    std::string encoded_source    = "gen_all_ll.bin";
+
+    ASSERT_TRUE(RunTestOnDataPreset(compressed_source,
+                                    encoded_source));
+}
 }

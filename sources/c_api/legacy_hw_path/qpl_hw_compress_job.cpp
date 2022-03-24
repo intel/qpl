@@ -22,12 +22,13 @@
 
 #include "common/bit_reverse.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
-#include "compression_operations/canned_utility.h"
+#include "compression/huffman_table/canned_utility.h"
+#include "compression_operations/huffman_table.hpp"
 
 static inline qpl_comp_style own_get_compression_style(const qpl_job *const job_ptr) {
     if (job_ptr->flags & QPL_FLAG_DYNAMIC_HUFFMAN) {
         return qpl_cst_dynamic;
-    } else if (job_ptr->compression_huffman_table) {
+    } else if (job_ptr->huffman_table) {
         return qpl_cst_static;
     } else {
         return qpl_cst_fixed;
@@ -38,12 +39,12 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                                                     hw_iaa_analytics_descriptor *const descriptor_ptr,
                                                     hw_completion_record *const completion_record_ptr,
                                                     qpl_hw_state *const state_ptr) {
-    qpl_compression_huffman_table *huffman_table_ptr = qpl_job_ptr->compression_huffman_table;
-    hw_iaa_aecs_compress          *configuration_ptr;
-    uint32_t                      flags             = qpl_job_ptr->flags;
-    qpl_comp_style                compression_style = own_get_compression_style(qpl_job_ptr);
-    uint8_t                       *next_out_ptr     = qpl_job_ptr->next_out_ptr;
-    uint32_t                      available_out     = qpl_job_ptr->available_out;
+    auto                 huffman_table_ptr = own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table);
+    hw_iaa_aecs_compress *configuration_ptr;
+    uint32_t             flags             = qpl_job_ptr->flags;
+    qpl_comp_style       compression_style = own_get_compression_style(qpl_job_ptr);
+    uint8_t              *next_out_ptr     = qpl_job_ptr->next_out_ptr;
+    uint32_t             available_out     = qpl_job_ptr->available_out;
 
     if (flags & QPL_FLAG_FIRST) {
         uint32_t content_header_size = 0u;
@@ -234,7 +235,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     if (is_huffman_only) {
         hw_iaa_aecs_compress_set_huffman_only_huffman_table_from_histogram(cfg_in_ptr,
                                                                            &cfg_in_ptr->histogram);
-        hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, qpl_job_ptr->compression_huffman_table);
+        hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table));
     } else {
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(cfg_in_ptr,
                                                                          &cfg_in_ptr->histogram,
@@ -307,8 +308,8 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
 
     if (is_first_block) {
         hw_iaa_aecs_compress_set_deflate_huffman_table(state_ptr->ccfg,
-                                                       (hw_iaa_huffman_codes *) get_literals_lengths_table_ptr(job_ptr->compression_huffman_table),
-                                                       (hw_iaa_huffman_codes *) get_offsets_table_ptr(job_ptr->compression_huffman_table));
+                                                       (hw_iaa_huffman_codes *) get_literals_lengths_table_ptr(own_huffman_table_get_compression_table(job_ptr->huffman_table)),
+                                                       (hw_iaa_huffman_codes *) get_offsets_table_ptr(own_huffman_table_get_compression_table(job_ptr->huffman_table)));
     }
 
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) descriptor_ptr,

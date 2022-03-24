@@ -28,6 +28,8 @@ extern "C" {
 #endif
 
 typedef struct isal_hufftables isal_hufftables;
+typedef struct qpl_compression_huffman_table qpl_compression_huffman_table;
+typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
 
 void isal_huffman_table_to_qpl(isal_hufftables *isal_table_ptr,
                                qpl_compression_huffman_table *qpl_table_ptr);

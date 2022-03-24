@@ -5,10 +5,10 @@
  ******************************************************************************/
 
 #include "canned_utility.h"
-#include "compression/compression_table.hpp"
-#include "compression/decompression_table.hpp"
-#include "compression/canned_utils.hpp"
-#include "compression/compression_table_utils.hpp"
+#include "compression/huffman_table/compression_table.hpp"
+#include "compression/huffman_table/decompression_table.hpp"
+#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/compression_table_utils.hpp"
 #include "compression/deflate/histogram.hpp"
 
 /**

@@ -14,7 +14,7 @@
 
 #include "common/linear_allocator.hpp"
 #include "compression/huffman_only/huffman_only_compression_state.hpp"
-#include "compression/compression_table_utils.hpp"
+#include "compression/huffman_table/compression_table_utils.hpp"
 #include "core_deflate_api.h"
 
 extern "C" const struct isal_hufftables hufftables_static;

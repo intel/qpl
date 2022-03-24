@@ -63,6 +63,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
 
     {
         qpl_histogram   histogram{};
+        qpl_huffman_table_t huffman_table{};
         qpl_status      status = QPL_STS_OK;
 
         status = qpl_gather_deflate_statistics(source.data(),
@@ -75,20 +76,18 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
             return 0;
         }
 
-        auto  huffman_compr_table_buffer = std::make_unique<uint8_t[]>(QPL_COMPRESSION_TABLE_SIZE);
-        auto* huffman_compr_table = reinterpret_cast<qpl_compression_huffman_table*>(huffman_compr_table_buffer.get());
-        status = qpl_build_compression_table(&histogram,
-            huffman_compr_table,
-            QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION);
+        status = qpl_deflate_huffman_table_create(combined_table_type,
+                                                  qpl_path_software,
+                                                  DEFAULT_ALLOCATOR_C,
+                                                  &huffman_table);
         if (status != QPL_STS_OK) {
             return 0;
         }
-        auto  huffman_decompr_table_buffer = std::make_unique<uint8_t[]>(QPL_DECOMPRESSION_TABLE_SIZE);
-        auto* huffman_decompr_table = reinterpret_cast<qpl_decompression_huffman_table*>(huffman_decompr_table_buffer.get());
-        status = qpl_comp_to_decompression_table(huffman_compr_table,
-            huffman_decompr_table,
-            QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION);
+
+        status = qpl_huffman_table_init(huffman_table, &histogram);
+
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(huffman_table);
             return 0;
         }
 
@@ -103,6 +102,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
             dictionary_data_ptr,
             dictionary_size);
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(huffman_table);
             return 0;
         }
 
@@ -111,6 +111,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
 
         status = qpl_get_job_size(qpl_path_software, &job_size);
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(huffman_table);
             return 0;
         }
 
@@ -120,6 +121,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
 
         status = qpl_init_job(qpl_path_software, job_ptr);
         if (status != QPL_STS_OK) {
+            qpl_huffman_table_destroy(huffman_table);
             return 0;
         }
 
@@ -127,7 +129,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
         job_ptr->available_in = source.size();
         job_ptr->next_out_ptr = destination.data();
         job_ptr->available_out = static_cast<uint32_t>(destination.size());
-        job_ptr->decompression_huffman_table = huffman_decompr_table;
+        job_ptr->huffman_table = huffman_table;
         job_ptr->total_out = 0;
         job_ptr->dictionary = dictionary_ptr;
 
@@ -137,6 +139,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
         status = qpl_execute_job(job_ptr);
 
         status = qpl_fini_job(job_ptr);
+
+        qpl_huffman_table_destroy(huffman_table);
     }
 
     return 0;

@@ -68,4 +68,43 @@ void inline store_isal_deflate_header(isal_hufftables *isal_huffman_table,
 }
 }
 
+/**
+ * Flag which indicates whenever hardware representation of compression/decompression table should be used
+ */
+#define QPL_HW_REPRESENTATION            0x01u
+
+/**
+ * Flag which indicates whenever deflate header should be used
+ */
+#define QPL_DEFLATE_REPRESENTATION       0x04u
+
+/**
+ * Flag which indicates whenever software representation of compression/decompression table should be used
+ */
+#define QPL_SW_REPRESENTATION            0x08u
+
+/**
+ * Flag which indicates whenever huffman only representation of compression/decompression table should be used
+ */
+#define QPL_HUFFMAN_ONLY_REPRESENTATION  0x10u
+
+/**
+ * Combine all (software, hardware, deflate) representation flags to build the complete compression table
+ */
+#define QPL_COMPLETE_COMPRESSION_TABLE (QPL_HW_REPRESENTATION | QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION)
+/** @} */
+
+/**
+ * @brief Internal structure that holds information for @ref qpl_op_compress operation
+ */
+typedef struct qpl_compression_huffman_table  qpl_compression_huffman_table;
+extern const size_t QPL_COMPRESSION_TABLE_SIZE; /**< Size of the compression table in bytes*/
+
+/**
+ * @brief Internal structure that holds information for @ref qpl_op_decompress operation
+ */
+typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
+extern const size_t QPL_DECOMPRESSION_TABLE_SIZE; /**< Size of the decompression table in bytes */
+
+
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_COMPRESSION_TABLE_UTILS_HPP

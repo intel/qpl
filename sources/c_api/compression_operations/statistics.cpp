@@ -4,21 +4,60 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "qpl/qpl.h"
-#include "isal_statistics.h"
 #include "deflate_hash_table.h"
 #include "dispatcher/dispatcher.hpp"
+#include "own_deflate.h"
 
-static inline void remove_empty_places_in_histogram(qpl_histogram *histogram) noexcept {
-    for (size_t i = 0; i < 286; i++) {
-        if (histogram->literal_lengths[i] == 0) {
-            histogram->literal_lengths[i] = 1;
+extern "C" {
+
+static inline void isal_histogram_set_statistics(isal_histogram *isal_histogram_ptr,
+                                                 const uint32_t *literal_length_histogram_ptr,
+                                                 const uint32_t *offsets_histogram_ptr) {
+    for (uint32_t i = 0u; i < OWN_LITERALS_MATCHES_TABLE_SIZE; i++) {
+        isal_histogram_ptr->lit_len_histogram[i] = literal_length_histogram_ptr[i];
+    }
+
+    for (uint32_t i = 0; i < OWN_OFFSETS_TABLE_SIZE; i++) {
+        isal_histogram_ptr->dist_histogram[i] = offsets_histogram_ptr[i];
+    }
+}
+
+static inline void isal_histogram_get_statistics(const isal_histogram *isal_histogram_ptr,
+                                                 uint32_t *literal_length_histogram_ptr,
+                                                 uint32_t *offsets_histogram_ptr) {
+    for (uint32_t i = 0u; i < OWN_LITERALS_MATCHES_TABLE_SIZE; i++) {
+        literal_length_histogram_ptr[i] = (uint32_t) isal_histogram_ptr->lit_len_histogram[i];
+    }
+
+    for (uint32_t i = 0u; i < OWN_OFFSETS_TABLE_SIZE; i++) {
+        offsets_histogram_ptr[i] = (uint32_t) isal_histogram_ptr->dist_histogram[i];
+    }
+}
+
+static inline void isal_histogram_make_complete(isal_histogram *isal_histogram_ptr) {
+    for ( uint32_t i = 0u; i < OWN_LITERALS_MATCHES_TABLE_SIZE; i++) {
+        if (0u == isal_histogram_ptr->lit_len_histogram[i]) {
+            isal_histogram_ptr->lit_len_histogram[i] = 1u;
         }
     }
 
-    for (size_t i = 0; i < 30; i++) {
-        if (histogram->distances[i] == 0) {
-            histogram->distances[i] = 1;
+    for ( uint32_t i = 0u; i < OWN_OFFSETS_TABLE_SIZE; i++) {
+        if (0u == isal_histogram_ptr->dist_histogram[i]) {
+            isal_histogram_ptr->dist_histogram[i] = 1u;
+        }
+    }
+}
+
+static inline void remove_empty_places_in_histogram(qpl_histogram *histogram) {
+    for (unsigned int &literal_length: histogram->literal_lengths) {
+        if (literal_length == 0) {
+            literal_length = 1;
+        }
+    }
+
+    for (unsigned int &distance: histogram->distances) {
+        if (distance == 0) {
+            distance = 1;
         }
     }
 }
@@ -28,14 +67,17 @@ static inline void remove_empty_places_in_histogram(qpl_histogram *histogram) no
 #pragma GCC diagnostic ignored "-Wstack-usage=4096"
 #endif
 
-QPL_FUN("C" qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
+QPL_FUN(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
         const uint32_t               source_length,
         qpl_histogram                *histogram_ptr,
         const qpl_compression_levels level,
         const qpl_path_t             path)) {
-    using namespace qpl::ml::dispatcher;
+    using
+    namespace qpl::ml::dispatcher;
 
-    const auto &histogram_reset = ((qplc_deflate_histogram_reset_ptr)(kernels_dispatcher::get_instance().get_deflate_table()[1]));
+    const auto
+    &histogram_reset =
+            ((qplc_deflate_histogram_reset_ptr) (kernels_dispatcher::get_instance().get_deflate_table()[1]));
 
     QPL_BAD_PTR_RET(source_ptr)
     QPL_BAD_PTR_RET(histogram_ptr)
@@ -106,45 +148,4 @@ QPL_FUN("C" qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
 #pragma GCC diagnostic pop
 #endif
 
-QPL_FUN("C" qpl_status, qpl_build_compression_table, (const qpl_histogram *histogram_ptr,
-        qpl_compression_huffman_table *table_ptr,
-        uint32_t representation_flags)) {
-    QPL_BAD_PTR_RET(histogram_ptr)
-    QPL_BAD_PTR_RET(table_ptr)
-
-    auto status = own_build_compression_table(histogram_ptr->literal_lengths,
-                                              histogram_ptr->distances,
-                                              table_ptr,
-                                              representation_flags);
-
-    return static_cast<qpl_status>(status);
-}
-
-QPL_FUN("C" qpl_status, qpl_triplets_to_compression_table, (const qpl_huffman_triplet *triplets_ptr,
-        size_t triplets_count,
-        qpl_compression_huffman_table *table_ptr,
-        uint32_t representation_flags)) {
-    auto status = own_triplets_to_compression_table(triplets_ptr, triplets_count, table_ptr, representation_flags);
-
-    return static_cast<qpl_status>(status);
-}
-
-QPL_FUN("C" qpl_status, qpl_triplets_to_decompression_table, (const qpl_huffman_triplet *triplets_ptr,
-        size_t triplets_count,
-        qpl_decompression_huffman_table *table_ptr,
-        uint32_t representation_flags)) {
-    auto status = own_triplets_to_decompression_table(triplets_ptr, triplets_count, table_ptr, representation_flags);
-
-    return static_cast<qpl_status>(status);
-}
-
-QPL_FUN("C" qpl_status, qpl_comp_to_decompression_table, (const qpl_compression_huffman_table *compression_table_ptr,
-        qpl_decompression_huffman_table *decompression_table_ptr,
-        uint32_t representation_flags)) {
-    QPL_BAD_PTR_RET(compression_table_ptr);
-    QPL_BAD_PTR_RET(decompression_table_ptr);
-
-    auto status = own_comp_to_decompression_table(compression_table_ptr, decompression_table_ptr, representation_flags);
-
-    return static_cast<qpl_status>(status);
 }

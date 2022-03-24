@@ -174,7 +174,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(decompress_huffman_only, fixed) {
         QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS,
         qpl_op_decompress);
 
-    job_ptr->compression_huffman_table = NULL;
+    job_ptr->huffman_table = nullptr;
 
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR);
 

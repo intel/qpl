@@ -12,7 +12,7 @@
 #include "util/memory.hpp"
 #include "common/linear_allocator.hpp"
 #include "verification_defs.hpp"
-#include "compression/decompression_table.hpp"
+#include "compression/huffman_table/decompression_table.hpp"
 #include "util/util.hpp"
 #include "compression/utils.hpp"
 

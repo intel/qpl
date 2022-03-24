@@ -5,11 +5,14 @@
  ******************************************************************************/
 
 #include "compression_huffman_table.hpp"
-#include "../../../sources/c_api/compression_operations/canned_utility.h"
-#include "../../../sources/middle-layer/compression/compression_table_utils.hpp"
+#include "../../../sources/c_api/compression_operations/huffman_table.hpp"
+#include "../../../sources/middle-layer/compression/huffman_table/compression_table_utils.hpp"
+#include "../../../sources/middle-layer/compression/huffman_table/canned_utility.h"
 
 namespace qpl::test {
-void fill_compression_table(qpl_compression_huffman_table *table_ptr) {
+void fill_compression_table(qpl_huffman_table_t table) {
+    auto table_ptr = own_huffman_table_get_compression_table(table);
+
     uint32_t *literals_lengths_ptr = get_literals_lengths_table_ptr(table_ptr);
     uint32_t *offsets_ptr = get_offsets_table_ptr(table_ptr);
 

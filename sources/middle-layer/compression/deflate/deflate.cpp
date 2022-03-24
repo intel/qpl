@@ -7,9 +7,9 @@
 #include "compression/verification/verification_state_builder.hpp"
 #include "compression/verification/verify.hpp"
 #include "deflate.hpp"
-#include "../../c_api/compression_operations/canned_utility.h"
 #include "compression/deflate/compression_units/auxiliary_units.hpp"
 #include "compression/deflate/implementations/deflate_implementation.hpp"
+#include "compression/huffman_table/canned_utility.h"
 
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "util/descriptor_processing.hpp"

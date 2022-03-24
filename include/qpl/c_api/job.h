@@ -14,7 +14,7 @@
 
 #include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
-#include "qpl/c_api/compression_table.h"
+#include "qpl/c_api/huffman_table.h"
 #include "qpl/c_api/dictionary.h"
 
 #ifdef __cplusplus
@@ -22,7 +22,8 @@ extern "C" {
 #endif
 
 /**
- * @addtogroup JOB_API_DEFINITIONS
+ * @defgroup TASK_API Job API
+ * @ingroup JOB_API
  * @{
  */
 
@@ -61,8 +62,7 @@ typedef struct {
     qpl_statistics_mode    statistics_mode;    /**< Represents mode in which deflate should be performed */
 
     // Tables
-    qpl_compression_huffman_table   *compression_huffman_table;      /**< Huffman table for compression */
-    qpl_decompression_huffman_table *decompression_huffman_table;    /**< Huffman table for decompression */
+    qpl_huffman_table_t   huffman_table;      /**< Huffman table for compression */
 
     qpl_dictionary *dictionary;    /**< The dictionary used for compression / decompression */
 

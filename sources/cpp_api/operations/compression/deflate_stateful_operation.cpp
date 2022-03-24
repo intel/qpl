@@ -7,6 +7,7 @@
 #include "qpl/cpp_api/operations/operation.hpp"
 #include "qpl/cpp_api/operations/compression/deflate_stateful_operation.hpp"
 #include "qpl/cpp_api/util/qpl_util.hpp"
+#include "../c_api/compression_operations/huffman_table.hpp"
 
 namespace qpl::internal {
 void deflate_stateful_operation::set_proper_flags() noexcept {
@@ -26,7 +27,7 @@ void deflate_stateful_operation::set_proper_flags() noexcept {
     }
 
     if (properties_.compression_mode_ == compression_modes::static_mode) {
-        job->compression_huffman_table = properties_.huffman_table_.get_table_data();
+//        own_huffman_table_set_compression_table(job->huffman_table, properties_.huffman_table_.get_table_data()); // @todo Enable static mode
         job->flags |= QPL_FLAG_START_NEW_BLOCK;
     } else if (properties_.compression_mode_ == compression_modes::dynamic_mode) {
         job->flags |= QPL_FLAG_DYNAMIC_HUFFMAN;

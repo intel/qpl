@@ -8,7 +8,7 @@
 #define QPL_TEST_HUFFMAN_TABLE_HPP
 
 #include <cstdint>
-#include "qpl/c_api/compression_table.h"
+#include "qpl/c_api/huffman_table.h"
 
 namespace qpl::test
 {
@@ -121,7 +121,7 @@ namespace qpl::test
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00};
 
-    void fill_compression_table(qpl_compression_huffman_table *table_ptr);
+    void fill_compression_table(qpl_huffman_table_t table_ptr);
 }
 
 #endif //QPL_TEST_HUFFMAN_TABLE_HPP

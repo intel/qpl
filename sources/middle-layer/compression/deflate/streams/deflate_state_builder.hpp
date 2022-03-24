@@ -11,7 +11,8 @@
 
 #include "util/checksum.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
-#include "compression/compression_table.hpp"
+#include "compression/huffman_table/compression_table.hpp"
+#include "compression/huffman_table/canned_utility.h"
 #include "compression/deflate/utils/compression_traits.hpp"
 #include "compression/deflate/containers/compression_buffer.hpp"
 #include "compression/deflate/streams/sw_deflate_state.hpp"
@@ -22,7 +23,6 @@
 #include "common/defs.hpp"
 
 #include "common/linear_allocator.hpp"
-#include "../../c_api/compression_operations/canned_utility.h"
 
 #include "igzip_lib.h"
 

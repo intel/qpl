@@ -9,7 +9,7 @@
 
 #include <cstddef>
 #include "common/defs.hpp"
-#include "qpl/c_api/compression_table.h" //todo remove dependency
+#include "qpl/c_api/statistics.h"
 
 namespace qpl::ml::compression {
 

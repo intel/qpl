@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "qpl/cpp_api/results/huffman_table.hpp"
-#include "compression/canned_utils.hpp"
+#include "compression/huffman_table/canned_utils.hpp"
 
 namespace qpl {
 

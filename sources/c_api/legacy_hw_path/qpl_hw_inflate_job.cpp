@@ -29,6 +29,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/dictionary/dictionary_defs.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
+#include "compression_operations/huffman_table.hpp"
 
 #define DEF_STATE_HDR           1u /**< @todo // looking at block header */
 #define DEF_STATE_LL_TOKEN      0u /**< @todo // looking at block header */
@@ -83,10 +84,10 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         // Decompress huffman only
         if (qpl_job_ptr->flags & QPL_FLAG_NO_HDRS) {
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
-            HW_IMMEDIATELY_RET((nullptr == qpl_job_ptr->decompression_huffman_table),
+            HW_IMMEDIATELY_RET((nullptr == qpl_job_ptr->huffman_table),
                                QPL_STS_INVALID_PARAM_ERR);
             hw_iaa_aecs_decompress_set_huffman_only_huffman_table(&aecs_ptr->inflate_options,
-                                                                  qpl_job_ptr->decompression_huffman_table);
+                                                                  own_huffman_table_get_decompression_table(qpl_job_ptr->huffman_table));
         }
     }
 

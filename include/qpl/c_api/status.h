@@ -82,6 +82,11 @@ typedef enum {
     QPL_STS_INVALID_DECOMP_END_PROC_ERR   = QPL_PARAMETER_ERROR(35u), /**< The qpl_job field for decompression manipulation is incorrect */
     QPL_STS_INVALID_BLOCK_SIZE_ERR        = QPL_PARAMETER_ERROR(36u), /**< Invalid block size used during indexing */
     QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL = QPL_PARAMETER_ERROR(37u), /**< Compression level is not supported */
+    QPL_STS_HUFFMAN_TABLE_TYPE_ERROR      = QPL_PARAMETER_ERROR(38u), /**< Incorrect table type used */
+
+// <-- Serialization
+    QPL_STS_SERIALIZATION_FORMAT_ERROR    = QPL_PARAMETER_ERROR(40u), /**< Unsupported Serialization format */
+    QPL_STS_SERIALIZATION_CORRUPTED_DUMP  = QPL_PARAMETER_ERROR(41u), /**< Unsupported Serialization format */
 
 /* --- Processing Errors --- */
     QPL_STS_INVALID_DEFLATE_DATA_ERR  = QPL_SERVICE_LOGIC_ERROR(0u), /**< Currently unused */

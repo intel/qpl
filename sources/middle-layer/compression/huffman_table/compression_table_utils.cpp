@@ -9,8 +9,6 @@
 #include "compression_table_utils.hpp"
 #include "util/util.hpp"
 
-#include "qpl/c_api/compression_table.h" // todo remove dependency
-
 extern "C" void own_qpl_huffman_table_to_isal(const qpl_compression_huffman_table *p_table,
                                               isal_hufftables *p_hufftables,
                                               qpl::ml::compression::endianness_t endianness);

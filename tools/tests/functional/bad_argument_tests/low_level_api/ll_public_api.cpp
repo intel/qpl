@@ -179,54 +179,6 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
     EXPECT_EQ(status, QPL_STS_PATH_ERR);*/
 }
 
-QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_build_compression_table_from_statistics, test) {
-    qpl_status                    status;
-    qpl_histogram                 deflate_histogram{};
-    auto table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-    auto huffman_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(table_buffer.get());
-
-    status = qpl_build_compression_table(&deflate_histogram,
-                                         nullptr,
-                                         QPL_DEFLATE_REPRESENTATION);
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
-
-    status = qpl_build_compression_table(nullptr,
-                                         huffman_table_ptr,
-                                         QPL_DEFLATE_REPRESENTATION);
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
-
-    /* todo implement check in function
-    status = qpl_build_compression_table(&deflate_histogram,
-                                         huffman_table_ptr,
-                                         INCORRECT_REPRESENTATION);
-    EXPECT_EQ(status != QPL_STS_OK); */
-}
-
-QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_compression_to_decompression_table, test) {
-    qpl_status                    status;
-    auto decompression_table_buffer = std::make_unique<uint8_t[]>(QPL_DECOMPRESSION_TABLE_SIZE);
-    auto decompression_table_ptr    = reinterpret_cast<qpl_decompression_huffman_table *>(decompression_table_buffer.get());
-
-    auto compression_table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-    auto compression_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(compression_table_buffer.get());
-
-    status = qpl_comp_to_decompression_table(nullptr,
-                                             decompression_table_ptr,
-                                             QPL_DEFLATE_REPRESENTATION);
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
-
-    status = qpl_comp_to_decompression_table(compression_table_ptr,
-                                             nullptr,
-                                             QPL_DEFLATE_REPRESENTATION);
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
-
-    /* todo implement check in function
-    status = qpl_comp_to_decompression_table(compression_table_ptr,
-                                             decompression_table_ptr,
-                                             INCORRECT_REPRESENTATION);
-    EXPECT_EQ(status != QPL_STS_OK); */
-}
-
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_existing_dict_size, test) {
     size_t dictionary_size = 0;
 

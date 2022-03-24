@@ -22,8 +22,8 @@ enum HeaderType {
 };
 
 struct DeflateTestCase {
-    HeaderType    header;
-    std::string   file_name;
+    HeaderType  header;
+    std::string file_name;
 };
 
 std::ostream &operator<<(std::ostream &os, const DeflateTestCase &test_case) {
@@ -48,11 +48,11 @@ public:
 
 protected:
     void InitializeTestCases() override {
-        auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+        auto      dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
         for (auto data: dataset.get_data()) {
             DeflateTestCase test_case{};
             test_case.file_name = data.first;
-            test_case.header      = no_header;
+            test_case.header    = no_header;
             AddNewTestCase(test_case);
 
             test_case.header = gzip_header;
@@ -65,7 +65,7 @@ protected:
 
     void SetUpBeforeIteration() override {
         current_test_case = GetTestCase();
-        source = util::TestEnvironment::GetInstance().GetAlgorithmicDataset()[current_test_case.file_name];
+        source            = util::TestEnvironment::GetInstance().GetAlgorithmicDataset()[current_test_case.file_name];
 
         destination.resize(source.size() * 2);
 
@@ -113,14 +113,20 @@ protected:
     }
 
     void CompressStaticMode(qpl_compression_levels level, bool omit_verification = true) {
-        auto table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-        auto huffman_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(table_buffer.get());
+        qpl_huffman_table_t huffman_table_ptr;
+
+        auto status = qpl_deflate_huffman_table_create(compression_table_type,
+                                                       GetExecutionPath(),
+                                                       DEFAULT_ALLOCATOR_C,
+                                                       &huffman_table_ptr);
+        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+
         fill_compression_table(huffman_table_ptr);
 
-        job_ptr->compression_huffman_table = huffman_table_ptr;
+        job_ptr->huffman_table = huffman_table_ptr;
         job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
         job_ptr->flags |= (omit_verification) ? QPL_FLAG_OMIT_VERIFY : QPL_FLAG_CRC32C;
-        job_ptr->level                     = level;
+        job_ptr->level         = level;
 
         job_ptr->available_in  = static_cast<uint32_t>(source.size());
         job_ptr->next_in_ptr   = source.data();
@@ -134,7 +140,7 @@ protected:
         job_ptr->idx_array    = (uint64_t *) indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
-        auto status = run_job_api(job_ptr);
+        status = run_job_api(job_ptr);
 
         if (qpl_path_hardware == job_ptr->data_ptr.path) {
             if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
@@ -142,6 +148,7 @@ protected:
                 return;
             }
         }
+
         ASSERT_EQ(QPL_STS_OK, status);
 
         destination.resize(job_ptr->total_out);
@@ -154,14 +161,14 @@ protected:
     }
 
     void CompressFixedMode(qpl_compression_levels level, bool omit_verification = true) {
-        job_ptr->compression_huffman_table = nullptr;
+        job_ptr->huffman_table = nullptr;
         job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
         job_ptr->flags |= (omit_verification) ? QPL_FLAG_OMIT_VERIFY : QPL_FLAG_CRC32C;
-        job_ptr->available_in              = static_cast<uint32_t>(source.size());
-        job_ptr->next_in_ptr               = source.data();
-        job_ptr->available_out             = static_cast<uint32_t>(destination.size());
-        job_ptr->next_out_ptr              = destination.data();
-        job_ptr->level                     = level;
+        job_ptr->available_in  = static_cast<uint32_t>(source.size());
+        job_ptr->next_in_ptr   = source.data();
+        job_ptr->available_out = static_cast<uint32_t>(destination.size());
+        job_ptr->next_out_ptr  = destination.data();
+        job_ptr->level         = level;
 
         std::vector<uint64_t> indexes;
 
@@ -364,7 +371,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
         std::cout << dataset.first << std::endl;
 
         for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
-            auto source = dataset.second;
+            auto                  source = dataset.second;
             std::vector<uint8_t>  destination(source.size(), 0);
             std::vector<uint8_t>  reference(source.size(), 0);
             std::vector<uint64_t> indexes(source.size(), 0);
@@ -413,22 +420,29 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
         return;
     }
 
-    auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data();
-    auto table_source = dataset.begin()->second;
-    uint32_t                      job_size     = 0;
-    auto                          path         = util::TestEnvironment::GetInstance().GetExecutionPath();
-    qpl_histogram                 deflate_histogram{};
-    auto table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-    auto huffman_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(table_buffer.get());
+    auto          dataset      = util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data();
+    auto          table_source = dataset.begin()->second;
+    uint32_t      job_size     = 0;
+    auto          path         = util::TestEnvironment::GetInstance().GetExecutionPath();
+    qpl_histogram deflate_histogram{};
+
+    qpl_huffman_table_t huffman_table_ptr;
+
+    auto status = qpl_deflate_huffman_table_create(compression_table_type,
+                                                   path,
+                                                   DEFAULT_ALLOCATOR_C,
+                                                   &huffman_table_ptr);
+    ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+
     // Build the table
-    auto status = qpl_gather_deflate_statistics(table_source.data(),
-                                                static_cast<uint32_t>(table_source.size()),
-                                                &deflate_histogram,
-                                                qpl_high_level,
-                                                path);
+    status = qpl_gather_deflate_statistics(table_source.data(),
+                                           static_cast<uint32_t>(table_source.size()),
+                                           &deflate_histogram,
+                                           qpl_high_level,
+                                           path);
     ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-    status = qpl_build_compression_table(&deflate_histogram, huffman_table_ptr, QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION);
+    status = qpl_huffman_table_init(huffman_table_ptr, &deflate_histogram);
 
     ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -444,30 +458,30 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     qpl_init_job(path, compr_job);
     qpl_init_job(path, decompr_job);
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        std::cout << dataset.first << std::endl;
+    for (auto &data: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        std::cout << data.first << std::endl;
 
         for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
-            auto                  source = dataset.second;
+            auto                  source = data.second;
             std::vector<uint8_t>  destination(source.size() * 2, 0);
             std::vector<uint8_t>  reference(source.size(), 0);
             std::vector<uint64_t> indexes(source.size(), 0);
 
             // Compress
-            compr_job->next_in_ptr               = source.data();
-            compr_job->available_in              = static_cast<uint32_t>(source.size());
-            compr_job->next_out_ptr              = destination.data();
-            compr_job->available_out             = static_cast<uint32_t>(destination.size());
-            compr_job->op                        = qpl_op_compress;
-            compr_job->flags                     = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
-            compr_job->level                     = qpl_high_level;
-            compr_job->compression_huffman_table = huffman_table_ptr;
-            compr_job->mini_block_size           = qpl_mblk_size_512;
-            compr_job->idx_array                 = (uint64_t *) indexes.data();
-            compr_job->idx_max_size              = static_cast<uint32_t>(indexes.size());
+            compr_job->next_in_ptr     = source.data();
+            compr_job->available_in    = static_cast<uint32_t>(source.size());
+            compr_job->next_out_ptr    = destination.data();
+            compr_job->available_out   = static_cast<uint32_t>(destination.size());
+            compr_job->op              = qpl_op_compress;
+            compr_job->flags           = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
+            compr_job->level           = qpl_high_level;
+            compr_job->huffman_table   = huffman_table_ptr;
+            compr_job->mini_block_size = qpl_mblk_size_512;
+            compr_job->idx_array       = (uint64_t *) indexes.data();
+            compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
 
             status = run_job_api(compr_job);
-            ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << dataset.first;
+            ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << data.first;
 
             // Decompress
             decompr_job->next_in_ptr   = destination.data();
@@ -478,7 +492,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
             decompr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
 
             status = run_job_api(decompr_job);
-            ASSERT_EQ(status, QPL_STS_OK) << "Decompression failed with status: " << status << " source: " << dataset.first;
+            ASSERT_EQ(status, QPL_STS_OK)
+                                        << "Decompression failed with status: " << status << " source: " << data.first;
 
             // Check
             ASSERT_TRUE(std::equal(source.begin(), source.end(), reference.begin()));

@@ -9,154 +9,157 @@
 #include "tn_common.hpp"
 #include "random_generator.h"
 
-namespace qpl::test
-{
+namespace qpl::test {
 
-    static qpl_status perform_dynamic_compression(qpl_job *job_ptr,
-                                                 uint8_t *source_ptr,
-                                                 uint32_t source_length,
-                                                 uint8_t *destination_ptr,
-                                                 int32_t destination_length,
-                                                 uint32_t order_flag)
-    {
-        job_ptr->next_in_ptr  = source_ptr;
-        job_ptr->available_in = source_length;
+static qpl_status perform_dynamic_compression(qpl_job *job_ptr,
+                                              uint8_t *source_ptr,
+                                              uint32_t source_length,
+                                              uint8_t *destination_ptr,
+                                              int32_t destination_length,
+                                              uint32_t order_flag) {
+    job_ptr->next_in_ptr  = source_ptr;
+    job_ptr->available_in = source_length;
 
-        job_ptr->next_out_ptr  = destination_ptr;
-        job_ptr->available_out = destination_length;
+    job_ptr->next_out_ptr  = destination_ptr;
+    job_ptr->available_out = destination_length;
 
-        job_ptr->flags                   = order_flag | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
-        job_ptr->compression_huffman_table = nullptr;
+    job_ptr->flags         = order_flag | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+    job_ptr->huffman_table = nullptr;
 
-        return run_job_api(job_ptr);
+    return run_job_api(job_ptr);
+}
+
+static qpl_status perform_static_compression(qpl_job *job_ptr,
+                                             uint8_t *source_ptr,
+                                             uint32_t source_length,
+                                             uint8_t *destination_ptr,
+                                             int32_t destination_length,
+                                             uint32_t order_flag) {
+    qpl_histogram deflate_histogram{};
+    auto          path = util::TestEnvironment::GetInstance().GetExecutionPath();
+
+    qpl_huffman_table_t huffman_table;
+
+    auto status = qpl_deflate_huffman_table_create(compression_table_type, path, {malloc, free}, &huffman_table);
+
+    if (status) {
+        std::cout << "Huffman table create error";
+
+        return status;
     }
 
-    static qpl_status perform_static_compression(qpl_job *job_ptr,
-                                                uint8_t *source_ptr,
-                                                uint32_t source_length,
-                                                uint8_t *destination_ptr,
-                                                int32_t destination_length,
-                                                uint32_t order_flag)
-    {
-        qpl_histogram                 deflate_histogram{};
-        auto path = util::TestEnvironment::GetInstance().GetExecutionPath();
-        auto table_representation = (path != qpl_path_hardware) ? QPL_SW_REPRESENTATION : QPL_HW_REPRESENTATION;
+    status = qpl_gather_deflate_statistics(source_ptr,
+                                           source_length,
+                                           &deflate_histogram,
+                                           qpl_default_level,
+                                           path);
 
-        auto table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-        auto huffman_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(table_buffer.get());
+    if (status) {
+        std::cout << "Statistics gathering failed";
 
-        auto status = qpl_gather_deflate_statistics(table_buffer.get(),
-                                                    static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE),
-                                                    &deflate_histogram,
-                                                    qpl_default_level,
-                                                    path);
-
-        if (status) {
-            std::cout << "Statistics gathering failed";
-
-            return status;
-        }
-
-        status = qpl_build_compression_table(&deflate_histogram, huffman_table_ptr, QPL_DEFLATE_REPRESENTATION | table_representation);
-
-        if (status) {
-            std::cout << "Table build failed";
-
-            return status;
-        }
-
-        job_ptr->compression_huffman_table = huffman_table_ptr;
-        job_ptr->next_in_ptr                  = source_ptr;
-        job_ptr->available_in                 = source_length;
-
-        job_ptr->next_out_ptr  = destination_ptr;
-        job_ptr->available_out = destination_length;
-        job_ptr->flags    = order_flag | QPL_FLAG_OMIT_VERIFY;
-
-        return run_job_api(job_ptr);
+        return status;
     }
 
-    static qpl_status perform_fixed_compression(qpl_job *job_ptr,
-                                               uint8_t *source_ptr,
-                                               uint32_t source_length,
-                                               uint8_t *destination_ptr,
-                                               int32_t destination_length,
-                                               uint32_t order_flag)
-    {
-        job_ptr->next_in_ptr  = source_ptr;
-        job_ptr->available_in = source_length;
+    status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
 
-        job_ptr->next_out_ptr  = destination_ptr;
-        job_ptr->available_out = destination_length;
-        job_ptr->flags    = order_flag | QPL_FLAG_OMIT_VERIFY;
-        job_ptr->level = qpl_default_level;
+    if (status) {
+        std::cout << "Table build failed";
 
-        job_ptr->compression_huffman_table = nullptr;
-
-        return run_job_api(job_ptr);
+        return status;
     }
 
-    QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different_styles)
-    {
-        const uint32_t maximum_length = 4096;
-        qpl::test::random  random_style(0, 2u, GetSeed());
-        qpl::test::random  random_bit_of_pie(2u, 8u, GetSeed());
-        qpl::test::random  random_element_generator(0, 1, GetSeed());
+    job_ptr->huffman_table = huffman_table;
+    job_ptr->next_in_ptr   = source_ptr;
+    job_ptr->available_in  = source_length;
 
-        source.resize(maximum_length);
-        destination.resize(source.size() * 2);
+    job_ptr->next_out_ptr  = destination_ptr;
+    job_ptr->available_out = destination_length;
+    job_ptr->flags         = order_flag | QPL_FLAG_OMIT_VERIFY;
 
-        for (auto &elem: source)
-        {
-            elem = (uint8_t) random_element_generator;
-        }
+    status = run_job_api(job_ptr);
 
-        job_ptr->op = qpl_op_compress;
-        job_ptr->level = qpl_default_level;
+    qpl_huffman_table_destroy(huffman_table);
 
-        using compression_function_ptr = qpl_status (*)(qpl_job *job_ptr,
-                                                       uint8_t *source_ptr,
-                                                       uint32_t source_length,
-                                                       uint8_t *destination_ptr,
-                                                       int32_t destination_length,
-                                                       uint32_t order_flag);
+    return status;
+}
 
-        constexpr compression_function_ptr compress_with_style_table[] = {
-                perform_dynamic_compression,
-                perform_static_compression,
-                perform_fixed_compression
-        };
+static qpl_status perform_fixed_compression(qpl_job *job_ptr,
+                                            uint8_t *source_ptr,
+                                            uint32_t source_length,
+                                            uint8_t *destination_ptr,
+                                            int32_t destination_length,
+                                            uint32_t order_flag) {
+    job_ptr->next_in_ptr  = source_ptr;
+    job_ptr->available_in = source_length;
 
-        auto current_style        = (uint32_t) random_style;
-        auto bytes_remain         = (uint32_t) source.size();
-        uint32_t current_block_length = bytes_remain / (uint32_t) random_bit_of_pie;
+    job_ptr->next_out_ptr  = destination_ptr;
+    job_ptr->available_out = destination_length;
+    job_ptr->flags         = order_flag | QPL_FLAG_OMIT_VERIFY;
+    job_ptr->level         = qpl_default_level;
 
-        auto first_run_status = compress_with_style_table[current_style](job_ptr,
-                                                                         source.data(),
-                                                                         current_block_length,
-                                                                         destination.data(),
-                                                                         (uint32_t) destination.size(),
-                                                                         QPL_FLAG_FIRST);
+    job_ptr->huffman_table = nullptr;
 
-        ASSERT_EQ(QPL_STS_OK, first_run_status);
+    return run_job_api(job_ptr);
+}
 
-        bytes_remain -= current_block_length;
-        uint32_t previous_style = current_style;
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different_styles) {
+    const uint32_t    maximum_length = 4096;
+    qpl::test::random random_style(0, 2u, GetSeed());
+    qpl::test::random random_bit_of_pie(2u, 8u, GetSeed());
+    qpl::test::random random_element_generator(0, 1, GetSeed());
 
-        while (previous_style == (current_style = (uint32_t) random_style))
-        {
-            // Switching styles until get a new one
-        }
+    source.resize(maximum_length);
+    destination.resize(source.size() * 2);
 
-        auto second_run_status = compress_with_style_table[current_style](job_ptr,
-                                                                          job_ptr->next_in_ptr,
-                                                                          current_block_length,
-                                                                          job_ptr->next_out_ptr,
-                                                                          job_ptr->available_out,
-                                                                          QPL_FLAG_LAST);
-
-        ASSERT_EQ(QPL_STS_INVALID_COMPRESS_STYLE_ERR, second_run_status)
-                                    << "First style: " << previous_style
-                                    << ",second style: " << current_style;
+    for (auto &elem: source) {
+        elem = (uint8_t) random_element_generator;
     }
+
+    job_ptr->op    = qpl_op_compress;
+    job_ptr->level = qpl_default_level;
+
+    using compression_function_ptr = qpl_status (*)(qpl_job *job_ptr,
+                                                    uint8_t *source_ptr,
+                                                    uint32_t source_length,
+                                                    uint8_t *destination_ptr,
+                                                    int32_t destination_length,
+                                                    uint32_t order_flag);
+
+    constexpr compression_function_ptr compress_with_style_table[] = {
+            perform_dynamic_compression,
+            perform_static_compression,
+            perform_fixed_compression
+    };
+
+    auto     current_style        = (uint32_t) random_style;
+    auto     bytes_remain         = (uint32_t) source.size();
+    uint32_t current_block_length = bytes_remain / (uint32_t) random_bit_of_pie;
+
+    auto first_run_status = compress_with_style_table[current_style](job_ptr,
+                                                                     source.data(),
+                                                                     current_block_length,
+                                                                     destination.data(),
+                                                                     (uint32_t) destination.size(),
+                                                                     QPL_FLAG_FIRST);
+
+    ASSERT_EQ(QPL_STS_OK, first_run_status);
+
+    bytes_remain -= current_block_length;
+    uint32_t previous_style = current_style;
+
+    while (previous_style == (current_style = (uint32_t) random_style)) {
+        // Switching styles until get a new one
+    }
+
+    auto second_run_status = compress_with_style_table[current_style](job_ptr,
+                                                                      job_ptr->next_in_ptr,
+                                                                      current_block_length,
+                                                                      job_ptr->next_out_ptr,
+                                                                      job_ptr->available_out,
+                                                                      QPL_FLAG_LAST);
+
+    ASSERT_EQ(QPL_STS_INVALID_COMPRESS_STYLE_ERR, second_run_status)
+                                << "First style: " << previous_style
+                                << ",second style: " << current_style;
+}
 }

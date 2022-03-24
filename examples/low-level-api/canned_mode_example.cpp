@@ -23,20 +23,8 @@
  *
  * @note More information about paths is in the documentation(doc/QPL_REFERENCE_MANUAL.md)
  */
-constexpr const auto execution_path  = qpl_path_software;
-constexpr const uint32_t source_size = 1000;
-
-constexpr auto get_representation(qpl_path_t path) {
-    if (path == qpl_path_software) {
-        return QPL_SW_REPRESENTATION;
-    }
-
-    if (path == qpl_path_hardware) {
-        return QPL_HW_REPRESENTATION;
-    }
-
-    return QPL_SW_REPRESENTATION | QPL_HW_REPRESENTATION;
-}
+constexpr const auto     execution_path = qpl_path_software;
+constexpr const uint32_t source_size    = 1000;
 
 auto main() -> int {
     // Source and output containers
@@ -57,14 +45,22 @@ auto main() -> int {
 
     job_buffer = std::make_unique<uint8_t[]>(size);
     auto job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
         throw std::runtime_error("An error acquired during compression job initializing.");
     }
 
     // Huffman table initialization
-    auto compression_table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_COMPRESSION_TABLE_SIZE));
-    auto *compression_table_ptr = reinterpret_cast<qpl_compression_huffman_table *>(compression_table_buffer.get());
+    qpl_huffman_table_t huffman_table;
+
+    status = qpl_deflate_huffman_table_create(combined_table_type,
+                                              execution_path,
+                                              DEFAULT_ALLOCATOR_C,
+                                              &huffman_table);
+    if (status != QPL_STS_OK) {
+        throw std::runtime_error("An error acquired during table creation.");
+    }
 
     // Filling deflate histogram first
     status = qpl_gather_deflate_statistics(source.data(),
@@ -78,9 +74,7 @@ auto main() -> int {
     }
 
     // Building the Huffman table
-    status = qpl_build_compression_table(&deflate_histogram,
-                                         compression_table_ptr,
-                                         QPL_DEFLATE_REPRESENTATION | get_representation(execution_path));
+    status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
 
     if (status != QPL_STS_OK) {
         throw std::runtime_error("Error while compression occurred.");
@@ -94,7 +88,7 @@ auto main() -> int {
     job->available_in  = source_size;
     job->available_out = static_cast<uint32_t>(destination.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
-    job->compression_huffman_table = compression_table_ptr;
+    job->huffman_table = huffman_table;
 
     // Compression
     status = qpl_execute_job(job);
@@ -110,15 +104,6 @@ auto main() -> int {
         throw std::runtime_error("An error acquired during decompression job initializing.");
     }
 
-    // Decompression table initialization
-    auto decompression_table_buffer = std::make_unique<uint8_t[]>(static_cast<uint32_t>(QPL_DECOMPRESSION_TABLE_SIZE));
-    auto *decompression_table_ptr = reinterpret_cast<qpl_decompression_huffman_table*>(decompression_table_buffer.get());
-
-    // Build decompression table
-    qpl_comp_to_decompression_table(compression_table_ptr,
-                                    decompression_table_ptr,
-                                    get_representation(execution_path) | QPL_DEFLATE_REPRESENTATION);
-
     // Performing a decompression operation
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = destination.data();
@@ -126,7 +111,7 @@ auto main() -> int {
     job->available_in  = compressed_size;
     job->available_out = static_cast<uint32_t>(reference.size());
     job->flags         = QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
-    job->decompression_huffman_table = decompression_table_ptr;
+    job->huffman_table = huffman_table;
 
     // Decompression
     status = qpl_execute_job(job);
@@ -135,6 +120,7 @@ auto main() -> int {
     }
 
     // Freeing resources
+    qpl_huffman_table_destroy(huffman_table);
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
         throw std::runtime_error("An error acquired during job finalization.");

@@ -10,7 +10,7 @@
 #include "compression/inflate/inflate.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
-#include "../c_api/compression_operations/canned_utility.h"
+#include "../../sources/middle-layer/compression/huffman_table/canned_utility.h"
 #include "util/checkers.hpp"
 #include "qpl/cpp_api/util/qpl_util.hpp"
 

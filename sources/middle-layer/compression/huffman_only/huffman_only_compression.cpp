@@ -9,13 +9,12 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include "compression/compression_table_utils.hpp"
+#include "compression/huffman_table/compression_table_utils.hpp"
 #include "util/descriptor_processing.hpp"
-#include "compression/canned_utils.hpp"
+#include "compression/huffman_table/canned_utils.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/huffman_only/huffman_only_compression_state.hpp"
 #include "compression/huffman_only/huffman_only_implementation.hpp"
-#include "compression/verification/verify.hpp"
 
 namespace qpl::ml::compression {
 

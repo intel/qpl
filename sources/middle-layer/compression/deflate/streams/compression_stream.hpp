@@ -9,7 +9,7 @@
 
 #include "util/checksum.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
-#include "compression/compression_table.hpp"
+#include "compression/huffman_table/compression_table.hpp"
 #include "common/defs.hpp"
 
 namespace qpl::ml::compression {

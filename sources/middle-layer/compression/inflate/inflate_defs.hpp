@@ -8,7 +8,7 @@
 #define QPL_MIDDLE_LAYER_COMPRESSION_INFLATE_INFLATE_PROPERTIES_HPP
 
 #include <cstdint>
-#include "compression/decompression_table.hpp"
+#include "compression/huffman_table/decompression_table.hpp"
 
 namespace qpl::ml::compression {
     enum compressed_data_format_t {

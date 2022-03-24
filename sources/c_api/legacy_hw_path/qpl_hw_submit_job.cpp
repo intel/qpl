@@ -14,24 +14,26 @@
  */
 
 
-#include "job.hpp"
+// C API Definitions
 #include "filter_operations/arguments_check.hpp"
+#include "compression_operations/huffman_table.hpp"
 #include "compression_operations/arguments_check.hpp"
-#include "compression_operations/canned_utility.h"
 #include "other_operations/arguments_check.hpp"
 #include "util/descriptor_processing.hpp"
 
+// Middle Layer
+#include "job.hpp"
+#include "compression/stream_decorators/gzip_decorator.hpp"
+
+// Hardware Core
 #include "hardware_state.h"
 #include "hw_descriptors_api.h"
 
+// Legacy
 #include "own_defs.h"
 #include "hardware_defs.h"
-
 #include "own_ml_submit_operation_api.hpp"
 #include "own_ml_buffer_api.hpp"
-#include "compression/stream_decorators/gzip_decorator.hpp"
-#include "util/util.hpp"
-
 #include "own_checkers.h"
 
 typedef enum {
@@ -404,7 +406,7 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
             ml::util::set_zeros((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 
             hw_iaa_aecs * aecs_ptr = (job_ptr->flags & QPL_FLAG_CANNED_MODE) ?
-                                     get_aecs_decompress(job_ptr->decompression_huffman_table) :
+                                     get_aecs_decompress(own_huffman_table_get_decompression_table(job_ptr->huffman_table)) :
                                      GET_DCFG(state_ptr);
 
             HW_IMMEDIATELY_RET_NULLPTR(aecs_ptr)

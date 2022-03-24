@@ -22,7 +22,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 
-#include "compression/canned_utils.hpp"
+#include "compression/huffman_table/canned_utils.hpp"
 
 #include "job.hpp"
 #include "compressor.hpp"
@@ -30,6 +30,7 @@
 
 #include "own_defs.h"
 #include "compression_state_t.h"
+#include "huffman_table.hpp"
 
 // ------ SERVICE FUNCTIONS------ //
 namespace qpl{
@@ -77,8 +78,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                .crc_seed(job_ptr->crc)
                .verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY));
 
-        if (job_ptr->compression_huffman_table != nullptr) {
-            auto *compression_table_ptr = job_ptr->compression_huffman_table;
+        if (job_ptr->huffman_table != nullptr) {
+            auto *compression_table_ptr = own_huffman_table_get_compression_table(job_ptr->huffman_table);
 
             huffman_table_t compression_table(get_sw_compression_huffman_table_ptr(compression_table_ptr),
                                               get_isal_compression_huffman_table_ptr(compression_table_ptr),
@@ -109,8 +110,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
             if (job_ptr->flags & QPL_FLAG_START_NEW_BLOCK) {
                 builder.start_new_block(true);
             }
-            if (job_ptr->compression_huffman_table) {
-                builder.compression_table(job_ptr->compression_huffman_table);
+            if (job_ptr->huffman_table) {
+                builder.compression_table(own_huffman_table_get_compression_table(job_ptr->huffman_table));
             }
         }
 
