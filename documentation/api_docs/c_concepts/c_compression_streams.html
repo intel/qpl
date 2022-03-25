@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Compression Streams &#8212; Intel® QPL v0.1.20-beta documentation</title>
     
-  <link href="../../../_static/css/theme.css" rel="stylesheet">
-  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,17 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=4fea3ae4a0a4ba949df0a89bbae557cc2ce861ae" type="text/css" />
     
-  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Filtering Unit" href="c_filtering_unit.html" />
@@ -43,7 +42,21 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -52,14 +65,10 @@
     <div class="container-xl">
       <div class="row">
           
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../../index.html">
       
       
@@ -559,89 +568,180 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
-<div class="sbt-scroll-pixel-helper"></div>
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            <div class="topbar-left">
-                
-                <label class="nav-toggle-button" for="__navigation">
-                    <div class="visually-hidden">Toggle navigation</div>
-                    <i class="fas fa-bars"></i>
-                </label>
-                
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
             </div>
             
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../../_sources/documentation/api_docs/c_concepts/c_compression_streams.rst.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        
-        <a class="issues-button"
-            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/api_docs/c_concepts/c_compression_streams.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/api_docs/c_concepts/c_compression_streams.rst"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
         </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/api_docs/c_concepts/c_compression_streams.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/api_docs/c_concepts/c_compression_streams.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../../_sources/documentation/api_docs/c_concepts/c_compression_streams.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#indexing">
    Indexing
@@ -688,12 +788,11 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Compression Streams</h1>
@@ -756,15 +855,16 @@
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <blockquote>
 <div></div></blockquote>
-<div class="section" id="compression-streams">
-<span id="c-compression-streams-reference-link"></span><h1>Compression Streams<a class="headerlink" href="#compression-streams" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="indexing">
-<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h2>
+<section id="compression-streams">
+<span id="c-compression-streams-reference-link"></span><h1>Compression Streams<a class="headerlink" href="#compression-streams" title="Permalink to this headline">#</a></h1>
+<section id="indexing">
+<h2>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">#</a></h2>
 <p>For information on creating and using indices in Intel® Query Processing Library (Intel® QPL),
 refer to the <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_indices.html#c-creating-and-using-indices-reference-link"><span class="std std-ref">Creating and Using Indices</span></a> chapter.</p>
 <p>Indexing is used to generate a fully-compliant DEFLATE stream. This
@@ -795,9 +895,9 @@ work is needed to access any particular byte. On the other hand, the
 smaller the mini-blocks become, the worse the compression ratio becomes.
 So an application needs to make a reasonable trade-off between having
 the mini-blocks be too small or too large.</p>
-</div>
-<div class="section" id="creating-indices">
-<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="creating-indices">
+<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Permalink to this headline">#</a></h2>
 <p>To generate indices, the application needs to allocate an array large
 enough to hold all of the index values. The application then defines the
 mini-block size using the mini_block_size field, points to the index
@@ -805,9 +905,9 @@ table memory with the idx_array field, and specifies the size of the
 table with the idx_max_size field.</p>
 <p>The index generation is done as part of the verification pass, so the
 application cannot specify the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code> flag.</p>
-</div>
-<div class="section" id="format-of-indices">
-<h2>Format of Indices<a class="headerlink" href="#format-of-indices" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="format-of-indices">
+<h2>Format of Indices<a class="headerlink" href="#format-of-indices" title="Permalink to this headline">#</a></h2>
 <p>The index array consists of 64-bit records, where each record contains
 two 32-bit fields:</p>
 <table class="table">
@@ -842,8 +942,8 @@ of index entries generated will be (M+2B+1).</p>
 single-block.</p>
 <p>In both cases, the size of the compression input needs to be a multiple
 of the mini-block size, unless it is a LAST job.</p>
-<div class="section" id="many-identical-blocks">
-<h3>Many Identical Blocks<a class="headerlink" href="#many-identical-blocks" title="Permalink to this headline">¶</a></h3>
+<section id="many-identical-blocks">
+<h3>Many Identical Blocks<a class="headerlink" href="#many-identical-blocks" title="Permalink to this headline">#</a></h3>
 <p>The library has no restriction for different blocks to be the same size
 or to be a power of 2 in size, still these settings are recommended for
 more convenience. For example, one could have 1kB mini-blocks and 32kB
@@ -884,9 +984,9 @@ scheme would be jumbled.</p>
 <p>In this operation mode, if a stored-block is required (assuming indexing
 is requested) and the input size is at least 64kB, then the compression
 operation will fail with an error.</p>
-</div>
-<div class="section" id="single-block">
-<h3>Single Block<a class="headerlink" href="#single-block" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="single-block">
+<h3>Single Block<a class="headerlink" href="#single-block" title="Permalink to this headline">#</a></h3>
 <p>The case happens when the entire input is represented as a single
 DEFLATE block, even though multiple compress operations may have been
 done. This is invoked by not using dynamic Huffman codes, and
@@ -896,10 +996,10 @@ block), then the compression will fail, due to a disruption in the block
 structure. The exception to this is if the compression is a single job
 (i.e. both a FIRST job and LAST job). In that case, the entire file is
 represented as a single stored block, so the compression succeeds.</p>
-</div>
-</div>
-<div class="section" id="computing-the-size-of-the-index-array">
-<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="computing-the-size-of-the-index-array">
+<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Permalink to this headline">#</a></h2>
 <p>The expected number of index values can be obtained from:</p>
 <p><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">num_index_values(uint32_t</span> <span class="pre">buf_size,</span> <span class="pre">uint32_t</span> <span class="pre">idx_size,</span> <span class="pre">uint32_t</span> <span class="pre">blk_size);</span></code></p>
 <p>where the arguments are the size of the uncompressed data, the size of
@@ -913,9 +1013,9 @@ usage), 3 blocks and 11 mini-blocks present, so the total number of
 indices is 3*2+11+1 = 18. In the second example (single-block usage), 1
 block and 11 mini-blocks present, so the total number of indices is
 1*2+11+1 = 14.</p>
-</div>
-<div class="section" id="non-deflate-usages">
-<h2>Non-DEFLATE Usages<a class="headerlink" href="#non-deflate-usages" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="non-deflate-usages">
+<h2>Non-DEFLATE Usages<a class="headerlink" href="#non-deflate-usages" title="Permalink to this headline">#</a></h2>
 <p>To use the hardware for non-DEFLATE usages, three advanced flags can be
 specified:</p>
 <table class="table">
@@ -991,8 +1091,8 @@ flag, otherwise the result would not be decompressed with the Intel QPL.</p>
 compression Huffman table must be non-null. Either it must point to a reserved
 memory area where the table be created in the case <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, or to
 already created table otherwise.</p>
-<div class="section" id="big-endian-16-format">
-<h3>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">¶</a></h3>
+<section id="big-endian-16-format">
+<h3>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">#</a></h3>
 <p>Normal DEFLATE streams are little-endian (LE). Tokens are written
 starting at bit-0 of each byte and extending from bit-7 of byte-0 to
 bit-0 of byte-1.</p>
@@ -1576,16 +1676,18 @@ encoded in LE format. To process BE16 data, all we need to bit-reverse
 each 16-bit word as we read it or write it, and otherwise pretend that
 it is LE data. Note that as we pretending that the data is LE, we need
 to use the bit-reversed form of the Huffman Codes as well.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="c_compression_styles.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1601,27 +1703,31 @@ to use the bit-reversed form of the Huffman Codes as well.</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Intel<br/>
+  
+      &copy; Copyright 2022, Intel.<br/>
+    <div class="extra_footer">
+      <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+    </div>
+</p>
+        </footer>
+    </div>
     
-      By Intel<br/>
-    
-        &copy; Copyright 2022, Intel.<br/>
-      <div class="extra_footer">
-        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
-      </div>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
