@@ -36,7 +36,5 @@ install(TARGETS   init_tests
 install(DIRECTORY test_frontend
                   TYPE             BIN
                   COMPONENT        RUNTIME
-                  FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
-                                   GROUP_EXECUTE GROUP_READ
-                                   WORLD_EXECUTE WORLD_READ)
+                  FILE_PERMISSIONS USE_SOURCE_PERMISSIONS)
 

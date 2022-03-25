@@ -23,5 +23,5 @@ install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/configs
                   COMPONENT        RUNTIME)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/scripts
                   TYPE             BIN
-                  COMPONENT        RUNTIME)
-
+                  COMPONENT        RUNTIME
+                  FILE_PERMISSIONS USE_SOURCE_PERMISSIONS)

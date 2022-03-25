@@ -135,8 +135,11 @@ def get_devices_short():
     return device_dict
 
 
-def config_device(conf_file, dev_filter):
+def config_device(conf_file, dev_filter = "", bof = False):
     print("Filter: " + dev_filter)
+
+    if not os.path.exists(conf_file):
+        raise ValueError(conf_file + " does not exist")
 
     ret, err, active_devices = accel_get_active_dvices()
     if len(active_devices):
@@ -168,12 +171,12 @@ def config_device(conf_file, dev_filter):
     config_devices = open(conf_file, "r")
     config_devices = json.load(config_devices)
     print("Additional configuration steps")
-    print("    Force block on fault: " + str(args.bof))
+    print("    Force block on fault: " + str(bof))
     for device in config_devices:
         if device['dev'].find(dev_filter) != -1:
             if device["groups"][0]["grouped_workqueues"]:
                 for wq in device["groups"][0]["grouped_workqueues"]:
-                    if args.bof:
+                    if bof:
                         ret, err, out = accel_set_block_on_fault(device["dev"], wq["dev"], True)
                         if ret:
                             print(" - error")
@@ -238,4 +241,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.load:
-        config_device(args.load, args.filter)
+        config_device(args.load, args.filter, bof=args.bof)
