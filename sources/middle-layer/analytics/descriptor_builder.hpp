@@ -44,12 +44,12 @@ public:
         return *this;
     }
 
-    inline auto input(const input_stream_t &input_stream) noexcept -> descriptor_builder & {
+    inline auto input(input_stream_t &input_stream) noexcept -> descriptor_builder & {
         hw_iaa_descriptor_analytic_set_filter_input(&descriptor_,
                                                     input_stream.data(),
                                                     input_stream.size(),
                                                     input_stream.elements_left(),
-                                                    static_cast<const hw_iaa_input_format>(input_stream.stream_format()),
+                                                    static_cast<hw_iaa_input_format>(input_stream.stream_format()),
                                                     input_stream.bit_width());
 
         if (input_stream.crc_type() == input_stream_t::crc_t::iscsi) {

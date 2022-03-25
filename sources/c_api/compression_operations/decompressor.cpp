@@ -145,7 +145,7 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         } else {
             // @todo  workaround: there is bug in HW path for Huffman Only + BE
             // this code should be removed after fix in HW
-            uint32_t flag_wrkrnd = workaround_huffman_only_be_hw(job_ptr, &endianness);
+            flag_wrkrnd = workaround_huffman_only_be_hw(job_ptr, &endianness);
             // @todo the end of code for removing
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)

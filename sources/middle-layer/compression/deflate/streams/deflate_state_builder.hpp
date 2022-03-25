@@ -251,7 +251,7 @@ inline auto deflate_state_builder<execution_path_t::hardware>::enable_indexing(m
                                                                                uint64_t *index_table_ptr,
                                                                                uint32_t index_table_size,
                                                                                uint32_t index_table_capacity) noexcept -> common_type & {
-    state_.meta_data_->mini_block_size_ = static_cast<const hw_iaa_mini_block_size_t>(indexed_mini_block_size);
+    state_.meta_data_->mini_block_size_ = static_cast<hw_iaa_mini_block_size_t>(indexed_mini_block_size);
     hw_iaa_descriptor_compress_set_mini_block_size(state_.compress_descriptor_, state_.meta_data_->mini_block_size_);
 
     if (indexed_mini_block_size) {

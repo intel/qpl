@@ -8,7 +8,7 @@
 
 namespace qpl::ml::compression {
 index_table_t::index_table_t(uint64_t *index_ptr, uint32_t current_index, uint32_t index_table_size) noexcept :
-    index_table_size_(index_table_size), index_ptr_(index_ptr), current_index_(current_index) {
+    index_ptr_(index_ptr), index_table_size_(index_table_size), current_index_(current_index) {
     // Empty constructor
 }
 

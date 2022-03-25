@@ -79,8 +79,8 @@ public:
      */
     constexpr scan_operation(comparators comparator, uint32_t boundary)
             : analytics_operation(false),
-              boundary_(boundary),
-              comparator_(comparator) {
+              comparator_(comparator),
+              boundary_(boundary) {
         // Empty constructor
     }
 

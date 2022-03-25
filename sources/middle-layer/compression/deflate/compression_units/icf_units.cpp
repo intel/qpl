@@ -98,10 +98,10 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
 
     int buffer_header = 0;
 
-    uint64_t block_size = block_size = stored_block_header_length *
-                                       ((block_in_size + stored_block_max_length - 1) /
-                                        stored_block_max_length
-                                       ) + block_in_size;
+    uint64_t block_size = stored_block_header_length *
+                          ((block_in_size + stored_block_max_length - 1) /
+                          stored_block_max_length
+                          ) + block_in_size;
     block_size          = block_size ? block_size : stored_block_header_length;
 
     util::copy(reinterpret_cast<uint8_t *>(bit_buffer),

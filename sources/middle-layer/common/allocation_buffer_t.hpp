@@ -30,7 +30,7 @@ public:
         return current_;
     }
 
-    [[nodiscard]] inline auto capacity() const noexcept -> const size_t {
+    [[nodiscard]] inline auto capacity() const noexcept -> size_t {
         return std::distance(current_, buffer_t::end());
     }
 

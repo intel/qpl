@@ -66,7 +66,7 @@ void deflate_stateful_operation::last_chunk(bool value) noexcept {
 }
 
 auto deflate_stateful_operation::execute() -> std::pair<uint32_t, uint32_t> {
-    auto job        = reinterpret_cast<qpl_job *const>(buffer_);
+    auto const job  = reinterpret_cast<qpl_job *>(buffer_);
     auto job_status = qpl_submit_job(job);
 
     std::pair<uint32_t, uint32_t> result(job_status, job->total_out);

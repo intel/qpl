@@ -88,7 +88,7 @@ public:
 
         job_buffer_         = util::allocate_array<allocator_t, uint8_t>(qpl::util::get_job_size());
         destination_buffer_ = util::allocate_array<allocator_t,
-                                                   uint8_t>(static_cast<const uint32_t>(buffer_size));
+                                                   uint8_t>(static_cast<uint32_t>(buffer_size));
         buffer_current_     = destination_buffer_.get();
         buffer_end_         = destination_buffer_.get() + buffer_size;
     }

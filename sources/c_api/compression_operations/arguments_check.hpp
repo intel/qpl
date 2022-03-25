@@ -96,7 +96,7 @@ inline auto validate_mode<qpl_operation::qpl_op_compress>(const qpl_job * const 
 
 template <>
 inline auto validate_flags<qpl_operation::qpl_op_compress>(const qpl_job *const job_ptr) noexcept {
-    auto job = const_cast<qpl_job *const>(job_ptr);
+    auto const job = const_cast<qpl_job *>(job_ptr);
 
     if (job->flags & QPL_FLAG_HUFFMAN_BE && !(job->flags & QPL_FLAG_NO_HDRS)) {
         return QPL_STS_FLAG_CONFLICT_ERR;

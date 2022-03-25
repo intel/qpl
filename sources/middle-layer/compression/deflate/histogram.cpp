@@ -38,7 +38,7 @@ auto update_histogram<execution_path_t::hardware>(uint8_t *begin,
     hw_iaa_descriptor_init_statistic_collector(&descriptor,
                                                begin,
                                                static_cast<uint32_t>(std::distance(begin, end)),
-                                               reinterpret_cast<hw_iaa_histogram *const>(&hw_histogram));
+                                               reinterpret_cast<hw_iaa_histogram *>(&hw_histogram));
 
     hw_iaa_descriptor_set_completion_record(&descriptor, &completion_record);
     completion_record.status = 0u;

@@ -32,7 +32,7 @@ auto common_operation::init_job(const execution_path path) noexcept -> uint32_t 
 }
 
 auto common_operation::execute() -> std::pair<uint32_t, uint32_t> {
-    auto job        = reinterpret_cast<qpl_job *const>(buffer_);
+    auto const job  = reinterpret_cast<qpl_job *>(buffer_);
     auto job_status = qpl_execute_job(job);
 
     return {job_status, this->get_output_elements_count()};

@@ -91,7 +91,7 @@ QPL_FUN(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
     }
 
     if (qpl_default_level == level) {
-        isal_histogram histogram = {0u};
+        isal_histogram histogram = {{0u}, {0u}, {0u}};
 
         isal_histogram_set_statistics(&histogram,
                                       histogram_ptr->literal_lengths,
@@ -105,9 +105,12 @@ QPL_FUN(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
                                       histogram_ptr->literal_lengths,
                                       histogram_ptr->distances);
     } else {
-        own_deflate_job deflateJob = {0u};
+        own_deflate_job deflateJob = {nullptr, nullptr, nullptr, nullptr, nullptr, 
+                                      {0u, 0u, 0u, 0u, 0u, (writer_status_e)0u}, 
+                                      0u, 0u, initial_status, initial_status, 
+                                      (qpl_statistics_mode)0};
 
-        deflate_histogram_t deflate_histogram_ptr = {0u};
+        deflate_histogram_t deflate_histogram_ptr = {{0u}, {0u}, {nullptr, nullptr, 0u, 0u, 0u, 0u, 0u}};
 
         uint8_t temporary_buffer[1u];
 

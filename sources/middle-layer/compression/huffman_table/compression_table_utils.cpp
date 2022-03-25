@@ -49,7 +49,6 @@ void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
                                    sw_compression_huffman_table *qpl_table_ptr) noexcept {
     // Variables
     const auto isal_match_lengths_mask   = util::build_mask<uint16_t, 15u>();
-    const auto header_extra_bit_size     = isal_table_ptr->deflate_hdr_extra_bits;
 
     // Convert literals codes
     for (uint32_t i = 0; i < literals_table_size; i++) {
@@ -118,7 +117,7 @@ auto build_compression_table(const uint32_t *literals_lengths_histogram_ptr,
     if (compression_table.is_sw_compression_table_used() ||
         compression_table.is_deflate_header_used()) {
         // Create isal huffman table and histograms
-        isal_huff_histogram histogram = {0u};
+        isal_huff_histogram histogram = {{0u}, {0u}, {0u}};
 
         if (compression_table.is_huffman_only()) {
             // Copy literals (except for EOB symbol) histogram to ISAL histogram

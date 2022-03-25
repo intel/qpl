@@ -135,7 +135,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
     hw_iaa_descriptor_analytic_set_filter_output(descriptor_ptr,
                                                  job_ptr->next_out_ptr,
                                                  job_ptr->available_out,
-                                                 static_cast<const hw_iaa_output_format>(out_format));
+                                                 static_cast<hw_iaa_output_format>(out_format));
 
     switch (job_ptr->op) {
         case qpl_op_extract:
@@ -462,9 +462,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
                 return QPL_STS_OK;
             }
-#if defined(__linux__)
             [[fallthrough]];
-#endif
         case qpl_op_find_unique:
         case qpl_op_select:
         case qpl_op_expand:
@@ -502,9 +500,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
             job::reset<qpl_op_decompress>(qpl_job_ptr);
             state_ptr->aecs_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
-#if defined(__linux__)
             [[fallthrough]];
-#endif
         case qpl_op_compress:
         case qpl_op_memcpy:
         case qpl_op_crc64:

@@ -198,14 +198,13 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
 
         hw_iaa_descriptor_compress_set_mini_block_size((hw_descriptor *) descriptor_ptr,
                                                        (hw_iaa_mini_block_size_t) qpl_job_ptr->mini_block_size);
+
+        auto access_policy = is_final_block ?
+            hw_aecs_access_read | state_ptr->aecs_hw_read_offset :
+            hw_aecs_access_read | hw_aecs_access_write | state_ptr->aecs_hw_read_offset;
         hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) descriptor_ptr,
                                             state_ptr->ccfg,
-                                            static_cast<const hw_iaa_aecs_access_policy>(is_final_block ?
-                                                                                     hw_aecs_access_read
-                                                                                     | state_ptr->aecs_hw_read_offset :
-                                                                                     hw_aecs_access_read
-                                                                                     | hw_aecs_access_write
-                                                                                     | state_ptr->aecs_hw_read_offset));
+                                            static_cast<hw_iaa_aecs_access_policy>(access_policy));
 
         if (is_final_block && !is_huffman_only) {
             descriptor_ptr->decomp_flags |=
@@ -268,14 +267,13 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
 
     hw_iaa_descriptor_compress_set_mini_block_size((hw_descriptor *) desc_ptr,
                                                    (hw_iaa_mini_block_size_t) qpl_job_ptr->mini_block_size);
+
+    auto access_policy = is_final_block ?
+        hw_aecs_access_read | state_ptr->aecs_hw_read_offset :
+        hw_aecs_access_read | hw_aecs_access_write | state_ptr->aecs_hw_read_offset;
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) desc_ptr,
                                         state_ptr->ccfg,
-                                        static_cast<const hw_iaa_aecs_access_policy>(is_final_block ?
-                                                                                 hw_aecs_access_read
-                                                                                 | state_ptr->aecs_hw_read_offset :
-                                                                                 hw_aecs_access_read
-                                                                                 | hw_aecs_access_write
-                                                                                 | state_ptr->aecs_hw_read_offset));
+                                        static_cast<hw_iaa_aecs_access_policy>(access_policy));
 
     hw_iaa_descriptor_set_completion_record((hw_descriptor *) desc_ptr, (hw_completion_record *) comp_ptr);
     comp_ptr->status = 0u;
@@ -312,12 +310,10 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
                                                        (hw_iaa_huffman_codes *) get_offsets_table_ptr(own_huffman_table_get_compression_table(job_ptr->huffman_table)));
     }
 
+    auto access_policy = is_final_block ? hw_aecs_access_read : hw_aecs_access_read | hw_aecs_access_write;
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) descriptor_ptr,
                                         state_ptr->ccfg,
-                                        static_cast<const hw_iaa_aecs_access_policy>(is_final_block ?
-                                                                                     hw_aecs_access_read :
-                                                                                 hw_aecs_access_read
-                                                                                 | hw_aecs_access_write));
+                                        static_cast<hw_iaa_aecs_access_policy>(access_policy));
 
     descriptor_ptr->decomp_flags |= ADCF_END_PROC(AD_APPEND_EOB);
 

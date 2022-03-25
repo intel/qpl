@@ -144,8 +144,8 @@ void own_qpl_huffman_table_to_isal(qpl_compression_huffman_table *const qpl_tabl
     uint32_t       header_byte_size  = 0;
     uint32_t       header_extra_bits = 0;
 
-    struct own_huffman_code literals_matches_table[OWN_LITERALS_MATCHES_TABLE_SIZE] = {0};
-    struct own_huffman_code offsets_huffman_table[OWN_OFFSETS_TABLE_SIZE]           = {0};
+    struct own_huffman_code literals_matches_table[OWN_LITERALS_MATCHES_TABLE_SIZE] = {{0u, 0u, 0u}};
+    struct own_huffman_code offsets_huffman_table[OWN_OFFSETS_TABLE_SIZE]           = {{0u, 0u, 0u}};
 
     // Memory initialization
     qpl::ml::util::set_zeros((uint8_t *) isal_table_ptr, sizeof(struct isal_hufftables));

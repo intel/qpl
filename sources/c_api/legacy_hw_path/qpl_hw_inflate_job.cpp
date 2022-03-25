@@ -330,7 +330,7 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
 
     uint32_t input_bytes_count = (header_bit_size + start_bit_offset + 7u) >> 3u;
     uint8_t  ignore_end_bits   = OWN_MAX_BIT_IDX & (0u - (header_bit_size + start_bit_offset));
-    auto aecs_policy = (toggle_rw) ? hw_aecs_toggle_rw : 0u;
+    auto aecs_policy = (toggle_rw) ? (uint32_t)hw_aecs_toggle_rw : 0u;
 
     util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
@@ -352,7 +352,7 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
     hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, header_ptr, input_bytes_count);
 
     hw_iaa_descriptor_init_inflate_header((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bits,
-                                          static_cast<const hw_iaa_aecs_access_policy>(aecs_policy));
+                                          static_cast<hw_iaa_aecs_access_policy>(aecs_policy));
 
     return QPL_STS_OK;
 }
