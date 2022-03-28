@@ -11,7 +11,11 @@
 
 /* ------ Includes ------ */
 
-#include "own_deflate.h"
+#include "deflate_defs.h"
+#include "bit_writer.h"
+#include "deflate_hash_table.h"
+#include "deflate_histogram.h"
+#include "own_deflate_job.h"
 
 #include "crc.h"
 

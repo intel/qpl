@@ -9,6 +9,8 @@
 #include "qpl/cpp_api/util/qpl_service_functions_wrapper.hpp"
 #include "compression/huffman_table/canned_utility.h"
 #include "compression/huffman_table/compression_table_utils.hpp"
+#include "compression/deflate/histogram.hpp"
+#include "util/memory.hpp"
 
 namespace qpl::util {
 
@@ -38,12 +40,42 @@ void gather_deflate_statistics(const uint8_t *source_ptr,
                                uint32_t *offsets_histogram_ptr,
                                const uint32_t level,
                                const execution_path path) {
-    internal::own_gather_deflate_statistics(const_cast<uint8_t *>(source_ptr),
-                                            source_length,
-                                            literal_length_histogram_ptr,
-                                            offsets_histogram_ptr,
-                                            static_cast<qpl_compression_levels>(level),
-                                            static_cast<qpl_path_t>(path));
+    using namespace qpl::ml;
+
+    qpl_histogram histogram;
+
+    // Copy given histogram into internal one
+    ml::util::copy(reinterpret_cast<uint8_t *>(literal_length_histogram_ptr),
+                   reinterpret_cast<uint8_t *>(literal_length_histogram_ptr) + sizeof(histogram.literal_lengths),
+                   reinterpret_cast<uint8_t *>(histogram.literal_lengths));
+
+    ml::util::copy(reinterpret_cast<uint8_t *>(offsets_histogram_ptr),
+                   reinterpret_cast<uint8_t *>(offsets_histogram_ptr) + sizeof(histogram.distances),
+                   reinterpret_cast<uint8_t *>(histogram.distances));
+
+    switch (path) {
+        case hardware:
+            compression::update_histogram<execution_path_t::hardware>(source_ptr,
+                                                                      source_ptr + source_length,
+                                                                      histogram);
+            break;
+        case software:
+            compression::update_histogram<execution_path_t::software>(source_ptr,
+                                                                      source_ptr + source_length,
+                                                                      histogram,
+                                                                      static_cast<compression::deflate_level>(level));
+        default:
+            break;
+    }
+
+    // Copy back from internal histogram to given once
+    ml::util::copy(reinterpret_cast<uint8_t *>(histogram.literal_lengths),
+                   reinterpret_cast<uint8_t *>(histogram.literal_lengths) + sizeof(histogram.literal_lengths),
+                   reinterpret_cast<uint8_t *>(literal_length_histogram_ptr));
+
+    ml::util::copy(reinterpret_cast<uint8_t *>(histogram.distances),
+                   reinterpret_cast<uint8_t *>(histogram.distances) + sizeof(histogram.distances),
+                   reinterpret_cast<uint8_t *>(offsets_histogram_ptr));
 }
 
 template <execution_path path>

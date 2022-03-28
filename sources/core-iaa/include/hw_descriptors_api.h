@@ -353,7 +353,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_enable_decompress, (hw_descriptor *con
  *
  */
 HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const descriptor_ptr,
-                                                            uint8_t *const source_ptr,
+                                                            const uint8_t *const source_ptr,
                                                             const uint32_t source_size,
                                                             hw_iaa_histogram *const histogram_ptr));
 

@@ -14,6 +14,8 @@
 
 #include "qpl/c_api/statistics.h"
 #include "stdbool.h"
+#include "deflate_histogram.h"
+#include "bit_writer.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,7 +35,7 @@ typedef enum {
     initial_status = 0u,    /**< Informs that encoding is just starting */
     final_status   = 1u,    /**< Informs that encoding should be finished */
     running_status = 2u,    /**< Informs that encoding was already started but is not yet final*/
-}                              own_current_status;
+} own_current_status;
 
 /**
  * @brief Internal structure that is used for deflating
@@ -233,6 +235,11 @@ void own_initialize_deflate_job(own_deflate_job *const job_ptr,
                                 const uint32_t output_bytes,
                                 const own_current_status block_status,
                                 const qpl_statistics_mode statistics_mode);
+
+/**
+ * @brief Updates histogram for given @ref own_deflate_job
+ */
+void own_update_deflate_histogram_high_level (own_deflate_job *deflate_job_ptr);
 
 #ifdef __cplusplus
 }

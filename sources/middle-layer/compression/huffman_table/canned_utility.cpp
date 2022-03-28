@@ -43,43 +43,6 @@ uint32_t convert_to_qpl_status(uint32_t ml_status) {
 }
 }
 
-namespace internal {
-uint32_t own_gather_deflate_statistics(uint8_t *source_ptr,
-                                       const uint32_t source_length,
-                                       uint32_t *literal_length_histogram_ptr,
-                                       uint32_t *offsets_histogram_ptr,
-                                       const qpl_compression_levels level,
-                                       const qpl_path_t path) {
-    using namespace qpl::ml::dispatcher;
-
-    auto memcopy_kernel = kernels_dispatcher::get_instance().get_memory_copy_table()[0];
-
-    qpl_histogram histogram;
-
-    // Copy given histogram into internal one
-    memcopy_kernel(reinterpret_cast<uint8_t *>(literal_length_histogram_ptr),
-                   reinterpret_cast<uint8_t *>(histogram.literal_lengths),
-                   sizeof(histogram.literal_lengths));
-
-    memcopy_kernel(reinterpret_cast<uint8_t *>(offsets_histogram_ptr),
-                   reinterpret_cast<uint8_t *>(histogram.distances),
-                   sizeof(histogram.distances));
-
-    auto status = qpl_gather_deflate_statistics(source_ptr, source_length, &histogram, level, path);
-
-    // Copy back from internal histogram to given once
-    memcopy_kernel(reinterpret_cast<uint8_t *>(histogram.literal_lengths),
-                   reinterpret_cast<uint8_t *>(literal_length_histogram_ptr),
-                   sizeof(histogram.literal_lengths));
-
-    memcopy_kernel(reinterpret_cast<uint8_t *>(histogram.distances),
-                   reinterpret_cast<uint8_t *>(offsets_histogram_ptr),
-                   sizeof(histogram.distances));
-
-    return status;
-}
-}
-
 uint32_t own_triplets_to_decompression_table(const qpl_huffman_triplet *triplets_ptr,
                                              size_t triplets_count,
                                              qpl_decompression_huffman_table *decompression_table_ptr,
@@ -271,16 +234,6 @@ void *get_aecs_decompress(qpl_decompression_huffman_table *decompression_table_p
                                                     lookup_table_buffer_ptr);
 
     return decompression_table.get_hw_decompression_state();
-}
-
-uint32_t own_collect_statistic(uint8_t *const source_ptr,
-                               const uint32_t source_size,
-                               qpl_histogram *const histogram_ptr,
-                               const qpl_compression_levels UNREFERENCED_PARAMETER(level),
-                               const qpl_path_t UNREFERENCED_PARAMETER(path)) {
-    return qpl::ml::compression::update_histogram<qpl::ml::execution_path_t::hardware>(source_ptr,
-                                                                                       source_ptr + source_size,
-                                                                                       *histogram_ptr);
 }
 
 uint32_t own_build_compression_table(const uint32_t *literal_lengths_histogram_ptr,

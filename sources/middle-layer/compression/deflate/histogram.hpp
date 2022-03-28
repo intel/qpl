@@ -24,7 +24,6 @@ auto update_histogram(iterator_t begin,
                       iterator_t end,
                       deflate_histogram &histogram,
                       deflate_level level = qpl_default_level) noexcept -> qpl_ml_status;
-
 }
 
 #endif //QPL_HISTOGRAM_HPP_

@@ -11,15 +11,72 @@
 
 /* ------ Includes ------ */
 
+#include "own_defs.h"
 #include "own_deflate.h"
 #include "common/bit_reverse.hpp"
 #include "util/memory.hpp"
+#include "compression/huffman_table/canned_utility.h"
+#include "qplc_compression.h"
+#include "own_deflate_job.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #define OWN_HUFFMAN_CODE_BIT_LENGTH 15u /**< Number of bits used to store Huffman code */
+
+typedef enum {
+    little_endian,
+    big_endian
+} own_endianness;
+
+struct own_huffman_code {
+    uint16_t code;               /**< Huffman code */
+    uint8_t  extra_bit_count;    /**< Number of extra bits */
+    uint8_t  length;             /**< Huffman code length */
+};
+
+
+OWN_FUN(uint32_t, own_count_significant_bits, (uint32_t value));
+
+/**
+ * @brief Returns correct Huffman code and code length of the match according to given Huffman table
+ *
+ * @param[in]   huffman_table_ptr  pointer to isal_hufftables structure that contains code
+ * @param[in]   match_length        length of the match
+ * @param[out]  code_ptr           pointer to memory where to put Huffman code
+ * @param[out]  code_length_ptr    pointer to memory where to put length of the Huffman code
+ */
+OWN_FUN(void, own_get_match_length_code, (const struct isal_hufftables *const huffman_table_ptr,
+        const uint32_t match_length,
+        uint64_t *const code_ptr,
+        uint32_t *const code_length_ptr));
+
+/**
+ * @brief Returns correct Huffman code and code length of the literal according to given Huffman table
+ *
+ * @param[in]   huffman_table_ptr  pointer to isal_hufftables structure that contains code
+ * @param[in]   literal            symbol for which we want to get Huffman code
+ * @param[out]  code_ptr           pointer to memory where to put Huffman code
+ * @param[out]  code_length_ptr    pointer to memory where to put length of the Huffman code
+ */
+OWN_FUN(void, own_get_literal_code, (const struct isal_hufftables *const huffman_table_ptr,
+        const uint32_t literal,
+        uint64_t *const code_ptr,
+        uint32_t *const code_length_ptr));
+
+/**
+ * @brief Returns correct Huffman code and code length of the offset according to given Huffman table
+ *
+ * @param[in]   huffman_table_ptr  pointer to isal_hufftables structure that contains code
+ * @param[in]   offset             offset for which we want to get Huffman code
+ * @param[out]  code_ptr           pointer to memory where to put Huffman code
+ * @param[out]  code_length_ptr    pointer to memory where to put length of the Huffman code
+ */
+OWN_FUN(void, own_get_offset_code, (const struct isal_hufftables *const huffman_table_ptr,
+        uint32_t offset,
+        uint64_t *const code_ptr,
+        uint32_t *const code_length_ptr));
 
 /* ------ Internal functions implementation ------ */
 
@@ -232,15 +289,6 @@ void own_get_literal_code(const struct isal_hufftables *const huffman_table_ptr,
                           uint32_t *const code_length_ptr) {
     *code_ptr        = huffman_table_ptr->lit_table[literal];
     *code_length_ptr = huffman_table_ptr->lit_table_sizes[literal];
-}
-
-void own_deflate_job_callback_stub(own_deflate_job *UNREFERENCED_PARAMETER(job_ptr)) {
-    // This is just a stub
-}
-
-uint8_t own_deflate_job_predicate_stub(own_deflate_job *const UNREFERENCED_PARAMETER(job_ptr)) {
-    // This is just a stub
-    return 1u;
 }
 
 #ifdef __cplusplus

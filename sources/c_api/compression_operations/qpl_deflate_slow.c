@@ -15,8 +15,12 @@
 
 /* ------ Includes ------ */
 
-#include "own_deflate.h"
 #include "crc.h"
+#include "deflate_defs.h"
+#include "bit_writer.h"
+#include "deflate_hash_table.h"
+#include "deflate_histogram.h"
+#include "own_deflate_job.h"
 
 #define OWN_CRC32(buf, len, init_crc, ...) ((0, ##__VA_ARGS__) ? crc32_iscsi(buf, len, init_crc) : crc32_gzip_refl(init_crc, buf, len))
 
@@ -219,6 +223,25 @@ static inline uint32_t own_compare_strings(const uint8_t *const first_ptr,
     }
 
     return match_length;
+}
+
+/**
+ * Simple stub callback for @link own_deflate_job @endlink
+ */
+#define OWN_STUB_CALLBACK own_deflate_job_callback_stub
+
+/**
+ * Simple stub callback for @link own_deflate_job @endlink
+ */
+#define OWN_STUB_PREDICATE own_deflate_job_predicate_stub
+
+void own_deflate_job_callback_stub(own_deflate_job *UNREFERENCED_PARAMETER(job_ptr)) {
+    // This is just a stub
+}
+
+uint8_t own_deflate_job_predicate_stub(own_deflate_job *const UNREFERENCED_PARAMETER(job_ptr)) {
+    // This is just a stub
+    return 1u;
 }
 
 void own_update_deflate_histogram_high_level(own_deflate_job *deflate_job_ptr) {

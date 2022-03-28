@@ -33,12 +33,12 @@ HW_PATH_BYTE_PACKED_STRUCTURE_END
 static_assert(sizeof(own_hw_compress_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "Descriptor size is not correct");
 
 HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const descriptor_ptr,
-                                                           uint8_t *const source_ptr,
+                                                           const uint8_t *const source_ptr,
                                                            const uint32_t source_size,
                                                            hw_iaa_histogram *const histogram_ptr)) {
     own_hw_compress_descriptor *const this_ptr = (own_hw_compress_descriptor *) descriptor_ptr;
 
-    this_ptr->source_ptr           = source_ptr;
+    this_ptr->source_ptr           = (uint8_t *) source_ptr;
     this_ptr->source_size          = source_size;
     this_ptr->destination_ptr      = (uint8_t *) histogram_ptr;
     this_ptr->max_destination_size = sizeof (hw_iaa_histogram);

@@ -13,17 +13,6 @@
 
 #ifdef __cplusplus
 
-namespace internal {
-// Temporary solution, because High-level-API is based on low-level API and hense use the same C structures
-// TODO: remove this function after migration to middle-layer is complete
-uint32_t own_gather_deflate_statistics(uint8_t *source_ptr,
-                                       const uint32_t source_length,
-                                       uint32_t *literal_length_histogram_ptr,
-                                       uint32_t *offsets_histogram_ptr,
-                                       const qpl_compression_levels level,
-                                       const qpl_path_t path);
-}
-
 extern "C" {
 #endif
 
@@ -33,12 +22,6 @@ typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
 
 void isal_huffman_table_to_qpl(isal_hufftables *isal_table_ptr,
                                qpl_compression_huffman_table *qpl_table_ptr);
-
-uint32_t own_collect_statistic(uint8_t *const source_ptr,
-                               const uint32_t source_size,
-                               qpl_histogram *const histogram_ptr,
-                               const qpl_compression_levels level,
-                               const qpl_path_t path);
 
 uint32_t own_build_compression_table(const uint32_t *literal_lengths_histogram_ptr,
                                      const uint32_t *offsets_histogram_ptr,

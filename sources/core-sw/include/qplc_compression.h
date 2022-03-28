@@ -18,6 +18,56 @@
 extern "C" {
 #endif
 
+/**
+ * Position in Huffman table where extra bits are used
+ */
+#define OWN_EXTRA_BITS_START_POSITION 264u
+
+/**
+ * Step for adding extra bits length (matches codes extracting)
+ */
+#define OWN_LENGTH_EXTRA_BITS_INTERVAL 4u
+
+/**
+ * Step for adding extra bits length (offsets codes extracting)
+ */
+#define OWN_OFFSETS_EXTRA_BITS_INTERVAL 2u
+
+/**
+ * Number of bits that are used to store code length in ISA-L
+ */
+#define OWN_CODE_LENGTH_BIT_LENGTH 5u
+
+/**
+ * Number of bits that are used for extra Huffman code
+ */
+#define OWN_OFFSETS_BEGIN_VALUE 3u
+
+/**
+ * Length of packed offsets Huffman table
+ */
+#define OWN_OFFSET_TABLE_SIZE 2u
+
+/**
+ * 4 bits [3:0] (shift by Huffman code length before use)
+ */
+#define OWN_QPL_HUFFMAN_CODE_LENGTH_MASK 15u
+
+/**
+ * Number of bytes that is used for hash calculation
+ */
+#define OWN_BYTES_FOR_HASH_CALCULATION 4u
+
+/**
+ * Minimal match length used during match search
+ */
+#define OWN_MINIMAL_MATCH_LENGTH 4u
+
+/**
+ * Maximal offset for match
+ */
+#define OWN_MAXIMAL_OFFSET 4096u
+
 typedef struct isal_mod_hist      isal_mod_hist;
 typedef struct deflate_icf_stream deflate_icf_stream;
 

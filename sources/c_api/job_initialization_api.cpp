@@ -20,6 +20,7 @@
 #include "legacy_hw_path/async_hw_api.h"
 #include "legacy_hw_path/hardware_state.h"
 #include "compression_operations/own_deflate.h"
+#include "compression_operations/own_deflate_job.h"
 
 #ifdef __cplusplus
 extern "C" {
