@@ -87,4 +87,9 @@ void bit_reader::set_last_bits_offset(uint8_t value) noexcept {
 auto bit_reader::is_overflowed() noexcept -> bool {
     return is_overflowed_;
 }
+
+auto bit_reader::is_source_end() noexcept -> bool {
+    return ((current_source_ptr_ >= source_end_ptr_) && (0 == bits_in_buffer_));
+}
+
 }

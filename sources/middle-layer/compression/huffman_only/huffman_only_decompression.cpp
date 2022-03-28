@@ -84,7 +84,9 @@ static auto perform_huffman_only_decompression(
 
     do {
         if (current_symbol_index >= destination_length) {
-            result.status_code_ = status_list::more_output_needed;
+            if (!reader.is_source_end()) {
+                result.status_code_ = status_list::more_output_needed;
+            }
             break;
         }
 

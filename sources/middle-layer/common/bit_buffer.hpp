@@ -46,6 +46,9 @@ public:
     void set_last_bits_offset(uint8_t value) noexcept;
 
     auto is_overflowed() noexcept -> bool;
+
+    auto is_source_end() noexcept -> bool;
+
 private:
     const uint8_t *source_begin_ptr_;
     const uint8_t *current_source_ptr_;
