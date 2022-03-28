@@ -44,6 +44,8 @@ public:
 
     inline auto verify(bool value) noexcept -> huffman_only_compression_state_builder &;
 
+    inline auto total_out(uint32_t total_out_value) noexcept -> huffman_only_compression_state_builder&;
+
     inline auto build() noexcept -> huffman_only_state<execution_path_t::software>;
 
 private:
@@ -74,6 +76,8 @@ public:
     inline auto collect_statistics_step(bool value) noexcept -> huffman_only_compression_state_builder &;
 
     inline auto verify(bool value) noexcept -> huffman_only_compression_state_builder &;
+
+    inline auto total_out(uint32_t total_out_value) noexcept -> huffman_only_compression_state_builder&;
 
     inline auto build() noexcept -> huffman_only_state<execution_path_t::hardware>;
 
@@ -126,6 +130,13 @@ noexcept -> huffman_only_compression_state_builder & {
 
 auto huffman_only_compression_state_builder<execution_path_t::software>::verify(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
     stream_.is_verification_enabled_ = true;
+
+    return *this;
+}
+
+inline auto huffman_only_compression_state_builder<execution_path_t::software>::total_out(uint32_t total_out_value)
+noexcept -> huffman_only_compression_state_builder& {
+    stream_.isal_stream_ptr_->total_out = total_out_value;
 
     return *this;
 }
@@ -187,6 +198,14 @@ auto huffman_only_compression_state_builder<execution_path_t::hardware>::verify(
 
     return *this;
 }
+
+
+inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::total_out(uint32_t UNREFERENCED_PARAMETER(total_out_value))
+noexcept -> huffman_only_compression_state_builder& {
+
+    return *this;
+}
+
 
 inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::build()
 noexcept -> huffman_only_state<execution_path_t::hardware> {

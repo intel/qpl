@@ -76,7 +76,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                .be_output(job_ptr->flags & QPL_FLAG_HUFFMAN_BE)
                .collect_statistics_step(job_ptr->flags & QPL_FLAG_DYNAMIC_HUFFMAN)
                .crc_seed(job_ptr->crc)
-               .verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY));
+               .verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY))
+               .total_out(job_ptr->total_out);
 
         if (job_ptr->huffman_table != nullptr) {
             auto *compression_table_ptr = own_huffman_table_get_compression_table(job_ptr->huffman_table);
