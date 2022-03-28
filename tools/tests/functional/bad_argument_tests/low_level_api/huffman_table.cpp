@@ -36,15 +36,6 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_create) {
                                               &huffman_table);
 
     EXPECT_EQ(QPL_STS_PATH_ERR, status) << "incorrect table path used";
-
-    status = qpl_deflate_huffman_table_create(combined_table_type,
-                                              GetExecutionPath(),
-                                              {nullptr, nullptr},
-                                              &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_create) {
@@ -63,15 +54,6 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_create) {
                                            &huffman_table);
 
     EXPECT_EQ(QPL_STS_PATH_ERR, status) << "incorrect table path used";
-
-    status = qpl_huffman_only_table_create(combined_table_type,
-                                           GetExecutionPath(),
-                                           {nullptr, nullptr},
-                                           &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, destroy) {
