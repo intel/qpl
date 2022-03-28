@@ -10,6 +10,7 @@
 #include "qpl/qpl.h"
 #include <stdexcept>
 #include "../common/operation_test.hpp"
+#include "../common/execution_wrapper.hpp"
 #include "../common/test_cases.hpp"
 
 namespace qpl::test {
