@@ -43,6 +43,7 @@ namespace qpl::test {
 
         uint32_t m_seed;
         uint8_t* m_sw_job_buffer;
+        uint8_t* m_hw_job_buffer;
     };
 
 #define ASSERT_ERR_STATUS(status) \
