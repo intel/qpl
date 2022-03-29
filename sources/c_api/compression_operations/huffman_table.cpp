@@ -39,11 +39,6 @@ static inline auto own_get_path_flags(qpl_path_t path) {
     }
 }
 
-static inline auto own_get_serialization_size(uint64_t /* representation_flags */,
-                                              serialization_options_t /* options */) {
-    return 0u;
-}
-
 static inline auto own_get_allocator(const allocator_t allocator) {
     constexpr allocator_t default_allocator = DEFAULT_ALLOCATOR_C;
 
@@ -317,51 +312,6 @@ qpl_status qpl_huffman_table_get_type(qpl_huffman_table_t table,
     *type_ptr = this_ptr->type;
 
     return QPL_STS_OK;
-}
-
-qpl_status qpl_huffman_table_get_serialize_size(qpl_huffman_table_t table,
-                                                const serialization_options_t options,
-                                                size_t *const size_ptr) {
-    using namespace qpl::ml;
-
-    OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(table, size_ptr))
-    QPL_BADARG_RET(options.format > serialization_raw, QPL_STS_SERIALIZATION_FORMAT_ERROR)
-
-    const auto *const this_ptr = reinterpret_cast<this_huffman_table_t *>(table);
-
-    QPL_BADARG_RET(!this_ptr->is_initialized, QPL_STS_INVALID_HUFFMAN_TABLE_ERR);
-
-    *size_ptr = own_get_serialization_size(this_ptr->representation_flags, options);
-
-    return QPL_STS_OK;
-}
-
-qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
-                                       uint8_t *const dump_buffer_ptr,
-                                       const size_t dump_buffer_size,
-                                       const serialization_options_t options) {
-    using namespace qpl::ml;
-    OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(table, dump_buffer_ptr));
-    QPL_BADARG_RET(options.format > serialization_raw, QPL_STS_SERIALIZATION_FORMAT_ERROR)
-
-    const auto *const this_ptr = reinterpret_cast<this_huffman_table_t *>(table);
-
-    QPL_BADARG_RET(!this_ptr->is_initialized, QPL_STS_INVALID_HUFFMAN_TABLE_ERR);
-
-    QPL_BADARG_RET(dump_buffer_size < own_get_serialization_size(this_ptr->representation_flags, options),
-                   QPL_STS_SIZE_ERR);
-
-    return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-}
-
-qpl_status qpl_huffman_table_deserialize(const uint8_t *const dump_buffer_ptr,
-                                         const size_t /* dump_buffer_size */,
-                                         allocator_t /* allocator */,
-                                         qpl_huffman_table_t *const huffman_table) {
-    using namespace qpl::ml;
-    OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(dump_buffer_ptr, huffman_table))
-
-    return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 }
 
 qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl_huffman_table_t table) {
