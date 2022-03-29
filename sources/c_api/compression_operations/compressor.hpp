@@ -62,7 +62,7 @@ namespace qpl {
  *              - @ref qpl_job.level          - compression level
  *      - Advanced operation options:
  *          - User Huffman table:
- *              - @ref qpl_job.compression_huffman_table -
+ *              - @ref qpl_job.huffman_table -
  *          - Indexing mode:
  *              - @ref qpl_job.mini_block_size    - mini-block size
  *              - @ref qpl_job.idx_array      - pointer to index table
@@ -102,16 +102,16 @@ namespace qpl {
  *    `Huffman Only Mode` supports 2 sub-modes:
  *        - `DYNAMIC` generates optimal Huffman table for the stream specified and encodes one. Conditions for enabling:
  *          - the @ref QPL_FLAG_DYNAMIC_HUFFMAN additionally specified flag
- *          - the @ref qpl_job.compression_huffman_table must point onto the @ref qpl_compression_huffman_table that
+ *          - the @ref qpl_job.huffman_table must point onto the @ref qpl_huffman_table_t that
  *            contains the correct Huffman table after the job execution.
  *        - `STATIC` encodes stream using custom Huffman table. Condition for enabling:
- *          - the @ref qpl_job.compression_huffman_table must contain the correct @ref qpl_compression_huffman_table
+ *          - the @ref qpl_job.huffman_table must contain the correct @ref qpl_huffman_table_t
  *
  *     To write literals in the big-endian format, the @ref QPL_FLAG_HUFFMAN_BE must be set additionally.
  *
  *    `Huffman Only Mode` doesn't support 1 sub-modes:
  *        - `FIXED` as default (Huffman table as for general mode). Condition for this case:
- *          - the @ref qpl_job.compression_huffman_table must be `nullptr`
+ *          - the @ref qpl_job.huffman_table must be `nullptr`
  *
  *
  * <b> `Canned mode:` </b><br>
@@ -158,9 +158,9 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *                                                          of the operation
  *          - @ref qpl_job.available_in                   - number of available bytes
  *      - Operation options:
- *          - @ref qpl_job.flags                     - flags to set operation modes
+ *          - @ref qpl_job.flags                       - flags to set operation modes
  *          - @ref qpl_job.decomp_end_processing       - stop condition for the operation.
- *          - @ref qpl_job.decompression_huffman_table - specific Huffman table (see Huffman Only Mode description)
+ *          - @ref qpl_job.huffman_table - specific Huffman table (see Huffman Only Mode description)
  *          - @ref qpl_job.ignore_start_bits           - the first significant bit in the first byte (see Random access
  *                                                       mode description)
  *          - @ref qpl_job.ignore_end_bits             - the last significant bit in the last byte (see Random access
@@ -176,7 +176,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *    Compressed stream can have a GZIP header. To process the header, the @ref QPL_FLAG_GZIP_MODE flag must be set.
  *
  *    Decompression finish criteria can as well be controlled with the content
- *    of the @ref qpl_job.decompression_huffman_table field.
+ *    of the @ref qpl_job.huffman_table field.
  *
  * <b> `Huffman Only Mode:` </b><br>
  *    In case when the input stream is compressed in "Huffman only" mode, the job must be configured with the following flags:
@@ -188,7 +188,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *
  *    `Huffman Only Mode` doesn't support 1 sub-modes:
  *        - `FIXED` as default (Huffman table as for general mode). Condition for this case:
- *          - the @ref qpl_job.decompression_huffman_table must be `nullptr`
+ *          - the @ref qpl_job.huffman_table must be `nullptr`
 
  *
  * <b> `Canned mode:` </b><br>

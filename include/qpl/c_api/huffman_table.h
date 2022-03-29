@@ -53,7 +53,7 @@ typedef enum {
     decompression_table_type, /**< @ref qpl_huffman_table_t contain decompression table only */
 } qpl_huffman_table_type_e;
 
-#define DEFAULT_ALLOCATOR_C {malloc, free}
+#define DEFAULT_ALLOCATOR_C {malloc, free} /**< Allocator used in Intel QPL C API by default */
 
 /** @} */
 
@@ -157,8 +157,8 @@ qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
 /**
  * @brief Gets type of @ref qpl_huffman_table_t
  *
- * @param[in]  table source @ref qpl_huffman_table_t object
- * @param[out] type output parameter for type
+ * @param[in]  table    source @ref qpl_huffman_table_t object
+ * @param[out] type_ptr output parameter for type
  *
  * @return status from @ref qpl_status
  */
@@ -172,6 +172,7 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
 /**
  * @name Huffman table::Serialization API
  * @{
+ * @warning API is introduced only. Implementation is in progress.
  */
 
 /**
@@ -180,6 +181,7 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
 
 /**
  * @brief Gets size to serialize table
+ * @warning API is introduced only. Implementation is in progress.
  *
  * @param[in]  table    @ref qpl_huffman_table_t object to serialize
  * @param[in]  options  serialization_options
@@ -193,6 +195,7 @@ qpl_status qpl_huffman_table_get_serialize_size(const qpl_huffman_table_t table,
 
 /**
  * @brief Serializes qpl_huffman_table_t into unusable but compact format
+ * @warning API is introduced only. Implementation is in progress.
  *
  * @param[in] table @ref qpl_huffman_table_t object to serialize
  * @param[out] dump_buffer_ptr serialized object buffer
@@ -208,6 +211,7 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
 
 /**
  * @brief Deserializes previously serialized huffman table
+ * @warning API is introduced only. Implementation is in progress.
  *
  * @param[in] dump_buffer_ptr serialized object buffer
  * @param[in] dump_buffer_size serialized object buffer size

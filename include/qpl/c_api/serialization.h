@@ -30,14 +30,17 @@ typedef enum {
     serialization_raw,       /**< Use format to keep speed of serialisation/deserialization in case high load */
 } qpl_serialization_format_e;
 
-typedef uint64_t serialization_flags_t;
+typedef uint64_t serialization_flags_t; /**< Type of serialization flags */
 
+/**
+ * @brief Describes serialization options
+ */
 typedef struct {
-    qpl_serialization_format_e format;
-    serialization_flags_t flags;
+    qpl_serialization_format_e format;  /**< Needed format of serialized object */
+    serialization_flags_t flags;        /**< Advanced serialization options */
 } serialization_options_t;
 
-#define DEFAULT_SERIALIZATION_OPTIONS {serialization_compact, 0}
+#define DEFAULT_SERIALIZATION_OPTIONS {serialization_raw, 0} /**< Default serialization options */
 
 /** @} */
 

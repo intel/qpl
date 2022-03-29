@@ -278,24 +278,6 @@ uint32_t own_build_compression_table(const uint32_t *literal_lengths_histogram_p
     return qpl::ml::convert_to_qpl_status(status);
 }
 
-void isal_huffman_table_to_qpl(isal_hufftables *isal_table_ptr,
-                               qpl_compression_huffman_table *qpl_table_ptr) {
-    using namespace qpl::ml::compression;
-    auto sw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&qpl_table_ptr->sw_compression_table_data);
-    auto isal_compression_table_data_ptr = reinterpret_cast<uint8_t *>(&qpl_table_ptr->isal_compression_table_data);
-    auto hw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&qpl_table_ptr->hw_compression_table_data);
-    auto deflate_header_buffer_ptr       = reinterpret_cast<uint8_t *>(&qpl_table_ptr->deflate_header_buffer);
-
-    compression_huffman_table compression_table(sw_compression_table_data_ptr,
-                                                isal_compression_table_data_ptr,
-                                                hw_compression_table_data_ptr,
-                                                deflate_header_buffer_ptr);
-
-    isal_compression_table_to_qpl(isal_table_ptr, compression_table.get_sw_compression_table());
-
-    store_isal_deflate_header(isal_table_ptr, compression_table);
-}
-
 uint32_t *get_literals_lengths_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
     using namespace qpl::ml::compression;
     auto sw_compression_table = reinterpret_cast<sw_compression_huffman_table *>(&huffman_table_ptr->sw_compression_table_data);
@@ -308,14 +290,6 @@ uint32_t *get_offsets_table_ptr(qpl_compression_huffman_table *const huffman_tab
     auto sw_compression_table = reinterpret_cast<sw_compression_huffman_table *>(&huffman_table_ptr->sw_compression_table_data);
 
     return sw_compression_table->offsets;
-}
-
-uint32_t get_size_of_ll_huffman_table() {
-    return qpl::ml::compression::literals_matches_table_size;
-}
-
-uint32_t get_size_of_offsets_huffman_table() {
-    return qpl::ml::compression::offsets_table_size;
 }
 
 uint8_t *get_deflate_header_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
@@ -343,10 +317,6 @@ uint8_t * get_isal_compression_huffman_table_ptr(qpl_compression_huffman_table *
 
 uint8_t * get_hw_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
     return reinterpret_cast<uint8_t *>(&huffman_table_ptr->hw_compression_table_data);
-}
-
-uint8_t *get_deflate_header_buffer_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
-    return reinterpret_cast<uint8_t *>(&huffman_table_ptr->deflate_header_buffer);
 }
 
 uint16_t *get_number_of_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr) {

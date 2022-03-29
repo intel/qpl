@@ -724,6 +724,9 @@ HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *
         descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] &= ~CACHE_CONTROL_FLAG_BIT_MASK;
 }
 
+/**
+ * @todo API will be described after refactoring completed
+ */
 static inline
 HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr, bool flag)) {
     const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
