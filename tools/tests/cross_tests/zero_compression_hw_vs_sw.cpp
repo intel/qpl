@@ -71,7 +71,7 @@ namespace qpl::test {
             if (!vectors_is_equal) {
                 return testing::AssertionFailure() << "Decompressed data don't match with reference one";
             }
-            else if (current_test_case.flag_crc and !crcs_is_equal) {
+            else if (current_test_case.flag_crc && !crcs_is_equal) {
                 return testing::AssertionFailure() << "Compression CRC don't match with deompression CRC";
             }
             else {
@@ -116,7 +116,7 @@ namespace qpl::test {
             if (!vectors_is_equal) {
                 return testing::AssertionFailure() << "Decompressed data don't match with reference one";
             }
-            else if (current_test_case.flag_crc and !crcs_is_equal) {
+            else if (current_test_case.flag_crc && !crcs_is_equal) {
                 return testing::AssertionFailure() << "Compression CRC don't match with deompression CRC";
             }
             else {

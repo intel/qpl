@@ -9,6 +9,8 @@
  *  Tests
  */
 
+#include <string>
+#include <array>
 #include <algorithm>
 
 #include "../../../common/operation_test.hpp"
@@ -35,9 +37,9 @@ struct huffman_table_test_case_t {
 };
 
 std::ostream &operator<<(std::ostream &os, const huffman_table_test_case_t &test_case) {
-    std::array<std::string, 3> type{"combined_table", "compression_table", "decompression_table"};
-    std::array<std::string, 3> algorithm {"deflate", "huffman_only", "canned"};
-    std::array<std::string, 2> serialization_type {"compact", "raw"};
+    std::array<std::string, 3> type = {"combined_table", "compression_table", "decompression_table"};
+    std::array<std::string, 3> algorithm = {"deflate", "huffman_only", "canned"};
+    std::array<std::string, 2> serialization_type = {"compact", "raw"};
 
     os << std::endl;
 
