@@ -22,7 +22,6 @@
 
 #include "common/bit_reverse.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
-#include "compression/huffman_table/canned_utility.h"
 #include "compression_operations/huffman_table.hpp"
 
 static inline qpl_comp_style own_get_compression_style(const qpl_job *const job_ptr) {

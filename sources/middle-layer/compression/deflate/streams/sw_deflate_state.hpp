@@ -8,7 +8,6 @@
 #define QPL_MIDDLE_LAYER_COMPRESSION_STREAMS_SW_DEFLATE_STATE_HPP
 
 #include "common/linear_allocator.hpp"
-#include "compression/huffman_table/canned_utility.h"
 #include "compression/deflate/deflate.hpp"
 #include "compression/deflate/streams/compression_stream.hpp"
 #include "compression/deflate/containers/huffman_table.hpp"
@@ -23,6 +22,7 @@
 #include "igzip_level_buf_structs.h"
 
 #include "deflate_hash_table.h"
+#include "compression/huffman_table/canned_utils.hpp"
 
 namespace qpl::ml::compression {
 

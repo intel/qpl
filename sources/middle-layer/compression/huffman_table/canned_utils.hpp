@@ -28,7 +28,7 @@ struct qpl_compression_huffman_table {
     /**
     * Buffer that contains Intel QPL representation of the software compression table
     */
-    std::aligned_storage_t<sizeof(qpl::ml::compression::sw_compression_huffman_table),
+    std::aligned_storage_t<sizeof(qplc_compression_huffman_table),
                            qpl::ml::util::default_alignment> sw_compression_table_data;
     
     /**
@@ -96,6 +96,44 @@ struct qpl_decompression_huffman_table {
     std::aligned_storage_t<sizeof(qpl::ml::compression::canned_table),
                            qpl::ml::util::default_alignment> lookup_table_buffer;
 };
+
+uint32_t own_build_compression_table(const uint32_t *literal_lengths_histogram_ptr,
+                                     const uint32_t *offsets_histogram_ptr,
+                                     qpl_compression_huffman_table *compression_table_ptr,
+                                     uint32_t representation_flags);
+
+uint32_t own_comp_to_decompression_table(const qpl_compression_huffman_table *compression_table_ptr,
+                                         qpl_decompression_huffman_table *decompression_table_ptr,
+                                         uint32_t representation_flags);
+
+extern "C" {
+uint8_t *get_lookup_table_buffer_ptr(qpl_decompression_huffman_table *decompression_table_ptr);
+void *get_aecs_decompress(qpl_decompression_huffman_table *decompression_table_ptr);
+
+uint32_t *get_literals_lengths_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+uint32_t *get_offsets_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+
+uint8_t *get_deflate_header_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+uint32_t get_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_table_ptr);
+void set_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_table_ptr, uint32_t header_bits);
+
+uint8_t *get_sw_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+uint8_t *get_isal_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+uint8_t *get_hw_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
+
+uint8_t *get_sw_decompression_table_buffer(qpl_decompression_huffman_table *const decompression_table_ptr);
+uint8_t *get_hw_decompression_table_buffer(qpl_decompression_huffman_table *const decompression_table_ptr);
+uint8_t *get_deflate_header_buffer(qpl_decompression_huffman_table *const decompression_table_ptr);
+
+bool is_sw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
+bool is_hw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
+bool is_deflate_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
+
+uint16_t *get_number_of_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
+uint16_t *get_first_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
+uint16_t *get_first_table_indexes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
+uint8_t  *get_index_to_char_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
+}
 
 namespace qpl::ml::compression {
 

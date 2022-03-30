@@ -6,8 +6,6 @@
 
 #include "compression_huffman_table.hpp"
 #include "../../../sources/c_api/compression_operations/huffman_table.hpp"
-#include "../../../sources/middle-layer/compression/huffman_table/compression_table_utils.hpp"
-#include "../../../sources/middle-layer/compression/huffman_table/canned_utility.h"
 
 namespace qpl::test {
 void fill_compression_table(qpl_huffman_table_t table) {
@@ -30,7 +28,7 @@ void fill_compression_table(qpl_huffman_table_t table) {
 
     set_deflate_header_bits_size(table_ptr, 1002u);
 
-    ml::compression::qpl_compression_table_to_isal(reinterpret_cast<ml::compression::sw_compression_huffman_table *>
+    ml::compression::qpl_compression_table_to_isal(reinterpret_cast<qplc_compression_huffman_table *>
                                                             (get_sw_compression_huffman_table_ptr(table_ptr)),
                                                    reinterpret_cast<isal_hufftables *>
                                                             (get_isal_compression_huffman_table_ptr(table_ptr)));

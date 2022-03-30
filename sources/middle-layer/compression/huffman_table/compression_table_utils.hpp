@@ -15,17 +15,15 @@
 #include "common/bit_reverse.hpp"
 
 namespace qpl::ml::compression {
-constexpr uint32_t max_deflate_huffman_code_length = 15u;
 constexpr uint32_t literals_count = 256u;
 constexpr uint32_t literal_length_count = 286u;
 constexpr uint32_t distances_count = 30u;
-constexpr uint32_t isal_literal_match_code_length = 4;
 
-void qpl_compression_table_to_isal(const sw_compression_huffman_table *qpl_compression_table,
+void qpl_compression_table_to_isal(const qplc_compression_huffman_table *qpl_compression_table,
                                    isal_hufftables *isal_compression_table) noexcept;
 
 void isal_compression_table_to_qpl(const isal_hufftables *isal_compression_table,
-                                   sw_compression_huffman_table *qpl_compression_table) noexcept;
+                                   qplc_compression_huffman_table *qpl_compression_table) noexcept;
 
 auto build_compression_table(const uint32_t *literals_lengths_histogram_ptr,
                              const uint32_t *distances_histogram_ptr,
@@ -93,18 +91,5 @@ void inline store_isal_deflate_header(isal_hufftables *isal_huffman_table,
  */
 #define QPL_COMPLETE_COMPRESSION_TABLE (QPL_HW_REPRESENTATION | QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION)
 /** @} */
-
-/**
- * @brief Internal structure that holds information for @ref qpl_op_compress operation
- */
-typedef struct qpl_compression_huffman_table  qpl_compression_huffman_table;
-extern const size_t QPL_COMPRESSION_TABLE_SIZE; /**< Size of the compression table in bytes*/
-
-/**
- * @brief Internal structure that holds information for @ref qpl_op_decompress operation
- */
-typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
-extern const size_t QPL_DECOMPRESSION_TABLE_SIZE; /**< Size of the decompression table in bytes */
-
 
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_COMPRESSION_TABLE_UTILS_HPP

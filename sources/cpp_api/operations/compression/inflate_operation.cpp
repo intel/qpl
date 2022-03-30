@@ -10,9 +10,8 @@
 #include "compression/inflate/inflate.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
-#include "../../sources/middle-layer/compression/huffman_table/canned_utility.h"
+#include "compression/huffman_table/canned_utils.hpp"
 #include "util/checkers.hpp"
-#include "qpl/cpp_api/util/qpl_util.hpp"
 
 namespace qpl {
 namespace internal {

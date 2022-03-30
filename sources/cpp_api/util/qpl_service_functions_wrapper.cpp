@@ -7,7 +7,7 @@
 #include "qpl/qpl.h"
 
 #include "qpl/cpp_api/util/qpl_service_functions_wrapper.hpp"
-#include "compression/huffman_table/canned_utility.h"
+#include "compression/huffman_table/canned_utils.hpp"
 #include "compression/huffman_table/compression_table_utils.hpp"
 #include "compression/deflate/histogram.hpp"
 #include "util/memory.hpp"

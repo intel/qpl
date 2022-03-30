@@ -13,7 +13,6 @@
 #include "compression_state_t.h"
 #include "common/defs.hpp"
 #include "compression/huffman_table/decompression_table.hpp"
-#include "compression/huffman_table/canned_utility.h"
 #include "compression/inflate/inflate.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"

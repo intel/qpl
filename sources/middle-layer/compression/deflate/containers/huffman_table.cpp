@@ -12,6 +12,8 @@
 #include "compression/deflate/utils/huffman_table_utils.hpp"
 #include "util/memory.hpp"
 
+#include "qplc_deflate_defs.h"
+
 #include "flatten_ll.h"
 
 #if defined(__GNUC__) && !defined(__clang__)
@@ -113,7 +115,7 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
     memset(cl_counts, 0, sizeof(cl_counts));
 
     if (compression_mode != fixed_mode) {
-        for (i = 0; i < literals_table_size; i++) {
+        for (i = 0; i < LITERALS_TABLE_SIZE; i++) {
             combined_table[i] = ll_codes[i].length;
             compressed_len += ll_codes[i].length * ll_histogram[i];
             fixed_compressed_len += fixed_ll_codes[i].length * ll_histogram[i];

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <compression/deflate/utils/compression_defs.hpp>
 #include "compression_table_utils.hpp"
+#include "canned_utils.hpp"
 #include "util/util.hpp"
 
 extern "C" void own_qpl_huffman_table_to_isal(const qpl_compression_huffman_table *p_table,
@@ -38,7 +39,7 @@ static const uint8_t own_match_lengths_extra_bits[29] = {
 };
 
 
-void qpl_compression_table_to_isal(const sw_compression_huffman_table *qpl_compression_table,
+void qpl_compression_table_to_isal(const qplc_compression_huffman_table *qpl_compression_table,
                                    isal_hufftables *isal_compression_table) noexcept {
     const auto *c_huffman_table = reinterpret_cast<const qpl_compression_huffman_table *>(qpl_compression_table);
 
@@ -46,7 +47,7 @@ void qpl_compression_table_to_isal(const sw_compression_huffman_table *qpl_compr
 }
 
 void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
-                                   sw_compression_huffman_table *qpl_table_ptr) noexcept {
+                                   qplc_compression_huffman_table *qpl_table_ptr) noexcept {
     // Variables
     const auto isal_match_lengths_mask   = util::build_mask<uint16_t, 15u>();
 

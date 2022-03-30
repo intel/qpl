@@ -12,10 +12,9 @@
 /* ------ Includes ------ */
 
 #include "own_defs.h"
-#include "own_deflate.h"
 #include "common/bit_reverse.hpp"
 #include "util/memory.hpp"
-#include "compression/huffman_table/canned_utility.h"
+#include "compression/huffman_table/canned_utils.hpp"
 #include "qplc_compression.h"
 #include "own_deflate_job.h"
 

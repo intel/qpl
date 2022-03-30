@@ -14,7 +14,7 @@
 
 #include "qpl/c_api/huffman_table.h"
 #include "compression/huffman_table/compression_table_utils.hpp"
-#include "compression/huffman_table/canned_utility.h"
+#include "compression/huffman_table/canned_utils.hpp"
 
 #ifdef __cplusplus
 extern "C" {
