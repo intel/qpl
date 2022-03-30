@@ -43,8 +43,9 @@ extern "C" {
 #define QPLC_LENGTH_MASK                (QPLC_HUFFMAN_CODE_LENGTH_MASK << QPLC_HUFFMAN_CODE_LENGTH_OFFSET)
 #define QPLC_HUFFMAN_CODE_MASK          ((1u << QPLC_HUFFMAN_CODE_LENGTH_OFFSET) - 1u) /**< Huffman code mask */
 
+#define QPLC_HUFFMAN_CODE_BIT_LENGTH    15u /**< Number of bits used to store Huffman code */
 #define QPLC_HUFFMAN_CODE_MAX_LENGTH    16u
-#define QPLC_HUFFMAN_CODES_PROPERTIES_TABLE_SIZE   (QPLC_HUFFMAN_CODE_MAX_LENGTH - 1u)
+#define QPLC_HUFFMAN_CODES_PROPERTIES_TABLE_SIZE (QPLC_HUFFMAN_CODE_MAX_LENGTH - 1u)
 #define QPLC_INDEX_TO_CHAR_TABLE_SIZE   257u
 
 #define BFINAL_BIT                      1u    /**< Bfinal bit value in deflate header */

@@ -13,6 +13,7 @@
 #define QPL_DEFLATE_HISTOGRAM_H_
 
 #include "deflate_defs.h"
+#include "qplc_compression_consts.h"
 #include "deflate_hash_table.h"
 #include "own_qplc_defs.h"
 
@@ -20,29 +21,15 @@
 extern "C" {
 #endif
 
-#define OWN_LITERALS_MATCHES_TABLE_SIZE 286u  /**> Size of Huffman table with codes for literals and match lengths */
-#define OWN_OFFSETS_TABLE_SIZE 30u            /**> Size of Huffman table with codes for offsets */
-
 typedef struct isal_huff_histogram isal_histogram;
 
 /**
  * @brief Internal structure that is used for statistics gathering in deflate process
  */
 typedef struct {
-    /**
-     * Literals and matches statistics
-     */
-    uint32_t literals_matches[OWN_LITERALS_MATCHES_TABLE_SIZE];
-
-    /**
-     * Offsets statistics
-     */
-    uint32_t offsets[OWN_OFFSETS_TABLE_SIZE];
-
-    /**
-     * Hash-table for match searching
-     */
-    deflate_hash_table_t table;
+    uint32_t             literals_matches[QPLC_DEFLATE_LL_TABLE_SIZE]; /**< Literals and matches statistics */
+    uint32_t             offsets[QPLC_DEFLATE_D_TABLE_SIZE];           /**< Offsets statistics */
+    deflate_hash_table_t table;                                        /**< Hash-table for match searching */
 } deflate_histogram_t;
 
 typedef void (*qplc_deflate_histogram_reset_ptr) (deflate_histogram_t *const histogram_ptr);
@@ -60,8 +47,7 @@ OWN_QPLC_API(void, deflate_histogram_reset, (deflate_histogram_t *const histogra
  * @param[in,out]  histogram_ptr  pointer to @link own_deflate_histogram @endlink where statistics should be stored
  * @param[in]      match          information about found match
  */
-void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr,
-                                    const deflate_match_t match);
+void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, const deflate_match_t match);
 
 /**
  * @brief Fills deflate statistics histogram from given @link own_deflate_histogram @endlink
@@ -72,7 +58,7 @@ void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr,
  * @param[out]   offsets_histogram_ptr        Pointer to offsets histogram
  * @param[in]    deflate_histogram_ptr        Pointer to filled deflate histogram
  *
- * @return this function doen't return anything
+ * @return this function doesn't return anything
  */
 void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogram_ptr,
                                       uint32_t *literal_length_histogram_ptr,
@@ -87,7 +73,7 @@ void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogr
  * @param[in]   literal_length_histogram_ptr  Pointer to filled literals/lengths histogram
  * @param[in]   offsets_histogram_ptr         Pointer to filled offsets histogram
  *
- * @return this function doen't return anything
+ * @return this function doesn't return anything
  */
 void deflate_histogram_set_statistics(deflate_histogram_t *deflate_histogram_ptr,
                                       const uint32_t *literal_length_histogram_ptr,

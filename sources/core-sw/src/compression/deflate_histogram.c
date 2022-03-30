@@ -111,11 +111,11 @@ void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, co
 void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogram_ptr,
                                       uint32_t *literal_length_histogram_ptr,
                                       uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < OWN_LITERALS_MATCHES_TABLE_SIZE; i++) {
+    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         literal_length_histogram_ptr[i] = deflate_histogram_ptr->literals_matches[i];
     }
 
-    for (uint32_t i = 0u; i < OWN_OFFSETS_TABLE_SIZE; i++) {
+    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         offsets_histogram_ptr[i] = deflate_histogram_ptr->offsets[i];
     }
 }
@@ -123,11 +123,11 @@ void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogr
 void deflate_histogram_set_statistics(deflate_histogram_t *deflate_histogram_ptr,
                                       const uint32_t *literal_length_histogram_ptr,
                                       const uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < OWN_LITERALS_MATCHES_TABLE_SIZE; i++) {
+    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         deflate_histogram_ptr->literals_matches[i] = literal_length_histogram_ptr[i];
     }
 
-    for (uint32_t i = 0u; i < OWN_OFFSETS_TABLE_SIZE; i++) {
+    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         deflate_histogram_ptr->offsets[i] = offsets_histogram_ptr[i];
     }
 }
