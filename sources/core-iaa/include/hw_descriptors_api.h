@@ -730,7 +730,7 @@ HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *
 static inline
 HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr, bool flag)) {
     const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
-    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 5u;
+    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 4u;
 
     if(flag)
         descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] |= BLOCK_ON_FAULT_FLAG_BIT_MASK;
