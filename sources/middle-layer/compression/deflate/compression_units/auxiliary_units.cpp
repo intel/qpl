@@ -15,7 +15,7 @@
 
 #include "deflate_slow_utils.h"
 
-#include "qplc_compression.h"
+#include "qplc_deflate_utils.h"
 #include "dispatcher/dispatcher.hpp"
 
 #include "compression/huffman_only/huffman_only_compression_state.hpp"

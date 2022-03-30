@@ -28,7 +28,7 @@ struct qpl_compression_huffman_table {
     /**
     * Buffer that contains Intel QPL representation of the software compression table
     */
-    std::aligned_storage_t<sizeof(qplc_compression_huffman_table),
+    std::aligned_storage_t<sizeof(qplc_huffman_table_default_format),
                            qpl::ml::util::default_alignment> sw_compression_table_data;
     
     /**
@@ -66,7 +66,7 @@ struct qpl_decompression_huffman_table {
     /**
     * Buffer that contains representation of the software decompression table
     */
-    std::aligned_storage_t<sizeof(qpl::ml::compression::sw_decompression_huffman_table),
+    std::aligned_storage_t<sizeof(qplc_huffman_table_flat_format),
                            qpl::ml::util::default_alignment> sw_flattened_table;
 
     /**

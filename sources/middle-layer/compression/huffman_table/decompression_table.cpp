@@ -13,7 +13,7 @@ decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
                                                          uint8_t *hw_table_ptr,
                                                          uint8_t *deflate_header_ptr,
                                                          uint8_t *canned_table_ptr) {
-    sw_decompression_table_ptr = reinterpret_cast<sw_decompression_huffman_table *>(sw_table_ptr);
+    sw_decompression_table_ptr = reinterpret_cast<qplc_huffman_table_flat_format *>(sw_table_ptr);
 
     size_t aecs_buffer_size = sizeof(qpl::ml::compression::hw_decompression_state);
     void * pointer_to_be_aligned_ptr = hw_table_ptr;
@@ -36,7 +36,7 @@ auto decompression_huffman_table::get_deflate_header_data() noexcept -> uint8_t 
     return deflate_header_ptr_->data;
 }
 
-auto decompression_huffman_table::get_sw_decompression_table() noexcept -> sw_decompression_huffman_table * {
+auto decompression_huffman_table::get_sw_decompression_table() noexcept -> qplc_huffman_table_flat_format * {
     return sw_decompression_table_ptr;
 }
 

@@ -10,21 +10,15 @@
 #include "own_compress.h"
 #include <assert.h>
 
-
-#define QPL_LITERALS_MATCHES_TABLE_SIZE    286u  /**< Size of Huffman table with codes for literals and match lengths */ // @todo remove dependency
-#define QPL_DEFAULT_OFFSETS_NUMBER         30u   /**< Default number of possible offsets in a Huffman table */ // @todo remove dependency
-#define QPL_DEFAULT_LITERALS_NUMBER        257u  /**< Default number of literals in a Huffman table */ // @todo remove dependency
-#define BFINAL_BIT                         1u    /**< Bfinal bit value in deflate header */
-typedef struct qpl_compression_huffman_table  qpl_compression_huffman_table;
-
 #include "../../../../include/qpl/c_api/status.h" // @todo remove dependency
 
 #define PLATFORM 2
 #include "qplc_memop.h"
+#include "qplc_compression_consts.h"
 
-uint32_t * get_literals_lengths_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr); // @todo remove dependency
-uint32_t * get_offsets_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr); // @todo remove dependency
-void set_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_table_ptr, uint32_t header_bits); // @todo remove dependency
+uint32_t * get_literals_lengths_table_ptr(hw_iaa_c_huffman_table *const huffman_table_ptr); // @todo remove dependency
+uint32_t * get_offsets_table_ptr(hw_iaa_c_huffman_table *const huffman_table_ptr); // @todo remove dependency
+void set_deflate_header_bits_size(hw_iaa_c_huffman_table *const huffman_table_ptr, uint32_t header_bits); // @todo remove dependency
 
 uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
                                uint32_t *d_codes_ptr,
@@ -187,11 +181,11 @@ HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogra
 }
 
 HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_iaa_aecs_compress *const aecs_ptr,
-                                                                       qpl_compression_huffman_table *const huffman_table_ptr)) {
+                                                                       hw_iaa_c_huffman_table *const huffman_table_ptr)) {
     avx512_qplc_copy_8u((uint8_t *) aecs_ptr->histogram.ll_sym,
-                  (uint8_t *) get_literals_lengths_table_ptr(huffman_table_ptr),
-                  QPL_DEFAULT_LITERALS_NUMBER * sizeof(uint32_t));
+                        (uint8_t *) get_literals_lengths_table_ptr(huffman_table_ptr),
+                        QPLC_DEFLATE_LITERALS_COUNT * sizeof(uint32_t));
     avx512_qplc_zero_8u((uint8_t *) get_offsets_table_ptr(huffman_table_ptr),
-                QPL_DEFAULT_OFFSETS_NUMBER * sizeof(uint32_t));
+                        QPLC_DEFLATE_OFFSETS_COUNT * sizeof(uint32_t));
     set_deflate_header_bits_size(huffman_table_ptr, 0u);
 }

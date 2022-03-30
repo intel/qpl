@@ -16,6 +16,7 @@
 #include "deflate_hash_table.h"
 #include "deflate_histogram.h"
 #include "own_deflate_job.h"
+#include "qplc_compression_consts.h"
 
 #include "crc.h"
 
@@ -33,7 +34,7 @@ static inline void own_deflate_job_update_missed_literals(own_deflate_job *const
     while (job_ptr->current_ptr < upper_bound_ptr) {
         // Variables
         const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr,
-                                              OWN_BYTES_FOR_HASH_CALCULATION,
+                                              QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
                                               0u) & job_ptr->histogram_ptr->table.hash_mask;
 
         // Updating hash table
@@ -69,15 +70,15 @@ void own_deflate_job_perform(own_deflate_job *const job_ptr,
     const uint8_t *const lower_bound_ptr = job_ptr->lower_bound_ptr;
 
     // Main cycle
-    while (job_ptr->current_ptr < (upper_bound_ptr - OWN_MINIMAL_MATCH_LENGTH) &&
+    while (job_ptr->current_ptr < (upper_bound_ptr - QPLC_DEFLATE_MINIMAL_MATCH_LENGTH) &&
            predicate(job_ptr)) {
         // Variables
         const deflate_match_t longest_match = match_finder(&job_ptr->histogram_ptr->table,
                                                            lower_bound_ptr,
                                                            job_ptr->current_ptr,
-                                                     upper_bound_ptr - OWN_MINIMAL_MATCH_LENGTH);
+                                                           upper_bound_ptr - QPLC_DEFLATE_MINIMAL_MATCH_LENGTH);
 
-        if (longest_match.length >= OWN_MINIMAL_MATCH_LENGTH) {
+        if (longest_match.length >= QPLC_DEFLATE_MINIMAL_MATCH_LENGTH) {
             matches_handler(job_ptr, longest_match, literals_handler);
         } else {
             literals_handler(job_ptr, job_ptr->current_ptr + 1u, false);
@@ -100,7 +101,7 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
     if (true == safe) {
         while (job_ptr->current_ptr < upper_bound_ptr) {
             // Variables
-            const uint32_t bytes_for_hash = QPL_MIN(OWN_BYTES_FOR_HASH_CALCULATION,
+            const uint32_t bytes_for_hash = QPL_MIN(QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
                                                     (uint32_t) (upper_bound_ptr - job_ptr->current_ptr));
 
             const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr, bytes_for_hash, 0u) &
@@ -121,7 +122,7 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
         while (job_ptr->current_ptr < upper_bound_ptr) {
             // Variables
             const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr,
-                                                  OWN_BYTES_FOR_HASH_CALCULATION,
+                                                  QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
                                                   0u) & job_ptr->histogram_ptr->table.hash_mask;
 
             // Updating histogram

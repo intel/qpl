@@ -14,7 +14,7 @@
 namespace qpl::ml::compression {
 
 static void restore_huffman_table(
-        const sw_decompression_huffman_table &huffman_table,
+        const qplc_huffman_table_flat_format &huffman_table,
         std::array<huffman_code, huffman_only_number_of_literals> &result_huffman_table) noexcept {
     // Main cycle
     for (uint32_t current_code_length = 1u; current_code_length < 16u; current_code_length++) {

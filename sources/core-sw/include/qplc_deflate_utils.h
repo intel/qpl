@@ -13,7 +13,7 @@
 #define QPL_SOURCES_CORE_INCLUDE_QPLC_COMPRESSION_H_
 
 #include "../src/compression/include/deflate_hash_table.h"
-#include "qplc_deflate_defs.h"
+#include "qplc_compression_consts.h"
 
 #ifdef __cplusplus
 extern "C" {

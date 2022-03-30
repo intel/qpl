@@ -19,10 +19,10 @@ static_assert(sizeof(hw_iaa_aecs_analytic) == HW_AECS_ANALYTICS_SIZE, "hw_aecs_a
 
 #include "../../../../include/qpl/c_api/status.h" // @todo remove dependency
 
-uint16_t * get_number_of_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint16_t * get_first_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint16_t * get_first_table_indexes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint8_t * get_index_to_char_ptr(qpl_decompression_huffman_table *const decompression_table_ptr); // @todo remove dependency
+uint16_t * get_number_of_codes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
+uint16_t * get_first_codes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
+uint16_t * get_first_table_indexes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
+uint8_t * get_index_to_char_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
 
 /**
  * @brief Helper for packing Huffman table
@@ -50,7 +50,7 @@ static inline void hw_pack(uint32_t out[5], const uint16_t in[15]) {
 }
 
 HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                                       qpl_decompression_huffman_table *const huffman_table_ptr)) {
+                                                                       hw_iaa_d_huffman_table *const huffman_table_ptr)) {
     avx512_qplc_zero_8u((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
     hw_pack(aecs_ptr->lit_len_first_tbl_idx, get_first_table_indexes_ptr(huffman_table_ptr));

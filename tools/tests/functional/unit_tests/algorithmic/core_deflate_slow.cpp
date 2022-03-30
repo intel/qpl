@@ -10,7 +10,7 @@
 #include "random_generator.h"
 #include "../t_common.hpp"
 
-#include "qplc_compression.h"
+#include "qplc_deflate_utils.h"
 #include "own_qplc_defs.h"
 
 #include "own_defs.h"

@@ -50,7 +50,7 @@ auto initialize_inflate_state_from_deflate_header(uint8_t *deflate_header_data_p
 
 inline auto triplets_to_sw_compression_table(const qpl_triplet *triplets_ptr,
                                              std::size_t triplets_count,
-                                             qplc_compression_huffman_table *compression_table) -> qpl_ml_status {
+                                             qplc_huffman_table_default_format *compression_table) -> qpl_ml_status {
     for (std::size_t i = 0; i < triplets_count; i++) {
         qpl_triplet current_triplet = triplets_ptr[i];
 
@@ -72,7 +72,7 @@ inline auto triplets_code_values_comparator(const void *a, const void *b) noexce
 
 void triplets_to_sw_decompression_table(const qpl_triplet *triplets_ptr,
                                         size_t triplets_count,
-                                        sw_decompression_huffman_table *decompression_table_ptr) noexcept {
+                                        qplc_huffman_table_flat_format *decompression_table_ptr) noexcept {
     // Variables
     uint32_t empty_position = 0u;
 
@@ -118,8 +118,8 @@ void triplets_to_sw_decompression_table(const qpl_triplet *triplets_ptr,
     }
 }
 
-void convert_software_tables(qplc_compression_huffman_table *compression_table_ptr,
-                             sw_decompression_huffman_table *decompression_table_ptr) noexcept {
+void convert_software_tables(qplc_huffman_table_default_format *compression_table_ptr,
+                             qplc_huffman_table_flat_format *decompression_table_ptr) noexcept {
     std::array<qpl_triplet, 256u> triplets_array = {};
 
     for (uint32_t i = 0; i < 256u; i++) {
@@ -283,7 +283,7 @@ auto comp_to_decompression_table(compression_huffman_table &compression_table,
 #include "compression/huffman_table/canned_utils.hpp"
 #include "compression/huffman_table/compression_table_utils.hpp"
 
-static_assert(sizeof(qplc_compression_huffman_table) <=
+static_assert(sizeof(qplc_huffman_table_default_format) <=
               sizeof(qpl_compression_huffman_table::sw_compression_table_data));
 
 uint32_t own_comp_to_decompression_table(const qpl_compression_huffman_table *compression_table_ptr,
@@ -451,14 +451,14 @@ void *get_aecs_decompress(qpl_decompression_huffman_table *decompression_table_p
 
 uint32_t *get_literals_lengths_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_compression_table = reinterpret_cast<qplc_compression_huffman_table *>(&huffman_table_ptr->sw_compression_table_data);
+    auto sw_compression_table = reinterpret_cast<qplc_huffman_table_default_format *>(&huffman_table_ptr->sw_compression_table_data);
 
     return sw_compression_table->literals_matches;
 }
 
 uint32_t *get_offsets_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_compression_table = reinterpret_cast<qplc_compression_huffman_table *>(&huffman_table_ptr->sw_compression_table_data);
+    auto sw_compression_table = reinterpret_cast<qplc_huffman_table_default_format *>(&huffman_table_ptr->sw_compression_table_data);
 
     return sw_compression_table->offsets;
 }
@@ -492,28 +492,28 @@ uint8_t * get_hw_compression_huffman_table_ptr(qpl_compression_huffman_table *co
 
 uint16_t *get_number_of_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_decompr_table = reinterpret_cast<sw_decompression_huffman_table *>(&decompression_table_ptr->sw_flattened_table);
+    auto sw_decompr_table = reinterpret_cast<qplc_huffman_table_flat_format *>(&decompression_table_ptr->sw_flattened_table);
 
     return sw_decompr_table->number_of_codes;
 }
 
 uint16_t *get_first_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_decompr_table = reinterpret_cast<sw_decompression_huffman_table *>(&decompression_table_ptr->sw_flattened_table);
+    auto sw_decompr_table = reinterpret_cast<qplc_huffman_table_flat_format *>(&decompression_table_ptr->sw_flattened_table);
 
     return sw_decompr_table->first_codes;
 }
 
 uint16_t *get_first_table_indexes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_decompr_table = reinterpret_cast<sw_decompression_huffman_table *>(&decompression_table_ptr->sw_flattened_table);
+    auto sw_decompr_table = reinterpret_cast<qplc_huffman_table_flat_format *>(&decompression_table_ptr->sw_flattened_table);
 
     return sw_decompr_table->first_table_indexes;
 }
 
 uint8_t *get_index_to_char_ptr(qpl_decompression_huffman_table *const decompression_table_ptr) {
     using namespace qpl::ml::compression;
-    auto sw_decompr_table = reinterpret_cast<sw_decompression_huffman_table *>(&decompression_table_ptr->sw_flattened_table);
+    auto sw_decompr_table = reinterpret_cast<qplc_huffman_table_flat_format *>(&decompression_table_ptr->sw_flattened_table);
 
     return sw_decompr_table->index_to_char;
 }

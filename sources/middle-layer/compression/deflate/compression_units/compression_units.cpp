@@ -19,7 +19,7 @@
 #include "bitbuf2.h"
 
 #include "dispatcher/dispatcher.hpp"
-#include "qplc_compression.h"
+#include "qplc_deflate_utils.h"
 
 static inline qplc_slow_deflate_body_t_ptr qplc_slow_deflate_body() {
     return (qplc_slow_deflate_body_t_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);

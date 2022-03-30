@@ -13,16 +13,6 @@
 #include "qplc_huffman_table.h"
 
 namespace qpl::ml::compression {
-constexpr uint32_t literals_table_size = LITERALS_TABLE_SIZE;
-constexpr uint32_t matches_table_size = MATCHES_TABLE_SIZE;
-constexpr uint32_t literals_matches_table_size = literals_table_size + matches_table_size;
-constexpr uint32_t offsets_table_size = 30u;
-constexpr uint32_t huffman_code_length_mask = 0xF;
-constexpr uint32_t huffman_code_length_offset = 15u;
-constexpr uint32_t length_mask = huffman_code_length_mask << huffman_code_length_offset;
-constexpr uint32_t huffman_code_mask = (1u << huffman_code_length_offset) - 1;
-constexpr uint32_t deflate_header_size = 218u;
-
 /**
  * @brief Structure that holds Huffman codes for compression
  *
@@ -37,6 +27,7 @@ constexpr uint32_t deflate_header_size = 218u;
  * Code is not bit-reversed, stored in LE
  */
 constexpr uint32_t hw_compression_huffman_table_size = 1u;
+constexpr uint32_t deflate_header_size = 218u;
 
 /**
  * @brief Structure that represents hardware compression table
@@ -68,7 +59,7 @@ public:
                               uint8_t *deflate_header_ptr) noexcept;
 
     auto get_deflate_header_data() noexcept -> uint8_t *;
-    auto get_sw_compression_table() noexcept -> qplc_compression_huffman_table *;
+    auto get_sw_compression_table() noexcept -> qplc_huffman_table_default_format *;
     auto get_isal_compression_table() noexcept -> isal_hufftables *;
     auto get_hw_compression_table() noexcept -> hw_compression_huffman_table *;
     auto get_deflate_header_bit_size() noexcept -> uint32_t;
@@ -86,9 +77,9 @@ public:
     auto is_huffman_only() const noexcept -> bool;
 
 private:
-    hw_compression_huffman_table   *hw_compression_table_ptr_;
-    qplc_compression_huffman_table *sw_compression_table_ptr_;
-    isal_hufftables              *isal_compression_table_ptr_;
+    hw_compression_huffman_table      *hw_compression_table_ptr_;
+    qplc_huffman_table_default_format *sw_compression_table_ptr_;
+    isal_hufftables                   *isal_compression_table_ptr_;
     deflate_header               *deflate_header_ptr_;
 
     bool sw_compression_table_flag_;

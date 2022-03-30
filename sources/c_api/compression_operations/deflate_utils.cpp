@@ -15,7 +15,7 @@
 #include "common/bit_reverse.hpp"
 #include "util/memory.hpp"
 #include "compression/huffman_table/canned_utils.hpp"
-#include "qplc_compression.h"
+#include "qplc_deflate_utils.h"
 #include "own_deflate_job.h"
 
 #ifdef __cplusplus
@@ -94,7 +94,7 @@ static inline void own_create_packed_match_lengths_table(uint32_t *const packed_
     // Variables
     uint8_t count             = 0;
     uint16_t extra_bits_count = 0;
-    uint16_t gain_extra_bits  = OWN_EXTRA_BITS_START_POSITION;
+    uint16_t gain_extra_bits  = QPLC_DEFLATE_EXTRA_BITS_START_POSITION;
 
     // Main cycle
     for (uint32_t i = 257; i < OWN_LITERALS_MATCHES_TABLE_SIZE - 1; i++) {
@@ -103,19 +103,19 @@ static inline void own_create_packed_match_lengths_table(uint32_t *const packed_
                 break;
             }
 
-            packed_table_ptr[count++] = (extra_bits << (huffman_table_ptr[i].length + OWN_CODE_LENGTH_BIT_LENGTH)) |
-                                        (huffman_table_ptr[i].code << OWN_CODE_LENGTH_BIT_LENGTH) |
+            packed_table_ptr[count++] = (extra_bits << (huffman_table_ptr[i].length + QPLC_CODE_LENGTH_BIT_LENGTH)) |
+                                        (huffman_table_ptr[i].code << QPLC_CODE_LENGTH_BIT_LENGTH) |
                                         (huffman_table_ptr[i].length + extra_bits_count);
         }
 
         if (i == gain_extra_bits) {
-            gain_extra_bits += OWN_LENGTH_EXTRA_BITS_INTERVAL;
+            gain_extra_bits += QPLC_DEFLATE_LENGTH_EXTRA_BITS_INTERVAL;
             extra_bits_count += 1;
         }
     }
 
     packed_table_ptr[count] =
-            (huffman_table_ptr[OWN_LITERALS_MATCHES_TABLE_SIZE - 1].code << OWN_CODE_LENGTH_BIT_LENGTH) |
+            (huffman_table_ptr[OWN_LITERALS_MATCHES_TABLE_SIZE - 1].code << QPLC_CODE_LENGTH_BIT_LENGTH) |
             (huffman_table_ptr[OWN_LITERALS_MATCHES_TABLE_SIZE - 1].length);
 }
 
@@ -125,7 +125,7 @@ static inline void own_create_packed_offset_table(uint32_t *const packed_table_p
     // Variables
     uint32_t count            = 0;
     uint16_t extra_bits_count = 0;
-    uint16_t gain_extra_bits  = OWN_OFFSETS_BEGIN_VALUE;
+    uint16_t gain_extra_bits  = QPLC_DEFLATE_EXTRA_OFFSETS_BEGIN_VALUE;
 
     // Main cycle
     for (uint32_t i = 0; i < QPL_DEFAULT_OFFSETS_NUMBER; i++) {
@@ -134,13 +134,13 @@ static inline void own_create_packed_offset_table(uint32_t *const packed_table_p
                 return;
             }
 
-            packed_table_ptr[count++] = (extra_bits << (huffman_table_ptr[i].length + OWN_CODE_LENGTH_BIT_LENGTH)) |
-                                        (huffman_table_ptr[i].code << OWN_CODE_LENGTH_BIT_LENGTH) |
+            packed_table_ptr[count++] = (extra_bits << (huffman_table_ptr[i].length + QPLC_CODE_LENGTH_BIT_LENGTH)) |
+                                        (huffman_table_ptr[i].code << QPLC_CODE_LENGTH_BIT_LENGTH) |
                                         (huffman_table_ptr[i].length + extra_bits_count);
         }
 
         if (i == gain_extra_bits) {
-            gain_extra_bits += OWN_OFFSETS_EXTRA_BITS_INTERVAL;
+            gain_extra_bits += QPLC_DEFLATE_OFFSETS_EXTRA_BITS_INTERVAL;
             extra_bits_count += 1;
         }
     }
@@ -196,7 +196,7 @@ void own_qpl_huffman_table_to_isal(qpl_compression_huffman_table *const qpl_tabl
     // Variables
     const uint32_t qpl_code_mask     = (1u << OWN_HUFFMAN_CODE_BIT_LENGTH) - 1u;
     // First 15 bits [14:0]
-    const uint32_t qpl_length_mask   = OWN_QPL_HUFFMAN_CODE_LENGTH_MASK << OWN_HUFFMAN_CODE_BIT_LENGTH; // Bits [18:15]
+    const uint32_t qpl_length_mask   = QPLC_HUFFMAN_CODE_LENGTH_MASK << OWN_HUFFMAN_CODE_BIT_LENGTH; // Bits [18:15]
     uint32_t       header_byte_size  = 0;
     uint32_t       header_extra_bits = 0;
 
@@ -235,7 +235,7 @@ void own_qpl_huffman_table_to_isal(qpl_compression_huffman_table *const qpl_tabl
                            literals_matches_table);
 
     own_create_packed_match_lengths_table(isal_table_ptr->len_table, literals_matches_table);
-    own_create_packed_offset_table(isal_table_ptr->dist_table, OWN_OFFSET_TABLE_SIZE, offsets_huffman_table);
+    own_create_packed_offset_table(isal_table_ptr->dist_table, QPLC_OFFSET_TABLE_SIZE, offsets_huffman_table);
 
     // Setting header information
     header_extra_bits = get_deflate_header_bits_size(qpl_table_ptr) % 8;

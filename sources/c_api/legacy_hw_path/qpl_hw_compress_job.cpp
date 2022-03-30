@@ -234,6 +234,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
         hw_iaa_aecs_compress_set_huffman_only_huffman_table_from_histogram(cfg_in_ptr,
                                                                            &cfg_in_ptr->histogram);
         hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table));
+        set_deflate_header_bits_size(own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table), 0u);
     } else {
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(cfg_in_ptr,
                                                                          &cfg_in_ptr->histogram,

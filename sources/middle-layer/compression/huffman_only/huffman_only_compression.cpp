@@ -58,7 +58,7 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
 
         stream.huffman_table_ptr_->enable_sw_compression_table();
 
-        std::array<uint8_t, sizeof(sw_decompression_huffman_table)> decompression_table_buffer{};
+        std::array<uint8_t, sizeof(qplc_huffman_table_flat_format)> decompression_table_buffer{};
 
         decompression_huffman_table decompression_table(decompression_table_buffer.data(),
                                                         nullptr,
@@ -118,6 +118,7 @@ auto compress_huffman_only<execution_path_t::hardware>(uint8_t *begin,
                                                                                               ->get_sw_compression_table());
 
         hw_iaa_aecs_compress_store_huffman_only_huffman_table(stream.compress_aecs_, qpl_huffman_table);
+        set_deflate_header_bits_size(qpl_huffman_table, 0u);
 
         hw_iaa_descriptor_compress_set_aecs(stream.descriptor_compress_,
                                             stream.compress_aecs_,

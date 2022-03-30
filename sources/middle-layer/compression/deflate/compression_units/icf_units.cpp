@@ -10,7 +10,7 @@
 #include "util/memory.hpp"
 
 #include "dispatcher/dispatcher.hpp"
-#include "qplc_compression.h"
+#include "qplc_deflate_utils.h"
 
 #include "deflate_slow_icf.h"
 

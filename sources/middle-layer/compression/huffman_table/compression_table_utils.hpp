@@ -19,11 +19,11 @@ constexpr uint32_t literals_count = 256u;
 constexpr uint32_t literal_length_count = 286u;
 constexpr uint32_t distances_count = 30u;
 
-void qpl_compression_table_to_isal(const qplc_compression_huffman_table *qpl_compression_table,
+void qpl_compression_table_to_isal(const qplc_huffman_table_default_format *qpl_compression_table,
                                    isal_hufftables *isal_compression_table) noexcept;
 
 void isal_compression_table_to_qpl(const isal_hufftables *isal_compression_table,
-                                   qplc_compression_huffman_table *qpl_compression_table) noexcept;
+                                   qplc_huffman_table_default_format *qpl_compression_table) noexcept;
 
 auto build_compression_table(const uint32_t *literals_lengths_histogram_ptr,
                              const uint32_t *distances_histogram_ptr,

@@ -8,6 +8,7 @@
 #define OWN_DEFLATE_SLOW_H
 
 #include "own_qplc_defs.h"
+#include "qplc_compression_consts.h"
 #include "immintrin.h"
 
 #if PLATFORM >= K0
@@ -136,10 +137,10 @@ OWN_OPT_FUN(uint32_t, k0_slow_deflate_body,(uint8_t* current_ptr,
     int      src_len = (int)(upper_bound_ptr - lower_bound_ptr) - (MAX_MATCH + MIN_MATCH4 - 1);
     int      indx_src = (int)(current_ptr - lower_bound_ptr);
     int      hash_mask = hash_table_ptr->hash_mask;
-    int      win_mask = OWN_MAXIMAL_OFFSET - 1;
+    int      win_mask = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
     int      hash_key = 0;
     int      bound, win_bound, tmp, candidat, index;
-    uint32_t win_size = OWN_MAXIMAL_OFFSET;
+    uint32_t win_size = QPLC_DEFLATE_MAXIMAL_OFFSET;
 
     {
         //        int chain_length_current = hash_table_ptr->attempts;

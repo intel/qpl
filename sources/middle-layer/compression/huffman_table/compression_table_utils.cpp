@@ -39,7 +39,7 @@ static const uint8_t own_match_lengths_extra_bits[29] = {
 };
 
 
-void qpl_compression_table_to_isal(const qplc_compression_huffman_table *qpl_compression_table,
+void qpl_compression_table_to_isal(const qplc_huffman_table_default_format *qpl_compression_table,
                                    isal_hufftables *isal_compression_table) noexcept {
     const auto *c_huffman_table = reinterpret_cast<const qpl_compression_huffman_table *>(qpl_compression_table);
 
@@ -47,12 +47,12 @@ void qpl_compression_table_to_isal(const qplc_compression_huffman_table *qpl_com
 }
 
 void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
-                                   qplc_compression_huffman_table *qpl_table_ptr) noexcept {
+                                   qplc_huffman_table_default_format *qpl_table_ptr) noexcept {
     // Variables
     const auto isal_match_lengths_mask   = util::build_mask<uint16_t, 15u>();
 
     // Convert literals codes
-    for (uint32_t i = 0; i < literals_table_size; i++) {
+    for (uint32_t i = 0; i < QPLC_DEFLATE_LITERALS_COUNT; i++) {
         const uint16_t code   = isal_table_ptr->lit_table[i];
         const uint8_t  length = isal_table_ptr->lit_table_sizes[i];
 
@@ -60,7 +60,7 @@ void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
     }
 
     // Convert match lengths codes
-    for (uint32_t i = 0; i < matches_table_size; i++) {
+    for (uint32_t i = 0; i < QPLC_DEFLATE_MATCHES_COUNT; i++) {
         const uint16_t code   = isal_table_ptr->len_table[own_match_length_codes_bases[i]] >> 5u;
         uint8_t length = isal_table_ptr->len_table[own_match_length_codes_bases[i]] & isal_match_lengths_mask;
 
@@ -69,15 +69,15 @@ void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
         // to prevent the overflow of code's length
         if (0u != length) {
             length -= own_match_lengths_extra_bits[i];
-            qpl_table_ptr->literals_matches[i + literals_table_size] = reverse_bits(code, length) | (uint32_t) (length << 15u);
+            qpl_table_ptr->literals_matches[i + QPLC_DEFLATE_LITERALS_COUNT] = reverse_bits(code, length) | (uint32_t) (length << 15u);
         } else {
             // Write zero otherwise
-            qpl_table_ptr->literals_matches[i + literals_table_size] = 0u;
+            qpl_table_ptr->literals_matches[i + QPLC_DEFLATE_LITERALS_COUNT] = 0u;
         }
     }
 
     // Convert offsets codes
-    for (uint32_t i = 0; i < offsets_table_size; i++) {
+    for (uint32_t i = 0; i < QPLC_DEFLATE_OFFSETS_COUNT; i++) {
         const uint16_t code   = isal_table_ptr->dcodes[i];
         const uint8_t  length = isal_table_ptr->dcodes_sizes[i];
 

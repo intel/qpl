@@ -28,7 +28,7 @@ void fill_compression_table(qpl_huffman_table_t table) {
 
     set_deflate_header_bits_size(table_ptr, 1002u);
 
-    ml::compression::qpl_compression_table_to_isal(reinterpret_cast<qplc_compression_huffman_table *>
+    ml::compression::qpl_compression_table_to_isal(reinterpret_cast<qplc_huffman_table_default_format *>
                                                             (get_sw_compression_huffman_table_ptr(table_ptr)),
                                                    reinterpret_cast<isal_hufftables *>
                                                             (get_isal_compression_huffman_table_ptr(table_ptr)));

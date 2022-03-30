@@ -11,7 +11,7 @@ compression_huffman_table::compression_huffman_table(uint8_t *sw_table_ptr,
                                                      uint8_t *isal_table_ptr,
                                                      uint8_t *hw_table_ptr,
                                                      uint8_t *deflate_header_ptr) noexcept {
-    sw_compression_table_ptr_   = reinterpret_cast<qplc_compression_huffman_table *>(sw_table_ptr);
+    sw_compression_table_ptr_   = reinterpret_cast<qplc_huffman_table_default_format *>(sw_table_ptr);
     isal_compression_table_ptr_ = reinterpret_cast<isal_hufftables *>(isal_table_ptr);
     hw_compression_table_ptr_   = reinterpret_cast<hw_compression_huffman_table *>(hw_table_ptr);
     deflate_header_ptr_         = reinterpret_cast<deflate_header *>(deflate_header_ptr);
@@ -26,7 +26,7 @@ auto compression_huffman_table::get_deflate_header_data() noexcept -> uint8_t * 
     return deflate_header_ptr_->data;
 }
 
-auto compression_huffman_table::get_sw_compression_table() noexcept -> qplc_compression_huffman_table * {
+auto compression_huffman_table::get_sw_compression_table() noexcept -> qplc_huffman_table_default_format * {
     return sw_compression_table_ptr_;
 }
 

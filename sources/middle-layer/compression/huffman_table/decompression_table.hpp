@@ -16,37 +16,7 @@
 typedef struct inflate_state isal_inflate_state;
 
 namespace qpl::ml::compression {
-constexpr uint32_t maximum_code_length = 16;
-constexpr uint32_t codes_properties_table_size = maximum_code_length - 1;
-constexpr uint32_t index_to_char_table_size = 257;
 constexpr uint32_t hw_state_data_size = HW_AECS_ANALYTICS_SIZE + HW_PATH_STRUCTURES_REQUIRED_ALIGN;
-
-/**
- * @brief Structure that holds information to build Huffman table for decompression
- */
-struct sw_decompression_huffman_table {
-    /**
-     * Number of codes of given length, i.e.
-     * (N-1)-th element of this array contains number of codes of the length N
-     */
-    uint16_t number_of_codes[codes_properties_table_size];
-
-    /**
-     * First code of given length
-     */
-    uint16_t first_codes[codes_properties_table_size];
-
-    /**
-     * Index of the first code of given length
-     */
-    uint16_t first_table_indexes[codes_properties_table_size];
-
-    /**
-     * Symbol of code of given index
-     * The codes are sorted by the rule specified in the RFC1951 3.2.2.
-     */
-    uint8_t index_to_char[index_to_char_table_size];
-};
 
 /**
  * @brief The following structure stores lookup table, which can be used for canned mode decompression later
@@ -89,7 +59,7 @@ public:
                                 uint8_t *canned_table_ptr);
 
     auto get_deflate_header_data() noexcept -> uint8_t *;
-    auto get_sw_decompression_table() noexcept -> sw_decompression_huffman_table *;
+    auto get_sw_decompression_table() noexcept -> qplc_huffman_table_flat_format *;
     auto get_hw_decompression_state() noexcept -> hw_decompression_state *;
     auto get_deflate_header_bit_size() noexcept -> uint32_t;
     auto get_canned_table() noexcept -> canned_table *;
@@ -106,7 +76,7 @@ public:
 
 private:
     hw_decompression_state         *hw_decompression_table_ptr;
-    sw_decompression_huffman_table *sw_decompression_table_ptr;
+    qplc_huffman_table_flat_format *sw_decompression_table_ptr;
     canned_table                   *canned_table_ptr_;
     deflate_header                 *deflate_header_ptr_;
 
