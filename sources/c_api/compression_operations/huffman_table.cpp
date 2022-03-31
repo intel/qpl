@@ -418,12 +418,12 @@ qpl_status qpl_huffman_table_get_type(qpl_huffman_table_t table,
 
 qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl_huffman_table_t table) {
     auto const this_ptr = reinterpret_cast<this_huffman_table_t *>(table);
-    return this_ptr->c_huffman_table;
+    return (this_ptr == nullptr) ? nullptr : this_ptr->c_huffman_table;
 }
 
 qpl_decompression_huffman_table *own_huffman_table_get_decompression_table(const qpl_huffman_table_t table) {
     auto const this_ptr = reinterpret_cast<this_huffman_table_t *>(table);
-    return this_ptr->d_huffman_table;
+    return (this_ptr == nullptr) ? nullptr : this_ptr->d_huffman_table;
 }
 
 }
