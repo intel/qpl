@@ -6,16 +6,14 @@ SPDX-License-Identifier: MIT
 Intel® Query Processing Library (Intel® QPL) Beta
 =================================================
 
-The Intel® Query Processing Library (Intel® QPL) provides a common interface for 
-a number of commonly used algorithms. Using this library enables you to
-automatically tune your application to many generations of processors without
-changes in your application. The Intel® QPL provides high performance
-implementations of data processing functions for existing hardware accelerator,
-and/or software path in case if hardware accelerator is not available. Code written
-within the library automatically takes advantage of available modern CPU
-capabilities. This behavior can provide tremendous development and maintenance savings.
-Use the Intel® QPL to improve performance of database, enterprise data, 
-communications, and scientific/technical applications.
+
+The Intel® Query Processing Library (Intel® QPL) is an open-source library to provide
+high-performance query processing operations on Intel CPUs. Intel® QPL is aimed to support 
+capabilities of the new Intel® In-Memory Analytics Accelerator (Intel® IAA) available on Next
+Generation Intel® Xeon® Scalable processors, codenamed Sapphire Rapids processor, such as very high
+throughput compression and decompression combined with primitive analytic functions, as well as to
+provide highly-optimized SW fallback on other Intel CPUs. Intel QPL primarily targets applications
+such as big-data and in-memory analytic databases.
 
 
 ## Get Started
