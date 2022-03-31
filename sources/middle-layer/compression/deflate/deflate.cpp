@@ -171,6 +171,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         }
 
         if (result.status_code_) {
+            result.status_code_ = QPL_STS_LIBRARY_INTERNAL_ERR;
             return result;
         }
     }

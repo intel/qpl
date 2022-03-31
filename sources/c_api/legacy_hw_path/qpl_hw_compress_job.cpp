@@ -127,7 +127,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                                                                                     get_deflate_header_ptr(huffman_table_ptr),
                                                                                     get_deflate_header_bits_size(huffman_table_ptr),
                                                                                     is_final_block);
-                OWN_QPL_CHECK_STATUS(status);
+                HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
                 uint32_t code_length  = get_literals_lengths_table_ptr(huffman_table_ptr)[256];
                 uint32_t eob_code_len = code_length >> 15u;
@@ -138,7 +138,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                 uint32_t status = hw_iaa_aecs_compress_write_deflate_fixed_header(configuration_ptr,
                                                                                   is_final_block);
 
-                HW_IMMEDIATELY_RET((status != QPL_STS_OK), status);
+                HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
                 state_ptr->eob_code.code   = 0u;
                 state_ptr->eob_code.length = 7u;
@@ -224,6 +224,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
                                                             qpl_job *qpl_job_ptr,
                                                             hw_iaa_aecs_compress *cfg_in_ptr,
                                                             hw_iaa_completion_record *comp_ptr) {
+    using huffman_table_t = qpl::ml::compression::compression_huffman_table;
     uint32_t flags = qpl_job_ptr->flags;
     bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) ? true : false;
     bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1u : 0u;
@@ -233,7 +234,16 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     if (is_huffman_only) {
         hw_iaa_aecs_compress_set_huffman_only_huffman_table_from_histogram(cfg_in_ptr,
                                                                            &cfg_in_ptr->histogram);
-        hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table));
+
+        auto *compression_table_ptr = own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table);
+
+        huffman_table_t compression_table(get_sw_compression_huffman_table_ptr(compression_table_ptr),
+                                          get_isal_compression_huffman_table_ptr(compression_table_ptr),
+                                          get_hw_compression_huffman_table_ptr(compression_table_ptr),
+                                          get_deflate_header_ptr(compression_table_ptr));
+
+
+        hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, compression_table.get_sw_compression_table());
         set_deflate_header_bits_size(own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table), 0u);
     } else {
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(cfg_in_ptr,

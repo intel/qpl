@@ -12,14 +12,42 @@
 #ifndef QPL_MIDDLE_LAYER_COMPRESSION_CANNED_UTILS_HPP
 #define QPL_MIDDLE_LAYER_COMPRESSION_CANNED_UTILS_HPP
 
-#include "compression_table.hpp"
-#include "decompression_table.hpp"
-#include "common/defs.hpp"
-#include "dispatcher/dispatcher.hpp"
-#include "util/util.hpp"
-
 #include <cstddef>
 #include <type_traits>
+
+#include "common/defs.hpp"
+
+#include "deflate_huffman_table.hpp"
+#include "inflate_huffman_table.hpp"
+
+#include "common/defs.hpp"
+#include "util/util.hpp"
+
+/**
+ * Flag which indicates whenever hardware representation of compression/decompression table should be used
+ */
+#define QPL_HW_REPRESENTATION            0x01u
+
+/**
+ * Flag which indicates whenever deflate header should be used
+ */
+#define QPL_DEFLATE_REPRESENTATION       0x04u
+
+/**
+ * Flag which indicates whenever software representation of compression/decompression table should be used
+ */
+#define QPL_SW_REPRESENTATION            0x08u
+
+/**
+ * Flag which indicates whenever huffman only representation of compression/decompression table should be used
+ */
+#define QPL_HUFFMAN_ONLY_REPRESENTATION  0x10u
+
+/**
+ * Combine all (software, hardware, deflate) representation flags to build the complete compression table
+ */
+#define QPL_COMPLETE_COMPRESSION_TABLE (QPL_HW_REPRESENTATION | QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION)
+/** @} */
 
 /**
  * @brief Structure that represents information that is required for compression
@@ -128,14 +156,15 @@ uint8_t *get_deflate_header_buffer(qpl_decompression_huffman_table *const decomp
 bool is_sw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
 bool is_hw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
 bool is_deflate_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr);
-
-uint16_t *get_number_of_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
-uint16_t *get_first_codes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
-uint16_t *get_first_table_indexes_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
-uint8_t  *get_index_to_char_ptr(qpl_decompression_huffman_table *const decompression_table_ptr);
 }
 
 namespace qpl::ml::compression {
+
+struct qpl_triplet {
+    uint8_t character;
+    uint8_t code_length;
+    uint16_t code;
+};
 
 auto triplets_to_compression_table(const qpl_triplet *triplets_ptr,
                                    std::size_t triplets_count,
@@ -147,6 +176,16 @@ auto triplets_to_decompression_table(const qpl_triplet *triplets_ptr,
 
 auto comp_to_decompression_table(compression_huffman_table &compression_table,
                                  decompression_huffman_table &decompression_table) noexcept -> qpl_ml_status;
+
+void qpl_compression_table_to_isal(const qplc_huffman_table_default_format *qpl_compression_table,
+                                   isal_hufftables *isal_compression_table) noexcept;
+
+void isal_compression_table_to_qpl(const isal_hufftables *isal_compression_table,
+                                   qplc_huffman_table_default_format *qpl_compression_table) noexcept;
+
+auto build_compression_table(const uint32_t *literals_lengths_histogram_ptr,
+                             const uint32_t *distances_histogram_ptr,
+                             compression_huffman_table &compression_table) noexcept -> qpl_ml_status;
 }
 
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_CANNED_UTILS_HPP

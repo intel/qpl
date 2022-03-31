@@ -4,21 +4,18 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "hw_definitions.h"
-#include "own_hw_checkers.h"
-#include "hw_aecs_api.h"
-#include "own_compress.h"
 #include <assert.h>
 
-#include "../../../../include/qpl/c_api/status.h" // @todo remove dependency
+#include "own_hw_definitions.h"
+#include "hw_aecs_api.h"
+#include "own_compress.h"
 
 #define PLATFORM 2
 #include "qplc_memop.h"
 #include "qplc_compression_consts.h"
 
-uint32_t * get_literals_lengths_table_ptr(hw_iaa_c_huffman_table *const huffman_table_ptr); // @todo remove dependency
-uint32_t * get_offsets_table_ptr(hw_iaa_c_huffman_table *const huffman_table_ptr); // @todo remove dependency
-void set_deflate_header_bits_size(hw_iaa_c_huffman_table *const huffman_table_ptr, uint32_t header_bits); // @todo remove dependency
+#define OWN_STATUS_OK 0u
+#define OWN_STATUS_ERROR 1u
 
 uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
                                uint32_t *d_codes_ptr,
@@ -61,9 +58,9 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_fixed_header, (hw_iaa_aecs
     uint32_t bit_offset;
     uint32_t data;
 
-    HW_IMMEDIATELY_RET((2 <= b_final), QPL_STS_LIBRARY_INTERNAL_ERR);
+    HW_IMMEDIATELY_RET((2 <= b_final), OWN_STATUS_ERROR);
     // 34 = 32 bytes of prev output accum + 2 bytes of EOB
-    HW_IMMEDIATELY_RET((aecs_ptr->num_output_accum_bits >= 34u * 8u), QPL_STS_LIBRARY_INTERNAL_ERR);
+    HW_IMMEDIATELY_RET((aecs_ptr->num_output_accum_bits >= 34u * 8u), OWN_STATUS_ERROR);
 
     if (0u == (aecs_ptr->num_output_accum_bits & 7u)) {
         // Byte aligned
@@ -95,9 +92,9 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
     uint64_t hdr;
     uint64_t *bit_ptr;
 
-    HW_IMMEDIATELY_RET((2 <= b_final), QPL_STS_LIBRARY_INTERNAL_ERR);
+    HW_IMMEDIATELY_RET((2 <= b_final), OWN_STATUS_ERROR);
     // 34 = 32 bytes of prev output accum + 2 bytes of EOB
-    HW_IMMEDIATELY_RET((aecs_ptr->num_output_accum_bits >= 34u * 8u), QPL_STS_LIBRARY_INTERNAL_ERR);
+    HW_IMMEDIATELY_RET((aecs_ptr->num_output_accum_bits >= 34u * 8u), OWN_STATUS_ERROR);
 
     if (0u == (aecs_ptr->num_output_accum_bits & 7u)) {
         // Byte aligned
@@ -137,7 +134,7 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
         aecs_ptr->num_output_accum_bits += header_bit_size;
     }
 
-    return QPL_STS_OK;
+    return OWN_STATUS_OK;
 }
 
 HW_PATH_IAA_AECS_API(void, compress_set_deflate_huffman_table, (hw_iaa_aecs_compress *const aecs_ptr,
@@ -181,11 +178,10 @@ HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogra
 }
 
 HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_iaa_aecs_compress *const aecs_ptr,
-                                                                       hw_iaa_c_huffman_table *const huffman_table_ptr)) {
+                                                                       hw_iaa_c_huffman_only_table *const huffman_table_ptr)) {
     avx512_qplc_copy_8u((uint8_t *) aecs_ptr->histogram.ll_sym,
-                        (uint8_t *) get_literals_lengths_table_ptr(huffman_table_ptr),
+                        (uint8_t *) huffman_table_ptr->literals_matches,
                         QPLC_DEFLATE_LITERALS_COUNT * sizeof(uint32_t));
-    avx512_qplc_zero_8u((uint8_t *) get_offsets_table_ptr(huffman_table_ptr),
+    avx512_qplc_zero_8u((uint8_t *) huffman_table_ptr->offsets,
                         QPLC_DEFLATE_OFFSETS_COUNT * sizeof(uint32_t));
-    set_deflate_header_bits_size(huffman_table_ptr, 0u);
 }

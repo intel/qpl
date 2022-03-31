@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include <memory>
-#include "decompression_table.hpp"
+#include "inflate_huffman_table.hpp"
 #include "hw_definitions.h"
 
 namespace qpl::ml::compression{

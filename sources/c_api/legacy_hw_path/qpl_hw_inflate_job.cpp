@@ -30,6 +30,7 @@
 #include "compression/dictionary/dictionary_defs.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
 #include "compression_operations/huffman_table.hpp"
+#include "compression/huffman_table/inflate_huffman_table.hpp"
 
 #define DEF_STATE_HDR           1u /**< @todo // looking at block header */
 #define DEF_STATE_LL_TOKEN      0u /**< @todo // looking at block header */
@@ -86,8 +87,16 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
             HW_IMMEDIATELY_RET((nullptr == qpl_job_ptr->huffman_table),
                                QPL_STS_INVALID_PARAM_ERR);
+
+            auto *decompression_table_ptr = own_huffman_table_get_decompression_table(qpl_job_ptr->huffman_table);
+            // Initialize decompression table
+            ml::compression::decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
+                                                            get_hw_decompression_table_buffer(decompression_table_ptr),
+                                                            get_deflate_header_buffer(decompression_table_ptr),
+                                                            get_lookup_table_buffer_ptr(decompression_table_ptr));
+
             hw_iaa_aecs_decompress_set_huffman_only_huffman_table(&aecs_ptr->inflate_options,
-                                                                  own_huffman_table_get_decompression_table(qpl_job_ptr->huffman_table));
+                                                                  decompression_table.get_sw_decompression_table());
         }
     }
 
@@ -111,12 +120,13 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     }
 
     if (0u != qpl_job_ptr->ignore_start_bits) {
-        auto status = (qpl_status) hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
-                                                                                desc_ptr->src1_ptr,
-                                                                                qpl_job_ptr->available_in,
-                                                                                (uint8_t) qpl_job_ptr->ignore_start_bits,
-                                                                                (uint8_t) qpl_job_ptr->ignore_end_bits);
-        OWN_QPL_CHECK_STATUS(status)
+        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
+                                                                   desc_ptr->src1_ptr,
+                                                                   qpl_job_ptr->available_in,
+                                                                   (uint8_t) qpl_job_ptr->ignore_start_bits,
+                                                                   (uint8_t) qpl_job_ptr->ignore_end_bits);
+
+        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
         desc_ptr->src1_ptr  = ++qpl_job_ptr->next_in_ptr;
         desc_ptr->src1_size = --qpl_job_ptr->available_in;
@@ -338,12 +348,13 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
         aecs_policy |= hw_aecs_access_read;
         aecs_ptr->inflate_options.idx_bit_offset   = 7u & start_bit_offset;
 
-        auto status = static_cast<qpl_status>(hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
-                                                                                           header_ptr,
-                                                                                           input_bytes_count,
-                                                                                           start_bit_offset,
-                                                                                           ignore_end_bits));
-        OWN_QPL_CHECK_STATUS(status)
+        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
+                                                                   header_ptr,
+                                                                   input_bytes_count,
+                                                                   start_bit_offset,
+                                                                   ignore_end_bits);
+
+        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
         header_ptr++;
         input_bytes_count--;
@@ -373,12 +384,13 @@ extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor 
 
     if (0u != ignore_start_bit) {
         aecs_ptr->inflate_options.idx_bit_offset = OWN_MAX_BIT_IDX & ignore_start_bit;
-        auto status = (qpl_status) hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
-                                                                                (*data_ptr),
-                                                                                (*data_size),
-                                                                                ignore_start_bit,
-                                                                                ignore_end_bit);
-        OWN_QPL_CHECK_STATUS(status)
+        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
+                                                                   (*data_ptr),
+                                                                   (*data_size),
+                                                                   ignore_start_bit,
+                                                                   ignore_end_bit);
+
+        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
         (*data_ptr)++;
         (*data_size)--;

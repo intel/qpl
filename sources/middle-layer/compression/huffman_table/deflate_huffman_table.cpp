@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "compression_table.hpp"
+#include "deflate_huffman_table.hpp"
 
 namespace qpl::ml::compression {
 compression_huffman_table::compression_huffman_table(uint8_t *sw_table_ptr,

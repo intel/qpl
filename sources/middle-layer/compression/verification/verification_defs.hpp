@@ -8,7 +8,7 @@
 #define QPL_MIDDLE_LAYER_COMPRESSION_VERIFICATION_DEFS_HPP
 
 #include <cstdint>
-#include "compression/huffman_table/decompression_table.hpp"
+#include "compression/huffman_table/inflate_huffman_table.hpp"
 
 namespace qpl::ml::compression {
 enum verification_mode_t {

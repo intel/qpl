@@ -8,7 +8,7 @@
 #define QPL_MIDDLE_LAYER_COMPRESSION_DECOMPRESSION_TABLE_HPP
 
 #include "igzip_lib.h"
-#include "compression_table.hpp"
+#include "deflate_huffman_table.hpp"
 #include <cstdint>
 #include "hw_definitions.h"
 #include "hw_aecs_api.h"

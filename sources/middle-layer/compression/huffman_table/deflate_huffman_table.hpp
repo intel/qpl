@@ -45,12 +45,6 @@ struct deflate_header {
     uint8_t  data[deflate_header_size];  /**< Deflate header content */
 };
 
-struct qpl_triplet {
-    uint8_t character;
-    uint8_t code_length;
-    uint16_t code;
-};
-
 class compression_huffman_table {
 public:
     compression_huffman_table(uint8_t *sw_table_ptr,
@@ -80,7 +74,7 @@ private:
     hw_compression_huffman_table      *hw_compression_table_ptr_;
     qplc_huffman_table_default_format *sw_compression_table_ptr_;
     isal_hufftables                   *isal_compression_table_ptr_;
-    deflate_header               *deflate_header_ptr_;
+    deflate_header                    *deflate_header_ptr_;
 
     bool sw_compression_table_flag_;
     bool hw_compression_table_flag_;

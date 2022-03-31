@@ -22,7 +22,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 
 #include "job.hpp"
 #include "compressor.hpp"

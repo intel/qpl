@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include <assert.h>
+
 #include "hw_aecs_api.h"
 #include "own_compress.h"
-#include "own_hw_checkers.h"
-#include <assert.h>
+#include "own_hw_definitions.h"
 
 #define PLATFORM 2
 #include "qplc_memop.h"
@@ -17,12 +18,8 @@
 
 static_assert(sizeof(hw_iaa_aecs_analytic) == HW_AECS_ANALYTICS_SIZE, "hw_aecs_analytic size is not correct");
 
-#include "../../../../include/qpl/c_api/status.h" // @todo remove dependency
-
-uint16_t * get_number_of_codes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint16_t * get_first_codes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint16_t * get_first_table_indexes_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
-uint8_t * get_index_to_char_ptr(hw_iaa_d_huffman_table *const decompression_table_ptr); // @todo remove dependency
+#define OWN_STATUS_OK 0u
+#define OWN_STATUS_ERROR 1u
 
 /**
  * @brief Helper for packing Huffman table
@@ -50,19 +47,19 @@ static inline void hw_pack(uint32_t out[5], const uint16_t in[15]) {
 }
 
 HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                                       hw_iaa_d_huffman_table *const huffman_table_ptr)) {
+                                                                       hw_iaa_d_huffman_only_table *const huffman_table_ptr)) {
     avx512_qplc_zero_8u((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
-    hw_pack(aecs_ptr->lit_len_first_tbl_idx, get_first_table_indexes_ptr(huffman_table_ptr));
-    hw_pack(aecs_ptr->lit_len_num_codes, get_number_of_codes_ptr(huffman_table_ptr));
-    hw_pack(aecs_ptr->lit_len_first_code, get_first_codes_ptr(huffman_table_ptr));
+    hw_pack(aecs_ptr->lit_len_first_tbl_idx, huffman_table_ptr->first_table_indexes);
+    hw_pack(aecs_ptr->lit_len_num_codes, huffman_table_ptr->number_of_codes);
+    hw_pack(aecs_ptr->lit_len_first_code, huffman_table_ptr->first_codes);
 
     aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFu;
     aecs_ptr->lit_len_first_len_code[1] = 0x07FFFFFFu;
     aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFu;
     aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFu;
     aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFu;
-    avx512_qplc_copy_8u((uint8_t *) get_index_to_char_ptr(huffman_table_ptr), (uint8_t *) aecs_ptr->lit_len_sym, 256u);
+    avx512_qplc_copy_8u((uint8_t *) huffman_table_ptr->index_to_char, (uint8_t *) aecs_ptr->lit_len_sym, 256u);
 }
 
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_decompress *const aecs_ptr,
@@ -157,13 +154,13 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
         }
     }
 
-    HW_IMMEDIATELY_RET((0u != aecs_ptr->input_accum_size[i]), QPL_STS_LIBRARY_INTERNAL_ERR)
+    HW_IMMEDIATELY_RET((0u != aecs_ptr->input_accum_size[i]), OWN_STATUS_ERROR)
 
     if (1u < source_size) {
         aecs_ptr->input_accum[i]      = (*source_ptr) >> (ignore_start_bits & OWN_MAX_BIT_IDX);
         aecs_ptr->input_accum_size[i] = 8u - (ignore_start_bits & 7u);
     } else {
-        HW_IMMEDIATELY_RET((1 > source_size), QPL_STS_LIBRARY_INTERNAL_ERR)
+        HW_IMMEDIATELY_RET((1 > source_size), OWN_STATUS_ERROR)
 
         aecs_ptr->input_accum[i]      = (*source_ptr) >> (ignore_start_bits & OWN_MAX_BIT_IDX);
         aecs_ptr->input_accum_size[i] = OWN_MAX_BIT_IDX
@@ -174,5 +171,5 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
         aecs_ptr->input_accum[i] &= (1u << aecs_ptr->input_accum_size[i]) - 1u;
     }
 
-    return QPL_STS_OK;
+    return OWN_STATUS_OK;
 }

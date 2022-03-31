@@ -223,7 +223,7 @@ inline auto huffman_only_decompression_state<execution_path_t::hardware>::decomp
     //todo move logic to canned utilities
     {
         auto aecs_ptr = reinterpret_cast<hw_iaa_aecs_analytic *>(decompression_table.get_hw_decompression_state());
-        auto huffman_table_ptr = reinterpret_cast<qpl_decompression_huffman_table *>(decompression_table.get_sw_decompression_table());
+        auto huffman_table_ptr = decompression_table.get_sw_decompression_table();
 
         hw_iaa_aecs_decompress_set_huffman_only_huffman_table(&aecs_ptr->inflate_options, huffman_table_ptr);
     }

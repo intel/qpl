@@ -7,7 +7,7 @@
 #if defined( linux )
 
 #include "hw_configuration_driver.h"
-#include "own_hw_checkers.h"
+#include "own_hw_definitions.h"
 
 #include <fcntl.h>
 #include <sys/mman.h>

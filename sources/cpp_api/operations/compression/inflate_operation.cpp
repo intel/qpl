@@ -10,7 +10,7 @@
 #include "compression/inflate/inflate.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 #include "util/checkers.hpp"
 
 namespace qpl {

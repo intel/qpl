@@ -13,8 +13,7 @@
 #define QPL_STATISTICS__HPP_
 
 #include "qpl/c_api/huffman_table.h"
-#include "compression/huffman_table/compression_table_utils.hpp"
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 
 #ifdef __cplusplus
 extern "C" {

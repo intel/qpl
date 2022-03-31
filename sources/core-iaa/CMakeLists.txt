@@ -7,8 +7,8 @@
 project(core_iaa C CXX)
 
 # Find Kernels Sources
-file(GLOB HW_PATH_SRC sources/deflate/*.c
-                      sources/deflate/*.cpp
+file(GLOB HW_PATH_SRC sources/aecs/*.c
+                      sources/aecs/*.cpp
                       sources/driver_loader/*.c
                       sources/driver_loader/*.cpp
                       sources/descriptors/*.c

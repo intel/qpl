@@ -4,12 +4,34 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include "hw_definitions.h"
+
 #ifndef HW_PATH_OWN_HW_DEFINITIONS_H_
 #define HW_PATH_OWN_HW_DEFINITIONS_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/* Define NULL pointer value */
+#ifndef NULL
+#ifdef  __cplusplus
+#define NULL    0
+#else
+#define NULL    ((void *)0)
+#endif
+#endif
+
+
+#define HW_IMMEDIATELY_RET(expression, status) \
+if((expression)) { \
+    return status; \
+}
+
+#define HW_IMMEDIATELY_RET_NULLPTR(expression) \
+if(NULL == (expression)) { \
+    return QPL_STS_NULL_PTR_ERR; \
+}
 
 #define IMMEDIATELY_COMPLETE     0xFFFFu                      /**< @todo */
 #define MAX_BUF_SIZE             (1024u * 1024 * 1024u)       /**< @todo */
@@ -93,50 +115,10 @@ extern "C" {
 /* ====== Macros ====== */
 
 /**
- * @todo
- */
-#define QPL_FILTER_OP (\
-    (QPL_ONE_64U << qpl_op_set_membership) |\
-    (QPL_ONE_64U << qpl_op_extract       ) |\
-    (QPL_ONE_64U << qpl_op_select        ) |\
-    (QPL_ONE_64U << qpl_op_rle_burst     ) |\
-    (QPL_ONE_64U << qpl_op_find_unique   ) |\
-    (QPL_ONE_64U << qpl_op_expand        ) |\
-    (QPL_ONE_64U << qpl_op_scan_eq       ) |\
-    (QPL_ONE_64U << qpl_op_scan_ne       ) |\
-    (QPL_ONE_64U << qpl_op_scan_lt       ) |\
-    (QPL_ONE_64U << qpl_op_scan_le       ) |\
-    (QPL_ONE_64U << qpl_op_scan_gt       ) |\
-    (QPL_ONE_64U << qpl_op_scan_ge       ) |\
-    (QPL_ONE_64U << qpl_op_scan_range    ) |\
-    (QPL_ONE_64U << qpl_op_scan_not_range))
-
-/**
- * @todo
- */
-#define QPL_SRC2_OP (\
-    (QPL_ONE_64U << qpl_op_set_membership) |\
-    (QPL_ONE_64U << qpl_op_select        ) |\
-    (QPL_ONE_64U << qpl_op_rle_burst     ) |\
-    (QPL_ONE_64U << qpl_op_expand        ))
-
-#define QPL_OP_SCAN_FIRST qpl_op_scan_eq  /**< @todo */
-
-/**
  * @todo Random Access Body is FLAG_RND_ACCESS and not FLAG_FIRST
  */
 #define IS_RND_ACCESS_BODY(flag) \
     (((flag) & (QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST)) == QPL_FLAG_RND_ACCESS)
-
-/**
- * @todo
- */
-#define QPL_IS_FILTER_OP(op) (((uint64_t)QPL_FILTER_OP >> op) & 1u)
-
-/**
- * @todo
- */
-#define QPL_IS_SRC2_OP(op) (((uint64_t)QPL_SRC2_OP >> op) & 1u)
 
 #ifdef __GNUC__
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */

@@ -12,7 +12,7 @@
 #include "own_defs.h"
 #include "compression_state_t.h"
 #include "common/defs.hpp"
-#include "compression/huffman_table/decompression_table.hpp"
+#include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "compression/inflate/inflate.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"

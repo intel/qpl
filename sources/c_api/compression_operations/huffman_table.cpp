@@ -15,7 +15,7 @@
 #include "huffman_table.hpp"
 #include "util/checkers.hpp"
 #include "own_checkers.h"
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 
 extern "C" {
 

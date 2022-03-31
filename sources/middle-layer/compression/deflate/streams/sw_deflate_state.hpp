@@ -22,7 +22,7 @@
 #include "igzip_level_buf_structs.h"
 
 #include "deflate_hash_table.h"
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 
 namespace qpl::ml::compression {
 

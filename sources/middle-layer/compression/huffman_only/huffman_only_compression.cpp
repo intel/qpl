@@ -9,9 +9,8 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include "compression/huffman_table/compression_table_utils.hpp"
 #include "util/descriptor_processing.hpp"
-#include "compression/huffman_table/canned_utils.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/huffman_only/huffman_only_compression_state.hpp"
 #include "compression/huffman_only/huffman_only_implementation.hpp"
@@ -114,11 +113,8 @@ auto compress_huffman_only<execution_path_t::hardware>(uint8_t *begin,
         hw_iaa_aecs_compress_set_huffman_only_huffman_table_from_histogram(stream.compress_aecs_,
                                                                            &stream.compress_aecs_->histogram);
 
-        auto qpl_huffman_table = reinterpret_cast<qpl_compression_huffman_table *>(stream.huffman_table_ptr_
-                                                                                              ->get_sw_compression_table());
-
-        hw_iaa_aecs_compress_store_huffman_only_huffman_table(stream.compress_aecs_, qpl_huffman_table);
-        set_deflate_header_bits_size(qpl_huffman_table, 0u);
+        hw_iaa_aecs_compress_store_huffman_only_huffman_table(stream.compress_aecs_,
+                                                              stream.huffman_table_ptr_->get_sw_compression_table());
 
         hw_iaa_descriptor_compress_set_aecs(stream.descriptor_compress_,
                                             stream.compress_aecs_,

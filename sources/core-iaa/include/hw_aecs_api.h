@@ -20,6 +20,7 @@
 
 #include "stdbool.h"
 #include "hw_definitions.h"
+#include "qplc_huffman_table.h"
 
 #ifndef HW_PATH_HW_AECS_API_H_
 #define HW_PATH_HW_AECS_API_H_
@@ -37,10 +38,10 @@ extern "C" {
 #define HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE  0x440u   /**< AECS Analytic size for Random Assess */
 #define HW_AECS_ANALYTIC_FILTER_ONLY_SIZE    0x20u    /**< AECS Analytic size for Filter only operations */
 
-typedef void                                   hw_iaa_aecs;            /**< Common AECS type */
-typedef void                                   hw_iaa_huffman_codes;   /**< Forward declaration */
-typedef struct qpl_compression_huffman_table   hw_iaa_c_huffman_table; /**< Redefinition */
-typedef struct qpl_decompression_huffman_table hw_iaa_d_huffman_table; /**< Redefinition */
+typedef void                              hw_iaa_aecs;                 /**< Common AECS type */
+typedef void                              hw_iaa_huffman_codes;        /**< Forward declaration */
+typedef qplc_huffman_table_default_format hw_iaa_c_huffman_only_table; /**< Redefinition */
+typedef qplc_huffman_table_flat_format    hw_iaa_d_huffman_only_table; /**< Redefinition */
 
 /**
  * @brief Describe huffman code according to accelerator format
@@ -260,7 +261,7 @@ HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogra
  *
  */
 HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_iaa_aecs_compress *const aecs_ptr,
-                                                                       hw_iaa_c_huffman_table *const huffman_table_ptr));
+                                                                       hw_iaa_c_huffman_only_table *const huffman_table_ptr));
 /** @} */
 
 /**
@@ -368,7 +369,7 @@ HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob, (hw_iaa_aecs_compres
  * @param [in]   huffman_table_ptr  pointer to decompression Huffman table
  */
 HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                                       hw_iaa_d_huffman_table *const huffman_table_ptr));
+                                                                       hw_iaa_d_huffman_only_table *const huffman_table_ptr));
 
 
 /**
@@ -465,8 +466,8 @@ HW_PATH_IAA_AECS_API(void, decompress_set_decompression_state, (hw_iaa_aecs_deco
  * @return @todo add description
  */
 HW_PATH_IAA_AECS_API(void, decompress_set_dictionary, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                        const uint8_t *const raw_dictionary_ptr,
-                                                        const size_t dictionary_size));
+                                                       const uint8_t *const raw_dictionary_ptr,
+                                                       const size_t dictionary_size));
 
 /** @} */
 

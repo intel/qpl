@@ -8,7 +8,7 @@
 #define QPL_MIDDLE_LAYER_COMPRESSION_UTILS_HPP
 
 #include "compression/deflate/utils/compression_defs.hpp"
-#include "compression/huffman_table/decompression_table.hpp"
+#include "compression/huffman_table/inflate_huffman_table.hpp"
 
 namespace qpl::ml::compression {
 static inline auto bytes_per_mini_block(const mini_block_size_t mini_block_size) noexcept -> uint32_t {
