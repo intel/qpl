@@ -290,10 +290,6 @@ static inline auto check_deflate_block(const Iterator &source_begin,
         return testing::AssertionFailure() << "deflate block's compressed_size is equal to zero";
     }
 
-    if (deflate_block.compressed_size() > source_size) {
-        return testing::AssertionFailure() << "deflate block's compressed_size greater than source_size";
-    }
-
     for (size_t start_index : {0, 1}) {
         auto        iterator = source_begin + start_index;
         for (size_t index    = start_index; index < deflate_block.size(); index += 2) {

@@ -11,6 +11,7 @@
 #include "util/memory.hpp"
 #include "common/linear_allocator.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
+#include "inflate.hpp"
 #include "inflate_defs.hpp"
 #include "hw_aecs_api.h"
 #include "hw_descriptors_api.h"
@@ -18,16 +19,6 @@
 #include "compression/utils.hpp"
 
 namespace qpl::ml::compression {
-
-enum inflate_mode_t {
-    inflate_default,
-    inflate_header,
-    inflate_body,
-};
-
-template <execution_path_t path>
-class inflate_state;
-
 template <>
 class inflate_state<execution_path_t::software> {
 public:
@@ -165,8 +156,9 @@ public:
         if constexpr (safe_creation) {
             state.reset();
         }
-        state.processing_step                 = util::multitask_status::multi_chunk_first_chunk;
-        state.execution_state_ptr->aecs_index = 0u;
+        state.processing_step                     = util::multitask_status::multi_chunk_first_chunk;
+        state.execution_state_ptr->aecs_index     = 0u;
+        state.decompression_state_ptr->block_type = deflate_block_type_e::undefined;
 
         return state;
     }
@@ -228,6 +220,15 @@ public:
     static constexpr auto execution_path = execution_path_t::hardware;
 
 private:
+
+    friend auto
+    inflate<execution_path, inflate_mode_t::inflate_header>(inflate_state<execution_path> &decompression_state,
+                                                            end_processing_condition_t end_processing_condition) noexcept -> decompression_operation_result_t;
+
+    [[nodiscard]] inline auto get_current_block_type() const noexcept -> deflate_block_type_e;
+
+    inline void set_block_type(deflate_block_type_e block_type) noexcept;
+
     hw_descriptor        *descriptor_                         = nullptr;
     HW_PATH_VOLATILE hw_completion_record *completion_record_ = nullptr;
     hw_iaa_aecs_analytic                  *decompress_aecs_   = nullptr;
@@ -257,10 +258,17 @@ private:
 
     execution_state *execution_state_ptr;
 
+    struct decompression_state_t {
+        deflate_block_type_e block_type;
+    };
+
+    decompression_state_t *decompression_state_ptr;
+
     explicit inflate_state(const util::linear_allocator &allocator) : allocator_(allocator) {
-        execution_state_ptr = allocator.allocate<execution_state>(1u);
-        descriptor_         = allocator.allocate<hw_descriptor, util::memory_block_t::aligned_64u>(1u);
-        completion_record_  = allocator.allocate<hw_completion_record, util::memory_block_t::aligned_64u>(1u);
+        execution_state_ptr     = allocator.allocate<execution_state>(1u);
+        decompression_state_ptr = allocator.allocate<decompression_state_t>(1);
+        descriptor_             = allocator.allocate<hw_descriptor, util::memory_block_t::aligned_64u>(1u);
+        completion_record_      = allocator.allocate<hw_completion_record, util::memory_block_t::aligned_64u>(1u);
     };
 
     inline void initialize_random_access(hw_iaa_aecs_analytic *aecs_ptr,
@@ -609,6 +617,22 @@ template <>
     hw_iaa_descriptor_init_inflate_body(descriptor_,
                                         decompress_aecs_,
                                         access_properties_.ignore_end_bits);
+
+    // Check if block type is known
+    if (decompression_state_ptr->block_type != deflate_block_type_e::undefined) {
+        constexpr uint16_t final_decompression_state_bit = 4;
+        uint16_t decompression_state = (this->is_last()) ? final_decompression_state_bit : 0;
+
+        if (decompression_state_ptr->block_type == deflate_block_type_e::coded) {
+            decompression_state |= hw_iaa_aecs_decompress_state::hw_aecs_at_ll_token_non_final_block;
+        } else {
+            decompression_state |= hw_iaa_aecs_decompress_state::hw_aecs_at_stored_block_non_final_block;
+        }
+
+        hw_iaa_aecs_decompress_set_decompression_state(&decompress_aecs_->inflate_options,
+                                                       static_cast<hw_iaa_aecs_decompress_state>(decompression_state));
+    }
+
     hw_iaa_descriptor_set_completion_record(descriptor_, completion_record_);
 
     return descriptor_;
@@ -616,6 +640,25 @@ template <>
 
 [[nodiscard]] inline auto inflate_state<execution_path_t::hardware>::handler() const noexcept -> HW_PATH_VOLATILE hw_completion_record * {
     return completion_record_;
+}
+
+[[nodiscard]] inline auto inflate_state<execution_path_t::hardware>::get_current_block_type() const noexcept -> deflate_block_type_e {
+    if (decompress_aecs_) {
+        const auto decompress_state = static_cast<hw_iaa_aecs_decompress_state>(decompress_aecs_->inflate_options.decompress_state);
+        if (decompress_state == hw_iaa_aecs_decompress_state::hw_aecs_at_stored_block_non_final_block ||
+            decompress_state == hw_iaa_aecs_decompress_state::hw_aecs_at_stored_block_final_block) {
+            return deflate_block_type_e::stored;
+        } else if (decompress_state == hw_iaa_aecs_decompress_state::hw_aecs_at_ll_token_non_final_block ||
+                   decompress_state == hw_iaa_aecs_decompress_state::hw_aecs_at_ll_token_final_block) {
+            return deflate_block_type_e::coded;
+        }
+    }
+
+    return deflate_block_type_e::undefined;
+}
+
+inline void inflate_state<execution_path_t::hardware>::set_block_type(deflate_block_type_e block_type) noexcept {
+    this->decompression_state_ptr->block_type = block_type;
 }
 
 inline void inflate_state<execution_path_t::hardware>::initialize_random_access(hw_iaa_aecs_analytic *const aecs_ptr,

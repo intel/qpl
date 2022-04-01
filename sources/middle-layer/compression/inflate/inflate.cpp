@@ -7,9 +7,9 @@
 #include <cstring>
 
 #include "inflate.hpp"
+#include "inflate_state.hpp"
 
 #include "common/bit_buffer.hpp"
-
 #include "deflate_header_decompression.hpp"
 #include "deflate_body_decompression.hpp"
 #include "isal_kernels_wrappers.hpp"
@@ -246,7 +246,7 @@ auto own_inflate_random(inflate_state<execution_path_t::software> &decompression
     }
 
     inflate_state_ptr->total_out   = 0u;
-    inflate_state_ptr->block_state = ISAL_BLOCK_CODED;
+    inflate_state_ptr->block_state = ISAL_BLOCK_CODED; // todo: Incorrect behavior in case if block is actually stored, fix
 
     // Decompress mini block body
     auto result = own_inflate(decompression_state, stop_on_any_eob);
@@ -318,7 +318,12 @@ auto inflate<execution_path_t::hardware, inflate_mode_t::inflate_header>(
         inflate_state<execution_path_t::hardware> &decompression_state,
         end_processing_condition_t UNREFERENCED_PARAMETER(end_processing_condition)) noexcept -> decompression_operation_result_t {
 
-    return own_inflate<inflate_mode_t::inflate_header>(decompression_state);
+    auto result = own_inflate<inflate_mode_t::inflate_header>(decompression_state);
+
+    // Save block type after parsing header. This information is required during body processing
+    decompression_state.set_block_type(decompression_state.get_current_block_type());
+
+    return result;
 }
 
 template<>

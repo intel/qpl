@@ -9,7 +9,7 @@
 
 #include <cstdint>
 #include "common/defs.hpp"
-#include "inflate_state.hpp"
+#include "inflate_defs.hpp"
 #include "compression/compression_defs.hpp"
 
 namespace qpl::ml::compression {

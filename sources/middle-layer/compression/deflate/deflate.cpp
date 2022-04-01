@@ -119,8 +119,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
 
 template<>
 auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflate_state<execution_path_t::hardware> &state,
-                                                                          uint8_t *begin,
-                                                                          const uint32_t size) noexcept -> compression_operation_result_t {
+                                                                          uint8_t *source_begin_ptr,
+                                                                          const uint32_t source_size) noexcept -> compression_operation_result_t {
     compression_operation_result_t result;
     auto actual_aecs      = state.meta_data_->aecs_index; // AECS used to read
     auto output_begin_ptr = state.next_out();
@@ -130,7 +130,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     // Collect statistic
     if (state.collect_statistic_descriptor_) { // Dynamic mode used
         hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
-                                                   begin, size,
+                                                   source_begin_ptr, source_size,
                                                    &state.meta_data_->aecs_[actual_aecs].histogram);
         hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
                                                        state.meta_data_->mini_block_size_);
@@ -179,7 +179,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_compress_access_lookup_table[state.processing_step] |
                                                                 actual_aecs);
 
-    hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, begin, size);
+    hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, source_begin_ptr, source_size);
     hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
                                         state.meta_data_->aecs_,
                                         access_policy);
@@ -193,7 +193,12 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
 
     if (result.status_code_ == status_list::destination_is_short_error) {
-        result = write_stored_block(state);
+        // There can't be multiple stored blocks while indexing
+        if (source_size >= 64_kb && state.meta_data_->mini_block_size_) {
+            result.status_code_ = status_list::index_generation_error;
+        } else {
+            result = write_stored_block(state);
+        }
     }
 
     if (state.verify_descriptor_ && !result.status_code_) {
@@ -253,7 +258,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
     if (result.status_code_ == status_list::ok) {
         state.meta_data_->aecs_index ^= 1u;
-        result.completed_bytes_ = size;
+        result.completed_bytes_ = source_size;
     }
 
     return result;

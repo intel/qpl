@@ -69,10 +69,27 @@ QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_block, default_fixed, DeflateBloc
             .compression_level(compression_level)
             .build();
 
-    auto deflate_block = test::build_deflate_block(deflate_operation, source, current_test_case.mini_block_size);
+    if (current_test_case.file_name == "file4") {
+        // File 4 has poor compression ratio, to avoid error because of 'short destination', compress it with smaller pieces
+        const auto source_chunk_size = 1024 * 64 - 1;
+        // Compress stream by chunks of size 64 kB each
+        for (auto current_source_begin = source.begin(); current_source_begin < source.end(); ) {
+            auto current_source_end = current_source_begin + source_chunk_size;
+            if (current_source_end >= source.end()) {
+                current_source_end = source.end();
+            }
 
-    // Assert
-    EXPECT_TRUE(check_deflate_block(source.begin(), source.end(), deflate_block));
+            std::vector<uint8_t> source_chunk(current_source_begin, current_source_end);
+            auto deflate_block = test::build_deflate_block(deflate_operation, source_chunk, current_test_case.mini_block_size);
+            EXPECT_TRUE(check_deflate_block(current_source_begin, current_source_end, deflate_block));
+            current_source_begin += source_chunk_size;
+        }
+
+    } else {
+        auto deflate_block = test::build_deflate_block(deflate_operation, source, current_test_case.mini_block_size);
+        // Assert
+        EXPECT_TRUE(check_deflate_block(source.begin(), source.end(), deflate_block));
+    }
 }
 
 QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_block, default_static, DeflateBlockTest) {

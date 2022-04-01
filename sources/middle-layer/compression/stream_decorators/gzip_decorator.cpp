@@ -11,6 +11,8 @@
 #include "gzip_decorator.hpp"
 
 #include "compression/inflate/inflate.hpp"
+#include "compression/inflate/inflate_state.hpp"
+
 #include "compression/deflate/deflate.hpp"
 #include "compression/deflate/streams/sw_deflate_state.hpp"
 #include "compression/deflate/streams/hw_deflate_state.hpp"

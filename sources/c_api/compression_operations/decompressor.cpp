@@ -14,6 +14,7 @@
 #include "common/defs.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "compression/inflate/inflate.hpp"
+#include "compression/inflate/inflate_state.hpp"
 #include "compression/huffman_only/huffman_only.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"

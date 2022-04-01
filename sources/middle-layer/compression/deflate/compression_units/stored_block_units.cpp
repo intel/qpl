@@ -72,21 +72,22 @@ auto write_stored_blocks(uint8_t *source_ptr,
                          bool is_final) noexcept -> uint32_t {
     auto chunks_count = source_size / stored_block_max_length;
     auto *output_begin_ptr = output_ptr;
+    auto last_chunk_size = source_size % stored_block_max_length;
 
     for (uint32_t chunk = 0u; chunk < chunks_count; chunk++) {
+        auto is_last = (!last_chunk_size && chunk == chunks_count - 1) ? is_final : false;
         auto written_bytes = write_stored_block(source_ptr,
                                                 stored_block_max_length,
                                                 output_ptr,
                                                 output_max_size,
-                                                start_bit_offset);
+                                                start_bit_offset,
+                                                (is_last) ? is_final : false);
 
         source_ptr      += stored_block_max_length;
         output_ptr      += written_bytes;
         output_max_size -= written_bytes;
         start_bit_offset = 0u;
     }
-
-    auto last_chunk_size = source_size % stored_block_max_length;
 
     if (last_chunk_size) {
         auto written_bytes = write_stored_block(source_ptr,

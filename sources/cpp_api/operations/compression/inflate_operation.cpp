@@ -8,6 +8,7 @@
 #include "qpl/cpp_api/operations/compression/inflate_operation.hpp"
 
 #include "compression/inflate/inflate.hpp"
+#include "compression/inflate/inflate_state.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp"

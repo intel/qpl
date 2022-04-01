@@ -9,6 +9,7 @@
 #include <cstdlib>
 
 #include "common/bit_reverse.hpp"
+#include "common/allocation_buffer_t.hpp"
 
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "compression/huffman_table/deflate_huffman_table.hpp"
@@ -24,6 +25,7 @@
 #include "deflate_histogram.h"
 
 #include "compression/inflate/inflate.hpp"
+#include "compression/inflate/inflate_state.hpp"
 
 namespace qpl::ml::compression {
 
