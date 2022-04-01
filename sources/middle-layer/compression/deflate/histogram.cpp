@@ -78,6 +78,7 @@ auto update_histogram<execution_path_t::hardware>(const uint8_t *begin,
     qpl_histogram                                                 hw_histogram;
 
     util::set_zeros(descriptor.data, HW_PATH_DESCRIPTOR_SIZE);
+    util::set_zeros(&hw_histogram, sizeof(qpl_histogram));
 
     hw_iaa_descriptor_init_statistic_collector(&descriptor,
                                                begin,
