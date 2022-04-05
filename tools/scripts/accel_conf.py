@@ -34,24 +34,24 @@ def accel_get_all_dvices():
     else:
         return [ret, err, json.loads(out)]
 
-def accel_load_config(config_file):
-    ret, out, err = run_cmd(cmd="accel-config", args=["load-config", "-v", "-c", config_file], is_root=True)
+def accel_load_config(config_file, is_root=False):
+    ret, out, err = run_cmd(cmd="accel-config", args=["load-config", "-v", "-c", config_file], is_root=is_root)
     return [ret, err, out]
 
-def accel_disable_device(device):
-    ret, out, err = run_cmd(cmd="accel-config", args=["disable-device", "-v", device], is_root=True)
+def accel_disable_device(device, is_root=False):
+    ret, out, err = run_cmd(cmd="accel-config", args=["disable-device", "-v", device], is_root=is_root)
     return [ret, err, out]
     
-def accel_enable_device(device):
-    ret, out, err = run_cmd(cmd="accel-config", args=["enable-device", "-v", device], is_root=True)
+def accel_enable_device(device, is_root=False):
+    ret, out, err = run_cmd(cmd="accel-config", args=["enable-device", "-v", device], is_root=is_root)
     return [ret, err, out]
     
-def accel_enable_wq(device, wq):
-    ret, out, err = run_cmd(cmd="accel-config", args=["enable-wq", "-v", device + "/" + wq], is_root=True)
+def accel_enable_wq(device, wq, is_root=False):
+    ret, out, err = run_cmd(cmd="accel-config", args=["enable-wq", "-v", device + "/" + wq], is_root=is_root)
     return [ret, err, out]
 
-def accel_set_block_on_fault(device, wq, bof_flag):
-    ret, out, err = run_cmd(cmd="accel-config", args=["config-wq", device + "/" + wq, "-b", str(int(bof_flag))], is_root=True)
+def accel_set_block_on_fault(device, wq, bof_flag, is_root=False):
+    ret, out, err = run_cmd(cmd="accel-config", args=["config-wq", device + "/" + wq, "-b", str(int(bof_flag))], is_root=is_root)
     return [ret, err, out]
 
 
@@ -135,7 +135,7 @@ def get_devices_short():
     return device_dict
 
 
-def config_device(conf_file, dev_filter = "", bof = False):
+def config_device(conf_file, dev_filter="", bof=False, is_root=False):
     print("Filter: " + dev_filter)
 
     if not os.path.exists(conf_file):
@@ -147,7 +147,7 @@ def config_device(conf_file, dev_filter = "", bof = False):
         for device in active_devices:
             print("    " + device['dev'], end='')
             if device['dev'].find(dev_filter) != -1:
-                ret, err, out = accel_disable_device(device['dev'])
+                ret, err, out = accel_disable_device(device['dev'], is_root=is_root)
                 if ret:
                     print(" - error")
                 else:
@@ -158,7 +158,7 @@ def config_device(conf_file, dev_filter = "", bof = False):
         print("No active devices")
 
     print("Loading configuration", end='')
-    ret, err, out = accel_load_config(conf_file)
+    ret, err, out = accel_load_config(conf_file, is_root=is_root)
     if ret:
         print(" - error")
         print("---------")
@@ -177,7 +177,7 @@ def config_device(conf_file, dev_filter = "", bof = False):
             if device["groups"][0]["grouped_workqueues"]:
                 for wq in device["groups"][0]["grouped_workqueues"]:
                     if bof:
-                        ret, err, out = accel_set_block_on_fault(device["dev"], wq["dev"], True)
+                        ret, err, out = accel_set_block_on_fault(device["dev"], wq["dev"], bof_flag=True, is_root=is_root)
                         if ret:
                             print(" - error")
                             print("---------")
@@ -188,7 +188,7 @@ def config_device(conf_file, dev_filter = "", bof = False):
     for device in config_devices:
         print("    " + device["dev"], end='')
         if device['dev'].find(dev_filter) != -1:
-            ret, err, out = accel_enable_device(device["dev"])
+            ret, err, out = accel_enable_device(device["dev"], is_root=is_root)
             if ret:
                 print(" - error")
             else:
@@ -197,7 +197,7 @@ def config_device(conf_file, dev_filter = "", bof = False):
             if device["groups"][0]["grouped_workqueues"]:
                 for wq in device["groups"][0]["grouped_workqueues"]:
                     print("        " + wq["dev"], end='')
-                    ret, err, out = accel_enable_wq(device["dev"], wq["dev"])
+                    ret, err, out = accel_enable_wq(device["dev"], wq["dev"], is_root=is_root)
                     if ret:
                         print(" - error")
                         print("---------")
@@ -238,7 +238,8 @@ if __name__ == "__main__":
     parser.add_argument('--load', default='', metavar='FILE_NAME', help='Configuration file')
     parser.add_argument('--filter', default='', metavar='FILTER', help='Device filter')
     parser.add_argument('--bof', default=False, action='store_true', help='Set block on fault flag')
+    parser.add_argument('--root', default=False, action='store_true', help='Use if sudo is required for device configuration')
     args = parser.parse_args()
 
     if args.load:
-        config_device(args.load, args.filter, bof=args.bof)
+        config_device(args.load, args.filter, bof=args.bof, is_root=args.root)
