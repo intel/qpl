@@ -1,0 +1,96 @@
+# ==========================================================================
+# Copyright (C) 2022 Intel Corporation
+#
+# SPDX-License-Identifier: MIT
+# ==========================================================================
+
+name: gcc/clang build and functional testing
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+env:
+  # (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  ci:
+    # Latest is >= 20.04 which has required GNU >= 8.2
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
+      # If one job fails, the other can carry on
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    # QPL requirement
+    - name: Install nasm
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y nasm
+
+    - name: Setup clang
+      if: ${{ matrix.compiler == 'clang' }}
+      id: setup_clang
+      run: |
+        sudo apt-get update -y
+        sudo apt-get -y install clang-12
+        echo "::set-output name=c_comp::clang"
+        echo "::set-output name=cpp_comp::clang++"
+
+    - name: Configure cmake
+      env:
+        CC: ${{steps.setup_clang.outputs.c_comp}}
+        CXX: ${{steps.setup_clang.outputs.cpp_comp}}
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=installation
+
+    - name: Build
+      id: build
+      run: cmake --build build --target install
+
+    - name: Check on build failures
+      if: steps.build.outcome != 'success'
+      run: |
+        echo "Build step failed"
+        exit 1
+
+    - name: Algorithmic tests
+      id: ta_tests
+      continue-on-error: true
+      timeout-minutes: 60
+      run: ./installation/bin/tests --gtest_filter=ta_*  --dataset=tools/testdata/
+
+    - name: Bad argument tests
+      id: tb_tests
+      continue-on-error: true
+      timeout-minutes: 60
+      run: ./installation/bin/tests --gtest_filter=tb_*  --dataset=tools/testdata/
+
+    - name: Negative tests
+      id: tn_tests
+      continue-on-error: true
+      timeout-minutes: 60
+      run: ./installation/bin/tests --gtest_filter=tn_*  --dataset=tools/testdata/
+
+    - name: Thread tests
+      id: tt_tests
+      continue-on-error: true
+      timeout-minutes: 60
+      run: ./installation/bin/tests --gtest_filter=tt_*  --dataset=tools/testdata/
+
+    - name: Check on test failures
+      if: |
+        steps.ta_tests.outcome != 'success' || steps.tb_tests.outcome != 'success' || steps.tn_tests.outcome != 'success' || steps.tt_tests.outcome != 'success'
+      run: |
+        echo "Algorithmic tests status is ${{steps.ta_tests.outcome}}"
+        echo "Bad argument tests status is ${{steps.tb_tests.outcome}}"
+        echo "Negative tests status is ${{steps.tn_tests.outcome}}"
+        echo "Thread tests status is ${{steps.tt_tests.outcome}}"
+        exit 1
