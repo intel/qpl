@@ -17,7 +17,7 @@ output buffers.
 
 .. code:: cpp
 
-   #include <qplhl/operations/set_membership_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/set_membership_operation.hpp>
 
    // ...
    const uint8_t *const mask = custom_method_to_build_mask();

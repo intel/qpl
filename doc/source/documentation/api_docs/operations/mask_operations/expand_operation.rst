@@ -17,7 +17,7 @@ mask into the factory method, for example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/expand_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/expand_operation.hpp>
 
    // ...
    const uint8_t *const mask = custom_method_to_build_mask();
@@ -32,7 +32,7 @@ the last parameter for constructor, for example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/expand_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/expand_operation.hpp>
 
    // ...
    const uint8_t *const mask = custom_method_to_build_mask();

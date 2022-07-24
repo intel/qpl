@@ -13,7 +13,7 @@ works with two boundaries (lower and upper):
 
 .. code:: cpp
 
-   #include <qplhl/operations/scan_range_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/scan_range_operation.hpp>
 
    // ...
    constexpr const uint32_t lower_boundary = 48;

@@ -18,7 +18,7 @@ Example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/other/copy_operation.hpp>
+   #include <qpl/cpp_api/operations/other/copy_operation.hpp>
 
    // ...
    auto copy_operation = qpl::copy_operation();

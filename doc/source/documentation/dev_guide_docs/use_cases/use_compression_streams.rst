@@ -63,7 +63,7 @@ Simple Use Example
 
 .. code:: cpp
 
-   #include <qplhl/results/deflate_stream.hpp>
+   #include <qpl/cpp_api/results/deflate_stream.hpp>
 
    int main()
    {
@@ -106,7 +106,7 @@ Example of Use with a Reset of Buffer
 
 .. code:: cpp
 
-   #include <qplhl/results/inflate_stream.hpp>
+   #include <qpl/cpp_api/results/inflate_stream.hpp>
 
    int main()
    {
@@ -156,7 +156,7 @@ Simple Use example
 
 .. code:: cpp
 
-   #include <qplhl/results/inflate_stream.hpp>
+   #include <qpl/cpp_api/results/inflate_stream.hpp>
 
    int main()
    {

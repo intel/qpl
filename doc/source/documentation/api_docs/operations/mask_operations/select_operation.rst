@@ -15,7 +15,7 @@ operation, for example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/select_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/select_operation.hpp>
 
    // ...
    const uint8_t *const mask = custom_method_to_build_mask();

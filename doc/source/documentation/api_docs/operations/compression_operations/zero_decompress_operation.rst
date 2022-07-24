@@ -16,7 +16,7 @@ Here is an example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/compression/zero_decompress_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/zero_decompress_operation.hpp>
 
    // ...
    auto zero_decompress_16_operation = qpl::zero_decompress_operation(qpl::zero_input_format::word_16_bit);
