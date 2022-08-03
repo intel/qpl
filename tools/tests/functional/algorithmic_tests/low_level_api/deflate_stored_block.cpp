@@ -189,6 +189,47 @@ public:
     }
 
     template <uint32_t input_size>
+    void canned_compression_no_stored_block_check_test(qpl_compression_levels level) {
+        if (GetExecutionPath() == qpl_path_hardware) {
+            if (0 == JobFixture::num_test++) {
+                GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
+            }
+            return;
+        }
+        constexpr uint32_t number_of_stored_blocks = (input_size + max_stored_block_size - 1) / max_stored_block_size;
+        constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
+
+        std::vector<uint8_t> source;
+        std::vector<uint8_t> destination(expected_size);
+
+        source_provider source_gen(input_size, 8u, GetSeed());
+        ASSERT_NO_THROW(source = source_gen.get_source());
+
+        qpl_huffman_table_t c_huffman_table;
+
+        auto status = qpl_deflate_huffman_table_create(compression_table_type,
+                                                       GetExecutionPath(),
+                                                       DEFAULT_ALLOCATOR_C,
+                                                       &c_huffman_table);
+
+        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+
+        fill_compression_table(c_huffman_table);
+
+        job_ptr->huffman_table = c_huffman_table;
+
+        job_ptr->op            = qpl_op_compress;
+        job_ptr->next_in_ptr   = source.data();
+        job_ptr->available_in  = input_size;
+        job_ptr->next_out_ptr  = destination.data();
+        job_ptr->available_out = expected_size;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->level         = level;
+
+        ASSERT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
+    }
+
+    template <uint32_t input_size>
     void static_overflow_check_test(qpl_compression_levels level) {
         constexpr uint32_t number_of_stored_blocks = (input_size + max_stored_block_size - 1) / max_stored_block_size;
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
@@ -287,6 +328,22 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_static_high_com
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_high_compression_failed, StoredBlockTest) {
     static_compression_failed_test<large_input_data_size>(qpl_high_level);
+}
+
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_default_compression_no_stored_block_check, StoredBlockTest) {
+    canned_compression_no_stored_block_check_test<small_input_data_size>(qpl_default_level);
+}
+
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_default_compression_no_stored_block_check, StoredBlockTest) {
+    canned_compression_no_stored_block_check_test<large_input_data_size>(qpl_default_level);
+}
+
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_high_compression_no_stored_block_check, StoredBlockTest) {
+    canned_compression_no_stored_block_check_test<small_input_data_size>(qpl_high_level);
+}
+
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_high_compression_no_stored_block_check, StoredBlockTest) {
+    canned_compression_no_stored_block_check_test<large_input_data_size>(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block,

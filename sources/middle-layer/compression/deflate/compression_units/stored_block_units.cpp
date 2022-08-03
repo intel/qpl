@@ -105,6 +105,13 @@ auto write_stored_blocks(uint8_t *source_ptr,
 }
 
 auto write_stored_block(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+    // If canned mode, writing stored block will cause error in decompression later
+    // because it will parse stored block header as if it was the body.
+    // Instead, return error directly
+    if (stream.compression_mode() == canned_mode) {
+        return status_list::more_output_needed;
+    }
+
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
 
     uint32_t copy_size         = 0;
@@ -308,6 +315,13 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
 
 auto recover_and_write_stored_blocks(deflate_state<execution_path_t::software> &stream,
                                       compression_state_t &state) noexcept -> qpl_ml_status {
+    // If canned mode, writing stored block will cause error in decompression later
+    // because it will parse stored block header as if it was the body.
+    // Instead, return error directly
+    if (stream.compression_mode() == canned_mode) {
+        return status_list::more_output_needed;
+    }
+
     stream.isal_stream_ptr_->next_out  -= stream.isal_stream_ptr_->total_out;
     stream.isal_stream_ptr_->avail_out += stream.isal_stream_ptr_->total_out;
     stream.isal_stream_ptr_->total_out = 0u;
