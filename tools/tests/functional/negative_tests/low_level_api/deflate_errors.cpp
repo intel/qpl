@@ -123,97 +123,57 @@ qpl_status compress_create_indices<compression_mode::fixed_compression>(std::vec
 }
 
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, dynamic_default_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_block_overflow) {
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    std::vector<uint8_t> destination(destination_size);
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-    uint32_t job_size = 0;
-
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
-
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
-
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(source, destination,
                                                                                              job_ptr, nullptr,
                                                                                              qpl_default_level);
-    if (execution_path == qpl_path_software) {
+    if (GetExecutionPath() == qpl_path_software) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
     }
 }
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, dynamic_high_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
-
-    std::vector<uint8_t> destination(destination_size);
-
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    if (execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("High compression is not supported on hw path");
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block_overflow) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        GTEST_SKIP() << "High level compression is not supported on hardware path.";
     }
-    uint32_t job_size = 0;
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(source, destination,
                                                                                              job_ptr, nullptr,
-                                                                                             qpl_default_level);
-    if (execution_path == qpl_path_software) {
-        ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
-    } else {
-        ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
-    }
+                                                                                             qpl_high_level);
+
+    ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, static_default_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_block_overflow) {
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    std::vector<uint8_t> destination(destination_size);
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-    uint32_t job_size = 0;
-
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
-
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
-
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     qpl_huffman_table_t huffman_table_ptr;
-
-    status = qpl_deflate_huffman_table_create(compression_table_type,
-                                              execution_path,
-                                              DEFAULT_ALLOCATOR_C,
-                                              &huffman_table_ptr);
-    ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+    auto status = qpl_deflate_huffman_table_create(compression_table_type,
+                                                   GetExecutionPath(),
+                                                   DEFAULT_ALLOCATOR_C,
+                                                   &huffman_table_ptr);
+    ASSERT_EQ(status, QPL_STS_OK) << "Huffman table creation failed";
 
     fill_compression_table(huffman_table_ptr);
 
@@ -221,44 +181,31 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, static_default_stored_block_overflow) {
                                                                                              job_ptr,
                                                                                              huffman_table_ptr,
                                                                                              qpl_default_level);
-    if (execution_path == qpl_path_software) {
+    if (GetExecutionPath() == qpl_path_software) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
     }
 }
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, static_high_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
-
-    std::vector<uint8_t> destination(destination_size);
-
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    if (execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("High compression is not supported on hw path");
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_overflow) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        GTEST_SKIP() << "High level compression is not supported on hardware path.";
     }
-    uint32_t job_size = 0;
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     qpl_huffman_table_t huffman_table_ptr;
-
-    status = qpl_deflate_huffman_table_create(compression_table_type,
-                                              execution_path,
-                                              DEFAULT_ALLOCATOR_C,
-                                              &huffman_table_ptr);
-    ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+    auto status = qpl_deflate_huffman_table_create(compression_table_type,
+                                                   GetExecutionPath(),
+                                                   DEFAULT_ALLOCATOR_C,
+                                                   &huffman_table_ptr);
+    ASSERT_EQ(status, QPL_STS_OK) << "Huffman table creation failed";
 
     fill_compression_table(huffman_table_ptr);
 
@@ -266,80 +213,47 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, static_high_stored_block_overflow) {
                                                                                              job_ptr,
                                                                                              huffman_table_ptr,
                                                                                              qpl_high_level);
-    if (execution_path == qpl_path_software) {
-        ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
-    } else {
-        ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
-    }
+
+    ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, fixed_default_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_block_overflow) {
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    std::vector<uint8_t> destination(destination_size);
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-    uint32_t job_size = 0;
-
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
-
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
-
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination,
                                                                                            job_ptr,
                                                                                            nullptr,
                                                                                            qpl_default_level);
-    if (execution_path == qpl_path_software) {
+    if (GetExecutionPath() == qpl_path_software) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
     }
 }
 
-QPL_LOW_LEVEL_API_NEGATIVE_TEST(deflate, fixed_high_stored_block_overflow) {
-    std::vector<uint8_t> source(source_size);
-    std::generate(source.begin(), source.end(), std::rand);
-
-    std::vector<uint8_t> destination(destination_size);
-
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    if (execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("High compression is not supported on hw path");
+QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_overflow) {
+    if (GetExecutionPath() == qpl_path_hardware) {
+        GTEST_SKIP() << "High level compression is not supported on hardware path.";
     }
 
-    uint32_t job_size = 0;
+    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
+    source.resize(source_size);
+    destination.resize(destination_size);
 
-    // Allocate buffers for decompression job
-    auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
-
-    // Initialize decompression job
-    status = qpl_init_job(execution_path, job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
     auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination,
                                                                                            job_ptr,
                                                                                            nullptr,
                                                                                            qpl_high_level);
-    if (execution_path == qpl_path_software) {
-        ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
-    } else {
-        ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
-    }
+
+    ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
-
-
 
 }
