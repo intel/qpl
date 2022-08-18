@@ -29,7 +29,7 @@ class StoredBlockTest : public JobFixture {
 public:
     template <uint32_t input_size>
     void dynamic_compression_failed_test(qpl_compression_levels level) {
-        if (GetExecutionPath() == qpl_path_hardware) {
+        if (GetExecutionPath() == qpl_path_hardware && level == qpl_high_level) {
             if (0 == JobFixture::num_test++) {
                 GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
             }
@@ -79,7 +79,7 @@ public:
 
     template <uint32_t input_size>
     void fixed_compression_failed_test(qpl_compression_levels level) {
-        if (GetExecutionPath() == qpl_path_hardware) {
+        if (GetExecutionPath() == qpl_path_hardware && level == qpl_high_level) {
             if (0 == JobFixture::num_test++) {
                 GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
             }
@@ -129,7 +129,7 @@ public:
 
     template <uint32_t input_size>
     void static_compression_failed_test(qpl_compression_levels level) {
-        if (GetExecutionPath() == qpl_path_hardware) {
+        if (GetExecutionPath() == qpl_path_hardware && level == qpl_high_level) {
             if (0 == JobFixture::num_test++) {
                 GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
             }
@@ -190,7 +190,7 @@ public:
 
     template <uint32_t input_size>
     void canned_compression_no_stored_block_check_test(qpl_compression_levels level) {
-        if (GetExecutionPath() == qpl_path_hardware) {
+        if (GetExecutionPath() == qpl_path_hardware && level == qpl_high_level) {
             if (0 == JobFixture::num_test++) {
                 GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
             }

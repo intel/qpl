@@ -96,6 +96,7 @@ typedef enum {
     QPL_STS_ARCHIVE_HEADER_ERR        = QPL_SERVICE_LOGIC_ERROR(4u), /**< Invalid GZIP/Zlib header */
     QPL_STS_ARCHIVE_UNSUP_METHOD_ERR  = QPL_SERVICE_LOGIC_ERROR(5u), /**< Gzip/Zlib header specifies unsupported compress method */
 
+/* --- Corresponds to the error codes in Completion Record from IAA hardware --- */
     QPL_STS_BIG_HEADER_ERR            = QPL_OPERATION_ERROR(1u),  /**< Reached the end of the input stream before decoding header and header is too big to fit in input buffer */
     QPL_STS_UNDEF_CL_CODE_ERR         = QPL_OPERATION_ERROR(2u),  /**< Bad CL code */
     QPL_STS_FIRST_LL_CODE_16_ERR      = QPL_OPERATION_ERROR(3u),  /**< First code in LL tree is 16 */

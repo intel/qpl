@@ -23,6 +23,7 @@
 #include "hw_accelerator_api.h"
 #include "own_ml_submit_operation_api.hpp"
 #include "util/checkers.hpp"
+#include "common/defs.hpp"
 
 namespace qpl::ml {
 
@@ -234,7 +235,13 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
     if (qpl_op_compress == qpl_job_ptr->op) {
         if(job::is_canned_mode_compression(qpl_job_ptr))
         {
-            OWN_QPL_CHECK_STATUS(convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)))
+            auto status = convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr));
+            // Align with the behavior of non-canned mode compression overflow (stored block also doesn't fit), which replaces
+            // the returned error code from IAA hardware "destination_is_short_error" with "more_output_needed"
+            if (status == qpl::ml::status_list::destination_is_short_error) {
+                status = qpl::ml::status_list::more_output_needed;
+            }
+            OWN_QPL_CHECK_STATUS(status)
 
             job::update_input_stream(qpl_job_ptr, qpl_job_ptr->available_in);
             job::update_output_stream(qpl_job_ptr, comp_ptr->output_size, comp_ptr->output_bits);
