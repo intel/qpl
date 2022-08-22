@@ -19,7 +19,7 @@
 
 #include "qpl/c_api/huffman_table.h"
 
-#define SKIP_TC_TEST(expr, message) if (expr) std::cout << message << std::endl; return;
+#define SKIP_TC_TEST(expr, message) if (expr) { std::cout << message << std::endl; return; }
 
 namespace qpl::test {
 
@@ -386,8 +386,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, huffman_only_table_create, 
     qpl_huffman_table_destroy(huffman_table);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, table_init, HuffmanTableAlgorithmicTest) {
+// Initialization of Huffman table with histogram
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, HuffmanTableAlgorithmicTest) {
     auto test_case = GetTestCase();
+
+    // in this test: m_c_huffman_table is compression or combined
+    //               m_d_huffman_table is decompression or combined
+    SKIP_TC_TEST(test_case.d_type == decompression_table_type,
+                 "initialization from histogram is not supported for decompression table type currently");
+
+    SKIP_TC_TEST((test_case.c_type == combined_table_type || test_case.d_type == combined_table_type) &&
+                 test_case.algorithm == compression_algorithm_huffman_only,
+                 "initialization from histogram is not supported for combined table type currently with huffman only");
+
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
             ASSERT_TRUE(run_create_tables<compression_algorithm_deflate>(test_case.c_type, test_case.d_type));
@@ -420,11 +431,15 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, table_init, HuffmanTableAlg
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_triplet, HuffmanTableAlgorithmicTest) {
+// Initialization of Huffman table with triplets
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, DISABLED_init_with_triplet, HuffmanTableAlgorithmicTest) {
     auto test_case = GetTestCase();
 
-    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_deflate, "triplets don't support for deflate")
-    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_canned, "triplets don't support for canned")
+    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_deflate,
+                  "initialization with triplets is not supported for deflate table");
+
+    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_canned,
+                 "initialization with triplets is not supported for canned mode");
 
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
@@ -458,8 +473,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_triplet, HuffmanT
     }
 }
 
+// Initialization of one Huffman table with other Huffman table
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTableAlgorithmicTest) {
     auto test_case = GetTestCase();
+
+    // in this test we first initialize m_c_huffman_table from a histogram and then m_d_huffman_table from it
+    SKIP_TC_TEST(test_case.c_type == combined_table_type && test_case.algorithm == compression_algorithm_huffman_only,
+                 "initialization of huffman only combined table type with histogram is not supported currently");
+
+    // in this test: m_c_huffman_table is compression or combined
+    //               m_d_huffman_table is decompression or combined
+    SKIP_TC_TEST(test_case.d_type == combined_table_type,
+                 "initialization of combined table type from other table is not supported currently");
+
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
             ASSERT_TRUE(run_create_tables<compression_algorithm_deflate>(test_case.c_type, test_case.d_type));
@@ -488,6 +514,11 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
         qpl_huffman_table_destroy(m_c_huffman_table);
         m_c_huffman_table = nullptr;
     }
+
+    // in this test: m_c_huffman_table is compression or combined
+    //               m_d_huffman_table is decompression or combined
+    SKIP_TC_TEST(test_case.d_type == decompression_table_type,
+                 "initialization of compression table type from decompression is not supported currently");
 
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
