@@ -193,7 +193,7 @@ void prepare_histogram(isal_mod_hist *histogram) noexcept {
 
     // make sure EOB is present
     if (histogram->ll_hist[end_of_block_code_index] == 0) {
-        histogram->d_hist[end_of_block_code_index] = 1;
+        histogram->ll_hist[end_of_block_code_index] = 1;
     }
 }
 
