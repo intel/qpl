@@ -68,14 +68,12 @@ auto main() -> int {
                                            &deflate_histogram,
                                            qpl_default_level,
                                            execution_path);
-
     if (status != QPL_STS_OK) {
         throw std::runtime_error("Error while compression occurred.");
     }
 
     // Building the Huffman table
     status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
-
     if (status != QPL_STS_OK) {
         throw std::runtime_error("Error while compression occurred.");
     }
@@ -120,7 +118,11 @@ auto main() -> int {
     }
 
     // Freeing resources
-    qpl_huffman_table_destroy(huffman_table);
+    status = qpl_huffman_table_destroy(huffman_table);
+    if (status != QPL_STS_OK) {
+        throw std::runtime_error("Error while destroying table occurred.");
+    }
+
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
         throw std::runtime_error("An error acquired during job finalization.");

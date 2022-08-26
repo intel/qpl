@@ -45,8 +45,8 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
     }
 
     if (stream.compression_mode_ == dynamic_mode) {
-        isal_compression_table_to_qpl(stream.isal_stream_ptr_->hufftables,
-                                      stream.huffman_table_ptr_->get_sw_compression_table());
+        huffman_table_convert(*stream.isal_stream_ptr_->hufftables,
+                              *stream.huffman_table_ptr_->get_sw_compression_table());
         // @todo Is it need to set huffman_header off?
     }
 
@@ -65,7 +65,7 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
                                                         nullptr);
         decompression_table.enable_sw_decompression_table();
 
-        result.status_code_  = comp_to_decompression_table(*stream.huffman_table_ptr_, decompression_table);
+        result.status_code_ = huffman_table_convert(*stream.huffman_table_ptr_, decompression_table);
 
         if (result.status_code_ != status_list::ok) {
             return result;

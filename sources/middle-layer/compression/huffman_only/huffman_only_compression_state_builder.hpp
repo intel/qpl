@@ -91,7 +91,7 @@ inline auto huffman_only_compression_state_builder<execution_path_t::software>::
     stream_.isal_stream_ptr_->hufftables = allocator_.allocate<isal_hufftables>();
     stream_.huffman_table_ptr_ = &huffman_table;
 
-    qpl_compression_table_to_isal(huffman_table.get_sw_compression_table(), stream_.isal_stream_ptr_->hufftables);
+    huffman_table_convert(*(huffman_table.get_sw_compression_table()), *(stream_.isal_stream_ptr_->hufftables));
 
     return *this;
 }

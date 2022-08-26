@@ -98,8 +98,10 @@ qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type,
  * @brief Destroy an @ref qpl_huffman_table_t object. Deallocates internal structures
  *
  * @param[in,out] table  @ref qpl_huffman_table_t object to destroy
+ *
+ * @return status from @ref qpl_status
  */
-void qpl_huffman_table_destroy(qpl_huffman_table_t table);
+qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table);
 
 /** @} */
 

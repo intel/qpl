@@ -21,10 +21,10 @@ class Inflate : public JobFixture {
 public:
     void SetUp() override {
         JobFixture::SetUp();
-        auto status = qpl_deflate_huffman_table_create(decompression_table_type,
-                                                       GetExecutionPath(),
-                                                       DEFAULT_ALLOCATOR_C,
-                                                       &d_huffman_table);
+        auto status = qpl_huffman_only_table_create(decompression_table_type,
+                                                    GetExecutionPath(),
+                                                    DEFAULT_ALLOCATOR_C,
+                                                    &d_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
     }
 

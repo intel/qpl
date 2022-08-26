@@ -405,8 +405,10 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
         case qpl_op_decompress:{
             ml::util::set_zeros((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 
+            auto table_impl = use_as_huffman_table<qpl::ml::compression::compression_algorithm_e::deflate>(job_ptr->huffman_table);
+
             hw_iaa_aecs * aecs_ptr = (job_ptr->flags & QPL_FLAG_CANNED_MODE) ?
-                                     get_aecs_decompress(own_huffman_table_get_decompression_table(job_ptr->huffman_table)) :
+                                     table_impl->get_aecs_decompress() :
                                      GET_DCFG(state_ptr);
 
             HW_IMMEDIATELY_RET_NULLPTR(aecs_ptr)

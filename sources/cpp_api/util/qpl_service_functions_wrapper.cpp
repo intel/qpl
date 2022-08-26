@@ -81,10 +81,10 @@ template <execution_path path>
 void build_huffman_table_from_statistics(qpl_compression_huffman_table *huffman_table_buffer_ptr,
                                          const uint32_t *literal_length_histogram_ptr,
                                          const uint32_t *offsets_histogram_ptr) {
-    own_build_compression_table(literal_length_histogram_ptr,
-                                offsets_histogram_ptr,
-                                huffman_table_buffer_ptr,
-                                get_representation_flags<path>());
+    ml::compression::huffman_table_init(*huffman_table_buffer_ptr,
+                                        literal_length_histogram_ptr,
+                                        offsets_histogram_ptr,
+                                        get_representation_flags<path>());
 }
 
 template
@@ -105,9 +105,9 @@ void build_huffman_table_from_statistics<execution_path::auto_detect>(qpl_compre
 template <execution_path path>
 void build_decompression_huffman_table(qpl_compression_huffman_table *compression_table_buffer_ptr,
                                        qpl_decompression_huffman_table *decompression_table_buffer_ptr) {
-    own_comp_to_decompression_table(compression_table_buffer_ptr,
-                                    decompression_table_buffer_ptr,
-                                    get_representation_flags<path>());
+    ml::compression::huffman_table_convert(*compression_table_buffer_ptr,
+                                           *decompression_table_buffer_ptr,
+                                           get_representation_flags<path>());
 }
 
 template

@@ -31,12 +31,13 @@
 #include "own_defs.h"
 #include "compression_state_t.h"
 #include "huffman_table.hpp"
+#include "compression/huffman_table/huffman_table.hpp"
 
 // ------ SERVICE FUNCTIONS------ //
 namespace qpl{
 
 using operation_result_t = ml::compression::compression_operation_result_t;
-using huffman_table_t = ml::compression::compression_huffman_table;
+using own_huffman_table_t = ml::compression::compression_huffman_table;
 
 template <>
 void inline job::update<operation_result_t>(qpl_job *job_ptr, operation_result_t &result) noexcept {
@@ -70,7 +71,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
     operation_result_t result{};
 
     if (job::is_huffman_only_compression(job_ptr)) { // Huffman only mode
-       huffman_only_compression_state_builder<path> builder(allocator);
+        huffman_only_compression_state_builder<path> builder(allocator);
 
         builder.output(job_ptr->next_out_ptr, job_ptr->available_out)
                .be_output(job_ptr->flags & QPL_FLAG_HUFFMAN_BE)
@@ -80,14 +81,18 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                .total_out(job_ptr->total_out);
 
         if (job_ptr->huffman_table != nullptr) {
-            auto *compression_table_ptr = own_huffman_table_get_compression_table(job_ptr->huffman_table);
 
-            huffman_table_t compression_table(get_sw_compression_huffman_table_ptr(compression_table_ptr),
-                                              get_isal_compression_huffman_table_ptr(compression_table_ptr),
-                                              get_hw_compression_huffman_table_ptr(compression_table_ptr),
-                                              get_deflate_header_ptr(compression_table_ptr));
+            OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::huffman_only>(job_ptr->huffman_table))
+
+            auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(job_ptr->huffman_table);
+
+            own_huffman_table_t compression_table(table_impl->get_sw_compression_huffman_table_ptr(),
+                                                  table_impl->get_isal_compression_huffman_table_ptr(),
+                                                  table_impl->get_hw_compression_huffman_table_ptr(),
+                                                  table_impl->get_deflate_header_ptr());
 
             auto state = builder.compress_table(compression_table).build();
+
             result = compress_huffman_only<path>(job_ptr->next_in_ptr, job_ptr->available_in, state);
         } else {
             auto state = builder.build();
@@ -112,7 +117,12 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                 builder.start_new_block(true);
             }
             if (job_ptr->huffman_table) {
-                builder.compression_table(own_huffman_table_get_compression_table(job_ptr->huffman_table));
+                OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::deflate>(job_ptr->huffman_table))
+                auto table_impl = use_as_huffman_table<compression_algorithm_e::deflate>(job_ptr->huffman_table);
+
+                auto table_ptr = reinterpret_cast<qpl_compression_huffman_table*>(table_impl->compression_huffman_table<path>());
+
+                builder.compression_table(table_ptr);
             }
         }
 
@@ -123,7 +133,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                                     job_ptr->idx_max_size);
         }
 
-        if (job_ptr->dictionary != NULL &&
+        if (job_ptr->dictionary != nullptr &&
             job_ptr->flags & QPL_FLAG_FIRST) {
             if constexpr (qpl::ml::execution_path_t::software == path) {
                 builder.dictionary(*job_ptr->dictionary);

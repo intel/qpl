@@ -118,14 +118,18 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
     const qpl::ml::util::linear_allocator allocator(state_buffer);
 
     if (job_ptr->flags & QPL_FLAG_NO_HDRS) {
-        auto *decompression_table_ptr = own_huffman_table_get_decompression_table(job_ptr->huffman_table);
-        // Initialize decompression table
-        decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
-                                                        get_hw_decompression_table_buffer(decompression_table_ptr),
-                                                        get_deflate_header_buffer(decompression_table_ptr),
-                                                        get_lookup_table_buffer_ptr(decompression_table_ptr));
+        OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::huffman_only>(job_ptr->huffman_table))
+        auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(job_ptr->huffman_table);
 
-        set_representation_flags(decompression_table_ptr, decompression_table);
+        auto d_table_ptr = reinterpret_cast<qpl_decompression_huffman_table*>(table_impl->decompression_huffman_table<path>());
+
+        // Initialize decompression table
+        decompression_huffman_table decompression_table(table_impl->get_sw_decompression_table_buffer(),
+                                                        table_impl->get_hw_decompression_table_buffer(),
+                                                        table_impl->get_deflate_header_buffer(),
+                                                        table_impl->get_lookup_table_buffer_ptr());
+
+        set_representation_flags(d_table_ptr, decompression_table);
 
         huffman_only_decompression_state<path> state(allocator);
 
@@ -186,14 +190,18 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         }
 
         if (job_ptr->flags & QPL_FLAG_CANNED_MODE) { // Canned decompression
-            auto *decompression_table_ptr = own_huffman_table_get_decompression_table(job_ptr->huffman_table);
-            // Initialize decompression table
-            decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
-                                                            get_hw_decompression_table_buffer(decompression_table_ptr),
-                                                            get_deflate_header_buffer(decompression_table_ptr),
-                                                            get_lookup_table_buffer_ptr(decompression_table_ptr));
+            OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::deflate>(job_ptr->huffman_table))
+            auto table_impl = use_as_huffman_table<compression_algorithm_e::deflate>(job_ptr->huffman_table);
 
-            set_representation_flags(decompression_table_ptr, decompression_table);
+            // Initialize decompression table
+            decompression_huffman_table decompression_table(table_impl->get_sw_decompression_table_buffer(),
+                                                            table_impl->get_hw_decompression_table_buffer(),
+                                                            table_impl->get_deflate_header_buffer(),
+                                                            table_impl->get_lookup_table_buffer_ptr());
+
+            auto d_table_ptr = reinterpret_cast<qpl_decompression_huffman_table*>(table_impl->decompression_huffman_table<path>());
+
+            set_representation_flags(d_table_ptr, decompression_table);
 
             if (decompression_table.is_deflate_header_used()) {
                 result = default_decorator::unwrap(inflate<path, inflate_mode_t::inflate_body>,

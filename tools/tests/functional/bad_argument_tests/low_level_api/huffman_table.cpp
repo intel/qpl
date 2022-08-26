@@ -18,6 +18,10 @@
 
 namespace qpl::test {
 
+void* bad_malloc(size_t size) {
+    return NULL;
+}
+
 // ------ DEFLATE HUFFMAN TABLE ------ //
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_create) {
@@ -36,6 +40,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_create) {
                                               &huffman_table);
 
     EXPECT_EQ(QPL_STS_PATH_ERR, status) << "incorrect table path used";
+
+    status = qpl_deflate_huffman_table_create(combined_table_type,
+                                              GetExecutionPath(),
+                                              {bad_malloc, free},
+                                              &huffman_table);
+
+    EXPECT_EQ(QPL_STS_OBJECT_ALLOCATION_ERR, status) << "bad allocator provided";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_create) {
@@ -54,10 +65,17 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_create) {
                                            &huffman_table);
 
     EXPECT_EQ(QPL_STS_PATH_ERR, status) << "incorrect table path used";
+
+    status = qpl_huffman_only_table_create(combined_table_type,
+                                           GetExecutionPath(),
+                                           {bad_malloc, free},
+                                           &huffman_table);
+
+    EXPECT_EQ(QPL_STS_OBJECT_ALLOCATION_ERR, status) << "bad allocator provided";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, destroy) {
-    qpl_huffman_table_destroy(nullptr);
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_destroy(nullptr));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init) {

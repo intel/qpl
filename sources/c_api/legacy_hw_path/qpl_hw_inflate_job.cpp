@@ -41,6 +41,7 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
                                     uint32_t available_in) {
     using namespace qpl;
     using namespace qpl::ml::util;
+    using namespace qpl::ml::compression;
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
     hw_iaa_analytics_descriptor *const desc_ptr = &state_ptr->desc_ptr;
@@ -85,15 +86,16 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         // Decompress huffman only
         if (qpl_job_ptr->flags & QPL_FLAG_NO_HDRS) {
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
-            HW_IMMEDIATELY_RET((nullptr == qpl_job_ptr->huffman_table),
-                               QPL_STS_INVALID_PARAM_ERR);
+            HW_IMMEDIATELY_RET((nullptr == qpl_job_ptr->huffman_table), QPL_STS_INVALID_PARAM_ERR);
+            OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::huffman_only>(qpl_job_ptr->huffman_table))
 
-            auto *decompression_table_ptr = own_huffman_table_get_decompression_table(qpl_job_ptr->huffman_table);
+            auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(qpl_job_ptr->huffman_table);
+
             // Initialize decompression table
-            ml::compression::decompression_huffman_table decompression_table(get_sw_decompression_table_buffer(decompression_table_ptr),
-                                                            get_hw_decompression_table_buffer(decompression_table_ptr),
-                                                            get_deflate_header_buffer(decompression_table_ptr),
-                                                            get_lookup_table_buffer_ptr(decompression_table_ptr));
+            decompression_huffman_table decompression_table(table_impl->get_sw_decompression_table_buffer(),
+                                                            table_impl->get_hw_decompression_table_buffer(),
+                                                            table_impl->get_deflate_header_buffer(),
+                                                            table_impl->get_lookup_table_buffer_ptr());
 
             hw_iaa_aecs_decompress_set_huffman_only_huffman_table(&aecs_ptr->inflate_options,
                                                                   decompression_table.get_sw_decompression_table());

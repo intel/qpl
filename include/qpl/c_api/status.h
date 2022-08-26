@@ -95,6 +95,7 @@ typedef enum {
     QPL_STS_INDEX_GENERATION_ERR      = QPL_SERVICE_LOGIC_ERROR(3u), /**< Mini-block creation error */
     QPL_STS_ARCHIVE_HEADER_ERR        = QPL_SERVICE_LOGIC_ERROR(4u), /**< Invalid GZIP/Zlib header */
     QPL_STS_ARCHIVE_UNSUP_METHOD_ERR  = QPL_SERVICE_LOGIC_ERROR(5u), /**< Gzip/Zlib header specifies unsupported compress method */
+    QPL_STS_OBJECT_ALLOCATION_ERR     = QPL_SERVICE_LOGIC_ERROR(6u), /**< Not able to allocate Huffman table object */
 
 /* --- Corresponds to the error codes in Completion Record from IAA hardware --- */
     QPL_STS_BIG_HEADER_ERR            = QPL_OPERATION_ERROR(1u),  /**< Reached the end of the input stream before decoding header and header is too big to fit in input buffer */

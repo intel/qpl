@@ -13,19 +13,22 @@
 #define QPL_STATISTICS__HPP_
 
 #include "qpl/c_api/huffman_table.h"
-#include "compression/huffman_table/huffman_table_utils.hpp"
+#include "compression/huffman_table/huffman_table.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+template<qpl::ml::compression::compression_algorithm_e algorithm>
+auto check_huffman_table_is_correct(qpl_huffman_table_t table) {
+    auto meta = reinterpret_cast<qpl::ml::compression::huffman_table_meta_t*>(table);
 
-// Todo Remove after refactoring
-qpl_compression_huffman_table* own_huffman_table_get_compression_table(const qpl_huffman_table_t table);
-
-qpl_decompression_huffman_table* own_huffman_table_get_decompression_table(const qpl_huffman_table_t table);
-
-#ifdef __cplusplus
+    if (meta->algorithm != algorithm) {
+        return QPL_STS_HUFFMAN_TABLE_TYPE_ERROR;
+    } else {
+        return QPL_STS_OK;
+    }
 }
-#endif
+
+template<qpl::ml::compression::compression_algorithm_e algorithm>
+auto use_as_huffman_table(qpl_huffman_table_t table) {
+    return reinterpret_cast<qpl::ml::compression::huffman_table_t<algorithm>*>(table);
+}
 
 #endif //QPL_STATISTICS__HPP_

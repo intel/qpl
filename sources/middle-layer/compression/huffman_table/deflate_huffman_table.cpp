@@ -22,23 +22,23 @@ compression_huffman_table::compression_huffman_table(uint8_t *sw_table_ptr,
     huffman_only_flag_         = false;
 }
 
-auto compression_huffman_table::get_deflate_header_data() noexcept -> uint8_t * {
+auto compression_huffman_table::get_deflate_header_data() const noexcept -> uint8_t * {
     return deflate_header_ptr_->data;
 }
 
-auto compression_huffman_table::get_sw_compression_table() noexcept -> qplc_huffman_table_default_format * {
+auto compression_huffman_table::get_sw_compression_table() const noexcept -> qplc_huffman_table_default_format * {
     return sw_compression_table_ptr_;
 }
 
-auto compression_huffman_table::get_isal_compression_table() noexcept -> isal_hufftables * {
+auto compression_huffman_table::get_isal_compression_table() const noexcept -> isal_hufftables * {
     return isal_compression_table_ptr_;
 }
 
-auto compression_huffman_table::get_hw_compression_table() noexcept -> hw_compression_huffman_table * {
+auto compression_huffman_table::get_hw_compression_table() const noexcept -> hw_compression_huffman_table * {
     return hw_compression_table_ptr_;
 }
 
-auto compression_huffman_table::get_deflate_header_bit_size() noexcept -> uint32_t { 
+auto compression_huffman_table::get_deflate_header_bit_size() const noexcept -> uint32_t {
     return deflate_header_ptr_->header_bit_size;
 }
 

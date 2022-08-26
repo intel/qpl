@@ -9,8 +9,6 @@
  * @brief Internal HW API functions for @ref hw_descriptor_compress_init_deflate_base API implementation
  */
 
-#include "util/checkers.hpp"
-
 #include "hardware_state.h"
 #include "hardware_defs.h"
 
@@ -38,7 +36,9 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                                                     hw_iaa_analytics_descriptor *const descriptor_ptr,
                                                     hw_completion_record *const completion_record_ptr,
                                                     qpl_hw_state *const state_ptr) {
-    auto                 huffman_table_ptr = own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table);
+    using namespace qpl::ml::compression;
+
+    auto                 huffman_table_ptr = qpl_job_ptr->huffman_table;
     hw_iaa_aecs_compress *configuration_ptr;
     uint32_t             flags             = qpl_job_ptr->flags;
     qpl_comp_style       compression_style = own_get_compression_style(qpl_job_ptr);
@@ -120,16 +120,17 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                                QPL_STS_INDEX_GENERATION_ERR);
             state_ptr->saved_num_output_accum_bits = configuration_ptr->num_output_accum_bits;
 
+            auto table_impl = use_as_huffman_table<compression_algorithm_e::deflate>(qpl_job_ptr->huffman_table);
             // insert header
             if(huffman_table_ptr) {
                 // Static mode used
                 uint32_t status = hw_iaa_aecs_compress_write_deflate_dynamic_header(configuration_ptr,
-                                                                                    get_deflate_header_ptr(huffman_table_ptr),
-                                                                                    get_deflate_header_bits_size(huffman_table_ptr),
+                                                                                    table_impl->get_deflate_header_ptr(),
+                                                                                    table_impl->get_deflate_header_bits_size(),
                                                                                     is_final_block);
                 HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
-                uint32_t code_length  = get_literals_lengths_table_ptr(huffman_table_ptr)[256];
+                uint32_t code_length  = table_impl->get_literals_lengths_table_ptr()[256];
                 uint32_t eob_code_len = code_length >> 15u;
                 state_ptr->eob_code.code   = reverse_bits(static_cast<uint16_t>(code_length)) >> (16u - eob_code_len);
                 state_ptr->eob_code.length = eob_code_len;
@@ -148,9 +149,11 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         if (!is_huffman_only)
         {
             if (huffman_table_ptr) {
+                auto table_impl = use_as_huffman_table<compression_algorithm_e::deflate>(qpl_job_ptr->huffman_table);
+
                 hw_iaa_aecs_compress_set_deflate_huffman_table(configuration_ptr,
-                                                               (hw_iaa_huffman_codes *) get_literals_lengths_table_ptr(huffman_table_ptr),
-                                                               (hw_iaa_huffman_codes *) get_offsets_table_ptr(huffman_table_ptr));
+                                                               table_impl->get_literals_lengths_table_ptr(),
+                                                               table_impl->get_offsets_table_ptr());
             } else {
                 hw_iaa_aecs_compress_set_deflate_huffman_table(configuration_ptr,
                                                                (hw_iaa_huffman_codes *) fixed_literals_table,
@@ -160,8 +163,10 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
 
         if (is_huffman_only) {
             if (huffman_table_ptr) {
+                auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(qpl_job_ptr->huffman_table);
+
                 hw_iaa_aecs_compress_set_huffman_only_huffman_table(configuration_ptr,
-                                                                    (hw_iaa_huffman_codes *) get_literals_lengths_table_ptr(huffman_table_ptr));
+                                                                    table_impl->get_literals_lengths_table_ptr());
             } else {
                 hw_iaa_aecs_compress_set_huffman_only_huffman_table(configuration_ptr,
                                                                     (hw_iaa_huffman_codes *) fixed_literals_table);
@@ -224,7 +229,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
                                                             qpl_job *qpl_job_ptr,
                                                             hw_iaa_aecs_compress *cfg_in_ptr,
                                                             hw_iaa_completion_record *comp_ptr) {
-    using huffman_table_t = qpl::ml::compression::compression_huffman_table;
+    using namespace qpl::ml::compression;
     uint32_t flags = qpl_job_ptr->flags;
     bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) ? true : false;
     bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1u : 0u;
@@ -235,16 +240,16 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
         hw_iaa_aecs_compress_set_huffman_only_huffman_table_from_histogram(cfg_in_ptr,
                                                                            &cfg_in_ptr->histogram);
 
-        auto *compression_table_ptr = own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table);
+        auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(qpl_job_ptr->huffman_table);
 
-        huffman_table_t compression_table(get_sw_compression_huffman_table_ptr(compression_table_ptr),
-                                          get_isal_compression_huffman_table_ptr(compression_table_ptr),
-                                          get_hw_compression_huffman_table_ptr(compression_table_ptr),
-                                          get_deflate_header_ptr(compression_table_ptr));
-
+        compression_huffman_table compression_table(table_impl->get_sw_compression_huffman_table_ptr(),
+                                                    table_impl->get_isal_compression_huffman_table_ptr(),
+                                                    table_impl->get_hw_compression_huffman_table_ptr(),
+                                                    table_impl->get_deflate_header_ptr());
 
         hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, compression_table.get_sw_compression_table());
-        set_deflate_header_bits_size(own_huffman_table_get_compression_table(qpl_job_ptr->huffman_table), 0u);
+
+        table_impl->set_deflate_header_bits_size(0u);
     } else {
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(cfg_in_ptr,
                                                                          &cfg_in_ptr->histogram,
@@ -294,6 +299,8 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
 }
 
 extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr) {
+    using namespace qpl::ml::compression;
+
     qpl_hw_state            *const state_ptr      = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
     hw_iaa_analytics_descriptor *const descriptor_ptr = &state_ptr->desc_ptr;
     uint32_t flags = job_ptr->flags;
@@ -315,9 +322,11 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
     }
 
     if (is_first_block) {
+        auto table_impl = use_as_huffman_table<compression_algorithm_e::deflate>(job_ptr->huffman_table);
+
         hw_iaa_aecs_compress_set_deflate_huffman_table(state_ptr->ccfg,
-                                                       (hw_iaa_huffman_codes *) get_literals_lengths_table_ptr(own_huffman_table_get_compression_table(job_ptr->huffman_table)),
-                                                       (hw_iaa_huffman_codes *) get_offsets_table_ptr(own_huffman_table_get_compression_table(job_ptr->huffman_table)));
+                                                       table_impl->get_literals_lengths_table_ptr(),
+                                                       table_impl->get_offsets_table_ptr());
     }
 
     auto access_policy = is_final_block ? hw_aecs_access_read : hw_aecs_access_read | hw_aecs_access_write;

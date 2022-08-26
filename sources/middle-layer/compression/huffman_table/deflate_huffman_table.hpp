@@ -52,11 +52,11 @@ public:
                               uint8_t *hw_table_ptr,
                               uint8_t *deflate_header_ptr) noexcept;
 
-    auto get_deflate_header_data() noexcept -> uint8_t *;
-    auto get_sw_compression_table() noexcept -> qplc_huffman_table_default_format *;
-    auto get_isal_compression_table() noexcept -> isal_hufftables *;
-    auto get_hw_compression_table() noexcept -> hw_compression_huffman_table *;
-    auto get_deflate_header_bit_size() noexcept -> uint32_t;
+    auto get_deflate_header_data() const noexcept -> uint8_t *;
+    auto get_sw_compression_table() const noexcept -> qplc_huffman_table_default_format *;
+    auto get_isal_compression_table() const noexcept -> isal_hufftables *;
+    auto get_hw_compression_table() const noexcept -> hw_compression_huffman_table *;
+    auto get_deflate_header_bit_size() const noexcept -> uint32_t;
 
     void set_deflate_header_bit_size(uint32_t value) noexcept ;
 

@@ -125,18 +125,8 @@ struct qpl_decompression_huffman_table {
                            qpl::ml::util::default_alignment> lookup_table_buffer;
 };
 
-uint32_t own_build_compression_table(const uint32_t *literal_lengths_histogram_ptr,
-                                     const uint32_t *offsets_histogram_ptr,
-                                     qpl_compression_huffman_table *compression_table_ptr,
-                                     uint32_t representation_flags);
-
-uint32_t own_comp_to_decompression_table(const qpl_compression_huffman_table *compression_table_ptr,
-                                         qpl_decompression_huffman_table *decompression_table_ptr,
-                                         uint32_t representation_flags);
-
 extern "C" {
 uint8_t *get_lookup_table_buffer_ptr(qpl_decompression_huffman_table *decompression_table_ptr);
-void *get_aecs_decompress(qpl_decompression_huffman_table *decompression_table_ptr);
 
 uint32_t *get_literals_lengths_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
 uint32_t *get_offsets_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
@@ -145,9 +135,7 @@ uint8_t *get_deflate_header_ptr(qpl_compression_huffman_table *const huffman_tab
 uint32_t get_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_table_ptr);
 void set_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_table_ptr, uint32_t header_bits);
 
-uint8_t *get_sw_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
 uint8_t *get_isal_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
-uint8_t *get_hw_compression_huffman_table_ptr(qpl_compression_huffman_table *const huffman_table_ptr);
 
 uint8_t *get_sw_decompression_table_buffer(qpl_decompression_huffman_table *const decompression_table_ptr);
 uint8_t *get_hw_decompression_table_buffer(qpl_decompression_huffman_table *const decompression_table_ptr);
@@ -166,26 +154,22 @@ struct qpl_triplet {
     uint16_t code;
 };
 
-auto triplets_to_compression_table(const qpl_triplet *triplets_ptr,
-                                   std::size_t triplets_count,
-                                   compression_huffman_table &compression_table) noexcept -> qpl_ml_status;
+template<class table_t>
+auto huffman_table_init(table_t &table,
+                        const qpl_triplet *const triplets_ptr,
+                        const std::size_t triplets_count,
+                        const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
 
-auto triplets_to_decompression_table(const qpl_triplet *triplets_ptr,
-                                     size_t triplets_count,
-                                     decompression_huffman_table &compression_table) noexcept -> qpl_ml_status;
+template<class table_t>
+auto huffman_table_init(table_t &table,
+                        const uint32_t *literals_lengths_histogram_ptr,
+                        const uint32_t *distances_histogram_ptr,
+                        const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
 
-auto comp_to_decompression_table(compression_huffman_table &compression_table,
-                                 decompression_huffman_table &decompression_table) noexcept -> qpl_ml_status;
-
-void qpl_compression_table_to_isal(const qplc_huffman_table_default_format *qpl_compression_table,
-                                   isal_hufftables *isal_compression_table) noexcept;
-
-void isal_compression_table_to_qpl(const isal_hufftables *isal_compression_table,
-                                   qplc_huffman_table_default_format *qpl_compression_table) noexcept;
-
-auto build_compression_table(const uint32_t *literals_lengths_histogram_ptr,
-                             const uint32_t *distances_histogram_ptr,
-                             compression_huffman_table &compression_table) noexcept -> qpl_ml_status;
+template<class first_table_t, class second_table_t>
+auto huffman_table_convert(const first_table_t &first_table,
+                           second_table_t &second_table,
+                           const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
 }
 
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_CANNED_UTILS_HPP
