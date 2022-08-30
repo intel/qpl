@@ -59,16 +59,6 @@ noexcept -> analytics::analytic_operation_result_t {
 }
 
 template <>
-inline auto completion_record_convert_to_result<other::copy_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr)
-noexcept -> other::copy_operation_result_t {
-    other::copy_operation_result_t copy_operation_result{};
-
-    copy_operation_result.status_code_ = convert_status_iaa_to_qpl(completion_record_ptr);
-
-    return copy_operation_result;
-}
-
-template <>
 inline auto completion_record_convert_to_result<other::crc_operation_result_t>(HW_PATH_VOLATILE hw_completion_record *completion_record_ptr)
 noexcept -> other::crc_operation_result_t {
     other::crc_operation_result_t crc_operation_result{};

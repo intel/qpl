@@ -17,7 +17,6 @@
 #include "filter_operations/analytics_state_t.h"
 #include "compression_operations/zero_compressor.hpp"
 #include "other_operations/crc64.hpp"
-#include "other_operations/copy.hpp"
 
 // Middle layer headers
 #include "util/checksum.hpp"
@@ -105,10 +104,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
             status = perform_compression<qpl::ml::execution_path_t::software>(qpl_job_ptr);
             break;
         } // other operations
-        case qpl_op_memcpy: {
-            status = perform_copy(qpl_job_ptr);
-            break;
-        }
         case qpl_op_crc64: {
             status = perform_crc64(qpl_job_ptr);
             break;
@@ -300,10 +295,6 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
         if (job::is_compression(qpl_job_ptr) &&
             !(job::is_indexing_enabled(qpl_job_ptr) && job::is_multi_job(qpl_job_ptr))) {
             return static_cast<qpl_status>(perform_compression<ml::execution_path_t::hardware>(qpl_job_ptr));
-        }
-
-        if (job::is_copy(qpl_job_ptr)) {
-            return static_cast<qpl_status>(perform_copy(qpl_job_ptr));
         }
 
         if (job::is_zero_compress(qpl_job_ptr)) {

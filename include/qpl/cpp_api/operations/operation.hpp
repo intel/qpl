@@ -81,8 +81,6 @@ class select_operation;
 
 class rle_burst_operation;
 
-class copy_operation;
-
 class crc_operation;
 
 class zero_compress_operation;
@@ -130,9 +128,6 @@ auto execute(rle_burst_operation &operation,
              uint8_t *mask_buffer_ptr,
              size_t mask_buffer_size,
              int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(copy_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
 
 template <execution_path path>
 auto execute(crc_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
@@ -369,7 +364,6 @@ auto execute(operation_t &op,
                                  expand_operation,
                                  select_operation,
                                  rle_burst_operation,
-                                 copy_operation,
                                  crc_operation,
                                  zero_compress_operation,
                                  zero_decompress_operation,

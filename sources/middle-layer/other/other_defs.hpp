@@ -11,11 +11,6 @@
 
 namespace qpl::ml::other {
 
-struct copy_operation_result_t {
-    uint32_t status_code_  = 0u;
-    uint32_t copied_bytes_ = 0u;
-};
-
 struct crc_operation_result_t {
     uint32_t status_code_     = 0u;
     uint32_t processed_bytes_ = 0u;

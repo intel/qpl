@@ -29,14 +29,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_job_size, test) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_init, test) {
     qpl_status status;
-    qpl_job    job;
-    job.op = qpl_op_memcpy;
 
     status = qpl_init_job(PATH, nullptr);
 
     EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR) << "Failed on job_ptr == nullptr";
 
-    status = qpl_init_job(INCORRECT_PATH, &job);
+    job_ptr->op = qpl_op_crc64;
+    status = qpl_init_job(INCORRECT_PATH, job_ptr);
 
     EXPECT_EQ(status, QPL_STS_PATH_ERR) << "Failed on incorrect path check";
 }
@@ -45,7 +44,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_submit, test) {
     qpl_status status;
     uint8_t    *stored_ptr;
 
-    job_ptr->op          = qpl_op_memcpy;
+    job_ptr->op          = qpl_op_crc64;
     job_ptr->next_in_ptr = (uint8_t *) job_ptr;
 
     status = qpl_submit_job(nullptr);
@@ -99,43 +98,19 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_submit, test) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_execute, test) {
-    qpl_status status;
-    qpl_job    job;
-    job.op = qpl_op_memcpy;
-
-    status = qpl_execute_job(nullptr);
-
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR) << "Failed on job_ptr == nullptr";
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_execute_job(nullptr)) << "Failed on job_ptr == nullptr";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_wait, test) {
-    qpl_status status;
-    qpl_job    job;
-    job.op = qpl_op_memcpy;
-
-    status = qpl_wait_job(nullptr);
-
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR) << "Failed on job_ptr == nullptr";
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_wait_job(nullptr)) << "Failed on job_ptr == nullptr";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_check, test) {
-    qpl_status status;
-    qpl_job    job;
-    job.op = qpl_op_memcpy;
-
-    status = qpl_check_job(nullptr);
-
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR) << "Failed on job_ptr == nullptr";
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_check_job(nullptr)) << "Failed on job_ptr == nullptr";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_finalize, test) {
-    qpl_status status;
-    qpl_job    job;
-    job.op = qpl_op_memcpy;
-
-    status = qpl_fini_job(nullptr);
-
-    EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR) << "Failed on job_ptr == nullptr";
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_fini_job(nullptr)) << "Failed on job_ptr == nullptr";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {

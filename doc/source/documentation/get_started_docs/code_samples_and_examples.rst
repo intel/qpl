@@ -36,14 +36,6 @@ Compression Stream
     :language: cpp
 
 
-Copy
-----
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/copy_example.cpp
-    :language: cpp
-
-
 CRC
 ---
 
@@ -198,14 +190,6 @@ Compression
 
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
-    :language: cpp
-
-
-Copy
-====
-
-
-.. literalinclude:: ../../../../examples/low-level-api/copy_example.cpp
     :language: cpp
 
 

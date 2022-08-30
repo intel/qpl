@@ -81,9 +81,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
 
     job.op = qpl_op_scan_not_range;
     EXPECT_TRUE(is_scan(&job));
-
-    job.op = qpl_op_memcpy;
-    EXPECT_FALSE(is_scan(&job));
 }
 
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, inflate) {
@@ -196,7 +193,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, others) {
     qpl_job job;
 
     // @todo call to middle layer
-    job.op = qpl_op_memcpy;
     job.op = qpl_op_crc64;
 }
 

@@ -43,7 +43,6 @@ if(NULL == (expression)) { \
 #define QPL_VALID_OP (\
     (1ULL << qpl_op_decompress    ) |\
     (1ULL << qpl_op_compress      ) |\
-    (1ULL << qpl_op_memcpy        ) |\
     (1ULL << qpl_op_crc64         ) |\
     (1ULL << qpl_op_z_decompress32) |\
     (1ULL << qpl_op_z_decompress16) |\

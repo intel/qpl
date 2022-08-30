@@ -74,15 +74,11 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
 
         operation_result = wait_descriptor_result<return_t>(completion_record_ptr);
 
-        if constexpr (std::is_same<other::copy_operation_result_t, return_t>::value) {
-            operation_result.copied_bytes_ = reinterpret_cast<hw_iaa_analytics_descriptor *>(descriptor_ptr)->src1_size;
-        } else if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
+        if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.processed_bytes_ = reinterpret_cast<hw_iaa_analytics_descriptor *>(descriptor_ptr)->src1_size;
         }
     } else {
-        if constexpr (std::is_same<other::copy_operation_result_t, return_t>::value) {
-            operation_result.status_code_ = accelerator_status_to_qpl(accel_status);
-        } else if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
+        if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.status_code_ = accelerator_status_to_qpl(accel_status);
         } else {
             operation_result = static_cast<return_t>(accelerator_status_to_qpl(accel_status));

@@ -41,6 +41,5 @@ qpl_expand         2                       Array or Bit Vector
 
     c_qplZeroCompress
     c_qpl_crc64
-    c_qpl_memcpu
 
     c_qpl_gather_deflate_statistics

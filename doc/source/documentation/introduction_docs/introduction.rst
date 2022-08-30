@@ -114,7 +114,7 @@ Intel IAA primarily targets:
 
 -  Big data applications and in-memory analytic databases.
 -  Application-transparent usages such as memory page compression.
--  Memory move and data integrity (e.g. CRC64) operations.
+-  Data integrity (e.g. CRC64) operations.
 
 Intel IAA supports lightweight compression schemes such as
 zero-compression and heavier formats such as Huffman encoding and
@@ -215,7 +215,6 @@ Other Operations
 ----------------
 
 
--  Memory Copy
 -  CRC64
 
 

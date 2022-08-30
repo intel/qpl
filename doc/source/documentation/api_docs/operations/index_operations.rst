@@ -49,5 +49,4 @@ Operation Inheritance Hierarchy
     analytics_operations/index_analytics_operations
     mask_operations/index_mask_operations
 
-    copy_operation
     crc_operation

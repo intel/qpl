@@ -127,10 +127,6 @@ static inline bool is_set_membership(const qpl_job *const job_ptr) noexcept {
     return qpl_op_set_membership == job_ptr->op;
 }
 
-static inline bool is_copy(const qpl_job *const job_ptr) noexcept {
-    return qpl_op_memcpy == job_ptr->op;
-}
-
 static inline bool is_zero_compress(const qpl_job *const job_ptr) noexcept {
     return qpl_op_z_compress16 == job_ptr->op ||
            qpl_op_z_compress32 == job_ptr->op ||

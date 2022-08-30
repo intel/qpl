@@ -221,7 +221,7 @@ typedef enum {
 typedef enum {
     qpl_op_decompress = 0x00u,    /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
     qpl_op_compress   = 0x01u,    /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
-    qpl_op_memcpy     = 0x04u,    /**< Performs @ref COPY_OPERATION */
+    
     qpl_op_crc64      = 0x05u,    /**< Performs @ref CRC_OPERATION */
 
     qpl_op_z_decompress32 = 0x08u,    /**< Performs Zero-decompress-32 operation (@ref ZCOMPRESS_OPERATIONS group) */

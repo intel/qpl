@@ -470,28 +470,6 @@ qpl_status ref_select(qpl_job *const qpl_job_ptr);
  */
 qpl_status ref_expand(qpl_job *const qpl_job_ptr);
 
-/**
- * @brief Performs simple mem-copy (memcpy) operation
- *
- * @param[in,out]  qpl_job_ptr  Pointer to the initialized @ref qpl_job structure
- *
- * @todo used fields: next_in_ptr, available_in, next_out_ptr, available_out, op;
- *
- * @remarks  The Intel QPL memcpy operation performs a simple memory copy. The application just
- *           defines the input and output buffers. The output buffer must be at least as large
- *           as the input buffer, and the two buffers cannot overlap.
- *
- * @todo fix description
- * @return 
- *    - @ref QPL_STS_OK
- *    - @ref QPL_STS_NULL_PTR_ERR        - if any of qpl_job_ptr|next_in_ptr|next_out_ptr pointers is NULL
- *    - @ref QPL_STS_SIZE_ERR           - if any of available_in|available_out|num_input_elements is 0
- *    - @ref QPL_STS_SRC_IS_SHORT_ERR     - if num_input_elements has not been processed while available_in archived
- *    - @ref QPL_STS_DST_IS_SHORT_ERR     - if num_input_elements has not been processed while available_out archived
- *    - @ref QPL_STS_OPERATION_ERR      - in case of bad (non-supported) value in the op field
- */
-qpl_status ref_copy_8u(qpl_job *const qpl_job_ptr);
-
 #ifdef __cplusplus
 }
 #endif

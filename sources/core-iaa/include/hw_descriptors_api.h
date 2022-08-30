@@ -45,22 +45,6 @@ extern "C" {
  */
 
 /**
- * @brief Inits @ref hw_descriptor for MEM_COPY operation
- * @param[in,out] descriptor_ptr        pointer to the allocated descriptor to init
- * @param[in] source_ptr                pointer to the source
- * @param[in] destination_ptr           pointer to the destination
- * @param[in] size                      number of bytes to copy/move
- *
- * @note Memory pointed with `destination_ptr` and `completion_record_ptr` will be changed after descriptor executed
- *
- */
-HW_PATH_IAA_API(void, descriptor_init_mem_copy, (hw_descriptor * descriptor_ptr,
-                                                 const uint8_t        *source_ptr,
-                                                 uint8_t              *destination_ptr,
-                                                 uint32_t             size));
-
-
-/**
  * @brief Inits @ref hw_descriptor for CRC_64 operation
  * @param[in,out] descriptor_ptr        pointer to allocated descriptor to init
  * @param[in] source_ptr                pointer to the source

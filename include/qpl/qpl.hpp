@@ -44,6 +44,5 @@
 
 // Other Operations API
 #include "cpp_api/operations/other/crc_operation.hpp"
-#include "cpp_api/operations/other/copy_operation.hpp"
 
 #endif //QPL_INCLUDE_QPL_QPL_HPP_

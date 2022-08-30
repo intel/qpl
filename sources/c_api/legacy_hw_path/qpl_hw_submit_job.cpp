@@ -267,10 +267,6 @@ static inline qpl_status own_bad_argument_validation(qpl_job *const job_ptr) {
     using namespace qpl;
 
     switch (job_ptr->op) {
-        case qpl_op_memcpy:
-            OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_memcpy>(job_ptr))
-            break;
-
         case qpl_op_z_decompress32:
         case qpl_op_z_decompress16:
         case qpl_op_z_compress32:
@@ -345,13 +341,6 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
     auto *const descriptor_ptr = (hw_descriptor *) &state_ptr->desc_ptr;
 
     switch (job_ptr->op) {
-        case qpl_op_memcpy:
-            hw_iaa_descriptor_init_mem_copy(descriptor_ptr,
-                                            job_ptr->next_in_ptr,
-                                            job_ptr->next_out_ptr,
-                                            job_ptr->available_in);
-            break;
-
         case qpl_op_crc64:
             hw_iaa_descriptor_init_crc64(descriptor_ptr,
                                          job_ptr->next_in_ptr,
@@ -504,7 +493,6 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             state_ptr->aecs_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
             [[fallthrough]];
         case qpl_op_compress:
-        case qpl_op_memcpy:
         case qpl_op_crc64:
         case qpl_op_z_compress16:
         case qpl_op_z_compress32:

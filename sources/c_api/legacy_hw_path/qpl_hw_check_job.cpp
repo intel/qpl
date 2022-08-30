@@ -295,9 +295,7 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
 
     // Update output
     uint32_t available_out = qpl_job_ptr->available_out - desc_ptr->max_dst_size;
-    uint32_t bytes_written = ((qpl_op_memcpy == qpl_job_ptr->op) && (AD_STATUS_SUCCESS == comp_ptr->status)) ?
-                             desc_ptr->src1_size :
-                             comp_ptr->output_size;
+    uint32_t bytes_written = comp_ptr->output_size;
 
     job::update_output_stream(qpl_job_ptr, bytes_written, comp_ptr->output_bits);
 

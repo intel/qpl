@@ -119,6 +119,13 @@ qpl_status ref_find_unique(qpl_job *const qpl_job_ptr) {
     }
 }
 
+void ref_fill_by_zero_8u(uint8_t *vector_ptr, uint32_t vector_size) {
+    for (uint32_t i = 0; i < vector_size; i++)           // fill output vector by zero
+    {
+        vector_ptr[i] = 0;
+    }
+}
+
 qpl_status ref_write_in_output_format(uint8_t **const pp_destination,
                                       uint8_t *const bit_vector_ptr,
                                       const uint8_t *const destination_end_ptr,
