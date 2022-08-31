@@ -30,7 +30,7 @@ auto init_compression_huffman_table(qpl_huffman_table_t huffman_table,
 
     ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather statistics";
 
-    status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
+    status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
 
     ASSERT_EQ(status, QPL_STS_OK) << "Failed to build compression table";
 }
@@ -89,7 +89,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
                                  QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "compression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
 #ifdef DEBUG_RATIO
         g_ostrm << "Ratio: "
@@ -107,7 +107,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
-        ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
 
         // Configure decompression job fields
         decompression_job_ptr->op            = qpl_op_decompress;
@@ -120,15 +120,18 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
         decompression_job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(decompression_job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "decompression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
         ASSERT_TRUE(CompareVectors(reference_buffer,
                                    source,
                                    file_size,
                                    "File: " + dataset.first));
 
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression table destruction failed";
+
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table destruction failed";
 
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
@@ -196,7 +199,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
             job_ptr->idx_max_size    = static_cast<uint32_t>(indices_array.size());
 
             status = run_job_api(job_ptr);
-            ASSERT_EQ(QPL_STS_OK, status) << "compression failed\n File index: " << dataset.first;
+            ASSERT_EQ(QPL_STS_OK, status) << "Compression failed\n File index: " << dataset.first;
 
 #ifdef DEBUG_RATIO
             g_ostrm << "Ratio: "
@@ -215,7 +218,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
 
             status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
-            ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
 
             // Configure decompression job fields
             decompression_job_ptr->op            = qpl_op_decompress;
@@ -237,7 +240,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
                 decompression_job_ptr->next_in_ptr       = destination.data() + bit_start / 8;
 
                 status = run_job_api(decompression_job_ptr);
-                ASSERT_EQ(QPL_STS_OK, status) << "decompression failed";
+                ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
                 decompression_job_ptr->flags &= ~QPL_FLAG_FIRST;
 
@@ -251,8 +254,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
                                        file_size,
                                        "File: " + dataset.first));
 
-            qpl_huffman_table_destroy(c_huffman_table);
-            qpl_huffman_table_destroy(d_huffman_table);
+            status = qpl_huffman_table_destroy(c_huffman_table);
+            ASSERT_EQ(QPL_STS_OK, status) << "Compression table destruction failed";
+
+            status = qpl_huffman_table_destroy(d_huffman_table);
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table destruction failed";
+
             qpl_fini_job(job_ptr);
             qpl_fini_job(decompression_job_ptr);
         }
@@ -322,7 +329,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
                                  QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "compression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
 #ifdef DEBUG_RATIO
         std::cout << "Ratio: "
@@ -351,15 +358,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
         decompression_job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(decompression_job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "decompression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
         ASSERT_TRUE(CompareVectors(reference_buffer,
                                    source,
                                    file_size,
                                    "File: " + dataset.first));
 
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table destruction failed";
+
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Decompression table destruction failed";
+
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
     }
@@ -432,7 +443,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
             job_ptr->idx_max_size    = static_cast<uint32_t>(indices_array.size());
 
             status = run_job_api(job_ptr);
-            ASSERT_EQ(QPL_STS_OK, status) << "compression failed";
+            ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
 #ifdef DEBUG_RATIO
             g_ostrm << "Ratio: "
@@ -451,7 +462,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
 
             status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
-            ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
 
             // Configure decompression job fields
             decompression_job_ptr->op            = qpl_op_decompress;
@@ -473,7 +484,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
                 decompression_job_ptr->next_in_ptr       = destination.data() + bit_start / 8;
 
                 status = run_job_api(decompression_job_ptr);
-                ASSERT_EQ(QPL_STS_OK, status) << "decompression failed";
+                ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
                 decompression_job_ptr->flags &= ~QPL_FLAG_FIRST;
 
@@ -487,8 +498,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
                                        file_size,
                                        "File: " + dataset.first));
 
-            qpl_huffman_table_destroy(c_huffman_table);
-            qpl_huffman_table_destroy(d_huffman_table);
+            status = qpl_huffman_table_destroy(c_huffman_table);
+            ASSERT_EQ(QPL_STS_OK, status) << "Compression table destruction failed";
+
+            status = qpl_huffman_table_destroy(d_huffman_table);
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table destruction failed";
+
             qpl_fini_job(job_ptr);
             qpl_fini_job(decompression_job_ptr);
         }
@@ -570,7 +585,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
                                  QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "compression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
         compressed_file_sizes.push_back(job_ptr->total_out);
         current_destination_ptr += job_ptr->total_out;
@@ -616,8 +631,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
         current_compressed_source_ptr += compressed_size;
     }
 
-    qpl_huffman_table_destroy(c_huffman_table);
-    qpl_huffman_table_destroy(d_huffman_table);
+    status = qpl_huffman_table_destroy(c_huffman_table);
+    ASSERT_EQ(status, QPL_STS_OK) << "Compression table destruction failed";
+
+    status = qpl_huffman_table_destroy(d_huffman_table);
+    ASSERT_EQ(status, QPL_STS_OK) << "Decompression table destruction failed";
+
     qpl_fini_job(decompression_job_ptr);
 
     ASSERT_TRUE(CompareVectors(reference_buffer, source, (uint32_t) source.size()));
@@ -692,7 +711,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
                                  QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "compression failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
         compressed_file_sizes.push_back(job_ptr->total_out);
         current_destination_ptr += job_ptr->total_out;
@@ -738,8 +757,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
         current_compressed_source_ptr += compressed_size;
     }
 
-    qpl_huffman_table_destroy(c_huffman_table);
-    qpl_huffman_table_destroy(d_huffman_table);
+    status = qpl_huffman_table_destroy(c_huffman_table);
+    ASSERT_EQ(status, QPL_STS_OK) << "Compression table destruction failed";
+
+    status = qpl_huffman_table_destroy(d_huffman_table);
+    ASSERT_EQ(status, QPL_STS_OK) << "Decompression table destruction failed";
+
     qpl_fini_job(decompression_job_ptr);
 
     ASSERT_TRUE(CompareVectors(reference_buffer, source, (uint32_t) source.size()));

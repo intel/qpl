@@ -442,7 +442,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
                                            path);
     ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-    status = qpl_huffman_table_init(huffman_table_ptr, &deflate_histogram);
+    status = qpl_huffman_table_init_with_histogram(huffman_table_ptr, &deflate_histogram);
 
     ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 

@@ -185,12 +185,12 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_init_table(qpl_huffman
     }
 
     if constexpr (algorithm == compression_algorithm_huffman_only) {
-        status = qpl_huffman_table_init(huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(huffman_table, &histogram);
     }
 
     if constexpr (algorithm == compression_algorithm_canned ||
                   algorithm == compression_algorithm_deflate) {
-        status = qpl_huffman_table_init(huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(huffman_table, &histogram);
     }
 
     return (status == QPL_STS_OK) ?
@@ -421,12 +421,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, Huffma
     }
 
     if (m_c_huffman_table) {
-        qpl_huffman_table_destroy(m_c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_c_huffman_table));
         m_c_huffman_table = nullptr;
     }
 
     if (m_d_huffman_table) {
-        qpl_huffman_table_destroy(m_d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_d_huffman_table));
         m_d_huffman_table = nullptr;
     }
 }
@@ -463,12 +463,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, DISABLED_init_with_triplet,
     }
 
     if (m_c_huffman_table) {
-        qpl_huffman_table_destroy(m_c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_c_huffman_table));
         m_c_huffman_table = nullptr;
     }
 
     if (m_d_huffman_table) {
-        qpl_huffman_table_destroy(m_d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_d_huffman_table));
         m_d_huffman_table = nullptr;
     }
 }
@@ -511,7 +511,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
     }
 
     if (m_c_huffman_table) {
-        qpl_huffman_table_destroy(m_c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_c_huffman_table));
         m_c_huffman_table = nullptr;
     }
 
@@ -542,12 +542,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
     }
 
     if (m_c_huffman_table) {
-        qpl_huffman_table_destroy(m_c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_c_huffman_table));
         m_c_huffman_table = nullptr;
     }
 
     if (m_d_huffman_table) {
-        qpl_huffman_table_destroy(m_d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_d_huffman_table));
         m_d_huffman_table = nullptr;
     }
 }
@@ -581,12 +581,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, deflate_table_get_type, Huf
     }
 
     if (m_c_huffman_table) {
-        qpl_huffman_table_destroy(m_c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_c_huffman_table));
         m_c_huffman_table = nullptr;
     }
 
     if (m_d_huffman_table) {
-        qpl_huffman_table_destroy(m_d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_d_huffman_table));
         m_d_huffman_table = nullptr;
     }
 }

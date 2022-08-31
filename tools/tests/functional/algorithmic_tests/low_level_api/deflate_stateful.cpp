@@ -695,7 +695,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
                                                   &c_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -728,7 +728,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
-        qpl_huffman_table_destroy(c_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
@@ -773,7 +774,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
                                                   &c_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -806,7 +807,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
-        qpl_huffman_table_destroy(c_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
@@ -847,7 +849,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
 
-        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -880,7 +882,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
-        qpl_huffman_table_destroy(c_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
@@ -924,7 +927,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
                                                   &c_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -957,7 +960,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
-        qpl_huffman_table_destroy(c_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
@@ -1233,7 +1237,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
                                                   &c_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        status = qpl_huffman_table_init(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -1341,7 +1345,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
-        qpl_huffman_table_destroy(c_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table. ";
     }
 }
 

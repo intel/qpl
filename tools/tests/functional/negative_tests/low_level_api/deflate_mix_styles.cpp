@@ -40,9 +40,10 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     qpl_huffman_table_t huffman_table;
 
-    auto status = qpl_deflate_huffman_table_create(compression_table_type, path, {malloc, free}, &huffman_table);
+    auto status = QPL_STS_OK;
 
-    if (status) {
+    status = qpl_deflate_huffman_table_create(compression_table_type, path, {malloc, free}, &huffman_table);
+    if (status != QPL_STS_OK) {
         std::cout << "Huffman table create error";
 
         return status;
@@ -53,16 +54,14 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
                                            &deflate_histogram,
                                            qpl_default_level,
                                            path);
-
-    if (status) {
+    if (status != QPL_STS_OK) {
         std::cout << "Statistics gathering failed";
 
         return status;
     }
 
-    status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
-
-    if (status) {
+    status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
+    if (status != QPL_STS_OK) {
         std::cout << "Table build failed";
 
         return status;
@@ -77,8 +76,19 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
     job_ptr->flags         = order_flag | QPL_FLAG_OMIT_VERIFY;
 
     status = run_job_api(job_ptr);
+    if (status != QPL_STS_OK) {
+        std::cout << "Job failed";
 
-    qpl_huffman_table_destroy(huffman_table);
+        return status;
+    }
+
+
+    status = qpl_huffman_table_destroy(huffman_table);
+    if (status != QPL_STS_OK) {
+        std::cout << "Table destruction failed";
+
+        return status;
+    }
 
     return status;
 }

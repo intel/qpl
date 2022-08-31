@@ -31,7 +31,7 @@ protected:
                                                     path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather statistics";
 
-        status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
+        status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build compression table";
     }
 
@@ -61,6 +61,7 @@ protected:
     ~SimpleCannedOneChuckCompressDecompressFixture() {
         if (c_huffman_table != NULL)
             qpl_huffman_table_destroy(c_huffman_table);
+
         if (d_huffman_table != NULL)
             qpl_huffman_table_destroy(d_huffman_table);
     }
@@ -107,7 +108,7 @@ public:
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
         ASSERT_ERR_STATUS(status) << "Decompression table creation status: " << status;
-        
+
         hw_job_ptr->huffman_table = d_huffman_table;
         hw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
 
@@ -154,7 +155,7 @@ public:
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
         ASSERT_ERR_STATUS(status) << "Decompression table creation status: " << status;
-        
+
         sw_job_ptr->huffman_table = d_huffman_table;
         sw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
 
@@ -182,7 +183,7 @@ public:
 
         sw_destination.resize(reference_text.size() * 2u);
         hw_destination.resize(reference_text.size() * 2u);
-    }                      
+    }
 };
 
 QPL_LOW_LEVEL_API_CROSS_TEST_TC(deflate_canned, SimpleCannedOneChuckCompressDecompressFixture, stateless_compress_sw_decompress_hw_default_level) {

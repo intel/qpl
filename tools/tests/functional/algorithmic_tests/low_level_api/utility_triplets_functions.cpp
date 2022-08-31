@@ -74,7 +74,7 @@ protected:
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather statistics";
 
-        status = qpl_huffman_table_init(compression_table_ptr, &deflate_histogram);
+        status = qpl_huffman_table_init_with_histogram(compression_table_ptr, &deflate_histogram);
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build compression table";
     }
@@ -125,7 +125,7 @@ protected:
                                                &c_triplets_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        status = qpl_huffman_table_init_with_triplet(c_triplets_huffman_table, triplets.data(), triplets.size());
+        status = qpl_huffman_table_init_with_triplets(c_triplets_huffman_table, triplets.data(), triplets.size());
 
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -182,20 +182,23 @@ protected:
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
         // Decompress
-        qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Free resources
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
-        qpl_huffman_table_destroy(c_triplets_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
+        status = qpl_huffman_table_destroy(c_triplets_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
-
-        ASSERT_EQ(QPL_STS_OK, status);
 
         // Verify
         ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
@@ -247,9 +250,9 @@ protected:
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
 
-        status = qpl_huffman_table_init_with_triplet(c_triplets_huffman_table,
-                                                     triplets.data(),
-                                                     triplets.size());
+        status = qpl_huffman_table_init_with_triplets(c_triplets_huffman_table,
+                                                      triplets.data(),
+                                                      triplets.size());
 
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -308,20 +311,23 @@ protected:
                 8u - ((job_ptr->last_bit_offset == 0) ? 8 : job_ptr->last_bit_offset);
 
         // Decompress
-        qpl_huffman_table_init_with_other(d_huffman_table, c_triplets_huffman_table);
+        status = qpl_huffman_table_init_with_other(d_huffman_table, c_triplets_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Free resources
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
-        qpl_huffman_table_destroy(c_triplets_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
+        status = qpl_huffman_table_destroy(c_triplets_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
-
-        ASSERT_EQ(QPL_STS_OK, status);
 
         // Verify
         ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));

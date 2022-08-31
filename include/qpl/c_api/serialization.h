@@ -27,7 +27,7 @@ extern "C" {
  */
 typedef enum {
     serialization_compact,   /**< Use format to keep save on the disk */
-    serialization_raw,       /**< Use format to keep speed of serialisation/deserialization in case high load */
+    serialization_raw,       /**< Use format to keep speed of serialization/deserialization in case high load */
 } qpl_serialization_format_e;
 
 typedef uint64_t serialization_flags_t; /**< Type of serialization flags */

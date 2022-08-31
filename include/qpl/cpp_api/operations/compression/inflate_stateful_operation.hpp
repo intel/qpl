@@ -95,7 +95,7 @@ public:
     auto get_processed_bytes() -> uint32_t override;
 
     /**
-     * @todo Will be deprecated after ML introdusing
+     * @todo Will be deprecated after ML introducing
      */
     template <execution_path path>
     friend auto execute(inflate_stateful_operation &op,

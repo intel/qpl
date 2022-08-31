@@ -73,7 +73,7 @@ auto main() -> int {
     }
 
     // Building the Huffman table
-    status = qpl_huffman_table_init(huffman_table, &deflate_histogram);
+    status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
     if (status != QPL_STS_OK) {
         throw std::runtime_error("Error while compression occurred.");
     }

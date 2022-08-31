@@ -1435,7 +1435,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
@@ -1514,7 +1514,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -1597,7 +1597,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -1680,7 +1680,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -1765,7 +1765,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -1844,7 +1844,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -1927,7 +1927,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2010,7 +2010,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2099,7 +2099,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2127,8 +2127,11 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
                                    dictionary_ptr,
                                    d_huffman_table);
 
-            qpl_huffman_table_destroy(c_huffman_table);
-            qpl_huffman_table_destroy(d_huffman_table);
+            status = qpl_huffman_table_destroy(c_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK) << "Compression table destruction failed";
+
+            status = qpl_huffman_table_destroy(d_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK) << "Decompression table destruction failed";
         }
     }
 }
@@ -2171,7 +2174,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                                                    compression_execution_path);
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2336,7 +2339,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
                                                    compression_execution_path);
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2431,8 +2434,13 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
             ASSERT_EQ(status, QPL_STS_OK);
 
             ASSERT_TRUE(CompareVectors(reference, source));
-            qpl_huffman_table_destroy(c_huffman_table);
-            qpl_huffman_table_destroy(d_huffman_table);
+
+            status = qpl_huffman_table_destroy(c_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK);
+
+            status = qpl_huffman_table_destroy(d_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK);
+
             qpl_fini_job(compression_job_ptr);
             qpl_fini_job(decompression_job_ptr);
         }
@@ -2475,7 +2483,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
                                                    compression_execution_path);
             ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-            status = qpl_huffman_table_init(c_huffman_table, &deflate_histogram);
+            status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
@@ -2593,8 +2601,13 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
             ASSERT_EQ(status, QPL_STS_OK);
 
             ASSERT_TRUE(CompareVectors(reference, source));
-            qpl_huffman_table_destroy(c_huffman_table);
-            qpl_huffman_table_destroy(d_huffman_table);
+
+            status = qpl_huffman_table_destroy(c_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK);
+
+            status = qpl_huffman_table_destroy(d_huffman_table);
+            ASSERT_EQ(status, QPL_STS_OK);
+
             qpl_fini_job(compression_job_ptr);
             qpl_fini_job(decompression_job_ptr);
         }

@@ -46,7 +46,7 @@ enum class crc_type {
  */
 enum compression_levels {
     /**
-    * Comression levels for compression method
+    * Compression levels for compression method
     */
     level_1 = 1,
     level_2 = 2,

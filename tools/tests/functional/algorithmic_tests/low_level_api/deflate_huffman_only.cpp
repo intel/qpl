@@ -104,7 +104,7 @@ protected:
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
-        ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
 
         decompression_job_ptr->op          = qpl_op_decompress;
         decompression_job_ptr->next_in_ptr = destination.data();
@@ -120,15 +120,17 @@ protected:
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Free resources
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression table destruction failed";
 
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table destruction failed";
+
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
-
-        ASSERT_EQ(QPL_STS_OK, status);
 
         // Verify
         ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
@@ -267,7 +269,7 @@ protected:
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
-        ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
 
         decompression_job_ptr->op          = qpl_op_decompress;
         decompression_job_ptr->next_in_ptr = destination.data();
@@ -282,14 +284,17 @@ protected:
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Free resources
-        qpl_huffman_table_destroy(c_huffman_table);
-        qpl_huffman_table_destroy(d_huffman_table);
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Compression table creation failed";
+
+        status = qpl_huffman_table_destroy(d_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
+
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
-
-        ASSERT_EQ(QPL_STS_OK, status);
 
         // Verify
         ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));

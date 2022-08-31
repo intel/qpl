@@ -82,7 +82,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init) {
     qpl_histogram histogram;
     std::fill(reinterpret_cast<uint8_t *>(&histogram), reinterpret_cast<uint8_t *>(&histogram) + sizeof(histogram), 0);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init(nullptr, &histogram));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(nullptr, &histogram));
 
     qpl_huffman_table_t table{};
 
@@ -92,32 +92,32 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init) {
                                                    &table);
     ASSERT_FALSE(status);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init(table, nullptr));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
     histogram.reserved_distances[0] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_distances[0] = 0u;
 
     histogram.reserved_distances[1] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_distances[1] = 0u;
 
     histogram.reserved_literal_lengths[0] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_literal_lengths[0] = 0u;
 
     histogram.reserved_literal_lengths[1] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_literal_lengths[1] = 0u;
 
-    qpl_huffman_table_destroy(table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init) {
     qpl_histogram histogram;
     std::fill(reinterpret_cast<uint8_t *>(&histogram), reinterpret_cast<uint8_t *>(&histogram) + sizeof(histogram), 0);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init(nullptr, &histogram));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(nullptr, &histogram));
 
     qpl_huffman_table_t table{};
 
@@ -127,25 +127,25 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init) {
                                                 &table);
     ASSERT_FALSE(status);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init(table, nullptr));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
     histogram.reserved_distances[0] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_distances[0] = 0u;
 
     histogram.reserved_distances[1] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_distances[1] = 0u;
 
     histogram.reserved_literal_lengths[0] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_literal_lengths[0] = 0u;
 
     histogram.reserved_literal_lengths[1] = 1u;
-    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init(table, &histogram));
+    EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
     histogram.reserved_literal_lengths[1] = 0u;
 
-    qpl_huffman_table_destroy(table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_triplet) {
@@ -154,7 +154,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_tripl
 
     std::fill(reinterpret_cast<uint8_t *>(&triplet), reinterpret_cast<uint8_t *>(&triplet) + sizeof(triplet), 0);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplet(nullptr, triplet, TRIPLET_COUNT));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(nullptr, triplet, TRIPLET_COUNT));
 
     qpl_huffman_table_t table{};
 
@@ -164,11 +164,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_tripl
                                                    &table);
     ASSERT_FALSE(status);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplet(table, nullptr, TRIPLET_COUNT));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(table, nullptr, TRIPLET_COUNT));
 
-    EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_triplet(table, triplet, TRIPLET_COUNT));
+    EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_triplets(table, triplet, TRIPLET_COUNT));
 
-    qpl_huffman_table_destroy(table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_triplet) {
@@ -177,7 +177,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
 
     std::fill(reinterpret_cast<uint8_t *>(&triplet), reinterpret_cast<uint8_t *>(&triplet) + sizeof(triplet), 0);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplet(nullptr, triplet, TRIPLET_COUNT));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(nullptr, triplet, TRIPLET_COUNT));
 
     qpl_huffman_table_t table{};
 
@@ -187,11 +187,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
                                                 &table);
     ASSERT_FALSE(status);
 
-    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplet(table, nullptr, TRIPLET_COUNT));
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(table, nullptr, TRIPLET_COUNT));
 
-    EXPECT_EQ(QPL_STS_SIZE_ERR, qpl_huffman_table_init_with_triplet(table, triplet, TRIPLET_COUNT - 1));
+    EXPECT_EQ(QPL_STS_SIZE_ERR, qpl_huffman_table_init_with_triplets(table, triplet, TRIPLET_COUNT - 1));
 
-    qpl_huffman_table_destroy(table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_other) {
@@ -216,8 +216,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_other
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
-    qpl_huffman_table_destroy(table);
-    qpl_huffman_table_destroy(another_table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_other) {
@@ -242,8 +242,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
-    qpl_huffman_table_destroy(table);
-    qpl_huffman_table_destroy(another_table);
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
+    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_get_type) {

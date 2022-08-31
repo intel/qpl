@@ -231,7 +231,7 @@ auto execute(operation_chain<operations_t...> chain,
 }
 
 /**
-* @brief Performs an asyncronous execution of the chain
+* @brief Performs an asynchronous execution of the chain
 *
 * @tparam  path                execution path that should be used
 * @tparam  allocator_t         type of the allocator to be used

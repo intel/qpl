@@ -71,13 +71,13 @@ public:
 protected:
 
     /**
-     * @todo Method will be documented after ML introdusing
+     * @todo Method will be documented after ML introducing
      */
     void constructor_impl(uint8_t *source_begin,
                           size_t source_size);
 
     /**
-     * @todo Method will be documented after ML introdusing
+     * @todo Method will be documented after ML introducing
      */
     auto extract_impl(uint8_t *destination_begin, size_t destination_size) -> inflate_stream &;
 

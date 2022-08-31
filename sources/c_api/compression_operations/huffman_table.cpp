@@ -132,8 +132,8 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table) {
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_init(qpl_huffman_table_t table,
-                                  const qpl_histogram *const histogram_ptr) {
+qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
+                                                 const qpl_histogram *const histogram_ptr) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
@@ -160,9 +160,9 @@ qpl_status qpl_huffman_table_init(qpl_huffman_table_t table,
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_init_with_triplet(qpl_huffman_table_t table,
-                                               const qpl_huffman_triplet *const triplet_ptr,
-                                               const uint32_t triplet_count) {
+qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
+                                                const qpl_huffman_triplet *const triplet_ptr,
+                                                const uint32_t triplet_count) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 

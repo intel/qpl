@@ -59,7 +59,7 @@ typedef struct {
  *
  * @param[in]   source_ptr     Pointer to source vector that should be processed
  * @param[in]   source_length  Source vector length
- * @param[out]  histogram_ptr  Pointer to histgoram to be updated
+ * @param[out]  histogram_ptr  Pointer to histogram to be updated
  * @param[in]   level          Level of compression algorithm
  * @param[in]   path           Execution path
  *

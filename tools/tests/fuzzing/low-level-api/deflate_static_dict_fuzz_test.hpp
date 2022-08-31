@@ -81,7 +81,7 @@ static inline int deflate_static_dict_fuzz(const uint8_t* Data, size_t Size,
             return 0;
         }
 
-        status = qpl_huffman_table_init(huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(huffman_table, &histogram);
 
         if (status != QPL_STS_OK) {
             qpl_huffman_table_destroy(huffman_table);

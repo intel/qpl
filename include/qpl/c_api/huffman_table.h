@@ -120,8 +120,8 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table);
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_init(qpl_huffman_table_t table,
-                                  const qpl_histogram *const histogram_ptr);
+qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
+                                                 const qpl_histogram *const histogram_ptr);
 
 /**
  * @brief Initializes huffman table with provided triplets
@@ -132,9 +132,9 @@ qpl_status qpl_huffman_table_init(qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_init_with_triplet(qpl_huffman_table_t table,
-                                               const qpl_huffman_triplet *const triplet_ptr,
-                                               const uint32_t triplet_count);
+qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
+                                                const qpl_huffman_triplet *const triplet_ptr,
+                                                const uint32_t triplet_count);
 
 /**
  * @brief Initializes huffman table with information from another table
