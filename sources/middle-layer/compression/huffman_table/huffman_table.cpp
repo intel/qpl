@@ -10,12 +10,15 @@
  */
 
 #include "memory"
+#include "array" // std::array
+#include <cstring>
 
 #include "huffman_table.hpp"
 #include "compression/huffman_table/deflate_huffman_table.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "util/util.hpp"
-#include <cstring>
+#include "compression/huffman_table/huffman_table_utils.hpp" // qpl::ml::compression qpl_triplet
+
 
 namespace qpl::ml::compression {
 
