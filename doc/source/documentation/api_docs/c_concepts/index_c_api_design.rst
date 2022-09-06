@@ -19,3 +19,4 @@ C API Overview
    c_filtering_unit
    c_parser
    c_output_modification
+   c_huffman_table_apis

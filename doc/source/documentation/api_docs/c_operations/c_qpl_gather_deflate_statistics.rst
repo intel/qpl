@@ -5,6 +5,8 @@
  .. ***************************************************************************/
 
 
+.. _c_qpl_gather_deflate_statistics_reference_link:
+
 qpl_gather_deflate_statistics
 #############################
 

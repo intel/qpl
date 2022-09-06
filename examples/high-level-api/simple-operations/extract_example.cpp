@@ -22,7 +22,6 @@
  * @warning ---! Important !---
  * `Hardware Path` doesn't support all features declared for `Software Path`
  *
- * @note More information about paths is in the documentation(doc/QPL_REFERENCE_MANUAL.md)
  */
 constexpr const auto execution_path         = qpl::software;
 constexpr const uint32_t source_size        = 1000;

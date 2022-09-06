@@ -38,6 +38,7 @@ typedef enum {
 } qpl_statistics_mode;
 
 /**
+ * @struct qpl_histogram
  * @brief Structure that represents histogram of literals, lengths and offsets symbols
  */
 typedef struct {

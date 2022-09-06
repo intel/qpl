@@ -26,7 +26,6 @@ constexpr const uint32_t upper_index        = 123;
  * @warning ---! Important !---
  * `Hardware Path` doesn't support all features declared for `Software Path`
  *
- * @note More information about paths is in the documentation(doc/QPL_REFERENCE_MANUAL.md)
  */
 constexpr const auto execution_path = qpl_path_software;
 

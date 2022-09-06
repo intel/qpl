@@ -9,7 +9,7 @@ Compression Styles
 ##################
 
 
-The Intel® Query Processing Library (Intel® QPL) 
+The Intel® Query Processing Library (Intel® QPL)
 has many ways to compress the input data. The most common
 approaches are described in this section.
 
@@ -20,7 +20,7 @@ Fixed Block
 
 The simplest approach is to generate one large Fixed Block. To achieve
 this, do NOT use the ``QPL_FLAG_DYNAMIC_HUFFMAN`` flag, and set the pointer
-to the Huffman table (chufftab) to *NULL*.
+to the Huffman table to *NULL*.
 
 For compressible data, this will result in one large fixed block. If
 multiple jobs are used (i.e. the first job is not marked as FIRST and
@@ -36,7 +36,7 @@ Static Blocks
 
 The Static Blocks case is similar to the Fixed Block case. Do NOT use
 the ``QPL_FLAG_DYNAMIC_HUFFMAN`` flag. The pointer to the Huffman table
-(chufftab) must point to a valid Huffman table. This will result in
+must point to a valid Huffman table. This will result in
 nominally one large block, except for potential stored blocks as
 described in the previous case.
 
@@ -53,9 +53,10 @@ pointed to in the job structure must be the same as those used by the
 previous job. When the tables are changed without indication to the
 library, then the resulting bit-stream will not be valid.
 
-The ``qpl_build_compression_table()`` auxilary function takes as an input a
+The :c:func:`qpl_huffman_table_init_with_histogram()` auxiliary function takes as an input a
 histogram of the Literal-Length (LL) tokens and the distance (D) tokens,
 and fills in a compression Huffman table structure.
+Refer to the :ref:`huffman-tables-api-label` section for more information.
 
 
 Dynamic Blocks
@@ -93,5 +94,5 @@ for verification). For a dynamic stream, it results in three passes.
 If the user does not want to pay the cost for verification, this can be
 turned off with the ``QPL_FLAG_OMIT_VERIFY`` flag.
 
-.. note:: 
+.. note::
     Currently verification is not performed in case of ``Huffman only BE``.

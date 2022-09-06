@@ -34,10 +34,15 @@ extern "C" {
  * @{
  */
 
-typedef struct qpl_huffman_table *qpl_huffman_table_t; /**< Unified compression/decompression table*/
+/**
+ * @typedef qpl_huffman_table_t
+ * @brief Special data type that is an opaque pointer to unified compression/decompression table.
+ */
+typedef struct qpl_huffman_table *qpl_huffman_table_t;
 
 /**
- * Describes allocator
+ * @struct allocator_t
+ * @brief Structure that describes user-provided allocator.
  */
 typedef struct {
     void *(*allocator)(size_t);  /**< Allocation function */
@@ -45,15 +50,19 @@ typedef struct {
 } allocator_t;
 
 /**
- * @brief An specific type of unified compression/decompression table for data space control
+ * @enum qpl_huffman_table_type_e
+ * @brief Type used to specify whether Huffman table would store compression, decompression or both tables internally.
  */
 typedef enum {
-    combined_table_type,      /**< @ref qpl_huffman_table_t contain both tables */
-    compression_table_type,   /**< @ref qpl_huffman_table_t contain compression table only */
-    decompression_table_type, /**< @ref qpl_huffman_table_t contain decompression table only */
+    combined_table_type,      /**< @ref qpl_huffman_table_t contains both tables */
+    compression_table_type,   /**< @ref qpl_huffman_table_t contains compression table only */
+    decompression_table_type, /**< @ref qpl_huffman_table_t contains decompression table only */
 } qpl_huffman_table_type_e;
 
-#define DEFAULT_ALLOCATOR_C {malloc, free} /**< Allocator used in Intel QPL C API by default */
+/**
+* Allocator used in Intel QPL C API by default
+*/
+#define DEFAULT_ALLOCATOR_C {malloc, free}
 
 /** @} */
 
@@ -69,7 +78,7 @@ typedef enum {
  *
  * @param[in] type       @ref qpl_huffman_table_type_e
  * @param[in] path       @ref qpl_path_t
- * @param[in] allocator  allocator that must be used
+ * @param[in] allocator  @ref allocator_t that must be used
  * @param[out] table_ptr output parameter for created object
  *
  * @return status from @ref qpl_status
@@ -157,10 +166,10 @@ qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
  */
 
 /**
- * @brief Gets type of @ref qpl_huffman_table_t
+ * @brief Returns type of @ref qpl_huffman_table_t
  *
  * @param[in]  table    source @ref qpl_huffman_table_t object
- * @param[out] type_ptr output parameter for type
+ * @param[out] type_ptr output parameter for table type according to @ref qpl_huffman_table_type_e
  *
  * @return status from @ref qpl_status
  */
@@ -174,16 +183,14 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
 /**
  * @name Huffman table::Serialization API
  * @{
- * @warning API is introduced only. Implementation is in progress.
+ * @brief To keep user space on filesystem we can serialize and pack qpl_huffman_table_t into 
+ * raw or more compact format.
+ * @warning API implementation is in progress.
  */
 
 /**
- * @brief To keep user space on filesystem we can serialize and pack qpl_huffman_table_t into more compact form
- */
-
-/**
- * @brief Gets size to serialize table
- * @warning API is introduced only. Implementation is in progress.
+ * @brief API to get size of the table to be serialized.
+ * @warning API implementation is in progress.
  *
  * @param[in]  table    @ref qpl_huffman_table_t object to serialize
  * @param[in]  options  serialization_options
@@ -196,13 +203,13 @@ qpl_status qpl_huffman_table_get_serialize_size(const qpl_huffman_table_t table,
                                                 size_t *const size_ptr);
 
 /**
- * @brief Serializes qpl_huffman_table_t into unusable but compact format
- * @warning API is introduced only. Implementation is in progress.
+ * @brief Serializes qpl_huffman_table_t object.
+ * @warning API implementation is in progress.
  *
  * @param[in] table @ref qpl_huffman_table_t object to serialize
  * @param[out] dump_buffer_ptr serialized object buffer
  * @param[in] dump_buffer_size serialized object buffer size
- * @param[in] options serialization_options
+ * @param[in] options @serialization_options_t
  *
  * @return status from @ref qpl_status
  */
@@ -213,7 +220,7 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
 
 /**
  * @brief Deserializes previously serialized huffman table
- * @warning API is introduced only. Implementation is in progress.
+ * @warning API implementation is in progress.
  *
  * @param[in] dump_buffer_ptr serialized object buffer
  * @param[in] dump_buffer_size serialized object buffer size

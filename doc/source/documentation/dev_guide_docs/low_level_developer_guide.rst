@@ -5,8 +5,8 @@
  .. ***************************************************************************/
 
 
-Low-level C API Developer Guide 
-###############################
+Low-level C API
+###############
 
 
 This document provides instructions on how to use the 

@@ -4,8 +4,8 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-High-level C++ API Developer Guide
-##################################
+High-level C++ API
+##################
 
 
 This document provides quick introduction into usage of High Level API

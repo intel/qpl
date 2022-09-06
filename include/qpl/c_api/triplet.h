@@ -19,6 +19,7 @@ extern "C" {
 #endif
 
 /**
+ * @struct qpl_huffman_triplet
  * @brief Structure for intermediate representation of Huffman token
  */
 typedef struct {

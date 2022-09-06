@@ -23,21 +23,23 @@ extern "C" {
  */
 
 /**
+ * @enum qpl_serialization_format_e
  * Describes how to perform serialization
  */
 typedef enum {
-    serialization_compact,   /**< Use format to keep save on the disk */
-    serialization_raw,       /**< Use format to keep speed of serialization/deserialization in case high load */
+    serialization_compact,   /**< More compact representation, useful for saving up memory on the disk */
+    serialization_raw,       /**< Faster but more straightforward implementation, use to save speed of serialization/deserialization in case high load */
 } qpl_serialization_format_e;
 
 typedef uint64_t serialization_flags_t; /**< Type of serialization flags */
 
 /**
+ * @struct serialization_options_t
  * @brief Describes serialization options
  */
 typedef struct {
-    qpl_serialization_format_e format;  /**< Needed format of serialized object */
-    serialization_flags_t flags;        /**< Advanced serialization options */
+    qpl_serialization_format_e format;  /**< @ref qpl_serialization_format_e of serialized object */
+    serialization_flags_t flags;        /**< Advanced serialization options, placeholder for later */
 } serialization_options_t;
 
 #define DEFAULT_SERIALIZATION_OPTIONS {serialization_raw, 0} /**< Default serialization options */

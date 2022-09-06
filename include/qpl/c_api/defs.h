@@ -188,6 +188,7 @@ extern "C" {
 /** @} */
 
 /**
+ * @enum qpl_path_t
  * @brief Enum of the executing paths
  */
 typedef enum {

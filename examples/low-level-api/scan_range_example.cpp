@@ -28,7 +28,6 @@ constexpr const uint32_t byte_bit_length     = 8;
  * @warning ---! Important !---
  * `Hardware Path` doesn't support all features declared for `Software Path`
  *
- * @note More information about paths is in the documentation(doc/QPL_REFERENCE_MANUAL.md)
  */
 constexpr const auto execution_path = qpl_path_software;
 

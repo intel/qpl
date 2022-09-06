@@ -24,7 +24,7 @@ import docutils
 project = 'Intel® QPL'
 copyright = '2022, Intel'
 author = 'Intel'
-release = 'v0.1.20-beta'
+release = 'v0.1.21'
 
 # -- General configuration ---------------------------------------------------
 
@@ -52,6 +52,10 @@ breathe_default_project = "Intel QPL"
 
 # Tell sphinx what the pygments highlight language should be.
 # highlight_language = 'cpp'
+
+breathe_domain_by_extension = {
+    "h" : "c",
+}
 
 # -- Options for HTML output -------------------------------------------------
 
