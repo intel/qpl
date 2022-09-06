@@ -2243,9 +2243,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
             // Compress
             compression_job_ptr->op    = qpl_op_compress;
             compression_job_ptr->level = qpl_default_level;
-            compression_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE;
-            compression_job_ptr->flags |=
-                    QPL_FLAG_OMIT_VERIFY;
+            compression_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_OMIT_VERIFY;
             compression_job_ptr->available_out = static_cast<uint32_t>(destination.size());
             compression_job_ptr->next_out_ptr  = destination.data();
             compression_job_ptr->dictionary    = dictionary_ptr;
@@ -2404,8 +2402,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
 
             // Compress
             compression_job_ptr->op            = qpl_op_compress;
-            compression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
-            compression_job_ptr->flags |= QPL_FLAG_OMIT_VERIFY | QPL_FLAG_CANNED_MODE;
+            compression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE | QPL_FLAG_OMIT_VERIFY;
             compression_job_ptr->available_in  = static_cast<uint32_t>(source.size());
             compression_job_ptr->next_in_ptr   = source.data();
             compression_job_ptr->available_out = static_cast<uint32_t>(destination.size());

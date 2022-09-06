@@ -55,7 +55,7 @@ auto main() -> int {
     job->next_out_ptr  = destination.data();
     job->available_in  = source_size;
     job->available_out = static_cast<uint32_t>(destination.size());
-    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
 
     // Compression
     status = qpl_execute_job(job);

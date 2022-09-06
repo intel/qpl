@@ -84,7 +84,7 @@ auto main() -> int {
     job->next_out_ptr  = destination.data();
     job->available_in  = source_size;
     job->available_out = static_cast<uint32_t>(destination.size());
-    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = huffman_table;
 
     // Compression
@@ -107,7 +107,7 @@ auto main() -> int {
     job->next_out_ptr  = reference.data();
     job->available_in  = compressed_size;
     job->available_out = static_cast<uint32_t>(reference.size());
-    job->flags         = QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS;
     job->huffman_table = huffman_table;
 
     // Decompression
