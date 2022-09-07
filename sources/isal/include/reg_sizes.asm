@@ -16,6 +16,10 @@
 %define AS_FEATURE_LEVEL 4
 %endif
 
+; ISAL component has a standalone dispatching logic
+; and the following flags are used for ISAL only
+; QPL has another dispatcher implementation in middle-layer
+
 %define EFLAGS_HAS_CPUID        (1<<21)
 %define FLAG_CPUID1_ECX_CLMUL   (1<<1)
 %define FLAG_CPUID1_EDX_SSE2    (1<<26)

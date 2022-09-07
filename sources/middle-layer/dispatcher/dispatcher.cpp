@@ -32,13 +32,14 @@ unsigned long long _xgetbv(unsigned int index) {
 
 #endif
 
-#define CPUID_AVX512F       0x00100000
-#define CPUID_AVX512CD      0x00200000
-#define CPUID_AVX512VL      0x04000000
-#define CPUID_AVX512BW      0x01000000
-#define CPUID_AVX512DQ      0x02000000
+#define CPUID_AVX512F       0x00010000
+#define CPUID_AVX512CD      0x10000000
+#define CPUID_AVX512VL      0x80000000
+#define CPUID_AVX512BW      0x40000000
+#define CPUID_AVX512DQ      0x00020000
 #define EXC_OSXSAVE         0x08000000 // 27th  bit
 
+// CPUID_AVX512_MASK covers all the instructions used in middle-layer. The ISAL component has a standalone dispatching logic and has its own masks
 #define CPUID_AVX512_MASK (CPUID_AVX512F | CPUID_AVX512CD | CPUID_AVX512VL | CPUID_AVX512BW | CPUID_AVX512DQ)
 
 namespace qpl::ml::dispatcher {
@@ -128,20 +129,23 @@ extern setup_dictionary_table_t avx512_setup_dictionary_table;
 auto detect_platform() -> arch_t {
     arch_t detected_platform = arch_t::px_arch;
     int    cpu_info[4];
-    cpuid(cpu_info, 1);
+    cpuid(cpu_info, 7);
+    bool avx512_support_cpu  = ((cpu_info[1] & CPUID_AVX512_MASK) == CPUID_AVX512_MASK);
 
-    bool avx512_support_cpu   = cpu_info[1] & CPUID_AVX512_MASK;
+    cpuid(cpu_info, 1);
     bool os_uses_XSAVE_XSTORE = cpu_info[2] & EXC_OSXSAVE;
 
-    if (avx512_support_cpu && os_uses_XSAVE_XSTORE) {
-        // Check if XMM state and YMM state are saved
+    // Check if XGETBV enabled for application use
+    if (os_uses_XSAVE_XSTORE) {
         unsigned long long xcr_feature_mask = _xgetbv(0);
-
-        if ((xcr_feature_mask & 0x6) == 0x6) // AVX2 is supported now
-        {
-            if ((xcr_feature_mask & 0xe0) == 0xe0) // AVX512 is supported now
-            {
-                detected_platform = arch_t::avx512_arch;
+        // Check if OPMASK state and ZMM state are enabled
+        if ((xcr_feature_mask & 0xe0) == 0xe0) {
+             // Check if XMM state and YMM state are enabled
+             if ((xcr_feature_mask & 0x6) == 0x6) {
+                // Check if AVX512 features are supported
+                if (avx512_support_cpu) {
+                    detected_platform = arch_t::avx512_arch;
+                }
             }
         }
     }
