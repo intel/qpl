@@ -817,7 +817,6 @@ WARN_LOGFILE           =
 
 INPUT                  = include \
                          sources/c_api/other_operations/crc64.hpp \
-                         sources/c_api/other_operations/copy.hpp \
                          sources/c_api/filter_operations/filter_operations.hpp \
                          sources/c_api/compression_operations/compressor.hpp \
                          sources/c_api/compression_operations/zero_compressor.hpp \

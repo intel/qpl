@@ -254,7 +254,7 @@ HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogra
 
 
 /**
- * @brief Extract huffman codes table from @ref hw_iaa_aecs_compress and store this into @ref hw_iaa_c_huffman_table
+ * @brief Extract huffman codes table from @ref hw_iaa_aecs_compress and store this into @ref hw_iaa_c_huffman_only_table
  *
  * @param [in] aecs_ptr            pointer to valid @ref hw_iaa_aecs_compress
  * @param [out] huffman_table_ptr  pointer to target huffman table

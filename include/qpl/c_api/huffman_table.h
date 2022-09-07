@@ -193,7 +193,7 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
  * @warning API implementation is in progress.
  *
  * @param[in]  table    @ref qpl_huffman_table_t object to serialize
- * @param[in]  options  serialization_options
+ * @param[in]  options  @ref serialization_options_t
  * @param[out] size_ptr output parameter for size
  *
  * @return status from @ref qpl_status
@@ -209,7 +209,7 @@ qpl_status qpl_huffman_table_get_serialize_size(const qpl_huffman_table_t table,
  * @param[in] table @ref qpl_huffman_table_t object to serialize
  * @param[out] dump_buffer_ptr serialized object buffer
  * @param[in] dump_buffer_size serialized object buffer size
- * @param[in] options @serialization_options_t
+ * @param[in] options @ref serialization_options_t
  *
  * @return status from @ref qpl_status
  */
