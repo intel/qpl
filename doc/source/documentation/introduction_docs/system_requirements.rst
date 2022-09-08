@@ -26,17 +26,17 @@ Software Path requirements
 Hardware Path Requirements
 **************************
 
-
-- OS kernel has an appropriate version that supports 
-  Intel® In-Memory Analytics Accelerator (Intel® IAA) devices.
-- Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
 - **Linux* OS:**
 
-  - libaccel-config.so is placed in /usr/lib64/. The library can be found 
-    on ``https://github.com/intel/idxd-config`` (version 3.2 or higher).
-
--  System administrator privileges for ``HW-path``. Requirement exists
-   due to work with MMIO regions.
+  - The accelerator configuration library ``libaccel-config.so`` 
+    (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`) 
+    should be placed in ``/usr/lib64/``.
+- Linux kernel version 5.18 or later. Public versions of Linux 
+  kernels can be found here: https://www.kernel.org.
+- Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
+- Sudo privileges are required to configure accelerators 
+  (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`) 
+  and run hardware path applications.
 
 
 .. _accelerator_configuration_reference_link:
@@ -46,8 +46,9 @@ Accelerator Configuration
 *************************
 
 
-Accelerator configuration can be performed with ``libaccel-config`` application. 
-Such application can be founded here: https://github.com/intel/idxd-config.
+Intel® In-Memory Analytics Accelerator (Intel® IAA) devices can be configured with 
+``libaccel-config`` library (version 3.2 or higher), 
+which can be found here: https://github.com/intel/idxd-config.
 
 For detailed instructions on configuration, refer to:
 
@@ -57,15 +58,15 @@ For detailed instructions on configuration, refer to:
 
 .. note:: 
   
-  Intel QPL supports ``libaccel-config`` starting from
+  Intel® QPL supports ``libaccel-config`` starting from
   version 3.2. Refer to `accel-config releases 
   <https://github.com/intel/idxd-config/releases/tag/>`__ for
   latest version.
 
 .. note::
   
-  By default, Intel QPL uses ``Block On Fault`` feature
-  required to handle page faults on the Intel IAA side. The
+  By default, Intel® QPL uses ``Block On Fault`` feature
+  required to handle page faults on the Intel® IAA side. The
   ``block on fault`` flag must be set with ``accel-config`` for each
   device. Performance can be increased if an application performs
   ``pre-faulting`` by own. In this case, the ``block on fault`` flag is
