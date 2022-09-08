@@ -12,6 +12,9 @@
 #include "igzip_level_buf_structs.h"
 #include "unaligned.h"
 
+/* Avoid getting warnings on unused variables which might be used later */
+#define MAYBE_UNUSED(x) ((void)x)
+
 static inline void write_deflate_icf(struct deflate_icf *icf, uint32_t lit_len,
 				     uint32_t lit_dist, uint32_t extra_bits)
 {
@@ -25,6 +28,7 @@ static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
 				struct deflate_icf *start_out, struct deflate_icf *next_out,
 				struct deflate_icf *end_out)
 {
+        MAYBE_UNUSED(start_out);
 	struct level_buf *level_buf = (struct level_buf *)stream->level_buf;
 
 	if (next_in - start_in > 0)

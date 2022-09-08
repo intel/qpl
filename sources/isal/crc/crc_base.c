@@ -244,7 +244,7 @@ static const uint32_t crc32_table_gzip_refl[256] = {
 
 uint16_t crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 {
-	int i;
+	uint64_t i;
 	uint16_t crc = seed;
 
 	for (i = 0; i < len; i++)
@@ -255,7 +255,7 @@ uint16_t crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 
 uint16_t crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uint64_t len)
 {
-	int i;
+	uint64_t i;
 	uint16_t crc = seed;
 
 	for (i = 0; i < len; i++) {

@@ -118,6 +118,7 @@ inline auto verify_state<execution_path_t::software>::decompress_table(uint8_t *
     verify_state_ptr->state_ptr.avail_in       = (deflate_header_bits + 7u) >> 3;
 
     auto status = read_header_stateful(verify_state_ptr->state_ptr);
+    MAYBE_UNUSED(status);
 
     verify_state_ptr->state_ptr.next_in        = saved_next_in_ptr;
     verify_state_ptr->state_ptr.avail_in       = saved_avail_in;

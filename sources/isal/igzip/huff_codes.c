@@ -1232,7 +1232,7 @@ static inline uint32_t rl_encode(uint16_t * codes, uint32_t num_codes, uint64_t 
 static void create_code_tables(uint16_t * code_table, uint8_t * code_length_table,
 			       uint32_t length, struct huff_code *hufftable)
 {
-	int i;
+        uint32_t i;
 	for (i = 0; i < length; i++) {
 		code_table[i] = hufftable[i].code;
 		code_length_table[i] = hufftable[i].length;
@@ -1289,7 +1289,8 @@ static void create_packed_len_table(uint32_t * packed_table,
 static void create_packed_dist_table(uint32_t * packed_table, uint32_t length,
 				     struct huff_code *dist_hufftable)
 {
-	int i, count = 0;
+	int i = 0;
+        uint32_t count = 0;
 	uint16_t extra_bits;
 	uint16_t extra_bits_count = 0;
 
@@ -1629,7 +1630,7 @@ create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
 	uint32_t num_cl_tokens;
 	uint64_t cl_counts[CODE_LEN_CODES];
 	uint16_t combined_table[LIT_LEN + DIST_LEN];
-	int i;
+        uint32_t i;
 	uint64_t compressed_len = 0;
 	uint64_t static_compressed_len = 3;	/* The static header size */
 	struct BitBuf2 bb_tmp;

@@ -21,6 +21,13 @@
 # define inline __inline
 #endif //__x86_64__  || __i386__ || _M_X64 || _M_IX86
 
+// Avoid getting GCC compiler warnings with implicit fallthrough
+#if (defined(__GNUC__) || defined(__GNUG__)) && !defined(__clang__)
+#define ATTRIBUTE_FALLTHROUGH __attribute__((fallthrough))
+#else
+#define ATTRIBUTE_FALLTHROUGH ((void)0)
+#endif
+
 /**
  * @brief Calculate the bit offset of the msb.
  * @param val 32-bit unsigned integer input
@@ -254,26 +261,32 @@ static inline int compare258(uint8_t * str1, uint8_t * str2, uint32_t max_length
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 6:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 5:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 4:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 3:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 2:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 1:
 		if(*str1 != *str2)
 			return count;
@@ -312,26 +325,32 @@ static inline int compare(uint8_t * str1, uint8_t * str2, uint32_t max_length)
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 6:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 5:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 4:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 3:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 2:
 		if(*str1++ != *str2++)
 			return count;
 		count++;
+		ATTRIBUTE_FALLTHROUGH;
 	case 1:
 		if(*str1 != *str2)
 			return count;

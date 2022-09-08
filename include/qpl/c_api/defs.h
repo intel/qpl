@@ -40,8 +40,13 @@ extern "C" {
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
 #else
 #define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
-#endif        
 #endif
+#endif
+
+/**
+ * Unused variables which might be used later - warning removal
+ */
+#define MAYBE_UNUSED(x) ((void)x)
 
 /**
  * Marker for the last enumerator of qpl_decomp_end_proc

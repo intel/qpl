@@ -141,16 +141,10 @@ static inline void update_state(struct isal_zstream* stream, uint8_t* start_in,
 
 void isal_deflate_body_huffman_only(struct isal_zstream* stream)
 {
-	uint32_t literal, hash;
-	uint8_t* start_in, * next_in, * end_in, * end, * next_hash;
-	uint16_t match_length;
-	uint32_t dist;
-	uint64_t code, code_len, code2, code_len2;
+	uint32_t literal;
+	uint8_t* start_in, * next_in, * end_in;
+	uint64_t code, code_len;
 	struct isal_zstate* state = &stream->internal_state;
-	uint16_t* last_seen = state->head;
-	uint8_t* file_start = stream->next_in - stream->total_in;
-	uint32_t hist_size = state->dist_mask;
-	uint32_t hash_mask = state->hash_mask;
 
 	if (stream->avail_in == 0) {
 		if (stream->end_of_stream || stream->flush != NO_FLUSH)
@@ -190,16 +184,10 @@ void isal_deflate_body_huffman_only(struct isal_zstream* stream)
 
 void isal_deflate_finish_huffman_only(struct isal_zstream* stream)
 {
-	uint32_t literal = 0, hash;
-	uint8_t* start_in, * next_in, * end_in, * end, * next_hash;
-	uint16_t match_length;
-	uint32_t dist;
-	uint64_t code, code_len, code2, code_len2;
+	uint32_t literal = 0;
+	uint8_t* start_in, * next_in, * end_in;
+	uint64_t code, code_len;
 	struct isal_zstate* state = &stream->internal_state;
-	uint16_t* last_seen = state->head;
-	uint8_t* file_start = stream->next_in - stream->total_in;
-	uint32_t hist_size = state->dist_mask;
-	uint32_t hash_mask = state->hash_mask;
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
@@ -768,6 +756,7 @@ static void isal_deflate_int(struct isal_zstream* stream, uint8_t * start_in)
 
 }
 
+#if !defined(QPL_LIB)
 static void write_constant_compressed_stateless(struct isal_zstream* stream,
 	uint32_t repeated_length)
 {
@@ -879,10 +868,10 @@ static int detect_repeated_char_length(uint8_t * in, uint32_t length)
 
 	return p_8 - in;
 }
+#endif
 
 static int isal_deflate_int_stateless(struct isal_zstream* stream)
 {
-	uint32_t repeat_length;
 	struct isal_zstate* state = &stream->internal_state;
 
 	if (stream->gzip_flag == IGZIP_GZIP || stream->gzip_flag == IGZIP_ZLIB)
@@ -1045,7 +1034,7 @@ static inline void reset_match_history(struct isal_zstream* stream)
 	struct level_buf* level_buf = (struct level_buf*)stream->level_buf;
 	uint16_t* hash_table;
 	uint32_t hash_table_size;
-	int i = 0;
+	uint32_t i = 0;
 
 	hash_table_size = 2 * (state->hash_mask + 1);
 
@@ -1074,7 +1063,7 @@ static inline void reset_match_history(struct isal_zstream* stream)
 	}
 }
 
-static void inline set_dist_mask(struct isal_zstream* stream)
+inline static void set_dist_mask(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 	uint32_t hist_size = (1 << (stream->hist_bits));
@@ -1086,7 +1075,7 @@ static void inline set_dist_mask(struct isal_zstream* stream)
 
 }
 
-static void inline set_hash_mask(struct isal_zstream* stream)
+inline static void set_hash_mask(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 
@@ -1317,6 +1306,7 @@ int isal_deflate_set_hufftables(struct isal_zstream* stream,
 			stream->hufftables = hufftables;
 			break;
 		}
+		ATTRIBUTE_FALLTHROUGH;
 	default:
 		return ISAL_INVALID_OPERATION;
 	}
@@ -1811,7 +1801,7 @@ static void write_stream_header(struct isal_zstream* stream)
 	}
 
 	struct isal_zstate* state = &stream->internal_state;
-	int bytes_to_write;
+	uint32_t bytes_to_write;
 	uint32_t hdr_bytes;
 	const uint8_t* hdr;
 

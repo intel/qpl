@@ -69,8 +69,6 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
 
     const uint8_t flags = *stream_ptr++;
 
-    uint32_t check = (flags & zlib_flags::check);
-
     if ((256 * compression_method_and_flag + flags) % 31 != 0) {
         return status_list::gzip_header_error;
     }

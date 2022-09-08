@@ -128,6 +128,9 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
     }
 
     auto flush_status = utility::flush_tmp_out_buffer(*inflate_state_ptr);
+    if (status_list::ok != flush_status) {
+        result.status_code_ = flush_status;
+    }
 
     if (result.status_code_ >= status_list::hardware_error_base) {
         /* Set total_out to not count data in tmp_out_buffer */
