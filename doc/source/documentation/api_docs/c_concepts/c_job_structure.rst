@@ -27,7 +27,7 @@ Parameters
 
 
 .. doxygenstruct:: qpl_job
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
     :members:
 
 

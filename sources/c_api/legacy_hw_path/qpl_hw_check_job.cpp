@@ -237,7 +237,8 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
         {
             auto status = convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr));
             // Align with the behavior of non-canned mode compression overflow (stored block also doesn't fit), which replaces
-            // the returned error code from IAA hardware "destination_is_short_error" with "more_output_needed"
+            // the returned error code "destination_is_short_error" from Intel® In-Memory Analytics Accelerator
+            // with "more_output_needed"
             if (status == qpl::ml::status_list::destination_is_short_error) {
                 status = qpl::ml::status_list::more_output_needed;
             }

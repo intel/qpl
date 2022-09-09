@@ -14,4 +14,4 @@ status codes and descriptions:
 
 
 .. doxygenenum:: qpl_status
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library

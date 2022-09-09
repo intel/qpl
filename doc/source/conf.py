@@ -43,9 +43,9 @@ exclude_patterns = []
 DOXYGEN_OUTPUT = os.path.join(os.path.abspath(os.path.join(os.path.curdir, os.pardir)), 'build', 'doxygen_xml')
 
 breathe_projects = {
-    "Intel QPL": DOXYGEN_OUTPUT,
+    "Intel(R) Query Processing Library": DOXYGEN_OUTPUT,
     }
-breathe_default_project = "Intel QPL"
+breathe_default_project = "Intel(R) Query Processing Library"
 
 # Tell sphinx what the primary language being documented is.
 # primary_domain = 'cpp'

@@ -39,7 +39,9 @@ unsigned long long _xgetbv(unsigned int index) {
 #define CPUID_AVX512DQ      0x00020000
 #define EXC_OSXSAVE         0x08000000 // 27th  bit
 
-// CPUID_AVX512_MASK covers all the instructions used in middle-layer. The ISAL component has a standalone dispatching logic and has its own masks
+// CPUID_AVX512_MASK covers all the instructions used in middle-layer.
+// Intel® Intelligent Storage Acceleration Library (Intel® ISA-L) component has
+// a standalone dispatching logic and has its own masks.
 #define CPUID_AVX512_MASK (CPUID_AVX512F | CPUID_AVX512CD | CPUID_AVX512VL | CPUID_AVX512BW | CPUID_AVX512DQ)
 
 namespace qpl::ml::dispatcher {

@@ -14,75 +14,75 @@ Creation and Destruction of Huffman table
 -----------------------------------------
 
 .. doxygenfunction:: qpl_deflate_huffman_table_create
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_only_table_create
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_destroy
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 Initialization of Huffman table
 -------------------------------
 
 .. doxygenfunction:: qpl_huffman_table_init_with_triplets
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_init_with_histogram
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_init_with_other
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 Serialization APIs
 ------------------
 
 .. doxygenfunction:: qpl_huffman_table_get_serialize_size
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_serialize
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_deserialize
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_get_type
-    :project: Intel QPL
+    :project: Intel(R) Query Processing Library
 
 Types
 *****
 
 .. doxygentypedef:: qpl_huffman_table_t
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
 
 Enums
 *****
 
 .. doxygenenum:: qpl_huffman_table_type_e
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
 
 .. doxygenenum:: qpl_path_t
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
    :outline:
 
 .. doxygenenum:: qpl_serialization_format_e
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
 
 Structures
 **********
 
 .. doxygenstruct:: allocator_t
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
    :members:
 
 .. doxygenstruct:: qpl_huffman_triplet
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
    :members:
 
 .. doxygenstruct:: qpl_histogram
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
    :members:
 
 .. doxygenstruct:: serialization_options_t
-   :project: Intel QPL
+   :project: Intel(R) Query Processing Library
    :members:

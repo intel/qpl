@@ -60,7 +60,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
         result.completed_bytes_ = size;
     } else if (result.status_code_ == status_list::destination_is_short_error) {
         // Align with the behavior of non-canned mode deflate overflow (stored block also doesn't fit), which replaces
-        // the returned error code from IAA hardware "destination_is_short_error" with "more_output_needed"
+        // the returned error code "destination_is_short_error" from Intel® In-Memory Analytics Accelerator
+        // with "more_output_needed"
         result.status_code_ = status_list::more_output_needed;
     }
 

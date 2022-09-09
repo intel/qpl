@@ -16,9 +16,10 @@
 %define AS_FEATURE_LEVEL 4
 %endif
 
-; ISAL component has a standalone dispatching logic
-; and the following flags are used for ISAL only
-; QPL has another dispatcher implementation in middle-layer
+; Intel® Intelligent Storage Acceleration Library (Intel® ISA-L) component has a
+; standalone dispatching logic and the following flags are used for Intel ISA-L only.
+; Intel® Query Processing Library (Intel® QPL) has another dispatcher implementation
+; in middle-layer.
 
 %define EFLAGS_HAS_CPUID        (1<<21)
 %define FLAG_CPUID1_ECX_CLMUL   (1<<1)
