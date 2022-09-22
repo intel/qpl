@@ -175,7 +175,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
                                                    &huffman_table_ptr);
     ASSERT_EQ(status, QPL_STS_OK) << "Huffman table creation failed";
 
-    fill_compression_table(huffman_table_ptr);
+    status = fill_compression_table(huffman_table_ptr);
+    ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
     auto compression_status = compress_create_indices<compression_mode::static_compression>(source, destination,
                                                                                              job_ptr,
@@ -207,7 +208,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
                                                    &huffman_table_ptr);
     ASSERT_EQ(status, QPL_STS_OK) << "Huffman table creation failed";
 
-    fill_compression_table(huffman_table_ptr);
+    status = fill_compression_table(huffman_table_ptr);
+    ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
     auto compression_status = compress_create_indices<compression_mode::static_compression>(source, destination,
                                                                                              job_ptr,

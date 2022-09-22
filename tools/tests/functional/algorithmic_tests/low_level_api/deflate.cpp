@@ -121,7 +121,8 @@ protected:
                                                        &huffman_table_ptr);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        fill_compression_table(huffman_table_ptr);
+        status = fill_compression_table(huffman_table_ptr);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = huffman_table_ptr;
         job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;

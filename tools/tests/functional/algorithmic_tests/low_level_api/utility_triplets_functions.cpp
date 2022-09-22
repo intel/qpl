@@ -47,6 +47,9 @@ protected:
         auto *literals_matches_table_ptr =
                      reinterpret_cast<uint32_t *>(own_huffman_table_get_compression_table(compression_table_ptr));
 
+        // Cannot use ASSERT here because this is non-void function
+        EXPECT_NE(literals_matches_table_ptr, nullptr) << "Compression table is null";
+
         const uint16_t qpl_code_mask = (1u << huffman_code_bit_length) - 1u;
 
         for (uint16_t i = 0u; i < 256u; i++) {

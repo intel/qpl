@@ -153,7 +153,8 @@ public:
 
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        fill_compression_table(c_huffman_table);
+        status = fill_compression_table(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_huffman_table;
 
@@ -214,7 +215,8 @@ public:
 
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        fill_compression_table(c_huffman_table);
+        status = fill_compression_table(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_huffman_table;
 
@@ -248,7 +250,8 @@ public:
                                                        &c_huffman_table);
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
-        fill_compression_table(c_huffman_table);
+        status = fill_compression_table(c_huffman_table);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_huffman_table;
 

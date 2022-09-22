@@ -139,7 +139,10 @@ private:
         if (NO_ERR_HUFFMAN_ONLY == test_type) {
             job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS;
 
-            std::memcpy(own_huffman_table_get_decompression_table(d_huffman_table),
+            auto *d_table = own_huffman_table_get_decompression_table(d_huffman_table);
+            ASSERT_NE(d_table, nullptr) << "Decompression table is null";
+
+            std::memcpy(d_table,
                         &test_factor.specialTestOptions.decompression_huffman_table,
                         sizeof(test_factor.specialTestOptions.decompression_huffman_table));
 

@@ -10,8 +10,9 @@
 extern "C" qpl_compression_huffman_table* own_huffman_table_get_compression_table(const qpl_huffman_table_t table);
 
 namespace qpl::test {
-void fill_compression_table(qpl_huffman_table_t table) {
+qpl_status fill_compression_table(qpl_huffman_table_t table) {
     auto table_ptr = own_huffman_table_get_compression_table(table);
+    if (!table_ptr) return QPL_STS_NULL_PTR_ERR;
 
     uint32_t *literals_lengths_ptr = get_literals_lengths_table_ptr(table_ptr);
     uint32_t *offsets_ptr = get_offsets_table_ptr(table_ptr);
@@ -33,5 +34,6 @@ void fill_compression_table(qpl_huffman_table_t table) {
     auto isal_table = reinterpret_cast<isal_hufftables *>(get_isal_compression_huffman_table_ptr(table_ptr));
 
     ml::compression::huffman_table_convert(*table_ptr, *isal_table);
+    return QPL_STS_OK;
 }
 }

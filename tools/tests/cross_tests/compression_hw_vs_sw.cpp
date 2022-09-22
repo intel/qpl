@@ -24,7 +24,11 @@ protected:
             throw std::runtime_error("An error acquired during table creation.");
         }
 
-        fill_compression_table(huffman_table);
+        status = fill_compression_table(huffman_table);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("An error acquired when compression table is filled.");
+        }
+
     }
 
     void InitializeTestCases() {

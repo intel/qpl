@@ -47,7 +47,10 @@ protected:
             throw std::runtime_error("Compression table creation failed.");
         }
 
-        //fill_compression_table(c_huffman_table);
+        //status = fill_compression_table(c_huffman_table);
+        //if (status != QPL_STS_OK) {
+        //    throw std::runtime_error("Compression table failed to be filled.");
+        //}
 
         status = qpl_deflate_huffman_table_create(decompression_table_type,
                                                   qpl_path_auto,

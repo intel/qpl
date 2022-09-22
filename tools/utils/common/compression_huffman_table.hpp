@@ -121,7 +121,7 @@ namespace qpl::test
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00};
 
-    void fill_compression_table(qpl_huffman_table_t table_ptr);
+    [[nodiscard]] qpl_status fill_compression_table(qpl_huffman_table_t table_ptr);
 }
 
 #endif //QPL_TEST_HUFFMAN_TABLE_HPP
