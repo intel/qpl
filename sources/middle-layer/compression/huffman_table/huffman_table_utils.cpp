@@ -15,6 +15,7 @@
 #include "compression/huffman_table/deflate_huffman_table.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp"
+#include "compression/huffman_table/serialization_utils.hpp"
 
 #include "util/util.hpp"
 #include "util/memory.hpp"
@@ -564,6 +565,64 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
     return status_list::ok;
 }
+
+static inline auto init_compression_table_with_stream(const uint8_t *const buffer,
+                                                      compression_huffman_table compression_table) noexcept -> qpl_ml_status {
+    using namespace qpl::ml::serialization;
+
+    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+
+    deserialize_table(src, *compression_table.get_sw_compression_table());   src += flatten_table_size(*compression_table.get_sw_compression_table());
+    deserialize_table(src, *compression_table.get_isal_compression_table()); src += flatten_table_size(*compression_table.get_isal_compression_table());
+    deserialize_table(src, *compression_table.get_hw_compression_table());   src += flatten_table_size(*compression_table.get_hw_compression_table());
+    deserialize_table(src, *compression_table.get_deflate_header());
+
+    return status_list::ok;
+}
+
+static inline auto init_decompression_table_with_stream(const uint8_t *const buffer,
+                                                        decompression_huffman_table decompression_table) noexcept -> qpl_ml_status {
+    using namespace qpl::ml::serialization;
+
+    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+
+    deserialize_table(src, *decompression_table.get_sw_decompression_table()); src += flatten_table_size(*decompression_table.get_sw_decompression_table());
+    deserialize_table(src, *decompression_table.get_hw_decompression_state()); src += flatten_table_size(*decompression_table.get_hw_decompression_state());
+    deserialize_table(src, *decompression_table.get_deflate_header());         src += flatten_table_size(*decompression_table.get_deflate_header());
+    deserialize_table(src, *decompression_table.get_canned_table());
+
+    return status_list::ok;
+}
+
+static inline auto write_compression_table_to_stream(uint8_t *const buffer,
+                                                     compression_huffman_table compression_table) noexcept -> qpl_ml_status {
+    using namespace qpl::ml::serialization;
+
+    uint8_t *dst = buffer; // adding an offset internally
+
+    serialize_table(*compression_table.get_sw_compression_table(), dst);   dst += flatten_table_size(*compression_table.get_sw_compression_table());
+    serialize_table(*compression_table.get_isal_compression_table(), dst); dst += flatten_table_size(*compression_table.get_isal_compression_table());
+    serialize_table(*compression_table.get_hw_compression_table(), dst);   dst += flatten_table_size(*compression_table.get_hw_compression_table());
+    serialize_table(*compression_table.get_deflate_header(), dst);
+
+    return status_list::ok;
+}
+
+static inline auto write_decompression_table_to_stream(uint8_t *const buffer,
+                                                       decompression_huffman_table decompression_table) noexcept -> qpl_ml_status {
+    using namespace qpl::ml::serialization;
+
+    uint8_t *dst = buffer; // adding an offset internally
+
+    serialize_table(*decompression_table.get_sw_decompression_table(), dst); dst += flatten_table_size(*decompression_table.get_sw_decompression_table());
+    serialize_table(*decompression_table.get_hw_decompression_state(), dst); dst += flatten_table_size(*decompression_table.get_hw_decompression_state());
+    serialize_table(*decompression_table.get_deflate_header(), dst);         dst += flatten_table_size(*decompression_table.get_deflate_header());
+    serialize_table(*decompression_table.get_canned_table(), dst);
+
+    return status_list::ok;
+}
+
+
 } // namespace details
 
 #if defined(__GNUC__) && !defined(__clang__)
@@ -647,7 +706,9 @@ void set_deflate_header_bits_size(qpl_compression_huffman_table *const huffman_t
 }
 
 namespace qpl::ml::compression {
-// --- Init functions group --- //
+
+// --- Initialization functions group (triplets, histogram, other table) --- //
+
 template <>
 auto huffman_table_init(compression_huffman_table &table,
                         const qpl_triplet *const triplets_ptr,
@@ -829,6 +890,78 @@ auto huffman_table_init(qpl_decompression_huffman_table &UNREFERENCED_PARAMETER(
     return status_list::internal_error;
 }
 
+// --- Initialization from the memory stream (i.e. deserialized table) --- //
+
+template <>
+auto huffman_table_init_with_stream(qpl_compression_huffman_table &table,
+                                    const uint8_t *const buffer,
+                                    const uint32_t representation_flags) noexcept -> qpl_ml_status {
+    using namespace qpl::ml;
+    using namespace qpl::ml::compression;
+
+    auto sw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&table.sw_compression_table_data);
+    auto isal_compression_table_data_ptr = reinterpret_cast<uint8_t *>(&table.isal_compression_table_data);
+    auto hw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&table.hw_compression_table_data);
+    auto deflate_header_buffer_ptr       = reinterpret_cast<uint8_t *>(&table.deflate_header_buffer);
+
+    compression_huffman_table compression_table(sw_compression_table_data_ptr,
+                                                isal_compression_table_data_ptr,
+                                                hw_compression_table_data_ptr,
+                                                deflate_header_buffer_ptr);
+
+    if (representation_flags & QPL_DEFLATE_REPRESENTATION) {
+        compression_table.enable_deflate_header();
+        table.representation_mask |= QPL_DEFLATE_REPRESENTATION;
+    }
+
+    if (representation_flags & QPL_SW_REPRESENTATION) {
+        compression_table.enable_sw_compression_table();
+        table.representation_mask |= QPL_SW_REPRESENTATION;
+    }
+
+    if (representation_flags & QPL_HW_REPRESENTATION) {
+        compression_table.enable_hw_compression_table();
+        table.representation_mask |= QPL_HW_REPRESENTATION;
+    }
+
+    return details::init_compression_table_with_stream(buffer, compression_table);
+}
+
+template <>
+auto huffman_table_init_with_stream(qpl_decompression_huffman_table &table,
+                                    const uint8_t *const buffer,
+                                    const uint32_t representation_flags) noexcept -> qpl_ml_status {
+    using namespace qpl::ml;
+    using namespace qpl::ml::compression;
+
+    auto sw_flattened_table_ptr           = reinterpret_cast<uint8_t *>(&table.sw_flattened_table);
+    auto hw_decompression_state_ptr       = reinterpret_cast<uint8_t *>(&table.hw_decompression_state);
+    auto decomp_deflate_header_buffer_ptr = reinterpret_cast<uint8_t *>(&table.deflate_header_buffer);
+    auto lookup_table_buffer_ptr          = reinterpret_cast<uint8_t *>(&table.lookup_table_buffer);
+
+    decompression_huffman_table decompression_table(sw_flattened_table_ptr,
+                                                    hw_decompression_state_ptr,
+                                                    decomp_deflate_header_buffer_ptr,
+                                                    lookup_table_buffer_ptr);
+
+    if (representation_flags & QPL_DEFLATE_REPRESENTATION) {
+        decompression_table.enable_deflate_header();
+        table.representation_mask |= QPL_DEFLATE_REPRESENTATION;
+    }
+
+    if (representation_flags & QPL_SW_REPRESENTATION) {
+        decompression_table.enable_sw_decompression_table();
+        table.representation_mask |= QPL_SW_REPRESENTATION;
+    }
+
+    if (representation_flags & QPL_HW_REPRESENTATION) {
+        decompression_table.enable_hw_decompression_table();
+        table.representation_mask |= QPL_HW_REPRESENTATION;
+    }
+
+    return details::init_decompression_table_with_stream(buffer, decompression_table);
+}
+
 // --- Convert functions group --- //
 
 template <>
@@ -902,7 +1035,6 @@ auto huffman_table_convert(const qpl_compression_huffman_table &compression_tabl
     }
 
     return details::comp_to_decompression_table(int_compression_table, int_decompression_table);
-
 }
 
 template <>
@@ -934,6 +1066,81 @@ auto huffman_table_convert(const qplc_huffman_table_default_format &qpl_default_
 
     return status_list::ok;
 }
+
+// --- Serialize/write to memory stream functions group --- //
+
+template <>
+auto huffman_table_write_to_stream(const qpl_compression_huffman_table &table,
+                                   uint8_t *const buffer,
+                                   const uint32_t representation_flags) noexcept -> qpl_ml_status {
+    using namespace qpl::ml;
+    using namespace qpl::ml::compression;
+
+    auto casted_table = const_cast<qpl_compression_huffman_table *>(&table);
+
+    auto sw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&casted_table->sw_compression_table_data);
+    auto isal_compression_table_data_ptr = reinterpret_cast<uint8_t *>(&casted_table->isal_compression_table_data);
+    auto hw_compression_table_data_ptr   = reinterpret_cast<uint8_t *>(&casted_table->hw_compression_table_data);
+    auto deflate_header_buffer_ptr       = reinterpret_cast<uint8_t *>(&casted_table->deflate_header_buffer);
+
+    compression_huffman_table compression_table(sw_compression_table_data_ptr,
+                                                isal_compression_table_data_ptr,
+                                                hw_compression_table_data_ptr,
+                                                deflate_header_buffer_ptr);
+
+    if (representation_flags & QPL_DEFLATE_REPRESENTATION) {
+        compression_table.enable_deflate_header();
+    }
+
+    if (representation_flags & QPL_SW_REPRESENTATION) {
+        compression_table.enable_sw_compression_table();
+    }
+
+    if (representation_flags & QPL_HW_REPRESENTATION) {
+        compression_table.enable_hw_compression_table();
+    }
+
+    if (representation_flags & QPL_HUFFMAN_ONLY_REPRESENTATION) {
+        compression_table.make_huffman_only();
+    }
+
+    return details::write_compression_table_to_stream(buffer, compression_table);
+}
+
+template <>
+auto huffman_table_write_to_stream(const qpl_decompression_huffman_table &table,
+                                   uint8_t *const buffer,
+                                   const uint32_t representation_flags) noexcept -> qpl_ml_status {
+    using namespace qpl::ml;
+    using namespace qpl::ml::compression;
+
+    auto casted_table = const_cast<qpl_decompression_huffman_table *>(&table);
+
+    auto sw_flattened_table_ptr           = reinterpret_cast<uint8_t *>(&casted_table->sw_flattened_table);
+    auto hw_decompression_state_ptr       = reinterpret_cast<uint8_t *>(&casted_table->hw_decompression_state);
+    auto decomp_deflate_header_buffer_ptr = reinterpret_cast<uint8_t *>(&casted_table->deflate_header_buffer);
+    auto lookup_table_buffer_ptr          = reinterpret_cast<uint8_t *>(&casted_table->lookup_table_buffer);
+
+    decompression_huffman_table decompression_table(sw_flattened_table_ptr,
+                                                    hw_decompression_state_ptr,
+                                                    decomp_deflate_header_buffer_ptr,
+                                                    lookup_table_buffer_ptr);
+
+    if (representation_flags & QPL_DEFLATE_REPRESENTATION) {
+        decompression_table.enable_deflate_header();
+    }
+
+    if (representation_flags & QPL_SW_REPRESENTATION) {
+        decompression_table.enable_sw_decompression_table();;
+    }
+
+    if (representation_flags & QPL_HW_REPRESENTATION) {
+        decompression_table.enable_hw_decompression_table();
+    }
+
+    return details::write_decompression_table_to_stream(buffer, decompression_table);
+}
+
 
 };
 

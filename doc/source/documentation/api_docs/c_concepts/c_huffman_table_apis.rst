@@ -37,7 +37,7 @@ Initialization of Huffman table
 Serialization APIs
 ------------------
 
-.. doxygenfunction:: qpl_huffman_table_get_serialize_size
+.. doxygenfunction:: qpl_huffman_table_get_serialized_size
     :project: Intel(R) Query Processing Library
 
 .. doxygenfunction:: qpl_huffman_table_serialize

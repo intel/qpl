@@ -22,6 +22,10 @@ compression_huffman_table::compression_huffman_table(uint8_t *sw_table_ptr,
     huffman_only_flag_         = false;
 }
 
+auto compression_huffman_table::get_deflate_header() const noexcept -> deflate_header * {
+    return deflate_header_ptr_;
+}
+
 auto compression_huffman_table::get_deflate_header_data() const noexcept -> uint8_t * {
     return deflate_header_ptr_->data;
 }
@@ -42,7 +46,7 @@ auto compression_huffman_table::get_deflate_header_bit_size() const noexcept -> 
     return deflate_header_ptr_->header_bit_size;
 }
 
-auto compression_huffman_table::set_deflate_header_bit_size(uint32_t value) noexcept -> void { 
+auto compression_huffman_table::set_deflate_header_bit_size(uint32_t value) noexcept -> void {
     deflate_header_ptr_->header_bit_size = value;
 }
 

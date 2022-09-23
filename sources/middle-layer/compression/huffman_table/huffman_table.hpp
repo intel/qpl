@@ -6,7 +6,7 @@
 
 /*
  *  Intel® Query Processing Library (Intel® QPL)
- *  Middle Layer API (public C API)
+ *  Middle Layer API (private C++ API)
  */
 
 #include "memory"
@@ -33,6 +33,12 @@ enum class table_version_e : uint8_t {
 
 constexpr auto LAST_VERSION = table_version_e::v_beta;
 
+/*
+    note: struct_id should be bumped to a new id once meta internals have changed
+    note: table_version should be bumped to a new version once huffman_table or
+          its internals have changed
+    this way we could support multiple versions for deserialization
+*/
 struct huffman_table_meta_t {
     char magic_num[4] = "qpl";
     uint32_t struct_id = 0xAA;
@@ -60,6 +66,9 @@ public:
     [[nodiscard]] qpl_ml_status init(const qpl_histogram &histogram_ptr) noexcept;
     [[nodiscard]] qpl_ml_status init(const qpl_triplet *triplet_ptr, const size_t count) noexcept;
     [[nodiscard]] qpl_ml_status init(const huffman_table_t<algorithm> &other) noexcept;
+
+    [[nodiscard]] qpl_ml_status init_with_stream(const uint8_t *const buffer) noexcept;
+    [[nodiscard]] qpl_ml_status write_to_stream(uint8_t *const buffer) const noexcept;
 
     [[nodiscard]] bool is_initialized() const noexcept;
 

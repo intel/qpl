@@ -133,7 +133,6 @@ mask_type build_mask(uint32_t number_of_bits) {
 }
 
 } // namespace util
-
 } // namespace qpl::ml
 
 #endif // MIDDLE_LAYER_UTIL_HPP

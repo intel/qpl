@@ -6,7 +6,7 @@
 
 /*
  *  Intel® Query Processing Library (Intel® QPL)
- *  Middle Layer API (public C API)
+ *  Middle Layer API (private C++ API)
  */
 
 #include "memory"
@@ -18,27 +18,9 @@
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "util/util.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp" // qpl::ml::compression qpl_triplet
-
+#include <cstring>
 
 namespace qpl::ml::compression {
-
-namespace details {
-static inline auto get_path_flags(execution_path_t path) {
-    switch (path) {
-        case execution_path_t::hardware:
-            return QPL_HW_REPRESENTATION;
-        case execution_path_t::software:
-            return QPL_SW_REPRESENTATION;
-        default:
-            return QPL_COMPLETE_COMPRESSION_TABLE;
-    }
-}
-
-static inline auto get_allocator(const allocator_t allocator) {
-    constexpr allocator_t default_allocator = DEFAULT_ALLOCATOR_C;
-    return (allocator.allocator && allocator.deallocator) ? allocator : default_allocator;
-}
-}
 
 template<>
 qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::create(huffman_table_type_e type, execution_path_t path, allocator_t allocator) {
@@ -284,6 +266,94 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::init(const
     return status_list::ok;
 }
 
+// function to read content of a buffer
+// and initialize compression and decompression tables from this data
+// currently used for deserialization
+template <compression_algorithm_e algorithm>
+qpl_ml_status huffman_table_t<algorithm>::init_with_stream(const uint8_t *const buffer) noexcept {
+
+    if (m_meta.algorithm == compression_algorithm_e::deflate) {
+
+        size_t offset = 0;
+
+        if (m_c_huffman_table) {
+
+            auto c_table = reinterpret_cast<qpl_compression_huffman_table*>(m_c_huffman_table);
+
+            auto status = compression::huffman_table_init_with_stream(*c_table, buffer, m_meta.flags);
+            if (status) {
+                return static_cast<qpl_status>(status);
+            }
+
+            offset += sizeof(qpl_compression_huffman_table);
+        }
+
+        if (m_d_huffman_table) {
+            auto d_table = reinterpret_cast<qpl_decompression_huffman_table*>(m_d_huffman_table);
+
+            auto status = compression::huffman_table_init_with_stream(*d_table, buffer + offset, m_meta.flags);
+            if (status) {
+                return static_cast<qpl_status>(status);
+            }
+        }
+    }
+    else {
+        return status_list::not_supported_err;
+    }
+
+    m_is_initialized = true;
+
+    return status_list::ok;
+}
+
+template
+qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::init_with_stream(const uint8_t *const buffer) noexcept;
+
+template
+qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::init_with_stream(const uint8_t *const buffer) noexcept;
+
+// function to write content of compression and decompression tables
+// into buffer, currently used for serialization
+template <compression_algorithm_e algorithm>
+qpl_ml_status huffman_table_t<algorithm>::write_to_stream(uint8_t *buffer) const noexcept {
+
+    if (m_meta.algorithm == compression_algorithm_e::deflate) {
+
+        size_t offset = 0;
+
+        if (m_c_huffman_table) {
+
+            auto c_table = reinterpret_cast<qpl_compression_huffman_table*>(m_c_huffman_table);
+
+            auto status = compression::huffman_table_write_to_stream(*c_table, buffer, m_meta.flags);
+            if (status) {
+                return static_cast<qpl_status>(status);
+            }
+
+            offset += sizeof(qpl_compression_huffman_table);
+        }
+
+        if (m_d_huffman_table) {
+            auto d_table = reinterpret_cast<qpl_decompression_huffman_table*>(m_d_huffman_table);
+
+            auto status = compression::huffman_table_write_to_stream(*d_table, buffer + offset, m_meta.flags);
+            if (status) {
+                return static_cast<qpl_status>(status);
+            }
+        }
+    }
+    else {
+        return status_list::not_supported_err;
+    }
+
+    return status_list::ok;
+}
+
+template
+qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::write_to_stream(uint8_t *buffer) const noexcept;
+
+template
+qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::write_to_stream(uint8_t *buffer) const noexcept;
 
 template<> template<>
 uint8_t *huffman_table_t<compression_algorithm_e::deflate>::compression_huffman_table<execution_path_t::software>() const noexcept {
@@ -304,7 +374,6 @@ template<> template<>
 uint8_t *huffman_table_t<compression_algorithm_e::huffman_only>::compression_huffman_table<execution_path_t::hardware>() const noexcept {
     return m_c_huffman_table;
 }
-
 
 template<> template<>
 uint8_t *huffman_table_t<compression_algorithm_e::deflate>::decompression_huffman_table<execution_path_t::software>() const noexcept {

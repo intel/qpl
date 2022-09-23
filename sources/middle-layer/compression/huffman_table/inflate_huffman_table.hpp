@@ -58,9 +58,10 @@ public:
                                 uint8_t *deflate_header_ptr,
                                 uint8_t *canned_table_ptr);
 
-    auto get_deflate_header_data() noexcept -> uint8_t *;
     auto get_sw_decompression_table() noexcept -> qplc_huffman_table_flat_format *;
     auto get_hw_decompression_state() noexcept -> hw_decompression_state *;
+    auto get_deflate_header() noexcept -> deflate_header *;
+    auto get_deflate_header_data() noexcept -> uint8_t *;
     auto get_deflate_header_bit_size() noexcept -> uint32_t;
     auto get_canned_table() noexcept -> canned_table *;
 

@@ -18,6 +18,11 @@ decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
     size_t aecs_buffer_size = sizeof(qpl::ml::compression::hw_decompression_state);
     void * pointer_to_be_aligned_ptr = hw_table_ptr;
 
+    // making sure that the ptr to hw_decompression_table is properly aligned
+    // note: the call to std::align would change the ptr and the buffer size
+    // at the end size of actual data stored in hw_decompression_table_ptr is HW_AECS_ANALYTICS_SIZE
+    // and sizeof(qpl::ml::compression::hw_decompression_state) =
+    // = HW_PATH_STRUCTURES_REQUIRED_ALIGN + HW_AECS_ANALYTICS_SIZE
     auto aligned_aecs_ptr = std::align(HW_PATH_STRUCTURES_REQUIRED_ALIGN,
                                        HW_AECS_ANALYTICS_SIZE,
                                        pointer_to_be_aligned_ptr,
@@ -30,6 +35,10 @@ decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
     sw_decompression_table_flag = false;
     hw_decompression_table_flag = false;
     deflate_header_flag         = false;
+}
+
+auto decompression_huffman_table::get_deflate_header() noexcept -> deflate_header * {
+    return deflate_header_ptr_;
 }
 
 auto decompression_huffman_table::get_deflate_header_data() noexcept -> uint8_t * {

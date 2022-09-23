@@ -10,25 +10,13 @@
  */
 
 #include "util/memory.hpp"
-#include "huffman_table.hpp"
 #include "util/checkers.hpp"
 #include "own_checkers.h"
+#include "huffman_table.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp"
 #include "compression/huffman_table/huffman_table.hpp"
 
 extern "C" {
-
-// ------ Own Functions ------ //
-
-namespace details {
-
-static inline auto get_allocator(const allocator_t allocator) {
-    constexpr allocator_t default_allocator = DEFAULT_ALLOCATOR_C;
-
-    return (allocator.allocator && allocator.deallocator) ? allocator : default_allocator;
-}
-
-}
 
 qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
                                             const qpl_path_t path,

@@ -259,6 +259,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_get_type) {
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(nullptr, &type));
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(table, nullptr));
+
+    qpl_huffman_table_destroy(table);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_get_type) {
@@ -274,5 +276,98 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_get_type) 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(nullptr, &type));
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(table, nullptr));
+
+    qpl_huffman_table_destroy(table);
 }
+
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
+    size_t table_size = 0;
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR,
+              qpl_huffman_table_get_serialized_size(nullptr, DEFAULT_SERIALIZATION_OPTIONS, &table_size));
+
+    qpl_huffman_table_t table{};
+
+    qpl_huffman_only_table_create(combined_table_type,
+                                  GetExecutionPath(),
+                                  DEFAULT_ALLOCATOR_C,
+                                  &table);
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR,
+              qpl_huffman_table_get_serialized_size(table, DEFAULT_SERIALIZATION_OPTIONS, nullptr));
+
+    serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
+
+    EXPECT_EQ(QPL_STS_SERIALIZATION_FORMAT_ERROR,
+              qpl_huffman_table_get_serialized_size(table, bad_options, &table_size));
+
+    qpl_huffman_table_destroy(table);
+}
+
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
+    uint8_t buffer_ptr[1];
+    size_t  buffer_size = 1;
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_serialize(nullptr,
+                                                                buffer_ptr,
+                                                                buffer_size,
+                                                                DEFAULT_SERIALIZATION_OPTIONS));
+
+    qpl_huffman_table_t table{};
+
+    qpl_huffman_only_table_create(combined_table_type,
+                                  GetExecutionPath(),
+                                  DEFAULT_ALLOCATOR_C,
+                                  &table);
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_serialize(table,
+                                                                nullptr,
+                                                                buffer_size,
+                                                                DEFAULT_SERIALIZATION_OPTIONS));
+
+    EXPECT_EQ(QPL_STS_SIZE_ERR, qpl_huffman_table_serialize(table,
+                                                            buffer_ptr,
+                                                            0,
+                                                            DEFAULT_SERIALIZATION_OPTIONS));
+
+    serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
+
+    EXPECT_EQ(QPL_STS_SERIALIZATION_FORMAT_ERROR, qpl_huffman_table_serialize(table,
+                                                                              buffer_ptr,
+                                                                              buffer_size,
+                                                                              bad_options));
+
+    qpl_huffman_table_destroy(table);
+}
+
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deserialize) {
+    uint8_t buffer_ptr[1];
+    size_t  buffer_size = 1;
+
+    qpl_huffman_table_t table{};
+
+    qpl_huffman_only_table_create(combined_table_type,
+                                  GetExecutionPath(),
+                                  DEFAULT_ALLOCATOR_C,
+                                  &table);
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_deserialize(nullptr,
+                                                                  buffer_size,
+                                                                  DEFAULT_ALLOCATOR_C,
+                                                                  &table));
+
+    EXPECT_EQ(QPL_STS_SIZE_ERR, qpl_huffman_table_deserialize(buffer_ptr,
+                                                              0,
+                                                              DEFAULT_ALLOCATOR_C,
+                                                              &table));
+
+    EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_deserialize(buffer_ptr,
+                                                                  buffer_size,
+                                                                  DEFAULT_ALLOCATOR_C,
+                                                                  nullptr));
+
+    qpl_huffman_table_destroy(table);
+}
+
+
 }

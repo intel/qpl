@@ -172,9 +172,9 @@ Example code:
 
     size_t serialized_size;
 
-    status = qpl_huffman_table_get_serialize_size(huffman_table,
-                                                  {serialization_raw, 0},
-                                                  &serialized_size);
+    status = qpl_huffman_table_get_serialized_size(huffman_table,
+                                                   {serialization_raw, 0},
+                                                   &serialized_size);
 
 The second step is to provide this pre-allocated buffer and serialize the
 Huffman table object.

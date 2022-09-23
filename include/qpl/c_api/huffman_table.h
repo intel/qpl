@@ -198,9 +198,9 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_get_serialize_size(const qpl_huffman_table_t table,
-                                                const serialization_options_t options,
-                                                size_t *const size_ptr);
+qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table,
+                                                 const serialization_options_t options,
+                                                 size_t *const size_ptr);
 
 /**
  * @brief Serializes qpl_huffman_table_t object.

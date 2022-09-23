@@ -12,6 +12,8 @@
 #ifndef QPL_SERIALIZATION_H_
 #define QPL_SERIALIZATION_H_
 
+#include "stdint.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

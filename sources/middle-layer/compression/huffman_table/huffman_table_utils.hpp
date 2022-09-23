@@ -15,12 +15,13 @@
 #include <cstddef>
 #include <type_traits>
 
+#include "qpl/c_api/huffman_table.h"
+
 #include "common/defs.hpp"
 
 #include "deflate_huffman_table.hpp"
 #include "inflate_huffman_table.hpp"
 
-#include "common/defs.hpp"
 #include "util/util.hpp"
 
 /**
@@ -58,7 +59,7 @@ struct qpl_compression_huffman_table {
     */
     std::aligned_storage_t<sizeof(qplc_huffman_table_default_format),
                            qpl::ml::util::default_alignment> sw_compression_table_data;
-    
+
     /**
     * Buffer that contains ISA-L representation of the software compression table
     */
@@ -125,6 +126,7 @@ struct qpl_decompression_huffman_table {
                            qpl::ml::util::default_alignment> lookup_table_buffer;
 };
 
+// todo: clean up the functions from the list below that are not used anywhere
 extern "C" {
 uint8_t *get_lookup_table_buffer_ptr(qpl_decompression_huffman_table *decompression_table_ptr);
 
@@ -166,10 +168,40 @@ auto huffman_table_init(table_t &table,
                         const uint32_t *distances_histogram_ptr,
                         const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
 
+template<class table_t>
+auto huffman_table_init_with_stream(table_t &table,
+                                    const uint8_t *const buffer,
+                                    const uint32_t representation_flags) noexcept -> qpl_ml_status;
+
 template<class first_table_t, class second_table_t>
 auto huffman_table_convert(const first_table_t &first_table,
                            second_table_t &second_table,
                            const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
+
+template<class table_t>
+auto huffman_table_write_to_stream(const table_t &table,
+                                   uint8_t *const buffer,
+                                   const uint32_t representation_flags) noexcept -> qpl_ml_status;
+
+namespace details {
+
+static inline auto get_path_flags(execution_path_t path) {
+    switch (path) {
+        case execution_path_t::hardware:
+            return QPL_HW_REPRESENTATION;
+        case execution_path_t::software:
+            return QPL_SW_REPRESENTATION;
+        default:
+            return QPL_COMPLETE_COMPRESSION_TABLE;
+    }
 }
+
+static inline auto get_allocator(const allocator_t allocator) {
+    constexpr allocator_t default_allocator = DEFAULT_ALLOCATOR_C;
+    return (allocator.allocator && allocator.deallocator) ? allocator : default_allocator;
+}
+
+} // namespace details
+} // namespace qpl::ml::compression
 
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_CANNED_UTILS_HPP
