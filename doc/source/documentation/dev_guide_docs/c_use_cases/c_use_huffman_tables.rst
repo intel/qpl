@@ -6,8 +6,8 @@
 
 .. _huffman-tables-api-label:
 
-Huffman Tables
-##############
+Huffman Table Objects
+#####################
 
 This page provides general descriptions of the APIs available for
 managing a Huffman table object.
@@ -96,9 +96,7 @@ Deflate tokens histogram
 
 A *Deflate* Huffman table could be built from a deflate tokens histogram
 that is defined by the :c:struct:`qpl_histogram` structure.
-Histogram structure could be filled using qpl_gather_deflate_statistic function.
-More details about the usage are at
-:ref:`qpl_gather_deflate_statistics <c_qpl_gather_deflate_statistics_reference_link>`.
+Histogram structure could be filled using :c:func:`qpl_gather_deflate_statistics` function.
 This simply requires the user to then provide a pointer to the complete histogram
 and pre-allocated table.
 

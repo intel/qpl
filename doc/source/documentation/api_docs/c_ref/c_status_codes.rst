@@ -4,20 +4,10 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-C++ API Overview
-################
+
+Status Codes
+############
 
 
-.. toctree::
-   :maxdepth: 4
-
-   abstraction_layers
-
-   compression_styles
-   compression_streams
-
-   deflate_block
-   exceptions
-
-   asynchronous_execution
-   execution_result
+.. doxygenenum:: qpl_status
+    :project: Intel(R) Query Processing Library

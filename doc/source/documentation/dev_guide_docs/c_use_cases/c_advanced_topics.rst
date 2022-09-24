@@ -4,20 +4,14 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-C++ API Overview
-################
+
+Advanced Topics
+###############
 
 
 .. toctree::
    :maxdepth: 4
+   :hidden:
 
-   abstraction_layers
-
-   compression_styles
-   compression_streams
-
-   deflate_block
-   exceptions
-
-   asynchronous_execution
-   execution_result
+   Advanced Decompress Features <c_advanced_topics_decompress>
+   Advanced Filter Features <c_advanced_topics_filter>

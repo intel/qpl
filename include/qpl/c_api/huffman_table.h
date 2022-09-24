@@ -185,12 +185,10 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
  * @{
  * @brief To keep user space on filesystem we can serialize and pack qpl_huffman_table_t into 
  * raw or more compact format.
- * @warning API implementation is in progress.
  */
 
 /**
  * @brief API to get size of the table to be serialized.
- * @warning API implementation is in progress.
  *
  * @param[in]  table    @ref qpl_huffman_table_t object to serialize
  * @param[in]  options  @ref serialization_options_t
@@ -204,7 +202,6 @@ qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table
 
 /**
  * @brief Serializes qpl_huffman_table_t object.
- * @warning API implementation is in progress.
  *
  * @param[in] table @ref qpl_huffman_table_t object to serialize
  * @param[out] dump_buffer_ptr serialized object buffer
@@ -220,7 +217,6 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
 
 /**
  * @brief Deserializes previously serialized huffman table
- * @warning API implementation is in progress.
  *
  * @param[in] dump_buffer_ptr serialized object buffer
  * @param[in] dump_buffer_size serialized object buffer size

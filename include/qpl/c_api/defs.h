@@ -206,7 +206,7 @@ typedef enum {
  * @brief Enum of all output formats
  */
 typedef enum {
-    qpl_ow_nom = 0u,    /**< Output 1-bit stream  */
+    qpl_ow_nom = 0u,    /**< Output stream in its nominal format without modification*/
     qpl_ow_8   = 1u,    /**< Output 8-bit stream  */
     qpl_ow_16  = 2u,    /**< Output 16-bit stream */
     qpl_ow_32  = 3u     /**< Output 32-bit stream */

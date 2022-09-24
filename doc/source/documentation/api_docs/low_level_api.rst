@@ -8,28 +8,27 @@
 .. _c_low_level_api_reference_link:
 
 
-Low-level C API
-###############
+Developer Reference for the Low-Level C API
+###########################################
 
 
 This document describes the Intel® Query Processing Library (Intel® QPL)
-Low-level API (also called as Job API). The document provides descriptions 
-of the main entities and operations used.
+low-level C API. The document provides descriptions of the main entities
+and operations used.
 
-For general introduction to Intel QPL, see :ref:`Introduction
-<introduction_reference_link>`.
+For a general introduction to Intel QPL, see :ref:`introduction_reference_link`.
 
 
-**Disclaimer**
-
-The library exists in a prototype form and is being actively developed. This
-means that some things described here may change in the future. However,
-this is being released now in the expectation that it will be more
-useful than nothing to people initially trying to use the library.
+.. attention::
+   Intel QPL presently is in a prototype form. Public APIs described in this
+   documentation may change at any time.
 
 
 .. toctree::
    :maxdepth: 4
+   :hidden:
 
-   c_concepts/index_c_api_design
-   c_operations/index_c_operations
+   c_ref/c_job_apis
+   c_ref/c_huffman_table_apis
+   c_ref/c_enums_and_structures
+   c_ref/c_status_codes
