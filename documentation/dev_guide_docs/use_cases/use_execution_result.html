@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Using execution_result &#8212; Intel® QPL v0.1.20-beta documentation</title>
+    <title>Using execution_result &#8212; Intel® QPL v0.2.0 Documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -21,7 +21,7 @@
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
@@ -30,7 +30,7 @@
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Using Exceptions" href="use_exceptions.html" />
@@ -73,7 +73,7 @@
       
       
       
-      <h1 class="site-logo" id="site-title">Intel® QPL v0.1.20-beta documentation</h1>
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.2.0 Documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -93,16 +93,6 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../../introduction_docs/system_requirements.html">
-   System Requirements
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../introduction_docs/issue_reporting.html">
-   Issue Reporting
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../../introduction_docs/license.html">
    License
   </a>
@@ -115,339 +105,29 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/system_requirements.html">
+   System Requirements
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/installation.html">
    Installation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/quick_start.html">
-   Quick start
+   Quick Start
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../../get_started_docs/code_samples_and_examples.html">
-   Code Samples and Examples
+  <a class="reference internal" href="../../get_started_docs/code_examples.html">
+   Code Examples
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/testing.html">
-   Test Library
+   Library Testing
   </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Developer Reference
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api_docs/high_level_api.html">
-   High-level C++ API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/concepts/index_api_design.html">
-     C++ API Overview
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/abstraction_layers.html">
-       Abstraction Layers
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/compression_styles.html">
-       Compression Styles
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/compression_streams.html">
-       Compression Streams
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/deflate_block.html">
-       Deflate Block
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/status_codes.html">
-       Status Codes
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/exceptions.html">
-       Exceptions
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/asynchronous_execution.html">
-       Asynchronous Execution
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/execution_result.html">
-       Execution Result
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/operations/index_operations.html">
-     Operations
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/compression_operations/index_compression_operations.html">
-       Compression Operations
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-      <label for="toctree-checkbox-4">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/deflate_operation.html">
-         deflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/inflate_operation.html">
-         inflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_compress_operation.html">
-         zero_compress_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_decompress_operation.html">
-         zero_decompress_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/analytics_operations/index_analytics_operations.html">
-       Analytics Operations
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-      <label for="toctree-checkbox-5">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_operation.html">
-         scan_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_range_operation.html">
-         scan_range_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/extract_operation.html">
-         extract_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
-         find_unique_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/mask_operations/index_mask_operations.html">
-       Operations with Mask
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-      <label for="toctree-checkbox-6">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/select_operation.html">
-         select_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
-         expand_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
-         set_membership_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/operations/copy_operation.html">
-       copy_operation
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/operations/crc_operation.html">
-       crc_operation
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api_docs/low_level_api.html">
-   Low-level C API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/c_concepts/index_c_api_design.html">
-     C API Overview
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-    <label for="toctree-checkbox-8">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_job_structure.html">
-       Job Structure
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/status_codes.html">
-       Status Codes
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_%28de%29compression.html">
-       Compression and Decompression
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_compression_styles.html">
-       Compression Styles
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_compression_streams.html">
-       Compression Streams
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_filtering_unit.html">
-       Filtering Unit
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_parser.html">
-       Parser
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_output_modification.html">
-       Output Modification
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/c_operations/index_c_operations.html">
-     Operations
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-    <label for="toctree-checkbox-9">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_scan.html">
-       qpl_scan
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_set_membership.html">
-       qpl_set_membership
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_extract.html">
-       qpl_extract
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_select.html">
-       qpl_select
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_expand_rle.html">
-       qpl_expand_rle
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_find_unique.html">
-       qpl_find_unique
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_expand.html">
-       qpl_expand
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qplZeroCompress.html">
-       qplZeroCompress
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_crc64.html">
-       qpl_crc64
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_memcpu.html">
-       qpl_memcpy
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_gather_deflate_statistics.html">
-       qpl_gather_deflate_statistics
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -456,12 +136,204 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../low_level_developer_guide.html">
+   Low-Level C API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_use_cases/c_job_structure.html">
+     Job Structure
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../c_use_cases/c_deflate.html">
+     Deflate Compression/Decompression
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_deflate_compression.html">
+       Compression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_deflate_decompression.html">
+       Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_deflate_dictionary.html">
+       Dictionary
+      </a>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../c_use_cases/c_deflate_indexing.html">
+       Indexing
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_deflate_indexing_format.html">
+         Format of Indices
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_deflate_indexing_usage.html">
+         Creating and Using Indices
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_use_cases/c_huffman_only.html">
+     Huffman-Only Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_use_cases/c_use_huffman_tables.html">
+     Huffman Table Objects
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../c_use_cases/c_operations.html">
+     Filter and Other Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../c_use_cases/c_operations_op.html">
+       Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_scan.html">
+         Scan
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_set_membership.html">
+         Set Membership
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_extract.html">
+         Extract
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_select.html">
+         Select
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_rle_burst.html">
+         RLE Burst
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_find_unique.html">
+         Find Unique
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_expand.html">
+         Expand
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_zero_compress.html">
+         Zero Compress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../c_use_cases/c_operations_op_crc64.html">
+         CRC-64
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_operations_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_operations_aggregates.html">
+       Aggregates
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_operations_parsers.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_operations_hw_path_optimization.html">
+       Hardware Path Optimizations
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_use_cases/c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../c_use_cases/c_advanced_topics.html">
+     Advanced Topics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+    <label for="toctree-checkbox-6">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_advanced_topics_decompress.html">
+       Advanced Decompress Features
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../c_use_cases/c_advanced_topics_filter.html">
+       Advanced Filter Features
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../high_level_developer_guide.html">
-   High-level C++ API Developer Guide
+   High-Level C++ API
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -528,42 +400,223 @@
    </li>
   </ul>
  </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../low_level_developer_guide.html">
-   Low-level C API Developer Guide
+  <a class="reference internal" href="../../api_docs/low_level_api.html">
+   Low-Level C API
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
-  <label for="toctree-checkbox-11">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../c_use_cases/c_use_library.html">
-     Library Usage Scenarios
+    <a class="reference internal" href="../../api_docs/c_ref/c_job_apis.html">
+     Job APIs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../c_use_cases/c_optimize_hw_path.html">
-     Hardware Path Optimizations
+    <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html">
+     Huffman Table APIs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../c_use_cases/c_compress_dictionary.html">
-     Compressing with Preset Dictionary
+    <a class="reference internal" href="../../api_docs/c_ref/c_enums_and_structures.html">
+     Common Enums and Structures
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../c_use_cases/c_use_huffman_tables.html">
-     Huffman Tables
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../c_use_cases/c_use_indices.html">
-     Creating and Using Indices
+    <a class="reference internal" href="../../api_docs/c_ref/c_status_codes.html">
+     Status Codes
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../api_docs/high_level_api.html">
+   High-Level C++ API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../api_docs/concepts/index_api_design.html">
+     C++ API Overview
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+    <label for="toctree-checkbox-10">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/abstraction_layers.html">
+       Abstraction Layers
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/deflate_block.html">
+       Deflate Block
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/exceptions.html">
+       Exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/asynchronous_execution.html">
+       Asynchronous Execution
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/execution_result.html">
+       Execution Result
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../api_docs/operations/index_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/compression_operations/index_compression_operations.html">
+       Compression Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+      <label for="toctree-checkbox-12">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/deflate_operation.html">
+         deflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/inflate_operation.html">
+         inflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_compress_operation.html">
+         zero_compress_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_decompress_operation.html">
+         zero_decompress_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/analytics_operations/index_analytics_operations.html">
+       Analytics Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_operation.html">
+         scan_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_range_operation.html">
+         scan_range_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/extract_operation.html">
+         extract_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
+         find_unique_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/mask_operations/index_mask_operations.html">
+       Operations with Mask
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/select_operation.html">
+         select_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
+         expand_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
+         set_membership_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/operations/crc_operation.html">
+       crc_operation
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
  </li>
 </ul>
 

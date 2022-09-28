@@ -20,7 +20,7 @@ Here is an example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/compression/zero_compress_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/zero_compress_operation.hpp>
 
    // ...
    auto zero_compress_16_operation   = qpl::zero_compress_operation(qpl::zero_input_format::word_16_bit);

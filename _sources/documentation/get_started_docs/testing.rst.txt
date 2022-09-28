@@ -5,62 +5,63 @@
  .. ***************************************************************************/
 
 
-Test Library
-############
+Library Testing
+###############
 
 
 Intel® Query Processing Library (Intel® QPL) is distributed with 
-its own test system based on the google-test framework. The testing 
-is performed with the following testing groups: 
+its own test system based on the GoogleTest framework. The tests
+are classified into: 
 
 - Functional tests 
 - Cross tests 
 - Initialization tests
-- Fuzzing tests
+- Fuzz tests
 
 
 Functional Tests
 ****************
 
-Functional testing provides the fundamental validation for both Public
-APIs and some subset of tests for internal Intel QPL entities. Tests are
-segregated onto several test groups: 
+Functional tests provide functional validation of Intel QPL APIs. These tests are
+further divided into four groups: 
 
-- Algorithmic tests - (``ta_<test_suite>.<test>``) serve to find errors that reflect logic 
+- Algorithmic tests (``ta_*``) serve to find errors that reflect logic 
   errors in data processing on correct data. 
-- Bad argument tests (``tb_<test_suite>.<test>``) validate code on preventive identification
-  of errors in the function arguments. 
-- Negative tests (``tn_<test_suite>.<test>``) serve to find errors that reflect lack of 
+- Bad argument tests (``tb_*``) verify the code path for invalid arguments.
+- Negative tests (``tn_*``) serve to find errors that reflect lack of 
   control over the input data format. 
-- Thread tests (``tt_<test_suite>.<test>``) - detect of out of order read/write
+- Thread tests (``tt_*``) detect out of order read/write
   operations for common structures by different threads.
 
-You can find the tests in ``<install_dir>/bin``. To test the library,
-execute the following command:
+
+The tests can be launched using a single executable ``<install_dir>/bin/tests``.
+To run all the functional tests, execute the following command:
 
 .. code:: shell
 
-   ./tests
+   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/
 
-.. note:: 
-   
-   Some tests require special data files (for example, all
-   tests related to compression use the standard de-facto data set Calgary
-   corpus) therefore you should either put these files to the same
-   place/path where the test is available or use the ``--dataset`` switch
-   for example:
-
-   ::
-
-      ./tests --dataset=<qpl_library>/tools/testdata/
-
-
-To see the full list of other available test options, execute the
-following command:
+To run, for example, algorithmic tests only, use:
 
 .. code:: shell
 
-   ./tests --help
+   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=ta_*
+
+
+Other available test options include:
+
+- ``--seed=<random_seed>`` - Specifies the random seed used in generating some
+  testing data (timer value is used by default).
+- ``--path=[hw|sw]`` - Runs functional tests on the hardware path (``sw``, or
+  software path, is used by default).
+- ``--async=[on|off]`` - Tests asynchronous API (``off``, or synchronous, is used
+  by default). See :ref:`asynchronous_execution_reference_link`.
+
+.. note::
+
+   Running functional tests on the hardware path requires first configuring
+   Intel® In-Memory Analytics Accelerator (Intel® IAA).
+   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
 
 Cross Tests
@@ -69,42 +70,26 @@ Cross Tests
 
 Cross tests provide validation of: 
 
-- Input/output stream format compatibility between ``Hardware`` 
-  and ``Software paths`` for the same Intel QPL operation. 
+- Input/output stream format compatibility between hardware
+  and software paths for the same Intel QPL operation. 
   Especially for compression/decompression functionality. 
-- Aggregates, checksums equality between Hardware and Software paths 
+- Aggregates, checksums equality between hardware and software paths 
   for the same Intel QPL operation.
 
-Cross tests indicate that ``Software`` and ``Hardware`` paths can be
+Cross tests intend to assure that software and hardware paths can be
 exchanged in the application code without behavior change.
 
-You can find the cross_tests in ``<install_dir>/bin``. To test the
-library, execute the following command:
+The tests can be launched using a single executable ``<install_dir>/bin/cross_tests``.
+To run cross tests, execute the following command:
 
 .. code:: shell
 
-   ./cross_tests
+   <install_dir>/bin/cross_tests --dataset=<qpl_library>/tools/testdata/
 
+.. note::
 
-.. note:: 
-   
-   Some tests require special data files (for example, all
-   tests related to compression use the standard de-facto data set Calgary
-   corpus) therefore you should either put these files to the same
-   place/path where the test is available or use the ``--dataset`` switch
-   for example:
-
-   ::
-
-      ./cross_tests --dataset=<qpl_library>/tools/testdata/
-
-
-To see the full list of other available test options, execute the
-following command:
-
-.. code:: shell
-
-   ./cross_tests --help
+   Running cross tests requires first configuring Intel IAA.
+   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
 
 Initialization Tests
@@ -112,57 +97,64 @@ Initialization Tests
 
 
 Initialization tests validate library initialization code for
-``Hardware Path`` correctness. Initialization tests consist of: 
+the correctness of hardware path. Initialization tests consist of: 
 
-- Python frontend that setup different Accelerator configurations before testing
-- C++ google-test based backend that runs specific test cases to perform actual testing
+- Python frontend that setup different accelerator configurations before testing
+- C++ GoogleTest based backend that runs specific test cases to perform actual testing
 
-To test the library, execute the following commands:
+To run initialization tests, execute the following commands:
 
 .. code:: shell
 
-   cd <library_dir>/tools/tests/initialization_tests/test_frontend
-   python init_tests.py --test_path=<install_dir>/bin/init_tests
+   cd <qpl_library>/tools/tests/initialization_tests/test_frontend
+   python init_tests.py --test_path=<install_dir>/bin/
 
 To see the full list of other available test options, execute the
-following commands:
+following command:
 
 .. code:: shell
 
-   cd <library_dir>/tools/tests/initialization_tests/test_frontend
    python init_tests.py --help
 
 .. note:: 
    
-   Initialization tests can be used to validate the existing
-   accelerator configuration. To validate configuration correctness,
-   execute the following commands:
+   - Running initialization tests requires first configuring Intel IAA.
+     See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
-   .. code:: shell
+   - To see a detailed initialization log, the library must be built with the
+     ``-DLOG_HW_INIT=ON`` CMake option.
 
-      cd <install_dir>/bin/
-      ./init_tests --gtest_filter=*try_init*
+   - Initialization tests can be used to validate the existing
+     accelerator configuration. To validate configuration correctness,
+     execute the following command:
+
+     .. code:: shell
+
+        <install_dir>/bin/init_tests --gtest_filter=*try_init*
 
 
-To see a detailed initialization log, the library must be built with the
-``-DLOG_HW_INIT=ON`` CMake option.
-
-
-Fuzzing Tests
-*************
+Fuzz Tests
+**********
 
 Fuzz testing is an automated software testing technique that attempts to
 find hackable software bugs by randomly feeding invalid and unexpected
 inputs and data into a computer program in order to find coding errors
 and security loopholes.
 
-QPL fuzz testing is based on `LibFuzzer
-tool <https://llvm.org/docs/LibFuzzer.html>`__ and requires separate
-build with the ``-DLIB_FUZZING_ENGINE=ON`` CMake option and ``clang`` as
-compiler.
+Intel QPL fuzz testing is based on `LibFuzzer
+tool <https://llvm.org/docs/LibFuzzer.html>`__ and requires a separate
+build using the Clang compiler (version 12.0.1 or higher) with the
+``-DLIB_FUZZING_ENGINE=ON`` CMake option.
 
-Fuzzing tests are not installed into ``<install_dir>/bin`` but available
-in the: 
+Fuzz tests are not installed into ``<install_dir>/bin/`` but available
+in: 
 
-- ``<cmake build>/tools/tests/fuzzing/high-level-api/`` 
-- ``<cmake build>/tools/tests/fuzzing/low-level-api/``
+- ``<qpl_library>/build/tools/tests/fuzzing/high-level-api/`` 
+- ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
+
+To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``,
+for example:
+
+.. code:: shell
+
+   <qpl_library>/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test -max_total_time=15

@@ -16,15 +16,15 @@ One of the main features of Intel® Query Processing Library (Intel® QPL)
 is a capability to build custom chains of operations. For example, 
 if you need to perform operations ``decompress -> filter -> extract``, 
 use chaining functionality instead of simple operations abstraction level. 
-To do this, include the header file called ``<qplhl/chaining/operation_chain.hpp>`` 
+To do this, include the header file called ``<qpl/cpp_api/chaining/operation_chain.hpp>`` 
 and then you will be able to chain Intel QPL operations like this:
 
 .. code:: cpp
 
-   #include <qplhl/chaining/operation_chain.hpp>
-   #include <qplhl/operations/inflate_operation.hpp>
-   #include <qplhl/operations/scan_range_operation.hpp>
-   #include <qplhl/operations/select_operation.hpp>
+   #include <qpl/cpp_api/chaining/operation_chain.hpp>
+   #include <qpl/cpp_api/operations/compression/inflate_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/scan_range_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/select_operation.hpp>
    // ...
    constexpr const uint32_t lower_boundary = 48;
    constexpr const uint32_t upper_boundary = 58;
@@ -82,10 +82,10 @@ do this, add ``qpl::merge`` to chain as shown in the following example:
 
 .. code:: cpp
 
-   #include <qplhl/chaining/operation_chain.hpp>
-   #include <qplhl/chaining/merge_manipulator.hpp>
-   #include <qplhl/operations/inflate_operation.hpp>
-   #include <qplhl/operations/scan_range_operation.hpp>
+   #include <qpl/cpp_api/chaining/operation_chain.hpp>
+   #include <qpl/cpp_api/chaining/merge_manipulator.hpp>
+   #include <qpl/cpp_api/operations/compression/inflate_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/scan_range_operation.hpp>
    // ...
    constexpr const uint32_t lower_boundary = 48;
    constexpr const uint32_t upper_boundary = 58;

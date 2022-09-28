@@ -16,7 +16,7 @@ of how to get the scan operation:
 
 .. code:: cpp
 
-   #include <qplhl/operations/scan_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/scan_operation.hpp>
 
    // ...
    constexpr const uint32_t boundary = 7;

@@ -103,7 +103,7 @@ The following example demonstrates how to use the deflate operation:
 
 .. code:: cpp
 
-   #include <qplhl/operations/deflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/deflate_operation.hpp>
 
    int main()
    {
