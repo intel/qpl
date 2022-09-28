@@ -17,7 +17,6 @@ C++ API Overview
    compression_streams
 
    deflate_block
-   status_codes
    exceptions
 
    asynchronous_execution

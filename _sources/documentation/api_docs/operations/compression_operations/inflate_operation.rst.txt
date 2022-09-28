@@ -19,7 +19,7 @@ Here is an example of how to get the inflate operation:
 
 .. code:: cpp
 
-   #include <qplhl/operations/inflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/inflate_operation.hpp>
 
    // ...
    auto inflate_operation      = qpl::inflate_operation();
@@ -33,7 +33,7 @@ and inflate Huffman table, like in the example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/inflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/inflate_operation.hpp>
 
    // ...
    auto inflate_operation = qpl::inflate_operation::builder()

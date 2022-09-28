@@ -8,27 +8,25 @@
 .. _c_high_level_api_reference_link:
 
 
-High-level C++ API
-##################
+Developer Reference for the High-Level C++ API
+##############################################
 
 
 This document describes the Intel® Query Processing Library (Intel® QPL)
-High-level API. The document provides descriptions of the main entities and operations used.
+high-level C++ API. The document provides descriptions of the main entities
+and operations used.
 
-For general introduction to Intel QPL, see :ref:`Introduction
-<introduction_reference_link>`.
+For a general introduction to Intel QPL, see :ref:`introduction_reference_link`.
 
 
-**Disclaimer**
-
-The library exists in a prototype form and is being actively developed. 
-This means that some of the things described here may change in the future. 
-However, the library is released now with the expectation that it will be more 
-useful than nothing to people who may use it.
+.. attention::
+   Intel QPL presently is in a prototype form. Public APIs described in this
+   documentation may change at any time.
 
 
 .. toctree::
    :maxdepth: 4
+   :hidden:
 
    concepts/index_api_design
    operations/index_operations

@@ -23,7 +23,7 @@ compression level (zlib level 9). Here is an example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/deflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/deflate_operation.hpp>
 
    // ...
    auto deflate_operation             = qpl::deflate_operation();

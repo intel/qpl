@@ -22,7 +22,7 @@ Example:
 
 .. code:: cpp
 
-   #include <qplhl/operations/other/crc_operation.hpp>
+   #include <qpl/cpp_api/operations/other/crc_operation.hpp>
 
    // ...
    constexpr const uint64_t poly = 0x04C11DB700000000;

@@ -28,7 +28,7 @@ Exception Handling Examples
 
 .. code:: cpp
 
-   #include <qplhl/util/exceptions.hpp>
+   #include <qpl/cpp_api/util/exceptions.hpp>
 
    int main()
    {
@@ -47,7 +47,7 @@ Exception Handling Examples
 
 .. code:: cpp
 
-   #include <qplhl/util/exceptions.hpp>
+   #include <qpl/cpp_api/util/exceptions.hpp>
 
    int main()
    {
@@ -68,7 +68,7 @@ Exception Throw Example
 
 .. code:: cpp
 
-   #include <qplhl/util/exceptions.hpp>
+   #include <qpl/cpp_api/util/exceptions.hpp>
 
    int main()
    {

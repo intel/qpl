@@ -4,13 +4,21 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-High-level C++ API Developer Guide
-##################################
+
+.. _developer_guide_high_level_reference_link:
+
+
+Developer Guide for the High-Level C++ API
+##########################################
 
 
 This document provides quick introduction into usage of High Level API
 for Intel® Query Processing Library (Intel® QPL). It describes general 
 usage concepts.
+
+.. attention::
+   Intel QPL presently is in a prototype form. Public APIs described in this
+   documentation may change at any time.
 
 
 Header Files
@@ -23,6 +31,7 @@ header file: ``qpl/qpl.hpp``. It includes the entire API definition.
 
 .. toctree::
    :maxdepth: 4
+   :hidden:
 
    use_cases/use_library
    use_cases/integrate_with_other_projects

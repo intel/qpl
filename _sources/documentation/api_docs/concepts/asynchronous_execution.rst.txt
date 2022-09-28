@@ -14,7 +14,7 @@ An operation or a chain can be performed asynchronously using
 
 .. note::
     
-    Asyncronous execution in C++ API is work in progress. Current
+    Asynchronous execution in C++ API is work in progress. Current
     implementation uses ``qpl::execute()`` function.
 
 

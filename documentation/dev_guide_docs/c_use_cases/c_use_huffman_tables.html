@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Huffman Tables &#8212; Intel® QPL v0.1.20-beta documentation</title>
+    <title>Huffman Table Objects &#8212; Intel® QPL v0.2.0 Documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -21,7 +21,7 @@
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
@@ -30,11 +30,11 @@
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Creating and Using Indices" href="c_use_indices.html" />
-    <link rel="prev" title="Compressing with Preset Dictionary" href="c_compress_dictionary.html" />
+    <link rel="next" title="Filter and Other Operations" href="c_operations.html" />
+    <link rel="prev" title="Huffman-Only Compression/Decompression" href="c_huffman_only.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -73,7 +73,7 @@
       
       
       
-      <h1 class="site-logo" id="site-title">Intel® QPL v0.1.20-beta documentation</h1>
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.2.0 Documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -93,16 +93,6 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../../introduction_docs/system_requirements.html">
-   System Requirements
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../introduction_docs/issue_reporting.html">
-   Issue Reporting
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../../introduction_docs/license.html">
    License
   </a>
@@ -115,339 +105,29 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/system_requirements.html">
+   System Requirements
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/installation.html">
    Installation
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/quick_start.html">
-   Quick start
+   Quick Start
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../../get_started_docs/code_samples_and_examples.html">
-   Code Samples and Examples
+  <a class="reference internal" href="../../get_started_docs/code_examples.html">
+   Code Examples
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../../get_started_docs/testing.html">
-   Test Library
+   Library Testing
   </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Developer Reference
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api_docs/high_level_api.html">
-   High-level C++ API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/concepts/index_api_design.html">
-     C++ API Overview
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/abstraction_layers.html">
-       Abstraction Layers
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/compression_styles.html">
-       Compression Styles
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/compression_streams.html">
-       Compression Streams
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/deflate_block.html">
-       Deflate Block
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/status_codes.html">
-       Status Codes
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/exceptions.html">
-       Exceptions
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/asynchronous_execution.html">
-       Asynchronous Execution
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/execution_result.html">
-       Execution Result
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/operations/index_operations.html">
-     Operations
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/compression_operations/index_compression_operations.html">
-       Compression Operations
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-      <label for="toctree-checkbox-4">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/deflate_operation.html">
-         deflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/inflate_operation.html">
-         inflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_compress_operation.html">
-         zero_compress_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_decompress_operation.html">
-         zero_decompress_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/analytics_operations/index_analytics_operations.html">
-       Analytics Operations
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-      <label for="toctree-checkbox-5">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_operation.html">
-         scan_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_range_operation.html">
-         scan_range_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/extract_operation.html">
-         extract_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
-         find_unique_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../api_docs/operations/mask_operations/index_mask_operations.html">
-       Operations with Mask
-      </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-      <label for="toctree-checkbox-6">
-       <i class="fas fa-chevron-down">
-       </i>
-      </label>
-      <ul>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/select_operation.html">
-         select_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
-         expand_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
-         set_membership_operation
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/operations/copy_operation.html">
-       copy_operation
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/operations/crc_operation.html">
-       crc_operation
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../api_docs/low_level_api.html">
-   Low-level C API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/c_concepts/index_c_api_design.html">
-     C API Overview
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-    <label for="toctree-checkbox-8">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_job_structure.html">
-       Job Structure
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/concepts/status_codes.html">
-       Status Codes
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_%28de%29compression.html">
-       Compression and Decompression
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_compression_styles.html">
-       Compression Styles
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_compression_streams.html">
-       Compression Streams
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_filtering_unit.html">
-       Filtering Unit
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_parser.html">
-       Parser
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_concepts/c_output_modification.html">
-       Output Modification
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../api_docs/c_operations/index_c_operations.html">
-     Operations
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-    <label for="toctree-checkbox-9">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_scan.html">
-       qpl_scan
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_set_membership.html">
-       qpl_set_membership
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_extract.html">
-       qpl_extract
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_select.html">
-       qpl_select
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_expand_rle.html">
-       qpl_expand_rle
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_find_unique.html">
-       qpl_find_unique
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_expand.html">
-       qpl_expand
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qplZeroCompress.html">
-       qplZeroCompress
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_crc64.html">
-       qpl_crc64
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_memcpu.html">
-       qpl_memcpy
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../api_docs/c_operations/c_qpl_gather_deflate_statistics.html">
-       qpl_gather_deflate_statistics
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -456,12 +136,204 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../low_level_developer_guide.html">
+   Low-Level C API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_job_structure.html">
+     Job Structure
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="c_deflate.html">
+     Deflate Compression/Decompression
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_compression.html">
+       Compression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_decompression.html">
+       Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_dictionary.html">
+       Dictionary
+      </a>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="c_deflate_indexing.html">
+       Indexing
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_deflate_indexing_format.html">
+         Format of Indices
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_deflate_indexing_usage.html">
+         Creating and Using Indices
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_huffman_only.html">
+     Huffman-Only Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Huffman Table Objects
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="c_operations.html">
+     Filter and Other Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="c_operations_op.html">
+       Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_scan.html">
+         Scan
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_set_membership.html">
+         Set Membership
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_extract.html">
+         Extract
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_select.html">
+         Select
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_rle_burst.html">
+         RLE Burst
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_find_unique.html">
+         Find Unique
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_expand.html">
+         Expand
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_zero_compress.html">
+         Zero Compress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_crc64.html">
+         CRC-64
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_aggregates.html">
+       Aggregates
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_parsers.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_hw_path_optimization.html">
+       Hardware Path Optimizations
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="c_advanced_topics.html">
+     Advanced Topics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+    <label for="toctree-checkbox-6">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_advanced_topics_decompress.html">
+       Advanced Decompress Features
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_advanced_topics_filter.html">
+       Advanced Filter Features
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../high_level_developer_guide.html">
-   High-level C++ API Developer Guide
+   High-Level C++ API
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -528,42 +400,223 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../low_level_developer_guide.html">
-   Low-level C API Developer Guide
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../api_docs/low_level_api.html">
+   Low-Level C API
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
-  <label for="toctree-checkbox-11">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="c_use_library.html">
-     Library Usage Scenarios
+    <a class="reference internal" href="../../api_docs/c_ref/c_job_apis.html">
+     Job APIs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="c_optimize_hw_path.html">
-     Hardware Path Optimizations
+    <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html">
+     Huffman Table APIs
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="c_compress_dictionary.html">
-     Compressing with Preset Dictionary
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     Huffman Tables
+    <a class="reference internal" href="../../api_docs/c_ref/c_enums_and_structures.html">
+     Common Enums and Structures
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="c_use_indices.html">
-     Creating and Using Indices
+    <a class="reference internal" href="../../api_docs/c_ref/c_status_codes.html">
+     Status Codes
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../api_docs/high_level_api.html">
+   High-Level C++ API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../api_docs/concepts/index_api_design.html">
+     C++ API Overview
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+    <label for="toctree-checkbox-10">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/abstraction_layers.html">
+       Abstraction Layers
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/deflate_block.html">
+       Deflate Block
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/exceptions.html">
+       Exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/asynchronous_execution.html">
+       Asynchronous Execution
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/concepts/execution_result.html">
+       Execution Result
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../api_docs/operations/index_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/compression_operations/index_compression_operations.html">
+       Compression Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+      <label for="toctree-checkbox-12">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/deflate_operation.html">
+         deflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/inflate_operation.html">
+         inflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_compress_operation.html">
+         zero_compress_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/compression_operations/zero_decompress_operation.html">
+         zero_decompress_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/analytics_operations/index_analytics_operations.html">
+       Analytics Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_operation.html">
+         scan_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/scan_range_operation.html">
+         scan_range_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/extract_operation.html">
+         extract_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
+         find_unique_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../api_docs/operations/mask_operations/index_mask_operations.html">
+       Operations with Mask
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/select_operation.html">
+         select_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
+         expand_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
+         set_membership_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../api_docs/operations/crc_operation.html">
+       crc_operation
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
  </li>
 </ul>
 
@@ -743,23 +796,45 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-compression-huffman-tables-from-deflate-histogram">
-   Creating Compression Huffman Tables from Deflate Histogram
+  <a class="reference internal nav-link" href="#creating-huffman-table">
+   Creating Huffman Table
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#huffman-triplets">
-   Huffman Triplets
+  <a class="reference internal nav-link" href="#initializing-huffman-tables">
+   Initializing Huffman Tables
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#huffman-triplets">
+     Huffman Triplets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflate-tokens-histogram">
+     Deflate tokens histogram
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialization-from-other-huffman-table">
+     Initialization from Other Huffman Table
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#destroying-huffman-tables">
+   Destroying Huffman Tables
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-compression-and-decompression-huffman-tables-from-huffman-triplets">
-   Creating Compression and Decompression Huffman Tables from Huffman Triplets
+  <a class="reference internal nav-link" href="#serializing-and-deserializing-huffman-tables">
+   Serializing and Deserializing Huffman Tables
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#converting-compression-table-into-decompression-table">
-   Converting Compression Table into Decompression Table
+  <a class="reference internal nav-link" href="#service-routines">
+   Service routines
   </a>
  </li>
 </ul>
@@ -771,7 +846,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Huffman Tables</h1>
+                <h1>Huffman Table Objects</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -782,23 +857,45 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-compression-huffman-tables-from-deflate-histogram">
-   Creating Compression Huffman Tables from Deflate Histogram
+  <a class="reference internal nav-link" href="#creating-huffman-table">
+   Creating Huffman Table
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#huffman-triplets">
-   Huffman Triplets
+  <a class="reference internal nav-link" href="#initializing-huffman-tables">
+   Initializing Huffman Tables
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#huffman-triplets">
+     Huffman Triplets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflate-tokens-histogram">
+     Deflate tokens histogram
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#initialization-from-other-huffman-table">
+     Initialization from Other Huffman Table
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#destroying-huffman-tables">
+   Destroying Huffman Tables
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-compression-and-decompression-huffman-tables-from-huffman-triplets">
-   Creating Compression and Decompression Huffman Tables from Huffman Triplets
+  <a class="reference internal nav-link" href="#serializing-and-deserializing-huffman-tables">
+   Serializing and Deserializing Huffman Tables
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#converting-compression-table-into-decompression-table">
-   Converting Compression Table into Decompression Table
+  <a class="reference internal nav-link" href="#service-routines">
+   Service routines
   </a>
  </li>
 </ul>
@@ -813,61 +910,177 @@ title="Print to PDF"
                 
   <blockquote>
 <div></div></blockquote>
-<section id="huffman-tables">
-<h1>Huffman Tables<a class="headerlink" href="#huffman-tables" title="Permalink to this headline">#</a></h1>
-<p>Two formats can be applied for Huffman Tables (one for the compressor
-and one for the decompressor) in Intel® Query Processing Library (Intel® QPL).
-The decompression Huffman Table is needed for certain advanced use cases. Normally,
-the user never needs to deal with it.</p>
-<p>These structures are not public. The user cannot access or modify its
-fields. Consider the following snippet:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Allocate buffer for compression table</span>
-<span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">comp_table_buffer_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">QPL_COMPRESSION_TABLE_SIZE</span><span class="p">);</span><span class="w"></span>
-<span class="c1">// Initialize buffer with zeros</span>
-<span class="n">memset</span><span class="p">(</span><span class="n">comp_table_buffer_ptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0u</span><span class="p">,</span><span class="w"> </span><span class="n">QPL_COMPRESSION_TABLE_SIZE</span><span class="p">);</span><span class="w"></span>
-<span class="c1">// Get pointer to the compression table</span>
-<span class="n">qpl_compression_huffman_table</span><span class="w"> </span><span class="o">*</span><span class="n">comp_table_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">qpl_compression_huffman_table</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">comp_table_buffer_ptr</span><span class="p">;</span><span class="w"></span>
+<section id="huffman-table-objects">
+<span id="huffman-tables-api-label"></span><h1>Huffman Table Objects<a class="headerlink" href="#huffman-table-objects" title="Permalink to this headline">#</a></h1>
+<p>This page provides general descriptions of the APIs available for
+managing a Huffman table object.</p>
+<p>The library supports two types of Huffman table: <em>Deflate</em> and <em>Huffman only</em>.
+An object of either type can be created to store compression, decompression,
+or both tables internally depending on the user’s desired scenario.</p>
+<p>The created table is an opaque pointer,
+which in addition to user-provided data holds some internal information,
+so it is not possible to directly access or modify its fields.
+To manage the object, functions for memory allocation, initialization, and
+destroy are provided.</p>
+<p>Additionally, serialization and deserialization functionalities
+are available in order to save state between calls.</p>
+<section id="creating-huffman-table">
+<h2>Creating Huffman Table<a class="headerlink" href="#creating-huffman-table" title="Permalink to this headline">#</a></h2>
+<p>A Huffman table object can be created as compression, decompression,
+or combined table, using the value of the <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_huffman_table_type_e</span></code></a> enum.</p>
+<p>Users are also required to provide information about execution path
+(software or hardware, using <a class="reference internal" href="../../api_docs/c_ref/c_enums_and_structures.html#c.qpl_path_t" title="qpl_path_t"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_path_t</span></code></a>)
+, and allocator structure (see <a class="reference internal" href="../../api_docs/c_ref/c_enums_and_structures.html#c.allocator_t" title="allocator_t"><code class="xref c c-struct docutils literal notranslate"><span class="pre">allocator_t</span></code></a> for details).</p>
+<p>Using one of the <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_deflate_huffman_table_create" title="qpl_deflate_huffman_table_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_deflate_huffman_table_create()</span></code></a>
+or <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_only_table_create" title="qpl_huffman_only_table_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_only_table_create()</span></code></a> function
+creates a <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">qpl_huffman_table_t</span></code></a> object for <em>Deflate</em>
+or <em>Huffman only</em> respectively, and also allocates memory
+required for internal structures.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span><span class="w"></span>
 
-<span class="c1">// ...</span>
-<span class="c1">// Now, you can use compression table with Intel QPL, for example set it to qpl_job:</span>
-
-<span class="n">qpl_job_ptr</span><span class="o">-&gt;</span><span class="n">compression_huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">comp_table_ptr</span><span class="p">;</span><span class="w"></span>
-<span class="c1">// ...</span>
+<span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_deflate_huffman_table_create</span><span class="p">(</span><span class="n">combined_table_type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">qpl_path_software</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="p">{</span><span class="n">malloc</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                                     </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The usage for decompression table is the same, except for pointer type
-and buffer size constant (<code class="docutils literal notranslate"><span class="pre">qpl_decompression_huffman_table</span></code>, and
-respectively <code class="docutils literal notranslate"><span class="pre">QPL_DECOMPRESSION_TABLE_SIZE</span></code>).</p>
-<section id="creating-compression-huffman-tables-from-deflate-histogram">
-<h2>Creating Compression Huffman Tables from Deflate Histogram<a class="headerlink" href="#creating-compression-huffman-tables-from-deflate-histogram" title="Permalink to this headline">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">qpl_build_compression_table_from_statistics</span></code> function is used to
-build the compression huffman table from deflate tokens histograms.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_build_compression_table_from_statistics</span><span class="p">();</span><span class="w"></span>
-</pre></div>
-</div>
-<p>Built table is guaranteed to be complete (in terms of that every deflate
-token is assigned a value).</p>
+<p>And similarly for <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_only_table_create" title="qpl_huffman_only_table_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_only_table_create()</span></code></a>.</p>
 </section>
+<section id="initializing-huffman-tables">
+<h2>Initializing Huffman Tables<a class="headerlink" href="#initializing-huffman-tables" title="Permalink to this headline">#</a></h2>
+<p>Next step is to properly initialize the created table.
+There are several ways that this could be done:
+initialization with triplets, histogram deflate statistics, or from another table.
+Refer to the sections below for implementation and support details.</p>
 <section id="huffman-triplets">
-<h2>Huffman Triplets<a class="headerlink" href="#huffman-triplets" title="Permalink to this headline">#</a></h2>
-<p>An array of the <code class="docutils literal notranslate"><span class="pre">qpl_huffman_triplet</span></code> objects is considered as a
-“generic format” Huffman table. See doxygen code annotations for more
-information about this structure.</p>
+<h3>Huffman Triplets<a class="headerlink" href="#huffman-triplets" title="Permalink to this headline">#</a></h3>
+<p>An array of the <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_triplet" title="qpl_huffman_triplet"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_huffman_triplet</span></code></a> objects is considered as a
+“generic format” Huffman table. <em>Huffman only</em> table could be initialized
+using the array of triplets. For this the user would need to provide
+a pointer to the array and its size together with a pre-allocated Huffman table object.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_only_table_create</span><span class="p">(</span><span class="n">compression_table_type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                  </span><span class="n">qpl_path_hardware</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                  </span><span class="p">{</span><span class="n">malloc</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                                  </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">qpl_huffman_triplet</span><span class="w"> </span><span class="n">triplet</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">triplet</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">value</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="cm">/* &lt;some_value&gt; */</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">triplet</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">code_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* &lt;code_length&gt; */</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">triplet</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">code</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="cm">/* &lt;some_code&gt; */</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_init_with_triplets</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">,</span><span class="w"> </span><span class="n">triplet</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
 </section>
-<section id="creating-compression-and-decompression-huffman-tables-from-huffman-triplets">
-<h2>Creating Compression and Decompression Huffman Tables from Huffman Triplets<a class="headerlink" href="#creating-compression-and-decompression-huffman-tables-from-huffman-triplets" title="Permalink to this headline">#</a></h2>
-<p>To build Huffman tables from array of <code class="docutils literal notranslate"><span class="pre">qpl_huffman_triplet</span></code>, use
-functions:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">qpl_triplets_to_compression_table()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">qpl_triplets_to_decompression_table()</span></code></p></li>
-</ul>
+<section id="deflate-tokens-histogram">
+<h3>Deflate tokens histogram<a class="headerlink" href="#deflate-tokens-histogram" title="Permalink to this headline">#</a></h3>
+<p>A <em>Deflate</em> Huffman table could be built from a deflate tokens histogram
+that is defined by the <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_histogram" title="qpl_histogram"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_histogram</span></code></a> structure.
+Histogram structure could be filled using <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_gather_deflate_statistics" title="qpl_gather_deflate_statistics"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_gather_deflate_statistics()</span></code></a> function.
+This simply requires the user to then provide a pointer to the complete histogram
+and pre-allocated table.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_deflate_huffman_table_create</span><span class="p">(</span><span class="n">combined_table_type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">qpl_path_software</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="p">{</span><span class="n">malloc</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                                     </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">qpl_histogram</span><span class="w"> </span><span class="n">deflate_histogram</span><span class="p">{};</span><span class="w"></span>
+
+<span class="cm">/* ... Filling deflate histogram using gather_deflate_statistics ... */</span><span class="w"></span>
+
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_init_with_histogram</span><span class="p">(</span><span class="n">huffman_table</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                               </span><span class="o">&amp;</span><span class="n">deflate_histogram</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
 </section>
-<section id="converting-compression-table-into-decompression-table">
-<h2>Converting Compression Table into Decompression Table<a class="headerlink" href="#converting-compression-table-into-decompression-table" title="Permalink to this headline">#</a></h2>
-<p>Another way to build a decompression table is to use the function
-<code class="docutils literal notranslate"><span class="pre">qpl_comp_to_decompression_table()</span></code>, which is capable of converting
-compression table into decompression.</p>
+<section id="initialization-from-other-huffman-table">
+<h3>Initialization from Other Huffman Table<a class="headerlink" href="#initialization-from-other-huffman-table" title="Permalink to this headline">#</a></h3>
+<p>Another way to build a table is to use the function
+<a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_other" title="qpl_huffman_table_init_with_other"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_other()</span></code></a> to initialize one table with the values from another,
+which is also capable of converting a compression table into a decompression representation.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">other_huffman_table</span><span class="p">;</span><span class="w"></span>
+
+<span class="cm">/* ... Creating and filling in other_huffman_table ... */</span><span class="w"></span>
+
+<span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_deflate_huffman_table_create</span><span class="p">(</span><span class="n">decompression_table_type</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="n">qpl_path_software</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                                     </span><span class="p">{</span><span class="n">malloc</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                                     </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_init_with_other</span><span class="p">(</span><span class="n">huffman_table</span><span class="p">,</span><span class="w"> </span><span class="n">other_huffman_table</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="destroying-huffman-tables">
+<h2>Destroying Huffman Tables<a class="headerlink" href="#destroying-huffman-tables" title="Permalink to this headline">#</a></h2>
+<p>In order to destroy a Huffman table object, <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_destroy" title="qpl_huffman_table_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_destroy()</span></code></a> should
+be called, that would free up memory for all internal structures as well.</p>
+</section>
+<section id="serializing-and-deserializing-huffman-tables">
+<h2>Serializing and Deserializing Huffman Tables<a class="headerlink" href="#serializing-and-deserializing-huffman-tables" title="Permalink to this headline">#</a></h2>
+<p>A Huffman table can be serialized using one of the options in <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_serialization_format_e" title="qpl_serialization_format_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_serialization_format_e</span></code></a>,
+the user should choose based on the desired scenario:
+more compact representation vs more straightforward raw format but that could save computing time.</p>
+<p>Serialization is a two-step approach.
+The first step is to specify serialization options
+, and get the size of the table in order to allocate a buffer that would hold
+a compact Huffman table representation and could be stored for later use.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span><span class="w"></span>
+
+<span class="cm">/* ... Creating and initializing table object ... */</span><span class="w"></span>
+
+<span class="kt">size_t</span><span class="w"> </span><span class="n">serialized_size</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_get_serialized_size</span><span class="p">(</span><span class="n">huffman_table</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                               </span><span class="p">{</span><span class="n">serialization_raw</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                               </span><span class="o">&amp;</span><span class="n">serialized_size</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The second step is to provide this pre-allocated buffer and serialize the
+Huffman table object.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">malloc</span><span class="p">(</span><span class="n">serialized_size</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">));</span><span class="w"></span>
+
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_serialize</span><span class="p">(</span><span class="n">huffman_table</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">buffer</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="n">serialized_size</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                     </span><span class="p">{</span><span class="n">serialization_raw</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">});</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Deserialization then would return a valid Huffman table object that would be
+created and initialized according to the data stored in the buffer.
+Essentially deserialization should be thought of as a combination of create and init
+functions for Huffman table. For this providing user-defined allocator is required.</p>
+<p>The user is then responsible for destruction of the object returned
+by deserialize function via <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_destroy" title="qpl_huffman_table_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_destroy()</span></code></a>.</p>
+<p>Example code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">other_huffman_table</span><span class="p">;</span><span class="w"></span>
+<span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_huffman_table_deserialize</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="n">serialized_size</span><span class="p">,</span><span class="w"></span>
+<span class="w">                                       </span><span class="p">{</span><span class="n">malloc</span><span class="p">,</span><span class="w"> </span><span class="n">free</span><span class="p">},</span><span class="w"></span>
+<span class="w">                                       </span><span class="o">&amp;</span><span class="n">other_huffman_table</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="service-routines">
+<h2>Service routines<a class="headerlink" href="#service-routines" title="Permalink to this headline">#</a></h2>
+<p>A function <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_get_type" title="qpl_huffman_table_get_type"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_get_type()</span></code></a> is available for inquiring a type
+of previously created Huffman table according to the values of <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_huffman_table_type_e</span></code></a>.</p>
 </section>
 </section>
 
@@ -879,17 +1092,17 @@ compression table into decompression.</p>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="c_compress_dictionary.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="c_huffman_only.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Compressing with Preset Dictionary</p>
+            <p class="prev-next-title">Huffman-Only Compression/Decompression</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="c_use_indices.html" title="next page">
+    <a class='right-next' id="next-link" href="c_operations.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Creating and Using Indices</p>
+        <p class="prev-next-title">Filter and Other Operations</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

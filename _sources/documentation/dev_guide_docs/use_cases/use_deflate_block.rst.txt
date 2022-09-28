@@ -20,7 +20,7 @@ See the following example:
 
 .. code:: cpp
 
-   #include <operations/compression/deflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/deflate_operation.hpp>
 
    // ...
 
@@ -107,8 +107,8 @@ Deflate Block Usage Examples
 
 .. code:: cpp
 
-   #include <operations/compression/deflate_operation.hpp>
-   #include <results/deflate_block.hpp>
+   #include <qpl/cpp_api/operations/compression/deflate_operation.hpp>
+   #include <qpl/cpp_api/results/deflate_block.hpp>
 
    // ...
 

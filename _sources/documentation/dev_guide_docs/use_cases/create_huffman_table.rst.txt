@@ -29,7 +29,7 @@ deflate histogram:
 
 .. code:: cpp
 
-   #include <qplhl/operations/deflate_operation.hpp>
+   #include <qpl/cpp_api/operations/compression/deflate_operation.hpp>
    // ...
 
    std::vector<uint8_t> source(1000, 5);

@@ -15,7 +15,7 @@ boundaries (for example, extract everything from position 4 to position
 
 .. code:: cpp
 
-   #include <qplhl/operations/extract_operation.hpp>
+   #include <qpl/cpp_api/operations/analytics/extract_operation.hpp>
 
    // ...
    constexpr const uint32_t lower_index = 4;

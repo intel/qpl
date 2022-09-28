@@ -1,0 +1,1300 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Job APIs &#8212; Intel® QPL v0.2.0 Documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Huffman Table APIs" href="c_huffman_table_apis.html" />
+    <link rel="prev" title="Developer Reference for the Low-Level C API" href="../low_level_api.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.2.0 Documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  About
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/license.html">
+   License
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Get Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/system_requirements.html">
+   System Requirements
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/quick_start.html">
+   Quick Start
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/code_examples.html">
+   Code Examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/testing.html">
+   Library Testing
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Guide
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/low_level_developer_guide.html">
+   Low-Level C API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_job_structure.html">
+     Job Structure
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate.html">
+     Deflate Compression/Decompression
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_compression.html">
+       Compression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_decompression.html">
+       Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_dictionary.html">
+       Dictionary
+      </a>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing.html">
+       Indexing
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing_format.html">
+         Format of Indices
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing_usage.html">
+         Creating and Using Indices
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_huffman_only.html">
+     Huffman-Only Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_huffman_tables.html">
+     Huffman Table Objects
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations.html">
+     Filter and Other Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op.html">
+       Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_scan.html">
+         Scan
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_set_membership.html">
+         Set Membership
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_extract.html">
+         Extract
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_select.html">
+         Select
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_rle_burst.html">
+         RLE Burst
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_find_unique.html">
+         Find Unique
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_expand.html">
+         Expand
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_zero_compress.html">
+         Zero Compress
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_crc64.html">
+         CRC-64
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_aggregates.html">
+       Aggregates
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_parsers.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_hw_path_optimization.html">
+       Hardware Path Optimizations
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics.html">
+     Advanced Topics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+    <label for="toctree-checkbox-6">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics_decompress.html">
+       Advanced Decompress Features
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics_filter.html">
+       Advanced Filter Features
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_guide_docs/high_level_developer_guide.html">
+   High-Level C++ API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_library.html">
+     Library Usage Scenarios
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/integrate_with_other_projects.html">
+     Integrating into Other Projects
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/select_execution_path.html">
+     Selecting Execution Path
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/set_parser.html">
+     Setting Parser
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/create_huffman_table.html">
+     Creating Huffman Table
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_deflate_block.html">
+     Building Deflate Block
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_execution_result.html">
+     Using execution_result
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_exceptions.html">
+     Using Exceptions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/use_compression_streams.html">
+     Using Compression Streams
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/build_custom_operation.html">
+     Building Custom Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/chain_operations.html">
+     Chaining Operations
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/use_cases/optimize_hw_path.html">
+     Hardware Path Optimizations
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../low_level_api.html">
+   Low-Level C API
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Job APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_huffman_table_apis.html">
+     Huffman Table APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_enums_and_structures.html">
+     Common Enums and Structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_status_codes.html">
+     Status Codes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../high_level_api.html">
+   High-Level C++ API
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../concepts/index_api_design.html">
+     C++ API Overview
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+    <label for="toctree-checkbox-10">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/abstraction_layers.html">
+       Abstraction Layers
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/compression_styles.html">
+       Compression Styles
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/compression_streams.html">
+       Compression Streams
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/deflate_block.html">
+       Deflate Block
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/exceptions.html">
+       Exceptions
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/asynchronous_execution.html">
+       Asynchronous Execution
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../concepts/execution_result.html">
+       Execution Result
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../operations/index_operations.html">
+     Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/compression_operations/index_compression_operations.html">
+       Compression Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+      <label for="toctree-checkbox-12">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/deflate_operation.html">
+         deflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/inflate_operation.html">
+         inflate_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_compress_operation.html">
+         zero_compress_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/compression_operations/zero_decompress_operation.html">
+         zero_decompress_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/analytics_operations/index_analytics_operations.html">
+       Analytics Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+      <label for="toctree-checkbox-13">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_operation.html">
+         scan_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/scan_range_operation.html">
+         scan_range_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/extract_operation.html">
+         extract_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/analytics_operations/find_unique_operation.html">
+         find_unique_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operations/mask_operations/index_mask_operations.html">
+       Operations with Mask
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+      <label for="toctree-checkbox-14">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/select_operation.html">
+         select_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/expand_operation.html">
+         expand_operation
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operations/mask_operations/set_membership_operation.html">
+         set_membership_operation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../operations/crc_operation.html">
+       crc_operation
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/api_docs/c_ref/c_job_apis.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/api_docs/c_ref/c_job_apis.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../../_sources/documentation/api_docs/c_ref/c_job_apis.rst.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structures">
+   Structures
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Job APIs</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   Functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structures">
+   Structures
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<section id="job-apis">
+<h1>Job APIs<a class="headerlink" href="#job-apis" title="Permalink to this headline">#</a></h1>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">#</a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_get_job_size">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_get_job_size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">job_size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_get_job_size" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Calculates the amount of memory, in bytes, required for the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some kind of dispatching is done at this stage - in absence of hardware, it will require significantly more memory for internal buffers</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_path</strong> – <strong>[in]</strong> type of implementation path to use - <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da2e3caad99307cf9274b8e59f676598eb"><span class="std std-ref">qpl_path_auto</span></a>, <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"><span class="std std-ref">qpl_path_hardware</span></a> or <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da71beb5bbb5562347a9c66017328facc3"><span class="std std-ref">qpl_path_software</span></a> </p></li>
+<li><p><strong>job_size_ptr</strong> – <strong>[out]</strong> a pointer to uint32_t, where the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> size (in bytes) is stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9918f410dc40b6e48614d5287bbc2ddb"><span class="std std-ref">QPL_STS_OK</span></a>;</p></li>
+<li><p><a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a902c4394f786d81896580df45c92a85c"><span class="std std-ref">QPL_STS_PATH_ERR</span></a>. </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_init_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_init_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_init_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Initializes the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure. </p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint32_t</span>  <span class="n">size</span><span class="p">;</span>
+<span class="n">qpl_job</span> <span class="o">*</span><span class="n">qpl_job_ptr</span><span class="p">;</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">qpl_get_job_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">qpl_job_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">qpl_job</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Memory for <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure must be allocated at the application side. Size (in bytes) must be obtained with the <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"><span class="std std-ref">qpl_get_job_size</span></a> function and then type-casted to <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> :</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> is an alias to the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure - must contain additional internal memory buffers for SW path of compression/decompression/etc.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_path</strong> – <strong>[in]</strong> type of implementation path to use - <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da2e3caad99307cf9274b8e59f676598eb"><span class="std std-ref">qpl_path_auto</span></a>, <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"><span class="std std-ref">qpl_path_hardware</span></a> or <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da71beb5bbb5562347a9c66017328facc3"><span class="std std-ref">qpl_path_software</span></a> </p></li>
+<li><p><strong>qpl_job_ptr</strong> – <strong>[inout]</strong> a pointer to the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9918f410dc40b6e48614d5287bbc2ddb"><span class="std std-ref">QPL_STS_OK</span></a>;</p></li>
+<li><p><a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a902c4394f786d81896580df45c92a85c"><span class="std std-ref">QPL_STS_PATH_ERR</span></a>;</p></li>
+<li><p><a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ab08eb6b06f84739715dd8573f4344b31"><span class="std std-ref">QPL_STS_NULL_PTR_ERR</span></a>. </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_submit_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gae3d32f515d4b91f945545619cc3e13a2"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_submit_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_submit_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Parses the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and forms the corresponding processing functions pipeline. In case of software solution, it is an alias for execute_job. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_job_ptr</strong> – <strong>[inout]</strong> Pointer to the initialized <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>One of statuses presented in the <a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"><span class="std std-ref">qpl_status</span></a> </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_check_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga057a6ab9db453fcadaa794c06380e2af"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_check_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_check_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Checks the status of <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> processing. (can be queried periodically to check the status of the qpl_submit_job) </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_job_ptr</strong> – <strong>[inout]</strong> Pointer to the initialized <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>One of statuses presented in the <a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"><span class="std std-ref">qpl_status</span></a> </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_wait_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gaa41f6d8269232031a2bfd6b5ac942153"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_wait_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_wait_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Waits for the end of <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> processing. (waits until the job is completed) </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_job_ptr</strong> – <strong>[inout]</strong> Pointer to the initialized <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>One of statuses presented in the <a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"><span class="std std-ref">qpl_status</span></a> </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_execute_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga22d5ed0082440c9a99f1b46974bbc830"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_execute_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_execute_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Parses the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and forms the corresponding processing functions pipeline. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_job_ptr</strong> – <strong>[inout]</strong> Pointer to the initialized <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>One of statuses presented in the <a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"><span class="std std-ref">qpl_status</span></a> </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_fini_job">
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga26cd84450e8eba60f98c1996d60c2191"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_fini_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_fini_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Completes <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> lifecycle: disconnects from the internal library context, frees internal resources. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpl_job_ptr</strong> – Pointer to the initialized <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ne of statuses presented in the <a class="reference internal" href="c_status_codes.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"><span class="std std-ref">qpl_status</span></a> </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="structures">
+<h2>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">#</a></h2>
+<dl class="c struct">
+<dt class="sig sig-object c" id="c.qpl_job">
+<span class="target" id="de/daa/structqpl__job"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_job</span></span></span><a class="headerlink" href="#c.qpl_job" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Defines the general Intel QPL JOB API structure to perform task configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.next_in_ptr">
+<span class="target" id="de/daa/structqpl__job_1acccd963e49f98db68e48166c64656ac0"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_in_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_in_ptr" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Next input byte </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.available_in">
+<span class="target" id="de/daa/structqpl__job_1af8b0236b823ac2f10e4b034679d1fb35"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_in</span></span></span><a class="headerlink" href="#c.qpl_job.available_in" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of bytes available at next_in_ptr </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.total_in">
+<span class="target" id="de/daa/structqpl__job_1a481367ee6542203e88806807e26e0f46"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_in</span></span></span><a class="headerlink" href="#c.qpl_job.total_in" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Total number of bytes read so far </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.next_out_ptr">
+<span class="target" id="de/daa/structqpl__job_1a22380beadaec60601fd0e22c7651517d"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_out_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_out_ptr" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Next output byte </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.available_out">
+<span class="target" id="de/daa/structqpl__job_1aa29aa915b74d0e367c53754b4921d1d5"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_out</span></span></span><a class="headerlink" href="#c.qpl_job.available_out" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of bytes available at next_out_ptr </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.total_out">
+<span class="target" id="de/daa/structqpl__job_1aaa53511cac21b186b34d303cd7dd242b"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_out</span></span></span><a class="headerlink" href="#c.qpl_job.total_out" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Total number of bytes written so far </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.op">
+<span class="target" id="de/daa/structqpl__job_1a972ff5e5925eaac76020d70425f4b61b"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_operation" title="qpl_operation"><span class="n"><span class="pre">qpl_operation</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">op</span></span></span><a class="headerlink" href="#c.qpl_job.op" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Intel QPL operation </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.flags">
+<span class="target" id="de/daa/structqpl__job_1a773b39d480759f67926cb18ae2219281"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.qpl_job.flags" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Auxiliary operation flags - see below </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.crc">
+<span class="target" id="de/daa/structqpl__job_1a85b7a7f21b6108b69872839e2509cd67"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc</span></span></span><a class="headerlink" href="#c.qpl_job.crc" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>CRC - Input and Output </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.xor_checksum">
+<span class="target" id="de/daa/structqpl__job_1abf1a7eb5af218947b34ec1c2091e5816"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xor_checksum</span></span></span><a class="headerlink" href="#c.qpl_job.xor_checksum" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Simple XOR check sum </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.last_bit_offset">
+<span class="target" id="de/daa/structqpl__job_1abcd5fb5f81981dd4f81037f2aaadb914"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_bit_offset</span></span></span><a class="headerlink" href="#c.qpl_job.last_bit_offset" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Actual bits in the last written byte </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.level">
+<span class="target" id="de/daa/structqpl__job_1a20bf178bd61509e81d2d18015ff5541d"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_compression_levels" title="qpl_compression_levels"><span class="n"><span class="pre">qpl_compression_levels</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">level</span></span></span><a class="headerlink" href="#c.qpl_job.level" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Compression level - default or high </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.statistics_mode">
+<span class="target" id="de/daa/structqpl__job_1a769b355b730a6c6954a3cdc0005280ad"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_statistics_mode" title="qpl_statistics_mode"><span class="n"><span class="pre">qpl_statistics_mode</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">statistics_mode</span></span></span><a class="headerlink" href="#c.qpl_job.statistics_mode" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Represents mode in which deflate should be performed </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.huffman_table">
+<span class="target" id="de/daa/structqpl__job_1a1533cd7e28ad0ff1d7f948071c2a7ef0"></span><a class="reference internal" href="c_huffman_table_apis.html#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">huffman_table</span></span></span><a class="headerlink" href="#c.qpl_job.huffman_table" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Huffman table for compression </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.dictionary">
+<span class="target" id="de/daa/structqpl__job_1ae776bc99c3d241f1f19ae9517c091eb7"></span><span class="n"><span class="pre">qpl_dictionary</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">dictionary</span></span></span><a class="headerlink" href="#c.qpl_job.dictionary" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The dictionary used for compression / decompression </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.mini_block_size">
+<span class="target" id="de/daa/structqpl__job_1ada827f2bab0fcae2563c8a2ab73e60e1"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_mini_block_size" title="qpl_mini_block_size"><span class="n"><span class="pre">qpl_mini_block_size</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mini_block_size</span></span></span><a class="headerlink" href="#c.qpl_job.mini_block_size" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Index block (mini-block) size </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.idx_array">
+<span class="target" id="de/daa/structqpl__job_1ae916f9d9697379c96eb46aa0f0f15edc"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">idx_array</span></span></span><a class="headerlink" href="#c.qpl_job.idx_array" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Index array address </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.idx_max_size">
+<span class="target" id="de/daa/structqpl__job_1a75391931bea1bdf90abbc0e8056646ca"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_max_size</span></span></span><a class="headerlink" href="#c.qpl_job.idx_max_size" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Size of index array </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.idx_num_written">
+<span class="target" id="de/daa/structqpl__job_1a91c4891632450cbbe3ddb3b300c1f9de"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_num_written</span></span></span><a class="headerlink" href="#c.qpl_job.idx_num_written" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of generated indexes </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.decomp_end_processing">
+<span class="target" id="de/daa/structqpl__job_1a7c4e45480d66a8b955446ace0f4f74f7"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">decomp_end_processing</span></span></span><a class="headerlink" href="#c.qpl_job.decomp_end_processing" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Value is qpl_decomp_end_proc </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.ignore_start_bits">
+<span class="target" id="de/daa/structqpl__job_1a4d4996fd40f4e8752fb4994e33e47393"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_start_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_start_bits" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>0-7 - a number of bits to skip at the start of the 1st byte </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.ignore_end_bits">
+<span class="target" id="de/daa/structqpl__job_1a2d3ed143796e72cb00f1b83155043ae5"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_end_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_end_bits" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>0-7 - a number of bits to ignore at the end of the last byte </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.crc64_poly">
+<span class="target" id="de/daa/structqpl__job_1a0d5679542c1d738bfab30f7864feea09"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64_poly</span></span></span><a class="headerlink" href="#c.qpl_job.crc64_poly" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Polynomial used for the crc64 operation </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.crc64">
+<span class="target" id="de/daa/structqpl__job_1a85195c44389a7458207ed266f51862de"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64</span></span></span><a class="headerlink" href="#c.qpl_job.crc64" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Initial and final CRC value for the crc64 operation </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.next_src2_ptr">
+<span class="target" id="de/daa/structqpl__job_1a1f7f49e65df45769bb5fb26e239c07eb"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_src2_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_src2_ptr" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Pointer to source-2 data. Updated value is returned </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.available_src2">
+<span class="target" id="de/daa/structqpl__job_1a04c9dbf68a0ae20158905a5facafaa99"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_src2</span></span></span><a class="headerlink" href="#c.qpl_job.available_src2" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of valid bytes of source-2 data </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.src1_bit_width">
+<span class="target" id="de/daa/structqpl__job_1a4e4bcd7c8f6b287a0c75afdce9b0094c"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src1_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src1_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Source-1 bit width for Analytics. Valid values are 1-32 </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.src2_bit_width">
+<span class="target" id="de/daa/structqpl__job_1a4a7226132740b2c0270e16b20bb49389"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src2_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src2_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Source-2 bit width for Analytics. Valid values are 1-32 </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.num_input_elements">
+<span class="target" id="de/daa/structqpl__job_1a79e444a03163e9ee2b715604d495429e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_input_elements</span></span></span><a class="headerlink" href="#c.qpl_job.num_input_elements" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of input elements for Analytics </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.out_bit_width">
+<span class="target" id="de/daa/structqpl__job_1a4e2bbc8973ec8d85f77584912bb5511f"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_out_format" title="qpl_out_format"><span class="n"><span class="pre">qpl_out_format</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">out_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.out_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Output bit width enumeration. Valid values are nominal, 8-, 16-, or 32-bits </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.param_low">
+<span class="target" id="de/daa/structqpl__job_1a51d61f73c8614a2172ae22f620ba995a"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_low</span></span></span><a class="headerlink" href="#c.qpl_job.param_low" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Low parameter for operations extract or scan, or a number of low-order bits to ignore for set_membership or find_unique </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.param_high">
+<span class="target" id="de/daa/structqpl__job_1aad5ed181b5446b683a0bedbff07ad7cd"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_high</span></span></span><a class="headerlink" href="#c.qpl_job.param_high" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>High parameter for operations extract or scan, or a number of high-order bits to ignore for set_membership or find_unique </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.drop_initial_bytes">
+<span class="target" id="de/daa/structqpl__job_1aed94df4b8f6320c5a6b035b2e05d9595"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drop_initial_bytes</span></span></span><a class="headerlink" href="#c.qpl_job.drop_initial_bytes" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number of initial bytes to be dropped at the start of the Analytics portion of the pipeline </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.initial_output_index">
+<span class="target" id="de/daa/structqpl__job_1abab80084db3420c397c671f04ac3c26e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_output_index</span></span></span><a class="headerlink" href="#c.qpl_job.initial_output_index" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The index of initial output element from Analytics. This affects modified bit-vector output and the bit-vector aggregate values </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.parser">
+<span class="target" id="de/daa/structqpl__job_1aba262bb6aef37e8a605b6b57390d0ba0"></span><a class="reference internal" href="c_enums_and_structures.html#c.qpl_parser" title="qpl_parser"><span class="n"><span class="pre">qpl_parser</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parser</span></span></span><a class="headerlink" href="#c.qpl_job.parser" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Enumeration of what parser to use to parse Analytics source-1 data </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.first_index_min_value">
+<span class="target" id="de/daa/structqpl__job_1a60288f05cb318ce280e37d4f3522c3c3"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">first_index_min_value</span></span></span><a class="headerlink" href="#c.qpl_job.first_index_min_value" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Output aggregate value - index of the first min value </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.last_index_max_value">
+<span class="target" id="de/daa/structqpl__job_1a4b04acbfb0e8753725b6072e0fa2ca96"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_index_max_value</span></span></span><a class="headerlink" href="#c.qpl_job.last_index_max_value" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Output aggregate value - index of the last max value </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.sum_value">
+<span class="target" id="de/daa/structqpl__job_1a53869854a327e3fafda195bad81c35eb"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_value</span></span></span><a class="headerlink" href="#c.qpl_job.sum_value" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Output aggregate value - sum of all values </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.numa_id">
+<span class="target" id="de/daa/structqpl__job_1ad19f296ffa203f7933686f92a0345bad"></span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numa_id</span></span></span><a class="headerlink" href="#c.qpl_job.numa_id" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>ID of the NUMA. Set it to -1 for auto detecting </p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.qpl_job.data_ptr">
+<span class="target" id="de/daa/structqpl__job_1a81371cf931166e1f3eb1c39c4fe262bc"></span><span class="n"><span class="pre">qpl_data</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.data_ptr" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal memory buffers &amp; structures for all Intel QPL operations </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../low_level_api.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Developer Reference for the Low-Level C API</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="c_huffman_table_apis.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Huffman Table APIs</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Intel<br/>
+  
+      &copy; Copyright 2022, Intel.<br/>
+    <div class="extra_footer">
+      <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
