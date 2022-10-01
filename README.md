@@ -20,7 +20,7 @@ such as big-data and in-memory analytic databases.
 
 To set up and build the Intel QPL library, follow instructions below:
 
-1. Make sure your system meets all [System Requirements](https://intel.github.io/qpl/documentation/introduction_docs/system_requirements.html).
+1. Make sure your system meets all [System Requirements](https://intel.github.io/qpl/documentation/get_started_docs/system_requirements.html).
 2. Follow instructions to build the library. See [Installation](https://intel.github.io/qpl/documentation/get_started_docs/installation.html) for more details.
 
 
@@ -34,7 +34,7 @@ To report a security issue, refer to the [security documentation](SECURITY.md).
 
 **Offline Documentation**
 
-To build Intel QPL offline documentation, see the [Documentation Build Prerequisites](https://intel.github.io/qpl/documentation/get_started_docs/installation.html#documentation-build-prerequisites) chapter.
+To build Intel QPL offline documentation, see the [Documentation Build Prerequisites](https://intel.github.io/qpl/documentation/get_started_docs/installation.html#building-the-documentation) chapter.
 
 
 ## Testing
@@ -47,7 +47,7 @@ See [Contributing document](CONTRIBUTING.md) for details about contribution proc
 
 ## How to Report Issues
 
-See [Issue Reporting](https://intel.github.io/qpl/documentation/introduction_docs/issue_reporting.html) chapter for details about issue reporting process.
+See [Issue Reporting](https://intel.github.io/qpl/documentation/contributing_docs/issue_reporting.html) chapter for details about issue reporting process.
 
 ## License
 
