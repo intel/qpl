@@ -14,12 +14,14 @@
 #include <algorithm>
 
 #include "../../../common/operation_test.hpp"
+#include "../../../utils/common/compare_huffman_table.hpp"
 #include "ta_ll_common.hpp"
 #include "random_generator.h"
 
 #include "qpl/c_api/huffman_table.h"
+#include "qpl/c_api/serialization.h"
 
-#define SKIP_TC_TEST(expr, message) if (expr) { std::cout << message << std::endl; return; }
+#define SKIP_TC_TEST(expr, message) if (expr) { std::cout << "skipped test case: " << message << std::endl; return; }
 
 namespace qpl::test {
 
@@ -74,17 +76,22 @@ public:
         constexpr std::array<compression_algorithm_e, 3> algorithms = {compression_algorithm_deflate,
                                                                        compression_algorithm_canned,
                                                                        compression_algorithm_huffman_only};
+        constexpr std::array<qpl_serialization_format_e, 2> s_types = {serialization_compact,
+                                                                       serialization_raw};
 
         for (auto &algorithm: algorithms) {
             for (auto &type_c: c_types) {
                 for (auto &type_d: d_types) {
-                    huffman_table_test_case_t test_case{};
+                    for (auto &type_s: s_types) {
+                        huffman_table_test_case_t test_case{};
 
-                    test_case.algorithm = algorithm;
-                    test_case.c_type    = type_c;
-                    test_case.d_type    = type_d;
+                        test_case.algorithm      = algorithm;
+                        test_case.c_type         = type_c;
+                        test_case.d_type         = type_d;
+                        test_case.options.format = type_s; // no serialization flags are currently supported
 
-                    AddNewTestCase(test_case);
+                        AddNewTestCase(test_case);
+                    }
                 }
             }
         }
@@ -114,6 +121,12 @@ protected:
 
     template <compression_algorithm_e algorithm>
     testing::AssertionResult run_init_tables();
+
+    template <compression_algorithm_e algorithm>
+    testing::AssertionResult run_serialize_table(qpl_huffman_table_t &huffman_table, qpl_serialization_format_e format);
+
+    template <compression_algorithm_e algorithm>
+    testing::AssertionResult run_serialize_tables(qpl_serialization_format_e format);
 
     template <compression_algorithm_e algorithm>
     testing::AssertionResult run_init_table_with_triplets(qpl_huffman_table_t &huffman_table);
@@ -199,6 +212,68 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_init_table(qpl_huffman
 }
 
 template <compression_algorithm_e algorithm>
+testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_table(qpl_huffman_table_t &huffman_table,
+                                                                          qpl_serialization_format_e format) {
+    auto status = QPL_STS_OK;
+
+    serialization_options_t options;
+    options.format = format;
+
+    size_t serialized_size = 0;
+
+    status = qpl_huffman_table_get_serialized_size(huffman_table,
+                                                   options,
+                                                   &serialized_size);
+    if (status != QPL_STS_OK)
+        return testing::AssertionFailure() << "Can't get serialized size. Status = " << status;
+
+    auto buffer = std::make_unique<uint8_t[]>(serialized_size + 1);
+
+    uint8_t number_to_check = 42;
+    buffer.get()[serialized_size] = number_to_check;
+
+    status = qpl_huffman_table_serialize(huffman_table,
+                                         buffer.get(),
+                                         serialized_size,
+                                         options);
+    if (status != QPL_STS_OK)
+        return testing::AssertionFailure() << "Can't serialize table. Status = " << status;
+
+    // performing simple check that we don't overwrite buffer
+    if (buffer.get()[serialized_size] != number_to_check) {
+        return testing::AssertionFailure() << "Buffer was overwritten during serialization.";
+    }
+
+    qpl_huffman_table_t other_huffman_table;
+
+    status = qpl_huffman_table_deserialize(buffer.get(),
+                                           serialized_size,
+                                           DEFAULT_ALLOCATOR_C,
+                                           &other_huffman_table);
+    if (status != QPL_STS_OK)
+        return testing::AssertionFailure() << "Can't deserialize table. Status = " << status;
+
+    bool are_tables_equal = false;
+
+    status = qpl_huffman_table_compare(huffman_table, other_huffman_table, &are_tables_equal);
+    if (status != QPL_STS_OK) {
+        qpl_huffman_table_destroy(other_huffman_table);
+
+        return testing::AssertionFailure() << "Error during Huffman tables comparison. Status = " << status;
+    }
+
+    status = qpl_huffman_table_destroy(other_huffman_table);
+    if (status != QPL_STS_OK) {
+        return testing::AssertionFailure() << "Can't destroy table. Status = " << status;
+    }
+
+    if (!are_tables_equal)
+        return testing::AssertionFailure() << "Tables are not equal. Status = " << status;
+
+    return testing::AssertionSuccess();
+}
+
+template <compression_algorithm_e algorithm>
 testing::AssertionResult HuffmanTableAlgorithmicTest::run_init_tables() {
     if (run_init_table<algorithm>(m_c_huffman_table) != testing::AssertionSuccess()) {
         return testing::AssertionFailure() << "Can't init Compression table";
@@ -210,6 +285,20 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_init_tables() {
 
     return testing::AssertionSuccess();
 }
+
+template <compression_algorithm_e algorithm>
+testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_tables(qpl_serialization_format_e format) {
+    if (run_serialize_table<algorithm>(m_c_huffman_table, format) != testing::AssertionSuccess()) {
+        return testing::AssertionFailure() << "Can't serialize Compression table";
+    }
+
+    if (run_serialize_table<algorithm>(m_d_huffman_table, format) != testing::AssertionSuccess()) {
+        return testing::AssertionFailure() << "Can't serialize Decompression table";
+    }
+
+    return testing::AssertionSuccess();
+}
+
 
 template <compression_algorithm_e algorithm>
 testing::AssertionResult HuffmanTableAlgorithmicTest::run_init_table_with_triplets(qpl_huffman_table_t &huffman_table) {
@@ -326,66 +415,6 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_decompression() {
     return testing::AssertionSuccess();
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, deflate_table_create, HuffmanTableAlgorithmicTest) {
-    qpl_huffman_table_t huffman_table;
-
-    // Default allocator used
-    auto status = qpl_deflate_huffman_table_create(combined_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-
-    // null pointers used for allocator
-    status = qpl_deflate_huffman_table_create(combined_table_type, GetExecutionPath(), {nullptr, nullptr}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-
-    // null allocator used
-    status = qpl_deflate_huffman_table_create(combined_table_type, GetExecutionPath(), {nullptr, free}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    // null deallocator used
-    status = qpl_deflate_huffman_table_create(combined_table_type, GetExecutionPath(), {malloc, nullptr}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, huffman_only_table_create, HuffmanTableAlgorithmicTest) {
-    qpl_huffman_table_t huffman_table;
-
-    // Default allocator used
-    auto status = qpl_huffman_only_table_create(combined_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-
-    // null pointers used for allocator
-    status = qpl_huffman_only_table_create(combined_table_type, GetExecutionPath(), {nullptr, nullptr}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-
-    // null allocator used
-    status = qpl_huffman_only_table_create(combined_table_type, GetExecutionPath(), {nullptr, free}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    // null deallocator used
-    status = qpl_huffman_only_table_create(combined_table_type, GetExecutionPath(), {malloc, nullptr}, &huffman_table);
-
-    EXPECT_FALSE(status) << "default allocator used";
-
-    qpl_huffman_table_destroy(huffman_table);
-}
-
 // Initialization of Huffman table with histogram
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, HuffmanTableAlgorithmicTest) {
     auto test_case = GetTestCase();
@@ -399,10 +428,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, Huffma
                  test_case.algorithm == compression_algorithm_huffman_only,
                  "initialization from histogram is not supported for combined table type currently with huffman only");
 
+    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+                 "serialization only supports raw format");
+
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
             ASSERT_TRUE(run_create_tables<compression_algorithm_deflate>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_tables<compression_algorithm_deflate>());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_deflate>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_deflate>());
             ASSERT_TRUE(run_decompression<compression_algorithm_deflate>());
             break;
@@ -415,6 +448,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, Huffma
         case compression_algorithm_canned:
             ASSERT_TRUE(run_create_tables<compression_algorithm_canned>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_tables<compression_algorithm_canned>());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_canned>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_canned>());
             ASSERT_TRUE(run_decompression<compression_algorithm_canned>());
             break;
@@ -441,10 +475,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, DISABLED_init_with_triplet,
     SKIP_TC_TEST(test_case.algorithm == compression_algorithm_canned,
                  "initialization with triplets is not supported for canned mode");
 
+    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+                 "serialization only supports raw format");
+
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
             ASSERT_TRUE(run_create_tables<compression_algorithm_deflate>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_tables_with_triplets<compression_algorithm_deflate>());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_deflate>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_deflate>());
             ASSERT_TRUE(run_decompression<compression_algorithm_deflate>());
             break;
@@ -457,6 +495,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, DISABLED_init_with_triplet,
         case compression_algorithm_canned:
             ASSERT_TRUE(run_create_tables<compression_algorithm_canned>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_tables_with_triplets<compression_algorithm_canned>());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_canned>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_canned>());
             ASSERT_TRUE(run_decompression<compression_algorithm_canned>());
             break;
@@ -486,11 +525,15 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
     SKIP_TC_TEST(test_case.d_type == combined_table_type,
                  "initialization of combined table type from other table is not supported currently");
 
+    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+                 "serialization only supports raw format");
+
     switch (test_case.algorithm) {
         case compression_algorithm_deflate:
             ASSERT_TRUE(run_create_tables<compression_algorithm_deflate>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_table<compression_algorithm_deflate>(m_c_huffman_table));
             ASSERT_TRUE(run_init_d_table_with_c_table());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_deflate>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_deflate>());
             ASSERT_TRUE(run_decompression<compression_algorithm_deflate>());
             break;
@@ -505,6 +548,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
             ASSERT_TRUE(run_create_tables<compression_algorithm_canned>(test_case.c_type, test_case.d_type));
             ASSERT_TRUE(run_init_table<compression_algorithm_canned>(m_c_huffman_table));
             ASSERT_TRUE(run_init_d_table_with_c_table());
+            ASSERT_TRUE(run_serialize_tables<compression_algorithm_canned>(test_case.options.format));
             ASSERT_TRUE(run_compression<compression_algorithm_canned>());
             ASSERT_TRUE(run_decompression<compression_algorithm_canned>());
             break;

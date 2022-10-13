@@ -18,7 +18,6 @@
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "util/util.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp" // qpl::ml::compression qpl_triplet
-#include <cstring>
 
 namespace qpl::ml::compression {
 
@@ -277,7 +276,6 @@ qpl_ml_status huffman_table_t<algorithm>::init_with_stream(const uint8_t *const 
         size_t offset = 0;
 
         if (m_c_huffman_table) {
-
             auto c_table = reinterpret_cast<qpl_compression_huffman_table*>(m_c_huffman_table);
 
             auto status = compression::huffman_table_init_with_stream(*c_table, buffer, m_meta.flags);
@@ -322,7 +320,6 @@ qpl_ml_status huffman_table_t<algorithm>::write_to_stream(uint8_t *buffer) const
         size_t offset = 0;
 
         if (m_c_huffman_table) {
-
             auto c_table = reinterpret_cast<qpl_compression_huffman_table*>(m_c_huffman_table);
 
             auto status = compression::huffman_table_write_to_stream(*c_table, buffer, m_meta.flags);
@@ -405,6 +402,29 @@ bool huffman_table_t<compression_algorithm_e::deflate>::is_initialized() const n
 
 template
 bool huffman_table_t<compression_algorithm_e::huffman_only>::is_initialized() const noexcept;
+
+template<>
+bool huffman_table_t<compression_algorithm_e::deflate>::is_equal(const huffman_table_t<compression_algorithm_e::deflate> &other) const noexcept {
+
+    bool c_status = true;
+    if (m_c_huffman_table) {
+
+        auto c_table = reinterpret_cast<qpl_compression_huffman_table*>(m_c_huffman_table);
+        auto other_c_table = reinterpret_cast<qpl_compression_huffman_table*>(other.m_c_huffman_table);
+
+        c_status = compression::is_equal(*c_table, *other_c_table);
+    }
+
+    bool d_status = true;
+    if (m_d_huffman_table) {
+        auto d_table = reinterpret_cast<qpl_decompression_huffman_table*>(m_d_huffman_table);
+        auto other_d_table = reinterpret_cast<qpl_decompression_huffman_table*>(other.m_d_huffman_table);
+
+        d_status = compression::is_equal(*d_table, *other_d_table);
+    }
+
+    return (c_status && d_status);
+}
 
 template <compression_algorithm_e algorithm>
 uint8_t *huffman_table_t<algorithm>::get_lookup_table_buffer_ptr() const noexcept {

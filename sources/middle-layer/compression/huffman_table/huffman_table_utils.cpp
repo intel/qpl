@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <cstring> // memcmp
 
 #include "common/bit_reverse.hpp"
 #include "common/allocation_buffer_t.hpp"
@@ -1141,6 +1142,79 @@ auto huffman_table_write_to_stream(const qpl_decompression_huffman_table &table,
     return details::write_decompression_table_to_stream(buffer, decompression_table);
 }
 
+
+// --- Functions to compare two (de)compression tables --- //
+
+template <>
+bool is_equal(qpl_compression_huffman_table &table,
+              qpl_compression_huffman_table &other_table) noexcept {
+
+    auto sw_table    = reinterpret_cast<uint8_t *>(&table.sw_compression_table_data);
+    auto isal_table  = reinterpret_cast<uint8_t *>(&table.isal_compression_table_data);
+    auto hw_table    = reinterpret_cast<uint8_t *>(&table.hw_compression_table_data);
+    auto deflate_buf = reinterpret_cast<uint8_t *>(&table.deflate_header_buffer);
+
+    auto other_sw_table    = reinterpret_cast<uint8_t *>(&other_table.sw_compression_table_data);
+    auto other_isal_table  = reinterpret_cast<uint8_t *>(&other_table.isal_compression_table_data);
+    auto other_hw_table    = reinterpret_cast<uint8_t *>(&other_table.hw_compression_table_data);
+    auto other_deflate_buf = reinterpret_cast<uint8_t *>(&other_table.deflate_header_buffer);
+
+    auto sw_table_diff    = std::memcmp(sw_table,    other_sw_table,    sizeof(qplc_huffman_table_default_format));
+    auto isal_table_diff  = std::memcmp(isal_table,  other_isal_table,  sizeof(isal_hufftables));
+    auto hw_table_diff    = std::memcmp(hw_table,    other_hw_table,    sizeof(qpl::ml::compression::hw_compression_huffman_table));
+    auto deflate_buf_diff = std::memcmp(deflate_buf, other_deflate_buf, sizeof(qpl::ml::compression::deflate_header));
+
+    return (sw_table_diff == 0) && (isal_table_diff == 0) && (hw_table_diff == 0) && (deflate_buf_diff == 0);
+}
+
+template <>
+bool is_equal(qpl_decompression_huffman_table &table,
+              qpl_decompression_huffman_table &other_table) noexcept {
+
+    auto sw_table    = reinterpret_cast<uint8_t *>(&table.sw_flattened_table);
+    auto hw_table    = reinterpret_cast<uint8_t *>(&table.hw_decompression_state);
+    auto deflate_buf = reinterpret_cast<uint8_t *>(&table.deflate_header_buffer);
+    auto lookup_buf  = reinterpret_cast<uint8_t *>(&table.lookup_table_buffer);
+
+    auto other_sw_table    = reinterpret_cast<uint8_t *>(&other_table.sw_flattened_table);
+    auto other_hw_table    = reinterpret_cast<uint8_t *>(&other_table.hw_decompression_state);
+    auto other_deflate_buf = reinterpret_cast<uint8_t *>(&other_table.deflate_header_buffer);
+    auto other_lookup_buf  = reinterpret_cast<uint8_t *>(&other_table.lookup_table_buffer);
+
+    auto sw_table_diff    = std::memcmp(sw_table,    other_sw_table,    sizeof(qplc_huffman_table_flat_format));
+    auto deflate_buf_diff = std::memcmp(deflate_buf, other_deflate_buf, sizeof(qpl::ml::compression::deflate_header));
+    auto lookup_buf_diff  = std::memcmp(lookup_buf,  other_lookup_buf,  sizeof(qpl::ml::compression::canned_table));
+
+    // TODO: there is an issue in HW representation that doesn't affect the actual data,
+    // but some garbage appears even though we do memset at the beginning.
+    // Because of that we compare only data that is being used
+    // and not the whole buffer (that includes also extra space for padding/alignment/etc).
+    // To access the data we "convert" the qpl_decompression_huffman_table to the representation
+    // that is being used internally - decompression_huffman_table.
+
+    /*
+    // This doesn't work currently, see TODO above
+    auto hw_table_diff = std::memcmp(hw_table, other_hw_table, sizeof(qpl::ml::compression::hw_decompression_state));
+    */
+
+    decompression_huffman_table decompression_table(sw_table,
+                                                    hw_table,
+                                                    deflate_buf,
+                                                    lookup_buf);
+
+    decompression_huffman_table other_decompression_table(other_sw_table,
+                                                          other_hw_table,
+                                                          other_deflate_buf,
+                                                          other_lookup_buf);
+
+    hw_decompression_state*       hw = decompression_table.get_hw_decompression_state();
+    hw_decompression_state* other_hw = other_decompression_table.get_hw_decompression_state();
+
+    // Comparing actual data stored in hw state here
+    auto hw_table_diff = std::memcmp(hw, other_hw, HW_AECS_ANALYTICS_SIZE);
+
+    return (sw_table_diff == 0) && (hw_table_diff == 0) && (deflate_buf_diff == 0) && (lookup_buf_diff == 0);
+}
 
 };
 

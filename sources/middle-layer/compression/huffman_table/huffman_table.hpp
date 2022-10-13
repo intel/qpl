@@ -70,6 +70,8 @@ public:
     [[nodiscard]] qpl_ml_status init_with_stream(const uint8_t *const buffer) noexcept;
     [[nodiscard]] qpl_ml_status write_to_stream(uint8_t *const buffer) const noexcept;
 
+    [[nodiscard]] bool is_equal(const huffman_table_t<algorithm> &other) const noexcept;
+
     [[nodiscard]] bool is_initialized() const noexcept;
 
     template <execution_path_t execution_path>

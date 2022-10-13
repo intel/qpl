@@ -183,6 +183,9 @@ auto huffman_table_write_to_stream(const table_t &table,
                                    uint8_t *const buffer,
                                    const uint32_t representation_flags) noexcept -> qpl_ml_status;
 
+template<class first_table_t, class second_table_t>
+bool is_equal(first_table_t &first_table, second_table_t &second_table) noexcept;
+
 namespace details {
 
 static inline auto get_path_flags(execution_path_t path) {

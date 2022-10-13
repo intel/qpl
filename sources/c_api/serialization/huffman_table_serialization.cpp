@@ -99,7 +99,7 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
         return QPL_STS_SIZE_ERR;
 
     if (options.format != serialization_raw)
-        return QPL_STS_SERIALIZATION_FORMAT_ERROR;
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
     auto meta_ptr = reinterpret_cast<huffman_table_meta_t*>(table);
     if (meta_ptr->algorithm != compression_algorithm_e::deflate)
@@ -190,13 +190,12 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
     if (meta_ptr->algorithm == compression_algorithm_e::deflate) {
         auto table_impl = reinterpret_cast<huffman_table_t<compression_algorithm_e::deflate>*>(*table_ptr);
 
-        return static_cast<qpl_status>(table_impl->init_with_stream(stream_buffer + offset));
+        status = static_cast<qpl_status>(table_impl->init_with_stream(stream_buffer + offset));
     }
-
     if (meta_ptr->algorithm == compression_algorithm_e::huffman_only) {
         auto table_impl = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(*table_ptr);
 
-        return static_cast<qpl_status>(table_impl->init_with_stream(stream_buffer + offset));
+        status = static_cast<qpl_status>(table_impl->init_with_stream(stream_buffer + offset));
     }
 
     std::destroy_at(meta_ptr);

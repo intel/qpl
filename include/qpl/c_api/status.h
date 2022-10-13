@@ -86,7 +86,7 @@ typedef enum {
 
 // <-- Serialization
     QPL_STS_SERIALIZATION_FORMAT_ERROR    = QPL_PARAMETER_ERROR(40u), /**< Unsupported Serialization format */
-    QPL_STS_SERIALIZATION_CORRUPTED_DUMP  = QPL_PARAMETER_ERROR(41u), /**< Unsupported Serialization format */
+    QPL_STS_SERIALIZATION_CORRUPTED_DUMP  = QPL_PARAMETER_ERROR(41u), /**< Deserialization can't re-create the table from the input stream */
 
 /* --- Processing Errors --- */
     QPL_STS_INVALID_DEFLATE_DATA_ERR  = QPL_SERVICE_LOGIC_ERROR(0u), /**< Currently unused */
