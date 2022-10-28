@@ -15,7 +15,11 @@
 #include "dispatcher/numa.hpp"
 
 
+#ifdef DWQ_SUPPORT
+extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id, void **sem) {
+#else
 extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id) {
+#endif
     auto result = HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     auto enqueue_failed = false;
 
@@ -42,7 +46,11 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
 
         hw_iaa_descriptor_hint_cpu_cache_as_destination((hw_descriptor *) desc_ptr, device.get_cache_write_available());
 
+#ifdef DWQ_SUPPORT
+        enqueue_failed = device.enqueue_descriptor(desc_ptr, sem);
+#else
         enqueue_failed = device.enqueue_descriptor(desc_ptr);
+#endif
         if (enqueue_failed) {
             result = HW_ACCELERATOR_WQ_IS_BUSY;
         } else {
@@ -63,5 +71,9 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
 extern "C" hw_accelerator_status hw_accelerator_submit_descriptor(hw_accelerator_context *const UNREFERENCED_PARAMETER(accel_context_ptr),
                                                                   const hw_descriptor *const descriptor_ptr,
                                                                   hw_accelerator_submit_options *const submit_options) {
+#ifdef DWQ_SUPPORT
+    return hw_enqueue_descriptor((void *) descriptor_ptr, submit_options->numa_id, NULL);
+#else
     return hw_enqueue_descriptor((void *) descriptor_ptr, submit_options->numa_id);
+#endif
 }

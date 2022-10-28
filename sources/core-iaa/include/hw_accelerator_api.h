@@ -64,8 +64,11 @@ HW_PATH_GENERAL_API(hw_accelerator_status, accelerator_submit_descriptor, (hw_ac
  * @return 0 in case of success execution, or non-zero value, otherwise
  *
  */
+#ifdef DWQ_SUPPORT
+hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id, void **sem);
+#else
 hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id);
-
+#endif
 #ifdef __cplusplus
 }
 #endif

@@ -87,6 +87,10 @@ HW_PATH_GENERAL_API (unsigned int,  device_get_version, (accfg_dev *device));
 
 HW_PATH_GENERAL_API (int,  work_queue_get_block_on_fault, (accfg_wq *wq));
 
+#ifdef DWQ_SUPPORT
+HW_PATH_GENERAL_API (uint64_t,  work_queue_get_size, (accfg_wq *wq));
+#endif
+
 #ifdef __cplusplus
 }
 #endif

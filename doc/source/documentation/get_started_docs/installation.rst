@@ -106,17 +106,17 @@ Installed Package Structure
 ::
 
      ┌── bin
-     ├── include  
-     │   └── qpl  
+     ├── include
+     │   └── qpl
      |       ├── c_api
-     │       └── cpp_api    
-     │           ├── chaining  
+     │       └── cpp_api
+     │           ├── chaining
      │           ├── common
-     │           ├── operations                
-     │           ├── results    
-     │           └── util    
+     │           ├── operations
+     │           ├── results
+     │           └── util
      └── lib64
-         └── cmake 
+         └── cmake
 
 
 .. _building_library_build_options_reference_link:
@@ -139,6 +139,20 @@ Intel QPL supports the following build options:
    The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
    applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
 
+-  ``-DDWQ_SUPPORT=[ON|OFF]`` - Enables Dedicated Work Queues (DWQ) on the accelerator (``OFF`` by default).
+
+.. warning::
+   Intel QPL currently offers only limited DWQ support. Review the following limitations before building with ``-DDWQ_SUPPORT=ON``:
+
+   1. Currently there's no guarantee that DWQ performance is the same as Shared Work Queues (SWQ).
+
+   2. DWQ supports only Low-Level C API (see :ref:`library_apis_reference_link`).
+
+   3. DWQ supports only synchronous execution. Asynchronous execution (see :ref:`async_execution_reference_link`) is not supported.
+
+   4. DWQ has an extra dependency on the POSIX thread (pthread) library (see :ref:`system_requirements_hw_path_reference_link`).
+
+   5. In one application, users can either enable DWQ or use the default SWQ, but not both.
 
 Building the Documentation
 **************************

@@ -51,6 +51,10 @@ typedef unsigned int            (*accfg_device_get_version_ptr)(accfg_dev *devic
 
 typedef int                     (*accfg_wq_get_block_on_fault_ptr)(accfg_wq *wq);
 
+#ifdef DWQ_SUPPORT
+typedef unsigned int            (*accfg_wq_get_size_ptr)(accfg_wq *wq);
+#endif
+
 /**
  * @brief Table with functions required from accelerator configuration library
  */
@@ -73,6 +77,9 @@ static qpl_desc_t functions_table[] = {
         {NULL, "accfg_wq_get_devname"},
         {NULL, "accfg_device_get_version"},
         {NULL, "accfg_wq_get_block_on_fault"},
+#ifdef DWQ_SUPPORT
+        {NULL, "accfg_wq_get_size"},
+#endif
         // Terminate list/init
         {NULL, NULL}
 };
@@ -184,6 +191,12 @@ unsigned int hw_device_get_version(accfg_dev *device) {
 int hw_work_queue_get_block_on_fault(accfg_wq *wq) {
     return ((accfg_wq_get_block_on_fault_ptr) functions_table[17].function)(wq);
 }
+
+#ifdef DWQ_SUPPORT
+uint64_t hw_work_queue_get_size(accfg_wq *wq) {
+    return ((accfg_wq_get_size_ptr) functions_table[18].function)(wq);
+}
+#endif
 
 /* ------ Internal functions implementation ------ */
 

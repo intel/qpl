@@ -33,7 +33,11 @@ public:
 
     void fill_hw_context(hw_accelerator_context *hw_context_ptr) const noexcept;
 
+#ifdef DWQ_SUPPORT
+    [[nodiscard]] auto enqueue_descriptor(void *desc_ptr, void **sem) const noexcept -> bool;
+#else
     [[nodiscard]] auto enqueue_descriptor(void *desc_ptr) const noexcept -> bool;
+#endif
 
     [[nodiscard]] auto initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status;
 
