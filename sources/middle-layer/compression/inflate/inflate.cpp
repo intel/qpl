@@ -66,9 +66,12 @@ auto inflate(inflate_state<path> &decompression_state,
 
     decompression_state.in_progress();
 
-    if (decompression_state.is_final() && (decompression_state.get_state()->tmp_out_processed !=
-                                           decompression_state.get_state()->tmp_out_valid)) {
-        result.status_code_ = status_list::more_output_needed;
+    // Prevent overwrite of inflate errors by buffer overflow errors
+    if (result.status_code_ == status_list::ok){
+        if (decompression_state.is_final() && (decompression_state.get_state()->tmp_out_processed != 
+                                               decompression_state.get_state()->tmp_out_valid)) {
+            result.status_code_ = status_list::more_output_needed;
+        }
     }
 
     return result;
@@ -128,7 +131,8 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
     }
 
     auto flush_status = utility::flush_tmp_out_buffer(*inflate_state_ptr);
-    if (status_list::ok != flush_status) {
+    /* Prevent overwrite of inflate pass errors by flush_tmp_out_buffer errors */
+    if (status_list::ok != flush_status && status_list::ok == result.status_code_) { 
         result.status_code_ = flush_status;
     }
 
