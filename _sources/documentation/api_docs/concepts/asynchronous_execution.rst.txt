@@ -4,6 +4,8 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
+.. _async_execution_reference_link:
+
 Asynchronous Execution
 ######################
 

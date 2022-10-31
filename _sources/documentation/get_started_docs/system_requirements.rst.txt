@@ -23,21 +23,24 @@ Software Path requirements
   (Intel® microarchitecture code name Skylake (Server) processor or higher).
 
 
+.. _system_requirements_hw_path_reference_link:
+
 Hardware Path Requirements
 **************************
 
 - **Linux* OS**
 
-  - The accelerator configuration library ``libaccel-config.so`` 
-    (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`) 
+  - The accelerator configuration library ``libaccel-config.so``
+    (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
     should be placed in ``/usr/lib64/``.
-- Linux kernel version 5.18 or later. Public versions of Linux 
+- Linux kernel version 5.18 or later. Public versions of Linux
   kernels can be found here: https://www.kernel.org.
 - Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
-- Sudo privileges are required to configure accelerators 
-  (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`) 
+- Sudo privileges are required to configure accelerators
+  (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
   and run hardware path applications.
-
+- The POSIX thread (pthread) library is required if the library is built with option ``-DDWQ_SUPPORT=ON``
+  (see :ref:`building_library_build_options_reference_link`).
 
 .. _accelerator_configuration_reference_link:
 
@@ -54,7 +57,7 @@ Refer to `accel-config releases <https://github.com/intel/idxd-config/releases>`
 latest version.
 
 .. note::
-  
+
   By default, Intel® QPL uses ``Block On Fault`` feature
   required to handle page faults on the Intel® IAA side. The
   ``block on fault`` flag must be set with ``accel-config`` for each

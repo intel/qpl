@@ -1065,7 +1065,9 @@ responsibility of a user.</p>
 <section id="library-limitations">
 <span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
-<li><p>Library does not work with Dedicated Work Queues on the accelerator, but uses Shared Work Queues only.</p></li>
+<li><p>By default, the library does not work with Dedicated Work Queues (DWQ) on the accelerator, but uses Shared Work Queues only.
+DWQ can be enabled by building the library with the build option <code class="docutils literal notranslate"><span class="pre">-DDWQ_SUPPORT=ON</span></code>
+(see <a class="reference internal" href="../get_started_docs/installation.html#building-library-build-options-reference-link"><span class="std std-ref">Build Options</span></a> for details and limitations).</p></li>
 <li><p>Library does not have APIs for the hardware path configuration.</p></li>
 <li><p>Library does not have APIs for <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Balancing</span></code> feature customization.</p></li>
 <li><p>Library does not support hardware path on Windows OS.</p></li>
@@ -1073,7 +1075,7 @@ responsibility of a user.</p>
 </ul>
 </section>
 <section id="library-apis">
-<h2>Library APIs<a class="headerlink" href="#library-apis" title="Permalink to this headline">#</a></h2>
+<span id="library-apis-reference-link"></span><h2>Library APIs<a class="headerlink" href="#library-apis" title="Permalink to this headline">#</a></h2>
 <p>Intel QPL provides two classes of APIs:</p>
 <p><strong>Low-Level C API</strong></p>
 <p>Represents a state based interface. The base idea is to allocate a
