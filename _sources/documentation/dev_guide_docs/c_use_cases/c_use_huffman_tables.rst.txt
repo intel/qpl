@@ -151,6 +151,8 @@ be called, that would free up memory for all internal structures as well.
 Serializing and Deserializing Huffman Tables
 ********************************************
 
+    **Note:** Serialization is only supported for `serialization_raw` format.
+
 A Huffman table can be serialized using one of the options in :c:enum:`qpl_serialization_format_e`,
 the user should choose based on the desired scenario:
 more compact representation vs more straightforward raw format but that could save computing time.

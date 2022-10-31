@@ -1042,6 +1042,10 @@ title="Print to PDF"
 <dt class="sig sig-object c" id="c.qpl_huffman_table_get_serialized_size">
 <span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga9553c21486f2eaeaac2c324cc11fd3c9"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_get_serialized_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_get_serialized_size" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>API to get size of the table to be serialized. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serialization is only supported for serialization_raw format.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1060,6 +1064,10 @@ title="Print to PDF"
 <dt class="sig sig-object c" id="c.qpl_huffman_table_serialize">
 <span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga6fc9b8d82e74201a54901b0f48ff8187"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_serialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_serialize" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Serializes qpl_huffman_table_t object. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serialization is only supported for serialization_raw format.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

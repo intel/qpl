@@ -1032,6 +1032,9 @@ be called, that would free up memory for all internal structures as well.</p>
 </section>
 <section id="serializing-and-deserializing-huffman-tables">
 <h2>Serializing and Deserializing Huffman Tables<a class="headerlink" href="#serializing-and-deserializing-huffman-tables" title="Permalink to this headline">#</a></h2>
+<blockquote>
+<div><p><strong>Note:</strong> Serialization is only supported for <cite>serialization_raw</cite> format.</p>
+</div></blockquote>
 <p>A Huffman table can be serialized using one of the options in <a class="reference internal" href="../../api_docs/c_ref/c_huffman_table_apis.html#c.qpl_serialization_format_e" title="qpl_serialization_format_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_serialization_format_e</span></code></a>,
 the user should choose based on the desired scenario:
 more compact representation vs more straightforward raw format but that could save computing time.</p>
