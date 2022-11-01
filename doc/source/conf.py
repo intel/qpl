@@ -47,6 +47,10 @@ breathe_projects = {
     }
 breathe_default_project = "Intel(R) Query Processing Library"
 
+# Display the initializer of an enum value/define in the output
+breathe_show_enumvalue_initializer = True
+breathe_show_define_initializer = True
+
 # Tell sphinx what the primary language being documented is.
 # primary_domain = 'cpp'
 

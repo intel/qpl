@@ -21,19 +21,43 @@ extern "C" {
  * @{
  */
 
+/**
+ * @addtogroup QPL_STATUS_BASE
+ * @{
+ */
+
 /* --- Status BASE --- */
-#define QPL_PROCESSING_ERROR_BASE    0u   /**< Processing error base */
-#define QPL_PARAMETER_ERROR_BASE     50u  /**< Parameter check step errors base */
-#define QPL_SERVICE_LOGIC_ERROR_BASE 100u /**< Error in operation preprocessing or postprocessing */
-#define QPL_OPERATION_ERROR_BASE     200u /**< Operation execution step errors base */
-#define QPL_INIT_ERROR_BASE          500u /**< Initialization step errors base */
+#define QPL_PROCESSING_ERROR_BASE    0u
+        /**< Processing step errors */
+#define QPL_PARAMETER_ERROR_BASE     50u
+        /**< Parameter check step errors */
+#define QPL_SERVICE_LOGIC_ERROR_BASE 100u
+        /**< Operation preprocessing or postprocessing errors */
+#define QPL_OPERATION_ERROR_BASE     200u
+        /**< Execution step errors */
+#define QPL_INIT_ERROR_BASE          500u
+        /**< Initialization step errors */
+
+/** @} */
+
+/**
+ * @addtogroup QPL_STATUS_CALCULATOR
+ * @{
+ */
 
 /* --- Status Calculators */
-#define QPL_PROCESSING_ERROR(x)     QPL_PROCESSING_ERROR_BASE + x     /**< Calculates Processing error base */
-#define QPL_PARAMETER_ERROR(x)      QPL_PARAMETER_ERROR_BASE + x      /**< Calculates parameter check step errors base */
-#define QPL_SERVICE_LOGIC_ERROR(x)  QPL_SERVICE_LOGIC_ERROR_BASE + x  /**< Calculates parameter check step errors base */
-#define QPL_OPERATION_ERROR(x)      QPL_OPERATION_ERROR_BASE + x      /**< Calculates operation execution step errors base */
-#define QPL_INIT_ERROR(x)           QPL_INIT_ERROR_BASE + x           /**< Calculates initialization step errors base */
+#define QPL_PROCESSING_ERROR(x)     QPL_PROCESSING_ERROR_BASE + x
+        /**< Calculates status for processing step */
+#define QPL_PARAMETER_ERROR(x)      QPL_PARAMETER_ERROR_BASE + x
+        /**< Calculates status for parameter check step */
+#define QPL_SERVICE_LOGIC_ERROR(x)  QPL_SERVICE_LOGIC_ERROR_BASE + x
+        /**< Calculates status for operation preprocessing or postprocessing step */
+#define QPL_OPERATION_ERROR(x)      QPL_OPERATION_ERROR_BASE + x
+        /**< Calculates status for operation execution step */
+#define QPL_INIT_ERROR(x)           QPL_INIT_ERROR_BASE + x
+        /**< Calculates status for initialization step */
+
+/** @} */
 
 /**
  * @enum qpl_status
@@ -43,8 +67,8 @@ typedef enum {
 /* ====== Processing Statuses ====== */
     QPL_STS_OK                      = QPL_PROCESSING_ERROR(0),  /**< Operation completed successfully */
     QPL_STS_BEING_PROCESSED         = QPL_PROCESSING_ERROR(1u), /**< Job is still being processed */
-    QPL_STS_MORE_OUTPUT_NEEDED      = QPL_PROCESSING_ERROR(2u), /**< Decompression operation filled output buffer before finishing input @todo deprecate in the future */
-    QPL_STS_MORE_INPUT_NEEDED       = QPL_PROCESSING_ERROR(3u), /**< Compress/Decompress operation need more input @todo deprecate in the future */
+    QPL_STS_MORE_OUTPUT_NEEDED      = QPL_PROCESSING_ERROR(2u), /**< Decompression operation filled output buffer before finishing input */
+    QPL_STS_MORE_INPUT_NEEDED       = QPL_PROCESSING_ERROR(3u), /**< Compress/Decompress operation need more input */
     QPL_STS_JOB_NOT_CONTINUABLE_ERR = QPL_PROCESSING_ERROR(4u), /**< A job after a LAST job was not marked as FIRST */
     QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue*/
 
