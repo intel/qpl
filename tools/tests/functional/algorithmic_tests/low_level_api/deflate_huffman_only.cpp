@@ -299,7 +299,72 @@ protected:
         // Verify
         ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
     }
+
+    // Huffman only compression on SW path was inefficient due to incorrect huffman table construction
+    // ISAL routine to compute histogram for HT construction did not do huffman only
+    // Manually computing the histogram with a for loop and then constructing HT works properly
+    // This test checks (both paths, they should create same output) for correct compression in huffman only
+    void RunHuffmanOnlyDynamicCorrectnessTest() {
+        auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+
+        const qpl_compression_levels compression_level = qpl_default_level;
+        const uint32_t               source_size       = 1000;
+        const uint32_t               destination_size  = source_size * 2;
+
+        std::vector<uint8_t> source(source_size);
+        std::vector<uint8_t> destination(destination_size);
+
+        std::fill(source.begin(), source.end(), 5u);
+
+        qpl_status status;
+
+        // Allocate job structure
+        uint32_t job_size = 0;
+        status = qpl_get_job_size(execution_path, &job_size);
+        ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
+
+        auto job_buffer = std::make_unique<uint8_t[]>(job_size);
+        auto job        = reinterpret_cast<qpl_job *>(job_buffer.get());
+
+        // Initialize job structure for compression
+        status = qpl_init_job(execution_path, job);
+        ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
+
+        // Allocate compression Huffman table
+        qpl_huffman_table_t c_huffman_table;
+        status = qpl_huffman_only_table_create(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C, &c_huffman_table);
+        ASSERT_EQ(QPL_STS_OK, status) << "Failed to allocate compression table\n";
+
+        // Fill in job structure for Huffman only compression
+        job->op            = qpl_op_compress;
+        job->level         = compression_level;
+        job->next_in_ptr   = source.data();
+        job->available_in  = source_size;
+        job->next_out_ptr  = destination.data();
+        job->available_out = destination_size;
+        job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        job->huffman_table = c_huffman_table;
+
+        // Compress
+        status = qpl_execute_job(job);
+        EXPECT_EQ(QPL_STS_OK, status) << "Error in compression\n";
+    
+        // Get the size of compressed data
+        const uint32_t compressed_size = job->total_out;
+
+        // Free resources
+        status = qpl_huffman_table_destroy(c_huffman_table);
+        EXPECT_EQ(QPL_STS_OK, status) << "Compression table destruction failed\n";
+
+        status = qpl_fini_job(job);
+        ASSERT_EQ(QPL_STS_OK, status) << "Finishing job failed\n";
+
+        // divide by 8 since source is 8 bit int and should be compressed to 1 bit
+        ASSERT_EQ(compressed_size, 125) << "Compressed size was not equal to expected compressed size\n";
+    }
 };
+
+
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, dynamic_le, DeflateTestHuffmanOnly) {
     RunHuffmanOnlyDynamicTest();
@@ -334,4 +399,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, static_le, DeflateTest
     {
         RunHuffmanOnlyStaticTest(true, false);
     }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, dynamic_correct_single_value_source, DeflateTestHuffmanOnly) {
+    RunHuffmanOnlyDynamicCorrectnessTest();
+}
 }
