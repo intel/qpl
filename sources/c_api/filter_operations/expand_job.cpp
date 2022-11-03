@@ -8,6 +8,7 @@
 #include "filter_operations.hpp"
 #include "arguments_check.hpp"
 #include "analytics/expand.hpp"
+#include "common/defs.hpp"
 
 uint32_t perform_expand(qpl_job *job_ptr,
                         uint8_t *unpack_buffer_ptr,

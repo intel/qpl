@@ -12,7 +12,7 @@
 //  Windows CPUID
 #define cpuid(info, x)    __cpuidex(info, x, 0)
 #else
-//  GCC Intrinsics 
+//  GCC Intrinsics
 #include <cpuid.h>
 #include <dlfcn.h>
 
@@ -81,12 +81,6 @@ extern extract_i_table_t avx512_extract_i_table;
 
 extern aggregates_table_t px_aggregates_table;
 extern aggregates_table_t avx512_aggregates_table;
-
-extern find_unique_table_t px_find_unique_table;
-extern find_unique_table_t avx512_find_unique_table;
-
-extern set_membership_i_table_t px_set_membership_i_table;
-extern set_membership_i_table_t avx512_set_membership_i_table;
 
 extern select_table_t px_select_table;
 extern select_table_t avx512_select_table;
@@ -196,20 +190,6 @@ auto get_extract_index(const uint32_t bit_width) -> uint32_t {
     uint32_t extract_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return extract_index;
-}
-
-auto get_find_unique_index(const uint32_t bit_width) -> uint32_t {
-    // Find Unique function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t find_unique_index = BITS_2_DATA_TYPE_INDEX(bit_width);
-
-    return find_unique_index;
-}
-
-auto get_set_membership_index(const uint32_t bit_width) -> uint32_t {
-    // Set membership function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t set_membership_index = BITS_2_DATA_TYPE_INDEX(bit_width);
-
-    return set_membership_index;
 }
 
 auto get_select_index(const uint32_t bit_width) -> uint32_t {
@@ -338,14 +318,6 @@ auto kernels_dispatcher::get_extract_i_table() const noexcept -> const extract_i
     return *extract_i_table_ptr_;
 }
 
-auto kernels_dispatcher::get_find_unique_table() const noexcept -> const find_unique_table_t & {
-    return *find_unique_table_ptr_;
-}
-
-auto kernels_dispatcher::get_set_membership_i_table() const noexcept -> const set_membership_i_table_t & {
-    return *set_membership_i_table_ptr_;
-}
-
 auto kernels_dispatcher::get_select_table() const noexcept -> const select_table_t & {
     return *select_table_ptr_;
 }
@@ -414,8 +386,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             extract_table_ptr_               = &avx512_extract_table;
             extract_i_table_ptr_             = &avx512_extract_i_table;
             aggregates_table_ptr_            = &avx512_aggregates_table;
-            find_unique_table_ptr_           = &avx512_find_unique_table;
-            set_membership_i_table_ptr_      = &avx512_set_membership_i_table;
             select_table_ptr_                = &avx512_select_table;
             select_i_table_ptr_              = &avx512_select_i_table;
             expand_table_ptr_                = &avx512_expand_table;
@@ -441,8 +411,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             extract_table_ptr_               = &px_extract_table;
             extract_i_table_ptr_             = &px_extract_i_table;
             aggregates_table_ptr_            = &px_aggregates_table;
-            find_unique_table_ptr_           = &px_find_unique_table;
-            set_membership_i_table_ptr_      = &px_set_membership_i_table;
             select_table_ptr_                = &px_select_table;
             select_i_table_ptr_              = &px_select_i_table;
             expand_table_ptr_                = &px_expand_table;

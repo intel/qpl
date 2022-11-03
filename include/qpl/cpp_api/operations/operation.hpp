@@ -71,10 +71,6 @@ class scan_operation;
 
 class scan_range_operation;
 
-class find_unique_operation;
-
-class set_membership_operation;
-
 class expand_operation;
 
 class select_operation;
@@ -106,12 +102,6 @@ auto execute(scan_operation &operation, int32_t numa_id) -> execution_result<uin
 
 template <execution_path path>
 auto execute(scan_range_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(find_unique_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(set_membership_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
 
 template <execution_path path>
 auto execute(expand_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
@@ -359,8 +349,6 @@ auto execute(operation_t &op,
                                  extract_operation,
                                  scan_operation,
                                  scan_range_operation,
-                                 find_unique_operation,
-                                 set_membership_operation,
                                  expand_operation,
                                  select_operation,
                                  rle_burst_operation,

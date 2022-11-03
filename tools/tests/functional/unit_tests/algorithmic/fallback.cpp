@@ -22,12 +22,6 @@ constexpr auto no_flags = 0u;
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
     qpl_job job;
 
-    job.op = qpl_op_set_membership;
-    EXPECT_TRUE(is_set_membership(&job));
-
-    job.op = incorrect_operation;
-    EXPECT_FALSE(is_set_membership(&job));
-
     job.op = qpl_op_extract;
     EXPECT_TRUE(is_extract(&job));
 
@@ -45,12 +39,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
 
     job.op = incorrect_operation;
     EXPECT_FALSE(is_rle_burst(&job));
-
-    job.op = qpl_op_find_unique;
-    EXPECT_TRUE(is_find_unique(&job));
-
-    job.op = incorrect_operation;
-    EXPECT_FALSE(is_find_unique(&job));
 
     job.op = qpl_op_expand;
     EXPECT_TRUE(is_expand(&job));

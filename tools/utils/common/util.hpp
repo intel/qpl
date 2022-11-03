@@ -113,14 +113,8 @@ namespace qpl::test
             case qpl_op_extract:
                 return "Extract";
 
-            case qpl_op_find_unique:
-                return "FindUnique";
-
             case qpl_op_select:
                 return "Select";
-
-            case qpl_op_set_membership:
-                return "SetMembership";
 
             case qpl_op_expand:
                 return "Expand";
@@ -259,12 +253,6 @@ namespace qpl::test
 
         switch (operation)
         {
-            case qpl_op_set_membership:
-                result_bit_length = 1u;
-                result_bit_length <<= first_source_bit_width;
-
-                break;
-
             case qpl_op_select:
                 result_bit_length = first_source_number_of_elements;
                 break;

@@ -45,5 +45,6 @@ header file: ``qpl/qpl.hpp``. It includes the entire API definition.
    use_cases/use_compression_streams
    use_cases/build_custom_operation
    use_cases/chain_operations
-
    use_cases/optimize_hw_path
+
+

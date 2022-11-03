@@ -13,10 +13,6 @@ class inflate_operation;
 
 class expand_operation;
 
-class find_unique_operation;
-
-class set_membership_operation;
-
 class merge;
 
 class operation;
@@ -57,8 +53,7 @@ template <class operation1_t,
           class operation2_t>
 constexpr auto should_be_merged() -> bool {
     return std::is_base_of<operation_with_mask, operation2_t>::value &&
-           !std::is_same<operation2_t, expand_operation>::value &&
-           !std::is_same<operation2_t, set_membership_operation>::value;
+           !std::is_same<operation2_t, expand_operation>::value;
 }
 
 /**

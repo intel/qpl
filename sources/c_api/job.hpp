@@ -103,10 +103,6 @@ static inline bool is_extract(const qpl_job *const job_ptr) noexcept {
     return qpl_op_extract == job_ptr->op;
 }
 
-static inline bool is_find_unique(const qpl_job *const job_ptr) noexcept {
-    return qpl_op_find_unique == job_ptr->op;
-}
-
 static inline bool is_scan(const qpl_job *const job_ptr) noexcept {
     return qpl_op_scan_eq <= job_ptr->op;
 }
@@ -121,10 +117,6 @@ static inline bool is_select(const qpl_job *const job_ptr) noexcept {
 
 static inline bool is_expand(const qpl_job *const job_ptr) noexcept {
     return qpl_op_expand == job_ptr->op;
-}
-
-static inline bool is_set_membership(const qpl_job *const job_ptr) noexcept {
-    return qpl_op_set_membership == job_ptr->op;
 }
 
 static inline bool is_zero_compress(const qpl_job *const job_ptr) noexcept {

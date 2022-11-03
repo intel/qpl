@@ -19,11 +19,11 @@ Multi-Descriptor Processing
 ***************************
 
 
-The library can split ``qpl_set_membership`` and ``qpl_scan`` operations onto
+The library can split ``qpl_scan`` operation onto
 several sub-tasks and perform them in paralleled mode. In other words,
 if the following conditions are met:
 
--  This is ``qpl_set_membership`` or ``qpl_scan`` (``qpl_scan_range``) operation.
+-  This is ``qpl_scan`` (``qpl_scan_range``) operation.
 -  Nominal bit array output, i.e. no output modifications.
 -  Input data size is at least 32kB large.
 -  Input is in Little- or Big-Endian format (no encoded input support).

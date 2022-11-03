@@ -26,11 +26,9 @@
 // Analytic Operations API
 #include "cpp_api/operations/analytics/expand_operation.hpp"
 #include "cpp_api/operations/analytics/extract_operation.hpp"
-#include "cpp_api/operations/analytics/find_unique_operation.hpp"
 #include "cpp_api/operations/analytics/scan_operation.hpp"
 #include "cpp_api/operations/analytics/scan_range_operation.hpp"
 #include "cpp_api/operations/analytics/select_operation.hpp"
-#include "cpp_api/operations/analytics/set_membership_operation.hpp"
 #include "cpp_api/operations/analytics/rle_burst_operation.hpp"
 
 // Compression Operations API

@@ -88,7 +88,7 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
     auto *const analytics_state_ptr = reinterpret_cast<own_analytics_state_t *>(qpl_job_ptr->data_ptr.analytics_state_ptr);
 
     switch (qpl_job_ptr->op) {
-        // processing compression 
+        // processing compression
         case qpl_op_decompress: {
             status = perform_decompress<qpl::ml::execution_path_t::software>(qpl_job_ptr);
 
@@ -138,23 +138,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
             status = perform_extract(qpl_job_ptr,
                                      analytics_state_ptr->unpack_buf_ptr,
                                      analytics_state_ptr->unpack_buf_size);
-            break;
-        }
-        case qpl_op_find_unique: {
-            status = perform_find_unique(qpl_job_ptr,
-                                         analytics_state_ptr->unpack_buf_ptr,
-                                         analytics_state_ptr->unpack_buf_size,
-                                         analytics_state_ptr->set_buf_ptr,
-                                         analytics_state_ptr->set_buf_size);
-
-            break;
-        }
-        case qpl_op_set_membership: {
-            status = perform_set_membership(qpl_job_ptr,
-                                            analytics_state_ptr->unpack_buf_ptr,
-                                            analytics_state_ptr->unpack_buf_size,
-                                            analytics_state_ptr->set_buf_ptr,
-                                            analytics_state_ptr->set_buf_size);
             break;
         }
         case qpl_op_select: {
@@ -236,26 +219,10 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
                                                            analytics_state_ptr->unpack_buf_size));
         }
 
-        if (job::is_find_unique(qpl_job_ptr)) {
-            return static_cast<qpl_status>(perform_find_unique(qpl_job_ptr,
-                                                               analytics_state_ptr->unpack_buf_ptr,
-                                                               analytics_state_ptr->unpack_buf_size,
-                                                               analytics_state_ptr->set_buf_ptr,
-                                                               analytics_state_ptr->set_buf_size));
-        }
-
         if (job::is_scan(qpl_job_ptr)) {
             return static_cast<qpl_status>(perform_scan(qpl_job_ptr,
                                                         analytics_state_ptr->unpack_buf_ptr,
                                                         analytics_state_ptr->unpack_buf_size));
-        }
-
-        if (job::is_set_membership(qpl_job_ptr)) {
-            return static_cast<qpl_status>(perform_set_membership(qpl_job_ptr,
-                                                                  analytics_state_ptr->unpack_buf_ptr,
-                                                                  analytics_state_ptr->unpack_buf_size,
-                                                                  analytics_state_ptr->set_buf_ptr,
-                                                                  analytics_state_ptr->set_buf_size));
         }
 
         if (job::is_select(qpl_job_ptr)) {

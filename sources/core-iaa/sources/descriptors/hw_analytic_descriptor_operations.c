@@ -11,11 +11,9 @@
 
 // todo add reference to operation description
 #define QPL_OPCODE_SCAN         0x50u    /**< Operation code for `SCAN` operation */
-#define QPL_OPCODE_SET_MEMBER   0x51u    /**< Operation code for `SET MEMBERSHIP` operation */
 #define QPL_OPCODE_EXTRACT      0x52u    /**< Operation code for `EXTRACT` operation */
 #define QPL_OPCODE_SELECT       0x53u    /**< Operation code for `SELECT` operation */
 #define QPL_OPCODE_RLE_BURST    0x54u    /**< Operation code for `RLE BURST` operation */
-#define QPL_OPCODE_FIND_UNIQUE  0x55u    /**< Operation code for `FIND UNIQUE` operation */
 #define QPL_OPCODE_EXPAND       0x56u    /**< Operation code for `EXPAND` operation */
 
 #define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x)  (((x) & 0x1Fu) << 7u)   /**< @todo */
@@ -77,22 +75,6 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_extract_operation, (hw_descriptor 
     own_hw_descriptor_single_source_filter_set_second_source((hw_descriptor *) this_ptr, filter_config_ptr);
 }
 
-HW_PATH_IAA_API(void, descriptor_analytic_set_find_unique_operation, (hw_descriptor *const descriptor_ptr,
-                                                                      const uint32_t drop_low_bits,
-                                                                      const uint32_t drop_high_bits,
-                                                                      hw_iaa_aecs_analytic *const filter_config_ptr)) {
-    own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
-    this_ptr->op_code_op_flags |= ADOF_OPCODE(QPL_OPCODE_FIND_UNIQUE);
-
-    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(drop_low_bits & OWN_5_BIT_MASK)
-                              | OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(drop_high_bits & OWN_5_BIT_MASK);
-
-    filter_config_ptr->filtering_options.crc          = 0u;
-    filter_config_ptr->filtering_options.xor_checksum = 0u;
-
-    own_hw_descriptor_single_source_filter_set_second_source((hw_descriptor *) this_ptr, filter_config_ptr);
-}
-
 HW_PATH_IAA_API(void, descriptor_analytic_set_select_operation, (hw_descriptor *const descriptor_ptr,
                                                                  uint8_t *const mask_ptr,
                                                                  const uint32_t mask_size,
@@ -118,25 +100,6 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_expand_operation, (hw_descriptor *
                                                              mask_ptr,
                                                              mask_size,
                                                              is_mask_big_endian);
-}
-
-HW_PATH_IAA_API(void, descriptor_analytic_set_membership_operation, (hw_descriptor *const descriptor_ptr,
-                                                                     const uint32_t drop_source_low_bits,
-                                                                     const uint32_t drop_source_high_bits,
-                                                                     uint8_t *const set_ptr,
-                                                                     const uint32_t set_byte_size,
-                                                                     const bool is_set_big_endian)) {
-    own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
-    this_ptr->op_code_op_flags |= ADOF_OPCODE(QPL_OPCODE_SET_MEMBER);
-
-    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(drop_source_low_bits & OWN_5_BIT_MASK)
-                              | OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(drop_source_high_bits & OWN_5_BIT_MASK)
-                              | OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(0u);
-
-    own_hw_descriptor_double_source_filter_set_second_source((hw_descriptor *) this_ptr,
-                                                             set_ptr,
-                                                             set_byte_size,
-                                                             is_set_big_endian);
 }
 
 HW_PATH_IAA_API(void, descriptor_analytic_set_rle_burst_operation, (hw_descriptor *const descriptor_ptr,

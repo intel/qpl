@@ -67,12 +67,10 @@ constexpr auto contains_mask_producer() -> bool {
     if constexpr (sizeof...(params_t) > 0) {
         return std::is_same<scan_operation, param_t>::value ||
                std::is_same<scan_range_operation, param_t>::value ||
-               std::is_same<set_membership_operation, param_t>::value ||
                contains_mask_producer<params_t...>();
     }
     return std::is_same<scan_operation, param_t>::value ||
-           std::is_same<scan_range_operation, param_t>::value ||
-           std::is_same<set_membership_operation, param_t>::value;
+           std::is_same<scan_range_operation, param_t>::value;
 }
 
 template <class ...operations_t, class test_case_type_t>
@@ -96,23 +94,12 @@ auto is_valid_test_case(const test_case_type_t &test_case) -> bool {
         }
     }
 
-    if constexpr (contains_operation<find_unique_operation, operations_t ...>()) {
-        if (test_case.output_bit_width > 1u) {
-            return false;
-        }
-    }
-
     return true;
 }
 
 template <class ...operations_t, class test_case_type_t>
 auto get_destination_size(const test_case_type_t &test_case) -> size_t {
     size_t destination_size = 0;
-    if constexpr (contains_operation<find_unique_operation, operations_t ...>()) {
-        uint32_t bits_to_ignore = (test_case.input_bit_width / 3) * 2;
-        destination_size = std::max(destination_size,
-                                    static_cast<size_t>((1ull << (test_case.input_bit_width - bits_to_ignore))));
-    }
 
     size_t output_element_bit_width = (test_case.output_bit_width == 1 ?
                                        test_case.input_bit_width :
@@ -130,8 +117,7 @@ auto get_destination_size(const test_case_type_t &test_case) -> size_t {
 template <class param, class ...params>
 constexpr auto filter_operation_exist_and_not_last() -> bool {
     if constexpr ((std::is_same<select_operation, param>::value ||
-                   std::is_same<extract_operation, param>::value ||
-                   std::is_same<set_membership_operation, param>::value
+                   std::is_same<extract_operation, param>::value
                   ) &&
                   sizeof...(params) > 0) {
         return true;

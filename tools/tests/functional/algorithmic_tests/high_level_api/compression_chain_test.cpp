@@ -115,7 +115,7 @@ QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(compression_chain_test,
     select_operation select_operation(scan_destination.data(), scan_destination.size());
 
     // Run Select operation
-    auto select_result = test::execute(select_operation, source, reference_destination);        
+    auto select_result = test::execute(select_operation, source, reference_destination);
     ASSERT_NO_THROW(select_result_value = handle_result(select_result));
 
     // Assert
@@ -153,31 +153,6 @@ QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(compression_chain_test, inflate_expand_de
 
     ASSERT_NO_THROW(auto expand_result = test::execute(expand_operation, source, reference_destination);
                     expand_result_value = handle_result(expand_result));
-
-    // Assert
-    EXPECT_TRUE(CompareVectors(destination, reference_destination));
-}
-
-QPL_HIGH_LEVEL_API_ALGORITHMIC_TEST_TC(compression_chain_test,
-                                       inflate_find_unique,
-                                       CompressionChainTest) {
-    // Variables
-    const uint32_t bits_to_igonre     = 0;
-    uint32_t chain_result_value       = 0;
-    uint32_t find_unique_result_value = 0;
-
-    // Act
-    auto chain = inflate_operation() |
-                 find_unique_operation(bits_to_igonre, bits_to_igonre);
-
-    ASSERT_NO_THROW(auto chain_result = test::execute(chain, compressed_source, destination);
-                    chain_result_value = handle_result(chain_result));
-
-    // Reference Act
-    find_unique_operation find_unique_operation(bits_to_igonre, bits_to_igonre);
-
-    ASSERT_NO_THROW(auto find_unique_result = test::execute(find_unique_operation, source, reference_destination);
-                    find_unique_result_value = handle_result(find_unique_result));
 
     // Assert
     EXPECT_TRUE(CompareVectors(destination, reference_destination));

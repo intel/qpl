@@ -7,8 +7,6 @@
 #include "qplc_defines.h"
 #include "qplc_scan.h"
 #include "qplc_extract.h"
-#include "qplc_find_unique.h"
-#include "qplc_set_membership.h"
 #include "qplc_select.h"
 #include "qplc_expand.h"
 #include "qplc_rle_burst.h"

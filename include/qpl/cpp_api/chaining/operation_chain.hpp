@@ -36,9 +36,6 @@ namespace qpl {
  *
  * Example of main usage:
  * @snippet high-level-api/operation-chains/decompression_scan_select_example.cpp QPL_HIGH_LEVEL_CHAIN_EXAMPLE
- *
- * Example of set membership chaining:
- * @snippet high-level-api/operation-chains/set_membership_operation_chain_example.cpp QPL_HIGH_LEVEL_SET_MEMBERSHIP_CHAIN_EXAMPLE
  */
 template <class... operations_t>
 class operation_chain {

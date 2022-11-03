@@ -39,9 +39,6 @@ Common methods for analytics operations:
    * - ``extract_operation``
      - ``lower_index(uint32_t value)`` \ 
        ``upper_index(uint32_t value)``
-   * - ``find_unique_operation``
-     - ``number_low_order_bits_to_ignore(uint32_t value)`` \
-       ``number_high_order_bits_to_ignore(uint32_t value)`` 
 
 
 Methods Description
@@ -81,12 +78,6 @@ Methods Description
 | ``upper_index(uint32_t value)`` | Sets upper index for extract       |
 |                                 | operations                         |
 +---------------------------------+------------------------------------+
-| ``number_low_order_b            | Sets number low order bits to      |
-| its_to_ignore(uint32_t value)`` | ignore                             |
-+---------------------------------+------------------------------------+
-| ``number_high_order_b           | Sets number high order bits to     |
-| its_to_ignore(uint32_t value)`` | ignore                             |
-+---------------------------------+------------------------------------+
 
 
 .. toctree::
@@ -95,4 +86,3 @@ Methods Description
     scan_operation
     scan_range_operation
     extract_operation
-    find_unique_operation

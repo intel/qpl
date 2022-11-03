@@ -23,9 +23,6 @@ void split_descriptors(hw_descriptor &reference_descriptor,
 template <>
 void split_descriptors<qpl_operation::qpl_op_scan_eq, 8>(hw_descriptor &reference_descriptor,
                                                          std::array<hw_descriptor, 8> &descriptors) noexcept;
-template <>
-void split_descriptors<qpl_operation::qpl_op_set_membership, 8>(hw_descriptor &reference_descriptor,
-                                                                std::array<hw_descriptor, 8> &descriptors) noexcept;
 
 auto is_hw_configuration_good_for_splitting() noexcept -> bool;
 

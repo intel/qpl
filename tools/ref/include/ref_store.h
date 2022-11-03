@@ -37,16 +37,6 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_FIND_UNIQUE_MAX_WIDTH_TO_EXTENDED_OUTPUT 15
-
-/**
- * @todo
- */
-#define REF_FIND_UNIQUE_BUF_SIZE (QPL_ONE_64U << (REF_FIND_UNIQUE_MAX_WIDTH_TO_EXTENDED_OUTPUT - 3))
-
-/**
- * @todo
- */
 #define REF_OVERVALUE_8U_RET(a, b) \
             { if (UINT8_MAX < (uint16_t)(a) + (uint16_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }}
 

@@ -20,12 +20,12 @@ Multi-Descriptor Processing
 ***************************
 
 
-The library is able to split ``Set membership`` and ``Scan`` operations
+The library is able to split ``Scan`` operations
 onto several sub-tasks and performing them in paralleled mode. In other
 words, if the following conditions are met:
 
-- This is ``Set membership`` or ``Scan`` (``Scan range``) operation. 
-- Nominal bit array output, i.e. no output modifications. 
+- This is ``Scan`` (``Scan range``) operation.
+- Nominal bit array output, i.e. no output modifications.
 - Input data size is at least 32kB large.
 - Input is in Little- or Big-Endian format (no encoded input support).
 - No more than 1 work queue per 1 device is configured.

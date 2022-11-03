@@ -94,14 +94,12 @@ typedef struct {
     qpl_out_format out_bit_width;
 
     /**
-     * Low parameter for operations extract or scan, or a number of low-order bits to ignore for set_membership
-     * or find_unique
+     * Low parameter for operations extract or scan
      */
     uint32_t param_low;
 
     /**
-     * High parameter for operations extract or scan, or a number of high-order bits to ignore for set_membership
-     * or find_unique
+     * High parameter for operations extract or scan
      */
     uint32_t param_high;
 

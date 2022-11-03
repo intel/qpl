@@ -60,35 +60,11 @@ function(get_function_name_with_default_bit_width in_function_name bit_width out
 
         string(REPLACE "_i" "" in_function_name ${in_function_name})
 
-        if(in_function_name MATCHES "set_membership")
-
-            if (bit_width MATCHES "8u")
-                set(${out_function_name} "${in_function_name}_${bit_width}_i" PARENT_SCOPE)
-            else()
-                set(${out_function_name} "${in_function_name}_${bit_width}8u_i" PARENT_SCOPE)
-            endif()
-
-        else()
-
-            set(${out_function_name} "${in_function_name}_${bit_width}_i" PARENT_SCOPE)
-
-        endif()
+        set(${out_function_name} "${in_function_name}_${bit_width}_i" PARENT_SCOPE)
 
     else()
 
-        if(in_function_name MATCHES "find_unique")
-
-            if (bit_width MATCHES "8u")
-                set(${out_function_name} "${in_function_name}_${bit_width}" PARENT_SCOPE)
-            else()
-                set(${out_function_name} "${in_function_name}_${bit_width}8u" PARENT_SCOPE)
-            endif()
-
-        else()
-
-            set(${out_function_name} "${in_function_name}_${bit_width}" PARENT_SCOPE)
-
-        endif()
+        set(${out_function_name} "${in_function_name}_${bit_width}" PARENT_SCOPE)
 
     endif()
 
@@ -114,8 +90,6 @@ function(generate_unpack_kernel_arrays current_directory)
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "unpack_prle")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "extract")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "extract_i")
-    list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "find_unique")
-    list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "set_membership_i")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "select")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "select_i")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "expand")
@@ -223,7 +197,7 @@ function(generate_unpack_kernel_arrays current_directory)
         list(GET UNPACK_POSTFIX_LIST -1 LAST_ELEMENT)
 
         foreach(UNPACK_POSTFIX IN LISTS UNPACK_POSTFIX_LIST)
-    
+
             if(UNPACK_POSTFIX STREQUAL LAST_ELEMENT)
                 file(APPEND ${directory}/${PLATFORM_PREFIX}unpack.cpp "\t${PLATFORM_PREFIX}qplc_unpack_be${UNPACK_POSTFIX}};\n")
             else()
@@ -253,7 +227,7 @@ function(generate_unpack_kernel_arrays current_directory)
         list(GET PACK_POSTFIX_LIST -1 LAST_ELEMENT)
 
         foreach(PACK_POSTFIX IN LISTS PACK_POSTFIX_LIST)
-    
+
             if(PACK_POSTFIX STREQUAL LAST_ELEMENT)
                 file(APPEND ${directory}/${PLATFORM_PREFIX}pack.cpp "\t${PLATFORM_PREFIX}qplc_pack_be${PACK_POSTFIX}};\n")
             else()
@@ -276,7 +250,7 @@ function(generate_unpack_kernel_arrays current_directory)
         list(GET SCAN_POSTFIX_LIST -1 LAST_ELEMENT)
 
         foreach(SCAN_POSTFIX IN LISTS SCAN_POSTFIX_LIST)
-    
+
             if(SCAN_POSTFIX STREQUAL LAST_ELEMENT)
                 file(APPEND ${directory}/${PLATFORM_PREFIX}scan.cpp "\t${PLATFORM_PREFIX}qplc_scan${SCAN_POSTFIX}};\n")
             else()
@@ -299,7 +273,7 @@ function(generate_unpack_kernel_arrays current_directory)
         list(GET SCAN_POSTFIX_LIST -1 LAST_ELEMENT)
 
         foreach(SCAN_POSTFIX IN LISTS SCAN_POSTFIX_LIST)
-    
+
             if(SCAN_POSTFIX STREQUAL LAST_ELEMENT)
                 file(APPEND ${directory}/${PLATFORM_PREFIX}scan_i.cpp "\t${PLATFORM_PREFIX}qplc_scan${SCAN_POSTFIX}_i};\n")
             else()
@@ -497,7 +471,7 @@ function(generate_unpack_kernel_arrays current_directory)
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "\t reinterpret_cast<void *>(&${PLATFORM_PREFIX}slow_deflate_body)};\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "}\n")
-        
+
         #
         # Write setup_dictionary functions table
         #

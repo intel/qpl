@@ -98,7 +98,7 @@ HW_PATH_IAA_API(void, descriptor_init_zero_compress, (hw_descriptor * descriptor
 /**
  * @brief Setup filtering descriptor input stream (`source-1`) and one's properties.
  *
- * @param[out] descriptor_ptr    @ref hw_descriptor 
+ * @param[out] descriptor_ptr    @ref hw_descriptor
  * @param[in] source_ptr         pointer to stream beginning
  * @param[in] source_size        stream size
  * @param[in] elements_count     element number to process
@@ -117,7 +117,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_filter_input, (hw_descriptor *cons
 /**
  * @brief Setup filtering descriptor output stream and one's properties
  *
- * @param[out] descriptor_ptr @ref hw_descriptor 
+ * @param[out] descriptor_ptr @ref hw_descriptor
  * @param[in] output_ptr      pointer to stream beginning
  * @param[in] output_size     stream size
  * @param[in] output_format   stream output format
@@ -170,38 +170,13 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_extract_operation, (hw_descriptor 
                                                                   const uint32_t last_element_index,
                                                                   hw_iaa_aecs_analytic *const filter_config_ptr));
 
-
-/**
- * @brief Setup filtering descriptor to perform `find unique` operation
- *
- * @details `Find Unique` operation finds values that are presented in the `source-1` and marks those values into the output `set`.
- *
- * @param[out] descriptor_ptr    @ref hw_descriptor
- * @param[in] drop_low_bits      drop low bits of element
- * @param[in] drop_high_bits     drop high bits of element
- * @param[in] filter_config_ptr  relative @ref hw_iaa_aecs_analytic
- *
- * @note Operation's streams:
- *  - Output: `bit-vector` that is set with @ref hw_iaa_descriptor_analytic_set_filter_output.
- *  - Input: `bit-vector` of elements that is set with @ref hw_iaa_descriptor_analytic_set_filter_input.
- *
- * @warning Operation limitations:
- *  - Max supported element bit-width is 15. `drop_low_bits` and `drop_high_bits` must be used to reduce element bit-width if limit is exceeded.
- *
- */
-HW_PATH_IAA_API(void, descriptor_analytic_set_find_unique_operation, (hw_descriptor *const descriptor_ptr,
-                                                                      const uint32_t drop_low_bits,
-                                                                      const uint32_t drop_high_bits,
-                                                                      hw_iaa_aecs_analytic *const filter_config_ptr));
-
-
 /**
  * @brief Setup filtering descriptor to perform `select` operation
  *
  * @details `Select` operation selects a elements from the `source-1` in accordance with indexes of non-zero elements
  * in the `mask` stream (bit-stream).
  *
- * @param[out] descriptor_ptr       @ref hw_descriptor 
+ * @param[out] descriptor_ptr       @ref hw_descriptor
  * @param[in] mask_ptr              pointer to mask
  * @param[in] mask_size             size of mask
  * @param[in] is_mask_big_endian    mask is in big-endian encoding format
@@ -225,7 +200,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_select_operation, (hw_descriptor *
  *  - Each 0-bit element from `mask` writes a zero into the output stream
  *  - Each 1-bit element from `mask` writes the next entry from input stream
  *
- * @param[out] descriptor_ptr       @ref hw_descriptor 
+ * @param[out] descriptor_ptr       @ref hw_descriptor
  * @param[in] mask_ptr              pointer to mask
  * @param[in] mask_size             size of mask
  * @param[in] is_mask_big_endian    mask is in big-endian encoding format
@@ -240,42 +215,13 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_expand_operation, (hw_descriptor *
                                                                  const uint32_t mask_size,
                                                                  const bool is_mask_big_endian));
 
-
-/**
- * @brief Setup filtering descriptor to perform `set membership` operation
- *
- * @details `Set Membership` operation checks that element from the `source-1` is a part of a specified `set` stream.
- *
- * @param[out] descriptor_ptr       @ref hw_descriptor 
- * @param[in] drop_source_low_bits  drop low bits of element
- * @param[in] drop_source_high_bits drop high bits of element
- * @param[in] set_ptr               pointer to set
- * @param[in] set_byte_size         size of set
- * @param[in] is_set_big_endian     set is in big-endian encoding format
- *
- * @note Operation's streams:
- *  - Output: `bit-vector` that set with @ref hw_iaa_descriptor_analytic_set_filter_output.
- *  - Input: `bit-vector` of elements that set with @ref hw_iaa_descriptor_analytic_set_filter_input.
- *
- * @warning Operation limitations:
- *  - Max supported element bit-width is 15. `drop_low_bits` and `drop_high_bits` must be used to reduce element bit-width if limit is exceeded.
- *
- */
-HW_PATH_IAA_API(void, descriptor_analytic_set_membership_operation, (hw_descriptor *const descriptor_ptr,
-                                                                     const uint32_t drop_source_low_bits,
-                                                                     const uint32_t drop_source_high_bits,
-                                                                     uint8_t *const set_ptr,
-                                                                     const uint32_t set_byte_size,
-                                                                     const bool is_set_big_endian));
-
-
 /**
  * @brief Setup filtering descriptor to perform `rle burst` operation
  *
  * @details `RLE Burst` operation replicates each element in `element_array` the number of times defined by `source-1` element
  * with the same index.
  *
- * @param[out] descriptor_ptr    @ref hw_descriptor 
+ * @param[out] descriptor_ptr    @ref hw_descriptor
  * @param[in] element_array_ptr  pointer to element array
  * @param[in] element_array_size size of element array
  * @param[in] element_bit_width
@@ -305,7 +251,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_rle_burst_operation, (hw_descripto
 /**
  * @brief Setup decompress pass for filtering operation
  *
- * @param[out] descriptor_ptr                   @ref hw_descriptor 
+ * @param[out] descriptor_ptr                   @ref hw_descriptor
  * @param[in] is_big_endian_compressed_stream   compressed stream (source-1) is in big-endian encoding format
  * @param[in] ignore_last_bits                  don't decompress last n bits
  *

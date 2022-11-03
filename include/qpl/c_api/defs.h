@@ -227,7 +227,7 @@ typedef enum {
 typedef enum {
     qpl_op_decompress = 0x00u,    /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
     qpl_op_compress   = 0x01u,    /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
-    
+
     qpl_op_crc64      = 0x05u,    /**< Performs @ref CRC_OPERATION */
 
     qpl_op_z_decompress32 = 0x08u,    /**< Performs Zero-decompress-32 operation (@ref ZCOMPRESS_OPERATIONS group) */
@@ -239,11 +239,9 @@ typedef enum {
     /**
      * Affiliation to boolean histogram filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_set_membership = 0x10u,
     qpl_op_extract        = 0x11u,  /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
     qpl_op_select         = 0x12u,  /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
     qpl_op_rle_burst      = 0x13u,  /**< RLE decompression filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_find_unique    = 0x14u,  /**< Boolean histogram filter operation (@ref ANALYTIC_OPERATIONS group) */
     qpl_op_expand         = 0x15u,  /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
 
     // start filter scan operations

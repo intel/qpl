@@ -149,17 +149,6 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
 
             break;
 
-        case qpl_op_find_unique:
-            hw_iaa_descriptor_analytic_set_find_unique_operation(descriptor_ptr,
-                                                                 job_ptr->param_low,
-                                                                 job_ptr->param_high,
-                                                                 filter_config_ptr);
-
-            hw_iaa_aecs_filter_set_initial_output_index(filter_config_ptr, job_ptr->initial_output_index);
-            hw_iaa_aecs_filter_set_drop_initial_decompressed_bytes(filter_config_ptr, job_ptr->drop_initial_bytes);
-
-            break;
-
         case qpl_op_select:
             hw_iaa_descriptor_analytic_set_select_operation(descriptor_ptr,
                                                             job_ptr->next_src2_ptr,
@@ -172,15 +161,6 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
                                                             job_ptr->next_src2_ptr,
                                                             job_ptr->available_src2,
                                                             job_ptr->flags & QPL_FLAG_SRC2_BE);
-            break;
-
-        case qpl_op_set_membership:
-            hw_iaa_descriptor_analytic_set_membership_operation(descriptor_ptr,
-                                                                job_ptr->param_low,
-                                                                job_ptr->param_high,
-                                                                job_ptr->next_src2_ptr,
-                                                                job_ptr->available_src2,
-                                                                job_ptr->flags & QPL_FLAG_SRC2_BE);
             break;
 
         case qpl_op_rle_burst:
@@ -294,16 +274,8 @@ static inline qpl_status own_bad_argument_validation(qpl_job *const job_ptr) {
             OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_rle_burst>(job_ptr))
             break;
 
-        case qpl_op_set_membership:
-            OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_set_membership>(job_ptr))
-            break;
-
         case qpl_op_expand:
             OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_expand>(job_ptr))
-            break;
-
-        case qpl_op_find_unique:
-            OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_find_unique>(job_ptr))
             break;
 
         case qpl_op_scan_eq:
@@ -459,10 +431,8 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
                 return QPL_STS_OK;
             }
             [[fallthrough]];
-        case qpl_op_find_unique:
         case qpl_op_select:
         case qpl_op_expand:
-        case qpl_op_set_membership:
         case qpl_op_rle_burst:
         case qpl_op_scan_ne:
         case qpl_op_scan_eq:

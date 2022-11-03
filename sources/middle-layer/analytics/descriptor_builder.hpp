@@ -123,33 +123,11 @@ inline auto descriptor_builder<qpl_op_extract>::operation(const uint32_t param_l
 }
 
 template <>
-inline auto descriptor_builder<qpl_op_find_unique>::operation(const uint32_t drop_low_bits,
-                                                              const uint32_t drop_high_bits) noexcept -> descriptor_builder & {
-    hw_iaa_descriptor_analytic_set_find_unique_operation(&descriptor_, drop_low_bits, drop_high_bits, aecs_ptr_);
-
-    return *this;
-}
-
-template <>
 inline auto descriptor_builder<qpl_op_expand>::operation(const input_stream_t &mask_stream) noexcept -> descriptor_builder & {
     hw_iaa_descriptor_analytic_set_expand_operation(&descriptor_,
                                                     mask_stream.data(),
                                                     mask_stream.size(),
                                                     mask_stream.stream_format() == stream_format_t::be_format);
-
-    return *this;
-}
-
-template <>
-inline auto descriptor_builder<qpl_op_set_membership>::operation(const input_stream_t &set_stream,
-                                                                 const uint32_t drop_low_bits,
-                                                                 const uint32_t drop_high_bits) noexcept -> descriptor_builder & {
-    hw_iaa_descriptor_analytic_set_membership_operation(&descriptor_,
-                                                        drop_low_bits,
-                                                        drop_high_bits,
-                                                        set_stream.data(),
-                                                        set_stream.size(),
-                                                        set_stream.stream_format() == stream_format_t::be_format);
 
     return *this;
 }

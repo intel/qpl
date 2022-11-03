@@ -22,60 +22,6 @@ auto split_elements(uint32_t number_of_elements) noexcept -> uint32_t {
 }
 
 template <>
-void split_descriptors<qpl_operation::qpl_op_set_membership, 8>(hw_descriptor &reference_descriptor,
-                                                                std::array<hw_descriptor, 8> &descriptors) noexcept {
-    constexpr uint32_t number_of_descriptors = 8;
-    uint8_t *current_source_ptr = nullptr;
-    uint32_t source_size = 0;
-    hw_iaa_descriptor_get_input_buffer(&reference_descriptor, &current_source_ptr, &source_size);
-
-    uint8_t *current_destination_ptr = nullptr;
-    uint32_t destination_size = 0;
-    hw_iaa_descriptor_get_output_buffer(&reference_descriptor, &current_destination_ptr, &destination_size);
-
-    const auto number_of_elements = hw_iaa_descriptor_get_number_of_elements(&reference_descriptor);
-    const auto source_bit_width = hw_iaa_descriptor_get_source1_bit_width(&reference_descriptor);
-
-    const auto part_element_count = split_elements<number_of_descriptors>(number_of_elements);
-    const auto last_part_element_count = number_of_elements - part_element_count * (number_of_descriptors - 1);
-
-    auto source_part_size = (part_element_count * source_bit_width) / 8;
-    auto destination_part_size = part_element_count / 8;
-
-    const auto last_source_part_size = source_size - source_part_size * (number_of_descriptors - 1);
-    const auto last_destination_part_size = destination_size - destination_part_size * (number_of_descriptors - 1);
-
-    for (uint32_t i = 0; i < number_of_descriptors - 1; i++) {
-        descriptors[i] = reference_descriptor;
-
-        // Correct input / output descriptor fields for splitting
-        hw_iaa_descriptor_set_input_buffer(&descriptors[i],
-                                           current_source_ptr,
-                                           source_part_size);
-
-        hw_iaa_descriptor_set_number_of_elements(&descriptors[i], part_element_count);
-
-        hw_iaa_descriptor_set_output_buffer(&descriptors[i],
-                                            current_destination_ptr,
-                                            destination_part_size);
-
-        current_source_ptr += source_part_size;
-        current_destination_ptr += destination_part_size;
-    }
-
-    descriptors.back() = reference_descriptor;
-    hw_iaa_descriptor_set_input_buffer(&descriptors.back(),
-                                       current_source_ptr,
-                                       last_source_part_size);
-
-    hw_iaa_descriptor_set_number_of_elements(&descriptors.back(), last_part_element_count);
-
-    hw_iaa_descriptor_set_output_buffer(&descriptors.back(),
-                                        current_destination_ptr,
-                                        last_destination_part_size);
-}
-
-template <>
 void split_descriptors<qpl_operation::qpl_op_scan_eq, 8>(hw_descriptor &reference_descriptor,
                                                          std::array<hw_descriptor, 8> &descriptors) noexcept {
     constexpr uint32_t number_of_descriptors = 8;

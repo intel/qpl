@@ -34,14 +34,8 @@ Common methods for operation with mask:
    :header-rows: 1
 
    * - Operation
-     - Specific methods
    * - ``select_operation``
-     - -
    * - ``expand_operation``
-     - -
-   * - ``set_membership_operation``
-     - ``number_low_order_bits_to_ignore(uint32_t value)`` \ 
-       ``number_high_order_bits_to_ignore(uint32_t value)`` 
 
 
 Methods Description
@@ -81,12 +75,6 @@ Methods Description
 | ``upper_index(uint32_t value)`` | Sets upper index for extract       |
 |                                 | operations                         |
 +---------------------------------+------------------------------------+
-| ``number_low_order_b            | Sets number low order bits to      |
-| its_to_ignore(uint32_t value)`` | ignore                             |
-+---------------------------------+------------------------------------+
-| ``number_high_order_b           | Sets number high order bits to     |
-| its_to_ignore(uint32_t value)`` | ignore                             |
-+---------------------------------+------------------------------------+
 
 
 .. toctree::
@@ -94,4 +82,3 @@ Methods Description
 
     select_operation
     expand_operation
-    set_membership_operation

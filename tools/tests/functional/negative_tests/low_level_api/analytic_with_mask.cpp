@@ -22,16 +22,9 @@ namespace qpl::test {
             job_ptr->flags = 0;
             job_ptr->src2_bit_width = 1;
 
-            if constexpr (operation != qpl_op_set_membership) {
-                second_input_elements = job_ptr->num_input_elements;
-                job_ptr->param_low    = 0u;
-                job_ptr->param_high   = job_ptr->num_input_elements / 2u;
-            }
-            else {
-                job_ptr->param_low    = 0u;
-                job_ptr->param_high   = 0u;
-                second_input_elements = 1ULL << (job_ptr->src1_bit_width);
-            }
+            second_input_elements = job_ptr->num_input_elements;
+            job_ptr->param_low    = 0u;
+            job_ptr->param_high   = job_ptr->num_input_elements / 2u;
         }
 
         void PrepareMask() {
@@ -67,16 +60,9 @@ namespace qpl::test {
             job_ptr->flags = 0;
             job_ptr->src2_bit_width = 1;
 
-            if constexpr (operation != qpl_op_set_membership) {
-                second_input_elements = job_ptr->num_input_elements;
-                job_ptr->param_low    = 0u;
-                job_ptr->param_high   = job_ptr->num_input_elements / 2u;
-            }
-            else {
-                job_ptr->param_low    = 0u;
-                job_ptr->param_high   = 0u;
-                second_input_elements = 1ULL << (job_ptr->src1_bit_width);
-            }
+            second_input_elements = job_ptr->num_input_elements;
+            job_ptr->param_low    = 0u;
+            job_ptr->param_high   = job_ptr->num_input_elements / 2u;
         }
 
         void PrepareMask() {
@@ -185,15 +171,12 @@ namespace qpl::test {
 
 
     REGISTER_NEGATIVE_TESTS_LE(expand, AnalyticWithMaskNegativeTestLE<qpl_op_expand>)
-    REGISTER_NEGATIVE_TESTS_LE(set_membersip, AnalyticWithMaskNegativeTestLE<qpl_op_set_membership>)
     REGISTER_NEGATIVE_TESTS_LE(select, AnalyticWithMaskNegativeTestLE<qpl_op_select>)
 
     REGISTER_NEGATIVE_TESTS_RLE(expand, AnalyticWithMaskNegativeTestRLE<qpl_op_expand>)
-    REGISTER_NEGATIVE_TESTS_RLE(set_membersip, AnalyticWithMaskNegativeTestRLE<qpl_op_set_membership>)
     REGISTER_NEGATIVE_TESTS_RLE(select, AnalyticWithMaskNegativeTestRLE<qpl_op_select>)
 
     REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(expand, AnalyticsWithMaskIncorrectBitwidthPRLETest<qpl_op_expand>)
-    REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(set_membersip, AnalyticsWithMaskIncorrectBitwidthPRLETest<qpl_op_set_membership>)
     REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(select, AnalyticsWithMaskIncorrectBitwidthPRLETest<qpl_op_select>)
 
     REGISTER_NEGATIVE_EXPAND_NUM_ELEMENTS_TEST(ExpandIncorrectNumElementsTest<qpl_ow_8>, incorrect_num_elements_with_index_output_8u)

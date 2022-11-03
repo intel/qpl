@@ -29,7 +29,7 @@ extern "C" {
 #include "qpl/c_api/job.h"
 #include "own_ref_defs.h"
 
-/** 
+/**
  * @brief Compresses all zero elements in input buffer
  *
  * @details: Intel QPL operations - Zero Compress.
@@ -99,7 +99,7 @@ extern qpl_status ref_zero_compress_16u(qpl_job *const qpl_job_ptr);
  */
 extern qpl_status ref_zero_compress_32u(qpl_job *const qpl_job_ptr);
 
-/** 
+/**
  * @brief refZeroDecompress - Compresses all zero elements in input buffer
  *
  * @details: Intel QPL other operations - Zero Compress.
@@ -169,7 +169,7 @@ extern qpl_status ref_zero_decompress_16u(qpl_job *const qpl_job_ptr);
  */
 extern qpl_status ref_zero_decompress_32u(qpl_job *const qpl_job_ptr);
 
-/** 
+/**
  * @brief Calculates CRC32
  *
  * @b Purpose: Intel QPL other operations - CRC32.
@@ -186,7 +186,7 @@ extern qpl_status ref_zero_decompress_32u(qpl_job *const qpl_job_ptr);
  */
 extern uint32_t ref_crc32(const uint8_t *buf, uint32_t len, uint32_t poly, uint32_t init_crc);
 
-/** 
+/**
  * @brief Calculates XOR checksum
  *
  * @b Purpose: Intel QPL other operations - XOR checksum.
@@ -200,7 +200,7 @@ extern uint32_t ref_crc32(const uint8_t *buf, uint32_t len, uint32_t poly, uint3
  */
 extern uint32_t ref_xor_checksum(const uint8_t *buf, uint32_t len, uint32_t init_xor);
 
-/** 
+/**
  * @brief ref_crc64 - CRC64 calculation
  *
  * @param[in,out] qpl_job_ptr  Pointer to the initialized @ref qpl_job structure
@@ -217,7 +217,7 @@ extern uint32_t ref_xor_checksum(const uint8_t *buf, uint32_t len, uint32_t init
  */
 extern qpl_status ref_crc64(qpl_job *const qpl_job_ptr);
 
-/** 
+/**
  * @brief  Replicates each element in src2_ptr a number of times defined by src1_ptr element with the same index.
  *
  * @param[in,out] qpl_job_ptr  Pointer to the initialized @ref qpl_job structure
@@ -308,7 +308,7 @@ extern qpl_status ref_expand_rle(qpl_job *const qpl_job_ptr);
  *       than qpl_job_ptr->next_out_ptr[i] = 1, otherwise = 0. In case of output modification used,
  *       qpl_job_ptr->next_out_ptr[i] is an index "i" if condition above is satisfied, or skipped otherwise.
  *
- * @return 
+ * @return
  *    - @ref QPL_STS_OK
  *    - @ref QPL_STS_NULL_PTR_ERR           - if any of qpl_job_ptr|next_in_ptr|next_out_ptr pointers is NULL
  *    - @ref QPL_STS_SIZE_ERR               - if any of available_in|available_out|num_input_elements is 0
@@ -322,69 +322,6 @@ extern qpl_status ref_expand_rle(qpl_job *const qpl_job_ptr);
  *                                            for this data type
  */
 extern qpl_status ref_compare(qpl_job *const qpl_job_ptr);
-
-/** 
- * @brief ref_find_unique - Scans input vector and save of map for the present values into output bit-vector
- *   
- * @param[in,out]  qpl_job_ptr  Pointer to the initialized @ref qpl_job structure
- *
- * @todo used fields: next_in_ptr, available_in, next_out_ptr, available_out, num_input_elements, src1_bit_width,
- *               dropLowBits, dropHighBits, parser, out_bit_width;
- *   
- * @remarks  This function starts with the dst_ptr bit-vector of size 2N, where N is the bit-width of src1_ptr.
- *           This dst_ptr starts with all zero values. As function reads the elements from src1_ptr,
- *           it sets bits corresponding to the values from src1_ptr. At the end,
- *           the 1-bits in the dst_ptr vector specify all of the values seen from src1_ptr.
- *
- * @todo fix description
- * @return 
- *    - @ref QPL_STS_OK
- *    - @ref QPL_STS_NULL_PTR_ERR              - if any of qpl_job_ptr|next_in_ptr|next_out_ptr pointers is NULL
- *    - @ref QPL_STS_SIZE_ERR                  - if any of available_in|available_out|num_input_elements is 0
- *    - @ref QPL_STS_BIT_WIDTH_ERR             - if src1_bit_width is 0 or greater than 32
- *    - @ref QPL_STS_SRC_IS_SHORT_ERR          - if num_input_elements has not been processed while
- *                                               available_in archived
- *    - @ref QPL_STS_DST_IS_SHORT_ERR          - if num_input_elements has not been processed while
- *                                               available_out archived
- *    - @ref QPL_STS_OUT_FORMAT_ERR            - in case of bad value in the out_bit_width field (must be always 1)
- *    - @ref QPL_STS_PARSER_ERR                - in case of bad (non-supported) value in the parser field
- *    - @ref QPL_STS_OPERATION_ERR             - in case of bad (non-supported) value in the op field
- *    - @ref QPL_STS_DROP_BITS_OVERFLOW_ERR    - in case of incorrect values in dropLowBits and dropHighBits
- */
-extern qpl_status ref_find_unique(qpl_job *const qpl_job_ptr);
-
-/** 
- * @brief qpl_set_membership - Scans input vector for values that present in transmitted mask
- *                             and save of the elements map into output bit-vector
- *   
- * @param[in,out]  qpl_job_ptr  Pointer to the initialized @ref qpl_job structure
- *
- * @todo used fields: next_in_ptr, available_in, next_src2_ptr, available_src2, next_out_ptr, available_out,
- *                    num_input_elements, src1_bit_width, dropLowBits, dropHighBits, parser, out_bit_width;
- *
- * @remarks  The  src2_ptr contains a bit-vector containing 2N bits, where N is the bit-width of src1_ptr. The bits define
- *           a set, and the dst_ptr is a bit-vector whose 1-bits identify which input elements are members of the set.
- *           The number of dst_ptr bits (i.e. the number of output elements) is the same as the number
- *           of src1_ptr elements.
- *
- * @todo fix description
- * @return 
- *    - @ref QPL_STS_OK
- *    - @ref QPL_STS_NULL_PTR_ERR              - if any of qpl_job_ptr | next_in_ptr | next_src2_ptr | next_out_ptr
- *                                               pointers is NULL
- *    - @ref QPL_STS_SIZE_ERR                  - if any of available_in | available_src2 | available_out |
- *                                               num_input_elements is 0
- *    - @ref QPL_STS_BIT_WIDTH_ERR             - if src1_bit_width is 0 or greater than 32
- *    - @ref QPL_STS_SRC_IS_SHORT_ERR          - if num_input_elements has not been processed while
- *                                               available_in archived
- *    - @ref QPL_STS_DST_IS_SHORT_ERR          - if num_input_elements has not been processed while
- *                                               available_out archived
- *    - @ref QPL_STS_OUT_FORMAT_ERR            - in case of bad value in the out_bit_width field (must be always 1)
- *    - @ref QPL_STS_PARSER_ERR                - in case of bad (non-supported) value in the parser field
- *    - @ref QPL_STS_OPERATION_ERR             - in case of bad (non-supported) value in the op field
- *    - @ref QPL_STS_DROP_BITS_OVERFLOW_ERR    - in case of incorrect values in dropLowBits and dropHighBits
- */
-extern qpl_status ref_set_membership(qpl_job *const qpl_job_ptr);
 
 /**
  * @brief qpl_extract - Extracts a sub-vector from input vector starting from index
@@ -400,7 +337,7 @@ extern qpl_status ref_set_membership(qpl_job *const qpl_job_ptr);
  *           bit width of the input, and the number of output elements should be (param_high - param_low + 1).
  *
  * @todo fix description
- * @return 
+ * @return
  *    - @ref QPL_STS_OK
  *    - @ref QPL_STS_NULL_PTR_ERR        - if any of qpl_job_ptr|next_in_ptr|next_out_ptr pointers is NULL
  *    - @ref QPL_STS_SIZE_ERR            - if any of available_in|available_out|num_input_elements is 0
@@ -425,7 +362,7 @@ qpl_status ref_extract(qpl_job *const qpl_job_ptr);
  *           Those source-1 items which correspond to 1-bits in source-2 will be output.
  *
  * @todo fix description
- * @return 
+ * @return
  *    - @ref QPL_STS_OK
  *    - @ref QPL_STS_NULL_PTR_ERR        - if any of qpl_job_ptr | next_in_ptr | next_out_ptr | next_src2_ptr
  *                                         pointers is NULL
@@ -455,7 +392,7 @@ qpl_status ref_select(qpl_job *const qpl_job_ptr);
  * @remarks  For this operation source-2 is a bit-vector which defines the size of output.
  *
  * @todo fix description
- * @return 
+ * @return
  *    - @ref QPL_STS_OK
  *    - @ref QPL_STS_NULL_PTR_ERR        - if any of qpl_job_ptr | next_in_ptr | next_out_ptr | next_src2_ptr
  *                                         pointers is NULL

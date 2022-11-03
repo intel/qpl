@@ -18,8 +18,6 @@
 #include "qplc_scan.h"
 #include "qplc_memop.h"
 #include "qplc_aggregates.h"
-#include "qplc_find_unique.h"
-#include "qplc_set_membership.h"
 #include "qplc_expand.h"
 #include "qplc_rle_burst.h"
 #include "qplc_checksum.h"
@@ -47,10 +45,6 @@ auto get_unpack_prle_index(const uint32_t bit_width) -> uint32_t;
 auto get_scan_index(const uint32_t bit_width, const uint32_t scan_flavor_index) -> uint32_t;
 
 auto get_extract_index(const uint32_t bit_width) -> uint32_t;
-
-auto get_find_unique_index(const uint32_t bit_width) -> uint32_t;
-
-auto get_set_membership_index(const uint32_t bit_width) -> uint32_t;
 
 auto get_select_index(const uint32_t bit_width) -> uint32_t;
 
@@ -81,10 +75,6 @@ using extract_table_t = std::array<qplc_extract_t_ptr, 3>;
 using extract_i_table_t = std::array<qplc_extract_i_t_ptr, 3>;
 
 using aggregates_table_t = std::array<qplc_aggregates_t_ptr, 4>;
-
-using find_unique_table_t = std::array<qplc_find_unique_t_ptr, 3>;
-
-using set_membership_i_table_t = std::array<qplc_set_membership_i_t_ptr, 3>;
 
 using select_table_t = std::array<qplc_select_t_ptr, 3>;
 using select_i_table_t = std::array<qplc_select_i_t_ptr, 3>;
@@ -137,10 +127,6 @@ public:
 
     [[nodiscard]] auto get_extract_i_table() const noexcept -> const extract_i_table_t &;
 
-    [[nodiscard]] auto get_find_unique_table() const noexcept -> const find_unique_table_t &;
-
-    [[nodiscard]] auto get_set_membership_i_table() const noexcept -> const set_membership_i_table_t &;
-
     [[nodiscard]] auto get_select_table() const noexcept -> const select_table_t &;
 
     [[nodiscard]] auto get_select_i_table() const noexcept -> const select_i_table_t &;
@@ -180,8 +166,6 @@ private:
     extract_table_t                 *extract_table_ptr_                 = nullptr;
     extract_i_table_t               *extract_i_table_ptr_               = nullptr;
     aggregates_table_t              *aggregates_table_ptr_              = nullptr;
-    find_unique_table_t             *find_unique_table_ptr_             = nullptr;
-    set_membership_i_table_t        *set_membership_i_table_ptr_        = nullptr;
     select_table_t                  *select_table_ptr_                  = nullptr;
     select_i_table_t                *select_i_table_ptr_                = nullptr;
     expand_table_t                  *expand_table_ptr_                  = nullptr;

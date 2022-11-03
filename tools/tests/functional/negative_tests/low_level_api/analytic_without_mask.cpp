@@ -20,12 +20,8 @@ namespace qpl::test {
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = parser;
             job_ptr->flags = 0;
-
-            if constexpr (operation != qpl_op_find_unique)
-            {
-                job_ptr->param_low = 0u;
-                job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
-            }
+            job_ptr->param_low = 0u;
+            job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
         }
 
         void SetUp() override
@@ -44,12 +40,8 @@ namespace qpl::test {
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = qpl_p_parquet_rle;
             job_ptr->flags = 0;
-
-            if constexpr (operation != qpl_op_find_unique)
-            {
-                job_ptr->param_low = 0u;
-                job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
-            }
+            job_ptr->param_low = 0u;
+            job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
         }
 
         void SetUp() override
@@ -89,17 +81,12 @@ namespace qpl::test {
     REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(scan, AnalyticWithoutMaskNegativeTestLE<qpl_op_scan_eq>, le)
     REGISTER_NEGATIVE_TESTS_LE(extract, AnalyticWithoutMaskNegativeTestLE<qpl_op_extract>)
     REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(extract, AnalyticWithoutMaskNegativeTestLE<qpl_op_extract>, le)
-    REGISTER_NEGATIVE_TESTS_LE(find_unique, AnalyticWithoutMaskNegativeTestLE<qpl_op_find_unique>)
-    REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(find_unique, AnalyticWithoutMaskNegativeTestLE<qpl_op_find_unique>, le)
 
     REGISTER_NEGATIVE_TESTS_RLE(scan, AnalyticWithoutMaskNegativeTestRLE<qpl_op_scan_eq>)
     REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(scan, AnalyticWithoutMaskNegativeTestRLE<qpl_op_scan_eq>, rle)
     REGISTER_NEGATIVE_TESTS_RLE(extract, AnalyticWithoutMaskNegativeTestRLE<qpl_op_extract>)
     REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(extract, AnalyticWithoutMaskNegativeTestRLE<qpl_op_extract>, rle)
-    REGISTER_NEGATIVE_TESTS_RLE(find_unique, AnalyticWithoutMaskNegativeTestRLE<qpl_op_find_unique>)
-    REGISTER_NEGATIVE_TEST_ON_DROP_INITIAL_BYTE(find_unique, AnalyticWithoutMaskNegativeTestRLE<qpl_op_find_unique>, rle)
 
     REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(scan, AnalyticsWithoutMaskIncorrectBitwidthPRLETest<qpl_op_scan_eq>)
     REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(extract, AnalyticsWithoutMaskIncorrectBitwidthPRLETest<qpl_op_extract>)
-    REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(find_unique, AnalyticsWithoutMaskIncorrectBitwidthPRLETest<qpl_op_find_unique>)
 }
