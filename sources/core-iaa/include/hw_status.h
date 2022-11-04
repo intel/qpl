@@ -54,7 +54,6 @@ typedef uint8_t hw_operation_status; /**< Accelerator status type */
 #define AD_STATUS_MISALIGNED_ADDRESS       0x1C    /**< The `AECS` address or size was not a multiple of 32 bytes */
 #define AD_STATUS_INVALID_DECOMP_FLAG      0x30    /**< Invalid `Decompression/Compression/CRC Flags` */
 #define AD_STATUS_INVALID_FILTER_FLAG      0x31    /**< Invalid `Filter Flags` */
-#define AD_STATUS_INVALID_INPUT_SIZE       0x32    /**< `ZeroCompress/ZeroDecompress` input size not multiple of 2 or 4 */
 #define AD_STATUS_INVALID_NUM_ELEM         0x33    /**< `Number Elements` for `Filter` operation is 0 */
 #define AD_STATUS_INVALID_SRC1_WIDTH       0x34    /**< Invalid `source-1` bit-width */
 #define AD_STATUS_INVALID_INV_OUTPUT       0x35    /**< `Invert Output Flag` was used when the output was not a bit-vector */

@@ -109,9 +109,6 @@ extern crc64_table_t avx512_crc64_table;
 extern xor_checksum_table_t px_xor_checksum_table;
 extern xor_checksum_table_t avx512_xor_checksum_table;
 
-extern zero_compress_table_t px_zero_compress_table;
-extern zero_compress_table_t avx512_zero_compress_table;
-
 extern deflate_table_t px_deflate_table;
 extern deflate_table_t avx512_deflate_table;
 
@@ -346,10 +343,6 @@ auto kernels_dispatcher::get_xor_checksum_table() const noexcept -> const xor_ch
     return *xor_checksum_table_ptr_;
 }
 
-auto kernels_dispatcher::get_zero_compress_table() const noexcept -> const zero_compress_table_t & {
-    return *zero_compress_table_ptr_;
-}
-
 auto kernels_dispatcher::get_deflate_table() const noexcept -> const deflate_table_t & {
     return *deflate_table_ptr_;
 }
@@ -395,7 +388,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             move_table_ptr_                  = &avx512_move_table;
             crc64_table_ptr_                 = &avx512_crc64_table;
             xor_checksum_table_ptr_          = &avx512_xor_checksum_table;
-            zero_compress_table_ptr_         = &avx512_zero_compress_table;
             deflate_table_ptr_               = &avx512_deflate_table;
             deflate_fix_table_ptr_           = &avx512_deflate_fix_table;
             setup_dictionary_table_ptr_      = &avx512_setup_dictionary_table;
@@ -420,7 +412,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             move_table_ptr_                  = &px_move_table;
             crc64_table_ptr_                 = &px_crc64_table;
             xor_checksum_table_ptr_          = &px_xor_checksum_table;
-            zero_compress_table_ptr_         = &px_zero_compress_table;
             deflate_table_ptr_               = &px_deflate_table;
             deflate_fix_table_ptr_           = &px_deflate_fix_table;
             setup_dictionary_table_ptr_      = &px_setup_dictionary_table;

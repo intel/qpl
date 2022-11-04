@@ -24,11 +24,6 @@ typedef uint64_t hw_operation_flags_t; /**< Represents operation's flags */
  */
 #define QPL_OPCODE_DECOMPRESS   0x42u    /**< @todo */
 #define QPL_OPCODE_COMPRESS     0x43u    /**< @todo */
-
-#define QPL_OPCODE_Z_DECOMP32   0x48u    /**< @todo */
-#define QPL_OPCODE_Z_DECOMP16   0x49u    /**< @todo */
-#define QPL_OPCODE_Z_COMP32     0x4Cu    /**< @todo */
-#define QPL_OPCODE_Z_COMP16     0x4Du    /**< @todo */
 /** @} */
 
 /* ################# FILTER FLAGS ################# */

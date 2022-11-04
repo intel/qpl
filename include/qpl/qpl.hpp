@@ -34,8 +34,6 @@
 // Compression Operations API
 #include "cpp_api/operations/compression/deflate_operation.hpp"
 #include "cpp_api/operations/compression/inflate_operation.hpp"
-#include "cpp_api/operations/compression/zero_compress_operation.hpp"
-#include "cpp_api/operations/compression/zero_decompress_operation.hpp"
 #include "cpp_api/results/deflate_block.hpp"
 #include "cpp_api/results/deflate_stream.hpp"
 #include "cpp_api/results/inflate_stream.hpp"

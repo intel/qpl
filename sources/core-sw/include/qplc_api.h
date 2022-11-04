@@ -15,7 +15,6 @@
 #include "qplc_memop.h"
 #include "qplc_aggregates.h"
 #include "qplc_checksum.h"
-#include "qplc_zero_compression.h"
 
 #ifndef OWN_QPL_CORE_API_H_
 #define OWN_QPL_CORE_API_H_

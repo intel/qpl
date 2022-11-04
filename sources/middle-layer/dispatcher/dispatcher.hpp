@@ -21,7 +21,6 @@
 #include "qplc_expand.h"
 #include "qplc_rle_burst.h"
 #include "qplc_checksum.h"
-#include "qplc_zero_compression.h"
 
 #define OWN_MIN_(a, b) (a < b) ? a : b
 
@@ -89,8 +88,6 @@ using move_table_t = std::array<qplc_move_t_ptr, 1>;
 using crc64_table_t = std::array<qplc_crc64_t_ptr, 1>;
 using xor_checksum_table_t = std::array<qplc_xor_checksum_t_ptr, 1>;
 
-using zero_compress_table_t = std::array<qplc_zero_compress_t_ptr, 4u>;
-
 using deflate_table_t = std::array<void*, 3u>;
 
 using deflate_fix_table_t = std::array<void*, 1u>;
@@ -145,8 +142,6 @@ public:
 
     [[nodiscard]] auto get_xor_checksum_table() const noexcept -> const xor_checksum_table_t &;
 
-    [[nodiscard]] auto get_zero_compress_table() const noexcept -> const zero_compress_table_t &;
-
     [[nodiscard]] auto get_deflate_table() const noexcept -> const deflate_table_t &;
 
     [[nodiscard]] auto get_deflate_fix_table() const noexcept -> const deflate_fix_table_t &;
@@ -175,7 +170,6 @@ private:
     move_table_t                    *move_table_ptr_                    = nullptr;
     crc64_table_t                   *crc64_table_ptr_                   = nullptr;
     xor_checksum_table_t            *xor_checksum_table_ptr_            = nullptr;
-    zero_compress_table_t           *zero_compress_table_ptr_           = nullptr;
     deflate_table_t                 *deflate_table_ptr_                 = nullptr;
     deflate_fix_table_t             *deflate_fix_table_ptr_             = nullptr;
     setup_dictionary_table_t        *setup_dictionary_table_ptr_        = nullptr;

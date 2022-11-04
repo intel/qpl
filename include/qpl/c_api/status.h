@@ -155,7 +155,6 @@ typedef enum {
     QPL_STS_BIT_WIDTH_ERR             = QPL_OPERATION_ERROR(31u), /**< Bit width is out of range [1..32] */
     QPL_STS_SRC_IS_SHORT_ERR          = QPL_OPERATION_ERROR(32u), /**< The input stream ended before specified Number of input Element was seen  */
     QPL_STS_INVALID_RLE_COUNT         = QPL_OPERATION_ERROR(33u), /**< Invalid value for a counter (32bit) in PrleExpand, specifically, counter < prev counter or exceeds 2^16 */
-    QPL_STS_INVALID_ZERO_DECOMP_HDR   = QPL_OPERATION_ERROR(34u), /**< Invalid header for the ZeroDecompress functionality */
     QPL_STS_TOO_MANY_LL_CODES_ERR     = QPL_OPERATION_ERROR(35u), /**< The number of LL codes specified in the DEFLATE header exceed 286 */
     QPL_STS_TOO_MANY_D_CODES_ERR      = QPL_OPERATION_ERROR(36u), /**< The number of D codes specified in the DEFLATE header exceed 30 */
 

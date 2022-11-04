@@ -385,16 +385,6 @@ namespace qpl::test
         return result_vector;
     }
 
-    auto source_provider::get_zero_compressed_source() const -> std::vector<uint8_t>
-    {
-        uint32_t             byte_length   = m_number_of_elements * (m_bit_width / BYTE_BIT_LENGTH);
-        std::vector<uint8_t> result_vector = format_generator::generate_zero_compressed_data(m_bit_width,
-                                                                                             byte_length,
-                                                                                             m_seed);
-
-        return result_vector;
-    }
-
     auto generate_mask(uint32_t number_of_elements) -> std::vector<uint8_t> {
         source_provider mask_generator(number_of_elements,
                                        1u,

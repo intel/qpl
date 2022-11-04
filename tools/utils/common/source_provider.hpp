@@ -44,8 +44,6 @@ namespace qpl::test
 
         auto get_source() -> std::vector<uint8_t>;
 
-        auto get_zero_compressed_source() const -> std::vector<uint8_t>;
-
         auto get_counter_source_expand_rle(uint16_t prologue = 0u) -> std::vector<uint8_t>;
 
         auto get_count_expand_rle_value() const -> uint32_t;

@@ -33,6 +33,5 @@ Expand             2                       Array or Bit Vector
    c_operations_op_select
    c_operations_op_rle_burst
    c_operations_op_expand
-   c_operations_op_zero_compress
    c_operations_op_crc64
 

@@ -19,8 +19,7 @@ namespace qpl::ml::compression {
 enum class compression_algorithm_e : uint8_t {
     deflate,
     canned,
-    huffman_only,
-    zero_compress,
+    huffman_only
 };
 
 struct decompression_operation_result_t {

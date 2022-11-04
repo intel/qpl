@@ -62,25 +62,6 @@ HW_PATH_IAA_API(void, descriptor_init_crc64, (hw_descriptor * descriptor_ptr,
                                               uint64_t      polynomial,
                                               bool          is_be_bit_order,
                                               bool          is_inverse));
-
-
-/**
- * @brief Inits @ref hw_descriptor for ZERO_COMPRESS/ZERO_DECOMPRESS operation
- * @param[in,out] descriptor_ptr        pointer to allocated descriptor to init
- * @param[in] zero_opcode               operation opcode
- * @param[in] source_ptr                pointer to the source
- * @param[in] destination_ptr           pointer to the destination
- * @param[in] input_size                size of the source buffer
- * @param[in] output_size               size of the destination buffer
- *
- * @note Memory pointed with `completion_record_ptr` will be changed after descriptor executed
- */
-HW_PATH_IAA_API(void, descriptor_init_zero_compress, (hw_descriptor * descriptor_ptr,
-                                                      uint32_t zero_opcode,
-                                                      const uint8_t        *source_ptr,
-                                                      uint8_t              *destination_ptr,
-                                                      uint32_t             input_size,
-                                                      uint32_t             output_size));
 /** @} */
 
 

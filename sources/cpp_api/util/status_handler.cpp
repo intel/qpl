@@ -97,9 +97,6 @@ void handle_status(uint32_t status_code) {
         case QPL_STS_INVALID_RLE_COUNT: {
             throw operation_process_exception(messages::invalid_rle_counter);
         }
-        case QPL_STS_INVALID_ZERO_DECOMP_HDR: {
-            throw invalid_data_exception(messages::invalid_zero_decompress_header);
-        }
         default: {
             // TODO should be removed
             if (status_code) {

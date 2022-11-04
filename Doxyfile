@@ -819,7 +819,6 @@ INPUT                  = include \
                          sources/c_api/other_operations/crc64.hpp \
                          sources/c_api/filter_operations/filter_operations.hpp \
                          sources/c_api/compression_operations/compressor.hpp \
-                         sources/c_api/compression_operations/zero_compressor.hpp \
                          sources/core-iaa/include \
                          examples
 
@@ -933,7 +932,6 @@ EXCLUDE_SYMBOLS        = \
                          incorrect_prle_bit_width \
                          short_source \
                          invalid_rle_counter \
-                         invalid_zero_decompress_header \
                          no_any_exception_occurred
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories

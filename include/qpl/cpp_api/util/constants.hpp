@@ -102,7 +102,6 @@ constexpr const char *short_source                   = "Source buffer has less b
                                                        "to process input elements";
 constexpr const char *invalid_rle_counter            = "During RLE-burst, the cumulative count decreased(i.e. "
                                                        "count < prev count), or a count exceeded 2^16";
-constexpr const char *invalid_zero_decompress_header = "Invalid header for ZeroDecompress functionality";
 constexpr const char *no_any_exception_occurred      = "No any exception occurred";
 /** @} */
 

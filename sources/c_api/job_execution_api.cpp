@@ -15,7 +15,6 @@
 #include "compression_operations/compressor.hpp"
 #include "filter_operations/filter_operations.hpp"
 #include "filter_operations/analytics_state_t.h"
-#include "compression_operations/zero_compressor.hpp"
 #include "other_operations/crc64.hpp"
 
 // Middle layer headers
@@ -106,13 +105,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
         } // other operations
         case qpl_op_crc64: {
             status = perform_crc64(qpl_job_ptr);
-            break;
-        }
-        case qpl_op_z_decompress32:
-        case qpl_op_z_decompress16:
-        case qpl_op_z_compress32:
-        case qpl_op_z_compress16: {
-            status = perform_zero_compress(qpl_job_ptr, nullptr, 0u);
             break;
         }
         case qpl_op_scan_eq:
@@ -262,10 +254,6 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
         if (job::is_compression(qpl_job_ptr) &&
             !(job::is_indexing_enabled(qpl_job_ptr) && job::is_multi_job(qpl_job_ptr))) {
             return static_cast<qpl_status>(perform_compression<ml::execution_path_t::hardware>(qpl_job_ptr));
-        }
-
-        if (job::is_zero_compress(qpl_job_ptr)) {
-            return static_cast<qpl_status>(perform_zero_compress(qpl_job_ptr, nullptr, 0u));
         }
 
         qpl_status status = hw_submit_job(qpl_job_ptr);

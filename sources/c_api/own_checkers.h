@@ -44,10 +44,6 @@ if(NULL == (expression)) { \
     (1ULL << qpl_op_decompress    ) |\
     (1ULL << qpl_op_compress      ) |\
     (1ULL << qpl_op_crc64         ) |\
-    (1ULL << qpl_op_z_decompress32) |\
-    (1ULL << qpl_op_z_decompress16) |\
-    (1ULL << qpl_op_z_compress32  ) |\
-    (1ULL << qpl_op_z_compress16  ) |\
     (1ULL << qpl_op_extract       ) |\
     (1ULL << qpl_op_select        ) |\
     (1ULL << qpl_op_rle_burst     ) |\

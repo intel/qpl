@@ -79,10 +79,6 @@ class rle_burst_operation;
 
 class crc_operation;
 
-class zero_compress_operation;
-
-class zero_decompress_operation;
-
 class inflate_operation;
 
 class deflate_operation;
@@ -121,12 +117,6 @@ auto execute(rle_burst_operation &operation,
 
 template <execution_path path>
 auto execute(crc_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(zero_compress_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(zero_decompress_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
 
 template <execution_path path>
 auto execute(inflate_operation &operation,
@@ -353,8 +343,6 @@ auto execute(operation_t &op,
                                  select_operation,
                                  rle_burst_operation,
                                  crc_operation,
-                                 zero_compress_operation,
-                                 zero_decompress_operation,
                                  inflate_operation,
                                  deflate_operation>) {
         auto operation_helper = dynamic_cast<operation *>(&op);

@@ -15,7 +15,7 @@ Low-Level C API Examples
 
 
 This section contains a number of simple C API examples, illustrating how you
-can use the Intel® Query Processing Library (Intel® QPL). 
+can use the Intel® Query Processing Library (Intel® QPL).
 
 
 .. _code_examples_c_compression_reference_link:
@@ -113,14 +113,6 @@ Select
 
 
 .. literalinclude:: ../../../../examples/low-level-api/select_example.cpp
-    :language: cpp
-
-
-Zero Compression
-================
-
-
-.. literalinclude:: ../../../../examples/low-level-api/zero_compression_example.cpp
     :language: cpp
 
 
@@ -223,14 +215,6 @@ Select
     :language: cpp
 
 
-Zero Compression
-----------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/zero_compression_example.cpp
-    :language: cpp
-
-
 Operations Chaining
 ===================
 
@@ -240,7 +224,7 @@ Decompression with Analytics
 
 
 .. literalinclude:: ../../../../examples/high-level-api/operation-chains/decompression_merged_with_analytics_example.cpp
-    :language: cpp 
+    :language: cpp
 
 
 Decompression with Scan and Select
@@ -248,7 +232,7 @@ Decompression with Scan and Select
 
 
 .. literalinclude:: ../../../../examples/high-level-api/operation-chains/decompression_scan_select_example.cpp
-    :language: cpp 
+    :language: cpp
 
 
 

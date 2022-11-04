@@ -37,7 +37,6 @@ add_executable(scan_with_numa_device_id_example simple-operations/scan_with_numa
 add_executable(scan_range_example simple-operations/scan_range_example.cpp)
 add_executable(select_example simple-operations/select_example.cpp)
 add_executable(rle_burst_example simple-operations/rle_burst_example.cpp)
-add_executable(zero_compression_example simple-operations/zero_compression_example.cpp)
 
 target_link_libraries(compression_example PRIVATE qplhl)
 target_link_libraries(compression_stream_example PRIVATE qplhl)
@@ -50,7 +49,6 @@ target_link_libraries(scan_with_numa_device_id_example PRIVATE qplhl PRIVATE qpl
 target_link_libraries(scan_range_example PRIVATE qplhl)
 target_link_libraries(select_example PRIVATE qplhl)
 target_link_libraries(rle_burst_example PRIVATE qplhl)
-target_link_libraries(zero_compression_example PRIVATE qplhl)
 
 set_target_properties(compression_example PROPERTIES CXX_STANDARD 17)
 set_target_properties(compression_stream_example PROPERTIES CXX_STANDARD 17)
@@ -63,7 +61,6 @@ set_target_properties(scan_with_numa_device_id_example PROPERTIES CXX_STANDARD 1
 set_target_properties(scan_range_example PROPERTIES CXX_STANDARD 17)
 set_target_properties(select_example PROPERTIES CXX_STANDARD 17)
 set_target_properties(rle_burst_example PROPERTIES CXX_STANDARD 17)
-set_target_properties(zero_compression_example PROPERTIES CXX_STANDARD 17)
 
 if (WIN32)
     target_compile_options(compression_example PRIVATE "$<$<CONFIG:Release>:-O2>" /WX -D_ENABLE_EXTENDED_ALIGNED_STORAGE)
@@ -77,7 +74,6 @@ if (WIN32)
     target_compile_options(scan_range_example PRIVATE "$<$<CONFIG:Release>:-O2>" /WX -D_ENABLE_EXTENDED_ALIGNED_STORAGE)
     target_compile_options(select_example PRIVATE "$<$<CONFIG:Release>:-O2>" /WX -D_ENABLE_EXTENDED_ALIGNED_STORAGE)
     target_compile_options(rle_burst_example PRIVATE "$<$<CONFIG:Release>:-O2>" /WX -D_ENABLE_EXTENDED_ALIGNED_STORAGE)
-    target_compile_options(zero_compression_example PRIVATE "$<$<CONFIG:Release>:-O2>" /WX -D_ENABLE_EXTENDED_ALIGNED_STORAGE)
 else ()
     target_compile_options(compression_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
     target_compile_options(compression_stream_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
@@ -90,7 +86,6 @@ else ()
     target_compile_options(scan_range_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
     target_compile_options(select_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
     target_compile_options(rle_burst_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
-    target_compile_options(zero_compression_example PRIVATE "$<$<CONFIG:Release>:-O3>;$<$<COMPILE_LANG_AND_ID:CXX,GNU>:-fno-rtti>" -Werror)
 endif ()
 
 # Operation utils

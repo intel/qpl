@@ -171,56 +171,6 @@ inline auto validate_operation<qpl_op_decompress>(const qpl_job *const job_ptr) 
     return QPL_STS_OK;
 }
 
-template <>
-inline auto validate_operation<qpl_op_z_compress16>(const qpl_job *const job_ptr) noexcept {
-    if (ml::bad_argument::check_for_nullptr(job_ptr, job_ptr->next_in_ptr, job_ptr->next_out_ptr)) {
-        return QPL_STS_NULL_PTR_ERR;
-    }
-
-    if (ml::bad_argument::buffers_overlap(job_ptr->next_in_ptr, job_ptr->available_in,
-                                      job_ptr->next_out_ptr, job_ptr->available_out)) {
-        return QPL_STS_BUFFER_OVERLAP_ERR;
-    }
-
-    constexpr auto Z_COMPRESS_16_HEADER_SIZE = 8u;
-    constexpr auto Z_COMPRESS_32_HEADER_SIZE = 4u;
-
-    constexpr auto Z_COMPRESS_16_SIZE_MASK = 1u;
-    constexpr auto Z_COMPRESS_32_SIZE_MASK = 3u;
-
-    switch (job_ptr->op) {
-        case qpl_op_z_compress16: QPL_BAD_SIZE_RET(job_ptr->available_in);
-            QPL_BADARG_RET(job_ptr->available_in & Z_COMPRESS_16_SIZE_MASK, QPL_STS_SRC_IS_SHORT_ERR);
-            QPL_BADARG_RET(Z_COMPRESS_16_HEADER_SIZE > job_ptr->available_out, QPL_STS_DST_IS_SHORT_ERR);
-
-            break;
-
-        case qpl_op_z_compress32: QPL_BAD_SIZE_RET(job_ptr->available_in);
-            QPL_BADARG_RET(job_ptr->available_in & Z_COMPRESS_32_SIZE_MASK, QPL_STS_SRC_IS_SHORT_ERR);
-            QPL_BADARG_RET(Z_COMPRESS_32_HEADER_SIZE > job_ptr->available_out, QPL_STS_DST_IS_SHORT_ERR);
-
-            break;
-
-        case qpl_op_z_decompress16: QPL_BADARG_RET(Z_COMPRESS_16_HEADER_SIZE > job_ptr->available_in,
-                                                   QPL_STS_INVALID_ZERO_DECOMP_HDR);
-            QPL_BADARG_RET(job_ptr->available_in & Z_COMPRESS_16_SIZE_MASK, QPL_STS_SRC_IS_SHORT_ERR);
-            QPL_BADARG_RET(0u == job_ptr->available_out, QPL_STS_DST_IS_SHORT_ERR);
-
-            break;
-
-        case qpl_op_z_decompress32: QPL_BADARG_RET(Z_COMPRESS_32_HEADER_SIZE > job_ptr->available_in,
-                                                   QPL_STS_INVALID_ZERO_DECOMP_HDR);
-            QPL_BADARG_RET(job_ptr->available_in & Z_COMPRESS_32_SIZE_MASK, QPL_STS_SRC_IS_SHORT_ERR);
-            QPL_BADARG_RET(0u == job_ptr->available_out, QPL_STS_DST_IS_SHORT_ERR);
-            break;
-
-        default:
-            return QPL_STS_OPERATION_ERR;
-    }
-
-    return QPL_STS_OK;
-}
-
 }
 
 #endif //QPL_SOURCES_C_API_COMPRESSION_OPERATIONS_ARGUMENTS_CHECK_HPP_

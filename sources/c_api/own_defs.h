@@ -41,7 +41,6 @@ QPL_INLINE int64_t QPL_INT_PTR(const void *ptr) {
 #define OWN_LOW_BIT_MASK              1u
 #define OWN_MAX_BIT_IDX               7u
 #define OWN_64U_BITS                  64u
-#define OWN_ZERO_COMPRESS_BLOCK_SIZE  128u
 
 #define QPL_BYTES_TO_ALIGN(ptr, align) ((-(QPL_INT_PTR(ptr)&((align)-1)))&((align)-1))
 #define QPL_ALIGNED_PTR(ptr, align) (void*)( (uint8_t*)(ptr) + (QPL_BYTES_TO_ALIGN( ptr, align )) )

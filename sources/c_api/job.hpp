@@ -119,13 +119,6 @@ static inline bool is_expand(const qpl_job *const job_ptr) noexcept {
     return qpl_op_expand == job_ptr->op;
 }
 
-static inline bool is_zero_compress(const qpl_job *const job_ptr) noexcept {
-    return qpl_op_z_compress16 == job_ptr->op ||
-           qpl_op_z_compress32 == job_ptr->op ||
-           qpl_op_z_decompress16 == job_ptr->op ||
-           qpl_op_z_decompress32 == job_ptr->op;
-}
-
 static inline bool is_zlib_flag_set(const qpl_job *const job_ptr) noexcept {
     return QPL_FLAG_ZLIB_MODE & job_ptr->flags;
 }

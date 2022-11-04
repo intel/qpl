@@ -161,22 +161,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, deflate) {
     EXPECT_FALSE(is_huffman_only_compression(&job));
 }
 
-QPL_UNIT_API_ALGORITHMIC_TEST(fallback, zero_compress) {
-    qpl_job job;
-
-    // @todo call to middle layer
-    job.op = qpl_op_z_compress16;
-    job.op = qpl_op_z_compress32;
-}
-
-QPL_UNIT_API_ALGORITHMIC_TEST(fallback, zero_decompress) {
-    qpl_job job;
-
-    // @todo call to middle layer
-    job.op = qpl_op_z_decompress32;
-    job.op = qpl_op_z_decompress16;
-}
-
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, others) {
     qpl_job job;
 

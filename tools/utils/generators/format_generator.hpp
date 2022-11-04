@@ -29,11 +29,6 @@ namespace qpl::test {
                                           uint32_t bit_vector_element_width,
                                           bool is_little_endian) -> std::vector<uint8_t>;
 
-
-        static auto generate_zero_compressed_data(uint32_t bit_width,
-                                                  uint32_t byte_length,
-                                                  uint32_t seed) -> std::vector<uint8_t>;
-
         static auto get_random_crc64_poly(uint32_t poly_shift, uint32_t seed) -> uint64_t;
 
         static auto generate_length_sequence() -> std::vector<uint32_t>;

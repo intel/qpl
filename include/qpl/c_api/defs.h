@@ -230,11 +230,6 @@ typedef enum {
 
     qpl_op_crc64      = 0x05u,    /**< Performs @ref CRC_OPERATION */
 
-    qpl_op_z_decompress32 = 0x08u,    /**< Performs Zero-decompress-32 operation (@ref ZCOMPRESS_OPERATIONS group) */
-    qpl_op_z_decompress16 = 0x09u,    /**< Performs Zero-decompress-16 operation (@ref ZCOMPRESS_OPERATIONS group) */
-    qpl_op_z_compress32   = 0x0Cu,    /**< Performs Zero-compress-32 operation (@ref ZCOMPRESS_OPERATIONS group) */
-    qpl_op_z_compress16   = 0x0Du,    /**< Performs Zero-compress-16 operation (@ref ZCOMPRESS_OPERATIONS group) */
-
     // start filter operations
     /**
      * Affiliation to boolean histogram filter operation (@ref ANALYTIC_OPERATIONS group)

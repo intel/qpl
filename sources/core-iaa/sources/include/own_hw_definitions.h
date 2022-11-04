@@ -48,8 +48,6 @@ if(NULL == (expression)) { \
 #define QPL_OPCODE_Z_MASK       0xF8u    /**< @todo  either DECOMP or COMP */
 #define QPL_OPCODE_Z            0x48u    /**< @todo */
 #define QPL_OPCODE_Z_MASK2      0xFCu    /**< @todo One or the other */
-#define QPL_OPCODE_Z_DECOMP     0x48u    /**< @todo */
-#define QPL_OPCODE_Z_COMP       0x4Cu    /**< @todo */
 
 // Read Src2 values
 #define AD_RDSRC2_UNUSED        0u  /**< @todo */

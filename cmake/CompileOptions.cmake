@@ -430,21 +430,6 @@ function(generate_unpack_kernel_arrays current_directory)
         file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "}\n")
 
         #
-        # Write zero_compress function table
-        #
-        file(WRITE ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "#include \"qplc_api.h\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "namespace qpl::ml::dispatcher\n{\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "zero_compress_table_t ${PLATFORM_PREFIX}zero_compress_table = {\n")
-
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "\t${PLATFORM_PREFIX}qplc_zero_compress_16u,\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "\t${PLATFORM_PREFIX}qplc_zero_decompress_16u,\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "\t${PLATFORM_PREFIX}qplc_zero_compress_32u,\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "\t${PLATFORM_PREFIX}qplc_zero_decompress_32u};\n")
-
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero_compress.cpp "}\n")
-
-        #
         # Write deflate functions table
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}deflate.cpp "#include \"deflate_slow_icf.h\"\n")

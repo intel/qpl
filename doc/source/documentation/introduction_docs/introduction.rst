@@ -83,8 +83,7 @@ Decompression is supported for Deflate streams where the size of the
 history buffer is no more than 4 KB.
 
 The library also supports Deflate compression, along with the
-calculation of arbitrary CRCs and two varieties of zero
-compression/decompression.
+calculation of arbitrary CRCs.
 
 The SQL filter function block takes one or two input streams, a primary
 input, and an optional secondary input. The primary input may be read
@@ -120,8 +119,7 @@ Intel IAA primarily targets:
 -  Application-transparent usages such as memory page compression.
 -  Data integrity operations, e.g., CRC-64.
 
-Intel IAA supports lightweight compression schemes such as
-zero-compression and heavier formats such as Huffman encoding and
+Intel IAA supports Huffman encoding and
 Deflate. For the Deflate format, Intel IAA supports indexing of the
 compressed stream for efficient random access.
 

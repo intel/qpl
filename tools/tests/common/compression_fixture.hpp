@@ -67,54 +67,6 @@ enum class zero_vector_generation_type {
     generated_vector
 };
 
-struct ZeroCompressionTestCase {
-    uint32_t                    number_of_input_elements = 0;
-    zero_input_format           input_format             = zero_input_format::word_16_bit;
-    zero_vector_generation_type vector_generation_type   = zero_vector_generation_type::zero_vector;
-};
-
-static std::ostream &operator<<(std::ostream &os, const ZeroCompressionTestCase &test_case) {
-    os << "Input format: "
-       << (test_case.input_format == zero_input_format::word_16_bit ? "16" : "32")
-       << " bits word"
-       << "\n";
-    os << "Number of input elements: " << test_case.number_of_input_elements << "\n";
-    std::string vector_generation_type;
-
-    if (test_case.vector_generation_type == zero_vector_generation_type::zero_vector) {
-        vector_generation_type = "Zero vector";
-    } else if (test_case.vector_generation_type == zero_vector_generation_type::random_vector) {
-        vector_generation_type = "Random vector";
-    } else if (test_case.vector_generation_type == zero_vector_generation_type::generated_vector) {
-        vector_generation_type = "Generated vector";
-    } else {
-        vector_generation_type = "Unknown";
-    }
-
-    os << "Vector generation type: " << vector_generation_type << "\n";
-
-    return os;
-}
-
-class ZeroCompressionFixture : public JobFixture,
-                               public TestCases<ZeroCompressionTestCase> {
-protected:
-    void SetUp() override;
-
-    void SetUpBeforeIteration() override;
-
-    virtual void SetBuffers();
-
-    virtual void InitializeTestCases() = 0;
-
-    void CleanUpAfterIteration() override;
-
-    std::vector<uint8_t>    compressed_data;
-    std::vector<uint8_t>    reference_compressed_data;
-    std::vector<uint8_t>    reference_destination;
-    ZeroCompressionTestCase current_test_case;
-};
-
 }
 
 #endif // QPL_TEST_COMPRESSION_FIXTURE_HPP

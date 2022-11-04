@@ -38,7 +38,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(hl_util, expected_exceptions) {
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_DIST_SPANS_MINI_BLOCKS), invalid_data_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_LEN_SPANS_MINI_BLOCKS), invalid_data_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_VERIF_INVALID_BLOCK_SIZE), invalid_data_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_ZERO_DECOMP_HDR), invalid_data_exception);
 
     // Invalid arguments exceptions
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_PARAM_ERR), invalid_argument_exception);

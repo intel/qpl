@@ -247,13 +247,6 @@ static inline qpl_status own_bad_argument_validation(qpl_job *const job_ptr) {
     using namespace qpl;
 
     switch (job_ptr->op) {
-        case qpl_op_z_decompress32:
-        case qpl_op_z_decompress16:
-        case qpl_op_z_compress32:
-        case qpl_op_z_compress16:
-            OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_z_compress16>(job_ptr))
-            break;
-
         case qpl_op_compress:
             OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_compress>(job_ptr))
             break;
@@ -321,31 +314,6 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
                                          (job_ptr->flags & QPL_FLAG_CRC64_BE) != 0,
                                          (job_ptr->flags & QPL_FLAG_CRC64_INV) != 0);
             break;
-
-        case qpl_op_z_compress16:
-        case qpl_op_z_compress32:
-        case qpl_op_z_decompress16:
-        case qpl_op_z_decompress32: {
-            uint32_t operation;
-
-            if (job_ptr->op == qpl_op_z_decompress32) {
-                operation = QPL_OPCODE_Z_DECOMP32;
-            } else if (job_ptr->op == qpl_op_z_decompress16) {
-                operation = QPL_OPCODE_Z_DECOMP16;
-            } else if (job_ptr->op == qpl_op_z_compress32) {
-                operation = QPL_OPCODE_Z_COMP32;
-            } else {
-                operation = QPL_OPCODE_Z_COMP16;
-            }
-
-            hw_iaa_descriptor_init_zero_compress(descriptor_ptr,
-                                                 operation,
-                                                 job_ptr->next_in_ptr,
-                                                 job_ptr->next_out_ptr,
-                                                 job_ptr->available_in,
-                                                 job_ptr->available_out);
-            break;
-        }
 
         case qpl_op_compress: {
             if (job::is_canned_mode_compression(job_ptr)) {
@@ -469,10 +437,6 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             [[fallthrough]];
         case qpl_op_compress:
         case qpl_op_crc64:
-        case qpl_op_z_compress16:
-        case qpl_op_z_compress32:
-        case qpl_op_z_decompress16:
-        case qpl_op_z_decompress32:
             return hw_submit_task(qpl_job_ptr);
 
         default: {
