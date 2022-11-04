@@ -60,29 +60,7 @@ element.
 **Note**: This field does not affect operations that invoke
 ``src2`` - see the table :ref:`Operations <c_operations_table_reference_link>` 
 for operations with number of input streams equal to 2. This statement means 
-that ``initialOutputIndex`` field works for ``qpl_scan`` and ``qpl_find_unique`` 
-operations only.
-
-
-param_low & param_high for Dropping Low and High bits
-=====================================================
-
-
-The size of the set used in ``qpl_set_membership`` and ``qpl_find_unique`` is
-limited. If the bit-width of the input is too large (i.e. the set would
-be too large for the hardware to handle), in some cases the application
-can use a smaller set by using only some bits from each element.
-Effectively this “lumps together” several input values. Bits can be
-dropped from the most-significant end by ``param_high`` and from the
-least-significant end by ``param_low``.
-
-The bit-width of the input needs to be greater than the sum of these two
-fields. Then the size of the set is 2N, where ``N=(inputBitWidth -
-param_high - param_low)``.
-
-When this feature is used, each element has the appropriate number of
-bits dropped from each end, and the remaining bits are used to index
-into the set.
+that ``initialOutputIndex`` field works for ``qpl_scan`` operation only.
 
 
 drop_initial_bytes

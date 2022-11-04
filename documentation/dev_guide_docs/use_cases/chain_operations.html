@@ -236,11 +236,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../c_use_cases/c_operations_op_set_membership.html">
-         Set Membership
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../c_use_cases/c_operations_op_extract.html">
          Extract
         </a>
@@ -253,11 +248,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../c_use_cases/c_operations_op_rle_burst.html">
          RLE Burst
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../c_use_cases/c_operations_op_find_unique.html">
-         Find Unique
         </a>
        </li>
        <li class="toctree-l4">
@@ -563,11 +553,6 @@
          extract_operation
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
-         find_unique_operation
-        </a>
-       </li>
       </ul>
      </li>
      <li class="toctree-l3 has-children">
@@ -588,11 +573,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
          expand_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
-         set_membership_operation
         </a>
        </li>
       </ul>
@@ -922,8 +902,8 @@ processed after decompression as an argument.</p>
 <li><p>After decompression operation</p></li>
 <li><p>Before analytics operation that doesn’t use mask</p></li>
 </ul>
-<p>Adding <code class="docutils literal notranslate"><span class="pre">qpl::select_operation</span></code> and <code class="docutils literal notranslate"><span class="pre">qpl::set_membership_operation</span></code>
-to a chain right after merged operations makes no sense since the mask
+<p>Adding <code class="docutils literal notranslate"><span class="pre">qpl::select_operation</span></code> to a chain right after
+merged operations makes no sense since the mask
 for these operations is calculated during chain execution.</p>
 </section>
 <section id="chaining-limitations">
@@ -931,9 +911,6 @@ for these operations is calculated during chain execution.</p>
 <p>Intel QPL has some limitations for operations chaining. Here is the list
 of such limitations:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">qpl::find_unique_operation</span></code> is always the last operation in an
-Intel QPL chain, since there is no operation that can produce
-something useful after it.</p></li>
 <li><p>All allocations are performed in the first execution call of the
 chain (should not really affect the performance).</p></li>
 <li><p>Even if you specify a custom builder for any analytics operation,

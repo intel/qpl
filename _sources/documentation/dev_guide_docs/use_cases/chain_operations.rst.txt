@@ -104,8 +104,8 @@ processed after decompression as an argument.
 -  After decompression operation
 -  Before analytics operation that doesn’t use mask
 
-Adding ``qpl::select_operation`` and ``qpl::set_membership_operation``
-to a chain right after merged operations makes no sense since the mask
+Adding ``qpl::select_operation`` to a chain right after 
+merged operations makes no sense since the mask
 for these operations is calculated during chain execution.
 
 
@@ -116,9 +116,6 @@ Chaining Limitations
 Intel QPL has some limitations for operations chaining. Here is the list
 of such limitations:
 
--  ``qpl::find_unique_operation`` is always the last operation in an
-   Intel QPL chain, since there is no operation that can produce
-   something useful after it.
 -  All allocations are performed in the first execution call of the
    chain (should not really affect the performance).
 -  Even if you specify a custom builder for any analytics operation,

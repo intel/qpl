@@ -236,11 +236,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../c_use_cases/c_operations_op_set_membership.html">
-         Set Membership
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../c_use_cases/c_operations_op_extract.html">
          Extract
         </a>
@@ -253,11 +248,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../c_use_cases/c_operations_op_rle_burst.html">
          RLE Burst
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../c_use_cases/c_operations_op_find_unique.html">
-         Find Unique
         </a>
        </li>
        <li class="toctree-l4">
@@ -563,11 +553,6 @@
          extract_operation
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
-         find_unique_operation
-        </a>
-       </li>
       </ul>
      </li>
      <li class="toctree-l3 has-children">
@@ -588,11 +573,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
          expand_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
-         set_membership_operation
         </a>
        </li>
       </ul>
@@ -842,11 +822,11 @@ title="Print to PDF"
 hardware path supported by Intel® Query Processing Library (Intel® QPL).</p>
 <section id="multi-descriptor-processing">
 <h2>Multi-Descriptor Processing<a class="headerlink" href="#multi-descriptor-processing" title="Permalink to this headline">#</a></h2>
-<p>The library is able to split <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">membership</span></code> and <code class="docutils literal notranslate"><span class="pre">Scan</span></code> operations
+<p>The library is able to split <code class="docutils literal notranslate"><span class="pre">Scan</span></code> operations
 onto several sub-tasks and performing them in paralleled mode. In other
 words, if the following conditions are met:</p>
 <ul class="simple">
-<li><p>This is <code class="docutils literal notranslate"><span class="pre">Set</span> <span class="pre">membership</span></code> or <code class="docutils literal notranslate"><span class="pre">Scan</span></code> (<code class="docutils literal notranslate"><span class="pre">Scan</span> <span class="pre">range</span></code>) operation.</p></li>
+<li><p>This is <code class="docutils literal notranslate"><span class="pre">Scan</span></code> (<code class="docutils literal notranslate"><span class="pre">Scan</span> <span class="pre">range</span></code>) operation.</p></li>
 <li><p>Nominal bit array output, i.e. no output modifications.</p></li>
 <li><p>Input data size is at least 32kB large.</p></li>
 <li><p>Input is in Little- or Big-Endian format (no encoded input support).</p></li>

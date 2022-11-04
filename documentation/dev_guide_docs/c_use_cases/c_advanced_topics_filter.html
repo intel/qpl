@@ -236,11 +236,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_set_membership.html">
-         Set Membership
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="c_operations_op_extract.html">
          Extract
         </a>
@@ -253,11 +248,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="c_operations_op_rle_burst.html">
          RLE Burst
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_find_unique.html">
-         Find Unique
         </a>
        </li>
        <li class="toctree-l4">
@@ -563,11 +553,6 @@
          extract_operation
         </a>
        </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/analytics_operations/find_unique_operation.html">
-         find_unique_operation
-        </a>
-       </li>
       </ul>
      </li>
      <li class="toctree-l3 has-children">
@@ -588,11 +573,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../../api_docs/operations/mask_operations/expand_operation.html">
          expand_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../../api_docs/operations/mask_operations/set_membership_operation.html">
-         set_membership_operation
         </a>
        </li>
       </ul>
@@ -811,11 +791,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#param-low-param-high-for-dropping-low-and-high-bits">
-   param_low &amp; param_high for Dropping Low and High bits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#drop-initial-bytes">
    drop_initial_bytes
   </a>
@@ -852,11 +827,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#initial-output-index">
    initial_output_index
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#param-low-param-high-for-dropping-low-and-high-bits">
-   param_low &amp; param_high for Dropping Low and High bits
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -916,24 +886,7 @@ element.</p>
 <p><strong>Note</strong>: This field does not affect operations that invoke
 <code class="docutils literal notranslate"><span class="pre">src2</span></code> - see the table <a class="reference internal" href="c_operations_op.html#c-operations-table-reference-link"><span class="std std-ref">Operations</span></a>
 for operations with number of input streams equal to 2. This statement means
-that <code class="docutils literal notranslate"><span class="pre">initialOutputIndex</span></code> field works for <code class="docutils literal notranslate"><span class="pre">qpl_scan</span></code> and <code class="docutils literal notranslate"><span class="pre">qpl_find_unique</span></code>
-operations only.</p>
-</section>
-<section id="param-low-param-high-for-dropping-low-and-high-bits">
-<h2>param_low &amp; param_high for Dropping Low and High bits<a class="headerlink" href="#param-low-param-high-for-dropping-low-and-high-bits" title="Permalink to this headline">#</a></h2>
-<p>The size of the set used in <code class="docutils literal notranslate"><span class="pre">qpl_set_membership</span></code> and <code class="docutils literal notranslate"><span class="pre">qpl_find_unique</span></code> is
-limited. If the bit-width of the input is too large (i.e. the set would
-be too large for the hardware to handle), in some cases the application
-can use a smaller set by using only some bits from each element.
-Effectively this “lumps together” several input values. Bits can be
-dropped from the most-significant end by <code class="docutils literal notranslate"><span class="pre">param_high</span></code> and from the
-least-significant end by <code class="docutils literal notranslate"><span class="pre">param_low</span></code>.</p>
-<p>The bit-width of the input needs to be greater than the sum of these two
-fields. Then the size of the set is 2N, where <code class="docutils literal notranslate"><span class="pre">N=(inputBitWidth</span> <span class="pre">-</span>
-<span class="pre">param_high</span> <span class="pre">-</span> <span class="pre">param_low)</span></code>.</p>
-<p>When this feature is used, each element has the appropriate number of
-bits dropped from each end, and the remaining bits are used to index
-into the set.</p>
+that <code class="docutils literal notranslate"><span class="pre">initialOutputIndex</span></code> field works for <code class="docutils literal notranslate"><span class="pre">qpl_scan</span></code> operation only.</p>
 </section>
 <section id="drop-initial-bytes">
 <h2>drop_initial_bytes<a class="headerlink" href="#drop-initial-bytes" title="Permalink to this headline">#</a></h2>

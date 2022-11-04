@@ -76,14 +76,6 @@ Extract
     :language: cpp
 
 
-Find Unique
-===========
-
-
-.. literalinclude:: ../../../../examples/low-level-api/find_unique_example.cpp
-    :language: cpp
-
-
 RLE Burst
 =========
 
@@ -121,14 +113,6 @@ Select
 
 
 .. literalinclude:: ../../../../examples/low-level-api/select_example.cpp
-    :language: cpp
-
-
-Set Membership
-==============
-
-
-.. literalinclude:: ../../../../examples/low-level-api/set_membership_example.cpp
     :language: cpp
 
 
@@ -199,15 +183,6 @@ Extract
 .. literalinclude:: ../../../../examples/high-level-api/simple-operations/extract_example.cpp
     :language: cpp
 
-
-Find Unique
------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/find_unique_example.cpp
-    :language: cpp
-
-
 RLE Burst
 ---------
 
@@ -248,14 +223,6 @@ Select
     :language: cpp
 
 
-Set Memebership
----------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/set_membership_example.cpp
-    :language: cpp
-
-
 Zero Compression
 ----------------
 
@@ -283,14 +250,6 @@ Decompression with Scan and Select
 .. literalinclude:: ../../../../examples/high-level-api/operation-chains/decompression_scan_select_example.cpp
     :language: cpp 
 
-
-
-Set Membership Operation Chain
-------------------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/operation-chains/set_membership_operation_chain_example.cpp
-    :language: cpp
 
 
 Other Examples
