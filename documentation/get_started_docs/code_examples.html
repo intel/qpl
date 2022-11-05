@@ -256,11 +256,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_zero_compress.html">
-         Zero Compress
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_crc64.html">
          CRC-64
         </a>
@@ -514,16 +509,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../api_docs/operations/compression_operations/inflate_operation.html">
          inflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../api_docs/operations/compression_operations/zero_compress_operation.html">
-         zero_compress_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../api_docs/operations/compression_operations/zero_decompress_operation.html">
-         zero_decompress_operation
         </a>
        </li>
       </ul>
@@ -840,11 +825,6 @@ title="Print to PDF"
      Select
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#zero-compression">
-     Zero Compression
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -910,11 +890,6 @@ title="Print to PDF"
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#id7">
        Select
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id8">
-       Zero Compression
       </a>
      </li>
     </ul>
@@ -1034,11 +1009,6 @@ title="Print to PDF"
      Select
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#zero-compression">
-     Zero Compression
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1104,11 +1074,6 @@ title="Print to PDF"
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#id7">
        Select
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id8">
-       Zero Compression
       </a>
      </li>
     </ul>
@@ -2504,119 +2469,6 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 </pre></div>
 </div>
 </section>
-<section id="zero-compression">
-<h3>Zero Compression<a class="headerlink" href="#zero-compression" title="Permalink to this headline">#</a></h3>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
-<span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
-<span class="cm"> *</span>
-<span class="cm"> * SPDX-License-Identifier: MIT</span>
-<span class="cm"> ******************************************************************************/</span><span class="w"></span>
-
-<span class="c1">//* [QPL_LOW_LEVEL_ZERO_COMPRESSION_EXAMPLE] */</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="cp"></span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.h&quot;</span><span class="cp"></span>
-
-<span class="cm">/**</span>
-<span class="cm"> * @brief @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.</span>
-<span class="cm"> * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.</span>
-<span class="cm"> * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow</span>
-<span class="cm"> * the library to chose the path to execute.</span>
-<span class="cm"> *</span>
-<span class="cm"> * @warning ---! Important !---</span>
-<span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
-<span class="cm"> *</span>
-<span class="cm"> */</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">execution_path</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_path_software</span><span class="p">;</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"></span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Source and output containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="n">source_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="p">(</span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">qpl_job</span><span class="w">    </span><span class="o">*</span><span class="n">job</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">uint32_t</span><span class="w">   </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Filling source containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">iota</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">250</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Job initialization</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_job_size</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job size getting.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">job</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during compression job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Performing a compression operation</span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_z_compress32</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">destination</span><span class="p">.</span><span class="n">size</span><span class="p">());</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Compression</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Error while compression occurred.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Decompression job initialization</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during decompression job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Performing a decompression operation</span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_z_decompress32</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">reference</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">compressed_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reference</span><span class="p">.</span><span class="n">size</span><span class="p">());</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Decompression</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Error while decompression occurred.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Freeing resources</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_fini_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job finalization.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">free</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Compare reference functions</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Content wasn&#39;t successfully compressed and decompressed.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Content was successfully compressed and decompressed.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Compressed size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">//* [QPL_LOW_LEVEL_ZERO_COMPRESSION_EXAMPLE] */</span>
-</pre></div>
-</div>
-</section>
 </section>
 <section id="high-level-c-api-examples">
 <h2>High-Level C++ API Examples<a class="headerlink" href="#high-level-c-api-examples" title="Permalink to this headline">#</a></h2>
@@ -3460,98 +3312,6 @@ can use the Intel QPL library.</p>
 <span class="p">}</span><span class="w"></span>
 
 <span class="c1">//* [QPL_HIGH_LEVEL_SELECT_EXAMPLE] */</span>
-</pre></div>
-</div>
-</section>
-<section id="id8">
-<h4>Zero Compression<a class="headerlink" href="#id8" title="Permalink to this headline">#</a></h4>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
-<span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
-<span class="cm"> *</span>
-<span class="cm"> * SPDX-License-Identifier: MIT</span>
-<span class="cm"> ******************************************************************************/</span><span class="w"></span>
-
-<span class="c1">//* [QPL_HIGH_LEVEL_ZERO_COMPRESSION_EXAMPLE] */</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.hpp&quot;</span><span class="cp"></span>
-
-<span class="cm">/**</span>
-<span class="cm"> * @brief qpl::software (`Software Path`) means that computations will be done with CPU.</span>
-<span class="cm"> * Accelerator can be used instead of CPU. In this case, qpl::hardware (`Hardware Path`) must be specified.</span>
-<span class="cm"> * If there is no difference where calculations should be done, qpl::auto_detect (`Auto Path`) can be used to allow</span>
-<span class="cm"> * the library to chose the path to execute.</span>
-<span class="cm"> *</span>
-<span class="cm"> * @warning ---! Important !---</span>
-<span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
-<span class="cm"> *</span>
-<span class="cm"> */</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">execution_path</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">software</span><span class="p">;</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"></span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Source and output containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="n">source_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="p">(</span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Filling source containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">iota</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">250</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Performing an operation</span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">zero_compress_operation</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">zero_compress_operation</span><span class="p">(</span><span class="n">qpl</span><span class="o">::</span><span class="n">zero_input_format</span><span class="o">::</span><span class="n">word_32_bit</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">zero_decompress_operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">zero_decompress_operation</span><span class="p">(</span><span class="n">qpl</span><span class="o">::</span><span class="n">zero_input_format</span><span class="o">::</span><span class="n">word_32_bit</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">compressed_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">execute</span><span class="o">&lt;</span><span class="n">execution_path</span><span class="o">&gt;</span><span class="p">(</span><span class="n">zero_compress_operation</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Handle compression result</span>
-<span class="w">    </span><span class="n">compressed_result</span><span class="p">.</span><span class="n">handle</span><span class="p">([</span><span class="o">&amp;</span><span class="n">compressed_size</span><span class="p">](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                 </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Compressed size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-<span class="w">                                 </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"></span>
-<span class="w">                             </span><span class="p">},</span><span class="w"></span>
-<span class="w">                             </span><span class="p">[](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">status_code</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                 </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Error: Status code - &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">status_code</span><span class="p">));</span><span class="w"></span>
-<span class="w">                             </span><span class="p">});</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">decompressed_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">execute</span><span class="o">&lt;</span><span class="n">execution_path</span><span class="o">&gt;</span><span class="p">(</span><span class="n">zero_decompress_operation</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                                                  </span><span class="n">destination</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"></span>
-<span class="w">                                                                  </span><span class="n">destination</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">compressed_size</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                                                  </span><span class="n">reference</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"></span>
-<span class="w">                                                                  </span><span class="n">reference</span><span class="p">.</span><span class="n">end</span><span class="p">());</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Handle decompression result</span>
-<span class="w">    </span><span class="n">decompressed_result</span><span class="p">.</span><span class="n">handle</span><span class="p">([</span><span class="o">&amp;</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">reference</span><span class="p">](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">decompressed_size</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                   </span><span class="c1">// Check if everything was alright</span>
-<span class="w">                                   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">decompressed_size</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                       </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Decompressed buffer size is not the same &quot;</span><span class="w"></span>
-<span class="w">                                                                </span><span class="s">&quot;as source size.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">                                   </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">                                   </span><span class="c1">// Compare source and decompressed buffers</span>
-<span class="w">                                   </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                       </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                           </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Content wasn&#39;t successfully compressed &quot;</span><span class="w"></span>
-<span class="w">                                                                    </span><span class="s">&quot;and decompressed.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">                                       </span><span class="p">}</span><span class="w"></span>
-<span class="w">                                   </span><span class="p">}</span><span class="w"></span>
-<span class="w">                               </span><span class="p">},</span><span class="w"></span>
-<span class="w">                               </span><span class="p">[](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">status_code</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                   </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Error: Status code - &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">status_code</span><span class="p">));</span><span class="w"></span>
-<span class="w">                               </span><span class="p">});</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Content was successfully compressed and decompressed.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Zero compression was performed successfully.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">//* [QPL_HIGH_LEVEL_ZERO_COMPRESSION_EXAMPLE] */</span>
 </pre></div>
 </div>
 </section>

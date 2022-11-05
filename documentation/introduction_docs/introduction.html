@@ -256,11 +256,6 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_zero_compress.html">
-         Zero Compress
-        </a>
-       </li>
-       <li class="toctree-l4">
         <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_crc64.html">
          CRC-64
         </a>
@@ -514,16 +509,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../api_docs/operations/compression_operations/inflate_operation.html">
          inflate_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../api_docs/operations/compression_operations/zero_compress_operation.html">
-         zero_compress_operation
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../api_docs/operations/compression_operations/zero_decompress_operation.html">
-         zero_decompress_operation
         </a>
        </li>
       </ul>
@@ -960,8 +945,7 @@ directly to memory or passed to the input of the filter function.
 Decompression is supported for Deflate streams where the size of the
 history buffer is no more than 4 KB.</p>
 <p>The library also supports Deflate compression, along with the
-calculation of arbitrary CRCs and two varieties of zero
-compression/decompression.</p>
+calculation of arbitrary CRCs.</p>
 <p>The SQL filter function block takes one or two input streams, a primary
 input, and an optional secondary input. The primary input may be read
 from memory or received from the decompression block. The second input,
@@ -989,8 +973,7 @@ used for data filtering during analytic query processing.</p>
 <li><p>Application-transparent usages such as memory page compression.</p></li>
 <li><p>Data integrity operations, e.g., CRC-64.</p></li>
 </ul>
-<p>Intel IAA supports lightweight compression schemes such as
-zero-compression and heavier formats such as Huffman encoding and
+<p>Intel IAA supports Huffman encoding and
 Deflate. For the Deflate format, Intel IAA supports indexing of the
 compressed stream for efficient random access.</p>
 </section>
