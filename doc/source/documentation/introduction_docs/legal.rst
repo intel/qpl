@@ -4,8 +4,8 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-License
-#######
+Notices and Disclaimers
+=======================
 
 
 .. include:: ../general_docs/notices.rst
