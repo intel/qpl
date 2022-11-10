@@ -16,16 +16,14 @@
 
 namespace qpl::ml::util {
 
-constexpr uint32_t hardware_status_base = 100u;
-constexpr uint32_t hardware_error_base  = 200u;
 
 static inline auto convert_status_iaa_to_qpl(HW_PATH_VOLATILE const hw_completion_record *const completion_record) {
-    if (completion_record->bytes[0]) {
-        return hardware_error_base + completion_record->bytes[0];
+    if (completion_record->error) {
+        return status_list::hardware_error_base + completion_record->error;
     }
 
     if (AD_STATUS_SUCCESS != completion_record->status) {
-        return status_list::internal_error;
+        return status_list::hardware_status_base + completion_record->status;
     }
 
     return status_list::ok;

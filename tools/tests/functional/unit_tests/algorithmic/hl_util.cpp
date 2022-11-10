@@ -14,7 +14,7 @@ namespace qpl::test {
 QPL_UNIT_API_ALGORITHMIC_TEST(hl_util, expected_exceptions) {
     // Operation process exceptions
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_BEING_PROCESSED), operation_process_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_VERIFY_ERR), operation_process_exception);
+    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INTL_VERIFY_ERR), operation_process_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_RLE_COUNT), operation_process_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INDEX_GENERATION_ERR), operation_process_exception);
 
@@ -35,9 +35,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(hl_util, expected_exceptions) {
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_BLOCK_SIZE_ERR), invalid_data_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_HUFFMAN_TABLE_ERR), invalid_data_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_SRC2_IS_SHORT_ERR), invalid_data_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_DIST_SPANS_MINI_BLOCKS), invalid_data_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_LEN_SPANS_MINI_BLOCKS), invalid_data_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_VERIF_INVALID_BLOCK_SIZE), invalid_data_exception);
+    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS), invalid_data_exception);
+    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS), invalid_data_exception);
+    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE), invalid_data_exception);
 
     // Invalid arguments exceptions
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_PARAM_ERR), invalid_argument_exception);

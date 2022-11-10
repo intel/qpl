@@ -35,6 +35,8 @@ extern "C" {
         /**< Operation preprocessing or postprocessing errors */
 #define QPL_OPERATION_ERROR_BASE     200u
         /**< Execution step errors */
+#define QPL_OPERATION_STATUS_BASE    300u 
+        /**< Execution step statuses */
 #define QPL_INIT_ERROR_BASE          500u
         /**< Initialization step errors */
 
@@ -54,6 +56,8 @@ extern "C" {
         /**< Calculates status for operation preprocessing or postprocessing step */
 #define QPL_OPERATION_ERROR(x)      QPL_OPERATION_ERROR_BASE + x
         /**< Calculates status for operation execution step */
+#define QPL_OPERATION_STATUS(x)     QPL_OPERATION_STATUS_BASE + x     
+        /**< Calculates status for operation execution step */
 #define QPL_INIT_ERROR(x)           QPL_INIT_ERROR_BASE + x
         /**< Calculates status for initialization step */
 
@@ -61,7 +65,7 @@ extern "C" {
 
 /**
  * @enum qpl_status
- * @brief Intel QPL return status list
+ * @brief Intel QPL return status list (Errors marked `Internal` indicate an issue within the library) 
  */
 typedef enum {
 /* ====== Processing Statuses ====== */
@@ -71,6 +75,7 @@ typedef enum {
     QPL_STS_MORE_INPUT_NEEDED       = QPL_PROCESSING_ERROR(3u), /**< Compress/Decompress operation need more input */
     QPL_STS_JOB_NOT_CONTINUABLE_ERR = QPL_PROCESSING_ERROR(4u), /**< A job after a LAST job was not marked as FIRST */
     QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue*/
+    QPL_STS_LIBRARY_INTERNAL_ERR    = QPL_PROCESSING_ERROR(6u), /**< Unexpected internal error condition */
 
 /* ====== Operations Statuses ====== */
 /* --- Incorrect Parameter Value --- */
@@ -122,41 +127,60 @@ typedef enum {
     QPL_STS_OBJECT_ALLOCATION_ERR     = QPL_SERVICE_LOGIC_ERROR(6u), /**< Not able to allocate Huffman table object */
 
 /* --- Corresponds to the error codes in Completion Record from Intel® In-Memory Analytics Accelerator --- */
-    QPL_STS_BIG_HEADER_ERR            = QPL_OPERATION_ERROR(1u),  /**< Reached the end of the input stream before decoding header and header is too big to fit in input buffer */
-    QPL_STS_UNDEF_CL_CODE_ERR         = QPL_OPERATION_ERROR(2u),  /**< Bad CL code */
-    QPL_STS_FIRST_LL_CODE_16_ERR      = QPL_OPERATION_ERROR(3u),  /**< First code in LL tree is 16 */
-    QPL_STS_FIRST_D_CODE_16_ERR       = QPL_OPERATION_ERROR(4u),  /**< First code in D tree is 16 */
-    QPL_STS_NO_LL_CODE_ERR            = QPL_OPERATION_ERROR(5u),  /**< All LL codes are specified with 0 length */
-    QPL_STS_WRONG_NUM_LL_CODES_ERR    = QPL_OPERATION_ERROR(6u),  /**< After parsing LL code lengths, total codes != expected value */
-    QPL_STS_WRONG_NUM_DIST_CODES_ERR  = QPL_OPERATION_ERROR(7u),  /**< After parsing D code lengths, total codes != expected value */
-    QPL_STS_BAD_CL_CODE_LEN_ERR       = QPL_OPERATION_ERROR(8u),  /**< First CL code of length N is greater than 2^N-1 */
-    QPL_STS_BAD_LL_CODE_LEN_ERR       = QPL_OPERATION_ERROR(9u),  /**< First LL code of length N is greater than 2^N-1 */
-    QPL_STS_BAD_DIST_CODE_LEN_ERR     = QPL_OPERATION_ERROR(10u), /**< First D code of length N is greater than 2^N-1 */
-    QPL_STS_BAD_LL_CODE_ERR           = QPL_OPERATION_ERROR(11u), /**< Incorrect LL code */
-    QPL_STS_BAD_D_CODE_ERR            = QPL_OPERATION_ERROR(12u), /**< Incorrect D code */
-    QPL_STS_INVALID_BLOCK_TYPE        = QPL_OPERATION_ERROR(13u), /**< Invalid type of deflate block */
-    QPL_STS_INVALID_STORED_LEN_ERR    = QPL_OPERATION_ERROR(14u), /**< Length of stored block doesn't match inverse length */
-    QPL_STS_BAD_EOF_ERR               = QPL_OPERATION_ERROR(15u), /**< EOB flag was set but last token was not EOB */
-    QPL_STS_BAD_LEN_ERR               = QPL_OPERATION_ERROR(16u), /**< Decoded Length code is 0 or greater 258 */
-    QPL_STS_BAD_DIST_ERR              = QPL_OPERATION_ERROR(17u), /**< Decoded Distance is 0 or greater than History Buffer */
-    QPL_STS_REF_BEFORE_START_ERR      = QPL_OPERATION_ERROR(18u), /**< Distance of reference is before start of file */
-    QPL_STS_TIMEOUT_ERR               = QPL_OPERATION_ERROR(19u), /**< Library has input data, but is not making forward progress */
-    QPL_STS_PRLE_FORMAT_ERR           = QPL_OPERATION_ERROR(20u), /**< PRLE format is incorrect or is truncated */
-    QPL_STS_OUTPUT_OVERFLOW_ERR       = QPL_OPERATION_ERROR(21u), /**< Output index value is greater than max available for current output data type */
-    QPL_STS_LIBRARY_INTERNAL_ERR      = QPL_OPERATION_ERROR(22u), /**< Unexpected internal error condition */
-    QPL_STS_SRC1_TOO_SMALL_ERR        = QPL_OPERATION_ERROR(23u), /**< Source 1 contained fewer than expected elements/bytes */
-    QPL_STS_SRC2_IS_SHORT_ERR         = QPL_OPERATION_ERROR(24u), /**< Source 2 contained fewer than expected elements/bytes */
-    QPL_STS_DST_IS_SHORT_ERR          = QPL_OPERATION_ERROR(25u), /**< qpl_job destination buffer has less bytes than required to process num_input_elements/bytes */
-    QPL_STS_DIST_SPANS_MINI_BLOCKS    = QPL_OPERATION_ERROR(26u), /**< Distance spans mini-block boundary on indexing */
-    QPL_STS_LEN_SPANS_MINI_BLOCKS     = QPL_OPERATION_ERROR(27u), /**< Length spans mini-block boundary on indexing */
-    QPL_STS_VERIF_INVALID_BLOCK_SIZE  = QPL_OPERATION_ERROR(28u), /**< Invalid block size (not multiple of mini-block size) */
-    QPL_STS_VERIFY_ERR                = QPL_OPERATION_ERROR(29u), /**< Verify logic for decompress detected incorrect output */
-    QPL_STS_INVALID_HUFFCODE_ERR      = QPL_OPERATION_ERROR(30u), /**< Compressor tried to use an invalid huffman code */
-    QPL_STS_BIT_WIDTH_ERR             = QPL_OPERATION_ERROR(31u), /**< Bit width is out of range [1..32] */
-    QPL_STS_SRC_IS_SHORT_ERR          = QPL_OPERATION_ERROR(32u), /**< The input stream ended before specified Number of input Element was seen  */
-    QPL_STS_INVALID_RLE_COUNT         = QPL_OPERATION_ERROR(33u), /**< Invalid value for a counter (32bit) in PrleExpand, specifically, counter < prev counter or exceeds 2^16 */
-    QPL_STS_TOO_MANY_LL_CODES_ERR     = QPL_OPERATION_ERROR(35u), /**< The number of LL codes specified in the DEFLATE header exceed 286 */
-    QPL_STS_TOO_MANY_D_CODES_ERR      = QPL_OPERATION_ERROR(36u), /**< The number of D codes specified in the DEFLATE header exceed 30 */
+    QPL_STS_BIG_HEADER_ERR                  = QPL_OPERATION_ERROR(1u),  /**< Reached the end of the input stream before decoding header and header is too big to fit in input buffer */
+    QPL_STS_UNDEF_CL_CODE_ERR               = QPL_OPERATION_ERROR(2u),  /**< Bad CL code */
+    QPL_STS_FIRST_LL_CODE_16_ERR            = QPL_OPERATION_ERROR(3u),  /**< First code in LL tree is 16 */
+    QPL_STS_FIRST_D_CODE_16_ERR             = QPL_OPERATION_ERROR(4u),  /**< First code in D tree is 16 */
+    QPL_STS_NO_LL_CODE_ERR                  = QPL_OPERATION_ERROR(5u),  /**< All LL codes are specified with 0 length */
+    QPL_STS_WRONG_NUM_LL_CODES_ERR          = QPL_OPERATION_ERROR(6u),  /**< After parsing LL code lengths, total codes != expected value */
+    QPL_STS_WRONG_NUM_DIST_CODES_ERR        = QPL_OPERATION_ERROR(7u),  /**< After parsing D code lengths, total codes != expected value */
+    QPL_STS_BAD_CL_CODE_LEN_ERR             = QPL_OPERATION_ERROR(8u),  /**< First CL code of length N is greater than 2^N-1 */
+    QPL_STS_BAD_LL_CODE_LEN_ERR             = QPL_OPERATION_ERROR(9u),  /**< First LL code of length N is greater than 2^N-1 */
+    QPL_STS_BAD_DIST_CODE_LEN_ERR           = QPL_OPERATION_ERROR(10u), /**< First D code of length N is greater than 2^N-1 */
+    QPL_STS_BAD_LL_CODE_ERR                 = QPL_OPERATION_ERROR(11u), /**< Incorrect LL code */
+    QPL_STS_BAD_D_CODE_ERR                  = QPL_OPERATION_ERROR(12u), /**< Incorrect D code */
+    QPL_STS_INVALID_BLOCK_TYPE              = QPL_OPERATION_ERROR(13u), /**< Invalid type of deflate block */
+    QPL_STS_INVALID_STORED_LEN_ERR          = QPL_OPERATION_ERROR(14u), /**< Length of stored block doesn't match inverse length */
+    QPL_STS_BAD_EOF_ERR                     = QPL_OPERATION_ERROR(15u), /**< EOB flag was set but last token was not EOB */
+    QPL_STS_BAD_LEN_ERR                     = QPL_OPERATION_ERROR(16u), /**< Decoded Length code is 0 or greater 258 */
+    QPL_STS_BAD_DIST_ERR                    = QPL_OPERATION_ERROR(17u), /**< Decoded Distance is 0 or greater than History Buffer */
+    QPL_STS_REF_BEFORE_START_ERR            = QPL_OPERATION_ERROR(18u), /**< Distance of reference is before start of file */
+    QPL_STS_TIMEOUT_ERR                     = QPL_OPERATION_ERROR(19u), /**< Library has input data, but is not making forward progress */
+    QPL_STS_PRLE_FORMAT_ERR                 = QPL_OPERATION_ERROR(20u), /**< PRLE format is incorrect or is truncated */
+    QPL_STS_OUTPUT_OVERFLOW_ERR             = QPL_OPERATION_ERROR(21u), /**< Output index value is greater than max available for current output data type */
+    QPL_STS_INTL_AECS_ERR                   = QPL_OPERATION_ERROR(22u), /**< Internal Error Code */
+    QPL_STS_SRC1_TOO_SMALL_ERR              = QPL_OPERATION_ERROR(23u), /**< Source 1 contained fewer than expected elements/bytes */
+    QPL_STS_SRC2_IS_SHORT_ERR               = QPL_OPERATION_ERROR(24u), /**< Source 2 contained fewer than expected elements/bytes */
+    QPL_STS_DST_IS_SHORT_ERR                = QPL_OPERATION_ERROR(25u), /**< qpl_job destination buffer has less bytes than required to process num_input_elements/bytes */
+    QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS     = QPL_OPERATION_ERROR(26u), /**< Internal Error Code */
+    QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS      = QPL_OPERATION_ERROR(27u), /**< Internal Error Code */
+    QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE   = QPL_OPERATION_ERROR(28u), /**< Internal Error Code */
+    QPL_STS_INTL_VERIFY_ERR                 = QPL_OPERATION_ERROR(29u), /**< Internal Error Code */
+    QPL_STS_INVALID_HUFFCODE_ERR            = QPL_OPERATION_ERROR(30u), /**< Compressor tried to use an invalid huffman code */
+    QPL_STS_BIT_WIDTH_ERR                   = QPL_OPERATION_ERROR(31u), /**< Bit width is out of range [1..32] */
+    QPL_STS_SRC_IS_SHORT_ERR                = QPL_OPERATION_ERROR(32u), /**< The input stream ended before specified Number of input Element was seen  */
+    QPL_STS_INVALID_RLE_COUNT               = QPL_OPERATION_ERROR(33u), /**< Invalid value for a counter (32bit) in PrleExpand, specifically, counter < prev counter or exceeds 2^16 */
+    QPL_STS_TOO_MANY_LL_CODES_ERR           = QPL_OPERATION_ERROR(35u), /**< The number of LL codes specified in the DEFLATE header exceed 286 */
+    QPL_STS_TOO_MANY_D_CODES_ERR            = QPL_OPERATION_ERROR(36u), /**< The number of D codes specified in the DEFLATE header exceed 30 */
+
+/* --- Corresponds to the status codes in the Completion Record from Intel® In-Memory Analytics Accelerator --- */
+    QPL_STS_INTL_INPROG                 = QPL_OPERATION_STATUS(0u),  /**< Internal Status Code */
+    QPL_STS_INTL_SUCCESS                = QPL_OPERATION_STATUS(1u),  /**< Internal Status Code */
+    QPL_STS_INTL_ANALYTIC_ERROR         = QPL_OPERATION_STATUS(10u), /**< Internal Status Code */
+    QPL_STS_INTL_OUTPUT_OVERFLOW        = QPL_OPERATION_STATUS(11u), /**< Internal Status Code */
+    QPL_STS_INTL_UNSUPPORTED_OPCODE     = QPL_OPERATION_STATUS(16u), /**< Internal Status Code */
+    QPL_STS_INTL_INVALID_OP_FLAG        = QPL_OPERATION_STATUS(17u), /**< Internal Status Code */
+    QPL_STS_INTL_NONZERO_RESERVED_FIELD = QPL_OPERATION_STATUS(18u), /**< Internal Status Code */
+    QPL_STS_TRANFER_SIZE_INVALID        = QPL_OPERATION_STATUS(19u), /**< Invalid value for transfer size or maximum destination size */
+    QPL_STS_INTL_OVERLAPPING_BUFFERS    = QPL_OPERATION_STATUS(22u), /**< Internal Status Code */
+    QPL_STS_INTL_COMPL_RECORD_UNALIGN   = QPL_OPERATION_STATUS(27u), /**< Internal Status Code */
+    QPL_STS_INTL_MISALIGNED_ADDRESS     = QPL_OPERATION_STATUS(28u), /**< Internal Status Code */
+    QPL_STS_INTL_INVALID_DECOMP_FLAG    = QPL_OPERATION_STATUS(48u), /**< Internal Status Code */
+    QPL_STS_INTL_INVALID_FILTER_FLAG    = QPL_OPERATION_STATUS(49u), /**< Internal Status Code */
+    QPL_STS_INTL_INVALID_INPUT_SIZE     = QPL_OPERATION_STATUS(50u), /**< Internal Status Code */
+    QPL_STS_INVALID_NUM_ELEM            = QPL_OPERATION_STATUS(51u), /**< Number Elements for Filter operation is 0 */
+    QPL_STS_INVALID_SRC1_WIDTH          = QPL_OPERATION_STATUS(52u), /**< Invalid source-1 bit-width */
+    QPL_STS_INV_OUTPUT                  = QPL_OPERATION_STATUS(53u), /**< Invert Output flag was used when the output was not a bit-vector */
 
 /* ====== Initialization Statuses ====== */
     QPL_INIT_HW_NOT_SUPPORTED                 = QPL_INIT_ERROR(0u), /**< Hardware path is not supported */

@@ -156,7 +156,7 @@ protected:
             ASSERT_EQ(QPL_STS_OK, status);
         } else {
             if (QPL_STS_OK != status) {
-                if (QPL_STS_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
+                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
                     // Fix for HW issue in version 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.
@@ -283,7 +283,7 @@ protected:
             ASSERT_EQ(QPL_STS_OK, status);
         } else {
             if (QPL_STS_OK != status) {
-                if (QPL_STS_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
+                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
                     // Fix for HW issue in version 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.

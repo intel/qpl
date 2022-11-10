@@ -129,7 +129,8 @@ HW_PATH_BYTE_PACKED_STRUCTURE_END
  */
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint8_t status;                                         /**< Completion status field */
-    uint8_t bytes[HW_PATH_COMPLETION_RECORD_SIZE - 1u];     /**< Allocated memory for others fields */
+    uint8_t error;                                          /**< Completion error field */
+    uint8_t bytes[HW_PATH_COMPLETION_RECORD_SIZE - 2u];     /**< Allocated memory for others fields */
 } hw_completion_record;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 

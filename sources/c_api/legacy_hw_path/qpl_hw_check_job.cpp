@@ -71,7 +71,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         state_ptr->aecs_hw_read_offset ^= 1u;
 
         return (is_final_block && (comp_ptr->crc != state_ptr->execution_history.compress_crc))
-        ? QPL_STS_VERIFY_ERR
+        ? QPL_STS_INTL_VERIFY_ERR
         : QPL_STS_OK;
     }
 

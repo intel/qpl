@@ -118,7 +118,7 @@ namespace qpl::test
         TestType  test_type      = UNDEFINED_CL_CODE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, first_literal_lengths_code_is_16)
@@ -126,7 +126,7 @@ namespace qpl::test
         TestType  test_type      = FIRST_LL_CODE_16;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, first_distance_lengths_code_is16)
@@ -134,7 +134,7 @@ namespace qpl::test
         TestType  test_type      = FIRST_D_CODE_16;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, no_literal_lengths_code)
@@ -142,7 +142,7 @@ namespace qpl::test
         TestType  test_type      = NO_LL_CODE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, strading_code_length_codes)
@@ -150,7 +150,7 @@ namespace qpl::test
         TestType  test_type      = CL_CODES_SPAN_LL_WITH_D;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
         
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, many_literal_length_codes_declared)
@@ -158,7 +158,7 @@ namespace qpl::test
         TestType  test_type      = TOO_MANY_LL_CODES;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
         
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, big_count_repeating_literal_length_codes)
@@ -166,7 +166,7 @@ namespace qpl::test
         TestType  test_type      = BIG_REPEAT_COUNT_LL;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, many_distance_codes)
@@ -174,7 +174,7 @@ namespace qpl::test
         TestType  test_type      = TOO_MANY_D_CODES;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, many_distance_codes_declared)
@@ -182,7 +182,7 @@ namespace qpl::test
         TestType  test_type      = TOO_MANY_D_CODES_V2;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
         
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, large_count_repeating_distance_codes)
@@ -190,7 +190,7 @@ namespace qpl::test
         TestType  test_type      = BIG_REPEAT_COUNT_D;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, oversubscribed_code_lengths_tree)
@@ -198,7 +198,7 @@ namespace qpl::test
         TestType  test_type      = OVERSUBSCRIBED_CL_TREE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, oversubscribed_literal_lengths_tree)
@@ -206,7 +206,7 @@ namespace qpl::test
         TestType  test_type      = OVERSUBSCRIBED_LL_TREE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, oversubscribed_distance_lengths_tree)
@@ -214,7 +214,7 @@ namespace qpl::test
         TestType  test_type      = OVERSUBSCRIBED_D_TREE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, using_reserved_literal_length_code)
@@ -222,7 +222,7 @@ namespace qpl::test
         TestType  test_type      = BLOCK_CONTAIN_UNALLOWABLE_LL_CODE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, using_reserved_distance_length_code)
@@ -230,7 +230,7 @@ namespace qpl::test
         TestType  test_type      = BLOCK_CONTAIN_UNALLOWABLE_D_CODE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, invalid_block_type)
@@ -238,7 +238,7 @@ namespace qpl::test
         TestType  test_type      = INVALID_BLOCK_TYPE;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, invalid_stored_length)
@@ -246,7 +246,7 @@ namespace qpl::test
         TestType  test_type      = BAD_STORED_LEN;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, bad_distance)
@@ -254,7 +254,7 @@ namespace qpl::test
         TestType  test_type      = BAD_DIST;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(verify, VerifyErrorsTest, buffer_overreading_via_distance)
@@ -262,7 +262,7 @@ namespace qpl::test
         TestType  test_type      = DIST_BEFORE_START;
         qpl_status verify_status = VerifyRunBrokenStream(test_type);
 
-        EXPECT_EQ(QPL_STS_VERIFY_ERR, verify_status);
+        EXPECT_EQ(QPL_STS_INTL_VERIFY_ERR, verify_status);
     }
 }
 

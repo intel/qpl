@@ -34,7 +34,7 @@ void handle_status(uint32_t status_code) {
         case QPL_STS_LIBRARY_INTERNAL_ERR: {
             throw exception(messages::library_internal_error);
         }
-        case QPL_STS_VERIFY_ERR: {
+        case QPL_STS_INTL_VERIFY_ERR: {
             throw operation_process_exception(messages::verify_error);
         }
         case QPL_STS_INDEX_GENERATION_ERR: {
@@ -82,13 +82,13 @@ void handle_status(uint32_t status_code) {
         case QPL_STS_DST_IS_SHORT_ERR: {
             throw short_destination_exception(messages::short_destination);
         }
-        case QPL_STS_DIST_SPANS_MINI_BLOCKS: {
+        case QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS: {
             throw invalid_data_exception(messages::distance_spans_mini_blocks);
         }
-        case QPL_STS_LEN_SPANS_MINI_BLOCKS: {
+        case QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS: {
             throw invalid_data_exception(messages::length_spans_mini_blocks);
         }
-        case QPL_STS_VERIF_INVALID_BLOCK_SIZE: {
+        case QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE: {
             throw invalid_data_exception(messages::verif_invalid_block_size);
         }
         case QPL_STS_SRC_IS_SHORT_ERR: {

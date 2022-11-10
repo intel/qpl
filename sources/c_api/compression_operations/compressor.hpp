@@ -223,7 +223,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *    - @ref QPL_STS_OK
  *    - @ref QPL_STS_BEING_PROCESSED
  *    - @ref QPL_STS_MORE_OUTPUT_NEEDED
- *    - @ref QPL_STS_VERIFY_ERR
+ *    - @ref QPL_STS_INTL_VERIFY_ERR
  *    - @ref QPL_STS_INVALID_DEFLATE_DATA_ERR
  *    - @ref QPL_STS_INVALID_PARAM_ERR
  *    - @ref QPL_STS_ARCHIVE_UNSUP_METHOD_ERR
