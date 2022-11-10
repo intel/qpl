@@ -11,6 +11,7 @@
 
 #include "qpl/qpl.h"
 #include "util/memory.hpp"
+#include "util/hw_status_converting.hpp"
 #include "compression/verification/verification_state.hpp"
 
 // Legacy
@@ -88,7 +89,7 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
 
             if (HW_ACCELERATOR_STATUS_OK != status) {
                 qpl_job_ptr->data_ptr.path = qpl_path_software;
-                status += QPL_INIT_ERROR_BASE;
+                status = util::convert_hw_accelerator_status_to_qpl_status(status);
             }
         }
     }

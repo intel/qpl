@@ -12,6 +12,7 @@
 
 #include "hw_definitions.h"
 #include "hw_accelerator_api.h"
+#include "util/hw_status_converting.hpp"
 #include "util/completion_record.hpp"
 #include "util/awaiter.hpp"
 #ifdef DWQ_SUPPORT
@@ -24,27 +25,6 @@ enum class execution_mode_t {
     sync,
     async
 };
-
-inline auto accelerator_status_to_qpl(const hw_accelerator_status status) {
-    switch (status) {
-        case HW_ACCELERATOR_STATUS_OK:
-            return QPL_STS_OK;
-        case HW_ACCELERATOR_WQ_IS_BUSY:
-            return QPL_STS_QUEUES_ARE_BUSY_ERR;
-        case HW_ACCELERATOR_NULL_PTR_ERR:
-            return QPL_STS_NULL_PTR_ERR;
-        case HW_ACCELERATOR_SUPPORT_ERR:
-            return QPL_INIT_HW_NOT_SUPPORTED;
-        case HW_ACCELERATOR_LIBACCEL_NOT_FOUND:
-            return QPL_STS_INIT_LIBACCEL_NOT_FOUND;
-        case HW_ACCELERATOR_LIBACCEL_ERROR:
-            return QPL_STS_INIT_LIBACCEL_ERROR;
-        case HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE:
-            return QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE;
-        default:
-            return QPL_STS_LIBRARY_INTERNAL_ERR;
-    }
-}
 
 template <typename return_t>
 inline auto wait_descriptor_result(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr) -> return_t {
@@ -72,7 +52,7 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
 #endif
 
     if constexpr (mode == execution_mode_t::sync) {
-        uint32_t status = accelerator_status_to_qpl(accel_status);
+        uint32_t status = convert_hw_accelerator_status_to_qpl_status(accel_status);
         if (status_list::ok != status) {
             if constexpr(std::is_same<decltype(status), return_t>::value) {
                 return status;
@@ -92,9 +72,9 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
         }
     } else {
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
-            operation_result.status_code_ = accelerator_status_to_qpl(accel_status);
+            operation_result.status_code_ = convert_hw_accelerator_status_to_qpl_status(accel_status);
         } else {
-            operation_result = static_cast<return_t>(accelerator_status_to_qpl(accel_status));
+            operation_result = static_cast<return_t>(convert_hw_accelerator_status_to_qpl_status(accel_status));
         }
     }
 
