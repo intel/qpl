@@ -1,20 +1,29 @@
 <!--
-Copyright (C) 2022 Intel Corporation 
+Copyright (C) 2022 Intel Corporation
 SPDX-License-Identifier: MIT
 -->
 
 Intel® Query Processing Library (Intel® QPL) Beta
 =================================================
 
-
 The Intel® Query Processing Library (Intel® QPL) is an open-source library to provide
-high-performance query processing operations on Intel CPUs. Intel® QPL is aimed to support 
+high-performance query processing operations on Intel CPUs. Intel® QPL is aimed to support
 capabilities of the new Intel® In-Memory Analytics Accelerator (Intel® IAA) available on Next
 Generation Intel® Xeon® Scalable processors, codenamed Sapphire Rapids processor, such as very high
 throughput compression and decompression combined with primitive analytic functions, as well as to
 provide highly-optimized SW fallback on other Intel CPUs. Intel QPL primarily targets applications
 such as big-data and in-memory analytic databases.
 
+## Table of Contents
+
+- [Get Started](#get-started)
+- [Documentation](#documentation)
+- [Testing](#testing)
+- [How to Contribute](#how-to-contribute)
+- [How to Report Issues](#how-to-report-issues)
+- [License](#license)
+- [Security](#security)
+- [Notices and Disclaimers](#notices-and-disclaimers)
 
 ## Get Started
 
@@ -23,19 +32,16 @@ To set up and build the Intel QPL library, follow instructions below:
 1. Make sure your system meets all [System Requirements](https://intel.github.io/qpl/documentation/get_started_docs/system_requirements.html).
 2. Follow instructions to build the library. See [Installation](https://intel.github.io/qpl/documentation/get_started_docs/installation.html) for more details.
 
-
 ## Documentation
 
 Documentation is delivered using GitHub Pages. See full Intel QPL [online documentation](https://intel.github.io/qpl/index.html).
 
 >**Note:** The library is in beta state and its APIs may change as the library is actively developed.
 
-To report a security issue, refer to the [security documentation](SECURITY.md).
 
 **Offline Documentation**
 
 To build Intel QPL offline documentation, see the [Documentation Build Prerequisites](https://intel.github.io/qpl/documentation/get_started_docs/installation.html#building-the-documentation) chapter.
-
 
 ## Testing
 
@@ -56,3 +62,30 @@ The library is licensed under the MIT license. Refer to the
 
 This distribution includes third party software governed by separate license
 terms (see "[THIRD-PARTY-PROGRAMS](third-party-programs.txt)").
+
+## Security
+
+For information on how to report a potential security issue or vulnerability see [Security Policy](SECURITY.md)
+
+## Notices and Disclaimers
+
+Intel technologies may require enabled hardware, software or service activation.
+No product or component can be absolutely secure.
+Your costs and results may vary.
+
+© Intel Corporation. Intel, the Intel logo, and other Intel marks are trademarks of
+Intel Corporation or its subsidiaries.
+Other names and brands may be claimed as the property of others.
+
+No license (express or implied, by estoppel or otherwise) to any intellectual
+property rights is granted by this document.
+
+The products described may contain design defects or errors known as errata
+which may cause the product to deviate from published specifications.
+Current characterized errata are available on request.
+
+Microsoft, Windows, and the Windows logo are trademarks, or registered trademarks
+of Microsoft Corporation in the United States and/or other countries.
+Java is a registered trademark of Oracle and/or its affiliates.
+
+\* Other names and brands may be claimed as the property of others.

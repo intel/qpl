@@ -8,15 +8,15 @@ Welcome to Intel® QPL Documentation!
 ####################################
 
 
-The Intel® Query Processing Library (Intel® QPL) provides interfaces 
-for a number of commonly used algorithms. Using this library enables you to 
-automatically tune your application to many generations of processors without 
-changing your application. The Intel® QPL provides high performance implementations 
-of data processing functions for existing hardware accelerator, and/or software path 
-in case if hardware accelerator is not available. Code written within the library 
-automatically takes advantage of available modern CPU capabilities. This behavior 
-can provide tremendous development and maintenance savings. Use the Intel® QPL 
-to improve performance of database, enterprise data, communications, and 
+The Intel® Query Processing Library (Intel® QPL) provides interfaces
+for a number of commonly used algorithms. Using this library enables you to
+automatically tune your application to many generations of processors without
+changing your application. The Intel® QPL provides high performance implementations
+of data processing functions for existing hardware accelerator, and/or software path
+in case if hardware accelerator is not available. Code written within the library
+automatically takes advantage of available modern CPU capabilities. This behavior
+can provide tremendous development and maintenance savings. Use the Intel® QPL
+to improve performance of database, enterprise data, communications, and
 scientific/technical applications.
 
 
@@ -31,7 +31,7 @@ scientific/technical applications.
    :caption: About
 
    documentation/introduction_docs/introduction.rst
-   documentation/introduction_docs/license.rst
+   documentation/introduction_docs/legal.rst
 
 .. toctree::
    :maxdepth: 4
