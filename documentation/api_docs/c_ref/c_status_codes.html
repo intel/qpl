@@ -850,6 +850,12 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_OPERATION_STATUS_BASE">
+<span class="target" id="d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1gaec7454a96db6c41ba76e51d9dc8b378f"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_OPERATION_STATUS_BASE</span></span></span> <span class="pre">300u</span><a class="headerlink" href="#c.QPL_OPERATION_STATUS_BASE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Execution step statuses </p>
+</dd></dl>
+
+<dl class="c macro">
 <dt class="sig sig-object c" id="c.QPL_INIT_ERROR_BASE">
 <span class="target" id="d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1gae5ad8c57e8745d928b280c41463009d0"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_INIT_ERROR_BASE</span></span></span> <span class="pre">500u</span><a class="headerlink" href="#c.QPL_INIT_ERROR_BASE" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Initialization step errors </p>
@@ -883,6 +889,12 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_OPERATION_STATUS">
+<span class="target" id="d5/d8b/group___q_p_l___s_t_a_t_u_s___c_a_l_c_u_l_a_t_o_r_1gab18ff061f48f3140987225bb20e8f5bb"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">x</span></span><span class="sig-paren">)</span> <a class="reference internal" href="#d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1gaec7454a96db6c41ba76e51d9dc8b378f"><span class="std std-ref"><span class="pre">QPL_OPERATION_STATUS_BASE</span></span></a> <span class="pre">+</span> <span class="pre">x</span><a class="headerlink" href="#c.QPL_OPERATION_STATUS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Calculates status for operation execution step </p>
+</dd></dl>
+
+<dl class="c macro">
 <dt class="sig sig-object c" id="c.QPL_INIT_ERROR">
 <span class="target" id="d5/d8b/group___q_p_l___s_t_a_t_u_s___c_a_l_c_u_l_a_t_o_r_1ga80b2e9bfdf8b30e337dbb8f8d6a4ffb4"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_INIT_ERROR</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">x</span></span><span class="sig-paren">)</span> <a class="reference internal" href="#d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1gae5ad8c57e8745d928b280c41463009d0"><span class="std std-ref"><span class="pre">QPL_INIT_ERROR_BASE</span></span></a> <span class="pre">+</span> <span class="pre">x</span><a class="headerlink" href="#c.QPL_INIT_ERROR" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Calculates status for initialization step </p>
@@ -894,7 +906,7 @@ title="Print to PDF"
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_status">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_status</span></span></span><a class="headerlink" href="#c.qpl_status" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Intel QPL return status list. </p>
+<dd><p>Intel QPL return status list (Errors marked <code class="docutils literal notranslate"><span class="pre">Internal</span></code> indicate an issue within the library) </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_OK">
@@ -930,6 +942,12 @@ title="Print to PDF"
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_QUEUES_ARE_BUSY_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a02e3fc8a5fa4acf87ac6018c3bfe40db"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_QUEUES_ARE_BUSY_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">5u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_QUEUES_ARE_BUSY_ERR" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Descriptor can’t be submitted into filled work queue </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a67545d7c007293f7fdac6e0987d68024"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_LIBRARY_INTERNAL_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">6u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Unexpected internal error condition </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -1269,9 +1287,9 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="c enumerator">
-<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a67545d7c007293f7fdac6e0987d68024"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_LIBRARY_INTERNAL_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">22u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Unexpected internal error condition </p>
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_AECS_ERR">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9dd95c27dce66ae0e196aff0175cb034"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_AECS_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">22u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_AECS_ERR" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Error Code </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -1293,27 +1311,27 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="c enumerator">
-<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_DIST_SPANS_MINI_BLOCKS">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a659565762b0f15e66c7d2b032c83a29e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_DIST_SPANS_MINI_BLOCKS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">26u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_DIST_SPANS_MINI_BLOCKS" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Distance spans mini-block boundary on indexing </p>
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a97bc906dec0a397124f5adb0e352e9b6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">26u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Error Code </p>
 </dd></dl>
 
 <dl class="c enumerator">
-<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_LEN_SPANS_MINI_BLOCKS">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a21a2c55579ada7b547a3ec86b34732aa"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_LEN_SPANS_MINI_BLOCKS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">27u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_LEN_SPANS_MINI_BLOCKS" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Length spans mini-block boundary on indexing </p>
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a602cd9e105bf8d4321acf512b574c3be"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">27u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Error Code </p>
 </dd></dl>
 
 <dl class="c enumerator">
-<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_VERIF_INVALID_BLOCK_SIZE">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a0e5e6ee459466ca89a98e98e28ae49cd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_VERIF_INVALID_BLOCK_SIZE</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">28u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_VERIF_INVALID_BLOCK_SIZE" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Invalid block size (not multiple of mini-block size) </p>
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a3a96e7e1aa287087eab85a5f17fc549f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">28u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Error Code </p>
 </dd></dl>
 
 <dl class="c enumerator">
-<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_VERIFY_ERR">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906af13297f8889f6b093b8f0e39b0292c07"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_VERIFY_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">29u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_VERIFY_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Verify logic for decompress detected incorrect output </p>
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_VERIFY_ERR">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a4abdd8ffefb23201fa36b8417deb9801"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_VERIFY_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">29u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_VERIFY_ERR" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Error Code </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -1350,6 +1368,108 @@ title="Print to PDF"
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_TOO_MANY_D_CODES_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a5d23e63dd3ee161fc6007a60db11055e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_TOO_MANY_D_CODES_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">200u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">36u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_TOO_MANY_D_CODES_ERR" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>The number of D codes specified in the DEFLATE header exceed 30 </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_INPROG">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906abf1dea221c917cbaf3577347d1ae0241"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_INPROG</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_INPROG" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_SUCCESS">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a775cf17c2dc54b3823f296d87966a6c7"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_SUCCESS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">1u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_SUCCESS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_ANALYTIC_ERROR">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a6aa08cc2f46b71ee2c7a1ca95aecd248"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_ANALYTIC_ERROR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">10u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_ANALYTIC_ERROR" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_OUTPUT_OVERFLOW">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a8a3bed1c5a407d5b466c9483c2825c41"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_OUTPUT_OVERFLOW</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">11u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_OUTPUT_OVERFLOW" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_UNSUPPORTED_OPCODE">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a25fdcc87a6e212198b999443c3939e1c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_UNSUPPORTED_OPCODE</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">16u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_UNSUPPORTED_OPCODE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_INVALID_OP_FLAG">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a8a7a4f4f526cd278551a1bf94d74a859"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_INVALID_OP_FLAG</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">17u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_INVALID_OP_FLAG" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_NONZERO_RESERVED_FIELD">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ae02fabac6827198226d29c69ffe5e0e6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_NONZERO_RESERVED_FIELD</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">18u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_NONZERO_RESERVED_FIELD" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_TRANFER_SIZE_INVALID">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adb21307d2937739b0ad540cc2bb5c24d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_TRANFER_SIZE_INVALID</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">19u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_TRANFER_SIZE_INVALID" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Invalid value for transfer size or maximum destination size </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_OVERLAPPING_BUFFERS">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ab6fed4325ef6ad77b52dd8a703495db4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_OVERLAPPING_BUFFERS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">22u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_OVERLAPPING_BUFFERS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_COMPL_RECORD_UNALIGN">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adebdd66a6c68b932708bd1359ebddcc9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_COMPL_RECORD_UNALIGN</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">27u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_COMPL_RECORD_UNALIGN" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_MISALIGNED_ADDRESS">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906af06b80dcbd5376d1e81b2474b5cee816"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_MISALIGNED_ADDRESS</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">28u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_MISALIGNED_ADDRESS" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_INVALID_DECOMP_FLAG">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a7f8a1ee94477f5c03305fb193767700b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_INVALID_DECOMP_FLAG</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">48u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_INVALID_DECOMP_FLAG" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_INVALID_FILTER_FLAG">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906acfc9505e702bac66d14d04840e239926"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_INVALID_FILTER_FLAG</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">49u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_INVALID_FILTER_FLAG" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INTL_INVALID_INPUT_SIZE">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a57bdabf83006bddfefcede8a6a42440d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INTL_INVALID_INPUT_SIZE</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">50u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INTL_INVALID_INPUT_SIZE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Internal Status Code </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INVALID_NUM_ELEM">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ac2bf9a02da0e32635432cd6f29f296b9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_NUM_ELEM</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">51u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INVALID_NUM_ELEM" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Number Elements for Filter operation is 0 </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INVALID_SRC1_WIDTH">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ac1067fac8b2c404e7c1ce640662ad404"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INVALID_SRC1_WIDTH</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">52u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INVALID_SRC1_WIDTH" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Invalid source-1 bit-width </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_INV_OUTPUT">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a05dd01b9ec66b919b569b694b8788e14"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_INV_OUTPUT</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.QPL_OPERATION_STATUS" title="QPL_OPERATION_STATUS"><span class="n"><span class="pre">QPL_OPERATION_STATUS</span></span></a><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">53u</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_INV_OUTPUT" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Invert Output flag was used when the output was not a bit-vector </p>
 </dd></dl>
 
 <dl class="c enumerator">
