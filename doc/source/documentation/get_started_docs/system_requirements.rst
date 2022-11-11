@@ -14,6 +14,11 @@ System Requirements
 Software Path requirements
 **************************
 
+On Linux* OS, the accelerator configuration library ``libaccel-config.so``
+(see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
+must be placed in ``/usr/lib64/`` to build and run the Intel® Query Processing 
+Library (Intel® QPL), even if only the Software Path is used.
+
 | **Minimum requirements**
 | x86-64 CPU with Intel® Advanced Vector Extensions 2 support
   (Intel® microarchitecture code name Broadwell).
@@ -32,7 +37,7 @@ Hardware Path Requirements
 
   - The accelerator configuration library ``libaccel-config.so``
     (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
-    should be placed in ``/usr/lib64/``.
+    must be placed in ``/usr/lib64/``.
 - Linux kernel version 5.18 or later. Public versions of Linux
   kernels can be found here: https://www.kernel.org.
 - Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
@@ -51,7 +56,7 @@ Accelerator Configuration
 Intel® In-Memory Analytics Accelerator (Intel® IAA) devices can be configured with
 ``libaccel-config`` library, which can be found here: https://github.com/intel/idxd-config.
 
-The Intel® Query Processing Library (Intel® QPL) hardware path requires ``libaccel-config``
+The Intel® QPL hardware path requires ``libaccel-config``
 library version 3.2 or higher.
 Refer to `accel-config releases <https://github.com/intel/idxd-config/releases>`__ for the
 latest version.

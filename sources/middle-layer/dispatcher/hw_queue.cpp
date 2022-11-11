@@ -10,7 +10,10 @@
 #include <sys/mman.h>
 
 #include "hw_queue.hpp"
-#include "hw_configuration_driver.h"
+#include "hw_definitions.h"
+#include "hw_devices.h"
+
+#include "libaccel_config.h"
 
 #define QPL_HWSTS_RET(expr, err_code) { if( expr ) { return( err_code ); }}
 #define DEC_BASE 10u         /**< @todo */
@@ -86,16 +89,16 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     auto *work_queue_ptr        = reinterpret_cast<accfg_wq *>(wq_descriptor_ptr);
     char path[64];
 #ifdef LOG_HW_INIT
-    auto work_queue_dev_name    = hw_work_queue_get_device_name(work_queue_ptr);
+    auto work_queue_dev_name    = accfg_wq_get_devname(work_queue_ptr);
 #endif
 
-    if (ACCFG_WQ_ENABLED != hw_work_queue_get_state(work_queue_ptr)) {
+    if (ACCFG_WQ_ENABLED != accfg_wq_get_state(work_queue_ptr)) {
         DIAG("     %7s: DISABLED\n", work_queue_dev_name);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
 #ifdef DWQ_SUPPORT
-    auto wq_mode = hw_work_queue_get_mode(work_queue_ptr);
+    auto wq_mode = accfg_wq_get_mode(work_queue_ptr);
     if (ACCFG_WQ_DEDICATED == wq_mode) {
         DIAG("     %7s: Dedicated WQ\n", work_queue_dev_name);
     } else {
@@ -103,14 +106,14 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 #else
-    if (ACCFG_WQ_SHARED != hw_work_queue_get_mode(work_queue_ptr)) {
+    if (ACCFG_WQ_SHARED != accfg_wq_get_mode(work_queue_ptr)) {
         DIAG("     %7s: UNSUPPOTED\n", work_queue_dev_name);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
 #endif
     DIAG("     %7s:\n", work_queue_dev_name);
-    auto status = hw_work_queue_get_device_path(work_queue_ptr, path, 64 - 1);
+    auto status = accfg_wq_get_user_dev_path(work_queue_ptr, path, 64 - 1);
     QPL_HWSTS_RET((0 > status), HW_ACCELERATOR_LIBACCEL_ERROR);
 
     DIAG("     %7s: opening descriptor %s", work_queue_dev_name, path);
@@ -130,10 +133,10 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     }
     DIAGA("\n");
 
-    priority_       = hw_work_queue_get_priority(work_queue_ptr);
-    block_on_fault_ = hw_work_queue_get_block_on_fault(work_queue_ptr);
+    priority_       = accfg_wq_get_priority(work_queue_ptr);
+    block_on_fault_ = accfg_wq_get_block_on_fault(work_queue_ptr);
 #ifdef DWQ_SUPPORT
-    auto size       = hw_work_queue_get_size(work_queue_ptr);
+    auto size       = accfg_wq_get_size(work_queue_ptr);
     if (sem_init(&dwq_sem_, 0, size) < 0) {
         DIAGA(", DWQ flow control Initialization failed\n");
         return HW_ACCELERATOR_LIBACCEL_ERROR;

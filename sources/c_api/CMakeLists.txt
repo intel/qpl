@@ -46,7 +46,7 @@ target_compile_definitions(qpl
         PUBLIC $<$<BOOL:${DWQ_SUPPORT}>:DWQ_SUPPORT>)
 
 target_link_libraries(qpl
-        PRIVATE ${CMAKE_DL_LIBS})
+        PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
 
 install(TARGETS qpl
         EXPORT ${PROJECT_NAME}Targets

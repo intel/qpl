@@ -37,7 +37,7 @@ set_target_properties(qplcore_avx512 PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
         $<$<C_COMPILER_ID:GNU>:C_STANDARD 17>)
 
-target_link_libraries(qplcore_avx512 ${CMAKE_DL_LIBS} isal)
+target_link_libraries(qplcore_avx512 isal)
 
 if (WIN32)
     target_compile_options(qplcore_avx512
@@ -75,7 +75,7 @@ set_target_properties(qplcore_px PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
         $<$<C_COMPILER_ID:GNU>:C_STANDARD 17>)
 
-target_link_libraries(qplcore_px isal ${CMAKE_DL_LIBS})
+target_link_libraries(qplcore_px isal)
 
 if (WIN32)
     target_compile_options(qplcore_px

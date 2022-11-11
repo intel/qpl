@@ -20,7 +20,7 @@ target_link_libraries(stress_thread_tests
         PRIVATE tests_common
         PRIVATE tool_generator
         PRIVATE qplhl qpl
-        "$<$<PLATFORM_ID:Linux>:dl;pthread;stdc++fs>")
+        "$<$<PLATFORM_ID:Linux>:pthread;stdc++fs>")
 
 set_target_properties(stress_thread_tests PROPERTIES CXX_STANDARD 17)
 

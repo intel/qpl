@@ -9,8 +9,11 @@
 #if defined( linux )
 
 #include "hw_device.hpp"
-#include "hw_configuration_driver.h"
+#include "hw_devices.h"
+#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
+
+#include "libaccel_config.h"
 
 static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
 static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
@@ -131,25 +134,25 @@ auto hw_device::get_block_on_fault_available() const noexcept -> bool {
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);
-    const auto *name_ptr            = reinterpret_cast<const uint8_t *>(hw_device_get_name(device_ptr));
+    const auto *name_ptr            = reinterpret_cast<const uint8_t *>(accfg_device_get_devname(device_ptr));
     const bool  is_iaa_device       = own_search_device_name(name_ptr, IAA_DEVICE, accelerator_name_length);
 
-    version_major_ = hw_device_get_version(device_ptr)>>8u;
-    version_minor_ = hw_device_get_version(device_ptr)&0xFF;
+    version_major_ = accfg_device_get_version(device_ptr)>>8u;
+    version_minor_ = accfg_device_get_version(device_ptr)&0xFF;
 
     DIAG("%5s: ", name_ptr);
     if (!is_iaa_device) {
         DIAGA("UNSUPPORTED\n", name_ptr);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
-    if (ACCFG_DEVICE_ENABLED != hw_device_get_state(device_ptr)) {
+    if (ACCFG_DEVICE_ENABLED != accfg_device_get_state(device_ptr)) {
         DIAGA("DISABLED\n", name_ptr);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
     DIAGA("\n");
 
-    gen_cap_register_ = hw_device_get_gen_cap_register(device_ptr);
-    numa_node_id_     = hw_device_get_numa_node(device_ptr);
+    gen_cap_register_ = accfg_device_get_gen_cap(device_ptr);
+    numa_node_id_     = accfg_device_get_numa_node(device_ptr);
 
     DIAG("%5s: version: %d.%d\n", name_ptr, version_major_, version_minor_);
     DIAG("%5s: numa:    %d\n", name_ptr, numa_node_id_);
@@ -165,7 +168,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     DIAG("%5s: GENCAP: maximum set size:                            %d\n",          name_ptr, get_max_set_size());
 
     // Working queues initialization stage
-    auto *wq_ptr = hw_get_first_work_queue(device_ptr);
+    auto *wq_ptr = accfg_wq_get_first(device_ptr);
     auto wq_it   = working_queues_.begin();
 
     DIAG("%5s: getting device WQs\n", name_ptr);
@@ -179,7 +182,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
                            });
         }
 
-        wq_ptr = hw_work_queue_get_next(wq_ptr);
+        wq_ptr = accfg_wq_get_next(wq_ptr);
     }
 
     // Check number of working queues

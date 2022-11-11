@@ -17,9 +17,10 @@
 #include "qpl/c_api/defs.h"
 
 #if defined(linux )
+#include "hw_definitions.h"
+#include "hw_devices.h"
 
-#include "hw_configuration_driver.h"
-
+#include "libaccel_config.h"
 #endif
 
 namespace qpl::ml::dispatcher {
@@ -76,7 +77,6 @@ protected:
 private:
 #if defined( linux )
     hw_context         hw_context_;
-    hw_driver_t        hw_driver_{};
     device_container_t devices_{};
     size_t             device_count_      = 0;
 #endif

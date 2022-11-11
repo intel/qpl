@@ -20,8 +20,7 @@ target_link_libraries(init_tests
         PRIVATE tool_generator
         PRIVATE gtest
         PRIVATE qplhl #todo remove dependency
-        PRIVATE middle_layer_lib
-        "$<$<PLATFORM_ID:Linux>:dl>")
+        PRIVATE middle_layer_lib)
 
 set_target_properties(init_tests PROPERTIES CXX_STANDARD 17)
 

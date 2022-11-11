@@ -40,16 +40,13 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 
     DIAG("Intel QPL version %s\n", QPL_VERSION);
 
-    hw_accelerator_status status = hw_initialize_accelerator_driver(&hw_driver_);
-    QPL_HWSTS_RET(status != HW_ACCELERATOR_STATUS_OK, status);
-
     DIAG("creating context\n");
-    int32_t context_creation_status = hw_driver_new_context(&ctx_ptr);
+    int32_t context_creation_status = accfg_new(&ctx_ptr);
     QPL_HWSTS_RET(0u != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
 
     // Retrieve first device in the system given the passed in context
     DIAG("enumerating devices\n");
-    auto *dev_tmp_ptr = hw_context_get_first_device(ctx_ptr);
+    auto *dev_tmp_ptr = accfg_device_get_first(ctx_ptr);
     auto device_it    = devices_.begin();
 
     while (nullptr != dev_tmp_ptr) {
@@ -58,7 +55,7 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
         }
 
         // Retrieve the "next" device in the system based on given device
-        dev_tmp_ptr = hw_device_get_next(dev_tmp_ptr);
+        dev_tmp_ptr = accfg_device_get_next(dev_tmp_ptr);
     }
 
     device_count_ = std::distance(devices_.begin(), device_it);
@@ -82,10 +79,8 @@ hw_dispatcher::~hw_dispatcher() noexcept {
     auto *context_ptr = hw_context_.get_driver_context_ptr();
 
     if (context_ptr != nullptr) {
-        hw_context_close(context_ptr);
+        accfg_unref(context_ptr);
     }
-
-    hw_finalize_accelerator_driver(&hw_driver_);
 
     // Zeroing values
     hw_context_.set_driver_context_ptr(nullptr);
