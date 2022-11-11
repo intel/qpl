@@ -10,6 +10,7 @@
  */
 
 #include "hw_dispatcher.hpp"
+#include <mutex>
 
 #if defined( linux )
 
@@ -18,20 +19,22 @@
 #define QPL_HWSTS_RET(expr, err_code) { if( expr ) { return( err_code ); }}
 
 namespace qpl::ml::dispatcher {
-class hw_dispatcher_singleton
-{
-public:
-    hw_dispatcher_singleton()
-    {
-        (void)hw_dispatcher::get_instance();
-    }
-};
-static hw_dispatcher_singleton g_hw_dispatcher_singleton;
 
+
+static int is_initialized = 0;
+static std::mutex hw_init_lock;
 
 hw_dispatcher::hw_dispatcher() noexcept {
-    hw_init_status_ = hw_dispatcher::initialize_hw();
-    hw_support_     = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
+    if (!is_initialized) {
+        hw_init_lock.lock();
+        if (!is_initialized) {
+            hw_init_status_ = hw_dispatcher::initialize_hw();
+            hw_support_     = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
+
+            is_initialized = 1;
+        }
+        hw_init_lock.unlock();
+    }
 }
 
 auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {

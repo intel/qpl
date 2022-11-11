@@ -25,9 +25,9 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
 
 
 #if defined( linux )
-    auto                               &dispatcher   = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    const auto                          device_count = dispatcher.device_count();
-    static thread_local std::uint32_t   device_idx   = 0;
+    static auto                               &dispatcher  = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static const auto                         device_count = dispatcher.device_count();
+    static thread_local std::uint32_t         device_idx   = 0;
 
     if (device_count == 0) {
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;

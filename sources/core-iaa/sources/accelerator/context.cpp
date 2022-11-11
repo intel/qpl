@@ -23,7 +23,7 @@
 #include "dispatcher/hw_dispatcher.hpp"
 
 extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_context *const accel_context_ptr) {
-    auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!accel_context_ptr)
         return HW_ACCELERATOR_NULL_PTR_ERR;
 
