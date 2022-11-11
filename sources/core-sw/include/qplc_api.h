@@ -9,7 +9,6 @@
 #include "qplc_extract.h"
 #include "qplc_select.h"
 #include "qplc_expand.h"
-#include "qplc_rle_burst.h"
 #include "qplc_unpack.h"
 #include "qplc_pack.h"
 #include "qplc_memop.h"

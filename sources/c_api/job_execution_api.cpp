@@ -152,16 +152,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
                                     analytics_state_ptr->src2_buf_size);
             break;
         }
-        case qpl_op_rle_burst: {
-            status = perform_rle_burst(qpl_job_ptr,
-                                       analytics_state_ptr->unpack_buf_ptr,
-                                       analytics_state_ptr->unpack_buf_size,
-                                       analytics_state_ptr->set_buf_ptr,
-                                       analytics_state_ptr->set_buf_size,
-                                       analytics_state_ptr->src2_buf_ptr,
-                                       analytics_state_ptr->src2_buf_size);
-            break;
-        } //filter operations
         default: {
             status = QPL_STS_OPERATION_ERR;
         }
@@ -235,16 +225,6 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
                                                           analytics_state_ptr->set_buf_size,
                                                           analytics_state_ptr->src2_buf_ptr,
                                                           analytics_state_ptr->src2_buf_size));
-        }
-
-        if (job::is_rle_burst(qpl_job_ptr)) {
-            return static_cast<qpl_status>(perform_rle_burst(qpl_job_ptr,
-                                                             analytics_state_ptr->unpack_buf_ptr,
-                                                             analytics_state_ptr->unpack_buf_size,
-                                                             analytics_state_ptr->set_buf_ptr,
-                                                             analytics_state_ptr->set_buf_size,
-                                                             analytics_state_ptr->src2_buf_ptr,
-                                                             analytics_state_ptr->src2_buf_size));
         }
 
         if (job::is_decompression(qpl_job_ptr)) {

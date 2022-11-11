@@ -45,7 +45,6 @@ constexpr qpl_ml_status bit_width_error                    = QPL_STS_BIT_WIDTH_E
 constexpr qpl_ml_status source_2_is_short_error            = QPL_STS_SRC2_IS_SHORT_ERR;
 constexpr qpl_ml_status drop_bits_overflow_error           = QPL_STS_DROP_BITS_OVERFLOW_ERR;
 constexpr qpl_ml_status size_error                         = QPL_STS_SIZE_ERR;
-constexpr qpl_ml_status invalid_rle_count                  = QPL_STS_INVALID_RLE_COUNT;
 constexpr qpl_ml_status output_overflow_error              = QPL_STS_OUTPUT_OVERFLOW_ERR;
 constexpr qpl_ml_status buffers_overlap                    = QPL_STS_BUFFER_OVERLAP_ERR;
 constexpr qpl_ml_status compression_reference_before_start = QPL_STS_REF_BEFORE_START_ERR;

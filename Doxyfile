@@ -931,7 +931,6 @@ EXCLUDE_SYMBOLS        = \
                          verif_invalid_block_size \
                          incorrect_prle_bit_width \
                          short_source \
-                         invalid_rle_counter \
                          no_any_exception_occurred
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories

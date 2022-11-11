@@ -236,7 +236,6 @@ typedef enum {
      */
     qpl_op_extract        = 0x11u,  /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
     qpl_op_select         = 0x12u,  /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_rle_burst      = 0x13u,  /**< RLE decompression filter operation (@ref ANALYTIC_OPERATIONS group) */
     qpl_op_expand         = 0x15u,  /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
 
     // start filter scan operations

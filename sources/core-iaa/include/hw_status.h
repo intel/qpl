@@ -102,7 +102,6 @@ typedef uint8_t hw_operation_error; /**< Error code type */
 #define AD_ERROR_CODE_INVALID_HUFFCODE              30u     /**< Compressor tried to use an invalid huffman code */
 #define AD_ERROR_CODE_PRLE_BITWIDTH_TOO_LARGE       31u     /**< `PLRE` elements `bit-width` was greater than 32 */
 #define AD_ERROR_CODE_TOO_FEW_ELEMENTS_PROCESSED    32u     /**< The input stream ended before specified Number of input Element was seen */
-#define AD_ERROR_CODE_INVALID_RLE_COUNT             33u     /**< For `RLE Burst` operation with cumulative count, the counts were seen to decrease */
 #define AD_ERROR_CODE_INVALID_ZDECOMP_HDR           34u     /**< During a `Z-Decompress` operation, the input data ended in the middle of a record header */
 #define AD_ERROR_CODE_TOO_MANY_LL_CODES             35u     /**< The number of LL codes specified in the DEFLATE header exceed 286 */
 #define AD_ERROR_CODE_TOO_MANY_D_CODES              36u     /**< The number of D codes specified in the DEFLATE header exceed 30 */

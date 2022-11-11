@@ -100,8 +100,6 @@ constexpr const char *verif_invalid_block_size       = "Invalid block size (not 
 constexpr const char *incorrect_prle_bit_width       = "Bit width defined by PRLE stream was larger than 32";
 constexpr const char *short_source                   = "Source buffer has less bytes than required "
                                                        "to process input elements";
-constexpr const char *invalid_rle_counter            = "During RLE-burst, the cumulative count decreased(i.e. "
-                                                       "count < prev count), or a count exceeded 2^16";
 constexpr const char *no_any_exception_occurred      = "No any exception occurred";
 /** @} */
 

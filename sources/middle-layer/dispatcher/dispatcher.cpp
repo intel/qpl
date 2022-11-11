@@ -91,9 +91,6 @@ extern select_i_table_t avx512_select_i_table;
 extern expand_table_t px_expand_table;
 extern expand_table_t avx512_expand_table;
 
-extern expand_rle_table_t px_expand_rle_table;
-extern expand_rle_table_t avx512_expand_rle_table;
-
 extern memory_copy_table_t px_memory_copy_table;
 extern memory_copy_table_t avx512_memory_copy_table;
 
@@ -201,14 +198,6 @@ auto get_expand_index(const uint32_t bit_width) -> uint32_t {
     uint32_t expand_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return expand_index;
-}
-
-auto get_expand_rle_index(const uint32_t bit_width_1, const uint32_t bit_width_2) -> uint32_t {
-    // Rle_burst function table contains 9 entries for all combinations of 8u, 16u & 32u data in src #1 and src #2;
-    uint32_t src_1_index = BITS_2_DATA_TYPE_INDEX(bit_width_1);
-    uint32_t src_2_index = BITS_2_DATA_TYPE_INDEX(bit_width_2);
-
-    return (src_1_index * 3u + src_2_index);
 }
 
 auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t {
@@ -360,10 +349,6 @@ auto kernels_dispatcher::get_expand_table() const noexcept -> const expand_table
     return *expand_table_ptr_;
 }
 
-auto kernels_dispatcher::get_expand_rle_table() const noexcept -> const expand_rle_table_t & {
-    return *expand_rle_table_ptr_;
-}
-
 kernels_dispatcher::kernels_dispatcher() noexcept {
     arch_ = detect_platform();
 
@@ -382,7 +367,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             select_table_ptr_                = &avx512_select_table;
             select_i_table_ptr_              = &avx512_select_i_table;
             expand_table_ptr_                = &avx512_expand_table;
-            expand_rle_table_ptr_            = &avx512_expand_rle_table;
             memory_copy_table_ptr_           = &avx512_memory_copy_table;
             zero_table_ptr_                  = &avx512_zero_table;
             move_table_ptr_                  = &avx512_move_table;
@@ -406,7 +390,6 @@ kernels_dispatcher::kernels_dispatcher() noexcept {
             select_table_ptr_                = &px_select_table;
             select_i_table_ptr_              = &px_select_i_table;
             expand_table_ptr_                = &px_expand_table;
-            expand_rle_table_ptr_            = &px_expand_rle_table;
             memory_copy_table_ptr_           = &px_memory_copy_table;
             zero_table_ptr_                  = &px_zero_table;
             move_table_ptr_                  = &px_move_table;

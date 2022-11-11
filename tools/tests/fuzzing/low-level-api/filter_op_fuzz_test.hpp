@@ -50,10 +50,6 @@ struct expand_properties : public analytics_properties {
     uint32_t input_bit_width_2 = 0;
 };
 
-struct rle_burst_properties : public analytics_properties {
-    uint32_t input_bit_width_2 = 0;
-};
-
 static inline qpl_operation convert_comparator_to_scan_operation(
         scan_comparator comparator) {
 
@@ -265,58 +261,6 @@ static inline int expand_test_case(const uint8_t* data_ptr, size_t size, qpl_par
             job_ptr->src2_bit_width     = properties_ptr->input_bit_width_2;
             job_ptr->out_bit_width      = properties_ptr->output_bit_width;
             job_ptr->parser             = parser;
-
-            status = qpl_execute_job(job_ptr);
-        }
-    }
-
-    return 0;
-}
-
-static inline int rle_burst_test_case(const uint8_t* data_ptr, size_t size, qpl_parser parser) {
-    if (size > sizeof(rle_burst_properties)) {
-        auto* properties_ptr = reinterpret_cast<const rle_burst_properties*>(data_ptr);
-        auto input_source_size = size - sizeof(rle_burst_properties);
-
-        if (input_source_size > 1) {
-            std::vector<uint8_t> source(
-                data_ptr + sizeof(rle_burst_properties),
-                data_ptr + sizeof(rle_burst_properties) + input_source_size / 2);
-            std::vector<uint8_t> source_count(
-                data_ptr + sizeof(rle_burst_properties) + input_source_size / 2, data_ptr + size);
-
-            std::vector<uint8_t> destination(properties_ptr->destination_size);
-
-            qpl_status status;
-            uint32_t job_size = 0;
-
-            // Job initialization
-            status = qpl_get_job_size(qpl_path_software, &job_size);
-            if (status != QPL_STS_OK) {
-                return 0;
-            }
-
-            auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-            qpl_job* job_ptr = reinterpret_cast<qpl_job*>(job_buffer.get());
-
-            status = qpl_init_job(qpl_path_software, job_ptr);
-            if (status != QPL_STS_OK) {
-                return 0;
-            }
-
-            job_ptr->op                 = qpl_op_rle_burst;
-            job_ptr->next_in_ptr        = source.data();
-            job_ptr->available_in       = source.size();
-            job_ptr->src1_bit_width     = properties_ptr->input_bit_width;
-            job_ptr->num_input_elements = properties_ptr->number_of_elements;
-
-            job_ptr->next_src2_ptr      = source_count.data();
-            job_ptr->available_src2     = source_count.size();
-            job_ptr->src2_bit_width     = properties_ptr->input_bit_width_2;
-
-            job_ptr->next_out_ptr       = destination.data();
-            job_ptr->available_out      = properties_ptr->destination_size;
-            job_ptr->out_bit_width      = properties_ptr->output_bit_width;
 
             status = qpl_execute_job(job_ptr);
         }

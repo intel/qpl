@@ -19,7 +19,6 @@
 #include "qplc_memop.h"
 #include "qplc_aggregates.h"
 #include "qplc_expand.h"
-#include "qplc_rle_burst.h"
 #include "qplc_checksum.h"
 
 #define OWN_MIN_(a, b) (a < b) ? a : b
@@ -55,8 +54,6 @@ auto get_pack_bits_index(const uint32_t flag_be,
 
 auto get_aggregates_index(const uint32_t src_bit_width) -> uint32_t;
 
-auto get_expand_rle_index(const uint32_t bit_width_1, const uint32_t bit_width_2) -> uint32_t;
-
 auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t;
 
 using unpack_table_t = std::array<qplc_unpack_bits_t_ptr, 64>;
@@ -79,7 +76,6 @@ using select_table_t = std::array<qplc_select_t_ptr, 3>;
 using select_i_table_t = std::array<qplc_select_i_t_ptr, 3>;
 
 using expand_table_t = std::array<qplc_expand_t_ptr, 3>;
-using expand_rle_table_t = std::array<qplc_rle_burst_t_ptr, 9>;
 
 using memory_copy_table_t = std::array<qplc_copy_t_ptr, 3>;
 using zero_table_t = std::array<qplc_zero_t_ptr, 1>;
@@ -130,8 +126,6 @@ public:
 
     [[nodiscard]] auto get_expand_table() const noexcept -> const expand_table_t &;
 
-    [[nodiscard]] auto get_expand_rle_table() const noexcept -> const expand_rle_table_t &;
-
     [[nodiscard]] auto get_memory_copy_table() const noexcept -> const memory_copy_table_t &;
 
     [[nodiscard]] auto get_zero_table() const noexcept -> const zero_table_t &;
@@ -164,7 +158,6 @@ private:
     select_table_t                  *select_table_ptr_                  = nullptr;
     select_i_table_t                *select_i_table_ptr_                = nullptr;
     expand_table_t                  *expand_table_ptr_                  = nullptr;
-    expand_rle_table_t              *expand_rle_table_ptr_              = nullptr;
     memory_copy_table_t             *memory_copy_table_ptr_             = nullptr;
     zero_table_t                    *zero_table_ptr_                    = nullptr;
     move_table_t                    *move_table_ptr_                    = nullptr;

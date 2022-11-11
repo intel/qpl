@@ -119,9 +119,6 @@ namespace qpl::test
             case qpl_op_expand:
                 return "Expand";
 
-            case qpl_op_rle_burst:
-                return "ExpandRLE";
-
             case qpl_op_compress:
                 return "Compress";
 
@@ -255,15 +252,6 @@ namespace qpl::test
         {
             case qpl_op_select:
                 result_bit_length = first_source_number_of_elements;
-                break;
-
-            case qpl_op_rle_burst:
-                result_bit_length = first_source_number_of_elements;
-
-                if (first_source_bit_width == 32u)
-                {
-                    result_bit_length--;
-                }
                 break;
 
             case qpl_op_expand:

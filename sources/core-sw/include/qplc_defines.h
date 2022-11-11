@@ -67,7 +67,6 @@ typedef enum {
     QPLC_STS_OUTPUT_OVERFLOW_ERR     = 221u,
     QPLC_STS_DST_IS_SHORT_ERR        = 225u,
     QPLC_STS_SRC_IS_SHORT_ERR        = 232u,
-    QPLC_STS_INVALID_RLE_COUNT       = 233u,
     QPLC_STS_INVALID_ZERO_DECOMP_HDR = 234,
 } qplc_status_t;
 

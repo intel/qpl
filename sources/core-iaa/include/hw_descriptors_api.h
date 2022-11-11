@@ -197,39 +197,6 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_expand_operation, (hw_descriptor *
                                                                  const bool is_mask_big_endian));
 
 /**
- * @brief Setup filtering descriptor to perform `rle burst` operation
- *
- * @details `RLE Burst` operation replicates each element in `element_array` the number of times defined by `source-1` element
- * with the same index.
- *
- * @param[out] descriptor_ptr    @ref hw_descriptor
- * @param[in] element_array_ptr  pointer to element array
- * @param[in] element_array_size size of element array
- * @param[in] element_bit_width
- * @param[in] is_set_big_endian  element array is in big-endian encoding format
- *
- * @note Operation's streams:
- *  - Output: `array-vector` that set with @ref hw_iaa_descriptor_analytic_set_filter_output.
- *  - Input: `bit-vector` of elements that set with @ref hw_iaa_descriptor_analytic_set_filter_input.
- *
- * @note The `source-1` can be presented in the follow formats:
- *  - If the @ref qpl_job.src1_bit_width is 8 or 16, each counter specifies the number of times to replicate
- *    the corresponding element in input stream. In this case number of elements
- *    in `source-2` == number of counters.
- *  - If the bit width of `source-1` is 32, each element of src1 specifies the cumulative number of elements
- *    in the output to that point.
- *    In this case number of elements in `source-2` == numberOfCounters - 1, due to each element of `source-1`
- *    in this case specifies the cumulative number of elements in the output to that point.
- *
- */
-HW_PATH_IAA_API(void, descriptor_analytic_set_rle_burst_operation, (hw_descriptor *const descriptor_ptr,
-                                                                    uint8_t *const element_array_ptr,
-                                                                    const uint32_t element_array_size,
-                                                                    const uint32_t element_bit_width,
-                                                                    const bool is_set_big_endian));
-
-
-/**
  * @brief Setup decompress pass for filtering operation
  *
  * @param[out] descriptor_ptr                   @ref hw_descriptor

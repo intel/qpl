@@ -142,17 +142,6 @@ inline auto descriptor_builder<qpl_op_select>::operation(const input_stream_t &m
     return *this;
 }
 
-template <>
-inline auto descriptor_builder<qpl_op_rle_burst>::operation(const input_stream_t &symbol_stream) noexcept -> descriptor_builder & {
-    hw_iaa_descriptor_analytic_set_rle_burst_operation(&descriptor_,
-                                                       symbol_stream.data(),
-                                                       symbol_stream.size(),
-                                                       symbol_stream.bit_width(),
-                                                       symbol_stream.stream_format() == stream_format_t::be_format);
-
-    return *this;
-}
-
 }
 
 #endif //QPL_SOURCES_MIDDLE_LAYER_ANALYTICS_HW_ANALYTIC_DEFINITIONS_H_

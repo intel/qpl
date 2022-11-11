@@ -94,9 +94,6 @@ void handle_status(uint32_t status_code) {
         case QPL_STS_SRC_IS_SHORT_ERR: {
             throw memory_underflow_exception(messages::short_source);
         }
-        case QPL_STS_INVALID_RLE_COUNT: {
-            throw operation_process_exception(messages::invalid_rle_counter);
-        }
         default: {
             // TODO should be removed
             if (status_code) {

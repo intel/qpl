@@ -107,10 +107,6 @@ static inline bool is_scan(const qpl_job *const job_ptr) noexcept {
     return qpl_op_scan_eq <= job_ptr->op;
 }
 
-static inline bool is_rle_burst(const qpl_job *const job_ptr) noexcept {
-    return qpl_op_rle_burst == job_ptr->op;
-}
-
 static inline bool is_select(const qpl_job *const job_ptr) noexcept {
     return qpl_op_select == job_ptr->op;
 }

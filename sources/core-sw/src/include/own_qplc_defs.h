@@ -87,7 +87,6 @@ extern "C" {
 #define OWN_6_BYTE_WIDTH  48u                         /**< 6-byte width in bits */
 #define OWN_7_BYTE_WIDTH  56u                         /**< 7-byte width in bits */
 #define OWN_QWORD_WIDTH   64u                         /**< Qword width in bits */
-#define OWN_RLE_BURST_MAX_COUNT   65535u              /**< Maximum count for 32u rle_burst operation */
 #define OWN_BIT_MASK(x) ((QPL_ONE_64U << (x)) - 1u)   /**< Bit mask below bit position */
 #define OWN_PARQUET_WIDTH 8u                          /**< Parquet size in elements (PRLE format) */
 #define OWN_LITERAL_OCTA_GROUP 1u                     /**< PRLE format description */
@@ -103,7 +102,7 @@ extern "C" {
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
 #else
 #define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
-#endif        
+#endif
 #endif
 
 /**

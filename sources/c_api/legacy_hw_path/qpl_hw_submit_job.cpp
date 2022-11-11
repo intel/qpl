@@ -163,14 +163,6 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
                                                             job_ptr->flags & QPL_FLAG_SRC2_BE);
             break;
 
-        case qpl_op_rle_burst:
-            hw_iaa_descriptor_analytic_set_rle_burst_operation(descriptor_ptr,
-                                                               job_ptr->next_src2_ptr,
-                                                               job_ptr->available_src2,
-                                                               job_ptr->src2_bit_width,
-                                                               job_ptr->flags & QPL_FLAG_SRC2_BE);
-            break;
-
         case qpl_op_scan_ne:
         case qpl_op_scan_eq:
         case qpl_op_scan_le:
@@ -261,10 +253,6 @@ static inline qpl_status own_bad_argument_validation(qpl_job *const job_ptr) {
 
         case qpl_op_extract:
             OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_extract>(job_ptr))
-            break;
-
-        case qpl_op_rle_burst:
-            OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_rle_burst>(job_ptr))
             break;
 
         case qpl_op_expand:
@@ -401,7 +389,6 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             [[fallthrough]];
         case qpl_op_select:
         case qpl_op_expand:
-        case qpl_op_rle_burst:
         case qpl_op_scan_ne:
         case qpl_op_scan_eq:
         case qpl_op_scan_le:

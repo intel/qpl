@@ -35,8 +35,7 @@ inline auto validate_analytic_buffers(const qpl_job *const job_ptr) noexcept {
 
 
     if constexpr(operation == qpl_op_expand ||
-                 operation == qpl_op_select ||
-                 operation == qpl_op_rle_burst) {
+                 operation == qpl_op_select) {
         QPL_BAD_PTR_RET(job_ptr->next_src2_ptr)
         QPL_BAD_SIZE_RET(job_ptr->available_src2)
 
@@ -142,76 +141,6 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
 }
 }
 
-namespace rle_burst {
-constexpr const uint32_t accumulate_counters_bit_width = 32u;
-
-static inline auto is_standard_type(uint32_t x, uint32_t y) -> bool {
-    return (x == 8u) || (((x == 16u) || (x == 32u)) && y);
-}
-
-static inline qpl_status check_bad_arguments(const qpl_job *const job_ptr) {
-    QPL_BADARG_RET((qpl_op_rle_burst != job_ptr->op), QPL_STS_OPERATION_ERR);
-    QPL_BADARG_RET((job_ptr->src2_bit_width < 1u || job_ptr->src2_bit_width > 32u), QPL_STS_BIT_WIDTH_ERR);
-
-    QPL_BADARG_RET(job_ptr->initial_output_index, QPL_STS_INVALID_PARAM_ERR);
-
-    if (qpl_ow_nom != job_ptr->out_bit_width) {
-        QPL_BADARG_RET((job_ptr->src2_bit_width > (1u << (job_ptr->out_bit_width + 2u))), QPL_STS_OUT_FORMAT_ERR)
-    }
-
-    if (qpl_p_parquet_rle == job_ptr->parser && (job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE)) {
-        // Inflate + PRLE stream, cannot determinate source bit width, skip remaining checks
-        return QPL_STS_OK;
-    }
-
-    uint32_t source_bit_width = job_ptr->src1_bit_width;
-
-    if (qpl_p_parquet_rle == job_ptr->parser && !(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE)) {
-        // Read source-1 bit_width
-        source_bit_width = (uint32_t) *job_ptr->next_in_ptr;
-    }
-
-    // Source-1 bit width should be 8, 16, 32 bits
-    if (!is_standard_type(source_bit_width, 1u)) {
-        return QPL_STS_BIT_WIDTH_ERR;
-    }
-
-    uint32_t src2_number_of_elements = job_ptr->num_input_elements;
-
-    if (accumulate_counters_bit_width == source_bit_width) {
-        // When counters are accumulative, there should be at least two elements
-        QPL_BADARG_RET((job_ptr->num_input_elements < 2u), QPL_STS_SIZE_ERR)
-
-        src2_number_of_elements--;
-    }
-
-    uint32_t expected_src2_bits_length = src2_number_of_elements * job_ptr->src2_bit_width;
-    uint32_t actual_src2_bits_length   = byte_bits_size * job_ptr->available_src2;
-
-    QPL_BADARG_RET((expected_src2_bits_length > actual_src2_bits_length), QPL_STS_SRC2_IS_SHORT_ERR)
-
-    // Check if we can read the 1st byte, and the src1 is accumulative counters
-    if ((qpl_p_parquet_rle != job_ptr->parser &&
-         !(QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags)) &&
-        accumulate_counters_bit_width == source_bit_width) {
-        QPL_BADARG_RET(job_ptr->src1_bit_width == 32 && job_ptr->num_input_elements == 1, QPL_STS_SIZE_ERR)
-
-        uint32_t first_count_value = *((uint32_t *) job_ptr->next_in_ptr);
-
-        QPL_BADARG_RET(0u != first_count_value, QPL_STS_INVALID_RLE_COUNT)
-    }
-
-    if (job_ptr->parser != qpl_p_parquet_rle && !(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE)) {
-        uint64_t expected_source_byte_length = util::bit_to_byte((uint64_t)job_ptr->num_input_elements *
-                                                                 (uint64_t)job_ptr->src1_bit_width);
-
-        QPL_BADARG_RET((expected_source_byte_length > (uint64_t)job_ptr->available_in), QPL_STS_SRC_IS_SHORT_ERR)
-    }
-
-    return QPL_STS_OK;
-}
-}
-
 namespace extract {
 static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t {
     if ((qpl_p_parquet_rle != job_ptr->parser) &&
@@ -307,15 +236,6 @@ inline auto validate_operation<qpl_op_expand>(const qpl_job *const job_ptr) noex
     OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_expand>(job_ptr));
     OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr));
     OWN_QPL_CHECK_STATUS(details::expand::check_bad_arguments(job_ptr));
-
-    return QPL_STS_OK;
-}
-
-template<>
-inline auto validate_operation<qpl_op_rle_burst>(const qpl_job *const job_ptr) noexcept {
-    OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_rle_burst>(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::rle_burst::check_bad_arguments(job_ptr));
 
     return QPL_STS_OK;
 }

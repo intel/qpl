@@ -15,7 +15,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(hl_util, expected_exceptions) {
     // Operation process exceptions
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_BEING_PROCESSED), operation_process_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INTL_VERIFY_ERR), operation_process_exception);
-    EXPECT_THROW(qpl::util::handle_status(QPL_STS_INVALID_RLE_COUNT), operation_process_exception);
     EXPECT_THROW(qpl::util::handle_status(QPL_STS_INDEX_GENERATION_ERR), operation_process_exception);
 
     // Memory underflow exceptions

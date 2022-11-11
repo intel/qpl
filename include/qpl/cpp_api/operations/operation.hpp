@@ -75,8 +75,6 @@ class expand_operation;
 
 class select_operation;
 
-class rle_burst_operation;
-
 class crc_operation;
 
 class inflate_operation;
@@ -104,16 +102,6 @@ auto execute(expand_operation &operation, int32_t numa_id) -> execution_result<u
 
 template <execution_path path>
 auto execute(select_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
-
-template <execution_path path>
-auto execute(rle_burst_operation &operation,
-             uint8_t *source_buffer_ptr,
-             size_t source_buffer_size,
-             uint8_t *dest_buffer_ptr,
-             size_t dest_buffer_size,
-             uint8_t *mask_buffer_ptr,
-             size_t mask_buffer_size,
-             int32_t numa_id) -> execution_result<uint32_t, sync>;
 
 template <execution_path path>
 auto execute(crc_operation &operation, int32_t numa_id) -> execution_result<uint32_t, sync>;
@@ -341,7 +329,6 @@ auto execute(operation_t &op,
                                  scan_range_operation,
                                  expand_operation,
                                  select_operation,
-                                 rle_burst_operation,
                                  crc_operation,
                                  inflate_operation,
                                  deflate_operation>) {
@@ -361,32 +348,7 @@ auto execute(operation_t &op,
 
             return internal::execute<path>(op, temp_buffer.data(), temp_buffer.size());
         } else {
-            if constexpr (traits::is_any<operation_t, rle_burst_operation>) {
-                // Maximum number of unpacked elements
-                constexpr auto max_elements = 4096u;
-                // Unpack buffer size, +1u - especially for RLE_Burst
-                constexpr auto buf_size     = (max_elements + 1u) * sizeof(uint32_t);
-
-                stream<allocator_t> source_buffer(buf_size);
-                if constexpr (path != execution_path::hardware) {
-                    std::fill(source_buffer.begin(), source_buffer.end(), 0);
-                }
-
-                stream<allocator_t> unpack_buffer(buf_size + 100);
-                stream<allocator_t> mask_buffer(buf_size);
-                stream<allocator_t> output_buffer(buf_size);
-
-                return internal::execute<path>(op,
-                                               unpack_buffer.data(),
-                                               source_buffer.size(),
-                                               output_buffer.data(),
-                                               output_buffer.size(),
-                                               mask_buffer.data(),
-                                               mask_buffer.size(),
-                                               numa_id);
-            } else {
-                return internal::execute<path>(op, numa_id);
-            }
+            return internal::execute<path>(op, numa_id);
         }
     } else if constexpr (std::is_base_of<custom_operation, operation_t>::value) {
         auto operation_helper = dynamic_cast<custom_operation *>(&op);

@@ -34,12 +34,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
     job.op = incorrect_operation;
     EXPECT_FALSE(is_select(&job));
 
-    job.op = qpl_op_rle_burst;
-    EXPECT_TRUE(is_rle_burst(&job));
-
-    job.op = incorrect_operation;
-    EXPECT_FALSE(is_rle_burst(&job));
-
     job.op = qpl_op_expand;
     EXPECT_TRUE(is_expand(&job));
 

@@ -14,8 +14,8 @@
 
 #define QPL_TEST_STS_OK                     QPLC_STS_OK
 #define QPL_TEST_STS_OUTPUT_OVERFLOW_ERR    QPL_STS_OUTPUT_OVERFLOW_ERR
-#define QPL_TEST_STS_DST_IS_SHORT_ERR       QPL_STS_DST_IS_SHORT_ERR   
-#define QPL_TEST_STS_SRC_IS_SHORT_ERR       QPL_STS_SRC_IS_SHORT_ERR   
+#define QPL_TEST_STS_DST_IS_SHORT_ERR       QPL_STS_DST_IS_SHORT_ERR
+#define QPL_TEST_STS_SRC_IS_SHORT_ERR       QPL_STS_SRC_IS_SHORT_ERR
 
 
 #define QPL_TEST_PARQUET_WIDTH               8u
@@ -197,51 +197,25 @@ static uint32_t ref_qplc_unpack_prle_8u(uint8_t** pp_src, uint32_t src_length, u
         status = (0 != *count_ptr) ? QPL_TEST_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-        if ((8U == bit_width) && (0u < *value_ptr)) {
-            max_count_src = (uint32_t)(src_stop_ptr - src_ptr);
-            max_count_dst = (uint32_t)(dst_stop_ptr - dst_ptr);
-            count = std::min(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = std::min(*value_ptr, count);
-            ref_qplc_copy_8u(src_ptr, dst_ptr, count);
-            src_ptr += count;
-            dst_ptr += count;
-            dst_length -= count;
-            src_length -= count;
-            if (count < *value_ptr) {
-                *value_ptr -= count;
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
+        max_count = (uint32_t)(-*count_ptr);
+        max_count_dst = dst_length / QPL_TEST_PARQUET_WIDTH;
+        max_count_src = src_length / bit_width;
+        count = QPL_TEST_MIN(max_count_src, max_count_dst);
+        status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
+        count = QPL_TEST_MIN(max_count, count);
+        *count_ptr = *count_ptr + (int32_t)count;
+        qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
+        dst_ptr += count * QPL_TEST_PARQUET_WIDTH;
+        src_ptr += count * bit_width;
+        if (0 != *count_ptr) {
+            if (8u == bit_width) {
+                *value_ptr = ownc_octa_part_8u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
-            else {
-                status = QPL_TEST_STS_OK;
-                *value_ptr = 0u;
-                *count_ptr += 1;
-            }
+            *pp_dst = dst_ptr;
+            *pp_src = src_ptr;
+            return status;
         }
-        if (0 > *count_ptr) {
-            max_count = (uint32_t)(-*count_ptr);
-            max_count_dst = dst_length / QPL_TEST_PARQUET_WIDTH;
-            max_count_src = src_length / bit_width;
-            count = QPL_TEST_MIN(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = QPL_TEST_MIN(max_count, count);
-            *count_ptr = *count_ptr + (int32_t)count;
-            qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
-            dst_ptr += count * QPL_TEST_PARQUET_WIDTH;
-            src_ptr += count * bit_width;
-            if (0 != *count_ptr) {
-                if (8u == bit_width) {
-                    *value_ptr = ownc_octa_part_8u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
-            }
-            status = QPL_TEST_STS_OK;
-        }
+        status = QPL_TEST_STS_OK;
     }
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
@@ -265,10 +239,6 @@ static uint32_t ref_qplc_unpack_prle_8u(uint8_t** pp_src, uint32_t src_length, u
                 qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * QPL_TEST_PARQUET_WIDTH;
-                // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-                if (8u == bit_width) {
-                    *value_ptr = ownc_octa_part_8u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
                 break;
             }
 
@@ -332,51 +302,25 @@ static uint32_t ref_qplc_unpack_prle_16u(uint8_t** pp_src, uint32_t src_length, 
         status = (0 != *count_ptr) ? QPL_TEST_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-        if ((16u == bit_width) && (0u < *value_ptr)) {
-            max_count_src = (uint32_t)(src_stop_ptr - src_ptr) / sizeof(uint16_t);
-            max_count_dst = (uint32_t)(dst_stop_ptr - dst_ptr) / sizeof(uint16_t);
-            count = std::min(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = std::min(*value_ptr, count);
-            ref_qplc_copy_16u((const uint16_t *)src_ptr, (uint16_t*)dst_ptr, count);
-            src_ptr += count * sizeof(uint16_t);
-            dst_ptr += count * sizeof(uint16_t);
-            dst_length -= count * sizeof(uint16_t);
-            src_length -= count * sizeof(uint16_t);
-            if (count < *value_ptr) {
-                *value_ptr -= count;
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
+        max_count = (uint32_t)(-*count_ptr);
+        max_count_dst = dst_length / (QPL_TEST_PARQUET_WIDTH * sizeof(uint16_t));
+        max_count_src = src_length / bit_width;
+        count = QPL_TEST_MIN(max_count_src, max_count_dst);
+        status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
+        count = QPL_TEST_MIN(max_count, count);
+        *count_ptr = *count_ptr + (int32_t)count;
+        qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
+        dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint16_t);
+        src_ptr += count * bit_width;
+        if (0 != *count_ptr) {
+            if (16u == bit_width) {
+                *value_ptr = ownc_octa_part_16u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
-            else {
-                status = QPL_TEST_STS_OK;
-                *value_ptr = 0u;
-                *count_ptr += 1;
-            }
+            *pp_dst = dst_ptr;
+            *pp_src = src_ptr;
+            return status;
         }
-        if (0 > *count_ptr) {
-            max_count = (uint32_t)(-*count_ptr);
-            max_count_dst = dst_length / (QPL_TEST_PARQUET_WIDTH * sizeof(uint16_t));
-            max_count_src = src_length / bit_width;
-            count = QPL_TEST_MIN(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = QPL_TEST_MIN(max_count, count);
-            *count_ptr = *count_ptr + (int32_t)count;
-            qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
-            dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint16_t);
-            src_ptr += count * bit_width;
-            if (0 != *count_ptr) {
-                if (16u == bit_width) {
-                    *value_ptr = ownc_octa_part_16u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
-            }
-            status = QPL_TEST_STS_OK;
-        }
+        status = QPL_TEST_STS_OK;
     }
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
@@ -400,10 +344,6 @@ static uint32_t ref_qplc_unpack_prle_16u(uint8_t** pp_src, uint32_t src_length, 
                 qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint16_t);
-                // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-                if (16u == bit_width) {
-                    *value_ptr = ownc_octa_part_16u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
                 break;
             }
             qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
@@ -467,51 +407,25 @@ static uint32_t ref_qplc_unpack_prle_32u(uint8_t** pp_src, uint32_t src_length, 
         status = (0 != *count_ptr) ? QPL_TEST_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-        if ((32u == bit_width) && (0u < *value_ptr)) {
-            max_count_src = (uint32_t)(src_stop_ptr - src_ptr) / sizeof(uint32_t);
-            max_count_dst = (uint32_t)(dst_stop_ptr - dst_ptr) / sizeof(uint32_t);
-            count = std::min(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = std::min(*value_ptr, count);
-            ref_qplc_copy_32u((const uint32_t *)src_ptr, (uint32_t*)dst_ptr, count);
-            src_ptr += count * sizeof(uint32_t);
-            dst_ptr += count * sizeof(uint32_t);
-            dst_length -= count * sizeof(uint32_t);
-            src_length -= count * sizeof(uint32_t);
-            if (count < *value_ptr) {
-                *value_ptr -= count;
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
+        max_count = (uint32_t)(-*count_ptr);
+        max_count_dst = dst_length / (QPL_TEST_PARQUET_WIDTH * sizeof(uint32_t));
+        max_count_src = src_length / bit_width;
+        count = QPL_TEST_MIN(max_count_src, max_count_dst);
+        status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
+        count = QPL_TEST_MIN(max_count, count);
+        *count_ptr = *count_ptr + (int32_t)count;
+        qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
+        dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint32_t);
+        src_ptr += count * bit_width;
+        if (0 != *count_ptr) {
+            if (32u == bit_width) {
+                *value_ptr = ownc_octa_part_32u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
-            else {
-                status = QPL_TEST_STS_OK;
-                *value_ptr = 0u;
-                *count_ptr += 1;
-            }
+            *pp_dst = dst_ptr;
+            *pp_src = src_ptr;
+            return status;
         }
-        if (0 > *count_ptr) {
-            max_count = (uint32_t)(-*count_ptr);
-            max_count_dst = dst_length / (QPL_TEST_PARQUET_WIDTH * sizeof(uint32_t));
-            max_count_src = src_length / bit_width;
-            count = QPL_TEST_MIN(max_count_src, max_count_dst);
-            status = (count == max_count_src) ? QPL_TEST_STS_SRC_IS_SHORT_ERR : QPL_TEST_STS_DST_IS_SHORT_ERR;
-            count = QPL_TEST_MIN(max_count, count);
-            *count_ptr = *count_ptr + (int32_t)count;
-            qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
-            dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint32_t);
-            src_ptr += count * bit_width;
-            if (0 != *count_ptr) {
-                if (32u == bit_width) {
-                    *value_ptr = ownc_octa_part_32u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
-                *pp_dst = dst_ptr;
-                *pp_src = src_ptr;
-                return status;
-            }
-            status = QPL_TEST_STS_OK;
-        }
+        status = QPL_TEST_STS_OK;
     }
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
@@ -535,10 +449,6 @@ static uint32_t ref_qplc_unpack_prle_32u(uint8_t** pp_src, uint32_t src_length, 
                 qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * QPL_TEST_PARQUET_WIDTH * sizeof(uint32_t);
-                // Special code for rle_burst - in order to have an exact dst_length elements in the dst
-                if (32u == bit_width) {
-                    *value_ptr = ownc_octa_part_32u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-                }
                 break;
             }
             qplc_unpack_bits(bit_width - 1u)(src_ptr, count * QPL_TEST_PARQUET_WIDTH, 0u, dst_ptr);

@@ -159,7 +159,7 @@ typedef enum {
     QPL_STS_INVALID_HUFFCODE_ERR            = QPL_OPERATION_ERROR(30u), /**< Compressor tried to use an invalid huffman code */
     QPL_STS_BIT_WIDTH_ERR                   = QPL_OPERATION_ERROR(31u), /**< Bit width is out of range [1..32] */
     QPL_STS_SRC_IS_SHORT_ERR                = QPL_OPERATION_ERROR(32u), /**< The input stream ended before specified Number of input Element was seen  */
-    QPL_STS_INVALID_RLE_COUNT               = QPL_OPERATION_ERROR(33u), /**< Invalid value for a counter (32bit) in PrleExpand, specifically, counter < prev counter or exceeds 2^16 */
+    QPL_STS_INTL_INVALID_COUNT              = QPL_OPERATION_ERROR(33u), /**< Internal Error Code */
     QPL_STS_TOO_MANY_LL_CODES_ERR           = QPL_OPERATION_ERROR(35u), /**< The number of LL codes specified in the DEFLATE header exceed 286 */
     QPL_STS_TOO_MANY_D_CODES_ERR            = QPL_OPERATION_ERROR(36u), /**< The number of D codes specified in the DEFLATE header exceed 30 */
 
@@ -171,7 +171,7 @@ typedef enum {
     QPL_STS_INTL_UNSUPPORTED_OPCODE     = QPL_OPERATION_STATUS(16u), /**< Internal Status Code */
     QPL_STS_INTL_INVALID_OP_FLAG        = QPL_OPERATION_STATUS(17u), /**< Internal Status Code */
     QPL_STS_INTL_NONZERO_RESERVED_FIELD = QPL_OPERATION_STATUS(18u), /**< Internal Status Code */
-    QPL_STS_TRANFER_SIZE_INVALID        = QPL_OPERATION_STATUS(19u), /**< Invalid value for transfer size or maximum destination size */
+    QPL_STS_TRANSFER_SIZE_INVALID       = QPL_OPERATION_STATUS(19u), /**< Invalid value for transfer size or maximum destination size */
     QPL_STS_INTL_OVERLAPPING_BUFFERS    = QPL_OPERATION_STATUS(22u), /**< Internal Status Code */
     QPL_STS_INTL_COMPL_RECORD_UNALIGN   = QPL_OPERATION_STATUS(27u), /**< Internal Status Code */
     QPL_STS_INTL_MISALIGNED_ADDRESS     = QPL_OPERATION_STATUS(28u), /**< Internal Status Code */

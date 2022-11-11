@@ -476,19 +476,19 @@ REF_INLINE qpl_status own_expand_rle(const uint32_t *const source_ptr,
             numberOfRepetitions = source_ptr[sourceIndex];
         } else {
             if (source_ptr[sourceIndex + 1] < source_ptr[sourceIndex]) {
-                return QPL_STS_INVALID_RLE_COUNT;
+                return QPL_STS_INTL_INVALID_COUNT;
             }
 
             numberOfRepetitions = source_ptr[sourceIndex + 1] - source_ptr[sourceIndex];
         }
 
         if (numberOfRepetitions > UINT16_MAX) {
-            return QPL_STS_INVALID_RLE_COUNT;
+            return QPL_STS_INTL_INVALID_COUNT;
         }
 
         for (uint32_t repetitionIndex = 0u; repetitionIndex < numberOfRepetitions; repetitionIndex++) {
             if (destinationIndex >= number_of_output_elements) {
-                return QPL_STS_INVALID_RLE_COUNT;
+                return QPL_STS_INTL_INVALID_COUNT;
             }
 
             destination_ptr[destinationIndex] = elementToRepeat;

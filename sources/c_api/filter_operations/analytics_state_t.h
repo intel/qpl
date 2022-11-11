@@ -45,7 +45,7 @@ extern "C" {
 #define OWN_MAX_ELEMENTS 4096u
 
 /**
- * Unpack buffer size, +1u - especially for RLE_Burst
+ * Unpack buffer size, +1u
  */
 #define OWN_UNPACK_BUF_SIZE ((OWN_MAX_ELEMENTS + 1u) * sizeof(uint32_t))
 
@@ -65,7 +65,7 @@ extern "C" {
 #define OWN_SET_BUF_SIZE (1u << OWN_MAX_SET_SIZE)
 
 /**
- * Expand src2 unpack buffer size - MAX_ELEMENTS in bytes, but for rle_burst we need more
+ * Expand src2 unpack buffer size - MAX_ELEMENTS in bytes
  */
 #define OWN_SRC2_BUF_SIZE (OWN_MAX_ELEMENTS * sizeof(uint32_t))
 

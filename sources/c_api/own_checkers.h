@@ -46,7 +46,6 @@ if(NULL == (expression)) { \
     (1ULL << qpl_op_crc64         ) |\
     (1ULL << qpl_op_extract       ) |\
     (1ULL << qpl_op_select        ) |\
-    (1ULL << qpl_op_rle_burst     ) |\
     (1ULL << qpl_op_expand        ) |\
     (1ULL << qpl_op_scan_eq       ) |\
     (1ULL << qpl_op_scan_ne       ) |\

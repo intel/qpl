@@ -78,7 +78,6 @@ function(generate_unpack_kernel_arrays current_directory)
     list(APPEND SCAN_POSTFIX_LIST "")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "")
     list(APPEND DEFAULT_BIT_WIDTH_LIST "")
-    list(APPEND RLE_BURST_POSTFIX_LIST "")
 
     list(APPEND PLATFORM_PREFIX_LIST "")
     list(APPEND PLATFORM_PREFIX_LIST "avx512_")
@@ -98,17 +97,6 @@ function(generate_unpack_kernel_arrays current_directory)
     list(APPEND DEFAULT_BIT_WIDTH_LIST "8u")
     list(APPEND DEFAULT_BIT_WIDTH_LIST "16u")
     list(APPEND DEFAULT_BIT_WIDTH_LIST "32u")
-
-    #create list of rle burst postfixes
-    foreach(input_width IN LISTS DEFAULT_BIT_WIDTH_LIST)
-        foreach(output_width IN LISTS DEFAULT_BIT_WIDTH_LIST)
-            if (input_width STREQUAL output_width)
-                list(APPEND RLE_BURST_POSTFIX_LIST "${input_width}")
-            else()
-                list(APPEND RLE_BURST_POSTFIX_LIST "${input_width}${output_width}")
-            endif()
-        endforeach()
-    endforeach()
 
     #create scan kernel postfixes
     list(APPEND SCAN_COMPARATOR_LIST "")
@@ -328,29 +316,6 @@ function(generate_unpack_kernel_arrays current_directory)
 
             file(APPEND ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "}\n")
         endforeach()
-
-        #
-        # Write rle burst table
-        #
-        file(WRITE ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "#include \"qplc_api.h\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "namespace qpl::ml::dispatcher\n{\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "expand_rle_table_t ${PLATFORM_PREFIX}expand_rle_table = {\n")
-
-        #get last element of the list
-        set(LAST_ELEMENT "")
-        list(GET RLE_BURST_POSTFIX_LIST -1 LAST_ELEMENT)
-
-        foreach(RLE_BURST_POSTFIX IN LISTS RLE_BURST_POSTFIX_LIST)
-
-            if(RLE_BURST_POSTFIX STREQUAL LAST_ELEMENT)
-                file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "\t${PLATFORM_PREFIX}qplc_rle_burst_${RLE_BURST_POSTFIX}};\n")
-            else()
-                file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "\t${PLATFORM_PREFIX}qplc_rle_burst_${RLE_BURST_POSTFIX},\n")
-            endif()
-        endforeach()
-
-        file(APPEND ${directory}/${PLATFORM_PREFIX}expand_rle.cpp "}\n")
 
         #
         # Write aggregates table

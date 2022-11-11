@@ -13,7 +13,6 @@
 #define QPL_OPCODE_SCAN         0x50u    /**< Operation code for `SCAN` operation */
 #define QPL_OPCODE_EXTRACT      0x52u    /**< Operation code for `EXTRACT` operation */
 #define QPL_OPCODE_SELECT       0x53u    /**< Operation code for `SELECT` operation */
-#define QPL_OPCODE_RLE_BURST    0x54u    /**< Operation code for `RLE BURST` operation */
 #define QPL_OPCODE_EXPAND       0x56u    /**< Operation code for `EXPAND` operation */
 
 #define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x)  (((x) & 0x1Fu) << 7u)   /**< @todo */
@@ -102,18 +101,3 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_expand_operation, (hw_descriptor *
                                                              is_mask_big_endian);
 }
 
-HW_PATH_IAA_API(void, descriptor_analytic_set_rle_burst_operation, (hw_descriptor *const descriptor_ptr,
-                                                                    uint8_t *const element_array_ptr,
-                                                                    const uint32_t element_array_size,
-                                                                    const uint32_t element_bit_width,
-                                                                    const bool is_set_big_endian)) {
-    own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
-    this_ptr->op_code_op_flags |= ADOF_OPCODE(QPL_OPCODE_RLE_BURST);
-
-    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(element_bit_width - 1u);
-
-    own_hw_descriptor_double_source_filter_set_second_source((hw_descriptor *) this_ptr,
-                                                             element_array_ptr,
-                                                             element_array_size,
-                                                             is_set_big_endian);
-}

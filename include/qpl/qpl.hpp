@@ -29,7 +29,6 @@
 #include "cpp_api/operations/analytics/scan_operation.hpp"
 #include "cpp_api/operations/analytics/scan_range_operation.hpp"
 #include "cpp_api/operations/analytics/select_operation.hpp"
-#include "cpp_api/operations/analytics/rle_burst_operation.hpp"
 
 // Compression Operations API
 #include "cpp_api/operations/compression/deflate_operation.hpp"

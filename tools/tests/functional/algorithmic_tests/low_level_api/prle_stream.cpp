@@ -244,43 +244,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, select_large_single_rle_group,
     verify_operation_on_single_rle_group<ref_select>(rle_element);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, rle_burst_large_single_rle_group, ParquetRLEParserTest) {
-    job_ptr->op = qpl_op_rle_burst;
-    reference_job_ptr->op = qpl_op_rle_burst;
-
-    source_provider src2_generator(10000u,
-                                   rle_burst_src2_bit_width,
-                                   GetSeed(),
-                                   second_source_parser);
-
-    auto source2 = src2_generator.get_source();
-
-    job_ptr->src2_bit_width = rle_burst_src2_bit_width;
-    reference_job_ptr->src2_bit_width = rle_burst_src2_bit_width;
-
-    rle_element_t rle_element;
-    rle_element.bit_width = rle_burst_counter_bit_width;
-    rle_element.element_value = rle_burst_counter_element_value;
-    rle_element.repeat_count = 4000u;
-
-    job_ptr->next_src2_ptr = source2.data();
-    job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    reference_job_ptr->next_src2_ptr = source2.data();
-    reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    verify_rle_burst_on_single_rle_group(rle_element);
-
-    rle_element.repeat_count = 6000u;
-    job_ptr->next_src2_ptr = source2.data();
-    job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    reference_job_ptr->next_src2_ptr = source2.data();
-    reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    verify_rle_burst_on_single_rle_group(rle_element);
-
-    rle_element.repeat_count = 10000u;
-    job_ptr->next_src2_ptr = source2.data();
-    job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    reference_job_ptr->next_src2_ptr = source2.data();
-    reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count * job_ptr->src2_bit_width);
-    verify_rle_burst_on_single_rle_group(rle_element);
-}
 }
