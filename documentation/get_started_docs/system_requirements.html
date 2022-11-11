@@ -829,6 +829,10 @@ title="Print to PDF"
 <span id="system-requirements-reference-link"></span><h1>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">#</a></h1>
 <section id="software-path-requirements">
 <h2>Software Path requirements<a class="headerlink" href="#software-path-requirements" title="Permalink to this headline">#</a></h2>
+<p>On Linux* OS, the accelerator configuration library <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code>
+(see <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>)
+must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code> to build and run the Intel® Query Processing
+Library (Intel® QPL), even if only the Software Path is used.</p>
 <div class="line-block">
 <div class="line"><strong>Minimum requirements</strong></div>
 <div class="line">x86-64 CPU with Intel® Advanced Vector Extensions 2 support
@@ -847,7 +851,7 @@ title="Print to PDF"
 <ul>
 <li><p>The accelerator configuration library <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code>
 (see <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>)
-should be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>.</p></li>
+must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>.</p></li>
 </ul>
 </li>
 <li><p>Linux kernel version 5.18 or later. Public versions of Linux
@@ -863,7 +867,7 @@ and run hardware path applications.</p></li>
 <span id="accelerator-configuration-reference-link"></span><h3>Accelerator Configuration<a class="headerlink" href="#accelerator-configuration" title="Permalink to this headline">#</a></h3>
 <p>Intel® In-Memory Analytics Accelerator (Intel® IAA) devices can be configured with
 <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library, which can be found here: <a class="reference external" href="https://github.com/intel/idxd-config">https://github.com/intel/idxd-config</a>.</p>
-<p>The Intel® Query Processing Library (Intel® QPL) hardware path requires <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>
+<p>The Intel® QPL hardware path requires <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>
 library version 3.2 or higher.
 Refer to <a class="reference external" href="https://github.com/intel/idxd-config/releases">accel-config releases</a> for the
 latest version.</p>
