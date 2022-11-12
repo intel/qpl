@@ -76,14 +76,6 @@ Extract
     :language: cpp
 
 
-RLE Burst
-=========
-
-
-.. literalinclude:: ../../../../examples/low-level-api/rle_burst_example.cpp
-    :language: cpp
-
-
 Scan
 ====
 
@@ -173,13 +165,6 @@ Extract
 
 
 .. literalinclude:: ../../../../examples/high-level-api/simple-operations/extract_example.cpp
-    :language: cpp
-
-RLE Burst
----------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/rle_burst_example.cpp
     :language: cpp
 
 

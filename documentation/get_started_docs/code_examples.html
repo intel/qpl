@@ -93,8 +93,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../introduction_docs/license.html">
-   License
+  <a class="reference internal" href="../introduction_docs/legal.html">
+   Notices and Disclaimers
   </a>
  </li>
 </ul>
@@ -243,11 +243,6 @@
        <li class="toctree-l4">
         <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_select.html">
          Select
-        </a>
-       </li>
-       <li class="toctree-l4">
-        <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op_rle_burst.html">
-         RLE Burst
         </a>
        </li>
        <li class="toctree-l4">
@@ -801,11 +796,6 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#rle-burst">
-     RLE Burst
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scan">
      Scan
     </a>
@@ -869,16 +859,11 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#id4">
-       RLE Burst
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id5">
        Scan
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id6">
+      <a class="reference internal nav-link" href="#id5">
        Scan Range
       </a>
      </li>
@@ -888,7 +873,7 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id7">
+      <a class="reference internal nav-link" href="#id6">
        Select
       </a>
      </li>
@@ -985,11 +970,6 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#rle-burst">
-     RLE Burst
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scan">
      Scan
     </a>
@@ -1053,16 +1033,11 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#id4">
-       RLE Burst
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id5">
        Scan
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id6">
+      <a class="reference internal nav-link" href="#id5">
        Scan Range
       </a>
      </li>
@@ -1072,7 +1047,7 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id7">
+      <a class="reference internal nav-link" href="#id6">
        Select
       </a>
      </li>
@@ -1952,104 +1927,6 @@ can use the Intel® Query Processing Library (Intel® QPL).</p>
 </pre></div>
 </div>
 </section>
-<section id="rle-burst">
-<h3>RLE Burst<a class="headerlink" href="#rle-burst" title="Permalink to this headline">#</a></h3>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
-<span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
-<span class="cm"> *</span>
-<span class="cm"> * SPDX-License-Identifier: MIT</span>
-<span class="cm"> ******************************************************************************/</span><span class="w"></span>
-
-<span class="c1">//* [QPL_LOW_LEVEL_SCAN_EXAMPLE] */</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="cp"></span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.h&quot;</span><span class="cp"></span>
-
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">input_bit_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
-
-<span class="cm">/**</span>
-<span class="cm"> * @brief @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.</span>
-<span class="cm"> * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.</span>
-<span class="cm"> * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow</span>
-<span class="cm"> * the library to chose the path to execute.</span>
-<span class="cm"> *</span>
-<span class="cm"> * @warning ---! Important !---</span>
-<span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
-<span class="cm"> *</span>
-<span class="cm"> */</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">execution_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_path_software</span><span class="p">;</span><span class="w"></span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Source and output containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source_counter</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">qpl_job</span><span class="w">    </span><span class="o">*</span><span class="n">job</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">uint32_t</span><span class="w">   </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Job initialization</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_job_size</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job size getting.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">job</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Performing an operation</span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_rle_burst</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">num_input_elements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">source_counter</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">src1_bit_width</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">input_bit_width</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_src2_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_src2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">src2_bit_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">input_bit_width</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">destination</span><span class="p">.</span><span class="n">size</span><span class="p">());</span><span class="w"></span>
-<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">out_bit_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_ow_nom</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job execution.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Freeing resources</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_fini_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during job finalization.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">free</span><span class="p">(</span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Check if everything was alright</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">reference</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">destination</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Incorrect value was chosen while job execution.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;RLE burst was performed successfully.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">//* [QPL_LOW_LEVEL_SCAN_EXAMPLE] */</span>
-</pre></div>
-</div>
-</section>
 <section id="scan">
 <h3>Scan<a class="headerlink" href="#scan" title="Permalink to this headline">#</a></h3>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
@@ -2908,72 +2785,7 @@ can use the Intel QPL library.</p>
 </div>
 </section>
 <section id="id4">
-<h4>RLE Burst<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h4>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
-<span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
-<span class="cm"> *</span>
-<span class="cm"> * SPDX-License-Identifier: MIT</span>
-<span class="cm"> ******************************************************************************/</span><span class="w"></span>
-
-<span class="c1">//* [QPL_HIGH_LEVEL_RLE_BURST_EXAMPLE] */</span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span><span class="cp"></span>
-
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.hpp&quot;</span><span class="cp"></span>
-
-<span class="cm">/**</span>
-<span class="cm"> * @brief qpl::software (`Software Path`) means that computations will be done with CPU.</span>
-<span class="cm"> * Accelerator can be used instead of CPU. In this case, qpl::hardware (`Hardware Path`) must be specified.</span>
-<span class="cm"> * If there is no difference where calculations should be done, qpl::auto_detect (`Auto Path`) can be used to allow</span>
-<span class="cm"> * the library to chose the path to execute.</span>
-<span class="cm"> *</span>
-<span class="cm"> * @warning ---! Important !---</span>
-<span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
-<span class="cm"> *</span>
-<span class="cm"> */</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">execution_path</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">software</span><span class="p">;</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">input_bit_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
-
-<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Source and output containers</span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source_counter</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl</span><span class="o">::</span><span class="n">rle_burst_operation</span><span class="o">::</span><span class="n">builder</span><span class="p">(</span><span class="n">source_counter</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">input_bit_width</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">.</span><span class="n">input_vector_width</span><span class="p">(</span><span class="n">input_bit_width</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">.</span><span class="n">parser</span><span class="o">&lt;</span><span class="n">qpl</span><span class="o">::</span><span class="n">parsers</span><span class="o">::</span><span class="n">little_endian_packed_array</span><span class="o">&gt;</span><span class="p">(</span><span class="n">source_size</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">.</span><span class="n">counter_bit_width</span><span class="p">(</span><span class="n">input_bit_width</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">.</span><span class="n">build</span><span class="p">();</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">qpl</span><span class="o">::</span><span class="n">execute</span><span class="o">&lt;</span><span class="n">execution_path</span><span class="o">&gt;</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">.</span><span class="n">handle</span><span class="p">([</span><span class="o">&amp;</span><span class="n">destination</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">reference</span><span class="p">](</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">element_count</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                        </span><span class="c1">// Check if everything was alright</span>
-<span class="w">                        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">reference</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reference</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">destination</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                                </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Incorrect value was chosen while job execution.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">                            </span><span class="p">}</span><span class="w"></span>
-<span class="w">                        </span><span class="p">}</span><span class="w"></span>
-<span class="w">                    </span><span class="p">},</span><span class="w"></span>
-<span class="w">                    </span><span class="p">[](</span><span class="k">auto</span><span class="w"> </span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;RLE-burst ended up with code: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">status</span><span class="p">));</span><span class="w"></span>
-<span class="w">                    </span><span class="p">});</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;RLE burst was performed successfully.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-
-<span class="c1">//* [QPL_HIGH_LEVEL_RLE_BURST_EXAMPLE] */</span>
-</pre></div>
-</div>
-</section>
-<section id="id5">
-<h4>Scan<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h4>
+<h4>Scan<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h4>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -3051,8 +2863,8 @@ can use the Intel QPL library.</p>
 </pre></div>
 </div>
 </section>
-<section id="id6">
-<h4>Scan Range<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h4>
+<section id="id5">
+<h4>Scan Range<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h4>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -3218,8 +3030,8 @@ can use the Intel QPL library.</p>
 </pre></div>
 </div>
 </section>
-<section id="id7">
-<h4>Select<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h4>
+<section id="id6">
+<h4>Select<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h4>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
