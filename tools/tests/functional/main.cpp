@@ -21,15 +21,15 @@ namespace qpl::test {
 static inline void show_help() {
     std::cout << "\nQPL test system arguments:" << std::endl;
     std::cout << "  " << QPL_ARG_PATH << "=(sw|hw)" << std::endl;
-    std::cout << "     " << "Set execution path (software path is used by default)" << std::endl;
+    std::cout << "     " << "Set execution path for functional tests. The default is software path." << std::endl;
     std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)" << std::endl;
-    std::cout << "     " << "Test asynchronous API (synchronous is used by default)" << std::endl;
-    std::cout << "  " << QPL_ARG_SEED << "=(value)" << std::endl;
-    std::cout << "     " << "Set seed value for tests (timer value is used by default)" << std::endl;
-    std::cout << "  " << QPL_ARG_DATASET_PATH << "=(path)" << std::endl;
-    std::cout << "     " << "Specify path to folder containing dataset" << std::endl;
-    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=(value)" << std::endl;
-    std::cout << "     " << "Specify test case id for this test" << std::endl;
+    std::cout << "     " << "Execute tests using asynchronous mode. The default is off (synchronous mode)." << std::endl;
+    std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]" << std::endl;
+    std::cout << "     " << "Random number seed to use for generating some testing data. The default is based on std::chrono value." << std::endl;
+    std::cout << "  " << QPL_ARG_DATASET_PATH << "=[PATH]" << std::endl;
+    std::cout << "     " << "Path to folder containing dataset." << std::endl;
+    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=[NUMBER]" << std::endl;
+    std::cout << "     " << "Set test case id for this test." << std::endl;
 }
 
 static inline auto parse_execution_path_argument(std::string &value) -> qpl_path_t {
@@ -162,6 +162,13 @@ int test_init_with_fork() {
 
 
 int main(int argc, char *argv[]) {
+
+    std::vector<std::string> arguments(argv + 1, argv + argc);
+    if (std::find(begin(arguments), end(arguments), QPL_ARG_HELP) != end(arguments)) {
+        qpl::test::show_help();
+        return 0;
+    }
+
     testing::InitGoogleTest(&argc, argv);
 
     auto arguments_list = qpl::test::get_testing_settings(argc, argv);

@@ -9,12 +9,12 @@ Library Testing
 ###############
 
 
-Intel® Query Processing Library (Intel® QPL) is distributed with 
+Intel® Query Processing Library (Intel® QPL) is distributed with
 its own test system based on the GoogleTest framework. The tests
-are classified into: 
+are classified into:
 
-- Functional tests 
-- Cross tests 
+- Functional tests
+- Cross tests
 - Initialization tests
 - Fuzz tests
 
@@ -23,13 +23,13 @@ Functional Tests
 ****************
 
 Functional tests provide functional validation of Intel QPL APIs. These tests are
-further divided into four groups: 
+further divided into four groups:
 
-- Algorithmic tests (``ta_*``) serve to find errors that reflect logic 
-  errors in data processing on correct data. 
+- Algorithmic tests (``ta_*``) serve to find errors that reflect logic
+  errors in data processing on correct data.
 - Bad argument tests (``tb_*``) verify the code path for invalid arguments.
-- Negative tests (``tn_*``) serve to find errors that reflect lack of 
-  control over the input data format. 
+- Negative tests (``tn_*``) serve to find errors that reflect lack of
+  control over the input data format.
 - Thread tests (``tt_*``) detect out of order read/write
   operations for common structures by different threads.
 
@@ -48,14 +48,18 @@ To run, for example, algorithmic tests only, use:
    <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=ta_*
 
 
-Other available test options include:
+In order to get the list of GoogleTest test options, use the following command:
 
-- ``--seed=<random_seed>`` - Specifies the random seed used in generating some
-  testing data (timer value is used by default).
-- ``--path=[hw|sw]`` - Runs functional tests on the hardware path (``sw``, or
-  software path, is used by default).
-- ``--async=[on|off]`` - Tests asynchronous API (``off``, or synchronous, is used
-  by default). See :ref:`asynchronous_execution_reference_link`.
+.. code:: shell
+
+   <install_dir>/bin/tests --help
+
+To see the full list of other available test options specific to the library
+(e.g., execution path, synchronous or asynchronous mode), use the following command:
+
+.. code:: shell
+
+   <install_dir>/bin/tests --qpl-tests-help
 
 .. note::
 
@@ -68,12 +72,12 @@ Cross Tests
 ***********
 
 
-Cross tests provide validation of: 
+Cross tests provide validation of:
 
 - Input/output stream format compatibility between hardware
-  and software paths for the same Intel QPL operation. 
-  Especially for compression/decompression functionality. 
-- Aggregates, checksums equality between hardware and software paths 
+  and software paths for the same Intel QPL operation.
+  Especially for compression/decompression functionality.
+- Aggregates, checksums equality between hardware and software paths
   for the same Intel QPL operation.
 
 Cross tests intend to assure that software and hardware paths can be
@@ -97,7 +101,7 @@ Initialization Tests
 
 
 Initialization tests validate library initialization code for
-the correctness of hardware path. Initialization tests consist of: 
+the correctness of hardware path. Initialization tests consist of:
 
 - Python frontend that setup different accelerator configurations before testing
 - C++ GoogleTest based backend that runs specific test cases to perform actual testing
@@ -116,8 +120,8 @@ following command:
 
    python init_tests.py --help
 
-.. note:: 
-   
+.. note::
+
    - Running initialization tests requires first configuring Intel IAA.
      See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
@@ -147,9 +151,9 @@ build using the Clang compiler (version 12.0.1 or higher) with the
 ``-DLIB_FUZZING_ENGINE=ON`` CMake option.
 
 Fuzz tests are not installed into ``<install_dir>/bin/`` but available
-in: 
+in:
 
-- ``<qpl_library>/build/tools/tests/fuzzing/high-level-api/`` 
+- ``<qpl_library>/build/tools/tests/fuzzing/high-level-api/``
 - ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
 
 To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``,

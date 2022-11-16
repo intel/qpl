@@ -23,7 +23,7 @@
 #define QPL_ARG_DATASET_PATH  "--dataset"
 #define QPL_ARG_TEST_CASE_ID  "--testid"
 #define QPL_ARG_ASYNC         "--async"
-#define QPL_ARG_HELP          "--help"
+#define QPL_ARG_HELP          "--qpl-tests-help"
 
 namespace qpl::test::util
 {
