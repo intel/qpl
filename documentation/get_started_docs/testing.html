@@ -859,15 +859,15 @@ To run all the functional tests, execute the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests --dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/ --gtest_filter<span class="o">=</span>ta_*
 </pre></div>
 </div>
-<p>Other available test options include:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--seed=&lt;random_seed&gt;</span></code> - Specifies the random seed used in generating some
-testing data (timer value is used by default).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--path=[hw|sw]</span></code> - Runs functional tests on the hardware path (<code class="docutils literal notranslate"><span class="pre">sw</span></code>, or
-software path, is used by default).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--async=[on|off]</span></code> - Tests asynchronous API (<code class="docutils literal notranslate"><span class="pre">off</span></code>, or synchronous, is used
-by default). See <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_asynchronous_execution.html#asynchronous-execution-reference-link"><span class="std std-ref">Asynchronous Execution</span></a>.</p></li>
-</ul>
+<p>In order to get the list of GoogleTest test options, use the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests --help
+</pre></div>
+</div>
+<p>To see the full list of other available test options specific to the library
+(e.g., execution path, synchronous or asynchronous mode), use the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests --qpl-tests-help
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Running functional tests on the hardware path requires first configuring
