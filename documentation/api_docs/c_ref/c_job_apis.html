@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Job APIs &#8212; Intel® QPL v0.2.1 Documentation</title>
+    <title>Job APIs &#8212; Intel® QPL v0.3.0 Documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -73,7 +73,7 @@
       
       
       
-      <h1 class="site-logo" id="site-title">Intel® QPL v0.2.1 Documentation</h1>
+      <h1 class="site-logo" id="site-title">Intel® QPL v0.3.0 Documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -846,6 +846,10 @@ title="Print to PDF"
 </pre></div>
 </div>
 </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If multiple processes are created to submit jobs to the accelerator in the same application, forking child process(es) must be done before the first <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"><span class="std std-ref">qpl_init_job</span></a> function with <a class="reference internal" href="c_enums_and_structures.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"><span class="std std-ref">qpl_path_hardware</span></a>. Otherwise, the child process(es) may crash.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Memory for <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure must be allocated at the application side. Size (in bytes) must be obtained with the <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"><span class="std std-ref">qpl_get_job_size</span></a> function and then type-casted to <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> :</p>
