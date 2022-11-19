@@ -19,7 +19,7 @@ target_include_directories(stress_thread_tests
 target_link_libraries(stress_thread_tests
         PRIVATE tests_common
         PRIVATE tool_generator
-        PRIVATE qplhl qpl
+        PRIVATE qpl
         "$<$<PLATFORM_ID:Linux>:pthread;stdc++fs>")
 
 set_target_properties(stress_thread_tests PROPERTIES CXX_STANDARD 17)

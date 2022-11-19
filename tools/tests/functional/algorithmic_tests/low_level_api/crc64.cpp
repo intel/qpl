@@ -7,7 +7,7 @@
 #include "qpl_api_ref.h"
 #include "../../../common/operation_test.hpp"
 #include "ta_ll_common.hpp"
-#include "qpl/cpp_api/operations/other/crc_operation.hpp"
+#include "qpl/qpl.h"
 #include "../../../common/execution_wrapper.hpp"
 #include "format_generator.hpp"
 #include "source_provider.hpp"

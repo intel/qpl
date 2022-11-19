@@ -19,7 +19,6 @@ target_include_directories(thread_tests
 target_link_libraries(thread_tests
         PRIVATE tests_common
         PRIVATE tool_generator
-        PRIVATE qplhl
         PRIVATE qpl)
 
 set_target_properties(thread_tests PROPERTIES CXX_STANDARD 17)

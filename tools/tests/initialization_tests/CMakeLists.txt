@@ -19,7 +19,7 @@ target_link_libraries(init_tests
         PRIVATE tests_common
         PRIVATE tool_generator
         PRIVATE gtest
-        PRIVATE qplhl #todo remove dependency
+        PRIVATE qpl
         PRIVATE middle_layer_lib)
 
 set_target_properties(init_tests PROPERTIES CXX_STANDARD 17)

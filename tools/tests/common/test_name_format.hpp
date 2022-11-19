@@ -12,9 +12,6 @@
 #define QPL_LOW_LEVEL_SUITE_NAME(type, tested_entity) \
     QPL_SUITE_NAME(type, c_api, tested_entity)
 
-#define QPL_HIGH_LEVEL_SUITE_NAME(type, tested_entity) \
-    QPL_SUITE_NAME(type, cpp_api, tested_entity)
-
 #define QPL_UNIT_SUITE_NAME(type, tested_entity) \
     QPL_SUITE_NAME(type, unit_api, tested_entity)
 

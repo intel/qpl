@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_T_COMMON_H_
-#define QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_T_COMMON_H_
+#ifndef QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_COMMON_H_
+#define QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_COMMON_H_
 
 #include "gtest/gtest.h"
 #include "../../common/test_name_format.hpp"
@@ -16,4 +16,4 @@
 #define QPL_UNIT_API_BAD_ARGUMENT_TEST(entity, test) \
     TEST(QPL_UNIT_SUITE_NAME(tb, entity), test)
 
-#endif //QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_T_COMMON_H_
+#endif //QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_COMMON_H_

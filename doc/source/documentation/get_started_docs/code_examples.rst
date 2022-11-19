@@ -13,16 +13,11 @@ Code Examples
 Low-Level C API Examples
 ************************
 
-
-This section contains a number of simple C API examples, illustrating how you
-can use the Intel® Query Processing Library (Intel® QPL).
-
-
-.. _code_examples_c_compression_reference_link:
+This section contains a number of simple Low-Level C API examples, illustrating how you
+can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code.
 
 Compression
 ===========
-
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
@@ -105,133 +100,4 @@ Select
 
 
 .. literalinclude:: ../../../../examples/low-level-api/select_example.cpp
-    :language: cpp
-
-
-High-Level C++ API Examples
-***************************
-
-
-This section contains a number of C++ API examples, illustrating how you
-can use the Intel QPL library.
-
-
-Simple Operations
-=================
-
-
-Compression
------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/compression_example.cpp
-    :language: cpp
-
-
-Compression Stream
-------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/compression_stream_example.cpp
-    :language: cpp
-
-
-CRC
----
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/crc_example.cpp
-    :language: cpp
-
-
-Deflate Block
--------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/deflate_block_example.cpp
-    :language: cpp
-
-
-Expand
-------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/expand_example.cpp
-    :language: cpp
-
-
-Extract
--------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/extract_example.cpp
-    :language: cpp
-
-
-Scan
-----
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/scan_example.cpp
-    :language: cpp
-
-
-Scan Range
-----------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/scan_range_example.cpp
-    :language: cpp
-
-
-Scan with NUMA Device ID
-------------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/scan_with_numa_device_id_example.cpp
-    :language: cpp
-
-
-Select
-------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/simple-operations/select_example.cpp
-    :language: cpp
-
-
-Operations Chaining
-===================
-
-
-Decompression with Analytics
-----------------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/operation-chains/decompression_merged_with_analytics_example.cpp
-    :language: cpp
-
-
-Decompression with Scan and Select
-----------------------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/operation-chains/decompression_scan_select_example.cpp
-    :language: cpp
-
-
-
-Other Examples
-==============
-
-
-Scan with Custom Allocator
---------------------------
-
-
-.. literalinclude:: ../../../../examples/high-level-api/utils/scan_with_custom_allocator_example.cpp
-    :language: cpp
-
-
-.. literalinclude:: ../../../../examples/high-level-api/utils/stack_allocator.hpp
     :language: cpp

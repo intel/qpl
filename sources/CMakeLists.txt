@@ -16,4 +16,3 @@ add_subdirectory(middle-layer)
 
 # User API layer
 add_subdirectory(c_api)
-add_subdirectory(cpp_api)

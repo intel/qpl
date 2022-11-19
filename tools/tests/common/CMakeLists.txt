@@ -18,7 +18,6 @@ target_include_directories(tests_common
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>    #todo remove dependency
         PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>                #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:qplhl,INTERFACE_INCLUDE_DIRECTORIES>              #todo remove dependency
         PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>   #todo remove dependency
         PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>)           #todo remove dependency
 

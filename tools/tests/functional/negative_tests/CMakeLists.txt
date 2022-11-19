@@ -9,8 +9,7 @@
 
 enable_language(CXX)
 
-file(GLOB SOURCES low_level_api/*.cpp
-        high_level_api/*.cpp)
+file(GLOB SOURCES low_level_api/*.cpp)
 
 add_library(negative_tests OBJECT ${SOURCES} )
 
@@ -22,7 +21,6 @@ target_include_directories(negative_tests
         PRIVATE $<TARGET_PROPERTY:tests_common,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>
-        PRIVATE $<TARGET_PROPERTY:qplhl,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:qplref,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>) #todo remove dependency
 

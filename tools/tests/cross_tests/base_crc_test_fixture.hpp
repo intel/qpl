@@ -53,14 +53,9 @@ namespace qpl::test {
 #define QPL_LOW_LEVEL_API_CRC_TEST(test_suite_name, test_fixture, test_name) \
     GTEST_TEST_(ll_##test_suite_name, tc_##test_name, test_fixture, testing::internal::GetTypeId<test_fixture>())
 
-#define QPL_HIGH_LEVEL_API_CRC_TEST(test_suite_name, test_fixture, test_name) \
-    GTEST_TEST_(hl_##test_suite_name, tc_##test_name, test_fixture, testing::internal::GetTypeId<test_fixture>())
-
 #define QPL_LOW_LEVEL_API_CRC_TEST_TC(test_suite_name, test_fixture, test_name) \
     QPL_TEST_TC_(ll_##test_suite_name, test_name, test_fixture, testing::internal::GetTypeId<test_fixture>())
 
-#define QPL_HIGH_LEVEL_API_CRC_TEST_TC(test_suite_name, test_fixture, test_name) \
-    QPL_TEST_TC_(hl_##test_suite_name, test_name, test_fixture, testing::internal::GetTypeId<test_fixture>())
 }
 
 #endif //QPL_TESTS_CRC_TESTS_BASE_CRC_TEST_FIXTURE_HPP_

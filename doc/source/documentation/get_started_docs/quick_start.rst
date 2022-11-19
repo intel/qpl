@@ -10,16 +10,13 @@
 Quick Start
 ###########
 
-
 Low-Level C API
 ***************
 
-
 We walk through an example to learn the basic workflow of
 Intel® Query Processing Library (Intel® QPL) low-level C API.
-The key agent of low-level C API is the :c:struct:`qpl_job`
-data structure. To work with Intel QPL low-level C API, the
-application will need to:
+The key agent of this API is the :c:struct:`qpl_job` data structure.
+To work with Intel QPL low-level C API, the application will need to:
 
 1. Query the required memory size.
 2. Allocate memory according to the queried size.
@@ -27,9 +24,7 @@ application will need to:
 4. Pass the job structure (along with the allocated memory) to Intel QPL.
 5. Free resources.
 
-The example below is extracted from the
-:ref:`compression example <code_examples_c_compression_reference_link>`,
-which compresses and decompresses data with Deflate dynamic Huffman encoding via Intel QPL
+The example below compresses and decompresses data with Deflate dynamic Huffman encoding via Intel QPL
 low-level C API. For our purpose to understand the workflow, we only focus on the compression part
 here. See the comments after the code block.
 

@@ -25,7 +25,7 @@ can provide tremendous development and maintenance savings. The goal of
 the Intel QPL is to provide application programming interface (API)
 with:
 
--  C and C++ interfaces and data structures to enhance usability and portability
+-  C and C++ compatible interfaces and data structures to enhance usability and portability
 -  Faster time to market
 -  Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
 
@@ -48,7 +48,7 @@ the following figure. Alternatively, you can compress the input.
 
 ::
 
-     ###
+
                           Decompress               SQL Filter   Decompress
                              Bypass                   Bypass       Output
                       /------------------\   |\   /--------------------\
@@ -67,7 +67,7 @@ the following figure. Alternatively, you can compress the input.
                       +-| Compressor   |----------------------------------------------------->
                         +--------------+
 
-     ###                  Intel® Query Processing Library (Intel® QPL) pipeline
+                       Intel® Query Processing Library (Intel® QPL) pipeline
 
 
 With the library, you can store columnar databases in a compressed form,
@@ -127,10 +127,8 @@ compressed stream for efficient random access.
 Library Features
 ****************
 
-
 Operations
 ==========
-
 
 Intel QPL supports:
 
@@ -141,10 +139,8 @@ Intel QPL supports:
 .. warning::
    The implementation of Huffman-only compression/decompression is in progress.
 
-
 Execution Paths
 ===============
-
 
 Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:
@@ -162,7 +158,6 @@ system resources utilization:
 NUMA Support
 ============
 
-
 Intel QPL is NUMA aware and respects the NUMA node ID of the calling
 thread. If a user needs to use a device from a specific node, it can be
 done in two ways:
@@ -175,7 +170,6 @@ done in two ways:
 Load balancer of the library does not cross a detected or specified NUMA
 boundary. Balancing workloads between different nodes is the
 responsibility of a user.
-
 
 .. _library_limitations_reference_link:
 
@@ -190,30 +184,14 @@ Library Limitations
 - Library does not support hardware path on Windows OS.
 - Library is not developed for kernel mode usage. It is user level driver library.
 
-
 .. _library_apis_reference_link:
 
 Library APIs
 ************
 
-
-Intel QPL provides two classes of APIs:
-
-
-**Low-Level C API**
-
-Represents a state based interface. The base idea is to allocate a
-single state and configure one with different ways to perform necessary
-operation. Such API does not allocate memory internally.
-
+Intel QPL provides Low-Level C API, that represents a state based interface.
+The base idea is to allocate a single state and configure one with different ways
+to perform necessary operation. All memory allocations are happening on user side
+or via user-provided allocators.
 See :ref:`developer_guide_low_level_reference_link` for more details.
 
-
-**High-Level C++ API**
-
-Represents high level operations API written with C++. API provides
-compile time optimizations and less operation preparation latency. It
-allocates memory internally with ``std::allocator``, but supports custom user
-allocators that correspond to C++ Standard.
-
-See :ref:`developer_guide_high_level_reference_link` for more details.

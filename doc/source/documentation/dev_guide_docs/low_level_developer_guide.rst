@@ -7,9 +7,8 @@
 
 .. _developer_guide_low_level_reference_link:
 
-Developer Guide for the Low-Level C API
-#######################################
-
+Low-Level C API key concepts
+############################
 
 This document provides instructions on how to use the
 Intel® Query Processing Library (Intel® QPL) low-level C API.
@@ -17,7 +16,6 @@ Intel® Query Processing Library (Intel® QPL) low-level C API.
 .. attention::
    Intel QPL presently is in a prototype form. Public APIs described in this
    documentation may change at any time.
-
 
 .. toctree::
    :maxdepth: 4

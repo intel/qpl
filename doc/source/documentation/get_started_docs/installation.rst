@@ -102,22 +102,16 @@ To build Intel QPL, complete the following steps:
 Installed Package Structure
 ===========================
 
-
 ::
 
      ┌── bin
      ├── include
      │   └── qpl
      |       ├── c_api
-     │       └── cpp_api
-     │           ├── chaining
-     │           ├── common
-     │           ├── operations
-     │           ├── results
-     │           └── util
-     └── lib64
-         └── cmake
-
+     |       └── qpl.h
+     └── lib or lib64
+         ├── cmake
+         └── libqpl.a
 
 .. _building_library_build_options_reference_link:
 
@@ -146,13 +140,11 @@ Intel QPL supports the following build options:
 
    1. Currently there's no guarantee that DWQ performance is the same as Shared Work Queues (SWQ).
 
-   2. DWQ supports only Low-Level C API (see :ref:`library_apis_reference_link`).
+   2. DWQ supports only synchronous execution. Asynchronous execution (see :ref:`asynchronous_execution_reference_link`) is not supported.
 
-   3. DWQ supports only synchronous execution. Asynchronous execution (see :ref:`async_execution_reference_link`) is not supported.
+   3. DWQ has an extra dependency on the POSIX thread (pthread) library (see :ref:`system_requirements_hw_path_reference_link`).
 
-   4. DWQ has an extra dependency on the POSIX thread (pthread) library (see :ref:`system_requirements_hw_path_reference_link`).
-
-   5. In one application, users can either enable DWQ or use the default SWQ, but not both.
+   4. In one application, users can either enable DWQ or use the default SWQ, but not both.
 
 Building the Documentation
 **************************

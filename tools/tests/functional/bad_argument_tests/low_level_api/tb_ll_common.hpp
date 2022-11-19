@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_BA_COMMON_H
-#define QPL_BA_COMMON_H
+#ifndef QPL_TESTS_FUNCTIONAL_BADARG_TESTS_LOW_LEVEL_API_COMMON_H_
+#define QPL_TESTS_FUNCTIONAL_BADARG_TESTS_LOW_LEVEL_API_COMMON_H_
 
 #include <memory>
 #include <array>
@@ -383,4 +383,4 @@ static inline void check_source_size_not_enough_to_hold_num_input_elements(qpl_j
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SRC_IS_SHORT_ERR) << "Fail on: provided number of elements does not fit into the source size";
 }
 
-#endif //QPL_BA_COMMON_H
+#endif //QPL_TESTS_FUNCTIONAL_BADARG_TESTS_LOW_LEVEL_API_COMMON_H_

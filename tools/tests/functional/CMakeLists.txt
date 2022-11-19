@@ -28,7 +28,6 @@ target_link_libraries(tests
         PRIVATE tool_generator
         PRIVATE qplref
         PRIVATE qpl
-        PRIVATE qplhl
         "$<$<PLATFORM_ID:Linux>:stdc++fs>")
 
 set_target_properties(tests PROPERTIES CXX_STANDARD 17)

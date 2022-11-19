@@ -23,7 +23,6 @@ target_link_libraries(cross_tests
         PRIVATE tool_generator
         PRIVATE gtest
         PRIVATE qpl
-        PRIVATE qplhl
         "$<$<PLATFORM_ID:Linux>:stdc++fs>")
 
 set_target_properties(cross_tests PROPERTIES CXX_STANDARD 17)
