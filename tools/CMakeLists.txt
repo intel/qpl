@@ -14,8 +14,10 @@ if (LIB_FUZZING_ENGINE)
 else ()
     add_subdirectory(ref)
     add_subdirectory(utils)
-    add_subdirectory(third-party/google-test EXCLUDE_FROM_ALL)
-    add_subdirectory(tests)
+    if (ENABLE_TESTS)
+        add_subdirectory(third-party/google-test EXCLUDE_FROM_ALL)
+        add_subdirectory(tests)
+    endif()
 endif ()
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/configs

@@ -23,6 +23,7 @@ option(LOG_HW_INIT "Enables HW initialization log" OFF)
 option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
 option(DWQ_SUPPORT "Enables Dedicated Work Queue" OFF)
+option(ENABLE_TESTS "Enables testing" ON)
 
 if (SANITIZE_MEMORY)
     message(STATUS "Memory sanitizing build is enabled")
