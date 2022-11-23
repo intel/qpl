@@ -49,16 +49,14 @@ scientific/technical applications.
    :hidden:
    :caption: Developer Guide
 
-   Low-Level C API <documentation/dev_guide_docs/low_level_developer_guide.rst>
-   High-Level C++ API <documentation/dev_guide_docs/high_level_developer_guide.rst>
+   documentation/dev_guide_docs/low_level_developer_guide.rst
 
 .. toctree::
    :maxdepth: 4
    :hidden:
    :caption: Developer Reference
 
-   Low-Level C API <documentation/api_docs/low_level_api.rst>
-   High-Level C++ API <documentation/api_docs/high_level_api.rst>
+   documentation/dev_ref_docs/low_level_api.rst
 
 .. toctree::
    :maxdepth: 4
