@@ -108,14 +108,14 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
         aecs_ptr->num_output_accum_bits += header_bit_size;
     } else {
         // Not byte aligned
-        uint64_t tmp;
         byte_offset = aecs_ptr->num_output_accum_bits / 8u;
         bit_offset  = aecs_ptr->num_output_accum_bits & 7u;
         bit_ptr     = (uint64_t *) (aecs_ptr->output_accum + byte_offset);
         bit_buf     = *bit_ptr;
         bit_buf &= (1u << bit_offset) - 1u;
         write_bits  = bit_offset + header_bit_size;
-        tmp         = *(uint64_t *) (aecs_ptr->histogram.ll_sym);
+        uint32_t tmp0 = aecs_ptr->histogram.ll_sym[0];
+        uint32_t tmp1 = aecs_ptr->histogram.ll_sym[1];
 
         for (idx = 0u; 64u * idx < write_bits; idx++) {
             hdr = *(idx + (uint64_t *) (header_ptr));
@@ -124,7 +124,8 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
             bit_buf = hdr >> (64u - bit_offset);
         }
 
-        *(uint64_t *) (aecs_ptr->histogram.ll_sym) = tmp;
+        aecs_ptr->histogram.ll_sym[0] = tmp0;
+        aecs_ptr->histogram.ll_sym[1] = tmp1;
         bit_ptr[idx] = bit_buf;
 
         // Clear bfinal bit and set corresponding value to it
