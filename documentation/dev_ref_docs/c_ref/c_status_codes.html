@@ -33,7 +33,7 @@
     <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Issue Reporting" href="../../contributing_docs/issue_reporting.html" />
+    <link rel="next" title="Benchmarks Framework Guide" href="../../bench_docs/guide.html" />
     <link rel="prev" title="Common Enums and Structures" href="c_enums_and_structures.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -138,7 +138,7 @@
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../../dev_guide_docs/low_level_developer_guide.html">
-   Low-Level C API key concepts
+   Low-Level C API Key Concepts
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -317,7 +317,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="../low_level_api.html">
-   Low-Level C API key references
+   Low-Level C API Key References
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
   <label for="toctree-checkbox-7">
@@ -346,6 +346,18 @@
     </a>
    </li>
   </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Benchmarking
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../bench_docs/guide.html">
+   Benchmarks Framework Guide
+  </a>
  </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
@@ -538,17 +550,17 @@ title="Print to PDF"
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">
-   Categories and ranges of status codes
+   Categories and Ranges of Status Codes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#internal-calculators-for-status-codes">
-   Internal calculators for status codes
+   Internal Calculators for Status Codes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#complete-list-of-status-codes">
-   Complete list of status codes
+   Complete List of Status Codes
   </a>
  </li>
 </ul>
@@ -572,17 +584,17 @@ title="Print to PDF"
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">
-   Categories and ranges of status codes
+   Categories and Ranges of Status Codes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#internal-calculators-for-status-codes">
-   Internal calculators for status codes
+   Internal Calculators for Status Codes
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#complete-list-of-status-codes">
-   Complete list of status codes
+   Complete List of Status Codes
   </a>
  </li>
 </ul>
@@ -600,7 +612,7 @@ title="Print to PDF"
 <section id="status-codes">
 <h1>Status Codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">#</a></h1>
 <section id="categories-and-ranges-of-status-codes">
-<h2>Categories and ranges of status codes<a class="headerlink" href="#categories-and-ranges-of-status-codes" title="Permalink to this headline">#</a></h2>
+<h2>Categories and Ranges of Status Codes<a class="headerlink" href="#categories-and-ranges-of-status-codes" title="Permalink to this headline">#</a></h2>
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.QPL_PROCESSING_ERROR_BASE">
 <span class="target" id="d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1ga4bbd8bdf0df88cee491cf213a14c0e87"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_PROCESSING_ERROR_BASE</span></span></span> <span class="pre">0u</span><a class="headerlink" href="#c.QPL_PROCESSING_ERROR_BASE" title="Permalink to this definition">#</a><br /></dt>
@@ -639,7 +651,7 @@ title="Print to PDF"
 
 </section>
 <section id="internal-calculators-for-status-codes">
-<h2>Internal calculators for status codes<a class="headerlink" href="#internal-calculators-for-status-codes" title="Permalink to this headline">#</a></h2>
+<h2>Internal Calculators for Status Codes<a class="headerlink" href="#internal-calculators-for-status-codes" title="Permalink to this headline">#</a></h2>
 <dl class="c macro">
 <dt class="sig sig-object c" id="c.QPL_PROCESSING_ERROR">
 <span class="target" id="d5/d8b/group___q_p_l___s_t_a_t_u_s___c_a_l_c_u_l_a_t_o_r_1ga7d39153664b146553e54025bfdcb60f2"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_PROCESSING_ERROR</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">x</span></span><span class="sig-paren">)</span> <a class="reference internal" href="#d1/da7/group___q_p_l___s_t_a_t_u_s___b_a_s_e_1ga4bbd8bdf0df88cee491cf213a14c0e87"><span class="std std-ref"><span class="pre">QPL_PROCESSING_ERROR_BASE</span></span></a> <span class="pre">+</span> <span class="pre">x</span><a class="headerlink" href="#c.QPL_PROCESSING_ERROR" title="Permalink to this definition">#</a><br /></dt>
@@ -678,7 +690,7 @@ title="Print to PDF"
 
 </section>
 <section id="complete-list-of-status-codes">
-<h2>Complete list of status codes<a class="headerlink" href="#complete-list-of-status-codes" title="Permalink to this headline">#</a></h2>
+<h2>Complete List of Status Codes<a class="headerlink" href="#complete-list-of-status-codes" title="Permalink to this headline">#</a></h2>
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_status">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaff83b19d3d61b4a47fc129e60b308906"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_status</span></span></span><a class="headerlink" href="#c.qpl_status" title="Permalink to this definition">#</a><br /></dt>
@@ -1292,10 +1304,10 @@ title="Print to PDF"
             <p class="prev-next-title">Common Enums and Structures</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../../contributing_docs/issue_reporting.html" title="next page">
+    <a class='right-next' id="next-link" href="../../bench_docs/guide.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Issue Reporting</p>
+        <p class="prev-next-title">Benchmarks Framework Guide</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

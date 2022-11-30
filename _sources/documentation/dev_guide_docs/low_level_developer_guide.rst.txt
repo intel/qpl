@@ -7,7 +7,7 @@
 
 .. _developer_guide_low_level_reference_link:
 
-Low-Level C API key concepts
+Low-Level C API Key Concepts
 ############################
 
 This document provides instructions on how to use the

@@ -11,13 +11,13 @@ System Requirements
 ###################
 
 
-Software Path requirements
+Software Path Requirements
 **************************
 
 On Linux* OS, the accelerator configuration library ``libaccel-config.so``
 (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
-must be placed in ``/usr/lib64/`` to build and run the Intel® Query Processing 
-Library (Intel® QPL), even if only the Software Path is used.
+must be placed in ``/usr/lib64/`` to build and run
+the Intel® Query Processing Library (Intel® QPL), even if only the Software Path is used.
 
 | **Minimum requirements**
 | x86-64 CPU with Intel® Advanced Vector Extensions 2 support
