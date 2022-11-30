@@ -91,7 +91,7 @@ Example code:
 
     status = qpl_huffman_table_init_with_triplets(&huffman_table, triplet, 256);
 
-Deflate tokens histogram
+Deflate Tokens Histogram
 ------------------------
 
 A *Deflate* Huffman table could be built from a deflate tokens histogram
@@ -208,7 +208,7 @@ Example code:
                                            {malloc, free},
                                            &other_huffman_table);
 
-Service routines
+Service Routines
 ****************
 
 A function :c:func:`qpl_huffman_table_get_type` is available for inquiring a type

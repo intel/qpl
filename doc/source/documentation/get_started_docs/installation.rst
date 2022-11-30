@@ -32,7 +32,7 @@ the following tools:
 
 - Universally Unique ID library ``uuid-dev`` version 2.35.2 or higher
 
-- CMake* version 3.15.0 or higher
+- CMake* version 3.16.3 or higher
 
 - GNU Make
 
@@ -44,7 +44,7 @@ the following tools:
 
 - MSVC 14.1 or higher
 
-- CMake* version 3.15.0 or higher
+- CMake* version 3.16.3 or higher
 
 - Microsoft NMAKE
 

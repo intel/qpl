@@ -9,7 +9,7 @@ Deflate Compression
 ###################
 
 
-Job structure Settings
+Job Structure Settings
 **********************
 
 We introduce the basic settings of the job structure for Deflate compression jobs.

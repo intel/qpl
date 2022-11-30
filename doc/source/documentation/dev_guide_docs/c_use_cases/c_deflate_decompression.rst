@@ -9,7 +9,7 @@ Deflate Decompression
 #####################
 
 
-Job structure Settings
+Job Structure Settings
 **********************
 
 
@@ -71,7 +71,7 @@ output.
 When the output buffer filled up before the input is completely processed,
 the library returns the status ``QPL_MORE_OUTPUT_NEEDED``. In this case,
 users can provide a new output buffer and reset :c:member:`qpl_job.next_out_ptr`
-and :c:member:`qpl_job.available_out` accordingly. The input buffer 
+and :c:member:`qpl_job.available_out` accordingly. The input buffer
 parameters :c:member:`qpl_job.next_in_ptr` and :c:member:`qpl_job.available_in`
 do not need to be reset since they would have been updated.
 

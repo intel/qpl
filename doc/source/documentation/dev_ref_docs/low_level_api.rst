@@ -7,7 +7,7 @@
 
 .. _c_low_level_api_reference_link:
 
-Low-Level C API key references
+Low-Level C API Key References
 ##############################
 
 This document describes the Intel® Query Processing Library (Intel® QPL)

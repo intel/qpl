@@ -92,8 +92,6 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
-# Disable building google-benchmarks tests
-SET(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 SET(QPL_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Build components
