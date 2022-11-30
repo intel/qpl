@@ -50,47 +50,21 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
     hw_context_ptr->device_properties.block_on_fault_enabled        = hw_device::get_block_on_fault_available();
 }
 
-#ifdef DWQ_SUPPORT
-auto hw_device::enqueue_descriptor(void *desc_ptr, void **sem) const noexcept -> bool {
-#else
 auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> bool {
-#endif
     uint8_t retry = 0u;
-    uint64_t try_count = 0u;
     static thread_local std::uint32_t wq_idx = 0;
-
-#ifdef DWQ_SUPPORT
-    if (sem == NULL) {
-        return static_cast<bool>(1);
-    }
-#endif
 
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
-    for (try_count = 0u; try_count < queue_count_; ++try_count) {
+    for (uint64_t try_count = 0u; try_count < queue_count_; ++try_count) {
         hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) desc_ptr, working_queues_[wq_idx].get_block_on_fault());
 
-#ifdef DWQ_SUPPORT
-        *sem = (void *) working_queues_[wq_idx].get_dwq_sem();
-        if (sem_trywait((sem_t *) (*sem)) == 0) {
-            retry = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
-            break;
-        } else {
-            wq_idx = (wq_idx+1) % queue_count_;
-        }
-#else
         retry = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
         wq_idx = (wq_idx+1) % queue_count_;
         if (!retry) {
             break;
         }
-#endif
     }
-#ifdef DWQ_SUPPORT
-    if (try_count == queue_count_) {
-        retry = 1u;
-    }
-#endif
 
     return static_cast<bool>(retry);
 }

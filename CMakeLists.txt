@@ -22,7 +22,6 @@ option(SANITIZE_THREADS "Enables threads sanitizing" OFF)
 option(LOG_HW_INIT "Enables HW initialization log" OFF)
 option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
-option(DWQ_SUPPORT "Enables Dedicated Work Queue" OFF)
 
 if (SANITIZE_MEMORY)
     message(STATUS "Memory sanitizing build is enabled")
@@ -51,17 +50,6 @@ if (LIB_FUZZING_ENGINE)
 
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
-endif ()
-
-if (DWQ_SUPPORT)
-    message(STATUS "Dedicated Work Queue Support: ${DWQ_SUPPORT}")
-
-    if (WIN32)
-        message(FATAL_ERROR "Dedicated work queue is not supported in Windows")
-    else ()
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread")
-    endif ()
 endif ()
 
 include(cmake/tests.cmake)

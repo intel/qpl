@@ -42,8 +42,7 @@ target_compile_options(qpl
 target_compile_definitions(qpl
         PUBLIC -DQPL_LIB
         PUBLIC -DQPL_BADARG_CHECK
-        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>
-        PUBLIC $<$<BOOL:${DWQ_SUPPORT}>:DWQ_SUPPORT>)
+        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>)
 
 target_link_libraries(qpl
         PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")

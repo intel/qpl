@@ -49,9 +49,6 @@ hw_queue::~hw_queue() noexcept {
 
         portal_ptr_ = nullptr;
     }
-#ifdef DWQ_SUPPORT
-	sem_destroy(&dwq_sem_);
-#endif
 }
 
 void hw_queue::set_portal_ptr(void *value_ptr) noexcept {
@@ -70,16 +67,10 @@ auto hw_queue::enqueue_descriptor(void *desc_ptr) const noexcept -> qpl_status {
     uint8_t retry = 0u;
 
     void *current_place_ptr = get_portal_ptr();
-#ifdef DWQ_SUPPORT
-    asm volatile("sfence\t\n"
-                 ".byte 0x66, 0x0f, 0x38, 0xf8, 0x02\t\n"  :
-                  : "a" (current_place_ptr), "d" (desc_ptr));
-#else
     asm volatile("sfence\t\n"
                  ".byte 0xf2, 0x0f, 0x38, 0xf8, 0x02\t\n"
                  "setz %0\t\n"
     : "=r"(retry) : "a" (current_place_ptr), "d" (desc_ptr));
-#endif
 
     return static_cast<qpl_status>(retry);
 }
@@ -97,21 +88,11 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
-#ifdef DWQ_SUPPORT
-    auto wq_mode = accfg_wq_get_mode(work_queue_ptr);
-    if (ACCFG_WQ_DEDICATED == wq_mode) {
-        DIAG("     %7s: Dedicated WQ\n", work_queue_dev_name);
-    } else {
-        DIAG("     %7s: UNKNOWN WQ MODE\n", work_queue_dev_name);
-        return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
-    }
-#else
     if (ACCFG_WQ_SHARED != accfg_wq_get_mode(work_queue_ptr)) {
         DIAG("     %7s: UNSUPPOTED\n", work_queue_dev_name);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
-#endif
     DIAG("     %7s:\n", work_queue_dev_name);
     auto status = accfg_wq_get_user_dev_path(work_queue_ptr, path, 64 - 1);
     QPL_HWSTS_RET((0 > status), HW_ACCELERATOR_LIBACCEL_ERROR);
@@ -135,13 +116,6 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
 
     priority_       = accfg_wq_get_priority(work_queue_ptr);
     block_on_fault_ = accfg_wq_get_block_on_fault(work_queue_ptr);
-#ifdef DWQ_SUPPORT
-    auto size       = accfg_wq_get_size(work_queue_ptr);
-    if (sem_init(&dwq_sem_, 0, size) < 0) {
-        DIAGA(", DWQ flow control Initialization failed\n");
-        return HW_ACCELERATOR_LIBACCEL_ERROR;
-    }
-#endif
 
 #if 0
     DIAG("     %7s: size:        %d\n", work_queue_dev_name, accfg_wq_get_size(work_queue_ptr));
@@ -173,10 +147,5 @@ auto hw_queue::get_block_on_fault() const noexcept -> bool {
     return block_on_fault_;
 }
 
-#ifdef DWQ_SUPPORT
-sem_t *hw_queue::get_dwq_sem(void) const noexcept {
-	return (sem_t *) &dwq_sem_;
-}
-#endif
 }
 #endif

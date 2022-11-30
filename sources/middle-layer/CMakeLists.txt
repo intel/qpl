@@ -55,8 +55,7 @@ target_compile_definitions(middle_layer_lib
         PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>
         PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>
         PUBLIC $<$<BOOL:${EFFICIENT_WAIT}>:QPL_EFFICIENT_WAIT>
-        PUBLIC QPL_BADARG_CHECK
-        PUBLIC $<$<BOOL:${DWQ_SUPPORT}>:DWQ_SUPPORT>)
+        PUBLIC QPL_BADARG_CHECK)
 
 set_target_properties(middle_layer_lib PROPERTIES CXX_STANDARD 17)
 set_source_files_properties(${GENERATED_PX_TABLES_SRC} PROPERTIES COMPILE_DEFINITIONS PLATFORM=0)

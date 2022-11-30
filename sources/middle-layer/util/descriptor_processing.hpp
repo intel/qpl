@@ -15,9 +15,6 @@
 #include "util/hw_status_converting.hpp"
 #include "util/completion_record.hpp"
 #include "util/awaiter.hpp"
-#ifdef DWQ_SUPPORT
-#include <semaphore.h>
-#endif
 
 namespace qpl::ml::util {
 
@@ -38,18 +35,11 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
                                HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr,
                                int32_t numa_id = -1) noexcept -> return_t {
     return_t operation_result;
-#ifdef DWQ_SUPPORT
-    sem_t *sem = NULL;
-#endif
 
     hw_iaa_descriptor_set_completion_record(descriptor_ptr, completion_record_ptr);
     completion_record_ptr->status = AD_STATUS_INPROG; // Mark completion record as not completed
 
-#ifdef DWQ_SUPPORT
-    auto accel_status = hw_enqueue_descriptor(descriptor_ptr, numa_id, (void **) &sem);
-#else
     auto accel_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
-#endif
 
     if constexpr (mode == execution_mode_t::sync) {
         uint32_t status = convert_hw_accelerator_status_to_qpl_status(accel_status);
@@ -64,9 +54,6 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
 
         operation_result = wait_descriptor_result<return_t>(completion_record_ptr);
 
-#ifdef DWQ_SUPPORT
-        sem_post(sem);
-#endif
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.processed_bytes_ = reinterpret_cast<hw_iaa_analytics_descriptor *>(descriptor_ptr)->src1_size;
         }

@@ -46,5 +46,4 @@ target_compile_features(core_iaa PRIVATE c_std_11)
 
 target_compile_definitions(core_iaa PRIVATE QPL_BADARG_CHECK
         PRIVATE $<$<BOOL:${BLOCK_ON_FAULT}>: BLOCK_ON_FAULT_ENABLED>
-        PRIVATE $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>
-        PUBLIC $<$<BOOL:${DWQ_SUPPORT}>:DWQ_SUPPORT>)
+        PRIVATE $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>)

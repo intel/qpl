@@ -5,8 +5,6 @@
  .. ***************************************************************************/
 
 
-.. _asynchronous_execution_reference_link:
-
 
 Asynchronous Execution
 ######################

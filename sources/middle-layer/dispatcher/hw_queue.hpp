@@ -11,9 +11,6 @@
 
 #include "qpl/c_api/status.h"
 #include "hw_status.h"
-#ifdef DWQ_SUPPORT
-#include <semaphore.h>
-#endif
 
 namespace qpl::ml::dispatcher {
 
@@ -43,10 +40,6 @@ public:
 
     void set_portal_ptr(void *portal_ptr) noexcept;
 
-#ifdef DWQ_SUPPORT
-    sem_t *get_dwq_sem(void) const noexcept;
-#endif
-
     virtual ~hw_queue() noexcept;
 
 private:
@@ -55,9 +48,6 @@ private:
     uint64_t                      portal_mask_    = 0u;      /**< Mask for incrementing portals */
     mutable void                  *portal_ptr_    = nullptr;
     mutable std::atomic<uint64_t> portal_offset_  = 0u;      /**< Portal for enqcmd (mod page size)*/
-#ifdef DWQ_SUPPORT
-    sem_t                         dwq_sem_;
-#endif
 };
 
 }

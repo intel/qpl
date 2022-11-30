@@ -176,15 +176,11 @@ responsibility of a user.
 Library Limitations
 *******************
 
-- By default, the library does not work with Dedicated Work Queues (DWQ) on the accelerator, but uses Shared Work Queues only.
-  DWQ can be enabled by building the library with the build option ``-DDWQ_SUPPORT=ON``
-  (see :ref:`building_library_build_options_reference_link` for details and limitations).
+- Library does not work with Dedicated Work Queues on the accelerator, but uses Shared Work Queues only.
 - Library does not have APIs for the hardware path configuration.
 - Library does not have APIs for ``Load Balancing`` feature customization.
 - Library does not support hardware path on Windows OS.
 - Library is not developed for kernel mode usage. It is user level driver library.
-
-.. _library_apis_reference_link:
 
 Library APIs
 ************

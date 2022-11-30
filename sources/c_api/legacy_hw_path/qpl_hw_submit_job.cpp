@@ -365,11 +365,6 @@ static inline void own_hw_state_reset(qpl_hw_state *const state_ptr) {
 extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     QPL_BAD_OP_RET(qpl_job_ptr->op);
 
-#ifdef DWQ_SUPPORT
-    // DWQ does not support async mode.
-    return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-#endif
-
     // Variables
     using namespace qpl;
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
