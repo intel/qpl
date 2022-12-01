@@ -27,10 +27,8 @@ such as big-data and in-memory analytic databases.
 
 ## Get Started
 
-To set up and build the Intel QPL library, follow instructions below:
-
-1. Make sure your system meets all [System Requirements](https://intel.github.io/qpl/documentation/get_started_docs/system_requirements.html).
-2. Follow instructions to build the library. See [Installation](https://intel.github.io/qpl/documentation/get_started_docs/installation.html) for more details.
+To set up and build the Intel QPL,
+refer to [Installation](https://intel.github.io/qpl/documentation/get_started_docs/installation.html) page.
 
 ## Documentation
 
