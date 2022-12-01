@@ -756,19 +756,6 @@ In Linux* OS, <code class="docutils literal notranslate"><span class="pre">&lt;i
 <p>The value of <code class="docutils literal notranslate"><span class="pre">BLOCK_ON_FAULT</span></code> can affect the performance of hardware path
 applications. Read more in the <a class="reference internal" href="system_requirements.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> section.</p>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">-DDWQ_SUPPORT=[ON|OFF]</span></code> - Enables Dedicated Work Queues (DWQ) on the accelerator (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Intel QPL currently offers only limited DWQ support. Review the following limitations before building with <code class="docutils literal notranslate"><span class="pre">-DDWQ_SUPPORT=ON</span></code>:</p>
-<ol class="arabic simple">
-<li><p>Currently there’s no guarantee that DWQ performance is the same as Shared Work Queues (SWQ).</p></li>
-<li><p>DWQ supports only synchronous execution. Asynchronous execution (see <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_asynchronous_execution.html#asynchronous-execution-reference-link"><span class="std std-ref">Asynchronous Execution</span></a>) is not supported.</p></li>
-<li><p>DWQ has an extra dependency on the POSIX thread (pthread) library (see <a class="reference internal" href="system_requirements.html#system-requirements-hw-path-reference-link"><span class="std std-ref">Hardware Path Requirements</span></a>).</p></li>
-<li><p>In one application, users can either enable DWQ or use the default SWQ, but not both.</p></li>
-</ol>
-</div>
 </section>
 </section>
 <section id="building-the-documentation">

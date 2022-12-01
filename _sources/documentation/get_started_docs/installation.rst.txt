@@ -133,18 +133,6 @@ Intel QPL supports the following build options:
    The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
    applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
 
--  ``-DDWQ_SUPPORT=[ON|OFF]`` - Enables Dedicated Work Queues (DWQ) on the accelerator (``OFF`` by default).
-
-.. warning::
-   Intel QPL currently offers only limited DWQ support. Review the following limitations before building with ``-DDWQ_SUPPORT=ON``:
-
-   1. Currently there's no guarantee that DWQ performance is the same as Shared Work Queues (SWQ).
-
-   2. DWQ supports only synchronous execution. Asynchronous execution (see :ref:`asynchronous_execution_reference_link`) is not supported.
-
-   3. DWQ has an extra dependency on the POSIX thread (pthread) library (see :ref:`system_requirements_hw_path_reference_link`).
-
-   4. In one application, users can either enable DWQ or use the default SWQ, but not both.
 
 Building the Documentation
 **************************

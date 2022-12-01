@@ -44,8 +44,6 @@ Hardware Path Requirements
 - Sudo privileges are required to configure accelerators
   (see :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`)
   and run hardware path applications.
-- The POSIX thread (pthread) library is required if the library is built with option ``-DDWQ_SUPPORT=ON``
-  (see :ref:`building_library_build_options_reference_link`).
 
 .. _accelerator_configuration_reference_link:
 
