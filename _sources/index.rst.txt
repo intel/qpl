@@ -38,7 +38,6 @@ scientific/technical applications.
    :hidden:
    :caption: Get Started
 
-   documentation/get_started_docs/system_requirements.rst
    documentation/get_started_docs/installation.rst
    documentation/get_started_docs/quick_start.rst
    documentation/get_started_docs/code_examples.rst

@@ -105,11 +105,6 @@
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../get_started_docs/system_requirements.html">
-   System Requirements
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../get_started_docs/installation.html">
    Installation
   </a>
@@ -665,8 +660,8 @@ for details on how to build the library and resolve all prerequisites.</p>
 <p>The example below demonstrates running Deflate using Fixed block on accelerator using synchronous execution.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/system_requirements.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
-configure <a class="reference internal" href="../get_started_docs/system_requirements.html#accelerator-configuration-reference-link"><span class="std std-ref">Intel® In-Memory Analytics Accelerator (Intel® IAA)</span></a>
+<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
+configure <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Intel® In-Memory Analytics Accelerator (Intel® IAA)</span></a>
 before executing the example.</p>
 </div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo ./&lt;install_dir&gt;/bin/qpl_benchmarks --dataset<span class="o">=</span>&lt;dataset_dir&gt;/ --benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span> --benchmark_min_time<span class="o">=</span><span class="m">0</span>.1 --block_size<span class="o">=</span><span class="m">0</span>
@@ -696,7 +691,7 @@ deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/da
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Executing on <code class="docutils literal notranslate"><span class="pre">path:iaa</span></code> requires accelerator to be already configured.
-Refer to <a class="reference internal" href="../get_started_docs/system_requirements.html#accelerator-configuration-reference-link"><span class="std std-ref">accelerator configuration page</span></a>.</p>
+Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">accelerator configuration page</span></a>.</p>
 </div>
 <ul>
 <li><p><strong>Execution mode</strong>: defines synchronous or asynchronous execution. Case naming: <code class="docutils literal notranslate"><span class="pre">exec:async</span></code>, <code class="docutils literal notranslate"><span class="pre">exec:sync</span></code>.</p>
@@ -733,8 +728,8 @@ on a CPU, use the next expression <code class="docutils literal notranslate"><sp
 <h3>Executing on Hardware Path<a class="headerlink" href="#executing-on-hardware-path" title="Permalink to this headline">#</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/system_requirements.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
-<a class="reference internal" href="../get_started_docs/system_requirements.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing the example.</p>
+<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
+<a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing the example.</p>
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>

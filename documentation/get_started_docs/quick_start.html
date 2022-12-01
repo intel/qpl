@@ -105,11 +105,6 @@
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="system_requirements.html">
-   System Requirements
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="installation.html">
    Installation
   </a>
@@ -678,11 +673,6 @@ here. See the comments after the code block.</p>
 prototypes of all the functions.</p>
 <p>At line 29, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> to query the required memory size
 based on the execution path.</p>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>The redesign of APIs for memory size query is in progress in order to achieve a
-finer granularity than the execution path.</p>
-</div>
 <p>At lines 34 and 35, we allocate memory according to the returned value of <code class="docutils literal notranslate"><span class="pre">size</span></code>.
 Note that the value of <code class="docutils literal notranslate"><span class="pre">size</span></code> is greater than the size of the job structure
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a>. The leading portion of the allocated memory is used to store
@@ -696,8 +686,13 @@ in the job structure.</p>
 <p>After building Intel QPL (see <a class="reference internal" href="installation.html#building-library-reference-link"><span class="std std-ref">Building the Library</span></a>), you can find
 compiled examples in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/low-level-api/</span></code>. You can also
 compile each example individually with the command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++ -I/path/to/install_dir/include -o compression_example compression_example.cpp /path/to/install_dir/lib64/libqpl.a -ldl
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++ -I/&lt;install_dir&gt;/include -o compression_example compression_example.cpp /&lt;install_dir&gt;/lib64/libqpl.a -ldl -laccel-config
 </pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Either the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
+or the user must update <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> with its location.</p>
 </div>
 <p>Refer to <a class="reference internal" href="../dev_guide_docs/low_level_developer_guide.html#developer-guide-low-level-reference-link"><span class="std std-ref">Developer Guide</span></a>
 for more information about Intel QPL low-level C API. For more examples,

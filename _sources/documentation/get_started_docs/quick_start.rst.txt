@@ -40,10 +40,6 @@ prototypes of all the functions.
 At line 29, we call :c:func:`qpl_get_job_size` to query the required memory size
 based on the execution path.
 
-.. attention::
-   The redesign of APIs for memory size query is in progress in order to achieve a
-   finer granularity than the execution path.
-
 At lines 34 and 35, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
 :c:struct:`qpl_job`. The leading portion of the allocated memory is used to store
@@ -64,8 +60,13 @@ compile each example individually with the command:
 
 .. code-block:: shell
 
-    g++ -I/path/to/install_dir/include -o compression_example compression_example.cpp /path/to/install_dir/lib64/libqpl.a -ldl
+    g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl -laccel-config
 
+
+.. attention::
+
+   Either the ``libaccel-config`` library must be placed in ``/usr/lib64/``
+   or the user must update ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH`` with its location.
 
 Refer to :ref:`Developer Guide <developer_guide_low_level_reference_link>`
 for more information about Intel QPL low-level C API. For more examples,

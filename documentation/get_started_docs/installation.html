@@ -34,7 +34,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Quick Start" href="quick_start.html" />
-    <link rel="prev" title="System Requirements" href="system_requirements.html" />
+    <link rel="prev" title="Notices and Disclaimers" href="../introduction_docs/legal.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -104,11 +104,6 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="system_requirements.html">
-   System Requirements
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Installation
@@ -549,6 +544,28 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#system-requirements">
+   System Requirements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#software-path-requirements">
+     Software Path Requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hardware-path-requirements">
+     Hardware Path Requirements
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accelerator-configuration">
+   Accelerator Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#building-the-library">
    Building the Library
   </a>
@@ -612,6 +629,28 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#system-requirements">
+   System Requirements
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#software-path-requirements">
+     Software Path Requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hardware-path-requirements">
+     Hardware Path Requirements
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accelerator-configuration">
+   Accelerator Configuration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#building-the-library">
    Building the Library
   </a>
@@ -669,21 +708,84 @@ title="Print to PDF"
 <div></div></blockquote>
 <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
+<p>Intel® Query Processing Library (Intel® QPL) currently doesn’t provide a
+binary distribution and can be built only from the sources.</p>
+<section id="system-requirements">
+<span id="system-requirements-reference-link"></span><h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">#</a></h2>
+<p>Intel® QPL supports only the Intel 64 platform.</p>
+<section id="software-path-requirements">
+<h3>Software Path Requirements<a class="headerlink" href="#software-path-requirements" title="Permalink to this headline">#</a></h3>
+<div class="line-block">
+<div class="line"><strong>Minimum requirements</strong></div>
+<div class="line">x86-64 CPU with Intel® Advanced Vector Extensions 2 support
+(Intel® microarchitecture code name Broadwell).</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Recommended requirements for better performance</strong></div>
+<div class="line">x86-64 CPU with Intel® Advanced Vector Extensions 512 support
+(Intel® microarchitecture code name Skylake (Server) processor or higher).</div>
+</div>
+</section>
+<section id="hardware-path-requirements">
+<span id="system-requirements-hw-path-reference-link"></span><h3>Hardware Path Requirements<a class="headerlink" href="#hardware-path-requirements" title="Permalink to this headline">#</a></h3>
+<p>Execution using Hardware Path available only on Linux* OS.</p>
+<p>Additionally, the operating system must meet the following requirements:</p>
+<ul class="simple">
+<li><p>Linux kernel version 5.18 or later. Public versions of Linux
+kernels can be found here: <a class="reference external" href="https://www.kernel.org">https://www.kernel.org</a>.</p></li>
+<li><p>Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.</p></li>
+</ul>
+</section>
+</section>
+<section id="accelerator-configuration">
+<span id="accelerator-configuration-reference-link"></span><h2>Accelerator Configuration<a class="headerlink" href="#accelerator-configuration" title="Permalink to this headline">#</a></h2>
+<p>Intel® QPL does not provide a way to configure Intel® In-Memory Analytics Accelerator (Intel® IAA).
+An Intel® IAA device can be configured with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> library,
+which can be found at <a class="reference external" href="https://github.com/intel/idxd-config">https://github.com/intel/idxd-config</a>.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Sudo privileges are required to configure Intel® IAA instance.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, Intel® QPL uses the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature
+required to handle page faults on the Intel® IAA side. The
+<code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">on</span> <span class="pre">fault</span></code> flag must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
+device. Performance can be increased if an application performs its own
+<code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">on</span> <span class="pre">fault</span></code> flag is
+not required and the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the
+CMake build option <code class="docutils literal notranslate"><span class="pre">-DBLOCK_ON_FAULT=OFF</span></code> (see the
+<a class="reference internal" href="#building-library-build-reference-link"><span class="std std-ref">Build</span></a> and
+<a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Build Options</span></a> sections).</p>
+</div>
+</section>
 <section id="building-the-library">
 <span id="building-library-reference-link"></span><h2>Building the Library<a class="headerlink" href="#building-the-library" title="Permalink to this headline">#</a></h2>
 <section id="prerequisites">
 <span id="building-library-prerequisites-reference-link"></span><h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">#</a></h3>
-<p>Before building Intel® Query Processing Library (Intel® QPL), install and set up
-the following tools:</p>
+<p>Before building Intel® QPL, install and set up the following tools:</p>
 <p><strong>Linux* OS:</strong></p>
 <ul class="simple">
-<li><p>nasm 2.15.0 or higher (can be obtained from <a class="reference external" href="https://www.nasm.us">https://www.nasm.us</a>, for example,
-<a class="reference external" href="https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz">nasm-2.15.05.tar.gz</a>)</p></li>
+<li><p>nasm 2.15.0 or higher (e.g., can be obtained from <a class="reference external" href="https://www.nasm.us">https://www.nasm.us</a>)</p></li>
 <li><p>GCC 8.2 or higher (Clang 12.0.1 or higher for building fuzz tests)</p></li>
 <li><p>Universally Unique ID library <code class="docutils literal notranslate"><span class="pre">uuid-dev</span></code> version 2.35.2 or higher</p></li>
 <li><p>CMake* version 3.16.3 or higher</p></li>
 <li><p>GNU Make</p></li>
 </ul>
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 3.2 or higher is required
+for building and running Intel QPL even for Software Path execution.
+Refer to <a class="reference external" href="https://github.com/intel/idxd-config/releases">accel-config releases</a> for the
+latest version.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Either the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
+or the user must update <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> with its location.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>It is required to add <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library to the link line (<code class="docutils literal notranslate"><span class="pre">-laccel-config</span></code>)
+when building an application with the Intel QPL.</p>
+</div>
 <p><strong>Windows* OS:</strong></p>
 <ul class="simple">
 <li><p>nasm 2.15.0 or higher (can be obtained from <a class="reference external" href="https://www.nasm.us">https://www.nasm.us</a>, for example,
@@ -697,14 +799,21 @@ the following tools:</p>
 <span id="building-library-build-reference-link"></span><h3>Build<a class="headerlink" href="#build" title="Permalink to this headline">#</a></h3>
 <p>To build Intel QPL, complete the following steps:</p>
 <ol class="arabic">
-<li><p>Make sure that all the tools from the <a class="reference internal" href="#building-library-prerequisites-reference-link"><span class="std std-ref">Prerequisites</span></a>
+<li><p>Make sure that <a class="reference internal" href="#system-requirements-reference-link"><span class="std std-ref">System Requirements</span></a> are met
+and all the tools from the <a class="reference internal" href="#building-library-prerequisites-reference-link"><span class="std std-ref">Prerequisites</span></a>
 section are available in your environment.</p></li>
 <li><p>Clone git sources using the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using HTTPS</span>
-git clone --recursive https://github.com/intel/qpl.git &lt;qpl_library&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone --recursive https://github.com/intel/qpl.git &lt;qpl_library&gt;
 </pre></div>
 </div>
 </li>
+</ol>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p><code class="docutils literal notranslate"><span class="pre">--recursive</span></code> is required for downloading sub-module dependencies for testing
+and benchmarking Intel QPL.</p>
+</div>
+<ol class="arabic" start="3">
 <li><p>Build the library and tests by executing the following commands in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;</span></code>:</p>
 <p><strong>Linux* OS:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir build
@@ -720,11 +829,8 @@ cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Release -DCMAKE_INSTALL_PREFIX<s
 cmake --build . --target install
 </pre></div>
 </div>
-<p>You can use the flag <code class="docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> to specify a different build type,
-for example, <code class="docutils literal notranslate"><span class="pre">Debug</span></code> or <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code>.</p>
 </li>
-<li><p>The resulting library will be available in the folder <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib/</span></code>.
-In Linux* OS, <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">/usr/local/</span></code>.</p></li>
+<li><p>The resulting library will be available in the folder <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib/</span></code>.</p></li>
 </ol>
 </section>
 <section id="installed-package-structure">
@@ -754,7 +860,7 @@ In Linux* OS, <code class="docutils literal notranslate"><span class="pre">&lt;i
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The value of <code class="docutils literal notranslate"><span class="pre">BLOCK_ON_FAULT</span></code> can affect the performance of hardware path
-applications. Read more in the <a class="reference internal" href="system_requirements.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> section.</p>
+applications. Read more in the <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> section.</p>
 </div>
 </section>
 </section>
@@ -762,25 +868,25 @@ applications. Read more in the <a class="reference internal" href="system_requir
 <h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">#</a></h2>
 <section id="id1">
 <h3>Prerequisites<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
-<p>If you plan to build an offline copy of documentation,
-make sure the following documentation generation tools are installed and set up:</p>
+<p>To build the offline version of the documentation, the following tools must be installed:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.doxygen.nl/index.html">Doxygen</a> 1.8.17 or higher: <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">doxygen</span></code></p></li>
-<li><p><a class="reference external" href="https://www.python.org/">Python</a> 3.8.5 or higher: <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python3.X</span></code></p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> 3.5.4 or higher: <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p></li>
-<li><p><a class="reference external" href="https://executablebooks.org/en/latest/">sphinx_book_theme</a> : <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx-book-theme</span></code></p></li>
-<li><p><a class="reference external" href="https://breathe.readthedocs.io/en/latest/">Breathe</a> 4.29.0 or higher: <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">breathe</span></code></p></li>
+<li><p><a class="reference external" href="https://www.doxygen.nl/index.html">Doxygen</a> 1.8.17 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">doxygen</span></code>)</p></li>
+<li><p><a class="reference external" href="https://www.python.org/">Python</a> 3.8.5 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python3.X</span></code>)</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> 3.5.4 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx</span></code>)</p></li>
+<li><p><a class="reference external" href="https://executablebooks.org/en/latest/">sphinx_book_theme</a>  (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx-book-theme</span></code>)</p></li>
+<li><p><a class="reference external" href="https://breathe.readthedocs.io/en/latest/">Breathe</a> 4.29.0 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">breathe</span></code>)</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Linux* OS shell (or Windows* OS shell alternatives) is required to run the build script.</p>
-</div>
 </section>
 <section id="id2">
 <h3>Build<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
-<p>To generate the full offline documentation from sources, use the following command:</p>
+<p>To generate the full offline documentation from sources,
+use the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>/bin/bash &lt;qpl_library&gt;/doc/_get_docs.sh
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Linux* OS shell (or Windows* OS shell alternatives) is required to run the build script.</p>
 </div>
 <p>After the generation process is completed, open the <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/doc/build/html/index.html</span></code> file.</p>
 </section>
@@ -795,11 +901,11 @@ make sure the following documentation generation tools are installed and set up:
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="system_requirements.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../introduction_docs/legal.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">System Requirements</p>
+            <p class="prev-next-title">Notices and Disclaimers</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="quick_start.html" title="next page">
