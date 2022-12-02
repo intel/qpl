@@ -36,7 +36,21 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
         const auto &device = dispatcher.device(device_idx);
         device_idx = (device_idx+1) % device_count;
 
-        if (device.numa_id() != (uint64_t)numa_id) {
+        /*
+         * the purpose of the check below is to ensure that job would be
+         * launched on the device requested by user, meaning
+         * if user specified device_numa_id, we check that the program is
+         * indeed run on the requested NUMA node
+         *
+         * explanation regarding (device.numa_id() != (uint64_t)(-1)):
+         * accfg_device_get_numa_node() at sources/middle-layer/dispatcher/hw_device.cpp
+         * currently returns -1 in case of VM and/or when NUMA is not configured,
+         * here is the temporary w/a, so that we don't exit in this case,
+         * but just use current device
+         *
+         * @todo address w/a and remove (device.numa_id() != (uint64_t)(-1)) check
+         */
+        if ((device.numa_id() != (uint64_t)numa_id) && (device.numa_id() != (uint64_t)(-1))) {
             continue;
         }
 
