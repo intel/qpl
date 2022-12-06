@@ -231,4 +231,102 @@ namespace qpl::test
         EXPECT_TRUE(CompareVectors(destination, reference_destination));
         test_case_counter++;
     }
+
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(parquet_extract, bitwidth_mismatch_non_octa_group) 
+    {
+        /*
+            This tests the case where input and output bit-widths do not match 
+            while ending in the middle of a literal octa-group
+            for extract operation on parquet format
+        */
+        qpl_status  status;
+        uint32_t    size = 0;
+
+        auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+        
+        status = qpl_get_job_size(execution_path, &size);
+        ASSERT_EQ(QPL_STS_OK, status);
+
+        auto job_buffer = std::make_unique<uint8_t[]>(size);
+        auto job        = reinterpret_cast<qpl_job *>(job_buffer.get());
+
+        
+        status = qpl_init_job(execution_path, job);
+        ASSERT_EQ(QPL_STS_OK, status);
+
+        // testing only the 4-bit input width, only case creatable without creating new testing features (parquet creation)
+        const uint8_t input_bit_width = 4u;
+
+        // parquet_num_values must be 16 (divisible by 8, > 8, and (parquet_num_values - 1) fits in 4-bit)
+        const uint8_t parquet_num_values = 16u;
+
+        // Reference vector is a an ascending vector of values between [0 .. 15]
+        std::vector<uint8_t> reference_vector(parquet_num_values);
+        std::iota(reference_vector.begin(), reference_vector.end(), 0);
+        
+        // Parquet size is 1/2 of number of values (8-bit width to 4-bit width) + 2 (1 byte for bit width, and 1 for format/count)
+        const uint8_t parquet_size = (parquet_num_values / 2) + 2;
+        std::vector<uint8_t> source(parquet_size, 0);
+        // first byte of parquet is input_bit_width
+        source[0] = input_bit_width;
+        // second byte of parquet is (count << 1) | [format {0 for rle, 1 for literals}]
+        source[1] = (2u << 1) | 1;
+
+        // Packing 8-bit numbers into 4-bit width literals
+        for (int i = 0; i < reference_vector.size(); i++) {
+            if (i % 2 == 0) {
+                source[2 + i / 2] |= reference_vector[i];
+            }
+            else {
+                source[2 + i / 2] |= (reference_vector[i] << 4);
+            }
+        }
+        
+        // Arbitrarily picked value (must be 8 < values < 16)
+        const uint8_t values_to_extract = 10u;
+
+        // Testing all potential output bit widths
+        std::vector<qpl_out_format> output_bit_widths = {qpl_ow_8, qpl_ow_16, qpl_ow_32};
+
+        // Output vector is of size 40 to fit {10 (items) * 4 (bytes per 32-bit value)} 
+        std::vector<uint8_t> destination(values_to_extract * 4);
+
+        for (auto &output_bit_width: output_bit_widths) {
+            // Performing an operation
+            job->op                 = qpl_op_extract;
+            job->src1_bit_width     = input_bit_width;
+            job->out_bit_width      = output_bit_width;
+            // Start extracting 
+            job->param_low          = 0;
+            job->param_high         = values_to_extract - 1;
+            job->num_input_elements = values_to_extract;
+            job->parser             = qpl_p_parquet_rle;
+
+            job->next_in_ptr        = source.data();
+            job->available_in       = parquet_size;
+            job->next_out_ptr       = destination.data();
+            job->available_out      = static_cast<uint32_t>(destination.size());
+
+            job->mini_block_size    = qpl_mblk_size_none;
+            job->statistics_mode    = qpl_compression_mode;
+            
+            status = qpl_execute_job(job);
+            ASSERT_EQ(QPL_STS_OK, status);
+
+
+            for (int i = 0; i < 10; i++){
+                if (output_bit_width == qpl_ow_8){
+                    EXPECT_EQ(reference_vector[i], destination[i]);
+                }
+                else if(output_bit_width == qpl_ow_16){
+                    EXPECT_EQ(reference_vector[i], ((uint16_t*)(destination.data()))[i]);
+                }
+                else { //output_bit_width == qpl_ow_32
+                    EXPECT_EQ(reference_vector[i], ((uint32_t*)(destination.data()))[i]);
+                }
+            }
+        }
+        status = qpl_fini_job(job);
+        ASSERT_EQ(QPL_STS_OK, status);
+    }
 }
