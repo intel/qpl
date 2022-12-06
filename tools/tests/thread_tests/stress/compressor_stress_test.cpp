@@ -87,12 +87,6 @@ int test(uint32_t in_len) {
     const uint32_t compressed_size = job->total_out;
     compressed.resize(compressed_size);
 
-    // perform decompression
-    status = qpl_init_job(qpl_path_hardware, job);
-    if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_init_job sts: " << status << std::endl;
-    }
-
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = compressed.data();
     job->next_out_ptr  = uncompressed.data();

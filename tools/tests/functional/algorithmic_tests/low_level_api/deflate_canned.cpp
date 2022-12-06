@@ -833,10 +833,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
         ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
 
-        // Init decompression job for each dataset
-        status = qpl_init_job(path, job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "Failed to init decompression job";
-
         // Configure decompression job fields
         job_ptr->op            = qpl_op_decompress;
         job_ptr->next_in_ptr   = destination.data();
@@ -935,10 +931,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
 
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
         ASSERT_EQ(QPL_STS_OK, status) << "decompression table creation failed";
-
-        // Init decompression job for each dataset
-        status = qpl_init_job(path, job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status) << "Failed to init decompression job";
 
         // Configure decompression job fields
         job_ptr->op            = qpl_op_decompress;

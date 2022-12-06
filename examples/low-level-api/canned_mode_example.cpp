@@ -95,12 +95,6 @@ auto main() -> int {
 
     const uint32_t compressed_size = job->total_out;
 
-    // Decompression job initialization
-    status = qpl_init_job(execution_path, job);
-    if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during decompression job initializing.");
-    }
-
     // Performing a decompression operation
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = destination.data();

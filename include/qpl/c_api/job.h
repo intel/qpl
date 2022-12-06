@@ -157,7 +157,8 @@ typedef struct {
 QPL_API(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t * job_size_ptr))
 
 /**
- * @brief Initializes the qpl_job structure.
+ * @brief Initializes the qpl_job structure and ensures proper alignment of internal structures.
+ * This API should be called only once, after a new @ref qpl_job object is allocated.
  *
  * @param[in]      qpl_path     type of implementation path to use - @ref qpl_path_auto,
  *                              @ref qpl_path_hardware or @ref qpl_path_software

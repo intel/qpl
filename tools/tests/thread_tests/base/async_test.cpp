@@ -69,9 +69,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compressi
     for (int i = 0; i < number_of_copies; i++) {
         destination[i].resize(job[i]->total_out);
 
-        status = qpl_init_job(path, job[i]);
-        ASSERT_EQ(QPL_STS_OK, status);
-
         // decompression
         job[i]->op            = qpl_op_decompress;
         job[i]->next_in_ptr   = destination[i].data();

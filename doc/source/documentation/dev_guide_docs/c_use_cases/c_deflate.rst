@@ -57,6 +57,9 @@ file was reached. In this case, the first job is specified with the flag
 ``QPL_FLAG_FIRST`` in :c:member:`qpl_job.flags`, the middle jobs do not need
 additional flags, and the last job is specified with the flag ``QPL_FLAG_LAST``.
 If a single job is used to compress the stream, then both flags should be specified.
+The same :c:struct:`qpl_job` object can be reused for multiple jobs. And 
+:c:func:`qpl_init_job` should not be called in between jobs. (:c:func:`qpl_init_job`
+should be called only after a new :c:struct:`qpl_job` object is allocated)
 
 .. attention::
    The current implementation does not support canned compression/decompression

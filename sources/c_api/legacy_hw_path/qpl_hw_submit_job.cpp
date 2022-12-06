@@ -416,8 +416,12 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
             job::reset<qpl_op_decompress>(qpl_job_ptr);
             state_ptr->aecs_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
-            [[fallthrough]];
+            return hw_submit_task(qpl_job_ptr);
         case qpl_op_compress:
+            if (flags & QPL_FLAG_FIRST) {
+                job::reset<qpl_op_compress>(qpl_job_ptr);
+            }
+            return hw_submit_task(qpl_job_ptr);
         case qpl_op_crc64:
             return hw_submit_task(qpl_job_ptr);
 
