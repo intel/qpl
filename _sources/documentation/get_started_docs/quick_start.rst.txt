@@ -30,7 +30,7 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-14,25-65,88-93,104-
+    :lines: 1-14,25-65,82-87,98-
     :emphasize-lines: 13,29,34-36,42-48,51,57
     :linenos:
 

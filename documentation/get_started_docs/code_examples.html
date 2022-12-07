@@ -773,12 +773,6 @@ can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code.</
 
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span><span class="w"></span>
 
-<span class="w">    </span><span class="c1">// Decompression job initialization</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during decompression job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
 <span class="w">    </span><span class="c1">// Performing a decompression operation</span>
 <span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_decompress</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span><span class="w"></span>
@@ -914,12 +908,6 @@ can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code.</
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="c1">// Decompression job initialization</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during decompression job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="c1">// Performing a decompression operation</span>
 <span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_decompress</span><span class="p">;</span><span class="w"></span>
@@ -1082,12 +1070,6 @@ can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code.</
 <span class="w">        </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">        </span><span class="c1">// Decompression job initialization</span>
-<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;An error acquired during decompression job initializing.&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">        </span><span class="c1">// Performing a decompression operation</span>
 <span class="w">        </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_decompress</span><span class="p">;</span><span class="w"></span>

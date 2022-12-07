@@ -637,7 +637,10 @@ might call Intel QPL repeatedly with 64 KB input buffers, until the end of the
 file was reached. In this case, the first job is specified with the flag
 <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code> in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a>, the middle jobs do not need
 additional flags, and the last job is specified with the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code>.
-If a single job is used to compress the stream, then both flags should be specified.</p>
+If a single job is used to compress the stream, then both flags should be specified.
+The same <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object can be reused for multiple jobs. And
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> should not be called in between jobs. (<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a>
+should be called only after a new <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object is allocated)</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>The current implementation does not support canned compression/decompression
