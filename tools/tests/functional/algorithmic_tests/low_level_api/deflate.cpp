@@ -145,11 +145,15 @@ protected:
 
         if (qpl_path_hardware == job_ptr->data_ptr.path) {
             if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
+                EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
                 ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
                 return;
             }
         }
 
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
+        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         destination.resize(job_ptr->total_out);
@@ -158,6 +162,7 @@ protected:
 
         DecompressStream(destination, decompressed_source);
 
+        EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
         ASSERT_TRUE(CompareVectors(decompressed_source, source));
     }
 
@@ -482,6 +487,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
             compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
 
             status = run_job_api(compr_job);
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << data.first;
 
             // Decompress
@@ -493,14 +501,21 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
             decompr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
 
             status = run_job_api(decompr_job);
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK)
                                         << "Decompression failed with status: " << status << " source: " << data.first;
 
             // Check
-            ASSERT_TRUE(std::equal(source.begin(), source.end(), reference.begin()));
+            bool source_matches_reference = std::equal(source.begin(), source.end(), reference.begin());
+            if(!source_matches_reference){
+                EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
+            }
+            ASSERT_TRUE(source_matches_reference);
         }
     }
-
+    EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
     qpl_fini_job(compr_job);
     qpl_fini_job(decompr_job);
 }

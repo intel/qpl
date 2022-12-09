@@ -559,6 +559,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
         m_c_huffman_table = nullptr;
     }
 
+    if (test_case.d_type == decompression_table_type){
+        if(m_d_huffman_table) {
+            ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(m_d_huffman_table));
+            m_d_huffman_table = nullptr;
+        }
+    }
     // in this test: m_c_huffman_table is compression or combined
     //               m_d_huffman_table is decompression or combined
     SKIP_TC_TEST(test_case.d_type == decompression_table_type,

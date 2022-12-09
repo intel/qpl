@@ -182,6 +182,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
                                                                                              job_ptr,
                                                                                              huffman_table_ptr,
                                                                                              qpl_default_level);
+
+    EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
     if (GetExecutionPath() == qpl_path_software) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
@@ -209,6 +211,9 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
     ASSERT_EQ(status, QPL_STS_OK) << "Huffman table creation failed";
 
     status = fill_compression_table(huffman_table_ptr);
+    if(QPL_STS_OK != status){
+        EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
+    }
     ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
     auto compression_status = compress_create_indices<compression_mode::static_compression>(source, destination,
@@ -216,6 +221,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
                                                                                              huffman_table_ptr,
                                                                                              qpl_high_level);
 
+    EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
     ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
 

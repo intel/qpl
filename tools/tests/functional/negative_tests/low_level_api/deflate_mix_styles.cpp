@@ -55,6 +55,9 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
                                            qpl_default_level,
                                            path);
     if (status != QPL_STS_OK) {
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
+            std::cout << "Table destruction failed";
+        }
         std::cout << "Statistics gathering failed";
 
         return status;
@@ -62,6 +65,9 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
     if (status != QPL_STS_OK) {
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
+            std::cout << "Table destruction failed";
+        }
         std::cout << "Table build failed";
 
         return status;
@@ -77,6 +83,9 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     status = run_job_api(job_ptr);
     if (status != QPL_STS_OK) {
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
+            std::cout << "Table destruction failed";
+        }
         std::cout << "Job failed";
 
         return status;

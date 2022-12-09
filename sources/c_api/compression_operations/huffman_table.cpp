@@ -107,9 +107,7 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table) {
 
         std::destroy_at(table_impl);
         allocator.deallocator(table);
-    }
-
-    if (meta->algorithm == compression_algorithm_e::huffman_only) {
+    } else if (meta->algorithm == compression_algorithm_e::huffman_only) {
         auto table_impl       = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(table);
         allocator_t allocator = table_impl->get_internal_allocator();
 

@@ -696,6 +696,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
         status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -716,6 +719,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
                                                                                 qpl_default_level,
                                                                                 true);
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
@@ -723,6 +729,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
                                             job_ptr,
                                             source.size());
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
@@ -775,6 +784,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
         status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -795,6 +807,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
                                                                                 qpl_high_level,
                                                                                 true);
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
@@ -802,6 +817,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
                                             job_ptr,
                                             source.size());
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
@@ -850,6 +868,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
 
 
         status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -870,6 +891,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
                                                                                 qpl_default_level,
                                                                                 false);
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
@@ -877,8 +901,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
                                             job_ptr,
                                             source.size());
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
-
+            
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
         }
 
@@ -928,6 +958,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
         status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -948,6 +981,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
                                                                                 qpl_high_level,
                                                                                 false);
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
@@ -955,6 +991,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
                                             job_ptr,
                                             source.size());
 
+            if(QPL_STS_OK != status){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;

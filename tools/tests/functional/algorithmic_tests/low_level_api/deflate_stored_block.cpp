@@ -166,7 +166,11 @@ public:
         job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
         job_ptr->level         = level;
 
-        ASSERT_EQ(run_job_api(job_ptr), QPL_STS_OK);
+        status = run_job_api(job_ptr);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
+        ASSERT_EQ(status, QPL_STS_OK);
 
         auto total_byte_to_compare = input_size;
 
@@ -177,16 +181,21 @@ public:
             auto bytes_to_compare = std::min(total_byte_to_compare, max_stored_block_size);
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
-            ASSERT_TRUE(CompareSegments(stored_block_begin,
+            bool compare_segments_result = CompareSegments(stored_block_begin,
                                         stored_block_end,
                                         reference,
                                         reference + bytes_to_compare,
-                                        "Stored block index: " + std::to_string(i)));
+                                        "Stored block index: " + std::to_string(i));
+            if(!compare_segments_result){
+                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+            }
+            ASSERT_TRUE(compare_segments_result);
 
             reference += bytes_to_compare;
             stored_block_begin += bytes_to_compare + stored_block_header_size;
             total_byte_to_compare -= bytes_to_compare;
         }
+        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>
@@ -216,6 +225,9 @@ public:
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
         status = fill_compression_table(c_huffman_table);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_huffman_table;
@@ -228,7 +240,8 @@ public:
         job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
         job_ptr->level         = level;
 
-        ASSERT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
+        EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
+        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>
@@ -251,6 +264,9 @@ public:
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
 
         status = fill_compression_table(c_huffman_table);
+        if(QPL_STS_OK != status){
+            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
+        }
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_huffman_table;
@@ -265,6 +281,7 @@ public:
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
+        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>
