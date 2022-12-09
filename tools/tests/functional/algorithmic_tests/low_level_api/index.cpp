@@ -146,9 +146,8 @@ public:
 
         uint8_t *start = destination.data() + bit_start / 8;
 
-        // FIRST | NO_BUFFERING means that Intel QPL should only read block header
-        inflate_job_ptr->flags = QPL_FLAG_FIRST |
-                                 QPL_FLAG_NO_BUFFERING;
+        // FIRST | RND_ACCESS means that Intel QPL should only read block header
+        inflate_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_RND_ACCESS;
 
         inflate_job_ptr->ignore_start_bits = bit_start & 7;
         inflate_job_ptr->ignore_end_bits   = 7 & (0 - bit_end);
@@ -164,7 +163,7 @@ public:
                                                << decompression_status;
         }
 
-        inflate_job_ptr->flags = QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS;
+        inflate_job_ptr->flags = QPL_FLAG_RND_ACCESS;
         uint32_t mblock_start_index = (1 + block_number * (mblocks_per_block + 2) + mini_blocks_in_block);
         bit_start = (uint32_t) (index_array[mblock_start_index]);
         bit_end   = (uint32_t) (index_array[mblock_start_index + 1]);

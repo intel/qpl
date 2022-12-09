@@ -472,7 +472,6 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     bool is_last_job = flags & QPL_FLAG_LAST;
 
     if ((!is_last_job)
-        && (!(flags & QPL_FLAG_NO_BUFFERING))
         && own_qpl_buffer_touch(accumulator_ptr, source_size)) {
         own_qpl_buffer_fill(accumulator_ptr, source_ptr, source_size);
         hw_iaa_completion_record_init_trivial_completion(&state_ptr->comp_ptr, source_size);

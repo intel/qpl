@@ -374,9 +374,7 @@ void decompress_with_chunks(std::vector<uint8_t> &compressed_source,
 
     decompression_job_ptr->op            = qpl_op_decompress;
     decompression_job_ptr->flags         = QPL_FLAG_FIRST |
-                                           QPL_FLAG_CANNED_MODE |
-                                           QPL_FLAG_NO_BUFFERING |
-                                           QPL_FLAG_RND_ACCESS;
+                                           QPL_FLAG_CANNED_MODE;
     decompression_job_ptr->available_in  = static_cast<uint32_t>(compressed_source.size());
     decompression_job_ptr->next_in_ptr   = destination.data();
     decompression_job_ptr->available_out = static_cast<uint32_t>(destination.size());
@@ -2278,9 +2276,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
             decompression_job_ptr->op            = qpl_op_decompress;
             decompression_job_ptr->flags         = QPL_FLAG_FIRST |
                                                    QPL_FLAG_LAST |
-                                                   QPL_FLAG_CANNED_MODE |
-                                                   QPL_FLAG_NO_BUFFERING |
-                                                   QPL_FLAG_RND_ACCESS;
+                                                   QPL_FLAG_CANNED_MODE;
             decompression_job_ptr->available_in  = compression_job_ptr->total_out;
             decompression_job_ptr->next_in_ptr   = destination.data();
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());
@@ -2417,9 +2413,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
             decompression_job_ptr->op            = qpl_op_decompress;
             decompression_job_ptr->flags         = QPL_FLAG_FIRST |
                                                    QPL_FLAG_LAST |
-                                                   QPL_FLAG_CANNED_MODE |
-                                                   QPL_FLAG_NO_BUFFERING |
-                                                   QPL_FLAG_RND_ACCESS;
+                                                   QPL_FLAG_CANNED_MODE;
             decompression_job_ptr->available_in  = compression_job_ptr->total_out;
             decompression_job_ptr->next_in_ptr   = destination.data();
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());
@@ -2584,9 +2578,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
             decompression_job_ptr->op            = qpl_op_decompress;
             decompression_job_ptr->flags         = QPL_FLAG_FIRST |
                                                    QPL_FLAG_LAST |
-                                                   QPL_FLAG_CANNED_MODE |
-                                                   QPL_FLAG_NO_BUFFERING |
-                                                   QPL_FLAG_RND_ACCESS;
+                                                   QPL_FLAG_CANNED_MODE;
             decompression_job_ptr->available_in  = compression_job_ptr->total_out;
             decompression_job_ptr->next_in_ptr   = destination.data();
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());

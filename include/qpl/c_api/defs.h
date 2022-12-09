@@ -124,11 +124,6 @@ extern "C" {
 #define QPL_FLAG_RND_ACCESS 0x0200u
 
 /**
- * For partial decompression: to parse header and in case of random (mini-block) access, see  the previous line
- */
-#define QPL_FLAG_NO_BUFFERING 0x0400u
-
-/**
  * All processed data should be written to output, otherwise, only complete qwords
  */
 #define QPL_FLAG_DECOMP_FLUSH_ALWAYS 0x0800u

@@ -170,12 +170,22 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                      qpl::ml::compression::inflate_state<path>::template create<true>(allocator) :
                      qpl::ml::compression::inflate_state<path>::restore(allocator);
 
-        state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
+        if ( (job_ptr->flags & QPL_FLAG_RND_ACCESS) && !(job_ptr->flags & QPL_FLAG_CANNED_MODE)){ // Random Access
+            state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
              .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
              .crc_seed(job_ptr->crc)
-             .input_access({static_cast<bool>((job_ptr->flags & QPL_FLAG_RND_ACCESS)),
+             .input_access({static_cast<bool>( !(job_ptr->flags & QPL_FLAG_FIRST)),
                             job_ptr->ignore_start_bits,
                             job_ptr->ignore_end_bits});
+
+        } else {
+            state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
+                .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
+                .crc_seed(job_ptr->crc)
+                .input_access({static_cast<bool>((job_ptr->flags & QPL_FLAG_RND_ACCESS) || (job_ptr->flags & QPL_FLAG_CANNED_MODE)),
+                                job_ptr->ignore_start_bits,
+                                job_ptr->ignore_end_bits});
+        }
 
         if (job::is_dictionary(job_ptr)) {
                 if constexpr (qpl::ml::execution_path_t::software == path) {
@@ -210,7 +220,7 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
             } else {
                 result.status_code_ = qpl::ml::status_list::status_invalid_params;
             }
-        } else if (!(job_ptr->flags & QPL_FLAG_NO_BUFFERING)) { // Default inflating
+        } else if (!(job_ptr->flags & QPL_FLAG_RND_ACCESS)){ // Default inflating
             // Perform decompression in inflate standard
             auto end_processing_properties = static_cast<end_processing_condition_t>(job_ptr->decomp_end_processing);
 

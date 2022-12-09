@@ -87,8 +87,7 @@ static inline bool is_multi_job(const qpl_job *const job_ptr) noexcept {
 
 static inline bool is_random_decompression(const qpl_job *const job_ptr) noexcept {
     return (qpl_op_decompress == job_ptr->op) &&
-           ((QPL_FLAG_RND_ACCESS & job_ptr->flags) ||
-            (job_ptr->flags & QPL_FLAG_FIRST && job_ptr->flags & QPL_FLAG_NO_BUFFERING));
+           (QPL_FLAG_RND_ACCESS & job_ptr->flags);
 }
 
 static inline bool is_decompression(const qpl_job *const job_ptr) noexcept {

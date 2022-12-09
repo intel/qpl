@@ -134,7 +134,6 @@ namespace qpl::test
         test_case_counter++;
     }
 
-
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, DISABLED_analytic_with_random_decompress, ExtractTest)
     {
         static uint32_t test_case_counter = 0;
@@ -166,7 +165,7 @@ namespace qpl::test
 
         // Decompress header for random access
         job_ptr->op    = qpl_op_decompress;
-        job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_NO_BUFFERING;
+        job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_RND_ACCESS;
 
         job_ptr->ignore_start_bits = bit_start & 7u;
         job_ptr->ignore_end_bits   = 7u & (0u - bit_end);
@@ -189,7 +188,7 @@ namespace qpl::test
         job_ptr->crc               = index_table[mini_block_index].crc;
 
         job_ptr->op    = saved_op;
-        job_ptr->flags = saved_flags | QPL_FLAG_DECOMPRESS_ENABLE | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS;
+        job_ptr->flags = saved_flags | QPL_FLAG_DECOMPRESS_ENABLE | QPL_FLAG_RND_ACCESS;
 
         status = run_job_api(job_ptr);
         EXPECT_EQ(QPL_STS_OK, status);

@@ -116,7 +116,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
         decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                               QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                               QPL_FLAG_CANNED_MODE;
         decompression_job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(decompression_job_ptr);
@@ -228,7 +228,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
             decompression_job_ptr->huffman_table = d_huffman_table;
             decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | 
-                                                   QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                                   QPL_FLAG_CANNED_MODE;
 
             // Decompress by miniblocks
             for (uint32_t i = 0; i < job_ptr->idx_num_written - 1; i++) {
@@ -355,7 +355,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
         decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                               QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                               QPL_FLAG_CANNED_MODE;
         decompression_job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(decompression_job_ptr);
@@ -473,7 +473,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
             decompression_job_ptr->huffman_table = d_huffman_table;
             decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | 
-                                                   QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                                   QPL_FLAG_CANNED_MODE;
 
             // Decompress by miniblocks
             for (uint32_t i = 0; i < job_ptr->idx_num_written - 1; i++) {
@@ -617,7 +617,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
     status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
     decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                           QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                           QPL_FLAG_CANNED_MODE;
     decompression_job_ptr->huffman_table = d_huffman_table;
     decompression_job_ptr->next_out_ptr  = current_reference_buffer_ptr;
     decompression_job_ptr->available_out = output_bytes_available;
@@ -744,7 +744,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
     status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
 
     decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                           QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                           QPL_FLAG_CANNED_MODE;
     decompression_job_ptr->huffman_table = d_huffman_table;
     decompression_job_ptr->next_out_ptr  = current_reference_buffer_ptr;
     decompression_job_ptr->available_out = output_bytes_available;
@@ -840,7 +840,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
         job_ptr->next_out_ptr  = reference.data();
         job_ptr->available_out = static_cast<uint32_t>(reference.size());
         job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                 QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                 QPL_FLAG_CANNED_MODE;
         job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(job_ptr);
@@ -939,7 +939,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
         job_ptr->next_out_ptr  = reference.data();
         job_ptr->available_out = static_cast<uint32_t>(reference.size());
         job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                 QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+                                 QPL_FLAG_CANNED_MODE;
         job_ptr->huffman_table = d_huffman_table;
 
         status = run_job_api(job_ptr);

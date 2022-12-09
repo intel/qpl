@@ -393,7 +393,7 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_decompression() {
     }
 
     if constexpr (algorithm == compression_algorithm_canned) {
-       job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+       job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
     }
 
     if constexpr (algorithm == compression_algorithm_deflate) {

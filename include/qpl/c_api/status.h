@@ -71,7 +71,7 @@ typedef enum {
 /* ====== Processing Statuses ====== */
     QPL_STS_OK                      = QPL_PROCESSING_ERROR(0),  /**< Operation completed successfully */
     QPL_STS_BEING_PROCESSED         = QPL_PROCESSING_ERROR(1u), /**< Job is still being processed */
-    QPL_STS_MORE_OUTPUT_NEEDED      = QPL_PROCESSING_ERROR(2u), /**< Decompression operation filled output buffer before finishing input */
+    QPL_STS_MORE_OUTPUT_NEEDED      = QPL_PROCESSING_ERROR(2u), /**< Compression/Decompression operation filled output buffer before finishing input */
     QPL_STS_MORE_INPUT_NEEDED       = QPL_PROCESSING_ERROR(3u), /**< Compress/Decompress operation need more input */
     QPL_STS_JOB_NOT_CONTINUABLE_ERR = QPL_PROCESSING_ERROR(4u), /**< A job after a LAST job was not marked as FIRST */
     QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue*/

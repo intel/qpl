@@ -209,14 +209,14 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *                  inflate_job_ptr->available_in      = ((end_bit_offset + 7) / 8) - (start_bit_offset / 8);
  *                  inflate_job_ptr->next_in_ptr       = first_input_byte_ptr;
  *              @endcode
- *          - Set the @ref QPL_FLAG_FIRST and the @ref QPL_FLAG_NO_BUFFERING flags
+ *          - Set the @ref QPL_FLAG_FIRST and the @ref QPL_FLAG_RND_ACCESS flags
  *          - Call the `qpl_submit_job(inflate_job_ptr)`
  *
  *      2. Mini-block decompression
  *        - Extract the `start_bit_offset` and the `end_bit_offset` for mini-block from the index table
  *        - Set the accurate header position the same way it is set in the previous step (header reading)
  *        - Set the output buffer for mini-block
- *        - Set the QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS flags
+ *        - Set the QPL_FLAG_RND_ACCESS flag
  *        - Call the `qpl_submit_job(inflate_job_ptr)`
  *
  * @return

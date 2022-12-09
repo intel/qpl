@@ -113,7 +113,7 @@ public:
         ASSERT_ERR_STATUS(status) << "Decompression table creation status: " << status;
 
         hw_job_ptr->huffman_table = d_huffman_table;
-        hw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+        hw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(hw_job_ptr);
         ASSERT_ERR_STATUS(status) << "Decompression status: " << status;
@@ -160,7 +160,7 @@ public:
         ASSERT_ERR_STATUS(status) << "Decompression table creation status: " << status;
 
         sw_job_ptr->huffman_table = d_huffman_table;
-        sw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+        sw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
 
         status = run_job_api(sw_job_ptr);
         ASSERT_ERR_STATUS(status) << "Decompression status: " << status;
