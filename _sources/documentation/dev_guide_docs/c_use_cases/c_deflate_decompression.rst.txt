@@ -42,7 +42,7 @@ The job structure for canned decompression can be set using:
     job->available_in  = <input_size>;
     job->next_out_ptr  = <output_buffer>;
     job->available_out = <output_size>;
-    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE | QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS;
+    job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
     job->huffman_table = huffman_table;
 
 

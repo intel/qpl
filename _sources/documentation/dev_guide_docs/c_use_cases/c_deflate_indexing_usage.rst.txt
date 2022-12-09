@@ -143,7 +143,7 @@ The index of the start of the block header is
 than this.
 
 The job to parse the header is a decompress job with ``QPL_FLAG_FIRST`` and
-``QPL_FLAG_NO_BUFFERING``. The START bit offset and the END bit offset are
+``QPL_FLAG_RND_ACCESS``. The START bit offset and the END bit offset are
 the low 32-bits of the two entries identified earlier. Those offsets are
 converted to job parameters as previously described.
 
@@ -162,7 +162,7 @@ case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
 The header can be found between indices 6 and 7, and the mini-block
 between indices 9 and 10.
 
-The job uses the flags ``QPL_FLAG_NO_BUFFERING`` and ``QPL_FLAG_RND_ACCESS``.
+The job uses the flag ``QPL_FLAG_RND_ACCESS``.
 
 The initial CRC (i.e. the value written to job crc before the job is
 executed) is the CRC value (the high 32-bits of the index array) from

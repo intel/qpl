@@ -744,7 +744,7 @@ as a SHIFT and an AND rather than using actual divides.</p>
 <code class="docutils literal notranslate"><span class="pre">(blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2))</span></code>. The index of the end is one greater
 than this.</p>
 <p>The job to parse the header is a decompress job with <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code> and
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_NO_BUFFERING</span></code>. The START bit offset and the END bit offset are
+<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code>. The START bit offset and the END bit offset are
 the low 32-bits of the two entries identified earlier. Those offsets are
 converted to job parameters as previously described.</p>
 </section>
@@ -758,7 +758,7 @@ the mini-block number within the block to the end of the block header.</p>
 case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
 The header can be found between indices 6 and 7, and the mini-block
 between indices 9 and 10.</p>
-<p>The job uses the flags <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_NO_BUFFERING</span></code> and <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code>.</p>
+<p>The job uses the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code>.</p>
 <p>The initial CRC (i.e. the value written to job crc before the job is
 executed) is the CRC value (the high 32-bits of the index array) from
 the start of the mini-block. In the previous example, that is from index 1.
