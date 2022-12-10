@@ -700,7 +700,7 @@ title="Print to PDF"
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_BEING_PROCESSED">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906adce2b1aa1acc4406fe788827e1c40832"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BEING_PROCESSED</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_BEING_PROCESSED" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Job is still being processed </p>
+<dd><p>The job is still being processed </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -734,6 +734,12 @@ title="Print to PDF"
 </dd></dl>
 
 <dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_status.QPL_STS_JOB_NOT_SUBMITTED">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ac223ebba8d9f13fbcb9998f059a2a3bd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_JOB_NOT_SUBMITTED</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">7u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_JOB_NOT_SUBMITTED" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The job being checked/waited has not been submitted </p>
+</dd></dl>
+
+<dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_NULL_PTR_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906ab08eb6b06f84739715dd8573f4344b31"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_NULL_PTR_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_NULL_PTR_ERR" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Null pointer error </p>
@@ -742,7 +748,7 @@ title="Print to PDF"
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_OPERATION_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a9d394ff14864a62381286ceaaddeeccf"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OPERATION_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_OPERATION_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Non-supported value in the qplJob operation field </p>
+<dd><p>Non-supported value in the <a class="reference internal" href="c_job_apis.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> operation field </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -754,7 +760,7 @@ title="Print to PDF"
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_BAD_JOB_STRUCT_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906aec1bc8de119846af00758707185ceeb2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_BAD_JOB_STRUCT_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">3u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_BAD_JOB_STRUCT_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Indicates that the job structure does not match the operation </p>
+<dd><p>Indicates that the <a class="reference internal" href="c_job_apis.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure does not match the operation </p>
 </dd></dl>
 
 <dl class="c enumerator">
@@ -808,13 +814,13 @@ title="Print to PDF"
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_PARSER_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a5e7ec0f937dac9c96d38de92b0ce1fe9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_PARSER_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">21u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_PARSER_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>Non-supported value in the qplJob parser field </p>
+<dd><p>Non-supported value in the <a class="reference internal" href="c_job_apis.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> parser field </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_status.QPL_STS_OUT_FORMAT_ERR">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaff83b19d3d61b4a47fc129e60b308906a150a4588745933be1e7bbf037da7965a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QPL_STS_OUT_FORMAT_ERR</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50u</span></span><span class="w"> </span><span class="o"><span class="pre">+</span></span><span class="w"> </span><span class="m"><span class="pre">22u</span></span><a class="headerlink" href="#c.qpl_status.QPL_STS_OUT_FORMAT_ERR" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>qplJob out_bit_width field contains invalid value </p>
+<dd><p><a class="reference internal" href="c_job_apis.html#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> out_bit_width field contains invalid value </p>
 </dd></dl>
 
 <dl class="c enumerator">
