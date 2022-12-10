@@ -222,6 +222,10 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
     const auto *comp_ptr = &state_ptr->comp_ptr;
     auto *cfg_ptr  = GET_DCFG(state_ptr);
 
+    if (!state_ptr->job_is_submitted) {
+        return QPL_STS_JOB_NOT_SUBMITTED;
+    }
+
     if (0u == comp_ptr->status) {
         return QPL_STS_BEING_PROCESSED;
     }

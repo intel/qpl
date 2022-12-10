@@ -120,8 +120,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             job_ptr->available_in  = job_ptr->total_out;
             job_ptr->next_out_ptr  = reference_buffer.data();
             job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
-            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
-                                     QPL_FLAG_NO_BUFFERING | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE;
+            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
             job_ptr->huffman_table = huffman_table;
 
             status = run_job_api(job_ptr);

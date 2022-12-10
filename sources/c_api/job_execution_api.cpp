@@ -52,9 +52,9 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
     }
 
     if (qpl_path_hardware == qpl_job_ptr->data_ptr.path || qpl_path_auto == qpl_job_ptr->data_ptr.path) {
-#if defined(KEEP_DESCRIPTOR_ENABLED)
         auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
+#if defined(KEEP_DESCRIPTOR_ENABLED)
         if (state_ptr->descriptor_not_submitted) {
             status = hw_enqueue_descriptor(&state_ptr->desc_ptr, qpl_job_ptr->numa_id);
 
@@ -67,6 +67,10 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 #endif
 
         status = hw_submit_job(qpl_job_ptr);
+
+        if (status == QPL_STS_OK) {
+            state_ptr->job_is_submitted = true;
+        }
 
 #if defined(KEEP_DESCRIPTOR_ENABLED)
         if (status == QPL_STS_QUEUES_ARE_BUSY_ERR && qpl_path_hardware == qpl_job_ptr->data_ptr.path) {
@@ -237,6 +241,11 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
         }
 
         qpl_status status = hw_submit_job(qpl_job_ptr);
+
+        if (status == QPL_STS_OK) {
+            auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
+            state_ptr->job_is_submitted = true;
+        }
 
         return (QPL_STS_OK == status) ? qpl_wait_job(qpl_job_ptr) : status;
     }

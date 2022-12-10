@@ -103,10 +103,32 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_execute, test) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_wait, test) {
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_wait_job(nullptr)) << "Failed on job_ptr == nullptr";
+
+    if (qpl_path_hardware == job_ptr->data_ptr.path) {
+        // re-init the job, and wait for unsubmitted job
+        qpl_status status = QPL_STS_OK;
+        status = qpl_init_job(qpl_path_hardware, job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
+
+        job_ptr->op          = qpl_op_crc64;
+        job_ptr->next_in_ptr = (uint8_t *) job_ptr;
+        EXPECT_EQ(QPL_STS_JOB_NOT_SUBMITTED, qpl_wait_job(job_ptr)) << "Failed on waiting unsubmitted job";
+    }
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_check, test) {
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_check_job(nullptr)) << "Failed on job_ptr == nullptr";
+
+    if (qpl_path_hardware == job_ptr->data_ptr.path) {
+        // re-init the job, and check for unsubmitted job
+        qpl_status status = QPL_STS_OK;
+        status = qpl_init_job(qpl_path_hardware, job_ptr);
+        ASSERT_EQ(QPL_STS_OK, status);
+
+        job_ptr->op          = qpl_op_crc64;
+        job_ptr->next_in_ptr = (uint8_t *) job_ptr;
+        EXPECT_EQ(QPL_STS_JOB_NOT_SUBMITTED, qpl_check_job(job_ptr)) << "Failed on checking unsubmitted job";
+    }
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_finalize, test) {
@@ -135,23 +157,19 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
                                            path);
     EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
 
-    /* todo implement check in function
     status = qpl_gather_deflate_statistics(&source,
                                            source_length,
-                                           &literals_histogram,
-                                           nullptr,
+                                           &deflate_histogram,
                                            INCORRECT_LEVEL,
                                            path);
-    //EXPECT_EQ(status, QPL_STS_LEVEL_ERR);*/
+    EXPECT_EQ(status, QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL);
 
-    /* todo implement check in function
     status = qpl_gather_deflate_statistics(&source,
                                            source_length,
-                                           &literals_histogram,
-                                           nullptr,
+                                           &deflate_histogram,
                                            level,
                                            INCORRECT_PATH);
-    EXPECT_EQ(status, QPL_STS_PATH_ERR);*/
+    EXPECT_EQ(status, QPL_STS_PATH_ERR);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_existing_dict_size, test) {

@@ -77,6 +77,7 @@ typedef struct {
     uint32_t                 saved_num_output_accum_bits;                  /**< @todo */
     hw_accelerator_context   accel_context;
     uint32_t                 descriptor_not_submitted;
+    bool                     job_is_submitted;
 } qpl_hw_state;
 
 #ifdef __cplusplus

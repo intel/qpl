@@ -70,20 +70,21 @@ extern "C" {
 typedef enum {
 /* ====== Processing Statuses ====== */
     QPL_STS_OK                      = QPL_PROCESSING_ERROR(0),  /**< Operation completed successfully */
-    QPL_STS_BEING_PROCESSED         = QPL_PROCESSING_ERROR(1u), /**< Job is still being processed */
+    QPL_STS_BEING_PROCESSED         = QPL_PROCESSING_ERROR(1u), /**< The job is still being processed */
     QPL_STS_MORE_OUTPUT_NEEDED      = QPL_PROCESSING_ERROR(2u), /**< Compression/Decompression operation filled output buffer before finishing input */
     QPL_STS_MORE_INPUT_NEEDED       = QPL_PROCESSING_ERROR(3u), /**< Compress/Decompress operation need more input */
     QPL_STS_JOB_NOT_CONTINUABLE_ERR = QPL_PROCESSING_ERROR(4u), /**< A job after a LAST job was not marked as FIRST */
-    QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue*/
+    QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue */
     QPL_STS_LIBRARY_INTERNAL_ERR    = QPL_PROCESSING_ERROR(6u), /**< Unexpected internal error condition */
+    QPL_STS_JOB_NOT_SUBMITTED       = QPL_PROCESSING_ERROR(7u), /**< The job being checked/waited has not been submitted */
 
 /* ====== Operations Statuses ====== */
 /* --- Incorrect Parameter Value --- */
 // <--- Common
     QPL_STS_NULL_PTR_ERR           = QPL_PARAMETER_ERROR(0u), /**< Null pointer error */
-    QPL_STS_OPERATION_ERR          = QPL_PARAMETER_ERROR(1u), /**< Non-supported value in the qplJob operation field */
+    QPL_STS_OPERATION_ERR          = QPL_PARAMETER_ERROR(1u), /**< Non-supported value in the qpl_job operation field */
     QPL_STS_NOT_SUPPORTED_MODE_ERR = QPL_PARAMETER_ERROR(2u), /**< Indicates an error if the requested mode is not supported */
-    QPL_STS_BAD_JOB_STRUCT_ERR     = QPL_PARAMETER_ERROR(3u), /**< Indicates that the job structure does not match the operation */
+    QPL_STS_BAD_JOB_STRUCT_ERR     = QPL_PARAMETER_ERROR(3u), /**< Indicates that the qpl_job structure does not match the operation */
     QPL_STS_PATH_ERR               = QPL_PARAMETER_ERROR(4u), /**< Incorrect value for the qpl_path input parameter */
     QPL_STS_INVALID_PARAM_ERR      = QPL_PARAMETER_ERROR(5u), /**< Invalid combination of fields in the qpl_job structure */
     QPL_STS_FLAG_CONFLICT_ERR      = QPL_PARAMETER_ERROR(6u), /**< qpl_job flags field contains conflicted values */
@@ -96,8 +97,8 @@ typedef enum {
 
 // <-- Filtering
     QPL_STS_SET_TOO_LARGE_ERR           = QPL_PARAMETER_ERROR(20u), /**< Set is too large for operation */
-    QPL_STS_PARSER_ERR                  = QPL_PARAMETER_ERROR(21u), /**< Non-supported value in the qplJob parser field */
-    QPL_STS_OUT_FORMAT_ERR              = QPL_PARAMETER_ERROR(22u), /**< qplJob out_bit_width field contains invalid value */
+    QPL_STS_PARSER_ERR                  = QPL_PARAMETER_ERROR(21u), /**< Non-supported value in the qpl_job parser field */
+    QPL_STS_OUT_FORMAT_ERR              = QPL_PARAMETER_ERROR(22u), /**< qpl_job out_bit_width field contains invalid value */
     QPL_STS_DROP_BITS_OVERFLOW_ERR      = QPL_PARAMETER_ERROR(23u), /**< Incorrect dropBits value (param_low + param_high must be beyond 0..32) */
     QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR  = QPL_PARAMETER_ERROR(24u), /**< qpl_job bit-width field contains an invalid value for current output format */
     QPL_STS_DROP_BYTES_ERR              = QPL_PARAMETER_ERROR(25u), /**< qpl_job drop_initial_bytes field contains an invalid value */
