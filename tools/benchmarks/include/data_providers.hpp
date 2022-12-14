@@ -13,6 +13,7 @@
 #include <vector>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 namespace bench::data
 {
@@ -26,10 +27,15 @@ static inline dataset_t read_dataset(const std::string &path)
 
     for (const auto & entry : std::filesystem::directory_iterator(real_path))
     {
-        std::ifstream file(entry.path(), std::ios::in | std::ios::binary);
-        auto data = std::vector<uint8_t>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 
-        dataset.push_back({entry.path().filename(), std::move(data)});
+        if (entry.is_symlink()) {
+            std::cerr << "Skip this file because it is a symlink. Path=" << real_path << "/" << entry.path().filename().string() << std::endl;
+        } else {
+            std::ifstream file(entry.path(), std::ios::in | std::ios::binary);
+            auto data = std::vector<uint8_t>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+
+            dataset.push_back({entry.path().filename(), std::move(data)});
+        }
     }
     std::sort(dataset.begin(), dataset.end(), [](auto &a, auto &b){ return a.name < b.name; });
 
