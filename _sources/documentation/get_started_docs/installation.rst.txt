@@ -46,9 +46,25 @@ Additionally, the operating system must meet the following requirements:
 Accelerator Configuration
 *************************
 
-Intel® QPL does not provide a way to configure Intel® In-Memory Analytics Accelerator (Intel® IAA).
-An Intel® IAA device can be configured with the ``accel-config`` library,
-which can be found at https://github.com/intel/idxd-config.
+An Intel® In-Memory Analytics Accelerator (Intel® IAA) device can be
+configured with the ``accel-config`` library, which can be found at
+https://github.com/intel/idxd-config.
+
+Intel® QPL provides a way to configure Intel® IAA through calling
+either of the following commands based on whether you are setting up
+via the Intel® QPL source or from the Intel® QPL installed directory:
+
+.. code-block:: shell
+
+   sudo python3 <qpl-library>/tools/scripts/accel_conf.py --load=<path to config file>
+
+.. code-block:: shell
+
+   sudo python3 <install-dir>/bin/scripts/accel_conf.py <config file> --load=<path to config file>
+
+With configuration files found at either ``<qpl-library>/tools/configs/`` or ``<install-dir>/bin/configs/``.
+With configuration files of the format ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s.conf`` or
+``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s-n<which node>.conf``.
 
 .. attention::
 
