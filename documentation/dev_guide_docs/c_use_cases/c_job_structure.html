@@ -557,14 +557,14 @@ job structure <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job
 <li><p>Internal state.</p></li>
 </ol>
 <p>Note that some fields in the job structure are of type 1 and 2 at the
-same time; that is, they are both inputs and outputs. This point will
-become clear in the following.</p>
-<p>We introduce fields in the job structure that are common across operations.</p>
+same time, which means that they are both inputs and outputs. This will
+become clear to users in the following sections.</p>
+<p>Let’s look at some fields in the job structure that are common across operations.</p>
 <p>The field <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.op" title="qpl_job.op"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.op</span></code></a> defines the operation to be done and has a
 value in enum <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html#c.qpl_operation" title="qpl_operation"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_operation</span></code></a>.</p>
 <p>The input buffer for the operation is described by two fields:
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a>. The
-first points to the start of the input data, and the second gives the
+first pointer points to the start of the input data, and the second gives the
 length of the input data (or equivalently, the number of bytes of the input
 data). If the job completes successfully, the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a>
 field should be advanced by the value of <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a>,
@@ -574,7 +574,7 @@ and the value of <a class="reference internal" href="../../dev_ref_docs/c_ref/c_
 When the job completes, the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_out_ptr" title="qpl_job.next_out_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_out_ptr</span></code></a> field should
 be advanced by the number of bytes that was written, and the value of
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a> field should describe the remaining number
-of bytes unused.</p>
+of bytes unused in the output buffer.</p>
 <p>The <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a> field defines flags that affect the operation.
 Each flag is represented by one of the 32 bits. To set the bit flags, use the
 bitwise OR operator (<code class="docutils literal notranslate"><span class="pre">|</span></code>), for example,
@@ -590,14 +590,13 @@ results are contained in the fields <a class="reference internal" href="../../de
 polynomial <code class="docutils literal notranslate"><span class="pre">0x11edc6f41</span></code> is used, which follows RFC 3720. To compute the
 16-bit XOR checksum, the data is treated as 16-bit words. If the data has an
 odd number of bytes, the final byte is zero-extended to 16 bits.</p>
-<p>For an operation like decompression, which generates a stream of bytes, the
-output stream always ends at a byte boundary. For an operation like scan,
-which generates a stream of bits, the stream is zero-padded to a byte boundary
-before being written. The information of where the data actual ends can be
-obtained from the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> field. When the output stream
-does not end at a byte boundary, this field contains the number of bits written
-to the last byte. When the output stream ends at a byte boundary, the value
-of this field is 0 (not 8).</p>
+<p>For an operation that generates a stream of bytes, like decompression, the
+output stream always ends at a byte boundary. For an operation that generates a
+stream of bits, like scan, the stream is zero-padded to a byte boundary
+before being written. The <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> field indicates
+where the data actually ends: when the output stream does not end at a byte
+boundary, this field contains the number of bits written to the last byte.
+When the output stream ends at a byte boundary, the value of this field is 0 (not 8).</p>
 </section>
 
 

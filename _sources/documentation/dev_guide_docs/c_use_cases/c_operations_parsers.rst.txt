@@ -19,7 +19,7 @@ src1_bit_width. For example, if N=3, then the first element will be bits
 2:0 in the first byte, the second element will be bits 5:3, etc.
 
 If the parser is ``qpl_p_be_packed_array``, the buffer is viewed as a
-big-endian packed array, e.g. with N=3, the first element will be bits
+big-endian packed array. For example, with N=3, the first element will be bits
 7:5 of the first byte, the second element will be bits 4:2, etc.
 
 If the parser is specified as ``qpl_p_parquet_rle``, it is viewed as being

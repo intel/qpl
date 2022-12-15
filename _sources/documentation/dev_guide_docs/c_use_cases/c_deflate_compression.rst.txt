@@ -12,7 +12,7 @@ Deflate Compression
 Job Structure Settings
 **********************
 
-We introduce the basic settings of the job structure for Deflate compression jobs.
+This page introduces the basic settings of the job structure for Deflate compression jobs.
 With small changes, users can substitute the job structure setting in the
 :ref:`quick_start_reference_link` example with the following ones. It is
 assumed that a single job is used (see :ref:`multiple_jobs_reference_link`).
@@ -79,18 +79,20 @@ If the stream is compressed with multiple jobs, then in the middle of the
 stream, the application can specify a different Huffman table and use the
 ``QPL_FLAG_START_NEW_BLOCK`` flag. This will instruct the library to end the
 current block and to start a new block with the new table. The
-``QPL_FLAG_START_NEW_BLOCK`` is not needed on the first job; it is implied.
+``QPL_FLAG_START_NEW_BLOCK`` is not needed on the first job (i.e., this flag
+is implied when ``QPL_FLAG_FIRST`` is set).
 
 If the ``QPL_FLAG_START_NEW_BLOCK`` flag is not used, then the table
 pointed to in the job structure must be the same as those used by the
-previous job. When the tables are changed without indication to the
-library, then the resulting bit-stream will not be valid.
+previous job. If the tables are changed without signaling the library with
+the approriate flags, the resulting bit-stream will not be valid.
 
 
 Canned
 ======
 
-The job structure for canned compression can be set using:
+The job structure for canned compression (see :ref:`compressed_data_format_reference_link`)
+can be set using:
 
 .. code-block:: c
 
@@ -119,22 +121,23 @@ Refer to the :ref:`huffman-tables-api-label` section for more information.
 
 .. warning::
    The compression mode cannot be changed across related jobs. For example,
-   you cannot start a sequence of jobs using dynamic compression and then halfway
-   through switch to static compression.
+   you cannot start a sequence of jobs using dynamic compression and then
+   switch to static compression halfway through the sequence.
 
 
 Compression Output Overflow
 ***************************
 
-If the compressed output does not fit into the output buffer, the library
-attempts to copy the input data into the output stream as a series
-of stored blocks. When the stored blocks fit into the output buffer,
-the library writes stored blocks to the output buffer and returns the
-successful ``QPL_STS_OK`` status. In case when the stored blocks do not
+If the compressed output does not fit into the output buffer (e.g., a bad Huffman table
+is provided by the application, causing data to expand in a static compression),
+the library attempts to copy the input data into the output stream as a series
+of ``stored blocks``. When the ``stored blocks`` fit into the output buffer,
+the library writes them to the output buffer and returns the
+successful ``QPL_STS_OK`` status. If the stored blocks do not
 fit, the library returns the ``QPL_STS_MORE_OUTPUT_NEEDED`` status and
 the compression fails.
 
-Users are suggested to use an output buffer whose size is slightly
+To avoid this failure, users are suggested to use an output buffer with a size slightly
 larger than the size of the input buffer so that it can accommodate the
 additional headers for stored blocks. This suggestion does not apply to canned
 compression (see :ref:`deflate_compression_structure_canned_reference_link`).
@@ -143,7 +146,7 @@ compression (see :ref:`deflate_compression_structure_canned_reference_link`).
 Structure of Compressed Data
 ****************************
 
-In this section, we discuss possible structures of the compressed data.
+This section discusses the possible structures of the compressed data.
 
 
 .. _deflate_compression_structure_fixed_reference_link:
@@ -200,12 +203,12 @@ By default, the library will verify the correctness of the generated
 compressed bit stream. The library decompresses the resulting bit
 stream, and then checks that the CRC of the decompressed data matches
 the CRC of the original data. If the user does not want to pay the
-additional cost for verification, this can be turned off with the
-``QPL_FLAG_OMIT_VERIFY`` flag.
+additional performance cost for verification, the step can be skipped
+with the ``QPL_FLAG_OMIT_VERIFY`` flag.
 
 .. note::
     Currently verification is not performed in case of ``Huffman only BE``.
 
 .. warning::
-    Compression verification on the software path now only works with
+    Currently compression verification on the software path only works with
     indexing and data of size smaller than 32 KB in other modes.

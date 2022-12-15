@@ -635,7 +635,7 @@ errors in data processing on correct data.</p></li>
 <li><p>Bad argument tests (<code class="docutils literal notranslate"><span class="pre">tb_*</span></code>) verify the code path for invalid arguments.</p></li>
 <li><p>Negative tests (<code class="docutils literal notranslate"><span class="pre">tn_*</span></code>) serve to find errors that reflect lack of
 control over the input data format.</p></li>
-<li><p>Thread tests (<code class="docutils literal notranslate"><span class="pre">tt_*</span></code>) detect out of order read/write
+<li><p>Thread tests (<code class="docutils literal notranslate"><span class="pre">tt_*</span></code>) detect out-of-order read/write
 operations for common structures by different threads.</p></li>
 </ul>
 <p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/tests</span></code>.
@@ -643,7 +643,7 @@ To run all the functional tests, execute the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests --dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
 </pre></div>
 </div>
-<p>To run, for example, algorithmic tests only, use:</p>
+<p>To run specific tests only, use the GoogleTest option <code class="docutils literal notranslate"><span class="pre">--gtest_filter</span></code>. For example, to run algorithmic tests only, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests --dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/ --gtest_filter<span class="o">=</span>ta_*
 </pre></div>
 </div>
@@ -667,13 +667,13 @@ See <a class="reference internal" href="installation.html#accelerator-configurat
 <h2>Cross Tests<a class="headerlink" href="#cross-tests" title="Permalink to this headline">#</a></h2>
 <p>Cross tests provide validation of:</p>
 <ul class="simple">
-<li><p>Input/output stream format compatibility between hardware
+<li><p>Input/output stream format compatibility between the hardware
 and software paths for the same Intel QPL operation.
 Especially for compression/decompression functionality.</p></li>
-<li><p>Aggregates, checksums equality between hardware and software paths
+<li><p>Aggregates, checksums equality between the hardware and software paths
 for the same Intel QPL operation.</p></li>
 </ul>
-<p>Cross tests intend to assure that software and hardware paths can be
+<p>Cross tests intend to assure that the software and hardware paths can be
 exchanged in the application code without behavior change.</p>
 <p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/cross_tests</span></code>.
 To run cross tests, execute the following command:</p>
@@ -689,7 +689,7 @@ See <a class="reference internal" href="installation.html#accelerator-configurat
 <section id="initialization-tests">
 <h2>Initialization Tests<a class="headerlink" href="#initialization-tests" title="Permalink to this headline">#</a></h2>
 <p>Initialization tests validate library initialization code for
-the correctness of hardware path. Initialization tests consist of:</p>
+the correctness of the hardware path. Initialization tests consist of:</p>
 <ul class="simple">
 <li><p>Python frontend that setup different accelerator configurations before testing</p></li>
 <li><p>C++ GoogleTest based backend that runs specific test cases to perform actual testing</p></li>

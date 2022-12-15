@@ -9,6 +9,8 @@ Deflate Compression/Decompression
 #################################
 
 
+.. _compressed_data_format_reference_link:
+
 Compressed Data Format
 **********************
 
@@ -22,25 +24,24 @@ The Deflate standard organizes the compressed data into a series of
 -  **Dynamic Block**: The input data is compressed with a Huffman table that
    is optimized for that particular block. This results in a more
    efficient code, but requires two passes: one pass to analyze the
-   data, and another pass to compress the data after the optimal
-   Huffman table is generated.
+   data and gather its statistics, with which an optimal Huffman table can be generated,
+   and another pass to compress the data with the optimal Huffman table.
 
-Intel® Query Processing Library (Intel® QPL) includes the fourth type called
+Intel® Query Processing Library (Intel® QPL) includes a fourth type called
 **Static Block**, where the input data is compressed with a user-defined Huffman
 table which can differ from block to block. A static block, from the point of view
-of Deflate standard, is a dynamic block. However, for static blocks, the Huffman
+of the Deflate standard, is a dynamic block. However, for static blocks, the Huffman
 tables are determined ahead of time and do not depend on the input data. Note that
 the compression can happen in one pass with a static block because the Huffman
-Table is provided by the application. The application must make sure that the
-Huffman table is appropriate for the data; otherwise, the compression ratio may
-suffer.
+Table is provided by the application. The application is responsible for providing
+a suitable Huffman table for the data; otherwise, the compression ratio may be low.
 
 Intel QPL provides another compression mode called **Canned**, which, like
-static compression, compresses the input data with a user-defined Huffman table but
-does not write the 3-bit Deflate header and Huffman table to the output stream.
+static compression, compresses the input data with a user-defined Huffman table. But
+it does not write the 3-bit Deflate header and the Huffman table to the output stream.
 This mode is useful when compressing many small buffers all with the same Huffman
 table. It offers the compression speed of static compression, with a better
-compression ratio (since there are no bits used for the header and Huffman table),
+compression ratio (since it saves the bits used for the header and the Huffman table),
 and a faster decompression speed (since the same Huffman table does not need to
 be parsed multiple times).
 
@@ -69,7 +70,7 @@ should be called only after a new :c:struct:`qpl_job` object is allocated)
 Intel QPL does not save history state between jobs. This means that one compression
 job will never reference data from an earlier job. This implies that submitting,
 for example, 10 jobs of 1,000 bytes each will generate different output than
-submitting one job with all 10,000 bytes. In general submitting very small buffers
+submitting one job with all 10,000 bytes. In general, submitting very small buffers
 will result in a worse compression ratio than submitting fewer large buffers.
 
 

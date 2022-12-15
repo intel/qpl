@@ -597,7 +597,7 @@ To work with Intel QPL low-level C API, the application will need to:</p>
 <li><p>Allocate memory according to the queried size.</p></li>
 <li><p>Initialize the job structure and fill in necessary parameters.</p></li>
 <li><p>Pass the job structure (along with the allocated memory) to Intel QPL.</p></li>
-<li><p>Free resources.</p></li>
+<li><p>When the operations are finished, free the resources.</p></li>
 </ol>
 <p>The example below compresses and decompresses data with Deflate dynamic Huffman encoding via Intel QPL
 low-level C API. For our purpose to understand the workflow, we only focus on the compression part
@@ -670,9 +670,9 @@ here. See the comments after the code block.</p>
 </pre></div>
 </div>
 <p>The application only needs to include one header file <code class="docutils literal notranslate"><span class="pre">qpl/qpl.h</span></code>, which specifies
-prototypes of all the functions.</p>
+the prototypes of all the functions.</p>
 <p>At line 29, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> to query the required memory size
-based on the execution path.</p>
+based on the execution path, which is set to <a class="reference internal" href="../dev_ref_docs/c_ref/c_enums_and_structures.html#c.qpl_path_t.qpl_path_software" title="qpl_path_software"><code class="xref c c-enumerator docutils literal notranslate"><span class="pre">qpl_path_software</span></code></a>.</p>
 <p>At lines 34 and 35, we allocate memory according to the returned value of <code class="docutils literal notranslate"><span class="pre">size</span></code>.
 Note that the value of <code class="docutils literal notranslate"><span class="pre">size</span></code> is greater than the size of the job structure
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a>. The leading portion of the allocated memory is used to store
@@ -682,10 +682,10 @@ and buffer, then we fill in necessary parameters at lines 42 to 48.</p>
 <p>The job structure and the allocated buffer are passed to Intel QPL at line 51. After
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> completes successfully, we can retrieve the results stored
 in the job structure.</p>
-<p>Finally, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_fini_job" title="qpl_fini_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_fini_job()</span></code></a> at line 57 to free resources.</p>
+<p>Finally, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_fini_job" title="qpl_fini_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_fini_job()</span></code></a> at line 57 to free the resources.</p>
 <p>After building Intel QPL (see <a class="reference internal" href="installation.html#building-library-reference-link"><span class="std std-ref">Building the Library</span></a>), you can find
 compiled examples in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/low-level-api/</span></code>. You can also
-compile each example individually with the command:</p>
+compile each example individually. For example, to compile <code class="docutils literal notranslate"><span class="pre">compression_example.cpp</span></code>, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++ -I/&lt;install_dir&gt;/include -o compression_example compression_example.cpp /&lt;install_dir&gt;/lib64/libqpl.a -ldl -laccel-config
 </pre></div>
 </div>

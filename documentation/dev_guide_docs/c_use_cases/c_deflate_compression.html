@@ -706,7 +706,7 @@ title="Print to PDF"
 <h1>Deflate Compression<a class="headerlink" href="#deflate-compression" title="Permalink to this headline">#</a></h1>
 <section id="job-structure-settings">
 <h2>Job Structure Settings<a class="headerlink" href="#job-structure-settings" title="Permalink to this headline">#</a></h2>
-<p>We introduce the basic settings of the job structure for Deflate compression jobs.
+<p>This page introduces the basic settings of the job structure for Deflate compression jobs.
 With small changes, users can substitute the job structure setting in the
 <a class="reference internal" href="../../get_started_docs/quick_start.html#quick-start-reference-link"><span class="std std-ref">Quick Start</span></a> example with the following ones. It is
 assumed that a single job is used (see <a class="reference internal" href="c_deflate.html#multiple-jobs-reference-link"><span class="std std-ref">Compression/Decompression across Multiple Jobs</span></a>).</p>
@@ -760,15 +760,17 @@ Refer to the <a class="reference internal" href="c_use_huffman_tables.html#huffm
 stream, the application can specify a different Huffman table and use the
 <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code> flag. This will instruct the library to end the
 current block and to start a new block with the new table. The
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code> is not needed on the first job; it is implied.</p>
+<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code> is not needed on the first job (i.e., this flag
+is implied when <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code> is set).</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code> flag is not used, then the table
 pointed to in the job structure must be the same as those used by the
-previous job. When the tables are changed without indication to the
-library, then the resulting bit-stream will not be valid.</p>
+previous job. If the tables are changed without signaling the library with
+the approriate flags, the resulting bit-stream will not be valid.</p>
 </section>
 <section id="canned">
 <h3>Canned<a class="headerlink" href="#canned" title="Permalink to this headline">#</a></h3>
-<p>The job structure for canned compression can be set using:</p>
+<p>The job structure for canned compression (see <a class="reference internal" href="c_deflate.html#compressed-data-format-reference-link"><span class="std std-ref">Compressed Data Format</span></a>)
+can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span><span class="w"></span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
@@ -793,28 +795,29 @@ the flags <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The compression mode cannot be changed across related jobs. For example,
-you cannot start a sequence of jobs using dynamic compression and then halfway
-through switch to static compression.</p>
+you cannot start a sequence of jobs using dynamic compression and then
+switch to static compression halfway through the sequence.</p>
 </div>
 </section>
 </section>
 <section id="compression-output-overflow">
 <h2>Compression Output Overflow<a class="headerlink" href="#compression-output-overflow" title="Permalink to this headline">#</a></h2>
-<p>If the compressed output does not fit into the output buffer, the library
-attempts to copy the input data into the output stream as a series
-of stored blocks. When the stored blocks fit into the output buffer,
-the library writes stored blocks to the output buffer and returns the
-successful <code class="docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code> status. In case when the stored blocks do not
+<p>If the compressed output does not fit into the output buffer (e.g., a bad Huffman table
+is provided by the application, causing data to expand in a static compression),
+the library attempts to copy the input data into the output stream as a series
+of <code class="docutils literal notranslate"><span class="pre">stored</span> <span class="pre">blocks</span></code>. When the <code class="docutils literal notranslate"><span class="pre">stored</span> <span class="pre">blocks</span></code> fit into the output buffer,
+the library writes them to the output buffer and returns the
+successful <code class="docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code> status. If the stored blocks do not
 fit, the library returns the <code class="docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code> status and
 the compression fails.</p>
-<p>Users are suggested to use an output buffer whose size is slightly
+<p>To avoid this failure, users are suggested to use an output buffer with a size slightly
 larger than the size of the input buffer so that it can accommodate the
 additional headers for stored blocks. This suggestion does not apply to canned
 compression (see <a class="reference internal" href="#deflate-compression-structure-canned-reference-link"><span class="std std-ref">Canned</span></a>).</p>
 </section>
 <section id="structure-of-compressed-data">
 <h2>Structure of Compressed Data<a class="headerlink" href="#structure-of-compressed-data" title="Permalink to this headline">#</a></h2>
-<p>In this section, we discuss possible structures of the compressed data.</p>
+<p>This section discusses the possible structures of the compressed data.</p>
 <section id="deflate-compression-structure-fixed-reference-link">
 <span id="id1"></span><h3>Fixed Blocks<a class="headerlink" href="#deflate-compression-structure-fixed-reference-link" title="Permalink to this headline">#</a></h3>
 <p>If a single job is used, compressible data will result in one large
@@ -856,15 +859,15 @@ output buffer is enough for a stored block, the library returns the
 compressed bit stream. The library decompresses the resulting bit
 stream, and then checks that the CRC of the decompressed data matches
 the CRC of the original data. If the user does not want to pay the
-additional cost for verification, this can be turned off with the
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code> flag.</p>
+additional performance cost for verification, the step can be skipped
+with the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code> flag.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Currently verification is not performed in case of <code class="docutils literal notranslate"><span class="pre">Huffman</span> <span class="pre">only</span> <span class="pre">BE</span></code>.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Compression verification on the software path now only works with
+<p>Currently compression verification on the software path only works with
 indexing and data of size smaller than 32 KB in other modes.</p>
 </div>
 </section>

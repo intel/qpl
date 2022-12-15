@@ -47,7 +47,7 @@ Accelerator Configuration
 *************************
 
 An Intel® In-Memory Analytics Accelerator (Intel® IAA) device can be
-configured with the ``accel-config`` library, which can be found at
+configured with the ``libaccel-config`` library, which can be found at
 https://github.com/intel/idxd-config.
 
 Intel® QPL provides a way to configure Intel® IAA through calling

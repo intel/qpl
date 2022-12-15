@@ -607,11 +607,11 @@ function.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_get_dictionary_size</span><span class="p">(</span><span class="n">sw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="n">hw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-<p>This function accepts 3 arguments: software and hardware compression
+<p>This function accepts 3 arguments: the software and hardware compression
 levels, and the size (in bytes) of a raw dictionary.</p>
 <p>To do the compression only on software path, set the
 <code class="docutils literal notranslate"><span class="pre">hw_compression_level</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">HW_NONE</span></code>. In this case, the
-buffer size needed for <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> will be less.</p>
+buffer size needed for <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> will be smaller.</p>
 <p>After allocating the buffer, <code class="docutils literal notranslate"><span class="pre">qpl_build_dictionary(...)</span></code> function
 should be used to fill the <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_build_dictionary</span><span class="p">(</span><span class="n">qpl_dictionary</span><span class="w"> </span><span class="o">*</span><span class="n">dict_ptr</span><span class="p">,</span><span class="w"></span>
@@ -621,9 +621,10 @@ should be used to fill the <code class="docutils literal notranslate"><span clas
 <span class="w">                     </span><span class="kt">size_t</span><span class="w"> </span><span class="n">raw_dict_size</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
-<p>This function accepts pointer to allocated dictionary, software and
-hardware compression levels, pointer to array containing dictionary to
-use, and its length. <strong>Note</strong>: if dictionary length is larger than 4,096
+<p>This function accepts a pointer to allocated dictionary buffer, the software
+and hardware compression levels, a pointer to the array containing the raw
+dictionary data to use, and its length.</p>
+<p><strong>Note</strong>: If the dictionary length is larger than 4,096
 bytes, then only the last 4,096 bytes will be used.</p>
 <p>Several auxiliary functions can be used to work with dictionary:</p>
 <ul class="simple">
@@ -641,7 +642,7 @@ static, and canned compression modes. In order to do the compression,
 the <code class="docutils literal notranslate"><span class="pre">qpl_job-&gt;dictionary</span></code> field should point to the built dictionary:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span><span class="w"></span>
-<span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_DYNAMIC</span><span class="p">;</span><span class="w"></span>
+<span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_DYNAMIC_HUFFMAN</span><span class="p">;</span><span class="w"></span>
 <span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">dictionary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dictionary_ptr</span><span class="p">;</span><span class="w"></span>
 
 <span class="n">qpl_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job_ptr</span><span class="p">);</span><span class="w"></span>

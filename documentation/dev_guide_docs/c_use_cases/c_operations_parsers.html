@@ -594,7 +594,7 @@ little-endian packed array of N-bit integers, where N is given by
 src1_bit_width. For example, if N=3, then the first element will be bits
 2:0 in the first byte, the second element will be bits 5:3, etc.</p>
 <p>If the parser is <code class="docutils literal notranslate"><span class="pre">qpl_p_be_packed_array</span></code>, the buffer is viewed as a
-big-endian packed array, e.g. with N=3, the first element will be bits
+big-endian packed array. For example, with N=3, the first element will be bits
 7:5 of the first byte, the second element will be bits 4:2, etc.</p>
 <p>If the parser is specified as <code class="docutils literal notranslate"><span class="pre">qpl_p_parquet_rle</span></code>, it is viewed as being
 in Parquet RLE format. In this case, the bit width is given in the data

@@ -77,7 +77,7 @@ Key Terms
     for big workloads even one thread may reach capacity.
 
 * **Blocks**: Input data is split by blocks of size ``--block_size=XXXX`` (with XXXX being in bytes) and each block is processed separately.
-* **Dataset**: Path should be provided to a dataset (e.g. Calgary corpus) via ``--dataset=<dataset_dir>`` parameter.
+* **Dataset**: Path should be provided to a dataset (e.g., Calgary corpus) via ``--dataset=<dataset_dir>`` parameter.
 
 Using the Benchmarks Framework
 ******************************

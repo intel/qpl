@@ -12,7 +12,7 @@ Indexing is used to generate a fully-compliant Deflate stream. This
 stream can be decompressed in its entirety with any compliant Deflate
 decompressor, with "random access" in the middle of the stream.
 
-Key to using this feature is the concept of "mini-blocks". These are
+The key to this feature is the concept of "mini-blocks". These are
 fixed-size regions of the uncompressed data that can be decompressed
 independently. The size of the mini-blocks can be set at powers of 2
 from 512 through 32768. This is also called the "index-size".
@@ -32,14 +32,14 @@ This means that each mini-block can be decompressed independently of any
 other mini-block.
 
 The size of the mini-block becomes the granularity at which "random
-access" can be done. To get one particular uncompressed byte, one needs
-to decompress the entire mini-block containing that byte (One could
-decompress that mini-block up to and including the needed data, but then
-one would lose the CRC check). So the smaller the mini-block, the less
-work is needed to access any particular byte. On the other hand, the
+access" can be done. To get one particular uncompressed byte, the user needs
+to decompress the entire mini-block containing that byte (the user could
+decompress that mini-block up to and including the needed data, but then the
+user would lose the CRC check). So, on one hand, the smaller the mini-block, the
+less work is needed to access any particular byte. On the other hand, the
 smaller the mini-blocks become, the worse the compression ratio becomes.
-So an application needs to make a reasonable trade-off between having
-the mini-blocks be too small or too large.
+So an application needs to make a reasonable trade-off when choosing the size
+of the mini-blocks.
 
 .. warning::
    The implementation of indexing is in progress.
