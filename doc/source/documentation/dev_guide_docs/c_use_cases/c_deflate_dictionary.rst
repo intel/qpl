@@ -27,12 +27,12 @@ function.
    qpl_get_dictionary_size(sw_compression_level, hw_compression_level, size_t);
 
 
-This function accepts 3 arguments: software and hardware compression
+This function accepts 3 arguments: the software and hardware compression
 levels, and the size (in bytes) of a raw dictionary.
 
 To do the compression only on software path, set the
 ``hw_compression_level`` parameter to ``HW_NONE``. In this case, the
-buffer size needed for ``qpl_dictionary`` will be less.
+buffer size needed for ``qpl_dictionary`` will be smaller.
 
 
 After allocating the buffer, ``qpl_build_dictionary(...)`` function
@@ -48,9 +48,11 @@ should be used to fill the ``qpl_dictionary``.
                         size_t raw_dict_size))
 
 
-This function accepts pointer to allocated dictionary, software and
-hardware compression levels, pointer to array containing dictionary to
-use, and its length. **Note**: if dictionary length is larger than 4,096
+This function accepts a pointer to allocated dictionary buffer, the software
+and hardware compression levels, a pointer to the array containing the raw
+dictionary data to use, and its length.
+
+**Note**: If the dictionary length is larger than 4,096
 bytes, then only the last 4,096 bytes will be used.
 
 Several auxiliary functions can be used to work with dictionary:
@@ -74,7 +76,7 @@ the ``qpl_job->dictionary`` field should point to the built dictionary:
 
    // ...
    job_ptr->op = qpl_op_compress;
-   job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC;
+   job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN;
    job_ptr->dictionary = dictionary_ptr;
 
    qpl_status = qpl_execute_job(job_ptr);

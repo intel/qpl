@@ -20,11 +20,6 @@ to improve performance of database, enterprise data, communications, and
 scientific/technical applications.
 
 
-.. attention::
-   Intel QPL presently is in a prototype form. Public APIs described in this
-   documentation may change at any time.
-
-
 .. toctree::
    :maxdepth: 4
    :hidden:

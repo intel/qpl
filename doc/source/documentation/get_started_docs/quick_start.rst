@@ -22,7 +22,7 @@ To work with Intel QPL low-level C API, the application will need to:
 2. Allocate memory according to the queried size.
 3. Initialize the job structure and fill in necessary parameters.
 4. Pass the job structure (along with the allocated memory) to Intel QPL.
-5. Free resources.
+5. When the operations are finished, free the resources.
 
 The example below compresses and decompresses data with Deflate dynamic Huffman encoding via Intel QPL
 low-level C API. For our purpose to understand the workflow, we only focus on the compression part
@@ -35,10 +35,10 @@ here. See the comments after the code block.
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
-prototypes of all the functions.
+the prototypes of all the functions.
 
 At line 29, we call :c:func:`qpl_get_job_size` to query the required memory size
-based on the execution path.
+based on the execution path, which is set to :c:enumerator:`qpl_path_software`.
 
 At lines 34 and 35, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
@@ -52,11 +52,11 @@ The job structure and the allocated buffer are passed to Intel QPL at line 51. A
 :c:func:`qpl_execute_job` completes successfully, we can retrieve the results stored
 in the job structure.
 
-Finally, we call :c:func:`qpl_fini_job` at line 57 to free resources.
+Finally, we call :c:func:`qpl_fini_job` at line 57 to free the resources.
 
 After building Intel QPL (see :ref:`building_library_reference_link`), you can find
 compiled examples in ``<qpl_library>/build/examples/low-level-api/``. You can also
-compile each example individually with the command:
+compile each example individually. For example, to compile ``compression_example.cpp``, use:
 
 .. code-block:: shell
 

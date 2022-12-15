@@ -17,11 +17,6 @@ and operations used.
 For a general introduction to Intel QPL, see :ref:`introduction_reference_link`.
 
 
-.. attention::
-   Intel QPL presently is in a prototype form. Public APIs described in this
-   documentation may change at any time.
-
-
 .. toctree::
    :maxdepth: 4
    :hidden:

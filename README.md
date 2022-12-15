@@ -34,8 +34,6 @@ refer to [Installation](https://intel.github.io/qpl/documentation/get_started_do
 
 Documentation is delivered using GitHub Pages. See full Intel QPL [online documentation](https://intel.github.io/qpl/index.html).
 
->**Note:** The library is in beta state and its APIs may change as the library is actively developed.
-
 
 **Offline Documentation**
 

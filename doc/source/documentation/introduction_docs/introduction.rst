@@ -16,13 +16,13 @@ performance of database, enterprise data, communications, and
 scientific/technical applications. Intel QPL provides interfaces for a
 number of commonly used algorithms. Using this library enables you to
 automatically tune your application to many generations of processors
-without changing your application. The Intel QPL provides high
+without changing your application. Intel QPL provides high
 performance implementations of data processing functions for existing
-hardware accelerator, and/or software path in case if hardware
+hardware accelerator, and/or software path if the hardware
 accelerator is not available. Code written with the library
 automatically takes advantage of available modern CPU capabilities. This
 can provide tremendous development and maintenance savings. The goal of
-the Intel QPL is to provide application programming interface (API)
+Intel QPL is to provide application programming interface (API)
 with:
 
 -  C and C++ compatible interfaces and data structures to enhance usability and portability
@@ -30,21 +30,19 @@ with:
 -  Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
 
 
-.. attention::
-   Intel QPL presently is in a prototype form. Public APIs described in this
-   documentation may change at any time.
-
-
 Library Overview
 ****************
 
 
 Intel® Query Processing Library (Intel® QPL) consists of two main
-functional blocks: compression and analytics. The analytics part
-contains two sub-blocks: Decompress and Filter. These functions are tied
-together, so that each analytics operation can perform decompress-only,
-filter-only, or decompress-and-filter processing, as illustrated in
-the following figure. Alternatively, you can compress the input.
+functional blocks: analytics and compression.
+
+The analytics part contains two sub-blocks: Decompress and Filter.
+These functions are tied together, so that each analytics operation
+can perform decompress-only, filter-only, or decompress-and-filter
+processing, as illustrated in the figure below.
+
+Alternatively, you can compress the input with the compression part.
 
 ::
 
@@ -90,7 +88,7 @@ input, and an optional secondary input. The primary input may be read
 from memory or received from the decompression block. The second input,
 if used, is always read from memory. The data streams logically contain
 an array of unsigned values, but they may be formatted in any of several
-ways, e.g. as a packed array. If the bit-width of the values is 1, the
+ways, e.g., as a packed array. If the bit-width of the values is 1, the
 stream will be referenced as a “bit-vector”, otherwise, it will be
 referenced as an “array”.
 
@@ -108,10 +106,10 @@ Intel® In-Memory Analytics Accelerator (Intel® IAA)
 ===================================================
 
 
-The Intel QPL library uses Intel IAA hardware accelerator that
-provides compression and decompression of very high throughput combined
-with analytic primitive functions. The primitive functions are commonly
-used for data filtering during analytic query processing.
+The Intel QPL library uses Intel IAA hardware that provides
+compression and decompression of very high throughput combined
+with analytic primitive functions. The primitive functions are
+commonly used for data filtering during analytic query processing.
 
 Intel IAA primarily targets:
 
@@ -145,10 +143,10 @@ Execution Paths
 Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:
 
-- ``Hardware Path`` - all hardware-supported functions are executed by the Intel IAA.
-- ``Software Path`` - all supported functionality is executed by the software library.
+- ``Hardware Path`` - all hardware-supported functions are executed by Intel IAA.
+- ``Software Path`` - all supported functionalities are executed by the software library in the CPU.
 - ``Auto Path`` - Intel QPL automatically dispatches execution of the
-  requested operations either to the Intel IAA or to the software
+  requested operations either to Intel IAA or to the software
   library depending on internal heuristics (``Load Balancing`` feature).
 
 .. warning::
@@ -168,8 +166,7 @@ done in two ways:
    devices will be selected only from this node.
 
 Load balancer of the library does not cross a detected or specified NUMA
-boundary. Balancing workloads between different nodes is the
-responsibility of a user.
+boundary. Users are responsible for balancing workloads between different nodes.
 
 .. _library_limitations_reference_link:
 
@@ -185,7 +182,7 @@ Library Limitations
 Library APIs
 ************
 
-Intel QPL provides Low-Level C API, that represents a state based interface.
+Intel QPL provides Low-Level C API, that represents a state-based interface.
 The base idea is to allocate a single state and configure one with different ways
 to perform necessary operation. All memory allocations are happening on user side
 or via user-provided allocators.

@@ -30,7 +30,7 @@ further divided into four groups:
 - Bad argument tests (``tb_*``) verify the code path for invalid arguments.
 - Negative tests (``tn_*``) serve to find errors that reflect lack of
   control over the input data format.
-- Thread tests (``tt_*``) detect out of order read/write
+- Thread tests (``tt_*``) detect out-of-order read/write
   operations for common structures by different threads.
 
 
@@ -41,7 +41,7 @@ To run all the functional tests, execute the following command:
 
    <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/
 
-To run, for example, algorithmic tests only, use:
+To run specific tests only, use the GoogleTest option ``--gtest_filter``. For example, to run algorithmic tests only, use:
 
 .. code:: shell
 
@@ -74,13 +74,13 @@ Cross Tests
 
 Cross tests provide validation of:
 
-- Input/output stream format compatibility between hardware
+- Input/output stream format compatibility between the hardware
   and software paths for the same Intel QPL operation.
   Especially for compression/decompression functionality.
-- Aggregates, checksums equality between hardware and software paths
+- Aggregates, checksums equality between the hardware and software paths
   for the same Intel QPL operation.
 
-Cross tests intend to assure that software and hardware paths can be
+Cross tests intend to assure that the software and hardware paths can be
 exchanged in the application code without behavior change.
 
 The tests can be launched using a single executable ``<install_dir>/bin/cross_tests``.
@@ -101,7 +101,7 @@ Initialization Tests
 
 
 Initialization tests validate library initialization code for
-the correctness of hardware path. Initialization tests consist of:
+the correctness of the hardware path. Initialization tests consist of:
 
 - Python frontend that setup different accelerator configurations before testing
 - C++ GoogleTest based backend that runs specific test cases to perform actual testing
