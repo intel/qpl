@@ -154,12 +154,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, incorrect_compression_level) {
 
     job_ptr->level = (qpl_compression_levels) 0xFF;
 
-    ASSERT_EQ(run_job_api(job_ptr), QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL);
+    ASSERT_EQ(run_job_api(job_ptr), QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL);
 
     if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_hardware) {
         job_ptr->level = qpl_high_level;
 
-        ASSERT_EQ(run_job_api(job_ptr), QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL);
+        ASSERT_EQ(run_job_api(job_ptr), QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL);
     }
 }
 

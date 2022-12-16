@@ -162,7 +162,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
                                            &deflate_histogram,
                                            INCORRECT_LEVEL,
                                            path);
-    EXPECT_EQ(status, QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL);
+    EXPECT_EQ(status, QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL);
 
     status = qpl_gather_deflate_statistics(&source,
                                            source_length,

@@ -20,7 +20,7 @@ QPL_FUN(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(source_ptr, histogram_ptr));
 
     if (level != qpl_high_level && level != qpl_default_level) {
-        return QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL;
+        return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
     }
 
     qpl_ml_status status = status_list::ok;

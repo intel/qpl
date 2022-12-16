@@ -111,7 +111,7 @@ typedef enum {
     QPL_STS_INFLATE_NEED_DICT_ERR         = QPL_PARAMETER_ERROR(34u), /**< Inflate needs dictionary to perform decompression */
     QPL_STS_INVALID_DECOMP_END_PROC_ERR   = QPL_PARAMETER_ERROR(35u), /**< The qpl_job field for decompression manipulation is incorrect */
     QPL_STS_INVALID_BLOCK_SIZE_ERR        = QPL_PARAMETER_ERROR(36u), /**< Invalid block size used during indexing */
-    QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL = QPL_PARAMETER_ERROR(37u), /**< Compression level is not supported */
+    QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL = QPL_PARAMETER_ERROR(37u), /**< Compression level is not supported */
     QPL_STS_HUFFMAN_TABLE_TYPE_ERROR      = QPL_PARAMETER_ERROR(38u), /**< Incorrect table type used */
 
 // <-- Serialization
@@ -184,7 +184,7 @@ typedef enum {
     QPL_STS_INV_OUTPUT                  = QPL_OPERATION_STATUS(53u), /**< Invert Output flag was used when the output was not a bit-vector */
 
 /* ====== Initialization Statuses ====== */
-    QPL_INIT_HW_NOT_SUPPORTED                 = QPL_INIT_ERROR(0u), /**< Hardware path is not supported */
+    QPL_STS_INIT_HW_NOT_SUPPORTED             = QPL_INIT_ERROR(0u), /**< Hardware path is not supported */
     QPL_STS_INIT_LIBACCEL_NOT_FOUND           = QPL_INIT_ERROR(1u), /**< libaccel is not found or not compatible */
     QPL_STS_INIT_LIBACCEL_ERROR               = QPL_INIT_ERROR(2u), /**< libaccel internal error */
     QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE    = QPL_INIT_ERROR(3u), /**< Supported and enabled work queues are not found (May be due to lack of privileges e.g. lack of sudo on linux)*/

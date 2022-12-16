@@ -44,7 +44,7 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 
     if (qpl_path_hardware == path) {
         if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
-            return QPL_STD_UNSUPPORTED_COMPRESSION_LEVEL;
+            return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
         }
         if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
             return QPL_STS_NOT_SUPPORTED_MODE_ERR;

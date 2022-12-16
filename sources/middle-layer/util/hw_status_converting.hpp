@@ -21,7 +21,7 @@ inline qpl_status convert_hw_accelerator_status_to_qpl_status(const uint32_t sta
         case HW_ACCELERATOR_NULL_PTR_ERR:
             return QPL_STS_NULL_PTR_ERR;
         case HW_ACCELERATOR_SUPPORT_ERR:
-            return QPL_INIT_HW_NOT_SUPPORTED;
+            return QPL_STS_INIT_HW_NOT_SUPPORTED;
         case HW_ACCELERATOR_LIBACCEL_NOT_FOUND:
             return QPL_STS_INIT_LIBACCEL_NOT_FOUND;
         case HW_ACCELERATOR_LIBACCEL_ERROR:
