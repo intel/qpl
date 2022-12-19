@@ -3,8 +3,8 @@ Copyright (C) 2022 Intel Corporation
 SPDX-License-Identifier: MIT
 -->
 
-Intel® Query Processing Library (Intel® QPL) Beta
-=================================================
+Intel® Query Processing Library (Intel® QPL)
+============================================
 
 The Intel® Query Processing Library (Intel® QPL) is an open-source library to provide
 high-performance query processing operations on Intel CPUs. Intel® QPL is aimed to support
@@ -33,7 +33,6 @@ refer to [Installation](https://intel.github.io/qpl/documentation/get_started_do
 ## Documentation
 
 Documentation is delivered using GitHub Pages. See full Intel QPL [online documentation](https://intel.github.io/qpl/index.html).
-
 
 **Offline Documentation**
 
