@@ -17,6 +17,8 @@
 #include <mutex>
 #endif
 
+#include <stdexcept>
+
 namespace bench::details
 {
 static inline void set_thread_affinity(const benchmark::State &state)

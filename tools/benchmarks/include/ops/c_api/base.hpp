@@ -15,6 +15,8 @@
 
 #include <memory.h>
 
+#include <stdexcept>
+
 namespace bench::ops::c_api
 {
 template<path_e path>

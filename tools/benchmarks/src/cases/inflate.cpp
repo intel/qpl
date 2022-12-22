@@ -10,6 +10,7 @@
 #include <data_providers.hpp>
 #include <utility.hpp>
 #include <measure.hpp>
+#include <stdexcept>
 
 using namespace bench;
 

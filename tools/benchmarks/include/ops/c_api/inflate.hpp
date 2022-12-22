@@ -7,6 +7,7 @@
 #pragma once
 
 #include <ops/c_api/base.hpp>
+#include <stdexcept>
 
 namespace bench::ops::c_api
 {

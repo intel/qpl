@@ -18,7 +18,7 @@
 #include <memory>
 #include <mutex>
 #include <stdarg.h>
-
+#include <stdexcept>
 
 namespace bench::details
 {

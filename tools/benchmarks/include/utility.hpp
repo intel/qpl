@@ -7,6 +7,7 @@
 #pragma once
 
 #include <details/utility.hpp>
+#include <string>
 #include "cmd_decl.hpp"
 
 //

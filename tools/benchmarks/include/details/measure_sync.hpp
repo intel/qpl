@@ -11,6 +11,8 @@
 
 #include <benchmark/benchmark.h>
 
+#include <stdexcept>
+
 namespace bench::details
 {
 template <path_e path, typename OperationT, typename ParamsT>
