@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <stdexcept>
 #include <ops/dispatcher.hpp>
 
 namespace bench::ops
