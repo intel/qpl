@@ -65,6 +65,7 @@ protected:
 public:
     testing::AssertionResult ValidateCompressHwDecompressSw() {
         hw_job_ptr->op            = qpl_op_compress;
+        hw_job_ptr->level         = qpl_default_level;
         hw_job_ptr->next_in_ptr   = reference_text.data();
         hw_job_ptr->available_in  = static_cast<uint32_t>(reference_text.size());
         hw_job_ptr->next_out_ptr  = hw_destination.data();
