@@ -4,10 +4,10 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
+.. _library_testing_reference_link:
 
 Library Testing
 ###############
-
 
 Intel® Query Processing Library (Intel® QPL) is distributed with
 its own test system based on the GoogleTest framework. The tests

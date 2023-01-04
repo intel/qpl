@@ -17,15 +17,24 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Mo
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
+message(STATUS "Intel QPL version: ${CMAKE_PROJECT_VERSION}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+
+# Build options
 option(SANITIZE_MEMORY "Enables memory sanitizing" OFF)
 option(SANITIZE_THREADS "Enables threads sanitizing" OFF)
 option(LOG_HW_INIT "Enables HW initialization log" OFF)
 option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
 
-if (SANITIZE_MEMORY)
-    message(STATUS "Memory sanitizing build is enabled")
+# Print user's settings
+message(STATUS "Memory sanitizing build: ${SANITIZE_MEMORY}")
+message(STATUS "Threads sanitizing build: ${SANITIZE_THREADS}")
+message(STATUS "Hardware initialization logging: ${LOG_HW_INIT}")
+message(STATUS "Efficient wait instructions: ${EFFICIENT_WAIT}")
+message(STATUS "Fuzz testing build: ${LIB_FUZZING_ENGINE}")
 
+if (SANITIZE_MEMORY)
     if (WIN32)
         message(FATAL_ERROR "Memory sanitizing is not supported in Windows")
     else ()
@@ -35,8 +44,6 @@ if (SANITIZE_MEMORY)
 endif ()
 
 if (SANITIZE_THREADS)
-    message(STATUS "Threads sanitizing build is enabled")
-
     if (WIN32)
         message(FATAL_ERROR "Threads sanitizing is not supported in Windows")
     else ()
@@ -46,8 +53,6 @@ if (SANITIZE_THREADS)
 endif ()
 
 if (LIB_FUZZING_ENGINE)
-    message(STATUS "Fuzzing build is enabled")
-
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
 endif ()
@@ -57,11 +62,6 @@ include(cmake/CompileOptions.cmake)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
-
-message(STATUS "Hardware Path Status: ON")
-message(STATUS "Intel QPL version: ${CMAKE_PROJECT_VERSION}")
-message(STATUS "Hardware initialization logging: ${LOG_HW_INIT}")
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 install(EXPORT ${PROJECT_NAME}Targets
         NAMESPACE Qpl::
@@ -82,7 +82,21 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
 
 SET(QPL_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Build components
+# Build library
 add_subdirectory(sources)
-add_subdirectory(examples)
+
+# Build additional components
+# Set of extra options that allows to build only library, or library
+# and examples excluding tests, etc.
+option(QPL_BUILD_EXAMPLES "Builds examples" ON)
+option(QPL_BUILD_TESTS "Builds tests and benchmarks framework" ON)
+
+# Print user's settings
+message(STATUS "Build with examples: ${QPL_BUILD_EXAMPLES}")
+message(STATUS "Build with tests and benchmarks framework: ${QPL_BUILD_TESTS}")
+
+if (QPL_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
+
 add_subdirectory(tools)

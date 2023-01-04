@@ -213,6 +213,19 @@ Intel QPL supports the following build options:
    The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
    applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
 
+-  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
+   For more information on existing examples, see :ref:`code_examples_c_reference_link`.
+
+-  ``-DQPL_BUILD_TESTS=[OFF|ON]`` - Enables building library testing and benchmarks frameworks (``ON`` by default).
+   For more information on library testing, see :ref:`library_testing_reference_link` section.
+   For information on benchmarking the library, see :ref:`library_benchmarking_reference_link`.
+
+.. attention::
+
+   To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
+   without downloading sub-module dependencies for testing and benchmarking,
+   use ``-DQPL_BUILD_TESTS=OFF``.
+
 Building the Documentation
 **************************
 

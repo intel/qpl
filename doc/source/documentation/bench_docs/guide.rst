@@ -4,6 +4,8 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
+.. _library_benchmarking_reference_link:
+
 Benchmarks Framework Guide
 ##########################
 

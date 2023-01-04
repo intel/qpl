@@ -12,7 +12,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 if (LIB_FUZZING_ENGINE)
     add_subdirectory(tests/fuzzing)
-else ()
+endif()
+
+if (QPL_BUILD_TESTS)
     add_subdirectory(ref)
     add_subdirectory(utils)
     add_subdirectory(third-party/google-test EXCLUDE_FROM_ALL)
