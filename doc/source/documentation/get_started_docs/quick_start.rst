@@ -54,14 +54,14 @@ in the job structure.
 
 Finally, we call :c:func:`qpl_fini_job` at line 57 to free the resources.
 
-After building Intel QPL (see :ref:`building_library_reference_link`), you can find
-compiled examples in ``<qpl_library>/build/examples/low-level-api/``. You can also
-compile each example individually. For example, to compile ``compression_example.cpp``, use:
+In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
+Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.
+
+Alternatively, in order to build ``compression_example.cpp`` individually using existing Intel QPL installation, use:
 
 .. code-block:: shell
 
     g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl -laccel-config
-
 
 .. attention::
 
@@ -69,5 +69,5 @@ compile each example individually. For example, to compile ``compression_example
    or the user must update ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH`` with its location.
 
 Refer to :ref:`Developer Guide <developer_guide_low_level_reference_link>`
-for more information about Intel QPL low-level C API. For more examples,
-see :ref:`code_examples_c_reference_link`.
+for more information about Intel QPL low-level C API.
+For more examples, see :ref:`code_examples_c_reference_link`.

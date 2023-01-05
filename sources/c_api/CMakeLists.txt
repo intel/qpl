@@ -20,7 +20,7 @@ add_library(qpl STATIC ${QPL_C_API_SRC}
         $<TARGET_OBJECTS:middle_layer_lib>)
 
 target_include_directories(qpl
-        PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/>
+        PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>
         PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 

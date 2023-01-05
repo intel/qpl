@@ -8,7 +8,7 @@
 # Build system
 
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
-project(Qpl VERSION 1.0.0 LANGUAGES C CXX)
+project(QPL VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/overrides.cmake")
 
@@ -64,7 +64,7 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 install(EXPORT ${PROJECT_NAME}Targets
-        NAMESPACE Qpl::
+        NAMESPACE QPL::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake

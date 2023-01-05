@@ -132,13 +132,45 @@ latest version.
 
 - Microsoft NMAKE
 
+.. _building_library_build_options_reference_link:
+
+Available Build Options
+=======================
+
+Intel QPL supports the following build options:
+
+-  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default).
+-  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default).
+-  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
+-  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
+-  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).
+-  ``-DBLOCK_ON_FAULT=[OFF|ON]`` - Disables Page Fault Processing on the accelerator side (``ON`` by default).
+
+.. note::
+
+   The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
+   applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
+
+-  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
+   For more information on existing examples, see :ref:`code_examples_c_reference_link`.
+
+-  ``-DQPL_BUILD_TESTS=[OFF|ON]`` - Enables building library testing and benchmarks frameworks (``ON`` by default).
+   For more information on library testing, see :ref:`library_testing_reference_link` section.
+   For information on benchmarking the library, see :ref:`library_benchmarking_reference_link`.
+
+.. attention::
+
+   To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
+   without downloading sub-module dependencies for testing and benchmarking,
+   use ``-DQPL_BUILD_TESTS=OFF``.
 
 .. _building_library_build_reference_link:
 
-Build
-=====
+Build Steps
+===========
 
-To build Intel QPL, complete the following steps:
+To build Intel QPL (by default it includes building examples, tests
+and benchmarks framework as well), complete the following steps:
 
 1. Make sure that :ref:`system_requirements_reference_link` are met
    and all the tools from the :ref:`building_library_prerequisites_reference_link`
@@ -194,37 +226,21 @@ Installed Package Structure
          ├── cmake
          └── libqpl.a
 
-.. _building_library_build_options_reference_link:
+Executables for tests and benchmarks framework, as well as
+configuration files for Intel® IAA
+(see :ref:`accelerator_configuration_reference_link` for more details)
+are available in ``bin/`` folder.
 
-Build Options
-=============
+Examples are located in ``<qpl_library>/build/examples/``.
 
-Intel QPL supports the following build options:
+Intel QPL could be easily integrated to other CMake projects once installed.
+Use ``-DCMAKE_PREFIX_PATH`` to point to the existing installation
+and add the next lines to your ``CMakeLists.txt``:
 
--  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default).
--  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default).
--  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
--  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
--  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).
--  ``-DBLOCK_ON_FAULT=[OFF|ON]`` - Disables Page Fault Processing on the accelerator side (``ON`` by default).
+.. code-block:: shell
 
-.. note::
-
-   The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
-   applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
-
--  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
-   For more information on existing examples, see :ref:`code_examples_c_reference_link`.
-
--  ``-DQPL_BUILD_TESTS=[OFF|ON]`` - Enables building library testing and benchmarks frameworks (``ON`` by default).
-   For more information on library testing, see :ref:`library_testing_reference_link` section.
-   For information on benchmarking the library, see :ref:`library_benchmarking_reference_link`.
-
-.. attention::
-
-   To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
-   without downloading sub-module dependencies for testing and benchmarking,
-   use ``-DQPL_BUILD_TESTS=OFF``.
+   find_package(QPL CONFIG REQUIRED)
+   target_link_libraries(app_name QPL::qpl)
 
 Building the Documentation
 **************************
@@ -240,8 +256,8 @@ To build the offline version of the documentation, the following tools must be i
 - `sphinx_book_theme <https://executablebooks.org/en/latest/>`__  (e.g., with ``pip3 install sphinx-book-theme``)
 - `Breathe <https://breathe.readthedocs.io/en/latest/>`__ 4.29.0 or higher (e.g., with ``pip3 install breathe``)
 
-Build
-=====
+Build Steps
+===========
 
 To generate the full offline documentation from sources,
 use the following command:
@@ -250,9 +266,10 @@ use the following command:
 
    /bin/bash <qpl_library>/doc/_get_docs.sh
 
-.. note::
+.. attention::
 
-   Linux* OS shell (or Windows* OS shell alternatives) is required to run the build script.
+   Linux* OS shell (or Windows* OS shell alternatives) is required to run the
+   documentation build script.
 
 After the generation process is completed, open the ``<qpl_library>/doc/build/html/index.html`` file.
 
