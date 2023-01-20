@@ -70,9 +70,8 @@ public:
             uint8_t*    next_out_ptr_save = job_ptr->next_out_ptr;
             uint32_t    available_out_save = job_ptr->available_out;
             uint32_t    total_out_save = job_ptr->total_out;
-            qpl_status  ref_status = (job_ptr->data_ptr.path == qpl_path_software) ?
-                            QPL_STS_MORE_OUTPUT_NEEDED : QPL_STS_INTL_OUTPUT_OVERFLOW;
-
+            qpl_status  ref_status = QPL_STS_MORE_OUTPUT_NEEDED;
+            
             qpl_status status = run_job_api(job_ptr);
 
             if (ref_status == status) {
