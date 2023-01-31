@@ -30,15 +30,15 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-14,25-65,82-87,98-
-    :emphasize-lines: 13,29,34-36,42-48,51,57
+    :lines: 1-16,29-77,94-99,110-
+    :emphasize-lines: 14-15,39,44-46,52-58,61,67
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
 the prototypes of all the functions.
 
 At line 29, we call :c:func:`qpl_get_job_size` to query the required memory size
-based on the execution path, which is set to :c:enumerator:`qpl_path_software`.
+based on the specified execution path.
 
 At lines 34 and 35, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
@@ -62,6 +62,18 @@ Alternatively, in order to build ``compression_example.cpp`` individually using 
 .. code-block:: shell
 
     g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl -laccel-config
+
+To run the example on the Hardware Path, use:
+
+.. code-block:: shell
+
+    sudo ./compression_example hardware_path
+
+To run the example on the Software Path, use:
+
+.. code-block:: shell
+
+    ./compression_example software_path
 
 .. attention::
 

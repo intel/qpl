@@ -9,23 +9,34 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
+#include "examples_utils.hpp" // for argument parsing function
 
 /**
- * @brief @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.
+ * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`
+ * and `hardware_path`.
+ * In QPL, @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.
  * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.
  * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow
- * the library to chose the path to execute.
+ * the library to chose the path to execute. The Auto Path usage is not demonstrated by this example.
  *
  * @warning ---! Important !---
  * `Hardware Path` doesn't support all features declared for `Software Path`
  *
  */
-constexpr const auto     execution_path = qpl_path_software;
 constexpr const uint32_t source_size    = 1000;
 
-auto main() -> int {
+auto main(int argc, char** argv) -> int {
+    qpl_path_t execution_path = qpl_path_software;
+
+    // Get path from input argument
+    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    if (parse_ret != 0) {
+        return 1;
+    }
+
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size / 2, 4);
@@ -43,7 +54,7 @@ auto main() -> int {
     }
 
     job_buffer = std::make_unique<uint8_t[]>(size);
-    auto job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
