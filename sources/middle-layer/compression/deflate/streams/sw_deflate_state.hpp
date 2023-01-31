@@ -11,7 +11,6 @@
 #include "compression/deflate/deflate.hpp"
 #include "compression/deflate/streams/compression_stream.hpp"
 #include "compression/deflate/containers/huffman_table.hpp"
-#include "compression/deflate/containers/compression_buffer.hpp"
 #include "compression/deflate/containers/index_table.hpp"
 #include "compression/compression_defs.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
@@ -47,11 +46,12 @@ class deflate_state<execution_path_t::software> final : public compression_strea
                         const uint32_t size) noexcept -> compression_operation_result_t;
 
 public:
-    [[nodiscard]] static inline auto required_buffer_size() noexcept -> uint32_t {
-        auto size = sizeof(isal_zstream);
-        size += sizeof(isal_hufftables);
-        size += sizeof(BitBuf2);
-        size += isal_level_buffer_size;
+    [[nodiscard]] static inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+        size += sizeof(isal_zstream);
+        size += static_cast<uint32_t>(util::align_size(sizeof(isal_hufftables)));
+        size += static_cast<uint32_t>(util::align_size(sizeof(BitBuf2)));
+        size += static_cast<uint32_t>(util::align_size(isal_level_buffer_size));
 
         return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }

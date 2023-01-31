@@ -14,6 +14,8 @@
 #pragma GCC diagnostic ignored "-Wstack-usage=4096"
 #endif
 
+namespace qpl {
+
 uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_size) {
     using namespace qpl::ml;
 
@@ -37,37 +39,39 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
 
     allocation_buffer_t state_buffer(job_ptr->data_ptr.middle_layer_buffer_ptr, job_ptr->data_ptr.hw_state_ptr);
 
-    auto input_stream = analytics::input_stream_t::builder(src_begin, src_end)
-            .element_count(job_ptr->num_input_elements)
-            .omit_checksums(job_ptr->flags & QPL_FLAG_OMIT_CHECKSUMS)
-            .omit_aggregates(job_ptr->flags & QPL_FLAG_OMIT_AGGREGATES)
-            .ignore_bytes(job_ptr->drop_initial_bytes)
-            .crc_type(crc_type)
-            .compressed(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE,
-                        static_cast<qpl_decomp_end_proc>(job_ptr->decomp_end_processing),
-                        job_ptr->ignore_end_bits)
-            .decompress_buffer<execution_path_t::auto_detect>(decompress_buffer_begin, decompress_buffer_end)
-            .stream_format(input_stream_format, job_ptr->src1_bit_width)
-            .build<execution_path_t::auto_detect>(state_buffer);
-
-    auto output_stream = analytics::output_stream_t<analytics::bit_stream>::builder(dst_begin, dst_end)
-            .stream_format(output_stream_format)
-            .bit_format(out_bit_width_format, bit_bits_size)
-            .nominal(true)
-            .initial_output_index(job_ptr->initial_output_index)
-            .build<execution_path_t::auto_detect>();
-
-    auto bad_arg_status = validate_input_stream(input_stream);
-
-    if (bad_arg_status != status_list::ok) {
-        return bad_arg_status;
-    }
-
-    limited_buffer_t temporary_buffer(buffer_ptr, buffer_ptr + buffer_size, input_stream.bit_width());
-
     analytics::analytic_operation_result_t scan_result{};
+
     switch (job_ptr->data_ptr.path) {
-        case qpl_path_hardware:
+        case qpl_path_hardware: {
+
+            auto input_stream = analytics::input_stream_t::builder(src_begin, src_end)
+                    .element_count(job_ptr->num_input_elements)
+                    .omit_checksums(job_ptr->flags & QPL_FLAG_OMIT_CHECKSUMS)
+                    .omit_aggregates(job_ptr->flags & QPL_FLAG_OMIT_AGGREGATES)
+                    .ignore_bytes(job_ptr->drop_initial_bytes)
+                    .crc_type(crc_type)
+                    .compressed(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE,
+                                static_cast<qpl_decomp_end_proc>(job_ptr->decomp_end_processing),
+                                job_ptr->ignore_end_bits)
+                    .decompress_buffer<execution_path_t::hardware>(decompress_buffer_begin, decompress_buffer_end)
+                    .stream_format(input_stream_format, job_ptr->src1_bit_width)
+                    .build<execution_path_t::hardware>(state_buffer);
+
+            auto output_stream = analytics::output_stream_t<analytics::bit_stream>::builder(dst_begin, dst_end)
+                    .stream_format(output_stream_format)
+                    .bit_format(out_bit_width_format, bit_bits_size)
+                    .nominal(true)
+                    .initial_output_index(job_ptr->initial_output_index)
+                    .build<execution_path_t::hardware>();
+
+            auto bad_arg_status = validate_input_stream(input_stream);
+
+            if (bad_arg_status != status_list::ok) {
+                return bad_arg_status;
+            }
+
+            limited_buffer_t temporary_buffer(buffer_ptr, buffer_ptr + buffer_size, input_stream.bit_width());
+
             switch (job_ptr->op) {
                 case qpl_op_scan_eq: {
                     scan_result = analytics::call_scan<analytics::comparator_t::equals,
@@ -157,9 +161,38 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
             }
 
             break;
-
+        }
         case qpl_path_auto:
-        case qpl_path_software:
+        case qpl_path_software: {
+
+            auto input_stream = analytics::input_stream_t::builder(src_begin, src_end)
+                    .element_count(job_ptr->num_input_elements)
+                    .omit_checksums(job_ptr->flags & QPL_FLAG_OMIT_CHECKSUMS)
+                    .omit_aggregates(job_ptr->flags & QPL_FLAG_OMIT_AGGREGATES)
+                    .ignore_bytes(job_ptr->drop_initial_bytes)
+                    .crc_type(crc_type)
+                    .compressed(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE,
+                                static_cast<qpl_decomp_end_proc>(job_ptr->decomp_end_processing),
+                                job_ptr->ignore_end_bits)
+                    .decompress_buffer<execution_path_t::auto_detect>(decompress_buffer_begin, decompress_buffer_end)
+                    .stream_format(input_stream_format, job_ptr->src1_bit_width)
+                    .build<execution_path_t::auto_detect>(state_buffer);
+
+            auto output_stream = analytics::output_stream_t<analytics::bit_stream>::builder(dst_begin, dst_end)
+                    .stream_format(output_stream_format)
+                    .bit_format(out_bit_width_format, bit_bits_size)
+                    .nominal(true)
+                    .initial_output_index(job_ptr->initial_output_index)
+                    .build<execution_path_t::auto_detect>();
+
+            auto bad_arg_status = validate_input_stream(input_stream);
+
+            if (bad_arg_status != status_list::ok) {
+                return bad_arg_status;
+            }
+
+            limited_buffer_t temporary_buffer(buffer_ptr, buffer_ptr + buffer_size, input_stream.bit_width());
+
             switch (job_ptr->op) {
                 case qpl_op_scan_eq: {
                     scan_result = analytics::call_scan<analytics::comparator_t::equals,
@@ -239,6 +272,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
                     break;
                 }
             }
+        }
     }
 
     job_ptr->total_out = scan_result.output_bytes_;
@@ -249,6 +283,8 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
 
     return scan_result.status_code_;
 }
+
+} // namespace qpl
 
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic pop

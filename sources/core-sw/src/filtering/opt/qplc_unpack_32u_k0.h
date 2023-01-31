@@ -1129,7 +1129,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_31u32u, (const uint8_t *src_ptr,
             // gathering even and odd elements together
             zmm[0] = _mm512_mask_mov_epi32(zmm[0], 0xAAAA, zmm[1]);
             zmm[0] = _mm512_and_si512(zmm[0], parse_mask0);
-            
+
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
             src_ptr += 2u * 31u;

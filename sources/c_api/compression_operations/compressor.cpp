@@ -63,7 +63,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
         job::reset<qpl_op_compress>(job_ptr);
     }
 
-    qpl::ml::allocation_buffer_t state_buffer(job_ptr->data_ptr.decompress_state_ptr,
+    qpl::ml::allocation_buffer_t state_buffer(job_ptr->data_ptr.middle_layer_buffer_ptr,
                                               job_ptr->data_ptr.hw_state_ptr);
 
     const qpl::ml::util::linear_allocator allocator(state_buffer);

@@ -9,6 +9,8 @@
  *  Job API (public C API)
  */
 
+#include <algorithm> // std::max
+
 #include "qpl/qpl.h"
 #include "util/memory.hpp"
 #include "util/hw_status_converting.hpp"
@@ -20,32 +22,46 @@
 #include "filter_operations/analytics_state_t.h"
 #include "legacy_hw_path/async_hw_api.h"
 #include "legacy_hw_path/hardware_state.h"
-#include "compression_operations/own_deflate_job.h"
+#include "compression_operations/own_deflate_job.h" // @todo check if could be removed
+
+// get_buffer_size functions for middle-layer buffer allocation
+#include "compression/deflate/streams/sw_deflate_state.hpp"
+#include "compression/deflate/streams/hw_deflate_state.hpp"
+#include "compression/inflate/inflate_state.hpp"
+#include "compression/huffman_only/huffman_only_compression_state.hpp"
+#include "compression/huffman_only/huffman_only_decompression_state.hpp"
+#include "compression/verification/verification_state.hpp"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+QPL_INLINE uint32_t own_get_job_size_compress  (qpl_path_t qpl_path);
+QPL_INLINE uint32_t own_get_job_size_decompress(qpl_path_t qpl_path);
+QPL_INLINE uint32_t own_get_job_size_analytics (qpl_path_t qpl_path);
+uint32_t            own_get_job_size_middle_layer_buffer(qpl_path_t qpl_path);
+
+QPL_INLINE void own_init_compress  (qpl_job *qpl_job_ptr);
 QPL_INLINE void own_init_decompress(qpl_job *qpl_job_ptr);
-QPL_INLINE void own_init_compress(qpl_job *qpl_job_ptr);
-QPL_INLINE void own_init_analytics(qpl_job *qpl_job_ptr);
-QPL_INLINE uint32_t own_get_job_size_decompress();
-QPL_INLINE uint32_t own_get_job_size_compress();
-QPL_INLINE uint32_t own_get_job_size_analytics();
-uint32_t own_get_job_size_middle_layer_buffer();
+QPL_INLINE void own_init_analytics (qpl_job *qpl_job_ptr);
 
 QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_ptr)) {
     QPL_BAD_PTR_RET(job_size_ptr);
     QPL_BADARG_RET (qpl_path_auto > qpl_path || qpl_path_software < qpl_path, QPL_STS_PATH_ERR);
 
-    // qpl_job_ptr can have any alignment - therefore need additional bytes to align ptr
-    *job_size_ptr = QPL_ALIGNED_SIZE(sizeof(qpl_job), QPL_DEFAULT_ALIGNMENT) + QPL_DEFAULT_ALIGNMENT;
+    // qpl_job_ptr can have any alignment,
+    // therefore need to add additional bytes to be able to align pointers
+    *job_size_ptr  = QPL_ALIGNED_SIZE(sizeof(qpl_job), QPL_DEFAULT_ALIGNMENT) + QPL_DEFAULT_ALIGNMENT;
 
-    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_compress(), QPL_DEFAULT_ALIGNMENT);
-    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_decompress(), QPL_DEFAULT_ALIGNMENT);
-    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_analytics(), QPL_DEFAULT_ALIGNMENT);
-    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_middle_layer_buffer(), QPL_DEFAULT_ALIGNMENT);
-    *job_size_ptr += QPL_ALIGNED_SIZE(hw_get_job_size(), QPL_DEFAULT_ALIGNMENT);
+    // add storage required for internal stuctures
+    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_compress(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_decompress(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_analytics(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_middle_layer_buffer(qpl_path), QPL_DEFAULT_ALIGNMENT);
+
+    if (qpl_path_hardware == qpl_path || qpl_path_auto == qpl_path) {
+        *job_size_ptr += QPL_ALIGNED_SIZE(hw_get_job_size(), QPL_DEFAULT_ALIGNMENT);
+    }
 
     return QPL_STS_OK;
 }
@@ -57,16 +73,16 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
     QPL_BAD_PTR_RET(qpl_job_ptr);
 
     uint32_t       status                   = QPL_STS_OK;
-    const uint32_t decomp_size              = QPL_ALIGNED_SIZE(own_get_job_size_decompress(), QPL_DEFAULT_ALIGNMENT);
-    const uint32_t comp_size                = QPL_ALIGNED_SIZE(own_get_job_size_compress(), QPL_DEFAULT_ALIGNMENT);
-    const uint32_t analytics_size           = QPL_ALIGNED_SIZE(own_get_job_size_analytics(), QPL_DEFAULT_ALIGNMENT);
-    const uint32_t middle_layer_buffer_size = QPL_ALIGNED_SIZE(own_get_job_size_middle_layer_buffer(), QPL_DEFAULT_ALIGNMENT);
     const uint32_t job_size                 = QPL_ALIGNED_SIZE(sizeof(qpl_job), QPL_DEFAULT_ALIGNMENT);
+    const uint32_t comp_size                = QPL_ALIGNED_SIZE(own_get_job_size_compress(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    const uint32_t decomp_size              = QPL_ALIGNED_SIZE(own_get_job_size_decompress(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    const uint32_t analytics_size           = QPL_ALIGNED_SIZE(own_get_job_size_analytics(qpl_path), QPL_DEFAULT_ALIGNMENT);
+    const uint32_t middle_layer_buffer_size = QPL_ALIGNED_SIZE(own_get_job_size_middle_layer_buffer(qpl_path), QPL_DEFAULT_ALIGNMENT);
 
     util::set_zeros((uint8_t *) qpl_job_ptr, job_size);
 
-    // Calculate pointer to the auxiliary buffer
-    // qpl_job_ptr can have any alignment - therefore need to align ptr
+    // qpl_job_ptr can have any alignment when allocated,
+    // therefore need to manually calculate and align pointers to the auxiliary buffers
     qpl_job_ptr->data_ptr.compress_state_ptr =
             (uint8_t *) QPL_ALIGNED_PTR(((uint8_t *) qpl_job_ptr), QPL_DEFAULT_ALIGNMENT) + job_size;
     qpl_job_ptr->data_ptr.decompress_state_ptr    = qpl_job_ptr->data_ptr.compress_state_ptr + comp_size;
@@ -99,13 +115,14 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
     }
 #endif
 
-    // Zero descriptors
+    // set internal structures to zero
     util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.compress_state_ptr, comp_size);
     util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.decompress_state_ptr, decomp_size);
     util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.analytics_state_ptr, analytics_size);
     util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.middle_layer_buffer_ptr, middle_layer_buffer_size);
 
-    // Initialize states
+    // initialize internal structures
+    // note: ml is just a raw buffer, so no need
     own_init_compress(qpl_job_ptr);
     own_init_decompress(qpl_job_ptr);
     own_init_analytics(qpl_job_ptr);
@@ -124,36 +141,30 @@ QPL_FUN(qpl_status, qpl_fini_job, (qpl_job *qpl_job_ptr)) {
     return static_cast<qpl_status>(status);
 }
 
-QPL_INLINE uint32_t own_get_job_size_decompress() {
-    uint32_t size = sizeof(own_decompression_state_t) + HUFF_LOOK_UP_TABLE_SIZE;
-
-    return QPL_ALIGNED_SIZE(size, QPL_DEFAULT_ALIGNMENT);
+/**
+ * @brief Returns size of the legacy decompression state
+ *
+ * @note Currently not in use
+ */
+QPL_INLINE uint32_t own_get_job_size_decompress(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
+    return 0;
 }
 
-QPL_INLINE uint32_t own_get_job_size_compress() {
-    using namespace qpl::ml;
-    uint32_t size;
-
-    size = QPL_ALIGNED_SIZE(sizeof(own_compression_state_t), QPL_DEFAULT_ALIGNMENT);
-    size += QPL_ALIGNED_SIZE(sizeof(own_deflate_job), QPL_DEFAULT_ALIGNMENT);
-    size += QPL_ALIGNED_SIZE(compression::verify_state<execution_path_t::software>::get_buffer_size(),
-                             QPL_DEFAULT_ALIGNMENT);
-    size += QPL_ALIGNED_SIZE((1u << (qpl_mblk_size_32k + 8)), QPL_DEFAULT_ALIGNMENT);    //mini block buffer
-    size += QPL_ALIGNED_SIZE(sizeof(deflate_histogram_t), QPL_DEFAULT_ALIGNMENT);
-
-    // Default compression level
-    size += QPL_ALIGNED_SIZE(sizeof(struct isal_hufftables), QPL_DEFAULT_ALIGNMENT);
-
-    // High compression level
-    size += QPL_ALIGNED_SIZE(sizeof(struct isal_hufftables), QPL_DEFAULT_ALIGNMENT);
-
-    size += QPL_ALIGNED_SIZE(OWN_HIGH_HASH_TABLE_SIZE * sizeof(uint32_t), QPL_DEFAULT_ALIGNMENT);    //table
-    size += QPL_ALIGNED_SIZE(OWN_HIGH_HASH_TABLE_SIZE * sizeof(uint32_t), QPL_DEFAULT_ALIGNMENT);    //history
-
-    return size;
+/**
+ * @brief Returns size of the legacy compression state
+ *
+ * @note Currently only stores middle_layer_compression_style
+ */
+QPL_INLINE uint32_t own_get_job_size_compress(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
+    return QPL_ALIGNED_SIZE(sizeof(own_compression_state_t), QPL_DEFAULT_ALIGNMENT);
 }
 
-QPL_INLINE uint32_t own_get_job_size_analytics() {
+/**
+ * @brief Returns size of the analytics_buffer
+ *
+ * @note Holds allocations required for performin various analytics operations.
+ */
+QPL_INLINE uint32_t own_get_job_size_analytics(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
     uint32_t size = 0u;
 
     size += QPL_ALIGNED_SIZE(sizeof(own_analytics_state_t), QPL_DEFAULT_ALIGNMENT);
@@ -165,53 +176,59 @@ QPL_INLINE uint32_t own_get_job_size_analytics() {
     return size;
 }
 
-uint32_t own_get_job_size_middle_layer_buffer() {
+/**
+ * @brief Returns size of the middle_layer_buffer
+ *
+ * @note The purpose of middle_layer_buffer is to hold all the states that are constructed in middle-layer,
+ * e.g., deflate_state stores internal structures needed for deflate compression,
+ * inflate_state store internal structures needed for decompression with defaltes, etc.
+ * Job structure currently is supposed to be used for either deflate or huffman only mode,
+ * and not both at the same time, so it is not necessary to allocate memory required for both states,
+ * hence the std::max usage below.
+ */
+uint32_t own_get_job_size_middle_layer_buffer(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
+    using namespace qpl::ml;
     uint32_t size = 0u;
 
-    size += QPL_ALIGNED_SIZE(ISAL_LEVEL_BUFFER_SIZE, QPL_DEFAULT_ALIGNMENT);
-    size += QPL_ALIGNED_SIZE(sizeof(struct BitBuf2), QPL_DEFAULT_ALIGNMENT);
-    size += QPL_ALIGNED_SIZE(sizeof(struct isal_hufftables), QPL_DEFAULT_ALIGNMENT);
+    if (qpl_path_software == qpl_path || qpl_path_auto == qpl_path) {
+        uint32_t deflate_size      = 0;
+        uint32_t huffman_only_size = 0;
+
+        deflate_size += compression::deflate_state<execution_path_t::software>::get_buffer_size();
+        deflate_size += compression::verify_state<execution_path_t::software>::get_buffer_size();
+        deflate_size += compression::inflate_state<execution_path_t::software>::get_buffer_size();
+
+        huffman_only_size += compression::huffman_only_state<execution_path_t::software>::get_buffer_size();
+        huffman_only_size += compression::huffman_only_decompression_state<execution_path_t::software>::get_buffer_size();
+
+        size += std::max(deflate_size, huffman_only_size);
+    }
+
+    if (qpl_path_hardware == qpl_path || qpl_path_auto == qpl_path) {
+        uint32_t deflate_size      = 0;
+        uint32_t huffman_only_size = 0;
+
+        deflate_size += compression::deflate_state<execution_path_t::hardware>::get_buffer_size();
+        deflate_size += compression::verify_state<execution_path_t::hardware>::get_buffer_size();
+        deflate_size += compression::inflate_state<execution_path_t::hardware>::get_buffer_size();
+
+        huffman_only_size += compression::huffman_only_state<execution_path_t::hardware>::get_buffer_size();
+        huffman_only_size += compression::huffman_only_decompression_state<execution_path_t::hardware>::get_buffer_size();
+
+        size += std::max(deflate_size, huffman_only_size);
+    }
 
     return size;
 }
 
-QPL_INLINE void own_init_decompress(qpl_job *qpl_job_ptr) {
-    auto *data = (own_decompression_state_t *) qpl_job_ptr->data_ptr.decompress_state_ptr;
-    data->inflate_state.block_state = ISAL_BLOCK_NEW_HDR;
+QPL_INLINE void own_init_decompress(qpl_job* UNREFERENCED_PARAMETER(qpl_job_ptr)) {
+    return;
 }
 
 QPL_INLINE void own_init_compress(qpl_job *qpl_job_ptr) {
-    using namespace qpl::ml;
     auto *data_ptr = (own_compression_state_t *) qpl_job_ptr->data_ptr.compress_state_ptr;
 
-    // Allocate common structures between different levels
-    auto *current_ptr = (uint8_t *) data_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(sizeof(own_compression_state_t), QPL_DEFAULT_ALIGNMENT);
-
-    data_ptr->isal_stream.hufftables = (struct isal_hufftables *) current_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(sizeof(struct isal_hufftables), QPL_DEFAULT_ALIGNMENT);
-
-    data_ptr->verification_state_buffer_ptr = current_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(compression::verify_state<execution_path_t::software>::get_buffer_size(),
-                                    QPL_DEFAULT_ALIGNMENT);
-
-    // Allocate buffers for qpl_high_level compression
-    auto *deflate_job_ptr = (own_deflate_job *) current_ptr;
-    data_ptr->deflate_job_ptr = deflate_job_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(sizeof(own_deflate_job), QPL_DEFAULT_ALIGNMENT);
-
-    deflate_job_ptr->histogram_ptr = (deflate_histogram_t *) current_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(sizeof(deflate_histogram_t), QPL_DEFAULT_ALIGNMENT);
-
-    deflate_job_ptr->huffman_table_ptr = (struct isal_hufftables *) current_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(sizeof(struct isal_hufftables), QPL_DEFAULT_ALIGNMENT);
-
-    deflate_job_ptr->histogram_ptr->table.hash_table_ptr = (uint32_t *) current_ptr;
-    current_ptr += QPL_ALIGNED_SIZE(OWN_HIGH_HASH_TABLE_SIZE * sizeof(uint32_t), QPL_DEFAULT_ALIGNMENT);
-
-    deflate_job_ptr->histogram_ptr->table.hash_story_ptr = (uint32_t *) current_ptr;
-
-    deflate_job_ptr->job_status = initial_status;
+    data_ptr->middle_layer_compression_style = 0;
 }
 
 QPL_INLINE void own_init_analytics(qpl_job *qpl_job_ptr) {

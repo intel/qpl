@@ -38,7 +38,8 @@ public:
     };
 
     [[nodiscard]] static inline auto get_buffer_size() noexcept -> uint32_t {
-        auto size = sizeof(isal_inflate_state);
+        size_t size = 0;
+        size += sizeof(isal_inflate_state);
 
         return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }
@@ -105,7 +106,7 @@ private:
 
     /**
      * @brief Hard resetting method which performs complex partial inflate_state zeroing.
-     * 
+     *
      */
     inline void reset() noexcept {
         reset_inflate_state(inflate_state_);
@@ -113,7 +114,7 @@ private:
 
     /**
      * @brief Soft resetting method which performs partial inflate_state zeroing.
-     * 
+     *
      */
 
     inline void soft_reset() noexcept {
@@ -172,10 +173,12 @@ public:
     }
 
     [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
-        auto size = sizeof(hw_descriptor);
-        size += sizeof(HW_PATH_VOLATILE hw_completion_record);
-        size += sizeof(hw_iaa_aecs_analytic) * 2;
+        size_t size = 0;
         size += sizeof(execution_state);
+        size += sizeof(decompression_state_t);
+        size += util::align_size(sizeof(hw_descriptor));
+        size += util::align_size(sizeof(HW_PATH_VOLATILE hw_completion_record));
+        size += util::align_size(sizeof(hw_iaa_aecs_analytic) * 2);
 
         return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }

@@ -157,7 +157,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
     // Main cycle
     while (current_ptr < (upper_bound_ptr - OWN_MINIMAL_MATCH_LENGTH) &&
            icf_stream_ptr->next_ptr < icf_stream_ptr->end_ptr - 1) {
-        // Variables 
+        // Variables
         const deflate_match_t longest_match = get_lazy_best_match(hash_table_ptr,
                                                                   lower_bound_ptr,
                                                                   current_ptr,

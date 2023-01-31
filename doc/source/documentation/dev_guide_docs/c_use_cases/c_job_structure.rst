@@ -9,7 +9,7 @@ Job Structure
 #############
 
 
-The Intel® Query Processing Library (Intel® QPL) 
+The Intel® Query Processing Library (Intel® QPL)
 job structure :c:struct:`qpl_job` contains three types of data:
 
 1. Parameters defining the job to be done.
@@ -67,3 +67,17 @@ before being written. The :c:member:`qpl_job.last_bit_offset` field indicates
 where the data actually ends: when the output stream does not end at a byte 
 boundary, this field contains the number of bits written to the last byte. 
 When the output stream ends at a byte boundary, the value of this field is 0 (not 8). 
+
+Internal state that could be used and re-used for various operations and holds
+multiple internal representations is stored in :c:member:`qpl_job.data_ptr`
+and shouldn't be touched by the user. Memory for internal state is allocated
+on the user's side. A call to :c:func:`qpl_get_job_size` provides a size estimate,
+and a call to :c:func:`qpl_init_job` ensures that internal buffers are aligned
+and initialized properly.
+
+.. attention::
+
+    The action of both ``qpl_get_job_size`` and ``qpl_init_job`` depends on
+    the provided execution path, so re-using the same job structure
+    for different execution paths is not possible.
+

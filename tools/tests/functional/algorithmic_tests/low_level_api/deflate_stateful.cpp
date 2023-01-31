@@ -905,7 +905,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
                 EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
             }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
-            
+
             if(QPL_STS_OK != status){
                 EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
             }
@@ -1008,7 +1008,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
+    // qpl_path_auto is used here since we execute later using
+    // both hardware and software path
+    auto status = qpl_get_job_size(qpl_path_auto, &job_size);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
 
     // Allocate buffers for decompression job
@@ -1128,7 +1130,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
+    // qpl_path_auto is used here since we execute later using
+    // both hardware and software path
+    auto status = qpl_get_job_size(qpl_path_auto, &job_size);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
 
     // Allocate buffers for decompression job
@@ -1248,7 +1252,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
-    auto status = qpl_get_job_size(execution_path, &job_size);
+    // qpl_path_auto is used here since we execute later using
+    // both hardware and software path
+    auto status = qpl_get_job_size(qpl_path_auto, &job_size);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
 
     // Allocate buffers for decompression job

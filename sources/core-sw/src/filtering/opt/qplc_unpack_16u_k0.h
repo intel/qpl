@@ -389,7 +389,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_13u16u, (const uint8_t *src_ptr,
     if (num_elements >= 32u) {
         __mmask32 read_mask = OWN_BIT_MASK(OWN_BITS_2_WORD(13u * OWN_DWORD_WIDTH));
         __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(13u));
-        
+
         __m512i   permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_13u_0);
         permutex_idx_ptr[1] = _mm512_load_si512(permutex_idx_table_13u_1);
@@ -402,7 +402,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_13u16u, (const uint8_t *src_ptr,
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
-            
+
             // permuting so in zmm[0] will be elements with even indexes and in zmm[1] - with odd ones
             zmm[0] = _mm512_permutexvar_epi16(permutex_idx_ptr[0], srcmm);
             zmm[1] = _mm512_permutexvar_epi16(permutex_idx_ptr[1], srcmm);

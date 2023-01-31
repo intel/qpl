@@ -84,11 +84,11 @@ inline auto validate_mode<qpl_operation::qpl_op_compress>(const qpl_job * const 
                               USER_HUFFMAN_TABLE_USED : NO_USER_HUFFMAN_TABLE);
 
     if (!(qpl_job_ptr->flags & QPL_FLAG_FIRST) &&
-        compression_state->meta_data.middle_layer_compression_style != compression_style) {
+        compression_state->middle_layer_compression_style != compression_style) {
         return ml::status_list::invalid_compression_style_error;
     } else {
         // Set Compression Style
-        compression_state->meta_data.middle_layer_compression_style = compression_style;
+        compression_state->middle_layer_compression_style = compression_style;
     }
 
     return ml::status_list::ok;

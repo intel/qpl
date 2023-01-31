@@ -67,7 +67,7 @@ void deflate_state_builder<execution_path_t::software>::set_huffman_table(qpl_co
 
 auto deflate_state_builder<execution_path_t::software>::load_current_position(uint32_t total_bytes_written) noexcept -> common_type & {
     stream_.total_bytes_written_ = total_bytes_written;
-    
+
     return *reinterpret_cast<common_type *>(this);
 }
 
@@ -77,7 +77,7 @@ void deflate_state_builder<execution_path_t::software>::init() noexcept {
     }
 
     auto isal_state = &stream_.isal_stream_ptr_->internal_state;
-    
+
     stream_.isal_stream_ptr_->flush         = QPL_PARTIAL_FLUSH;
     stream_.isal_stream_ptr_->end_of_stream = stream_.is_last_chunk();
 

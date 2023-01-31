@@ -39,7 +39,7 @@ OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_0[32]) = {
 OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_1[32]) = {
     6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_3u[32]) = {
-    0u, 1u, 2u, 0x0, 0x0, 0x0, 0x0, 0x0, 3u, 4u, 5u, 0x0, 0x0, 0x0, 0x0, 0x0, 
+    0u, 1u, 2u, 0x0, 0x0, 0x0, 0x0, 0x0, 3u, 4u, 5u, 0x0, 0x0, 0x0, 0x0, 0x0,
     6u, 7u, 8u, 0x0, 0x0, 0x0, 0x0, 0x0, 9u, 10u, 11u, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 // ------------------------------------ 5u -----------------------------------------

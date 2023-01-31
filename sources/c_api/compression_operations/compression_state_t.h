@@ -13,26 +13,13 @@ extern "C" {
 
 #include "igzip_lib.h"
 
-#define ISAL_LEVEL_BUFFER_SIZE 348160u
-
 /**
- *@brief Intel® Query Processing Library (Intel® QPL) decompress State struct definition
+ *@brief Compression state struct definition
+ *@note Currently this struct holds information
+ * required only for middle-layer
  */
 typedef struct {
-    struct inflate_state inflate_state;
-} own_decompression_state_t;
-
-typedef struct {
     uint32_t middle_layer_compression_style;
-    uint8_t  is_modifiable;
-    uint8_t  is_initialized;
-} own_deflate_meta_t;
-
-typedef struct {
-    own_deflate_meta_t  meta_data;          /**< Structure that contains information for valid deflation */
-    uint8_t             *verification_state_buffer_ptr;;
-    void                *deflate_job_ptr;    /**< Pointer to internal data in high level compression */
-    struct isal_zstream isal_stream;        /**< ISA-L stream information */
 } own_compression_state_t;
 
 #ifdef __cplusplus

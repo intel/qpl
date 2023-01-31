@@ -64,8 +64,11 @@ public:
     [[nodiscard]] inline auto get_state() -> isal_inflate_state *;
 
     [[nodiscard]] constexpr static inline auto get_buffer_size() noexcept -> uint32_t {
-        static_assert(sizeof(verification_state_buffer) <= sizeof(state_buffer));
-        return sizeof(state_buffer);
+        size_t size = 0;
+        size += sizeof(state_buffer);
+        size += sizeof(uint8_t)*32_kb;
+
+        return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }
 
 private:
@@ -75,7 +78,7 @@ private:
 
     explicit verify_state(const qpl::ml::util::linear_allocator &allocator) {
         verify_state_ptr = allocator.allocate<state_buffer, qpl::ml::util::memory_block_t::not_aligned>(1u);
-        verify_state_ptr->decompression_buffer_ptr  = allocator.allocate<uint8_t,util::memory_block_t::not_aligned>(32_kb);
+        verify_state_ptr->decompression_buffer_ptr  = allocator.allocate<uint8_t, util::memory_block_t::not_aligned>(32_kb);
         verify_state_ptr->decompression_buffer_size = 32_kb;
     };
 
@@ -93,7 +96,11 @@ private:
 
 template <>
 class verify_state<execution_path_t::hardware> {
-
+public:
+    // for symmetry, no allocations are required for this state
+    [[nodiscard]] constexpr static inline auto get_buffer_size() noexcept -> uint32_t {
+        return 0;
+    }
 };
 
 // ------ SOFTWARE PATH ------ //

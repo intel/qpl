@@ -62,6 +62,15 @@ public:
         return last_bits_offset_;
     }
 
+    [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+
+        size += sizeof(isal_zstream);
+        size += sizeof(isal_hufftables);
+
+        return static_cast<uint32_t>(size);
+    }
+
 protected:
     void reset_bit_buffer() noexcept;
 
@@ -131,6 +140,17 @@ private:
 template <>
 class huffman_only_state<execution_path_t::hardware> {
     friend class huffman_only_compression_state_builder<execution_path_t::hardware>;
+
+public:
+    [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+
+        size += util::align_size(sizeof(hw_descriptor))*2;
+        size += util::align_size(sizeof(hw_completion_record));
+        size += util::align_size(sizeof(hw_iaa_aecs_compress));
+
+        return static_cast<uint32_t>(util::align_size(size, 1_kb));
+    }
 
 private:
     hw_descriptor             *descriptor_collect_statistic_  = nullptr;

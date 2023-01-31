@@ -76,6 +76,17 @@ public:
 
     [[nodiscard]] inline auto get_buffer() noexcept -> uint8_t *;
 
+    [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+
+        size += sizeof(internal_state_fields_t);
+        size += sizeof(uint8_t)*huffman_only_lookup_table_size;
+        size += sizeof(uint8_t)*huffman_only_be_buffer_size;
+        size += sizeof(uint8_t)*4_kb; // for compress + verify
+
+        return static_cast<uint32_t>(size);
+    }
+
     static constexpr auto execution_path = execution_path_t::software;
 
 private:
@@ -114,6 +125,15 @@ public:
     [[nodiscard]] inline auto handler() const noexcept -> HW_PATH_VOLATILE hw_completion_record *;
 
     [[nodiscard]] inline auto get_input_size() const noexcept -> uint32_t;
+
+    [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+
+        size += util::align_size(sizeof(hw_descriptor));
+        size += util::align_size(sizeof(hw_completion_record));
+
+        return static_cast<uint32_t>(util::align_size(size, 1_kb));
+    }
 
     static constexpr auto execution_path = execution_path_t::hardware;
 

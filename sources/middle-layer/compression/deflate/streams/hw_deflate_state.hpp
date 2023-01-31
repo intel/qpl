@@ -37,12 +37,14 @@ class deflate_state<execution_path_t::hardware> final {
     friend class zlib_decorator;
 
 public:
-    [[nodiscard]] static constexpr inline auto required_buffer_size() noexcept -> uint32_t {
-        auto size = sizeof(meta_data);
-        size += sizeof(hw_descriptor) * 3;
-        size += sizeof(hw_completion_record);
-        size += sizeof(hw_iaa_aecs_compress) * 2;
-        size += sizeof(hw_iaa_aecs_analytic) * 2;
+    [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
+        size_t size = 0;
+
+        size += sizeof(meta_data);
+        size += util::align_size(sizeof(hw_descriptor)) * 3;
+        size += util::align_size(sizeof(hw_completion_record));
+        size += util::align_size(sizeof(hw_iaa_aecs_compress)) * 2;
+        size += util::align_size(sizeof(hw_iaa_aecs_analytic)) * 2;
 
         return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }

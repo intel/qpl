@@ -255,7 +255,8 @@ public:
     }
 
     template <execution_path_t path>
-    inline auto decompress_buffer(uint8_t *begin, uint8_t *end) noexcept -> builder & {
+    inline auto decompress_buffer(uint8_t* UNREFERENCED_PARAMETER(begin),
+                                  uint8_t* UNREFERENCED_PARAMETER(end)) noexcept -> builder & {
         if constexpr(path == execution_path_t::software || path == execution_path_t::auto_detect) {
             stream_.decompress_begin_   = begin;
             stream_.current_decompress_ = begin;
@@ -291,7 +292,7 @@ public:
     }
 
     template <execution_path_t path>
-    inline auto build(allocation_buffer_t UNREFERENCED_PARAMETER(buffer) 
+    inline auto build(allocation_buffer_t UNREFERENCED_PARAMETER(buffer)
                           = allocation_buffer_t::empty()) -> input_stream_t {
         stream_.current_source_ptr_         = stream_.data();
         stream_.current_number_of_elements_ = stream_.number_of_elements_;

@@ -248,7 +248,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_16u32u_tail, (const uint8_t *src_ptr, uint32_
 {
     __m256i srcmm;
     __m512i dstmm;
-    
+
     __mmask16 tail_mask = OWN_BIT_MASK(num_elements);
     srcmm = _mm256_maskz_loadu_epi16(tail_mask, (const __m256i *)src_ptr);
     dstmm = _mm512_maskz_cvtepu16_epi32(tail_mask, srcmm);

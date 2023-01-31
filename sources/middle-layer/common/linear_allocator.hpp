@@ -37,10 +37,18 @@ public:
         auto byte_size = sizeof(T) * n;
 
         if constexpr (align == memory_block_t::aligned_64u) {
-            auto capacity = buffer_.capacity();
-            new_ptr = std::align(64u, byte_size, new_ptr, capacity);
 
-            byte_size += std::distance(ptr, reinterpret_cast<uint8_t *>(new_ptr));
+            auto capacity = buffer_.capacity();
+
+            if (std::align(64u, byte_size, new_ptr, capacity)) {
+                byte_size += std::distance(ptr, reinterpret_cast<uint8_t *>(new_ptr));
+            }
+            else {
+                // if it is not possible to align memory,
+                // set output to nullptr and not shift buffer
+                new_ptr   = nullptr;
+                byte_size = 0;
+            }
         }
 
         buffer_.shift_data(byte_size);

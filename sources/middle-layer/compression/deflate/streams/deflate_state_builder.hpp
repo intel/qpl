@@ -13,7 +13,6 @@
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "compression/huffman_table/deflate_huffman_table.hpp"
 #include "compression/deflate/utils/compression_traits.hpp"
-#include "compression/deflate/containers/compression_buffer.hpp"
 #include "compression/deflate/streams/sw_deflate_state.hpp"
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "compression/deflate/containers/index_table.hpp"
@@ -31,7 +30,6 @@
 
 extern "C" const uint32_t fixed_literals_table[];
 extern "C" const uint32_t fixed_offsets_table[];
-extern "C" uint32_t own_get_job_size_middle_layer_buffer();
 
 namespace qpl::ml::compression {
 
@@ -130,25 +128,40 @@ protected:
 
 private:
     explicit deflate_state_builder(const qpl::ml::util::linear_allocator &allocator) noexcept : stream_(allocator) {
-        auto buffer_size = own_get_job_size_middle_layer_buffer();
+
+        // allocations required for internal isal stream buffers
+        uint8_t *level_buffer_ptr = nullptr;
+        uint8_t *bit_buffer_ptr   = nullptr;
+        uint8_t *static_huffman_table_buffer_ptr = nullptr;
+
+        uint32_t level_buffer_size      = static_cast<uint32_t>(util::align_size(isal_level_buffer_size));
+        uint32_t bit_buffer_size        = static_cast<uint32_t>(util::align_size(sizeof(BitBuf2)));
+        uint32_t static_huff_table_size = static_cast<uint32_t>(util::align_size(sizeof(struct isal_hufftables)));
+
+        uint32_t buffer_size = level_buffer_size + bit_buffer_size + static_huff_table_size;
         auto buffer_ptr  = allocator.allocate<uint8_t, qpl::ml::util::memory_block_t::aligned_64u>(buffer_size);
 
-        if (stream_.is_first_chunk()) {
-            isal_deflate_init(stream_.isal_stream_ptr_);
-        } else {
-            isal_deflate_reset(stream_.isal_stream_ptr_);
+        // do not initialize isal buffers if previous allocation failed
+        // , but leave them in default nullptr state
+        if (nullptr != buffer_ptr) {
+            level_buffer_ptr = buffer_ptr;
+            bit_buffer_ptr   = level_buffer_ptr + level_buffer_size;
+            static_huffman_table_buffer_ptr = bit_buffer_ptr + bit_buffer_size;
+
+            // initialization of internal isal stream buffers
+            if (stream_.is_first_chunk()) {
+                isal_deflate_init(stream_.isal_stream_ptr_);
+            } else {
+                isal_deflate_reset(stream_.isal_stream_ptr_);
+            }
+
+            stream_.bit_buffer_ptr = reinterpret_cast<BitBuf2 *>(bit_buffer_ptr);
+            set_isal_internal_buffers(level_buffer_ptr,
+                                      level_buffer_size,
+                                      reinterpret_cast<isal_hufftables *>(static_huffman_table_buffer_ptr),
+                                      reinterpret_cast<BitBuf2 *>(bit_buffer_ptr));
         }
-
-        // @todo deprecate buffer
-        compression_buffer buffer(buffer_ptr, buffer_size);
-        stream_.bit_buffer_ptr = buffer.bit_buffer();
-
-        set_isal_internal_buffers(buffer.level_buffer(),
-                                  buffer.level_buffer_size(),
-                                  buffer.static_huffman_table_buffer(),
-                                  buffer.bit_buffer());
     }
-
 };
 
 template<>

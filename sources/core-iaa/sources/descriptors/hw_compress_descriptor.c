@@ -50,6 +50,15 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
 
     this_ptr->compression_flags = ADCF_STATS_MODE;
+
+    // reserved in case of SWQ
+    // , so need to make sure that there is no garbage is stored
+    this_ptr->trusted_fields = 0u;
+
+    // reserved when bit #4 in op_code_op_flags is 0
+    // (Request Completion Interrupt flag is 0, no interrupt is generated)
+    // , so need to make sure that there is no garbage is stored
+    if (!(this_ptr->op_code_op_flags & (1 << 3))) this_ptr->interrupt_handle = 0u;
 }
 
 HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor *const descriptor_ptr)) {

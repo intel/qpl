@@ -49,6 +49,8 @@
  *
  */
 
+namespace qpl {
+
 /**
  * @brief Scans `Source` for values that are meet the requirement that are described in the @ref qpl_job
  *
@@ -336,6 +338,8 @@ uint32_t perform_select(qpl_job *job_ptr,
                         uint32_t output_buffer_size,
                         uint8_t *mask_buffer_ptr,
                         uint32_t mask_buffer_size);
+
+} // namespace qpl
 
 /** @} */
 
