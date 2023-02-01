@@ -30,15 +30,15 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-14,25-65,82-87,98-
-    :emphasize-lines: 13,29,34-36,42-48,51,57
+    :lines: 1-16,29-77,94-99,110-
+    :emphasize-lines: 14-15,39,44-46,52-58,61,67
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
 the prototypes of all the functions.
 
 At line 29, we call :c:func:`qpl_get_job_size` to query the required memory size
-based on the execution path, which is set to :c:enumerator:`qpl_path_software`.
+based on the specified execution path.
 
 At lines 34 and 35, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
@@ -54,14 +54,26 @@ in the job structure.
 
 Finally, we call :c:func:`qpl_fini_job` at line 57 to free the resources.
 
-After building Intel QPL (see :ref:`building_library_reference_link`), you can find
-compiled examples in ``<qpl_library>/build/examples/low-level-api/``. You can also
-compile each example individually. For example, to compile ``compression_example.cpp``, use:
+In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
+Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.
+
+Alternatively, in order to build ``compression_example.cpp`` individually using existing Intel QPL installation, use:
 
 .. code-block:: shell
 
     g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl -laccel-config
 
+To run the example on the Hardware Path, use:
+
+.. code-block:: shell
+
+    sudo ./compression_example hardware_path
+
+To run the example on the Software Path, use:
+
+.. code-block:: shell
+
+    ./compression_example software_path
 
 .. attention::
 
@@ -69,5 +81,5 @@ compile each example individually. For example, to compile ``compression_example
    or the user must update ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH`` with its location.
 
 Refer to :ref:`Developer Guide <developer_guide_low_level_reference_link>`
-for more information about Intel QPL low-level C API. For more examples,
-see :ref:`code_examples_c_reference_link`.
+for more information about Intel QPL low-level C API.
+For more examples, see :ref:`code_examples_c_reference_link`.

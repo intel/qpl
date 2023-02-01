@@ -4,13 +4,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Common Enums and Structures &#8212; Intel® QPL v1.0.0 Documentation</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -20,17 +18,20 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Status Codes" href="c_status_codes.html" />
@@ -42,21 +43,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
-
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -65,10 +52,14 @@
     <div class="container-xl">
       <div class="row">
           
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../../../index.html">
       
       
@@ -369,180 +360,89 @@
 </ul>
 
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
             </div>
             
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_ref_docs/c_ref/c_enums_and_structures.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
         </div>
-    </div>
-    <div id="rtd-footer-container"></div>
-</div>
 
-
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_ref_docs/c_ref/c_enums_and_structures.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../../../_sources/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst.txt"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.rst</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
-</div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#enums">
    Enums
@@ -555,11 +455,12 @@ title="Print to PDF"
  </li>
 </ul>
 
-    </nav>
-</div>
+            </nav>
+        </div>
     </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Common Enums and Structures</h1>
@@ -588,181 +489,180 @@ title="Print to PDF"
                     </div>
                 </div>
             </div>
-            <main id="main-content" role="main">
-                
+            
               <div>
                 
   <blockquote>
 <div></div></blockquote>
-<section id="common-enums-and-structures">
-<h1>Common Enums and Structures<a class="headerlink" href="#common-enums-and-structures" title="Permalink to this headline">#</a></h1>
-<section id="enums">
-<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">#</a></h2>
+<div class="section" id="common-enums-and-structures">
+<h1>Common Enums and Structures<a class="headerlink" href="#common-enums-and-structures" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="enums">
+<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_path_t">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga96695093f866a112f78a2d8696d2c68d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_t</span></span></span><a class="headerlink" href="#c.qpl_path_t" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga96695093f866a112f78a2d8696d2c68d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_t</span></span></span><a class="headerlink" href="#c.qpl_path_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_path_t.qpl_path_auto">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da2e3caad99307cf9274b8e59f676598eb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_auto</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000000u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_auto" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da2e3caad99307cf9274b8e59f676598eb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_auto</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000000u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_auto" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_path_t.qpl_path_hardware">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_hardware</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000001u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_hardware" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_hardware</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000001u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_hardware" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_path_t.qpl_path_software">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da71beb5bbb5562347a9c66017328facc3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_software</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000002u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_software" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da71beb5bbb5562347a9c66017328facc3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_path_software</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00000002u</span></span><a class="headerlink" href="#c.qpl_path_t.qpl_path_software" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_operation">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga7e392472921b9f33b6648b21cccc3501"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_operation</span></span></span><a class="headerlink" href="#c.qpl_operation" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga7e392472921b9f33b6648b21cccc3501"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_operation</span></span></span><a class="headerlink" href="#c.qpl_operation" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_decompress">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aecb053783854907958c58f5eee202f3f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_decompress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_decompress" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aecb053783854907958c58f5eee202f3f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_decompress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x00u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_decompress" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_compress">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4150267571e5f3766adcc54a48455ecd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_compress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x01u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_compress" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4150267571e5f3766adcc54a48455ecd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_compress</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x01u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_compress" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_crc64">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a6afdce10b03ce80bc2b47545e8213b87"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_crc64</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x05u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_crc64" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a6afdce10b03ce80bc2b47545e8213b87"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_crc64</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x05u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_crc64" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_extract">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a95605d14661aa97bdd2f1828d465f583"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_extract</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x11u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_extract" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a95605d14661aa97bdd2f1828d465f583"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_extract</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x11u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_extract" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_select">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9b715a6d8b3d9f988bdd465735347220"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_select</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x12u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_select" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9b715a6d8b3d9f988bdd465735347220"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_select</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x12u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_select" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_expand">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4290bb1e66c13731fef69b7108d2a092"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_expand</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x15u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_expand" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4290bb1e66c13731fef69b7108d2a092"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_expand</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x15u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_expand" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_eq">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501ad05be9609452bced58a7a07cd3fe4102"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_eq</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x20u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_eq" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501ad05be9609452bced58a7a07cd3fe4102"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_eq</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x20u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_eq" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_ne">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aec4eecd10912b913a27633b85ca10cba"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_ne</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x21u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_ne" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aec4eecd10912b913a27633b85ca10cba"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_ne</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x21u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_ne" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_lt">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aaafa0d901a9ee6799e40a08ec1b0a2d0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_lt</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x22u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_lt" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501aaafa0d901a9ee6799e40a08ec1b0a2d0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_lt</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x22u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_lt" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_le">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9c4f9f466ee36f742a2d629dbfa9c219"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_le</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x23u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_le" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9c4f9f466ee36f742a2d629dbfa9c219"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_le</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x23u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_le" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_gt">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501ae47b8ed302191c37253ad39cd288935d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_gt</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x24u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_gt" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501ae47b8ed302191c37253ad39cd288935d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_gt</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x24u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_gt" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_ge">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9cc246f6a20d395316ec0179abb05c70"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_ge</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x25u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_ge" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a9cc246f6a20d395316ec0179abb05c70"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_ge</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x25u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_ge" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_range">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501add35a25f2a502ab5ca8bef6df215cf89"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_range</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x26u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_range" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501add35a25f2a502ab5ca8bef6df215cf89"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_range</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x26u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_range" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_operation.qpl_op_scan_not_range">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a2a100bb0327aec7910f06e72bbf83b00"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_not_range</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x27u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_not_range" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a2a100bb0327aec7910f06e72bbf83b00"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_op_scan_not_range</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0x27u</span></span><a class="headerlink" href="#c.qpl_operation.qpl_op_scan_not_range" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_compression_levels">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaed76a570da7342dc2dcd93001ba2e9b1"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_compression_levels</span></span></span><a class="headerlink" href="#c.qpl_compression_levels" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaed76a570da7342dc2dcd93001ba2e9b1"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_compression_levels</span></span></span><a class="headerlink" href="#c.qpl_compression_levels" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Enumerates different compressions levels. </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_1">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a95fc7a385d6264d9cdaa41323b8afae8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_1</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_1" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a95fc7a385d6264d9cdaa41323b8afae8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_1</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_1" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The fastest compression with low compression ratio </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_2">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a264b1fa08eca5d3d61d89a98b8db65d4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_2</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_2" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a264b1fa08eca5d3d61d89a98b8db65d4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_2</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_2" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_3">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a9a66ec72a8fe975165553723b4e75f92"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_3</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_3" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a9a66ec72a8fe975165553723b4e75f92"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_3</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_3" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Medium compression speed, medium compression ratio </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_4">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae091bdb19d0c0b2f6914596196ebfdd2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_4</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_4" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae091bdb19d0c0b2f6914596196ebfdd2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_4</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_4" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_5">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1aa4c8de9f889f343bc597165481bd081a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_5</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_5" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1aa4c8de9f889f343bc597165481bd081a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_5</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_5" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_6">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a85dd2db62a4ec898aa7c9b4dea31c7bb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_6</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_6" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a85dd2db62a4ec898aa7c9b4dea31c7bb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_6</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_6" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_7">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a0105780385805a47b0884b657da8e57a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_7</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_7" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a0105780385805a47b0884b657da8e57a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_7</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_7" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_8">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8a029139b2784b3cb06534e7663e1b41"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_8" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8a029139b2784b3cb06534e7663e1b41"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_8" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_9">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ac737165907910c60d18ce2f9161aef7d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_9</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">9</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_9" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ac737165907910c60d18ce2f9161aef7d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_9</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">9</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_9" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Not supported </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_default_level">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae68ba7d0b6ab3820c5d1003d17e1c4e4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_default_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_1" title="qpl_level_1"><span class="n"><span class="pre">qpl_level_1</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_default_level" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae68ba7d0b6ab3820c5d1003d17e1c4e4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_default_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_1" title="qpl_level_1"><span class="n"><span class="pre">qpl_level_1</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_default_level" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Default compression level defined by the highest compression level supported by Accelerator </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_high_level">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8e88c7b7bc55c37d2bdeab63d2a2c653"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_high_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_3" title="qpl_level_3"><span class="n"><span class="pre">qpl_level_3</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_high_level" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8e88c7b7bc55c37d2bdeab63d2a2c653"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_high_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_3" title="qpl_level_3"><span class="n"><span class="pre">qpl_level_3</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_high_level" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>The level with highest compression level from supported by Intel QPL </p>
 </dd></dl>
 
@@ -770,18 +670,18 @@ title="Print to PDF"
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_statistics_mode">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gab111ccb2527acecbbabcbacadbec8186"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_statistics_mode</span></span></span><a class="headerlink" href="#c.qpl_statistics_mode" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gab111ccb2527acecbbabcbacadbec8186"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_statistics_mode</span></span></span><a class="headerlink" href="#c.qpl_statistics_mode" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Represents mode in which <a class="reference internal" href="#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4150267571e5f3766adcc54a48455ecd"><span class="std std-ref">qpl_op_compress</span></a> operation should be performed. </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_statistics_mode.qpl_compression_mode">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggab111ccb2527acecbbabcbacadbec8186aa26f09222852c3032d32d5f21264ace8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_compression_mode</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#c.qpl_statistics_mode.qpl_compression_mode" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggab111ccb2527acecbbabcbacadbec8186aa26f09222852c3032d32d5f21264ace8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_compression_mode</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#c.qpl_statistics_mode.qpl_compression_mode" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform <a class="reference internal" href="#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4150267571e5f3766adcc54a48455ecd"><span class="std std-ref">qpl_op_compress</span></a> operation in default compression mode </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_statistics_mode.qpl_gathering_mode">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggab111ccb2527acecbbabcbacadbec8186a28c72129e9f020ab1bf4f3e7d62e6e94"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_gathering_mode</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#c.qpl_statistics_mode.qpl_gathering_mode" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggab111ccb2527acecbbabcbacadbec8186a28c72129e9f020ab1bf4f3e7d62e6e94"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_gathering_mode</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#c.qpl_statistics_mode.qpl_gathering_mode" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Perform <a class="reference internal" href="#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga7e392472921b9f33b6648b21cccc3501a4150267571e5f3766adcc54a48455ecd"><span class="std std-ref">qpl_op_compress</span></a> operation in statistic gathering mode </p>
 </dd></dl>
 
@@ -789,76 +689,76 @@ title="Print to PDF"
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga9b09fd5a5a060e6c0230444751d339b5"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mini_block_size</span></span></span><a class="headerlink" href="#c.qpl_mini_block_size" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga9b09fd5a5a060e6c0230444751d339b5"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mini_block_size</span></span></span><a class="headerlink" href="#c.qpl_mini_block_size" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_none">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5af1f81284a93f208b51a5e0b1afe938d6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_none</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_none" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5af1f81284a93f208b51a5e0b1afe938d6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_none</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_none" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_512">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ab196fbb3c1eeed5ebbe470f8446fbacd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_512</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_512" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ab196fbb3c1eeed5ebbe470f8446fbacd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_512</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_512" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_1k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ad750b92526567a739e97992b41375f33"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_1k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_1k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ad750b92526567a739e97992b41375f33"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_1k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_1k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_2k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5acb2b812cd94d66dd2b513830a50600e8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_2k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_2k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5acb2b812cd94d66dd2b513830a50600e8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_2k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_2k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_4k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ad1133bfff9c518e220ef6102ae1a2454"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_4k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_4k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5ad1133bfff9c518e220ef6102ae1a2454"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_4k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_4k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_8k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5abe2f5dc190d5335009bc1f6925cca6aa"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_8k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_8k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5abe2f5dc190d5335009bc1f6925cca6aa"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_8k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_8k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_16k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5aec87ac3c346f7ea00ddbd64f814df8b9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_16k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_16k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5aec87ac3c346f7ea00ddbd64f814df8b9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_16k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_16k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_mini_block_size.qpl_mblk_size_32k">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5a47f12579e47b72f7f6772238ad7542f9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_32k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_32k" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga9b09fd5a5a060e6c0230444751d339b5a47f12579e47b72f7f6772238ad7542f9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_mblk_size_32k</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7u</span></span><a class="headerlink" href="#c.qpl_mini_block_size.qpl_mblk_size_32k" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_out_format">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga5e0a8beb6375b585424db473cd8c5fc1"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_out_format</span></span></span><a class="headerlink" href="#c.qpl_out_format" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga5e0a8beb6375b585424db473cd8c5fc1"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_out_format</span></span></span><a class="headerlink" href="#c.qpl_out_format" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Enum of all output formats. </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_out_format.qpl_ow_nom">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1aab636c4822c7d3e217d254043ed0a174"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_nom</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_nom" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1aab636c4822c7d3e217d254043ed0a174"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_nom</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_nom" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Output stream in its nominal format without modification </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_out_format.qpl_ow_8">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1a112453085e5800b874ea2f4922986fb6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_8" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1a112453085e5800b874ea2f4922986fb6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_8" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Output 8-bit stream </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_out_format.qpl_ow_16">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1a3bc1fb0bef4edc25d4eb38485e939c95"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_16</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_16" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1a3bc1fb0bef4edc25d4eb38485e939c95"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_16</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_16" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Output 16-bit stream </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_out_format.qpl_ow_32">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1aeaee02da71754d2925fdbdc10822d41d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_32</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_32" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga5e0a8beb6375b585424db473cd8c5fc1aeaee02da71754d2925fdbdc10822d41d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_ow_32</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3u</span></span><a class="headerlink" href="#c.qpl_out_format.qpl_ow_32" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Output 32-bit stream </p>
 </dd></dl>
 
@@ -866,64 +766,62 @@ title="Print to PDF"
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_parser">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga0a14139c8b458a3da53a2c085ee5c1ca"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_parser</span></span></span><a class="headerlink" href="#c.qpl_parser" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga0a14139c8b458a3da53a2c085ee5c1ca"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_parser</span></span></span><a class="headerlink" href="#c.qpl_parser" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Enum of all supported parser types. </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_parser.qpl_p_le_packed_array">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caa934373ca98cf3aba60787937e6579e5e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_le_packed_array</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_le_packed_array" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caa934373ca98cf3aba60787937e6579e5e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_le_packed_array</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_le_packed_array" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Input vector is written in the Little-Endian format </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_parser.qpl_p_be_packed_array">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caa36d02c25fbaedcc4ea3043cedbf570ec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_be_packed_array</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_be_packed_array" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caa36d02c25fbaedcc4ea3043cedbf570ec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_be_packed_array</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_be_packed_array" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Input vector is written in the Big-Endian format </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_parser.qpl_p_parquet_rle">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caae5815e94d5164107dd1840abe179feff"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_parquet_rle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_parquet_rle" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga0a14139c8b458a3da53a2c085ee5c1caae5815e94d5164107dd1840abe179feff"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_p_parquet_rle</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2u</span></span><a class="headerlink" href="#c.qpl_parser.qpl_p_parquet_rle" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>input vector is written in the Parquet RLE format </p>
 </dd></dl>
 
 </dd></dl>
 
-</section>
-<section id="structures">
-<h2>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="structures">
+<h2>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h2>
 <dl class="c struct">
 <dt class="sig sig-object c" id="c.allocator_t">
-<span class="target" id="d6/d45/structallocator__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">allocator_t</span></span></span><a class="headerlink" href="#c.allocator_t" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d6/d45/structallocator__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">allocator_t</span></span></span><a class="headerlink" href="#c.allocator_t" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Structure that describes user-provided allocator. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.allocator_t.allocator">
-<span class="target" id="d6/d45/structallocator__t_1ae76b23805fa12da76449d75cbbe251eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">allocator</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.allocator_t.allocator" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d6/d45/structallocator__t_1ae76b23805fa12da76449d75cbbe251eb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">allocator</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.allocator_t.allocator" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Allocation function </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.allocator_t.deallocator">
-<span class="target" id="d6/d45/structallocator__t_1ad6ec608d4cf4879c7387a63173b0c8d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">deallocator</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.allocator_t.deallocator" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d6/d45/structallocator__t_1ad6ec608d4cf4879c7387a63173b0c8d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">deallocator</span></span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">(</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#c.allocator_t.deallocator" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Deallocation function </p>
 </dd></dl>
 
 </div>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
               </div>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="c_huffman_table_apis.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -939,31 +837,27 @@ title="Print to PDF"
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            </footer>
+            
         </div>
     </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By Intel<br/>
-  
-      &copy; Copyright 2022, Intel.<br/>
-    <div class="extra_footer">
-      <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
-    </div>
-</p>
-        </footer>
-    </div>
+    <footer class="footer">
+  <p>
     
-</div>
+      By Intel<br/>
+    
+        &copy; Copyright 2022, Intel.<br/>
+      <div class="extra_footer">
+        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+      </div>
+  </p>
+</footer>
+</main>
 
 
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>
