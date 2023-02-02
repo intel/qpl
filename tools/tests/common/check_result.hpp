@@ -9,7 +9,7 @@
  *  Middle Layer API (private C++ API)
  */
 
-#ifndef QPL_TESTS_TESTS_COMMON_RESULT_HPP_
+#ifndef QPL_TESTS_TESTS_COMMON_CHECK_RESULT_HPP_
 #define QPL_TESTS_TESTS_COMMON_CHECK_RESULT_HPP_
 
 #include "inttypes.h"
@@ -114,4 +114,4 @@ static inline testing::AssertionResult compare_crc32_field(const qpl_job *job_pt
     return testing::AssertionSuccess();
 }
 
-#endif //QPL_TESTS_TESTS_COMMON_RESULT_HPP_
+#endif //QPL_TESTS_TESTS_COMMON_CHECK_RESULT_HPP_
