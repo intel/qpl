@@ -119,18 +119,26 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, no_literal_lengths_code)
     {
-        TestType  test_type      = NO_LL_CODE;
+        TestType  test_type       = NO_LL_CODE;
         qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         // Check AD_ERROR_CODE_BAD_LL_CODE code
         if (qpl_path_hardware == GetExecutionPath())
         {
-            EXPECT_EQ(211, inflate_status);
+            EXPECT_EQ(QPL_STS_BAD_LL_CODE_ERR, inflate_status);
         }
         else
         {
-            EXPECT_EQ(205, inflate_status);
+            EXPECT_EQ(QPL_STS_NO_LL_CODE_ERR, inflate_status);
         }
+    }
+
+    QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, all_zero_literal_lengths_code)
+    {
+        TestType  test_type       = ALL_ZERO_LL_CODE;
+        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+
+        EXPECT_EQ(QPL_STS_NO_LL_CODE_ERR, inflate_status);
     }
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, strading_code_length_codes)

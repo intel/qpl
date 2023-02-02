@@ -1,20 +1,17 @@
 /*******************************************************************************
- * Copyright (C) 2022 Intel Corporation
+ * Copyright (C) 2023 Intel Corporation
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "no_literal_length_code.hpp"
+#include "all_zero_literal_length_codes.hpp"
 
-GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate()
+GenStatus gz_generator::AllZeroLiteralLengthCodesConfigurator::generate()
 {
     Gen32u* pLiteralLengthCodesTable = nullptr;
     Gen32u* pCodeLengthCodesTable = nullptr;
 
-    // Indices 257-285 are the literal length codes
-    // Stop at 285 so that not every LL code is 0, which is a different test with a different error code
-    qpl::test::random rand (257u, 285u, m_seed);
-    Gen32u numberMissedCodes = 0u;
+    Gen32u numberMissedCodes = 286u;
 
     pLiteralLengthCodesTable = new Gen32u[DEFAULT_LL_TABLE_LENGTH];
     pCodeLengthCodesTable    = new Gen32u[DEFAULT_CL_TABLE_LENGTH];
@@ -24,8 +21,6 @@ GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate()
 
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
-
-    numberMissedCodes = static_cast<Gen32u>(rand);
 
     for (Gen32u i = 0u; i < numberMissedCodes; i++)
     {

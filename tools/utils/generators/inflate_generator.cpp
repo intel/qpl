@@ -27,6 +27,7 @@
 #include "rfc1951_stream/break_header_configurators/invalid_block.hpp"
 #include "rfc1951_stream/break_header_configurators/big_repeat_count_ll_codes.h"
 #include "rfc1951_stream/break_header_configurators/big_repeat_count_d_codes.hpp"
+#include "rfc1951_stream/break_header_configurators/all_zero_literal_length_codes.hpp"
 #include "rfc1951_stream/break_block_configurators/bad_stored_length.hpp"
 #include "rfc1951_stream/break_block_configurators/bad_distance.hpp"
 #include "rfc1951_stream/break_block_configurators/distance_before_start.hpp"
@@ -124,6 +125,14 @@ std::unique_ptr<std::stringstream> gz_generator::InflateGenerator::getStreamDesc
         case NO_LL_CODE:
         {
             NoLiteralLengthCodeConfigurator config(seed);
+            config.generate();
+
+            return config.getConfig();
+        }
+
+        case ALL_ZERO_LL_CODE:
+        {
+            AllZeroLiteralLengthCodesConfigurator config(seed);
             config.generate();
 
             return config.getConfig();
