@@ -8,6 +8,8 @@
 
 #if defined( linux )
 
+#include <inttypes.h>
+
 #include "hw_device.hpp"
 #include "hw_devices.h"
 #include "hw_definitions.h"
@@ -116,11 +118,11 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     DIAG("%5s: ", name_ptr);
     if (!is_iaa_device) {
-        DIAGA("UNSUPPORTED\n", name_ptr);
+        DIAGA("UNSUPPORTED %5s\n", name_ptr);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
     if (ACCFG_DEVICE_ENABLED != accfg_device_get_state(device_ptr)) {
-        DIAGA("DISABLED\n", name_ptr);
+        DIAGA("DISABLED %5s\n", name_ptr);
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
     DIAGA("\n");
@@ -129,17 +131,17 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     numa_node_id_     = accfg_device_get_numa_node(device_ptr);
 
     DIAG("%5s: version: %d.%d\n", name_ptr, version_major_, version_minor_);
-    DIAG("%5s: numa:    %d\n", name_ptr, numa_node_id_);
-    DIAG("%5s: GENCAP: 0x%016llX\n", name_ptr, gen_cap_register_);
-    DIAG("%5s: GENCAP: block on fault support:                      %d\n",          name_ptr, get_block_on_fault_available());
-    DIAG("%5s: GENCAP: overlapping copy support:                    %d\n",          name_ptr, get_overlapping_available());
-    DIAG("%5s: GENCAP: cache control support (memory):              %d\n",          name_ptr, get_cache_write_available());
-    DIAG("%5s: GENCAP: cache control support (cache flush):         %d\n",          name_ptr, get_cache_flush_available());
-    DIAG("%5s: GENCAP: maximum supported transfer size:             %lu\n",         name_ptr, get_max_transfer_size());
-    DIAG("%5s: GENCAP: decompression support:                       %d\n",          name_ptr, get_decompression_support_enabled());
-    DIAG("%5s: GENCAP: indexing support:                            %d\n",          name_ptr, get_indexing_support_enabled());
-    DIAG("%5s: GENCAP: maximum decompression set size:              %d\n",          name_ptr, get_max_decompressed_set_size());
-    DIAG("%5s: GENCAP: maximum set size:                            %d\n",          name_ptr, get_max_set_size());
+    DIAG("%5s: numa: %" PRIu64 "\n", name_ptr, numa_node_id_);
+    DIAG("%5s: GENCAP: %" PRIu64 "\n", name_ptr, gen_cap_register_);
+    DIAG("%5s: GENCAP: block on fault support:              %d\n",          name_ptr, get_block_on_fault_available());
+    DIAG("%5s: GENCAP: overlapping copy support:            %d\n",          name_ptr, get_overlapping_available());
+    DIAG("%5s: GENCAP: cache control support (memory):      %d\n",          name_ptr, get_cache_write_available());
+    DIAG("%5s: GENCAP: cache control support (cache flush): %d\n",          name_ptr, get_cache_flush_available());
+    DIAG("%5s: GENCAP: maximum supported transfer size:     %" PRIu32 "\n", name_ptr, get_max_transfer_size());
+    DIAG("%5s: GENCAP: decompression support:               %d\n",          name_ptr, get_decompression_support_enabled());
+    DIAG("%5s: GENCAP: indexing support:                    %d\n",          name_ptr, get_indexing_support_enabled());
+    DIAG("%5s: GENCAP: maximum decompression set size:      %d\n",          name_ptr, get_max_decompressed_set_size());
+    DIAG("%5s: GENCAP: maximum set size:                    %d\n",          name_ptr, get_max_set_size());
 
     // Working queues initialization stage
     auto *wq_ptr = accfg_wq_get_first(device_ptr);

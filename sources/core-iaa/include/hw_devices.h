@@ -18,6 +18,7 @@
 #define HW_PATH_HW_DEVICES_H_
 
 #include "stdbool.h"
+#include <inttypes.h>
 
 #ifdef LOG_HW_INIT
 
