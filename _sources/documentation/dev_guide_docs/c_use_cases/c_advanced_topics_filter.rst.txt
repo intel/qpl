@@ -16,9 +16,9 @@ Omit Checksums / Aggregates Calculation
 =======================================
 
 
-If the flag ``QPL_FLAG_OMIT_CHECKSUMS`` is specified, then CRC/XOR
+If the flag :c:macro:`QPL_FLAG_OMIT_CHECKSUMS` is specified, then CRC/XOR
 checksums are not calculated during filtering on software path.
-``QPL_FLAG_OMIT_AGGREGATES`` has the same effect but omits aggregates
+:c:macro:`QPL_FLAG_OMIT_AGGREGATES` has the same effect but omits aggregates
 calculation. These flags do not directly affect the performance of the
 hardware path by itself but can allow the library to do some
 optimizations. See the :ref:`hw_path_optimizations_reference_link`
@@ -29,7 +29,7 @@ Invert_output
 =============
 
 
-Filter operation with the flag ``QPL_FLAG_INV_OUT`` specified will result in
+Filter operation with the flag :c:macro:`QPL_FLAG_INV_OUT` specified will result in
 inverse output in case of a bit-vector-like output. Omitting this flag
 will not produce inverse output.
 
@@ -55,11 +55,11 @@ the third group with an initial index of 2,000,000, etc.
 **Note**: This field only affects the indices written for the
 modification of the bit vector output. It does not affect the indices
 used for the ``qpl_extract`` operation. Those always start at 0 for the first
-element. 
+element.
 
 **Note**: This field does not affect operations that invoke
-``src2`` - see the table :ref:`Operations <c_operations_table_reference_link>` 
-for operations with number of input streams equal to 2. This statement means 
+``src2`` - see the table :ref:`Operations <c_operations_table_reference_link>`
+for operations with number of input streams equal to 2. This statement means
 that ``initialOutputIndex`` field works for ``qpl_scan`` operation only.
 
 
@@ -75,8 +75,8 @@ uncompressed data), the ``drop_initial_bytes`` field can be used to have the
 filter unit skip over these bytes.
 
 
-.. note:: 
-    
+.. note::
+
     The ``drop_initial_bytes`` feature is supported only by
     1-source filter operations. Maximal ``drop_initial_bytes``
     feature value is 65,535 bytes.

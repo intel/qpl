@@ -21,6 +21,6 @@ source-2 rather than source-1.
 Each 0-bit from source-2 writes a zero to the output. Each 1-bit writes
 the next entry from source-1.
 
-The ``qpl_expand`` is the opposite of the ``qpl_select``. If you take the 
+The ``qpl_expand`` is the opposite of the ``qpl_select``. If you take the
 output of expand and perform a select operation on it (with the same bit vector as
 source-2), then you get back the same data as the original source-1.

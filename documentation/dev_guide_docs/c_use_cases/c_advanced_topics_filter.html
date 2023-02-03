@@ -322,8 +322,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html">
-     Common Enums and Structures
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -520,9 +520,9 @@
 modify the normal behavior of filter operations.</p>
 <div class="section" id="omit-checksums-aggregates-calculation">
 <h2>Omit Checksums / Aggregates Calculation<a class="headerlink" href="#omit-checksums-aggregates-calculation" title="Permalink to this headline">¶</a></h2>
-<p>If the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></code> is specified, then CRC/XOR
+<p>If the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_CHECKSUMS" title="QPL_FLAG_OMIT_CHECKSUMS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></code></a> is specified, then CRC/XOR
 checksums are not calculated during filtering on software path.
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></code> has the same effect but omits aggregates
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_AGGREGATES" title="QPL_FLAG_OMIT_AGGREGATES"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></code></a> has the same effect but omits aggregates
 calculation. These flags do not directly affect the performance of the
 hardware path by itself but can allow the library to do some
 optimizations. See the <a class="reference internal" href="c_operations_hw_path_optimization.html#hw-path-optimizations-reference-link"><span class="std std-ref">Hardware Path Optimizations</span></a>
@@ -530,7 +530,7 @@ section for more information.</p>
 </div>
 <div class="section" id="invert-output">
 <h2>Invert_output<a class="headerlink" href="#invert-output" title="Permalink to this headline">¶</a></h2>
-<p>Filter operation with the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code> specified will result in
+<p>Filter operation with the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_INV_OUT" title="QPL_FLAG_INV_OUT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a> specified will result in
 inverse output in case of a bit-vector-like output. Omitting this flag
 will not produce inverse output.</p>
 <p>For example, doing a <code class="docutils literal notranslate"><span class="pre">SCAN_LT</span></code> with <code class="docutils literal notranslate"><span class="pre">INV_OUT</span></code> is the same as doing a

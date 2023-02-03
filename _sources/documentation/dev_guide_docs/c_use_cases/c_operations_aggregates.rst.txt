@@ -35,7 +35,7 @@ should start and end walking through the results to find all the 1's.
 
 
 .. note::
-    
+
     The meaning of the aggregates is not changed by the output
     modification. If the output is nominally a bit vector, and due to the
     output modification, the output actually contains 32-bit indices, the

@@ -45,7 +45,7 @@ of bytes unused in the output buffer.
 The :c:member:`qpl_job.flags` field defines flags that affect the operation.
 Each flag is represented by one of the 32 bits. To set the bit flags, use the
 bitwise OR operator (``|``), for example,
-``QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN``.
+:c:macro:`QPL_FLAG_FIRST` | :c:macro:`QPL_FLAG_LAST` | :c:macro:`QPL_FLAG_DYNAMIC_HUFFMAN`.
 The setting of flags will be introduced in later sections.
 
 Two output fields :c:member:`qpl_job.total_in` and :c:member:`qpl_job.total_out`
@@ -55,7 +55,7 @@ For applicable operations that return a CRC-32 and a 16-bit XOR checksum, the
 results are contained in the fields :c:member:`qpl_job.crc` and
 :c:member:`qpl_job.xor_checksum`. By default, the CRC-32 uses the polynomial
 ``0x104c11db7``, which follows ITU-T Recommendation V.42. If the flag
-``QPL_FLAG_CRC32C`` is specified in :c:member:`qpl_job.flags`, then the
+:c:macro:`QPL_FLAG_CRC32C` is specified in :c:member:`qpl_job.flags`, then the
 polynomial ``0x11edc6f41`` is used, which follows RFC 3720. To compute the
 16-bit XOR checksum, the data is treated as 16-bit words. If the data has an
 odd number of bytes, the final byte is zero-extended to 16 bits.
@@ -64,9 +64,9 @@ For an operation that generates a stream of bytes, like decompression, the
 output stream always ends at a byte boundary. For an operation that generates a
 stream of bits, like scan, the stream is zero-padded to a byte boundary
 before being written. The :c:member:`qpl_job.last_bit_offset` field indicates
-where the data actually ends: when the output stream does not end at a byte 
-boundary, this field contains the number of bits written to the last byte. 
-When the output stream ends at a byte boundary, the value of this field is 0 (not 8). 
+where the data actually ends: when the output stream does not end at a byte
+boundary, this field contains the number of bits written to the last byte.
+When the output stream ends at a byte boundary, the value of this field is 0 (not 8).
 
 Internal state that could be used and re-used for various operations and holds
 multiple internal representations is stored in :c:member:`qpl_job.data_ptr`

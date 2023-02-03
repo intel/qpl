@@ -58,7 +58,7 @@ blocks.
 In this case, each block corresponds to one compression operation, where
 the input size (except for the last one) is the block size. Each such
 job can use dynamic Huffman generation, or static Huffman tables. With
-static Huffman tables, each job can specify the ``QPL_FLAG_START_NEW_BLOCK``
+static Huffman tables, each job can specify the :c:macro:`QPL_FLAG_START_NEW_BLOCK`
 flag to cause each job to create a block.
 
 The output buffer (the buffer to receive the compressed data) should be
@@ -106,7 +106,7 @@ Single Block
 The case happens when the entire input is represented as a single
 DEFLATE block, even though multiple compress operations may have been
 done. This is invoked by not using dynamic Huffman codes, and
-``QPL_FLAG_START_NEW_BLOCK`` flag.
+:c:macro:`QPL_FLAG_START_NEW_BLOCK` flag.
 
 If the output does not fit into output buffer (requiring a stored
 block), then the compression will fail, due to a disruption in the block

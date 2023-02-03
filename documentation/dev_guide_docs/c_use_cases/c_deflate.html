@@ -322,8 +322,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html">
-     Common Enums and Structures
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -534,8 +534,8 @@ be parsed multiple times).</p>
 sequence of jobs. For example, an application that was compressing a large file
 might call Intel QPL repeatedly with 64 KB input buffers, until the end of the
 file was reached. In this case, the first job is specified with the flag
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code> in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a>, the middle jobs do not need
-additional flags, and the last job is specified with the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code>.
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a>, the middle jobs do not need
+additional flags, and the last job is specified with the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.
 If a single job is used to compress the stream, then both flags should be specified.
 The same <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object can be reused for multiple jobs. And
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> should not be called in between jobs. (<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a>
@@ -544,7 +544,7 @@ should be called only after a new <a class="reference internal" href="../../dev_
 <p class="admonition-title">Attention</p>
 <p>The current implementation does not support canned compression/decompression
 across multiple jobs, thus canned compression/decompression jobs must specify
-the flags <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span> <span class="pre">|</span> <span class="pre">QPL_FLAG_LAST</span></code>.</p>
+the flags <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> | <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p>
 </div>
 <p>Intel QPL does not save history state between jobs. This means that one compression
 job will never reference data from an earlier job. This implies that submitting,

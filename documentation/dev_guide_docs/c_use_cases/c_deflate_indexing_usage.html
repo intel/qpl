@@ -322,8 +322,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html">
-     Common Enums and Structures
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -569,7 +569,7 @@ points to the index table memory with the <a class="reference internal" href="..
 field, and specifies the size of the table with the
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.idx_max_size" title="qpl_job.idx_max_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.idx_max_size</span></code></a> field.</p>
 <p>The index generation is done as part of the verification pass, so the
-application cannot specify the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code> flag.</p>
+application cannot specify the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_VERIFY" title="QPL_FLAG_OMIT_VERIFY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a> flag.</p>
 <p>Intel® Query Processing Library (Intel® QPL) implements two
 slightly different approaches:</p>
 <ul class="simple">
@@ -613,8 +613,8 @@ processed (END - 1)),</p></li>
 last are exactly that size, and the last block is no larger than that
 size. The block_size is a multiple of the mini-block size.</p>
 <p>During the compression, each block of input data is submitted as a
-single job. Each job is flagged with either <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code> or
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code>.</p>
+single job. Each job is flagged with either <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a> or
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a>.</p>
 <p>Using the indices requires up to two jobs. The first parses the block
 header, and the second decompresses the specified mini-block. To
 decompress multiple mini-blocks within a given block, the header only
@@ -643,8 +643,8 @@ as a SHIFT and an AND rather than using actual divides.</p>
 <p>The index of the start of the block header is
 <code class="docutils literal notranslate"><span class="pre">(blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2))</span></code>. The index of the end is one greater
 than this.</p>
-<p>The job to parse the header is a decompress job with <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code> and
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code>. The START bit offset and the END bit offset are
+<p>The job to parse the header is a decompress job with <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>. The START bit offset and the END bit offset are
 the low 32-bits of the two entries identified earlier. Those offsets are
 converted to job parameters as previously described.</p>
 </div>
@@ -658,7 +658,7 @@ the mini-block number within the block to the end of the block header.</p>
 case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
 The header can be found between indices 6 and 7, and the mini-block
 between indices 9 and 10.</p>
-<p>The job uses the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code>.</p>
+<p>The job uses the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>.</p>
 <p>The initial CRC (i.e. the value written to job crc before the job is
 executed) is the CRC value (the high 32-bits of the index array) from
 the start of the mini-block. In the previous example, that is from index 1.

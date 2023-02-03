@@ -322,8 +322,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html">
-     Common Enums and Structures
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -488,7 +488,7 @@
 <h1>Parser<a class="headerlink" href="#parser" title="Permalink to this headline">¶</a></h1>
 <p>The “parser” is responsible for converting a series of bytes into a
 series of unsigned integers. The “parser” is defined by an enumeration
-<a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html#c.qpl_parser" title="qpl_parser"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_parser</span></code></a> in the field <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.parser" title="qpl_job.parser"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.parser</span></code></a>.</p>
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_parser" title="qpl_parser"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_parser</span></code></a> in the field <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.parser" title="qpl_job.parser"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.parser</span></code></a>.</p>
 <p>The default value <code class="docutils literal notranslate"><span class="pre">qpl_p_le_packed_array</span></code> views the input buffer as a
 little-endian packed array of N-bit integers, where N is given by
 src1_bit_width. For example, if N=3, then the first element will be bits
@@ -501,7 +501,7 @@ in Parquet RLE format. In this case, the bit width is given in the data
 stream, so <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.src1_bit_width" title="qpl_job.src1_bit_width"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.src1_bit_width</span></code></a> must be set to 0.</p>
 <p>Source-2 can only be “parsed” as a packed-array. The default parser
 views the source-2 data a little-endian packed array. If the
-<code class="docutils literal notranslate"><span class="pre">QPL_FLAG_SRC2_BE</span></code> flag is specified, then it is viewed as a big-endian
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_SRC2_BE" title="QPL_FLAG_SRC2_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_SRC2_BE</span></code></a> flag is specified, then it is viewed as a big-endian
 packed array.</p>
 <div class="section" id="parquet-rle-format">
 <h2>Parquet RLE Format<a class="headerlink" href="#parquet-rle-format" title="Permalink to this headline">¶</a></h2>

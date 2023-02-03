@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Common Enums and Structures &#8212; Intel® QPL v1.0.0 Documentation</title>
+    <title>Common Definitions &#8212; Intel® QPL v1.0.0 Documentation</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet">
   <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -323,7 +323,7 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Common Enums and Structures
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -398,7 +398,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../../_sources/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="../../../_sources/documentation/dev_ref_docs/c_ref/c_common_definitions.rst.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
@@ -415,10 +415,10 @@
     <div class="dropdown-buttons sourcebuttons">
         
         <a class="issues-button"
-            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_ref_docs/c_ref/c_enums_and_structures.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_ref_docs/c_ref/c_common_definitions.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_ref_docs/c_ref/c_enums_and_structures.rst"><button
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_ref_docs/c_ref/c_common_definitions.rst"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -444,6 +444,11 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#flags">
+   Flags
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#enums">
    Enums
   </a>
@@ -463,7 +468,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Common Enums and Structures</h1>
+                <h1>Common Definitions</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -473,6 +478,11 @@
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#flags">
+   Flags
+  </a>
+ </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#enums">
    Enums
@@ -494,8 +504,143 @@
                 
   <blockquote>
 <div></div></blockquote>
-<div class="section" id="common-enums-and-structures">
-<h1>Common Enums and Structures<a class="headerlink" href="#common-enums-and-structures" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="common-definitions">
+<h1>Common Definitions<a class="headerlink" href="#common-definitions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="flags">
+<h2>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h2>
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_FIRST">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga7ef132d18e8b24918652effc41082fb9"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_FIRST</span></span></span> <span class="pre">0x0001u</span><a class="headerlink" href="#c.QPL_FLAG_FIRST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The start of a new overall task (Filter <a class="reference internal" href="#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga7e392472921b9f33b6648b21cccc3501"><span class="std std-ref">qpl_operation</span></a> implies flags FIRST and LAST) </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_LAST">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga979f98b4968946f1e65e05fdc199eaa1"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_LAST</span></span></span> <span class="pre">0x0002u</span><a class="headerlink" href="#c.QPL_FLAG_LAST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The end of an overall task (Filter <a class="reference internal" href="#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ga7e392472921b9f33b6648b21cccc3501"><span class="std std-ref">qpl_operation</span></a> implies flags FIRST and LAST) </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_CRC32C">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gaeb984faa4c37ca66692a915ed10e6c4a"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_CRC32C</span></span></span> <span class="pre">0x0004u</span><a class="headerlink" href="#c.QPL_FLAG_CRC32C" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Polynomial 0x11edc6f41 is used, which is the one used by iSCSI </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_GZIP_MODE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gab5bc2a931184bf65302340cac99cbc71"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_GZIP_MODE</span></span></span> <span class="pre">0x0008u</span><a class="headerlink" href="#c.QPL_FLAG_GZIP_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check and skip GZIP header/trailer </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_HUFFMAN_BE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga8e55b410bc4a78bbaed8b0ddcb284847"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></span></span> <span class="pre">0x0010u</span><a class="headerlink" href="#c.QPL_FLAG_HUFFMAN_BE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Huffman tokens are in Big Endian format (both compress and decompress) </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_NO_HDRS">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga2b90e3afb40c8ed793dfacecb1efc7fc"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_NO_HDRS</span></span></span> <span class="pre">0x0020u</span><a class="headerlink" href="#c.QPL_FLAG_NO_HDRS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decompress: Parse only Huffman Tokens; Compress: Write no headers or EOBs </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_DECOMPRESS_ENABLE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga71f2a0f21475cf93862584104d40d1ab"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_DECOMPRESS_ENABLE</span></span></span> <span class="pre">0x0040u</span><a class="headerlink" href="#c.QPL_FLAG_DECOMPRESS_ENABLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The data from the input buffer is decompressed and then sent to the filter unit </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_SRC2_BE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga253a29c558fe51813279e8a32c6ae701"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_SRC2_BE</span></span></span> <span class="pre">0x0080u</span><a class="headerlink" href="#c.QPL_FLAG_SRC2_BE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Source-2 is viewed as a Big-Endian packed array </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_OUT_BE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gac68e524facc45b72c67f8dc005027607"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_OUT_BE</span></span></span> <span class="pre">0x0100u</span><a class="headerlink" href="#c.QPL_FLAG_OUT_BE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destination is stored as a Big-Endian packed array </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_RND_ACCESS">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gabad52d3740900f226fc6a91ac84ad248"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_RND_ACCESS</span></span></span> <span class="pre">0x0200u</span><a class="headerlink" href="#c.QPL_FLAG_RND_ACCESS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>One or several mini-blocks are decompressed only </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_DECOMP_FLUSH_ALWAYS">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga9585208111b8d4e6b3ec5e2b28cf5e55"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_DECOMP_FLUSH_ALWAYS</span></span></span> <span class="pre">0x0800u</span><a class="headerlink" href="#c.QPL_FLAG_DECOMP_FLUSH_ALWAYS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>All processed data should be written to output, otherwise, only complete qwords </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_START_NEW_BLOCK">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga37dcdfa4add2fa47f7dc5ec09ab3169a"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></span></span> <span class="pre">0x1000u</span><a class="headerlink" href="#c.QPL_FLAG_START_NEW_BLOCK" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Implied by QPL_FLAG_FIRST, should be used in the middle of the stream to specify a different Huffman table </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_DYNAMIC_HUFFMAN">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga5856771f36d84a2912ebd8738a55ba7a"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></span></span> <span class="pre">0x2000u</span><a class="headerlink" href="#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The data will be compressed as a single dynamic DEFLATE block; requires 2 passes </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_OMIT_VERIFY">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gabe05e340ac42ee80ec6c4c908db67f82"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></span></span> <span class="pre">0x4000u</span><a class="headerlink" href="#c.QPL_FLAG_OMIT_VERIFY" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Turn off verification to improve performance </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_GEN_LITERALS">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga35d7832b4aa88df50def6c0a8c78dd70"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_GEN_LITERALS</span></span></span> <span class="pre">0x8000u</span><a class="headerlink" href="#c.QPL_FLAG_GEN_LITERALS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compression only: generate only literals </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_CANNED_MODE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga771db56733ee3aa96065ca08ee439146"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_CANNED_MODE</span></span></span> <span class="pre">0x00400000u</span><a class="headerlink" href="#c.QPL_FLAG_CANNED_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flag to enable canned compression and decompression </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_CRC64_BE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gae8660eee68020464fcdab7261034e6e8"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_CRC64_BE</span></span></span> <span class="pre">0x00010000u</span><a class="headerlink" href="#c.QPL_FLAG_CRC64_BE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The data should be viewed as Big-Endian </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_CRC64_INV">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gaa92957a2b467238f1212020125e17be1"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_CRC64_INV</span></span></span> <span class="pre">0x00020000u</span><a class="headerlink" href="#c.QPL_FLAG_CRC64_INV" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bitwise inversion of the initial and the final CRC </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_INV_OUT">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gac41ae5098a10acd5892eb98ac23153be"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_INV_OUT</span></span></span> <span class="pre">0x00040000u</span><a class="headerlink" href="#c.QPL_FLAG_INV_OUT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bitwise inversion of the output bit-vector for a filtering operation </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_ZLIB_MODE">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga3bed5e94b2c2e1f2bf15d25f8e2f7418"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_ZLIB_MODE</span></span></span> <span class="pre">0x00080000u</span><a class="headerlink" href="#c.QPL_FLAG_ZLIB_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check and skip ZLIB header/trailer </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_OMIT_CHECKSUMS">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga5e16cae255d40d72c3e5c8f82e3748eb"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></span></span> <span class="pre">0x00100000u</span><a class="headerlink" href="#c.QPL_FLAG_OMIT_CHECKSUMS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Filtering only: don’t calculate CRC and XOR checksums </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_OMIT_AGGREGATES">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1gad31fbe4d4d04e51d783ac12ee06448bc"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></span></span> <span class="pre">0x00200000u</span><a class="headerlink" href="#c.QPL_FLAG_OMIT_AGGREGATES" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Filtering only: don’t calculate aggregates values </p>
+</dd></dl>
+
+</div>
 <div class="section" id="enums">
 <h2>Enums<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
 <dl class="c enum">

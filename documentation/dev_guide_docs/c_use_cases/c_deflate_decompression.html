@@ -322,8 +322,8 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_enums_and_structures.html">
-     Common Enums and Structures
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
     </a>
    </li>
    <li class="toctree-l2">
@@ -577,7 +577,7 @@ Refer to the <a class="reference internal" href="c_use_huffman_tables.html#huffm
 <p class="admonition-title">Attention</p>
 <p>The current implementation does not support canned decompression
 across multiple jobs, thus canned decompression jobs must specify
-the flags <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span> <span class="pre">|</span> <span class="pre">QPL_FLAG_LAST</span></code>.</p>
+the flags <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> | <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p>
 </div>
 </div>
 </div>
@@ -589,13 +589,13 @@ before the input is completely processed, the decompression can
 be resumed with a new output buffer to contain the remaining decompressed
 output.</p>
 <p>When the output buffer filled up before the input is completely processed,
-the library returns the status <code class="docutils literal notranslate"><span class="pre">QPL_MORE_OUTPUT_NEEDED</span></code>. In this case,
+the library returns the status <a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>. In this case,
 users can provide a new output buffer and reset <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_out_ptr" title="qpl_job.next_out_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_out_ptr</span></code></a>
 and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a> accordingly. The input buffer
 parameters <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a>
 do not need to be reset since they would have been updated.</p>
 <p>Note that it is possible that the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> field
-is 0, but the returned status is <code class="docutils literal notranslate"><span class="pre">QPL_MORE_OUTPUT_NEEDED</span></code>. In this case,
+is 0, but the returned status is <a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>. In this case,
 the subsequent job will be submitted with a zero-length input buffer.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -610,7 +610,7 @@ not stop early.</p>
 <p>Decompression jobs return CRC-32 and 16-bit XOR checksums of the decompressed
 data in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.crc" title="qpl_job.crc"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.crc</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.xor_checksum" title="qpl_job.xor_checksum"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.xor_checksum</span></code></a>.
 By default, the CRC-32 uses the polynomial <code class="docutils literal notranslate"><span class="pre">0x104c11db7</span></code>, which follows ITU-T
-Recommendation V.42. If the flag <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC32C</span></code> is specified in
+Recommendation V.42. If the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC32C" title="QPL_FLAG_CRC32C"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC32C</span></code></a> is specified in
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a>, then the polynomial <code class="docutils literal notranslate"><span class="pre">0x11edc6f41</span></code> is used,
 which follows RFC 3720. To compute the 16-bit XOR checksum, the data is
 treated as 16-bit words. If the data has an odd number of bytes,
@@ -621,7 +621,7 @@ the final byte is zero-extended to 16 bits.</p>
 <p>The Gzip standard defines an encapsulation layer around a Deflate
 stream. In particular, a Gzip stream consists of a Gzip header, a
 Deflate stream, and a Gzip trailer. The decompressor assumes a raw
-Deflate stream by default. If the <code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code> flag is specified,
+Deflate stream by default. If the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GZIP_MODE" title="QPL_FLAG_GZIP_MODE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code></a> flag is specified,
 then the library will skip over the Gzip header on the first job, and
 then start parsing the Deflate stream.</p>
 </div>

@@ -32,5 +32,5 @@ qpl_op_scan_range     param_low ≤ X AND X ≤ param_high
 qpl_op_scan_not_range X < param_low OR X > param_high
 ===================== ================================
 
-The number of output bits (i.e. the number of output elements) 
+The number of output bits (i.e. the number of output elements)
 is the same as the number of input elements.

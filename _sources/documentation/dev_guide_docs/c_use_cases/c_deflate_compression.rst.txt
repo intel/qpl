@@ -77,15 +77,15 @@ Refer to the :ref:`huffman-tables-api-label` section for more information.
 
 If the stream is compressed with multiple jobs, then in the middle of the
 stream, the application can specify a different Huffman table and use the
-``QPL_FLAG_START_NEW_BLOCK`` flag. This will instruct the library to end the
+:c:macro:`QPL_FLAG_START_NEW_BLOCK` flag. This will instruct the library to end the
 current block and to start a new block with the new table. The
-``QPL_FLAG_START_NEW_BLOCK`` is not needed on the first job (i.e., this flag
-is implied when ``QPL_FLAG_FIRST`` is set).
+:c:macro:`QPL_FLAG_START_NEW_BLOCK` is not needed on the first job (i.e., this flag
+is implied when :c:macro:`QPL_FLAG_FIRST` is set).
 
-If the ``QPL_FLAG_START_NEW_BLOCK`` flag is not used, then the table
+If the :c:macro:`QPL_FLAG_START_NEW_BLOCK` flag is not used, then the table
 pointed to in the job structure must be the same as those used by the
 previous job. If the tables are changed without signaling the library with
-the approriate flags, the resulting bit-stream will not be valid.
+the appropriate flags, the resulting bit-stream will not be valid.
 
 
 Canned
@@ -116,7 +116,7 @@ Refer to the :ref:`huffman-tables-api-label` section for more information.
 .. attention::
    The current implementation does not support canned compression
    across multiple jobs, thus canned compression jobs must specify
-   the flags ``QPL_FLAG_FIRST | QPL_FLAG_LAST``.
+   the flags :c:macro:`QPL_FLAG_FIRST` | :c:macro:`QPL_FLAG_LAST`.
 
 
 .. warning::
@@ -133,8 +133,8 @@ is provided by the application, causing data to expand in a static compression),
 the library attempts to copy the input data into the output stream as a series
 of ``stored blocks``. When the ``stored blocks`` fit into the output buffer,
 the library writes them to the output buffer and returns the
-successful ``QPL_STS_OK`` status. If the stored blocks do not
-fit, the library returns the ``QPL_STS_MORE_OUTPUT_NEEDED`` status and
+successful :c:macro:`QPL_STS_OK` status. If the stored blocks do not
+fit, the library returns the :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` status and
 the compression fails.
 
 To avoid this failure, users are suggested to use an output buffer with a size slightly
@@ -182,7 +182,7 @@ Static Blocks
 The structure of compressed data using static compression is similar to
 what was described in :ref:`deflate_compression_structure_fixed_reference_link`,
 except that there can be multiple static blocks between stored blocks
-due to the change of a Huffman table using ``QPL_FLAG_START_NEW_BLOCK``.
+due to the change of a Huffman table using :c:macro:`QPL_FLAG_START_NEW_BLOCK`.
 
 
 .. _deflate_compression_structure_canned_reference_link:
@@ -193,7 +193,7 @@ Canned
 Canned compression only writes the body of one static block to the output
 buffer. If the input data is incompressible, even when the size of the
 output buffer is enough for a stored block, the library returns the
-``QPL_STS_MORE_OUTPUT_NEEDED`` status.
+:c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` status.
 
 
 Compression Verification
@@ -204,7 +204,7 @@ compressed bit stream. The library decompresses the resulting bit
 stream, and then checks that the CRC of the decompressed data matches
 the CRC of the original data. If the user does not want to pay the
 additional performance cost for verification, the step can be skipped
-with the ``QPL_FLAG_OMIT_VERIFY`` flag.
+with the :c:macro:`QPL_FLAG_OMIT_VERIFY` flag.
 
 .. note::
     Currently verification is not performed in case of ``Huffman only BE``.
