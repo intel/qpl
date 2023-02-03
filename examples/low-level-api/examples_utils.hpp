@@ -29,12 +29,10 @@ static inline int parse_execution_path(int argc, char **argv, qpl_path_t *path_p
 
     std::string path = argv[1];
     if (path == "hardware_path") {
-        qpl_path_t hw_path = qpl_path_hardware;
-        path_ptr = &hw_path;
+        *path_ptr = qpl_path_hardware;
         std::cout << "The example will be run on the hardware path." << std::endl;
     } else if (path == "software_path") {
-        qpl_path_t sw_path = qpl_path_software;
-        path_ptr = &sw_path;
+        *path_ptr = qpl_path_software;
         std::cout << "The example will be run on the software path." << std::endl;
     } else {
         std::cout << "Unrecognized value for parameter. Use hardware_path or software_path." << std::endl;
