@@ -42,10 +42,10 @@ field, and specifies the size of the table with the
 :c:member:`qpl_job.idx_max_size` field.
 
 The index generation is done as part of the verification pass, so the
-application cannot specify the ``QPL_FLAG_OMIT_VERIFY`` flag.
+application cannot specify the :c:macro:`QPL_FLAG_OMIT_VERIFY` flag.
 
 
-Intel® Query Processing Library (Intel® QPL) implements two 
+Intel® Query Processing Library (Intel® QPL) implements two
 slightly different approaches:
 
 -  with multiple blocks of fixed size,
@@ -99,8 +99,8 @@ last are exactly that size, and the last block is no larger than that
 size. The block_size is a multiple of the mini-block size.
 
 During the compression, each block of input data is submitted as a
-single job. Each job is flagged with either ``QPL_FLAG_DYNAMIC_HUFFMAN`` or
-``QPL_FLAG_START_NEW_BLOCK``.
+single job. Each job is flagged with either :c:macro:`QPL_FLAG_DYNAMIC_HUFFMAN` or
+:c:macro:`QPL_FLAG_START_NEW_BLOCK`.
 
 Using the indices requires up to two jobs. The first parses the block
 header, and the second decompresses the specified mini-block. To
@@ -126,7 +126,7 @@ Then compute which block and mini-block within that block contains “B”:
 
 ::
 
-   blk_num = M / mb_per_b  
+   blk_num = M / mb_per_b
    mblk_num = M % mb_per_b
 
 
@@ -142,8 +142,8 @@ The index of the start of the block header is
 ``(blk_num \* (mb_per_b + 2))``. The index of the end is one greater
 than this.
 
-The job to parse the header is a decompress job with ``QPL_FLAG_FIRST`` and
-``QPL_FLAG_RND_ACCESS``. The START bit offset and the END bit offset are
+The job to parse the header is a decompress job with :c:macro:`QPL_FLAG_FIRST` and
+:c:macro:`QPL_FLAG_RND_ACCESS`. The START bit offset and the END bit offset are
 the low 32-bits of the two entries identified earlier. Those offsets are
 converted to job parameters as previously described.
 
@@ -162,11 +162,11 @@ case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
 The header can be found between indices 6 and 7, and the mini-block
 between indices 9 and 10.
 
-The job uses the flag ``QPL_FLAG_RND_ACCESS``.
+The job uses the flag :c:macro:`QPL_FLAG_RND_ACCESS`.
 
 The initial CRC (i.e. the value written to job crc before the job is
 executed) is the CRC value (the high 32-bits of the index array) from
-the start of the mini-block. In the previous example, that is from index 1. 
+the start of the mini-block. In the previous example, that is from index 1.
 After the job completes, the returned CRC value (in job crc) should
 match the CRC value from the end of the mini-block, in this example 10.
 If it does not match, then the mini-block is not decompressed properly.

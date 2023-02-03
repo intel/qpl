@@ -23,7 +23,7 @@ to as *source-2*, whereas the main input stream will be referred to as
 *source-1*.
 
 By default, the source-1 data is read directly from the specified input
-buffer. If the ``QPL_FLAG_DECOMPRESS_ENABLE`` flag is given, then the data
+buffer. If the :c:macro:`QPL_FLAG_DECOMPRESS_ENABLE` flag is given, then the data
 from the input buffer is firstly decompressed, and then the decompressed
 data is sent to the filter unit.
 

@@ -9,15 +9,13 @@ Advanced Decompress Features
 ############################
 
 Normally, the hardware will only write complete qwords (8 bytes) on all,
-but a LAST job. If the flag ``QPL_FLAG_DECOMP_FLUSH_ALWAYS`` is used, then
+but a LAST job. If the flag :c:macro:`QPL_FLAG_DECOMP_FLUSH_ALWAYS` is used, then
 even on a non-LAST job, all the processed data will be written to the
 output.
 
 In case when the application passes in a tiny input buffer, the library
 will normally copy the data into internal buffer, and try to combine it
-with other small input buffers before submitting it to the hardware. If
-the flag ``QPL_FLAG_NO_BUFFER`` is specified, then this option will be
-ignored.
+with other small input buffers before submitting it to the hardware.
 
 By default, the library expects a DEFLATE stream to end cleanly during
 decompression; otherwise, it reports an error. What this means is that
@@ -75,6 +73,6 @@ have the ``b_final`` flag set. In this case, the user can specify
 not end with an EOB, but the processing will not stop until it reaches
 the end of the bit stream.
 
-The ``ignore_start_bits`` and ``ignore_start_bytes`` fields can be used 
+The ``ignore_start_bits`` and ``ignore_start_bytes`` fields can be used
 to start and stop decompression on a bit granularity rather than a byte granularity.
 

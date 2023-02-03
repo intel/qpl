@@ -9,8 +9,8 @@ Deflate with Dictionary
 #######################
 
 
-Intel® Query Processing Library (Intel® QPL) supports compression with 
-preset dictionary by implementing several auxiliary functions that work 
+Intel® Query Processing Library (Intel® QPL) supports compression with
+preset dictionary by implementing several auxiliary functions that work
 with ``qpl_dictionary``.
 
 

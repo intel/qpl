@@ -23,5 +23,5 @@ For a general introduction to Intel QPL, see :ref:`introduction_reference_link`.
 
    c_ref/c_job_apis
    c_ref/c_huffman_table_apis
-   c_ref/c_enums_and_structures
+   c_ref/c_common_definitions
    c_ref/c_status_codes

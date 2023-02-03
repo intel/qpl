@@ -56,7 +56,7 @@ Refer to the :ref:`huffman-tables-api-label` section for more information.
 .. attention::
    The current implementation does not support canned decompression
    across multiple jobs, thus canned decompression jobs must specify
-   the flags ``QPL_FLAG_FIRST | QPL_FLAG_LAST``.
+   the flags :c:macro:`QPL_FLAG_FIRST` | :c:macro:`QPL_FLAG_LAST`.
 
 
 Decompression "Output Overflow"
@@ -69,14 +69,14 @@ be resumed with a new output buffer to contain the remaining decompressed
 output.
 
 When the output buffer filled up before the input is completely processed,
-the library returns the status ``QPL_MORE_OUTPUT_NEEDED``. In this case,
+the library returns the status :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`. In this case,
 users can provide a new output buffer and reset :c:member:`qpl_job.next_out_ptr`
 and :c:member:`qpl_job.available_out` accordingly. The input buffer
 parameters :c:member:`qpl_job.next_in_ptr` and :c:member:`qpl_job.available_in`
 do not need to be reset since they would have been updated.
 
 Note that it is possible that the :c:member:`qpl_job.available_in` field
-is 0, but the returned status is ``QPL_MORE_OUTPUT_NEEDED``. In this case,
+is 0, but the returned status is :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`. In this case,
 the subsequent job will be submitted with a zero-length input buffer.
 
 
@@ -93,7 +93,7 @@ Checksums
 Decompression jobs return CRC-32 and 16-bit XOR checksums of the decompressed
 data in :c:member:`qpl_job.crc` and :c:member:`qpl_job.xor_checksum`.
 By default, the CRC-32 uses the polynomial ``0x104c11db7``, which follows ITU-T
-Recommendation V.42. If the flag ``QPL_FLAG_CRC32C`` is specified in
+Recommendation V.42. If the flag :c:macro:`QPL_FLAG_CRC32C` is specified in
 :c:member:`qpl_job.flags`, then the polynomial ``0x11edc6f41`` is used,
 which follows RFC 3720. To compute the 16-bit XOR checksum, the data is
 treated as 16-bit words. If the data has an odd number of bytes,
@@ -106,7 +106,7 @@ Gzip Stream Decompression
 The Gzip standard defines an encapsulation layer around a Deflate
 stream. In particular, a Gzip stream consists of a Gzip header, a
 Deflate stream, and a Gzip trailer. The decompressor assumes a raw
-Deflate stream by default. If the ``QPL_FLAG_GZIP_MODE`` flag is specified,
+Deflate stream by default. If the :c:macro:`QPL_FLAG_GZIP_MODE` flag is specified,
 then the library will skip over the Gzip header on the first job, and
 then start parsing the Deflate stream.
 

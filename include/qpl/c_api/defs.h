@@ -65,7 +65,7 @@ extern "C" {
 
 
 /**
- * @name Flags
+ * @addtogroup QPL_FLAGS
  * @brief Use this enumeration to indicate various options when submitting a job.
  * @{
  *
@@ -149,6 +149,11 @@ extern "C" {
  */
 #define QPL_FLAG_GEN_LITERALS 0x8000u
 
+/**
+ * Flag to enable canned compression and decompression
+ */
+#define QPL_FLAG_CANNED_MODE 0x00400000u
+
 /* CRC64 flags */
 /**
  * The data should be viewed as Big-Endian
@@ -181,10 +186,6 @@ extern "C" {
  */
 #define QPL_FLAG_OMIT_AGGREGATES 0x00200000u
 
-/**
- * Add description
- */
-#define QPL_FLAG_CANNED_MODE 0x00400000u
 /** @} */
 
 /**

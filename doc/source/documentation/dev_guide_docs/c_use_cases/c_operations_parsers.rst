@@ -28,7 +28,7 @@ stream, so :c:member:`qpl_job.src1_bit_width` must be set to 0.
 
 Source-2 can only be "parsed" as a packed-array. The default parser
 views the source-2 data a little-endian packed array. If the
-``QPL_FLAG_SRC2_BE`` flag is specified, then it is viewed as a big-endian
+:c:macro:`QPL_FLAG_SRC2_BE` flag is specified, then it is viewed as a big-endian
 packed array.
 
 
@@ -47,21 +47,21 @@ The format is:
       bit-width := bit-width of data stored as one byte
       encoded-data := <run>*
       run := <bit-packed-run> | <rle-run>
-      bit-packed-run := <bit-packed-header> <bit-packed-values> 
+      bit-packed-run := <bit-packed-header> <bit-packed-values>
       bit-packed-header := varint-encode(<bit-pack-count> << 1 | 1)
-         // we always bit-pack a multiple of 8 values at a time, so we only store the number of values / 8 
-      bit-pack-count := (number of values in this run) / 8 
+         // we always bit-pack a multiple of 8 values at a time, so we only store the number of values / 8
+      bit-pack-count := (number of values in this run) / 8
       bit-packed-values := data stored as a packed array of bit-width values
-      rle-run := <rle-header> <repeated-value> 
-      rle-header := varint-encode( (number of times repeated) << 1) 
+      rle-run := <rle-header> <repeated-value>
+      rle-header := varint-encode( (number of times repeated) << 1)
       repeated-value := value that is repeated, using a fixed-width of round-up-to-next-byte(bit-width)
 
-      varint := if((byte & 0x80) > 0) than the first bits are (byte & 0x7F), read 
-      next byte until number of read bytes = 4, or ((byte & 0x80) == 0). Then all 
-      obtained bits are connected sequentially - therefore the 1st bit of the 
-      second byte must go to the 7th position of the resulting unsigned integer. 
+      varint := if((byte & 0x80) > 0) than the first bits are (byte & 0x7F), read
+      next byte until number of read bytes = 4, or ((byte & 0x80) == 0). Then all
+      obtained bits are connected sequentially - therefore the 1st bit of the
+      second byte must go to the 7th position of the resulting unsigned integer.
 
 
 .. note::
-    The standard varint can consist of 5 encoded bytes. In the Intel® Query Processing Library (Intel® QPL), it 
+    The standard varint can consist of 5 encoded bytes. In the Intel® Query Processing Library (Intel® QPL), it
     is limited by 4.

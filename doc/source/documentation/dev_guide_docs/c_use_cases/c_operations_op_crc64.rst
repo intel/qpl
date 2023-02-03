@@ -26,7 +26,7 @@ least-significant set bit is bit-32, then the size of the resulting CRC
 would be 64-32 or 32.
 
 By default, the data is viewed as Little Endian. If the
-``QPL_FLAG_CRC64_BE`` flag is used, the data is viewed as Big Endian.
+:c:macro:`QPL_FLAG_CRC64_BE` flag is used, the data is viewed as Big Endian.
 
 When the data is LE, bit-0 of each byte is the least significant.
 Additionally, bit-0 of byte-0 is the least significant bit of the
@@ -41,7 +41,7 @@ the ``crc64`` field.
 This operation may not be linked, so the initial CRC is logically always
 0, but many CRC invert (in a bitwise sense) the initial CRC and the
 final CRC. To achieve this, the application should use the
-``QPL_FLAG_CRC64_INV`` flag. **Note** that the number of bits to be inverted
+:c:macro:`QPL_FLAG_CRC64_INV` flag. **Note** that the number of bits to be inverted
 is implied by the size of the polynomial (i.e. determined by where the
 least-significant set bit is found).
 

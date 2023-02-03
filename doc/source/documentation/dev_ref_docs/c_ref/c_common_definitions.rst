@@ -4,8 +4,15 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
-Common Enums and Structures
+Common Definitions
 ###########################
+
+Flags
+*****
+
+.. doxygengroup:: QPL_FLAGS
+   :project: Intel(R) Query Processing Library
+   :content-only:
 
 Enums
 *****
