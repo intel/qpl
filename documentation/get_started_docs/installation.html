@@ -684,19 +684,24 @@ CMake build option <code class="docutils literal notranslate"><span class="pre">
 <li><p>CMake* version 3.16.3 or higher</p></li>
 <li><p>GNU Make</p></li>
 </ul>
-<p>Additionally, <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 3.2 or higher is required
-for building and running Intel QPL even for Software Path execution.
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 3.2 or higher may be required
+when building and running Intel QPL with certain build options (see
+<a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a> for more details).
 Refer to <a class="reference external" href="https://github.com/intel/idxd-config/releases">accel-config releases</a> for the
 latest version.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Either the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
-or the user must update <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> with its location.</p>
+<p>Currently, the accelerator configuration library officially offers only a dynamic version, <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code>.
+By default, Intel QPL loads <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code> dynamically with <code class="docutils literal notranslate"><span class="pre">dlopen</span></code>, but static loading can be enabled
+using the build option <code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF</span></code> (see the <a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a> section).
+The default dynamic loading is recommended, because in that case <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code> will not be a compile-time dependency,
+and if the application uses only the Software Path, <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code> will not be a runtime dependency. The static loading
+option is provided as an alternative to users who may have concerns with using dynamic loading in their applications.</p>
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>It is required to add <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library to the link line (<code class="docutils literal notranslate"><span class="pre">-laccel-config</span></code>)
-when building an application with the Intel QPL.</p>
+<p>See the <a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a> section for additional requirements on <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>
+under different conditions.</p>
 </div>
 <p><strong>Windows* OS:</strong></p>
 <ul class="simple">
@@ -735,6 +740,28 @@ For information on benchmarking the library, see <a class="reference internal" h
 <p>To build Intel QPL from the GitHub release package (<code class="docutils literal notranslate"><span class="pre">.tar</span></code>, <code class="docutils literal notranslate"><span class="pre">.tgz</span></code>)
 without downloading sub-module dependencies for testing and benchmarking,
 use <code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TESTS=OFF</span></code>.</p>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]</span></code> - Enables loading the accelerator configuration library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>)
+dynamically with dlopen (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>If Intel QPL is built with <code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON</span></code>, which is the default value,
+<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> will be loaded dynamically with lazy binding, which means that if the application
+uses only the Software Path, the user does not need to have <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> installed. If the Hardware Path is used,
+the user has to either place <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code> or specify the location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>
+in <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> for the dynamic loader to find it.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>If Intel QPL is built with <code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF</span></code>, which is the non-default value,
+<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> will be loaded statically and it will be a dependency
+at both compile-time and runtime. And it is required to add <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library to the link line (<code class="docutils literal notranslate"><span class="pre">-laccel-config</span></code>) when
+building an application with the Intel QPL. The user has to either place <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code> or specify the
+location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> (for example, using <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code>). Since there may be different versions
+of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> on a system, the user is advised to create a symbolic link between <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code> and
+<code class="docutils literal notranslate"><span class="pre">libaccel-config.so.1</span></code> to avoid potential compatibility issues.</p>
 </div>
 </div>
 <div class="section" id="build-steps">

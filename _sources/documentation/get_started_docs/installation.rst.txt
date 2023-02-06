@@ -106,20 +106,25 @@ Before building Intel® QPL, install and set up the following tools:
 
 - GNU Make
 
-Additionally, ``libaccel-config`` library version 3.2 or higher is required
-for building and running Intel QPL even for Software Path execution.
+Additionally, ``libaccel-config`` library version 3.2 or higher may be required
+when building and running Intel QPL with certain build options (see
+:ref:`building_library_build_options_reference_link` for more details).
 Refer to `accel-config releases <https://github.com/intel/idxd-config/releases>`__ for the
 latest version.
 
 .. attention::
 
-   Either the ``libaccel-config`` library must be placed in ``/usr/lib64/``
-   or the user must update ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH`` with its location.
+   Currently, the accelerator configuration library officially offers only a dynamic version, ``libaccel-config.so``.
+   By default, Intel QPL loads ``libaccel-config.so`` dynamically with ``dlopen``, but static loading can be enabled
+   using the build option ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF`` (see the :ref:`building_library_build_options_reference_link` section).
+   The default dynamic loading is recommended, because in that case ``libaccel-config.so`` will not be a compile-time dependency,
+   and if the application uses only the Software Path, ``libaccel-config.so`` will not be a runtime dependency. The static loading
+   option is provided as an alternative to users who may have concerns with using dynamic loading in their applications.
 
 .. attention::
 
-   It is required to add ``libaccel-config`` library to the link line (``-laccel-config``)
-   when building an application with the Intel QPL.
+   See the :ref:`building_library_build_options_reference_link` section for additional requirements on ``libaccel-config``
+   under different conditions.
 
 **Windows\* OS:**
 
@@ -163,6 +168,27 @@ Intel QPL supports the following build options:
    To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
    without downloading sub-module dependencies for testing and benchmarking,
    use ``-DQPL_BUILD_TESTS=OFF``.
+
+-  ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]`` - Enables loading the accelerator configuration library (``libaccel-config``)
+   dynamically with dlopen (``ON`` by default).
+
+.. attention::
+
+   If Intel QPL is built with ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON``, which is the default value,
+   ``libaccel-config`` will be loaded dynamically with lazy binding, which means that if the application
+   uses only the Software Path, the user does not need to have ``libaccel-config`` installed. If the Hardware Path is used,
+   the user has to either place ``libaccel-config`` in ``/usr/lib64/`` or specify the location of ``libaccel-config``
+   in ``LD_LIBRARY_PATH`` for the dynamic loader to find it.
+
+.. attention::
+
+   If Intel QPL is built with ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF``, which is the non-default value,
+   ``libaccel-config`` will be loaded statically and it will be a dependency
+   at both compile-time and runtime. And it is required to add ``libaccel-config`` library to the link line (``-laccel-config``) when
+   building an application with the Intel QPL. The user has to either place ``libaccel-config`` in ``/usr/lib64/`` or specify the
+   location of ``libaccel-config`` (for example, using ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH``). Since there may be different versions
+   of ``libaccel-config`` on a system, the user is advised to create a symbolic link between ``libaccel-config.so`` and
+   ``libaccel-config.so.1`` to avoid potential compatibility issues.
 
 .. _building_library_build_reference_link:
 

@@ -61,13 +61,18 @@ Alternatively, in order to build ``compression_example.cpp`` individually using 
 
 .. code-block:: shell
 
-    g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl -laccel-config
+    g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl
 
 To run the example on the Hardware Path, use:
 
 .. code-block:: shell
 
     sudo ./compression_example hardware_path
+
+.. attention::
+
+   With the Hardware Path, the user must either place the ``libaccel-config`` library in ``/usr/lib64/``
+   or specify the location of ``libaccel-config`` in ``LD_LIBRARY_PATH`` for the dynamic loader to find it.
 
 To run the example on the Software Path, use:
 
@@ -77,8 +82,9 @@ To run the example on the Software Path, use:
 
 .. attention::
 
-   Either the ``libaccel-config`` library must be placed in ``/usr/lib64/``
-   or the user must update ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH`` with its location.
+   If Intel QPL is built with ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF`` (see :ref:`building_library_build_options_reference_link`
+   for details), replace ``-ldl`` with ``-laccel-config`` in the compilation command. The user must either place ``libaccel-config`` in
+   ``/usr/lib64/`` or specify the location of ``libaccel-config`` (for example, using ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH``).
 
 Refer to :ref:`Developer Guide <developer_guide_low_level_reference_link>`
 for more information about Intel QPL low-level C API.

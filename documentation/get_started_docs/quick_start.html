@@ -596,12 +596,17 @@ in the job structure.</p>
 <p>In order to build the library and all the examples, including the one above, follow steps at <a class="reference internal" href="installation.html#building-library-reference-link"><span class="std std-ref">Building the Library</span></a>.
 Compiled examples then would be located in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/low-level-api/</span></code>.</p>
 <p>Alternatively, in order to build <code class="docutils literal notranslate"><span class="pre">compression_example.cpp</span></code> individually using existing Intel QPL installation, use:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-I/&lt;install_dir&gt;/include<span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp<span class="w"> </span>/&lt;install_dir&gt;/lib64/libqpl.a<span class="w"> </span>-ldl<span class="w"> </span>-laccel-config
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-I/&lt;install_dir&gt;/include<span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp<span class="w"> </span>/&lt;install_dir&gt;/lib64/libqpl.a<span class="w"> </span>-ldl
 </pre></div>
 </div>
 <p>To run the example on the Hardware Path, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./compression_example<span class="w"> </span>hardware_path
 </pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>With the Hardware Path, the user must either place the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
+or specify the location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> in <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> for the dynamic loader to find it.</p>
 </div>
 <p>To run the example on the Software Path, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>software_path
@@ -609,8 +614,9 @@ Compiled examples then would be located in <code class="docutils literal notrans
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Either the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library must be placed in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
-or the user must update <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code> with its location.</p>
+<p>If Intel QPL is built with <code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=OFF</span></code> (see <a class="reference internal" href="installation.html#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a>
+for details), replace <code class="docutils literal notranslate"><span class="pre">-ldl</span></code> with <code class="docutils literal notranslate"><span class="pre">-laccel-config</span></code> in the compilation command. The user must either place <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> in
+<code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code> or specify the location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> (for example, using <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code>).</p>
 </div>
 <p>Refer to <a class="reference internal" href="../dev_guide_docs/low_level_developer_guide.html#developer-guide-low-level-reference-link"><span class="std std-ref">Developer Guide</span></a>
 for more information about Intel QPL low-level C API.
