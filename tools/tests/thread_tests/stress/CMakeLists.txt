@@ -20,7 +20,8 @@ target_link_libraries(stress_thread_tests
         PRIVATE tests_common
         PRIVATE tool_generator
         PRIVATE qpl
-        "$<$<PLATFORM_ID:Linux>:pthread;stdc++fs>")
+        "$<$<PLATFORM_ID:Linux>:pthread;stdc++fs>"
+        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
 
 set_target_properties(stress_thread_tests PROPERTIES CXX_STANDARD 17)
 

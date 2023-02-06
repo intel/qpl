@@ -42,10 +42,14 @@ target_compile_options(qpl
 target_compile_definitions(qpl
         PUBLIC -DQPL_LIB
         PUBLIC -DQPL_BADARG_CHECK
-        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>)
+        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>
+        PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG>)
 
-target_link_libraries(qpl
-        PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
+if (DYNAMIC_LOADING_LIBACCEL_CONFIG)
+    target_link_libraries(qpl PRIVATE ${CMAKE_DL_LIBS})
+else()
+    target_link_libraries(qpl PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
+endif()
 
 install(TARGETS qpl
         EXPORT ${PROJECT_NAME}Targets

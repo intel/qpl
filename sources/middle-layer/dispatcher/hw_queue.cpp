@@ -10,10 +10,14 @@
 #include <sys/mman.h>
 
 #include "hw_queue.hpp"
-#include "hw_definitions.h"
-#include "hw_devices.h"
 
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+#include "hw_configuration_driver.h"
+#else //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
+#include "hw_devices.h"
+#include "hw_definitions.h"
 #include "libaccel_config.h"
+#endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
 #define QPL_HWSTS_RET(expr, err_code) { if( expr ) { return( err_code ); }}
 #define DEC_BASE 10u         /**< @todo */
@@ -148,4 +152,4 @@ auto hw_queue::get_block_on_fault() const noexcept -> bool {
 }
 
 }
-#endif
+#endif //linux

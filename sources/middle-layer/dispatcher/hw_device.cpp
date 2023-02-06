@@ -11,11 +11,15 @@
 #include <inttypes.h>
 
 #include "hw_device.hpp"
-#include "hw_devices.h"
-#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+#include "hw_configuration_driver.h"
+#else //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
+#include "hw_devices.h"
+#include "hw_definitions.h"
 #include "libaccel_config.h"
+#endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
 static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
 static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
@@ -198,4 +202,4 @@ auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
 
 }
 
-#endif
+#endif //linux

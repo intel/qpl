@@ -17,11 +17,14 @@
 #include "qpl/c_api/defs.h"
 
 #if defined(linux )
-#include "hw_definitions.h"
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+#include "hw_configuration_driver.h"
+#else //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
 #include "hw_devices.h"
-
+#include "hw_definitions.h"
 #include "libaccel_config.h"
-#endif
+#endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
+#endif //linux
 
 namespace qpl::ml::dispatcher {
 
@@ -43,7 +46,7 @@ class hw_dispatcher final {
         accfg_ctx *driver_context_ptr_ = nullptr; /**< QPL driver context */
     };
 
-#endif
+#endif //linux
 
 public:
 
@@ -65,7 +68,7 @@ public:
 
     [[nodiscard]] auto device(size_t idx) const noexcept -> const hw_device &;
 
-#endif
+#endif //linux
 
     virtual ~hw_dispatcher() noexcept;
 
@@ -79,7 +82,10 @@ private:
     hw_context         hw_context_;
     device_container_t devices_{};
     size_t             device_count_      = 0;
-#endif
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+    hw_driver_t        hw_driver_{};
+#endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
+#endif //linux
 
     bool                  hw_support_;
     hw_accelerator_status hw_init_status_;

@@ -28,7 +28,8 @@ target_link_libraries(tests
         PRIVATE tool_generator
         PRIVATE qplref
         PRIVATE qpl
-        "$<$<PLATFORM_ID:Linux>:stdc++fs>")
+        "$<$<PLATFORM_ID:Linux>:stdc++fs>"
+        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
 
 set_target_properties(tests PROPERTIES CXX_STANDARD 17)
 

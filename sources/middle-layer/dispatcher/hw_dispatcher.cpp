@@ -43,6 +43,12 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 
     DIAG("Intel QPL version %s\n", QPL_VERSION);
 
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+    hw_accelerator_status status = hw_initialize_accelerator_driver(&hw_driver_);
+    QPL_HWSTS_RET(status != HW_ACCELERATOR_STATUS_OK, status);
+#endif
+
+
     DIAG("creating context\n");
     int32_t context_creation_status = accfg_new(&ctx_ptr);
     QPL_HWSTS_RET(0u != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
@@ -84,6 +90,10 @@ hw_dispatcher::~hw_dispatcher() noexcept {
     if (context_ptr != nullptr) {
         accfg_unref(context_ptr);
     }
+
+#ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
+    hw_finalize_accelerator_driver(&hw_driver_);
+#endif
 
     // Zeroing values
     hw_context_.set_driver_context_ptr(nullptr);

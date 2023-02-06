@@ -26,6 +26,7 @@ option(SANITIZE_THREADS "Enables threads sanitizing" OFF)
 option(LOG_HW_INIT "Enables HW initialization log" OFF)
 option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
+option(DYNAMIC_LOADING_LIBACCEL_CONFIG "Loads the accelerator configuration library (libaccel-config) dynamically with dlopen" ON)
 
 # Print user's settings
 message(STATUS "Memory sanitizing build: ${SANITIZE_MEMORY}")
@@ -33,6 +34,7 @@ message(STATUS "Threads sanitizing build: ${SANITIZE_THREADS}")
 message(STATUS "Hardware initialization logging: ${LOG_HW_INIT}")
 message(STATUS "Efficient wait instructions: ${EFFICIENT_WAIT}")
 message(STATUS "Fuzz testing build: ${LIB_FUZZING_ENGINE}")
+message(STATUS "Load libaccel-config dynamically with dlopen: ${DYNAMIC_LOADING_LIBACCEL_CONFIG}")
 
 if (SANITIZE_MEMORY)
     if (WIN32)

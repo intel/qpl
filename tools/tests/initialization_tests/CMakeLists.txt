@@ -20,7 +20,8 @@ target_link_libraries(init_tests
         PRIVATE tool_generator
         PRIVATE gtest
         PRIVATE qpl
-        PRIVATE middle_layer_lib)
+        PRIVATE middle_layer_lib
+        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
 
 set_target_properties(init_tests PROPERTIES CXX_STANDARD 17)
 
