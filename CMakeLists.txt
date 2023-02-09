@@ -7,7 +7,15 @@
 # Intel® Query Processing Library (Intel® QPL)
 # Build system
 
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+# If QPL is build with -DSANITIZE_THREADS=ON, use CMake v3.23 or higher
+# Before v3.23 CMake will not add -pthread when pthread is found in libc,
+# and this causes undefined reference errors when QPL is build with -DSANITIZE_THREADS=ON
+if (UNIX AND "${SANITIZE_THREADS}" STREQUAL "ON")
+    cmake_minimum_required(VERSION 3.23 FATAL_ERROR)
+else ()
+    cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+endif ()
+
 project(QPL VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/overrides.cmake")
