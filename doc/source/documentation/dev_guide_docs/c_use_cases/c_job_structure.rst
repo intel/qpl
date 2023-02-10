@@ -77,7 +77,7 @@ and initialized properly.
 
 .. attention::
 
-    The action of both ``qpl_get_job_size`` and ``qpl_init_job`` depends on
+    The action of both :c:func:`qpl_get_job_size` and :c:func:`qpl_init_job` depends on
     the provided execution path, so re-using the same job structure
     for different execution paths is not possible.
 

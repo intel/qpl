@@ -13,16 +13,16 @@ The "parser" is responsible for converting a series of bytes into a
 series of unsigned integers. The "parser" is defined by an enumeration
 :c:enum:`qpl_parser` in the field :c:member:`qpl_job.parser`.
 
-The default value ``qpl_p_le_packed_array`` views the input buffer as a
+The default value :c:member:`qpl_parser.qpl_p_le_packed_array` views the input buffer as a
 little-endian packed array of N-bit integers, where N is given by
 src1_bit_width. For example, if N=3, then the first element will be bits
 2:0 in the first byte, the second element will be bits 5:3, etc.
 
-If the parser is ``qpl_p_be_packed_array``, the buffer is viewed as a
+If the parser is :c:member:`qpl_parser.qpl_p_be_packed_array`, the buffer is viewed as a
 big-endian packed array. For example, with N=3, the first element will be bits
 7:5 of the first byte, the second element will be bits 4:2, etc.
 
-If the parser is specified as ``qpl_p_parquet_rle``, it is viewed as being
+If the parser is specified as :c:member:`qpl_parser.qpl_p_parquet_rle`, it is viewed as being
 in Parquet RLE format. In this case, the bit width is given in the data
 stream, so :c:member:`qpl_job.src1_bit_width` must be set to 0.
 
@@ -62,6 +62,6 @@ The format is:
       second byte must go to the 7th position of the resulting unsigned integer.
 
 
-.. note::
-    The standard varint can consist of 5 encoded bytes. In the Intel® Query Processing Library (Intel® QPL), it
-    is limited by 4.
+.. attention::
+    The standard varint can consist of 5 encoded bytes.
+    In the Intel® Query Processing Library (Intel® QPL), it is limited by 4.
