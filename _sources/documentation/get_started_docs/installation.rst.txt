@@ -102,7 +102,8 @@ Before building Intel® QPL, install and set up the following tools:
 
 - Universally Unique ID library ``uuid-dev`` version 2.35.2 or higher
 
-- CMake* version 3.16.3 or higher
+- CMake* version 3.16.3 or higher. If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher
+  (see :ref:`building_library_build_options_reference_link`)
 
 - GNU Make
 
@@ -146,6 +147,11 @@ Intel QPL supports the following build options:
 
 -  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default).
 -  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default).
+
+.. note::
+
+   If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.
+
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
 -  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
 -  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).

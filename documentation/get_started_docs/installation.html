@@ -681,7 +681,8 @@ CMake build option <code class="docutils literal notranslate"><span class="pre">
 <li><p>nasm 2.15.0 or higher (e.g., can be obtained from <a class="reference external" href="https://www.nasm.us">https://www.nasm.us</a>)</p></li>
 <li><p>GCC 8.2 or higher (Clang 12.0.1 or higher for building fuzz tests)</p></li>
 <li><p>Universally Unique ID library <code class="docutils literal notranslate"><span class="pre">uuid-dev</span></code> version 2.35.2 or higher</p></li>
-<li><p>CMake* version 3.16.3 or higher</p></li>
+<li><p>CMake* version 3.16.3 or higher. If Intel QPL is build with <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code>, use CMake* version 3.23 or higher
+(see <a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a>)</p></li>
 <li><p>GNU Make</p></li>
 </ul>
 <p>Additionally, <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 3.2 or higher may be required
@@ -718,6 +719,12 @@ under different conditions.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=[ON|OFF]</span></code> - Enables memory sanitizing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=[ON|OFF]</span></code> - Enables threads sanitizing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If Intel QPL is build with <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code>, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.</p>
+</div>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INIT=[ON|OFF]</span></code> - Enables hardware initialization log (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DEFFICIENT_WAIT=[ON|OFF]</span></code> - Enables usage of efficient wait instructions (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLIB_FUZZING_ENGINE=[ON|OFF]</span></code> - Enables fuzz testing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
