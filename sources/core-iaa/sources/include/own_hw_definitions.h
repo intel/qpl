@@ -22,17 +22,6 @@ extern "C" {
 #endif
 #endif
 
-
-#define HW_IMMEDIATELY_RET(expression, status) \
-if((expression)) { \
-    return status; \
-}
-
-#define HW_IMMEDIATELY_RET_NULLPTR(expression) \
-if(NULL == (expression)) { \
-    return QPL_STS_NULL_PTR_ERR; \
-}
-
 #define IMMEDIATELY_COMPLETE     0xFFFFu                      /**< @todo */
 #define MAX_BUF_SIZE             (1024u * 1024 * 1024u)       /**< @todo */
 

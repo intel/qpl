@@ -12,8 +12,6 @@
 #define PLATFORM 2
 #include "qplc_memop.h"
 
-#define OWN_OPCODE_CRC64 0x44u  /**< Intel® In-Memory Analytics Accelerator (Intel® IAA) CRC_64 operation code */
-
 /**
  * @brief Defines a type of the Intel IAA crc64 descriptor
  */
@@ -46,7 +44,7 @@ HW_PATH_IAA_API(void, descriptor_init_crc64, (hw_descriptor *const descriptor_pt
 
     own_hw_crc64_descriptor *const this_ptr = (own_hw_crc64_descriptor *) descriptor_ptr;
 
-    this_ptr->op_code_op_flags      = ADOF_OPCODE(OWN_OPCODE_CRC64);
+    this_ptr->op_code_op_flags      = ADOF_OPCODE(QPL_OPCODE_CRC64);
     this_ptr->source_ptr            = (uint8_t *) source_ptr;
     this_ptr->calculated_bytes      = size;
 

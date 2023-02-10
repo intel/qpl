@@ -9,12 +9,6 @@
 
 #define OWN_5_BIT_MASK          0x1fu /**< Mask for 5-bit integer */
 
-// todo add reference to operation description
-#define QPL_OPCODE_SCAN         0x50u    /**< Operation code for `SCAN` operation */
-#define QPL_OPCODE_EXTRACT      0x52u    /**< Operation code for `EXTRACT` operation */
-#define QPL_OPCODE_SELECT       0x53u    /**< Operation code for `SELECT` operation */
-#define QPL_OPCODE_EXPAND       0x56u    /**< Operation code for `EXPAND` operation */
-
 #define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x)  (((x) & 0x1Fu) << 7u)   /**< @todo */
 #define OWN_FILTER_FLAGS_SET_SOURCE_2_BE            (1u << 12u)             /**< @todo */
 #define OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(x)       (((x) & 0x1Fu) << 17u)  /**< @todo */

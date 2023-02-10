@@ -7,6 +7,8 @@
 #ifndef QPL_SOURCES_INCLUDE_OWN_QPL_CHECKERS_H_
 #define QPL_SOURCES_INCLUDE_OWN_QPL_CHECKERS_H_
 
+#include "qpl/c_api/status.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

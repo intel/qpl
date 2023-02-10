@@ -20,11 +20,11 @@
 #ifndef HW_PATH_HW_DESCRIPTORS_API_H_
 #define HW_PATH_HW_DESCRIPTORS_API_H_
 
+#include "own_hw_definitions.h"
 #include "hw_definitions.h"
 #include "hw_aecs_api.h"
 #include "hw_iaa_flags.h"
 #include "stdbool.h"
-
 
 #if !defined( HW_PATH_IAA_API )
 #define HW_PATH_IAA_API(type, name, arg) type HW_STDCALL hw_iaa_##name arg
@@ -595,6 +595,11 @@ static inline
 HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *const descriptor_ptr, bool flag)) {
     const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01u;
     const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5u;
+
+    // Cache control is a reserved field for CRC64, so set the flag to false to clear this field
+    if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_iaa_analytics_descriptor *)descriptor_ptr)->op_code_op_flags)) {
+        flag = false;
+    }
 
     if(flag)
         descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] |= CACHE_CONTROL_FLAG_BIT_MASK;

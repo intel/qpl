@@ -9,6 +9,7 @@
 #include "own_hw_definitions.h"
 #include "hw_aecs_api.h"
 #include "own_compress.h"
+#include "own_checkers.h"
 
 #define PLATFORM 2
 #include "qplc_memop.h"

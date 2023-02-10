@@ -14,7 +14,6 @@
 #include "dispatcher/hw_dispatcher.hpp"
 #include "dispatcher/numa.hpp"
 
-
 extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id) {
     auto result = HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     auto enqueue_failed = false;
