@@ -462,15 +462,16 @@
 <h1>CRC-64<a class="headerlink" href="#crc-64" title="Permalink to this headline">¶</a></h1>
 <p>This operation computes an arbitrary CRC up to 64-bytes in size.</p>
 <p>The polynomial is expressed in the normal or “not bit-reversed” form in
-the job’s <code class="docutils literal notranslate"><span class="pre">crc64_poly</span></code> field. The most-significant bit of the polynomial
+the job’s <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.crc64_poly" title="qpl_job.crc64_poly"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.crc64_poly</span></code></a> field. The most-significant bit of the polynomial
 (which is always 1) is not expressed, and the next most-significant bit
 is written to bit-63 of the field. That is, the polynomial is written to
 the high end of the field. If the polynomial is for a 64-bit CRC, then
 bit-0 would also be set. If the CRC is smaller, then the
 least-significant bit set will be at a higher bit position.</p>
 <p>For example, the CRC32 used by DEFLATE is defined by the 33-bit
-polynomial 104c11db7. To generate this CRC with the <code class="docutils literal notranslate"><span class="pre">qpl_crc64</span></code> operation,
-one would set the <code class="docutils literal notranslate"><span class="pre">crc64_poly</span></code> field to: <em>04c11db700000000</em>. Since the
+polynomial 104c11db7.
+To generate this CRC with the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_operation.qpl_op_crc64" title="qpl_operation.qpl_op_crc64"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_operation.qpl_op_crc64</span></code></a> operation,
+one would set the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.crc64_poly" title="qpl_job.crc64_poly"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.crc64_poly</span></code></a> field to: <code class="docutils literal notranslate"><span class="pre">04c11db700000000</span></code>. Since the
 least-significant set bit is bit-32, then the size of the resulting CRC
 would be 64-32 or 32.</p>
 <p>By default, the data is viewed as Little Endian. If the
@@ -478,37 +479,36 @@ would be 64-32 or 32.</p>
 <p>When the data is LE, bit-0 of each byte is the least significant.
 Additionally, bit-0 of byte-0 is the least significant bit of the
 output. If the polynomial is smaller than 64-bits, the CRC is found in
-the high end of the <code class="docutils literal notranslate"><span class="pre">crc64</span></code> field.</p>
+the high end of the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.crc64" title="qpl_job.crc64"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.crc64</span></code></a> field.</p>
 <p>When the data is BE, bit-0 of each byte is the most significant. Bit-7
 of byte-7 of the result is then the least significant bit. If the
 polynomial is smaller than 64-bits, the CRC is found in the low end of
-the <code class="docutils literal notranslate"><span class="pre">crc64</span></code> field.</p>
+the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.crc64" title="qpl_job.crc64"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.crc64</span></code></a> field.</p>
 <p>This operation may not be linked, so the initial CRC is logically always
 0, but many CRC invert (in a bitwise sense) the initial CRC and the
 final CRC. To achieve this, the application should use the
-<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_INV" title="QPL_FLAG_CRC64_INV"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a> flag. <strong>Note</strong> that the number of bits to be inverted
-is implied by the size of the polynomial (i.e. determined by where the
-least-significant set bit is found).</p>
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_INV" title="QPL_FLAG_CRC64_INV"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a> flag.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of bits to be inverted is implied by the size of the polynomial
+(i.e. determined by where the least-significant set bit is found).</p>
+</div>
 <p>Here is some well-known CRC’s, with corresponding settings and place to
 find the result:</p>
 <table class="table">
 <colgroup>
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 30%" />
+<col style="width: 31%" />
 <col style="width: 16%" />
-<col style="width: 19%" />
-<col style="width: 20%" />
-<col style="width: 22%" />
-<col style="width: 23%" />
 </colgroup>
 <thead>
-<tr class="row-odd"><th class="head"><p><strong>CRC</strong></p></th>
-<th class="head"><p><strong>cr
-c64_poly</strong></p></th>
-<th class="head"><p><strong>Bit
-Order</strong></p></th>
-<th class="head"><p><strong>Invert
-CRC</strong></p></th>
-<th class="head"><p><strong>crc64
-(Output)</strong></p></th>
+<tr class="row-odd"><th class="head"><p>CRC</p></th>
+<th class="head"><p>crc64_poly</p></th>
+<th class="head"><p>Bit Order</p></th>
+<th class="head"><p>Invert CRC</p></th>
+<th class="head"><p>crc64 (Output)</p></th>
 </tr>
 </thead>
 <tbody>
@@ -516,10 +516,8 @@ CRC</strong></p></th>
 (gzip)</p></td>
 <td><p>04C11D
 B700000000</p></td>
-<td><p>QPL_FL
-AG_CRC64_BE</p></td>
-<td><p>QPL_FL
-AG_CRC64_INV</p></td>
+<td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_BE" title="QPL_FLAG_CRC64_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></p></td>
+<td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_INV" title="QPL_FLAG_CRC64_INV"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></p></td>
 <td><dl class="simple">
 <dt>00000000</dt><dd><p><strong>XXXXXXXX</strong></p>
 </dd>
@@ -531,8 +529,7 @@ AG_CRC64_INV</p></td>
 <td><p>04C11D
 B700000000</p></td>
 <td></td>
-<td><p>QPL_FL
-AG_CRC64_INV</p></td>
+<td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_INV" title="QPL_FLAG_CRC64_INV"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></p></td>
 <td><p><strong>XXXXXXX
 X</strong>00000000</p></td>
 </tr>
@@ -551,10 +548,8 @@ X</strong>00000000</p></td>
 16-CCITT</p></td>
 <td><p>102100
 0000000000</p></td>
-<td><p>QPL_FL
-AG_CRC64_BE</p></td>
-<td><p>QPL_FL
-AG_CRC64_INV</p></td>
+<td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_BE" title="QPL_FLAG_CRC64_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></p></td>
+<td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_CRC64_INV" title="QPL_FLAG_CRC64_INV"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></p></td>
 <td><p>000000000
 000<strong>XXXX</strong></p></td>
 </tr>

@@ -496,75 +496,80 @@ compression and decompression.</p>
 specified:</p>
 <table class="table">
 <colgroup>
-<col style="width: 20%" />
-<col style="width: 29%" />
-<col style="width: 51%" />
+<col style="width: 37%" />
+<col style="width: 22%" />
+<col style="width: 40%" />
 </colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>QPL Flag</p></th>
+<th class="head"><p>Operation</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
 <tbody>
-<tr class="row-odd"><td><p>HUFFMAN_BE</p></td>
-<td><p>compress or
-decompress</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_HUFFMAN_BE" title="QPL_FLAG_HUFFMAN_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a></p></td>
+<td><p>Compression or
+Decompression</p></td>
 <td><p>Huffman tokens are in Big Endian
 format</p></td>
 </tr>
-<tr class="row-even"><td><p>NO_HDRS</p></td>
-<td><p>decompress</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a></p></td>
+<td><p>Decompression</p></td>
 <td><p>Parse only Huffman tokens</p></td>
 </tr>
-<tr class="row-odd"><td></td>
-<td><p>compress</p></td>
+<tr class="row-even"><td></td>
+<td><p>Compression</p></td>
 <td><p>Write no headers or EOBs</p></td>
 </tr>
-<tr class="row-even"><td><p>GEN_LITERALS</p></td>
-<td><p>compress-only</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a></p></td>
+<td><p>Compression only</p></td>
 <td><p>Generate only literals</p></td>
 </tr>
 </tbody>
 </table>
-<p>The <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> can be used with any compression job. If <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> is
-specified, then <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> must be specified as well. The only allowed
-combination of these are: <code class="docutils literal notranslate"><span class="pre">none</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>, <code class="docutils literal notranslate"><span class="pre">NO_HDRS+HUFFMAN_BE</span></code>.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> flag tells the hardware that the Huffman tokens are in a
-16-bit big-endian format. When <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code> is specified, then <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>
-must be specified as well, although the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag itself can be used
-without <code class="docutils literal notranslate"><span class="pre">HUFFMAN_BE</span></code>.</p>
-<p>When the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag is used for decompress jobs, it should be used for
+<p>The <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a> can be used with any compression job.</p>
+<p>If <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_HUFFMAN_BE" title="QPL_FLAG_HUFFMAN_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a> is specified, then <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> must be specified as well.
+The only allowed combination of these are:
+<code class="docutils literal notranslate"><span class="pre">none</span></code>, <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a>, <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> + <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_HUFFMAN_BE" title="QPL_FLAG_HUFFMAN_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a>.
+The <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_HUFFMAN_BE" title="QPL_FLAG_HUFFMAN_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a> flag tells the hardware that the Huffman tokens are in a
+16-bit big-endian format.</p>
+<p>When the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> flag is used for decompress jobs, it should be used for
 all jobs, although it is needed for the FIRST job and the LAST job
-(i.e. the jobs with the FIRST and LAST flags set).</p>
-<p>When a decompress job has <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> and FIRST set, it instructs the driver
-to configure the hardware to expect the bit-stream to start with a
+(i.e. the jobs with the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> flags set).</p>
+<p>When a decompress job has <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> set
+, it instructs the driver to configure the hardware to expect the bit-stream to start with a
 Huffman token rather than with a block header. It also requires a
 decompress Huffman table to be provided, which is used to configure the
 hardware appropriately.</p>
-<p>When a decompress job has <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> and LAST set, it instructs the driver
-to tell the hardware not to expect the stream to end with an EOB token.</p>
+<p>When a decompress job has <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> set
+, it instructs the driver to tell the hardware not to expect the stream to end with an EOB token.</p>
 <p>The decompress Huffman table can be constructed by the application, or
 it can be constructed by the auxiliary functions
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_triplets" title="qpl_huffman_table_init_with_triplets"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_triplets()</span></code></a>,
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_histogram" title="qpl_huffman_table_init_with_histogram"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_histogram()</span></code></a> or
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_other" title="qpl_huffman_table_init_with_other"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_other()</span></code></a>.
-Refer to the <a class="reference internal" href="c_use_huffman_tables.html#huffman-tables-api-label"><span class="std std-ref">Huffman Table Objects</span></a>
-section for more information.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">NO_HDRS`</span> <span class="pre">and</span> <span class="pre">``GEN_LITERALS</span></code> flags are used for decompression,
+Refer to the <a class="reference internal" href="c_use_huffman_tables.html#huffman-tables-api-label"><span class="std std-ref">Huffman Table Objects</span></a> section for more information.</p>
+<p>If <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a> flags are used for decompression,
 then the pointer to the decompression Huffman table must be non-null.
 Either it must point to a reserved memory area where the table be created
-in the case <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, or to already created table otherwise.</p>
-<p>When the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag is used for compress jobs, it instructs the driver
+in the case <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a>, or to already created table otherwise.</p>
+<p>When the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> flag is used for compress jobs, it instructs the driver
 not to write any block header or trailer (i.e. EOB tokens) to the
 stream.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> is used with <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, then the entire file must be
-contained in the single block. This means that both FIRST and LAST must
+<p>If <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> is used with <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a>
+, then the entire file must be contained in the single block.
+This means that both <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> must
 be specified. Also in this case the user must include a compress Huffman
 table structure. This structure is to be overwritten with the generated
 Huffman Table.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> flag is only for compress jobs. This instructs the
+<p>The <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a> flag is only for compress jobs. This instructs the
 hardware to generate only literal tokens and no match tokens. Currently,
-the decompressor, when using the <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code> flag, can only parse literal
-tokens. So the compressor, when using <code class="docutils literal notranslate"><span class="pre">NO_HDRS</span></code>, must use the <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code>
+the decompressor, when using the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a> flag, can only parse literal
+tokens. So the compressor, when using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_NO_HDRS" title="QPL_FLAG_NO_HDRS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a>, must use the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a>
 flag, otherwise the result would not be decompressed with the Intel QPL.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">GEN_LITERALS</span></code> flag is used for compression, then the pointer to the
+<p>If <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GEN_LITERALS" title="QPL_FLAG_GEN_LITERALS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a> flag is used for compression, then the pointer to the
 compression Huffman table must be non-null. Either it must point to a reserved
-memory area where the table be created in the case <code class="docutils literal notranslate"><span class="pre">DYNAMIC_HUFFMAN</span></code>, or to
+memory area where the table be created in the case <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a>, or to
 already created table otherwise.</p>
 <div class="section" id="big-endian-16-format">
 <h2>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">¶</a></h2>
@@ -1119,8 +1124,10 @@ like:</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Note</strong> that in the figure earlier, “Words”, “Bytes”, and “Bits” refer
-to the original value before the bit reversal.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>In the figure above, “Words”, “Bytes”, and “Bits” refer to the original value before the bit reversal.</p>
+</div>
 <p>After the bit-reversal, the tokens appear as if the input stream is
 encoded in LE format. To process BE16 data, all we need to bit-reverse
 each 16-bit word as we read it or write it, and otherwise pretend that

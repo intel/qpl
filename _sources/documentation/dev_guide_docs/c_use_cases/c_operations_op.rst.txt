@@ -9,18 +9,16 @@
 Operations
 ##########
 
-
 .. _c_operations_table_reference_link:
 
-
-================== ======================= ===================
-Operation          Number of Input Streams Output Stream Type
-================== ======================= ===================
-Scan               1                       Bit Vector
-Extract            1                       Array or Bit Vector
-Select             2                       Array or Bit Vector
-Expand             2                       Array or Bit Vector
-================== ======================= ===================
+======================================= ======================== ===================
+Operation                                Number of Input Streams Output Stream Type
+======================================= ======================== ===================
+:ref:`scan_operation_reference_link`    1                        Bit Vector
+:ref:`extract_operation_reference_link` 1                        Array or Bit Vector
+:ref:`select_operation_reference_link`  2                        Array or Bit Vector
+:ref:`expand_operation_reference_link`  2                        Array or Bit Vector
+======================================= ======================== ===================
 
 
 .. toctree::

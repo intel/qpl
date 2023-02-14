@@ -4,6 +4,7 @@
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
 
+.. _analytics_output_modifications_reference_link:
 
 Output Modification
 ###################
@@ -14,14 +15,13 @@ bit-vector, or an array); i.e. whether the bit-width of the output is 1
 or more than 1.
 
 The output modification is specified through an enumeration in the field
-``out_bit_width``. It can have logical values: 0, 8, 16, or 32. A value of 0
+:c:member:`qpl_job.out_bit_width`. It can have logical values: 0, 8, 16, or 32. A value of 0
 corresponds to no output modification. The other three values invoke
 output modification.
 
 
 Output Modification for Nominal Bit Vector Output
 *************************************************
-
 
 In case of nominal bit vector output, when the bit vector is expected to
 be sparse, it may be more efficient to represent the bit vector as a
@@ -40,7 +40,6 @@ error.
 Output Modification for Nominal Array Output
 ********************************************
 
-
 Here, the nominal output format is a packed array of integers. The
 output modification is to extend the bit-width of the output to the
 specified size, effectively “unpacking” them. This may make it easier
@@ -48,6 +47,8 @@ for software to process the results.
 
 For example, if the output is nominally 11-bits wide, it could be
 written as 16-bit integers. The specified size must be at least as wide
-as the nominal sizes. You may **not** truncate an 11-bit wide value to
-8-bits.
+as the nominal sizes.
+
+.. warning::
+    User must not truncate an 11-bit wide value to 8-bits.
 

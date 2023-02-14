@@ -459,9 +459,10 @@
   <blockquote>
 <div></div></blockquote>
 <div class="section" id="extract">
-<h1>Extract<a class="headerlink" href="#extract" title="Permalink to this headline">¶</a></h1>
-<p>The extract operation outputs input elements whose indices (starting at 0)
-fall within the inclusive range defined by <code class="docutils literal notranslate"><span class="pre">param_low</span></code> and <code class="docutils literal notranslate"><span class="pre">param_high</span></code>.
+<span id="extract-operation-reference-link"></span><h1>Extract<a class="headerlink" href="#extract" title="Permalink to this headline">¶</a></h1>
+<p>The extract operation (or <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_operation.qpl_op_extract" title="qpl_operation.qpl_op_extract"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_operation.qpl_op_extract</span></code></a>)
+outputs input elements whose indices (starting at 0) fall within the inclusive
+range defined by <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.param_low" title="qpl_job.param_low"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.param_low</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.param_high" title="qpl_job.param_high"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.param_high</span></code></a>.
 So if the bit width of the output is the same as the bit width of the
 input, then the number of output elements should be <code class="docutils literal notranslate"><span class="pre">(param_high</span> <span class="pre">-</span> <span class="pre">param_low</span> <span class="pre">+</span> <span class="pre">1)</span></code>.</p>
 </div>

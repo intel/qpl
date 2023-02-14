@@ -466,9 +466,9 @@ these values varies slightly depending on whether the output is
 nominally a bit vector or an array:</p>
 <table class="table">
 <colgroup>
-<col style="width: 29%" />
-<col style="width: 41%" />
-<col style="width: 29%" />
+<col style="width: 47%" />
+<col style="width: 31%" />
+<col style="width: 22%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Field</p></th>
@@ -477,21 +477,19 @@ nominally a bit vector or an array:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>fir
-st_index_min_value</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.first_index_min_value" title="qpl_job.first_index_min_value"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.first_index_min_value</span></code></a></p></td>
 <td><p>Index of first 1-bit in
 output</p></td>
 <td><p>Min value over
 output</p></td>
 </tr>
-<tr class="row-odd"><td><p>la
-st_index_max_value</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_index_max_value" title="qpl_job.last_index_max_value"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_index_max_value</span></code></a></p></td>
 <td><p>Index of last 1-bit in
 output</p></td>
 <td><p>Max value over
 output</p></td>
 </tr>
-<tr class="row-even"><td><p>sum_value</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.sum_value" title="qpl_job.sum_value"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.sum_value</span></code></a></p></td>
 <td><p>Number of 1-bits in output</p></td>
 <td><p>Sum of output
 values</p></td>
@@ -504,7 +502,8 @@ should start and end walking through the results to find all the 1’s.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The meaning of the aggregates is not changed by the output
-modification. If the output is nominally a bit vector, and due to the
+modification (see <a class="reference internal" href="c_operations_output_modification.html#analytics-output-modifications-reference-link"><span class="std std-ref">Output Modification</span></a>).
+If the output is nominally a bit vector, and due to the
 output modification, the output actually contains 32-bit indices, the
 aggregates still reflect the bit vector values.</p>
 </div>

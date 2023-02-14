@@ -486,24 +486,27 @@
 <div></div></blockquote>
 <div class="section" id="hardware-path-optimizations">
 <span id="hw-path-optimizations-reference-link"></span><h1>Hardware Path Optimizations<a class="headerlink" href="#hardware-path-optimizations" title="Permalink to this headline">¶</a></h1>
-<p>The following section contains information about optimizations for
+<p>The following section contains information about internal optimizations for
 hardware path supported by Intel® Query Processing Library (Intel® QPL).</p>
 <div class="section" id="multi-descriptor-processing">
 <h2>Multi-Descriptor Processing<a class="headerlink" href="#multi-descriptor-processing" title="Permalink to this headline">¶</a></h2>
-<p>The library can split <code class="docutils literal notranslate"><span class="pre">qpl_scan</span></code> operation onto
+<p>The library can split <code class="docutils literal notranslate"><span class="pre">qpl_op_scan_*</span></code> operation onto
 several sub-tasks and perform them in paralleled mode. In other words,
 if the following conditions are met:</p>
 <ul class="simple">
-<li><p>This is <code class="docutils literal notranslate"><span class="pre">qpl_scan</span></code> (<code class="docutils literal notranslate"><span class="pre">qpl_scan_range</span></code>) operation.</p></li>
+<li><p>This is <code class="docutils literal notranslate"><span class="pre">qpl_op_scan_*</span></code> operation.</p></li>
 <li><p>Nominal bit array output, i.e. no output modifications.</p></li>
 <li><p>Input data size is at least 32kB large.</p></li>
 <li><p>Input is in Little- or Big-Endian format (no encoded input support).</p></li>
 <li><p>Aggregates and checksums are disabled via appropriate flags.</p></li>
 <li><p>No more than 1 work queue per 1 device configured.</p></li>
 <li><p>Operation should be executed with synchronous interface
-<code class="docutils literal notranslate"><span class="pre">qpl_execute_job(...)</span></code>.</p></li>
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a>.</p></li>
 </ul>
-<p><strong>Note</strong>: the last limitation is temporary due to library refactoring.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last limitation will be removed in some of the future releases.</p>
+</div>
 <p>Then the operation is auto-paralleled on the library level during
 execution on hardware path. This is intended to receive better
 performance when processing large streams.</p>

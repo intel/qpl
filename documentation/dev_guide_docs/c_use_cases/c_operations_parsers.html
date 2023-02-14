@@ -489,14 +489,14 @@
 <p>The “parser” is responsible for converting a series of bytes into a
 series of unsigned integers. The “parser” is defined by an enumeration
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_parser" title="qpl_parser"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_parser</span></code></a> in the field <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.parser" title="qpl_job.parser"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.parser</span></code></a>.</p>
-<p>The default value <code class="docutils literal notranslate"><span class="pre">qpl_p_le_packed_array</span></code> views the input buffer as a
+<p>The default value <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_parser.qpl_p_le_packed_array" title="qpl_parser.qpl_p_le_packed_array"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_parser.qpl_p_le_packed_array</span></code></a> views the input buffer as a
 little-endian packed array of N-bit integers, where N is given by
 src1_bit_width. For example, if N=3, then the first element will be bits
 2:0 in the first byte, the second element will be bits 5:3, etc.</p>
-<p>If the parser is <code class="docutils literal notranslate"><span class="pre">qpl_p_be_packed_array</span></code>, the buffer is viewed as a
+<p>If the parser is <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_parser.qpl_p_be_packed_array" title="qpl_parser.qpl_p_be_packed_array"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_parser.qpl_p_be_packed_array</span></code></a>, the buffer is viewed as a
 big-endian packed array. For example, with N=3, the first element will be bits
 7:5 of the first byte, the second element will be bits 4:2, etc.</p>
-<p>If the parser is specified as <code class="docutils literal notranslate"><span class="pre">qpl_p_parquet_rle</span></code>, it is viewed as being
+<p>If the parser is specified as <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_parser.qpl_p_parquet_rle" title="qpl_parser.qpl_p_parquet_rle"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_parser.qpl_p_parquet_rle</span></code></a>, it is viewed as being
 in Parquet RLE format. In this case, the bit width is given in the data
 stream, so <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.src1_bit_width" title="qpl_job.src1_bit_width"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.src1_bit_width</span></code></a> must be set to 0.</p>
 <p>Source-2 can only be “parsed” as a packed-array. The default parser
@@ -528,10 +528,10 @@ bit-width cannot exceed 32-bits.</p>
 <span class="n">second</span> <span class="n">byte</span> <span class="n">must</span> <span class="n">go</span> <span class="n">to</span> <span class="n">the</span> <span class="mi">7</span><span class="n">th</span> <span class="n">position</span> <span class="n">of</span> <span class="n">the</span> <span class="n">resulting</span> <span class="n">unsigned</span> <span class="n">integer</span><span class="o">.</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The standard varint can consist of 5 encoded bytes. In the Intel® Query Processing Library (Intel® QPL), it
-is limited by 4.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The standard varint can consist of 5 encoded bytes.
+In the Intel® Query Processing Library (Intel® QPL), it is limited by 4.</p>
 </div>
 </div>
 </div>
