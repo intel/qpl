@@ -6,7 +6,7 @@
 
 set(QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS "-Wall;-Wextra;-fPIC;-fstack-protector;-fstack-protector-strong;-fstack-clash-protection;--param=ssp-buffer-size=4")
 set(QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS "-Wl,-z,relro,-z,now;-Wl,-z,noexecstack")
-set(QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS "-fno-exceptions;-fno-rtti;-fno-threadsafe-statics")
+set(QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS "-fno-exceptions;-fno-rtti")
 
 set(QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS "/W3;/WX;/GS")
 set(QPL_WINDOWS_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS "")

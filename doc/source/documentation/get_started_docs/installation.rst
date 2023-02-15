@@ -98,7 +98,8 @@ Before building Intel® QPL, install and set up the following tools:
 
 - nasm 2.15.0 or higher (e.g., can be obtained from https://www.nasm.us)
 
-- GCC 8.2 or higher (Clang 12.0.1 or higher for building fuzz tests)
+- Intel QPL requires C++ compiler with C++17 standard support.
+  For instance, GCC 8.2+ (or Clang 12.0.1+ for building fuzz tests).
 
 - Universally Unique ID library ``uuid-dev`` version 2.35.2 or higher
 

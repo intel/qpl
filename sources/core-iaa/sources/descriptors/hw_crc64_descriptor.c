@@ -13,7 +13,8 @@
 #include "qplc_memop.h"
 
 /**
- * @brief Defines a type of the Intel IAA crc64 descriptor
+ * @brief Defines a type of the Intel® In-Memory Analytics Accelerator (Intel® IAA)
+ * crc64 descriptor
  */
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint32_t trusted_fields;         /**< 19:0 PASID - process address space ID; 30:20 - reserved; 31 - User/Supervisor */

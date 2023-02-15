@@ -20,21 +20,9 @@
 
 namespace qpl::ml::dispatcher {
 
-
-static int is_initialized = 0;
-static std::mutex hw_init_lock;
-
 hw_dispatcher::hw_dispatcher() noexcept {
-    if (!is_initialized) {
-        hw_init_lock.lock();
-        if (!is_initialized) {
-            hw_init_status_ = hw_dispatcher::initialize_hw();
-            hw_support_     = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
-
-            is_initialized = 1;
-        }
-        hw_init_lock.unlock();
-    }
+    hw_init_status_ = hw_dispatcher::initialize_hw();
+    hw_support_     = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
 }
 
 auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
@@ -100,9 +88,12 @@ hw_dispatcher::~hw_dispatcher() noexcept {
 #endif
 }
 
+// starting from C++11 standard,
+// it is guarantued that the following would be thread-safe
+// and created only once
+// (case: static variables with block scope)
 auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher & {
     static hw_dispatcher instance{};
-
     return instance;
 }
 

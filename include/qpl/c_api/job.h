@@ -164,19 +164,8 @@ QPL_API(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t * job_size_
  *                              @ref qpl_path_hardware or @ref qpl_path_software
  * @param[in,out]  qpl_job_ptr  a pointer to the @ref qpl_job structure
  *
- * @warning If multiple processes are created to submit jobs to the accelerator in the same application,
- * forking child process(es) must be done before the first @ref qpl_init_job function with @ref qpl_path_hardware.
- * Otherwise, the child process(es) may crash.
- *
  * @warning Memory for qpl_job structure must be allocated at the application side. Size (in bytes)
- * must be obtained with the @ref qpl_get_job_size function and then type-casted to @ref qpl_job :
- *
- * @code
- *  uint32_t  size;
- *  qpl_job *qpl_job_ptr;
- *  status = qpl_get_job_size(&size);
- *  qpl_job_ptr = (qpl_job*)malloc(size);
- * @endcode
+ * must be obtained with the @ref qpl_get_job_size function.
  *
  * @note qpl_job is an alias to the @ref qpl_job structure - must contain additional internal memory buffers for
  * SW path of compression/decompression/etc.

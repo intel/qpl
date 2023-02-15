@@ -17,7 +17,7 @@ typedef uint64_t hw_operation_flags_t; /**< Represents operation's flags */
 
 /* ################# COMPRESSION FLAGS ################# */
 /**
- * @name Operation codes
+ * @name Operation codes for Intel® In-Memory Analytics Accelerator (Intel® IAA)
  * @anchor HW_OPCODES
  * @todo Opcode values
  * @{
