@@ -63,6 +63,11 @@ Alternatively, in order to build ``compression_example.cpp`` individually using 
 
     g++ -I/<install_dir>/include -o compression_example compression_example.cpp /<install_dir>/lib64/libqpl.a -ldl
 
+.. attention::
+
+   Intel QPL could be also used from C applications.
+   This would still require C++ runtime library installed on the system, and adding `-lstdc++`.
+
 To run the example on the Hardware Path, use:
 
 .. code-block:: shell

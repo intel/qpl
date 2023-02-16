@@ -599,6 +599,11 @@ Compiled examples then would be located in <code class="docutils literal notrans
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-I/&lt;install_dir&gt;/include<span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp<span class="w"> </span>/&lt;install_dir&gt;/lib64/libqpl.a<span class="w"> </span>-ldl
 </pre></div>
 </div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Intel QPL could be also used from C applications.
+This would still require C++ runtime library installed on the system, and adding <cite>-lstdc++</cite>.</p>
+</div>
 <p>To run the example on the Hardware Path, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./compression_example<span class="w"> </span>hardware_path
 </pre></div>

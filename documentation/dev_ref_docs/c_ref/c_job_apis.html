@@ -527,24 +527,13 @@
 <dt class="sig sig-object c" id="c.qpl_init_job">
 <span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_init_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_init_job" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>Initializes the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and ensures proper alignment of internal structures. This API should be called only once, after a new <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> object is allocated. </p>
-<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint32_t</span>  <span class="n">size</span><span class="p">;</span>
-<span class="n">qpl_job</span> <span class="o">*</span><span class="n">qpl_job_ptr</span><span class="p">;</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">qpl_get_job_size</span><span class="p">(</span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
-<span class="n">qpl_job_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">qpl_job</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
-</pre></div>
-</div>
-</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>If multiple processes are created to submit jobs to the accelerator in the same application, forking child process(es) must be done before the first <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"><span class="std std-ref">qpl_init_job</span></a> function with <a class="reference internal" href="c_common_definitions.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"><span class="std std-ref">qpl_path_hardware</span></a>. Otherwise, the child process(es) may crash.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Memory for <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure must be allocated at the application side. Size (in bytes) must be obtained with the <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"><span class="std std-ref">qpl_get_job_size</span></a> function and then type-casted to <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> :</p>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> is an alias to the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure - must contain additional internal memory buffers for SW path of compression/decompression/etc.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Memory for <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure must be allocated at the application side. Size (in bytes) must be obtained with the <a class="reference internal" href="#d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"><span class="std std-ref">qpl_get_job_size</span></a> function.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
