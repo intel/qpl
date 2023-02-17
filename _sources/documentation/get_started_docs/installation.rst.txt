@@ -66,6 +66,14 @@ With configuration files found at either ``<qpl-library>/tools/configs/`` or ``<
 With configuration files of the format ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s.conf`` or
 ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s-n<which node>.conf``.
 
+Alternatively, users can use the following commands to directly configure the device with the ``accel-config``:
+
+.. code-block:: shell
+
+   sudo accel-config load-config -c <config file>
+   sudo accel-config enable-device <device>
+   sudo accel-config enable-wq <device>/<wq>
+
 .. attention::
 
    Sudo privileges are required to configure Intel® IAA instance.
@@ -74,13 +82,11 @@ With configuration files of the format ``<# nodes>n<# devices>d<# engines>e<# of
 
   By default, Intel® QPL uses the ``Block On Fault`` feature
   required to handle page faults on the Intel® IAA side. The
-  ``block on fault`` flag must be set with the ``accel-config`` for each
-  device. Performance can be increased if an application performs its own
-  ``pre-faulting``. In this case, the ``block on fault`` flag is
-  not required and the ``Block On Fault`` feature must be disabled with the
-  CMake build option ``-DBLOCK_ON_FAULT=OFF`` (see the
-  :ref:`building_library_build_reference_link` and
-  :ref:`building_library_build_options_reference_link` sections).
+  ``block_on_fault`` attribute must be set with the ``accel-config`` for each
+  work queue. Performance of Hardware Path applications can be increased if the application performs
+  its own ``pre-faulting``. In this case, the ``Block On Fault`` feature must be disabled with the ``accel-config``
+  by setting the ``block_on_fault`` attribute to ``0``. Users need to add ``"block_on_fault":0`` in the configuration file
+  (refer to the configuration files mentioned above).
 
 .. _building_library_reference_link:
 
@@ -156,13 +162,6 @@ Intel QPL supports the following build options:
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
 -  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
 -  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).
--  ``-DBLOCK_ON_FAULT=[OFF|ON]`` - Disables Page Fault Processing on the accelerator side (``ON`` by default).
-
-.. note::
-
-   The value of ``BLOCK_ON_FAULT`` can affect the performance of hardware path
-   applications. Read more in the :ref:`accelerator_configuration_reference_link` section.
-
 -  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
    For more information on existing examples, see :ref:`code_examples_c_reference_link`.
 

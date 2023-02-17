@@ -654,6 +654,12 @@ via the Intel® QPL source or from the Intel® QPL installed directory:</p>
 <p>With configuration files found at either <code class="docutils literal notranslate"><span class="pre">&lt;qpl-library&gt;/tools/configs/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install-dir&gt;/bin/configs/</span></code>.
 With configuration files of the format <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s.conf</span></code> or
 <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s-n&lt;which</span> <span class="pre">node&gt;.conf</span></code>.</p>
+<p>Alternatively, users can use the following commands to directly configure the device with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>accel-config<span class="w"> </span>load-config<span class="w"> </span>-c<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;
+sudo<span class="w"> </span>accel-config<span class="w"> </span>enable-device<span class="w"> </span>&lt;device&gt;
+sudo<span class="w"> </span>accel-config<span class="w"> </span>enable-wq<span class="w"> </span>&lt;device&gt;/&lt;wq&gt;
+</pre></div>
+</div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Sudo privileges are required to configure Intel® IAA instance.</p>
@@ -662,13 +668,11 @@ With configuration files of the format <code class="docutils literal notranslate
 <p class="admonition-title">Note</p>
 <p>By default, Intel® QPL uses the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature
 required to handle page faults on the Intel® IAA side. The
-<code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">on</span> <span class="pre">fault</span></code> flag must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
-device. Performance can be increased if an application performs its own
-<code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">on</span> <span class="pre">fault</span></code> flag is
-not required and the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the
-CMake build option <code class="docutils literal notranslate"><span class="pre">-DBLOCK_ON_FAULT=OFF</span></code> (see the
-<a class="reference internal" href="#building-library-build-reference-link"><span class="std std-ref">Build Steps</span></a> and
-<a class="reference internal" href="#building-library-build-options-reference-link"><span class="std std-ref">Available Build Options</span></a> sections).</p>
+<code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
+work queue. Performance of Hardware Path applications can be increased if the application performs
+its own <code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>
+by setting the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Users need to add <code class="docutils literal notranslate"><span class="pre">&quot;block_on_fault&quot;:0</span></code> in the configuration file
+(refer to the configuration files mentioned above).</p>
 </div>
 </div>
 <div class="section" id="building-the-library">
@@ -729,14 +733,6 @@ under different conditions.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INIT=[ON|OFF]</span></code> - Enables hardware initialization log (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DEFFICIENT_WAIT=[ON|OFF]</span></code> - Enables usage of efficient wait instructions (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLIB_FUZZING_ENGINE=[ON|OFF]</span></code> - Enables fuzz testing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-DBLOCK_ON_FAULT=[OFF|ON]</span></code> - Disables Page Fault Processing on the accelerator side (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The value of <code class="docutils literal notranslate"><span class="pre">BLOCK_ON_FAULT</span></code> can affect the performance of hardware path
-applications. Read more in the <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> section.</p>
-</div>
-<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_EXAMPLES=[OFF|ON]</span></code> - Enables building library examples (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).
 For more information on existing examples, see <a class="reference internal" href="code_examples.html#code-examples-c-reference-link"><span class="std std-ref">Low-Level C API Examples</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TESTS=[OFF|ON]</span></code> - Enables building library testing and benchmarks frameworks (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).
