@@ -28,8 +28,12 @@ further divided into four groups:
 - Algorithmic tests (``ta_*``) serve to find errors that reflect logic
   errors in data processing on correct data.
 - Bad argument tests (``tb_*``) verify the code path for invalid arguments.
+  They perform null input checks, buffer overlap checks,
+  and input size checks to ensure the safety of all operations.
 - Negative tests (``tn_*``) serve to find errors that reflect lack of
-  control over the input data format.
+  control over the input data format. These tests also check for cases
+  that would lead to output overflow, and ensure proper error codes
+  are thrown before overflow occurs.
 - Thread tests (``tt_*``) detect out-of-order read/write
   operations for common structures by different threads.
 

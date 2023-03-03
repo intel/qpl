@@ -532,9 +532,13 @@ further divided into four groups:</p>
 <ul class="simple">
 <li><p>Algorithmic tests (<code class="docutils literal notranslate"><span class="pre">ta_*</span></code>) serve to find errors that reflect logic
 errors in data processing on correct data.</p></li>
-<li><p>Bad argument tests (<code class="docutils literal notranslate"><span class="pre">tb_*</span></code>) verify the code path for invalid arguments.</p></li>
+<li><p>Bad argument tests (<code class="docutils literal notranslate"><span class="pre">tb_*</span></code>) verify the code path for invalid arguments.
+They perform null input checks, buffer overlap checks,
+and input size checks to ensure the safety of all operations.</p></li>
 <li><p>Negative tests (<code class="docutils literal notranslate"><span class="pre">tn_*</span></code>) serve to find errors that reflect lack of
-control over the input data format.</p></li>
+control over the input data format. These tests also check for cases
+that would lead to output overflow, and ensure proper error codes
+are thrown before overflow occurs.</p></li>
 <li><p>Thread tests (<code class="docutils literal notranslate"><span class="pre">tt_*</span></code>) detect out-of-order read/write
 operations for common structures by different threads.</p></li>
 </ul>
