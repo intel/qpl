@@ -121,6 +121,25 @@ static inline std::string to_name(huffman_type_e huffman)
 {
     return std::string("/huffman:") + to_string(huffman);
 }
+
+static inline std::string crc_to_string(crc_type_e type)
+{
+    switch(type)
+    {
+    case crc_type_e::crc32_gzip:   return "crc32_gzip";
+    case crc_type_e::crc32_iscsi: return "crc32_iscsi";
+    case crc_type_e::crc32_wimax: return "crc32_wimax";
+    case crc_type_e::T10DIF:      return "T10DIF";
+    case crc_type_e::crc16_ccitt: return "crc16_ccitt";
+    case crc_type_e::crc64:       return "crc64";
+    default:                      return "error";
+    }
+}
+static inline std::string crc_to_name(crc_type_e type)
+{
+    return std::string("/crc:") + crc_to_string(type);
+}
+
 static inline std::string to_string(mem_loc_e loc)
 {
     switch(loc)

@@ -9,6 +9,7 @@
 #include <types.hpp>
 #include "c_api/deflate.hpp"
 #include "c_api/inflate.hpp"
+#include "c_api/crc64.hpp"
 
 namespace bench::ops
 {
@@ -25,5 +26,11 @@ template <path_e path>
 struct api_dispatcher_t<api_e::c, path, operation_e::inflate>
 {
     using impl_t = c_api::inflate_t<path>;
+};
+
+template <path_e path>
+struct api_dispatcher_t<api_e::c, path, operation_e::crc64>
+{
+    using impl_t = c_api::crc64_t<path>;
 };
 }
