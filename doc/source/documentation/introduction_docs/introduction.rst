@@ -30,8 +30,37 @@ with:
 -  Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
 
 
-Library Overview
-****************
+Library Architecture Overview
+*****************************
+
+
+The diagram below includes both the architecture of Intel QPL and the external components that the library
+interacts with. The components in the diagram are numbered from 0 to 8, each with a short description.
+
+.. figure:: ../_images/qpl_arch_diagram.png
+  :scale: 25%
+
+  Architecture Diagram of Intel QPL
+
+0. Users should use the accelerator utility tool (``accel-config``), which cooperates with Intel® Data Accelerator
+   Driver (``idxd``), to pre-configure Intel IAA hardware.
+1. C Job API is compatible with C and C++.
+2. Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
+   handle specific query processing cases, and returns appropriate status back to users.
+3. The CPU dispatcher detects what instruction sets are available in CPU.
+4. The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.
+5. Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.
+6. Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
+   Intel QPL keeps its own copy of relevant source code from Intel ISA-L.
+7. Set of low-level descriptors and service functions for interaction with Intel IAA hardware
+   (using Accelerator Interfacing Architecture ISA).
+8. The accelerator utility library (``libaccel-config``), which is linked to Intel QPL, provides APIs for communicating
+   with Intel IAA hardware.
+9. The Intel® Data Accelerator Driver (``idxd``) is a kernel driver that manages Intel IAA devices.
+
+
+Library Functionality Overview
+******************************
 
 
 Intel® Query Processing Library (Intel® QPL) consists of two main
