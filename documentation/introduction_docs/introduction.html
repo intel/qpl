@@ -444,8 +444,13 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#library-overview">
-   Library Overview
+  <a class="reference internal nav-link" href="#library-architecture-overview">
+   Library Architecture Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#library-functionality-overview">
+   Library Functionality Overview
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -508,8 +513,13 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#library-overview">
-   Library Overview
+  <a class="reference internal nav-link" href="#library-architecture-overview">
+   Library Architecture Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#library-functionality-overview">
+   Library Functionality Overview
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -582,8 +592,34 @@ with:</p>
 <li><p>Faster time to market</p></li>
 <li><p>Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware</p></li>
 </ul>
-<div class="section" id="library-overview">
-<h2>Library Overview<a class="headerlink" href="#library-overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="library-architecture-overview">
+<h2>Library Architecture Overview<a class="headerlink" href="#library-architecture-overview" title="Permalink to this headline">¶</a></h2>
+<p>The diagram below includes both the architecture of Intel QPL and the external components that the library
+interacts with. The components in the diagram are numbered from 0 to 8, each with a short description.</p>
+<div class="figure align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/qpl_arch_diagram.png"><img alt="../../_images/qpl_arch_diagram.png" src="../../_images/qpl_arch_diagram.png" style="width: 715.0px; height: 481.5px;" /></a>
+<p class="caption"><span class="caption-text">Architecture Diagram of Intel QPL</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<ol class="arabic simple" start="0">
+<li><p>Users should use the accelerator utility tool (<code class="docutils literal notranslate"><span class="pre">accel-config</span></code>), which cooperates with Intel® Data Accelerator
+Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>), to pre-configure Intel IAA hardware.</p></li>
+<li><p>C Job API is compatible with C and C++.</p></li>
+<li><p>Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
+handle specific query processing cases, and returns appropriate status back to users.</p></li>
+<li><p>The CPU dispatcher detects what instruction sets are available in CPU.</p></li>
+<li><p>The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.</p></li>
+<li><p>Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.</p></li>
+<li><p>Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
+Intel QPL keeps its own copy of relevant source code from Intel ISA-L.</p></li>
+<li><p>Set of low-level descriptors and service functions for interaction with Intel IAA hardware
+(using Accelerator Interfacing Architecture ISA).</p></li>
+<li><p>The accelerator utility library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>), which is linked to Intel QPL, provides APIs for communicating
+with Intel IAA hardware.</p></li>
+<li><p>The Intel® Data Accelerator Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>) is a kernel driver that manages Intel IAA devices.</p></li>
+</ol>
+</div>
+<div class="section" id="library-functionality-overview">
+<h2>Library Functionality Overview<a class="headerlink" href="#library-functionality-overview" title="Permalink to this headline">¶</a></h2>
 <p>Intel® Query Processing Library (Intel® QPL) consists of two main
 functional blocks: analytics and compression.</p>
 <p>The analytics part contains two sub-blocks: Decompress and Filter.
