@@ -2170,6 +2170,7 @@ PREDEFINED             = "QPL_API(type,name,arg)=type name arg;" \
 EXPAND_AS_DEFINED      = "QPL_PROCESSING_ERROR" \
                          "QPL_PARAMETER_ERROR" \
                          "QPL_OPERATION_ERROR" \
+                         "QPL_OPERATION_STATUS" \
                          "QPL_SERVICE_LOGIC_ERROR" \
                          "QPL_INIT_ERROR"
 
