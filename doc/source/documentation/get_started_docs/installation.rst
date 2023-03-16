@@ -60,9 +60,9 @@ via the Intel® QPL source or from the Intel® QPL installed directory:
 
 .. code-block:: shell
 
-   sudo python3 <install-dir>/bin/scripts/accel_conf.py <config file> --load=<path to config file>
+   sudo python3 <install-dir>/share/QPL/scripts/accel_conf.py <config file> --load=<path to config file>
 
-With configuration files found at either ``<qpl-library>/tools/configs/`` or ``<install-dir>/bin/configs/``.
+With configuration files found at either ``<qpl-library>/tools/configs/`` or ``<install-dir>/share/QPL/configs/``.
 With configuration files of the format ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s.conf`` or
 ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s-n<which node>.conf``.
 

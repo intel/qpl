@@ -28,9 +28,9 @@ if (QPL_BUILD_TESTS)
 endif ()
 
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/configs
-                  TYPE             BIN
+                  DESTINATION share/${CMAKE_PROJECT_NAME}
                   COMPONENT        RUNTIME)
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/scripts
-                  TYPE             BIN
+                  DESTINATION share/${CMAKE_PROJECT_NAME}
                   COMPONENT        RUNTIME
                   FILE_PERMISSIONS USE_SOURCE_PERMISSIONS)
