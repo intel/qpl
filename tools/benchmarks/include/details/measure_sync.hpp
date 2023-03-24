@@ -71,10 +71,6 @@ static statistics_t measure_sync(benchmark::State &state, const case_params_t &c
         }
     }
 
-    res.completed_operations /= state.iterations();
-    res.data_read            /= state.iterations();
-    res.data_written         /= state.iterations();
-
     return res;
 }
 }

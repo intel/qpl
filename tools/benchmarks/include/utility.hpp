@@ -220,9 +220,10 @@ static inline void base_counters(benchmark::State &state, statistics_t &stat, st
 {
     if(type == stat_type_e::compression)
     {
+        // Note: total data_read/write from all iterations are used when calculating Ratio to avoid potential rounding error
         state.counters["Ratio"]      = benchmark::Counter(static_cast<double>(stat.data_read) / static_cast<double>(stat.data_written),
                                                           benchmark::Counter::kAvgThreads);
-        state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_read),
+        state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_read / state.iterations()),
                                                           benchmark::Counter::kIsIterationInvariantRate|benchmark::Counter::kAvgThreads,
                                                           benchmark::Counter::kIs1000);
     }
@@ -230,7 +231,7 @@ static inline void base_counters(benchmark::State &state, statistics_t &stat, st
     {
         state.counters["Ratio"]      = benchmark::Counter(static_cast<double>(stat.data_written) / static_cast<double>(stat.data_read),
                                                           benchmark::Counter::kAvgThreads);
-        state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_written),
+        state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_written / state.iterations()),
                                                           benchmark::Counter::kIsIterationInvariantRate|benchmark::Counter::kAvgThreads,
                                                           benchmark::Counter::kIs1000);
     }

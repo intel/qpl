@@ -132,15 +132,11 @@ static statistics_t measure_async(benchmark::State &state, const case_params_t &
         operation.async_wait();
     }
 
-    res.completed_operations /= state.iterations();
-    res.data_read            /= state.iterations();
-    res.data_written         /= state.iterations();
-
 #ifdef PER_THREAD_STAT
     static std::mutex guard;
     guard.lock();
-    auto per_op = elapsed_seconds/(state.iterations()*res.completed_operations);
-    printf("Thread: %3d; iters: %6lu; ops: %3u; completed/iter: %3u; polls/op: %6u; time/op: %5.0f ns\n", state.thread_index(), state.iterations(), res.operations_per_thread, (std::uint32_t)res.completed_operations, (std::uint32_t)(polls/(state.iterations()*res.completed_operations)), per_op);
+    auto per_op = elapsed_seconds/res.completed_operations;
+    printf("Thread: %3d; iters: %6lu; ops: %3u; completed/iter: %3u; polls/op: %6u; time/op: %5.0f ns\n", state.thread_index(), state.iterations(), res.operations_per_thread, (std::uint32_t)(res.completed_operations/state.iterations()), (std::uint32_t)(polls/res.completed_operations), per_op);
     guard.unlock();
 #endif
 

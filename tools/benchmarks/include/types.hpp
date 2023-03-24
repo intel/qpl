@@ -39,6 +39,7 @@ struct dictionary_t
     std::vector<std::uint8_t> dict;
 };
 
+// Note: completed_operations, data_read, data_written are total stats from all iterations
 struct statistics_t
 {
     std::uint32_t   queue_size{0};
