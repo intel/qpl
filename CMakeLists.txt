@@ -67,7 +67,6 @@ if (LIB_FUZZING_ENGINE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
 endif ()
 
-include(cmake/tests.cmake)
 include(cmake/CompileOptions.cmake)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
