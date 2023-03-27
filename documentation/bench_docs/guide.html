@@ -567,6 +567,10 @@ before executing the example.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--block_size<span class="o">=</span><span class="m">0</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To obtain best performance on systems with NUMA (non-uniform memory access) architecture, it is recommended to use the next NUMA policy: <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span></code>. It is user responsibility to ensure that the devices from corresponding NUMA node were enabled beforehand.</p>
+</div>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Output to terminal:</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
