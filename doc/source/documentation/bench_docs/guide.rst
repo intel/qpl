@@ -40,6 +40,10 @@ The example below demonstrates running Deflate using Fixed block on accelerator 
 
     sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1 --block_size=0
 
+.. note::
+
+    To obtain best performance on systems with NUMA (non-uniform memory access) architecture, it is recommended to use the next NUMA policy: ``numactl --cpunodebind <numa_id> --membind <numa_id>``. It is user responsibility to ensure that the devices from corresponding NUMA node were enabled beforehand.
+
 .. code-block:: shell
     :caption: Output to terminal:
 
