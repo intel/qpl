@@ -192,77 +192,72 @@ namespace qpl::test
 /**
 * @briеf Internal helper to register new tests
 */
-#define QPL_TEST_TC_(test_suite_name, test_name, parent_class, parent_id)         \
-    static_assert(sizeof(GTEST_STRINGIFY_(test_suite_name)) > 1,                  \
-                  "test_suite_name must not be empty");                           \
-    static_assert(sizeof(GTEST_STRINGIFY_(test_name)) > 1,                        \
-                  "test_name must not be empty");                                 \
-    class GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)                      \
-        : public parent_class                                                     \
-    {                                                                             \
-    public:                                                                       \
-        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)                        \
-        () {}                                                                     \
-        ~GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)() override = default; \
-        GTEST_DISALLOW_COPY_AND_ASSIGN_(GTEST_TEST_CLASS_NAME_(test_suite_name,   \
-                                                               test_name));       \
-        GTEST_DISALLOW_MOVE_AND_ASSIGN_(GTEST_TEST_CLASS_NAME_(test_suite_name,   \
-                                                               test_name));       \
-                                                                                  \
-    private:                                                                      \
-        void RunSingleIteration();                                                \
-        void TestBody() override                                                  \
-        {                                                                         \
-            using environment = util::TestEnvironment;                            \
-            uint32_t test_case_id = environment::GetInstance().GetTestCaseId();   \
-            if (environment::GetInstance().IsTestCaseSpecified())                 \
-            {                                                                     \
-                if (test_case_id < TestCaseCount())                               \
-                {                                                                 \
-                    SetSpecifiedTestCase(test_case_id);                           \
-                    SetUpBeforeIteration();                                       \
-                    RunSingleIteration();                                         \
-                    return;                                                       \
-                } else                                                            \
-                {                                                                 \
-                    FAIL() << "Note: test case id = "                             \
-                           << environment::GetInstance().GetTestCaseId()          \
-                           << " was specified, but this test "                    \
-                           << "contains only " << TestCaseCount()                 \
-                           << " test cases\n";                                    \
-                }                                                                 \
-            }                                                                     \
-            for (uint32_t i = 0; i < TestCaseCount(); i++)                        \
-            {                                                                     \
-                SetUpBeforeIteration();                                           \
-                RunSingleIteration();                                             \
-                if (HasFailure())                                                 \
-                {                                                                 \
-                    std::cout << "The test case is: " << GetTestCase() << "\n";   \
-                    std::cout << "Test case id: " << i << "\n";                   \
-                    std::cout << "To reproduce the fail, run this test with"      \
-                              << " flag --testid=" << i << "\n";                  \
-                    break;                                                        \
-                } else                                                            \
-                {                                                                 \
-                    SwitchToNextCase();                                           \
-                }                                                                 \
-            }                                                                     \
-        }                                                                         \
-        static testing::TestInfo *const test_info_ GTEST_ATTRIBUTE_UNUSED_;       \
-    };                                                                            \
-                                                                                  \
-    testing::TestInfo *const GTEST_TEST_CLASS_NAME_(test_suite_name,              \
-                                                      test_name)::test_info_ =    \
-        testing::internal::MakeAndRegisterTestInfo(                               \
-            #test_suite_name, #test_name, nullptr, nullptr,                       \
-            testing::internal::CodeLocation(__FILE__, __LINE__), (parent_id),     \
-            testing::internal::SuiteApiResolver<                                  \
-                parent_class>::GetSetUpCaseOrSuite(__FILE__, __LINE__),           \
-            testing::internal::SuiteApiResolver<                                  \
-                parent_class>::GetTearDownCaseOrSuite(__FILE__, __LINE__),        \
-            new testing::internal::TestFactoryImpl<GTEST_TEST_CLASS_NAME_(        \
-                test_suite_name, test_name)>);                                    \
+#define QPL_TEST_TC_(test_suite_name, test_name, parent_class, parent_id)                                                   \
+    static_assert(sizeof(GTEST_STRINGIFY_(test_suite_name)) > 1,                                                            \
+                  "test_suite_name must not be empty");                                                                     \
+    static_assert(sizeof(GTEST_STRINGIFY_(test_name)) > 1,                                                                  \
+                  "test_name must not be empty");                                                                           \
+    class GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)                                                                \
+        : public parent_class                                                                                               \
+    {                                                                                                                       \
+    public:                                                                                                                 \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)                                                                  \
+        () {}                                                                                                               \
+        ~GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)() override = default;                                           \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) (const GTEST_TEST_CLASS_NAME_(test_suite_name,                   \
+                                                                                         test_name) &) = delete;            \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,        \
+                                                                                                    test_name) &) = delete; \
+                                                                                                                            \
+    private:                                                                                                                \
+        void RunSingleIteration();                                                                                          \
+        void TestBody() override                                                                                            \
+        {                                                                                                                   \
+            using environment = util::TestEnvironment;                                                                      \
+            uint32_t test_case_id = environment::GetInstance().GetTestCaseId();                                             \
+            if (environment::GetInstance().IsTestCaseSpecified())                                                           \
+            {                                                                                                               \
+                if (test_case_id < TestCaseCount())                                                                         \
+                {                                                                                                           \
+                    SetSpecifiedTestCase(test_case_id);                                                                     \
+                    SetUpBeforeIteration();                                                                                 \
+                    RunSingleIteration();                                                                                   \
+                    return;                                                                                                 \
+                } else                                                                                                      \
+                {                                                                                                           \
+                    FAIL() << "Note: test case id = "                                                                       \
+                           << environment::GetInstance().GetTestCaseId()                                                    \
+                           << " was specified, but this test "                                                              \
+                           << "contains only " << TestCaseCount()                                                           \
+                           << " test cases\n";                                                                              \
+                }                                                                                                           \
+            }                                                                                                               \
+            for (uint32_t i = 0; i < TestCaseCount(); i++)                                                                  \
+            {                                                                                                               \
+                SetUpBeforeIteration();                                                                                     \
+                RunSingleIteration();                                                                                       \
+                if (HasFailure())                                                                                           \
+                {                                                                                                           \
+                    std::cout << "The test case is: " << GetTestCase() << "\n";                                             \
+                    std::cout << "Test case id: " << i << "\n";                                                             \
+                    std::cout << "To reproduce the fail, run this test with"                                                \
+                              << " flag --testid=" << i << "\n";                                                            \
+                    break;                                                                                                  \
+                } else                                                                                                      \
+                {                                                                                                           \
+                    SwitchToNextCase();                                                                                     \
+                }                                                                                                           \
+            }                                                                                                               \
+        }                                                                                                                   \
+        static testing::TestInfo *const test_info_ GTEST_ATTRIBUTE_UNUSED_;                                                 \
+    };                                                                                                                      \
+                                                                                                                            \
+    testing::TestInfo *const GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)::test_info_ =                               \
+        testing::internal::MakeAndRegisterTestInfo(#test_suite_name, #test_name, nullptr, nullptr,                          \
+            testing::internal::CodeLocation(__FILE__, __LINE__), (parent_id),                                               \
+            testing::internal::SuiteApiResolver<parent_class>::GetSetUpCaseOrSuite(__FILE__, __LINE__),                     \
+            testing::internal::SuiteApiResolver<parent_class>::GetTearDownCaseOrSuite(__FILE__, __LINE__),                  \
+            new testing::internal::TestFactoryImpl<GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)>);                    \
     void GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)::RunSingleIteration()
 
 #endif //QPL_TEST_TEST_CASE_HPP
