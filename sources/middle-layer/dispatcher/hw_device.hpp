@@ -18,7 +18,7 @@
 
 namespace qpl::ml::dispatcher {
 
-#if defined( linux )
+#if defined( __linux__ )
 
 class hw_device final {
 

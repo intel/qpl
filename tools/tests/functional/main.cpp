@@ -10,7 +10,7 @@
 #include "command_line.hpp"
 #include "arguments_list.hpp"
 
-#if defined(linux)
+#if defined(__linux__)
 #include <sys/types.h>
 #include <unistd.h>
 #include "../common/execution_wrapper.hpp"
@@ -92,7 +92,7 @@ static inline util::arguments_list_t get_testing_settings(int argc, char *argv[]
  * It verifies that the HW dispatcher is properly initialized in a forked child process
  * This check needs to be run before the first job submission
  */
-#if defined(linux)
+#if defined(__linux__)
 qpl_status qpl_hw_compress() {
     qpl_path_t execution_path = qpl_path_hardware;
     uint32_t job_size         = 0;
@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
     environment::GetInstance().Initialize(arguments_list);
 
     int init_with_fork_status = 0;
-#if defined(linux)
+#if defined(__linux__)
     auto execution_path = environment::GetInstance().GetExecutionPath();
     if (execution_path == qpl_path_hardware) {
         std::cout << "Running HW dispatcher initialization check with multiprocessing " << std::endl;

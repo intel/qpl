@@ -13,7 +13,7 @@
  * @{
  */
 
-#if defined( linux )
+#if defined( __linux__ )
 
 #include "libaccel_config.h"
 

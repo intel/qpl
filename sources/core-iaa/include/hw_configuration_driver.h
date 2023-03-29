@@ -12,7 +12,7 @@
 #include "hw_definitions.h"
 #include "hw_devices.h"
 
-#if defined( linux )
+#if defined( __linux__ )
 
 #include "libaccel_config.h"
 

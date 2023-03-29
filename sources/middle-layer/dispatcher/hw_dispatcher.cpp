@@ -12,7 +12,7 @@
 #include "hw_dispatcher.hpp"
 #include <mutex>
 
-#if defined( linux )
+#if defined( __linux__ )
 
 #endif
 
@@ -26,7 +26,7 @@ hw_dispatcher::hw_dispatcher() noexcept {
 }
 
 auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
-#if defined( linux )
+#if defined( __linux__ )
     accfg_ctx *ctx_ptr = nullptr;
 
     DIAG("Intel QPL version %s\n", QPL_VERSION);
@@ -71,7 +71,7 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 }
 
 hw_dispatcher::~hw_dispatcher() noexcept {
-#if defined( linux )
+#if defined( __linux__ )
     // Variables
     auto *context_ptr = hw_context_.get_driver_context_ptr();
 
@@ -98,7 +98,7 @@ auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher & {
 }
 
 void hw_dispatcher::fill_hw_context(hw_accelerator_context *const hw_context_ptr) noexcept {
-#if defined( linux )
+#if defined( __linux__ )
     // Restore context
     hw_context_ptr->ctx_ptr = hw_context_.get_driver_context_ptr();
 
@@ -116,7 +116,7 @@ auto hw_dispatcher::is_hw_support() const noexcept -> bool {
     return hw_support_;
 }
 
-#if defined( linux )
+#if defined( __linux__ )
 
 auto hw_dispatcher::begin() const noexcept -> device_container_t::const_iterator {
     return devices_.cbegin();

@@ -104,7 +104,7 @@ auto is_operation_splittable(const input_stream_t &input_stream,
 }
 
 auto is_hw_configuration_good_for_splitting() noexcept -> bool {
-#if defined( linux )
+#if defined( __linux__ )
     // TODO: check thread-safety
     static auto &dispatcher = dispatcher::hw_dispatcher::get_instance();
     static bool is_there_multiple_wqs_on_single_device = false;

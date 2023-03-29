@@ -91,7 +91,7 @@ typedef struct {
 
 /* ====== Functions ====== */
 
-#if defined( linux )
+#if defined( __linux__ )
 typedef struct accfg_ctx    accfg_ctx;   /**< @todo */
 typedef struct accfg_device accfg_dev;   /**< @todo */
 typedef struct accfg_group  accfgGrp;    /**< @todo */
@@ -99,7 +99,7 @@ typedef struct accfg_wq     accfg_wq;    /**< @todo */
 typedef struct accfg_engine accfgEngn;   /**< @todo */
 #endif
 
-#if defined( linux )
+#if defined( __linux__ )
 typedef accfg_ctx  hw_context; /**< Linux defined context type */
 #else
 typedef void       hw_context; /**< Windows defined context type */

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#if defined( linux )
+#if defined( __linux__ )
 
 #include <fcntl.h>
 #include <sys/mman.h>
@@ -152,4 +152,4 @@ auto hw_queue::get_block_on_fault() const noexcept -> bool {
 }
 
 }
-#endif //linux
+#endif //__linux__

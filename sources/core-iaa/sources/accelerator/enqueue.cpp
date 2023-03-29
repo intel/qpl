@@ -19,7 +19,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
     auto enqueue_failed = false;
 
 
-#if defined( linux )
+#if defined( __linux__ )
     static auto                               &dispatcher  = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     static const auto                         device_count = dispatcher.device_count();
     static thread_local std::uint32_t         device_idx   = 0;

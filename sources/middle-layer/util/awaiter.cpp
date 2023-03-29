@@ -6,7 +6,7 @@
 
 #include "awaiter.hpp"
 
-#if defined(linux)
+#if defined(__linux__)
 
 #include <x86intrin.h>
 

@@ -91,7 +91,7 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
     qpl_job_ptr->data_ptr.hw_state_ptr            = qpl_job_ptr->data_ptr.middle_layer_buffer_ptr + middle_layer_buffer_size;
     qpl_job_ptr->data_ptr.path                    = qpl_path;
 
-#ifdef linux
+#ifdef __linux__
     if (qpl_path_hardware == qpl_path || qpl_path_auto == qpl_path) {
         qpl_job_ptr->numa_id = -1;
 

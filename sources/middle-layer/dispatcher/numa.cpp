@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#if defined(linux)
+#if defined(__linux__)
 
 #include <x86intrin.h>
 
@@ -15,7 +15,7 @@
 namespace qpl::ml::util {
 
 int32_t get_numa_id() noexcept {
-#if defined(linux)
+#if defined(__linux__)
     uint32_t tsc_aux = 0;
 
     __rdtscp(&tsc_aux);

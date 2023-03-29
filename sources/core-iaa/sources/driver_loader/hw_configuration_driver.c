@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#if defined( linux ) && defined ( DYNAMIC_LOADING_LIBACCEL_CONFIG )
+#if defined( __linux__ ) && defined ( DYNAMIC_LOADING_LIBACCEL_CONFIG )
 
 #include "hw_configuration_driver.h"
 #include "own_hw_definitions.h"
@@ -191,4 +191,4 @@ hw_accelerator_status own_load_accelerator_configuration_driver(void **driver_in
 
     return HW_ACCELERATOR_STATUS_OK;
 }
-#endif //if defined( linux ) && defined ( DYNAMIC_LOADING_LIBACCEL_CONFIG )
+#endif //if defined( __linux__ ) && defined ( DYNAMIC_LOADING_LIBACCEL_CONFIG )

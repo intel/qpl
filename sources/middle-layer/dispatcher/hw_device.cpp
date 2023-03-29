@@ -6,7 +6,7 @@
 
 #include "algorithm"
 
-#if defined( linux )
+#if defined( __linux__ )
 
 #include <inttypes.h>
 
@@ -202,4 +202,4 @@ auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
 
 }
 
-#endif //linux
+#endif //__linux__
