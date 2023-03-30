@@ -78,15 +78,6 @@ Alternatively, users can use the following commands to directly configure the de
 
    Sudo privileges are required to configure Intel® IAA instance.
 
-.. note::
-
-  By default, Intel® QPL uses the ``Block On Fault`` feature
-  required to handle page faults on the Intel® IAA side. The
-  ``block_on_fault`` attribute must be set with the ``accel-config`` for each
-  work queue. Performance of Hardware Path applications can be increased if the application performs
-  its own ``pre-faulting``. In this case, the ``Block On Fault`` feature must be disabled with the ``accel-config``
-  by setting the ``block_on_fault`` attribute to ``0``. Users need to add ``"block_on_fault":0`` in the configuration file
-  (refer to the configuration files mentioned above).
 
 .. _building_library_reference_link:
 
@@ -155,7 +146,7 @@ Intel QPL supports the following build options:
 -  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default).
 -  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default).
 
-.. note::
+.. attention::
 
    If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.
 
@@ -168,12 +159,6 @@ Intel QPL supports the following build options:
 -  ``-DQPL_BUILD_TESTS=[OFF|ON]`` - Enables building library testing and benchmarks frameworks (``ON`` by default).
    For more information on library testing, see :ref:`library_testing_reference_link` section.
    For information on benchmarking the library, see :ref:`library_benchmarking_reference_link`.
-
-.. attention::
-
-   To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
-   without downloading sub-module dependencies for testing and benchmarking,
-   use ``-DQPL_BUILD_TESTS=OFF``.
 
 -  ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]`` - Enables loading the accelerator configuration library (``libaccel-config``)
    dynamically with dlopen (``ON`` by default).
@@ -219,6 +204,12 @@ and benchmarks framework as well), complete the following steps:
 
    ``--recursive`` is required for downloading sub-module dependencies for testing
    and benchmarking Intel QPL.
+
+.. attention::
+
+   To build Intel QPL from the GitHub release package (``.tar``, ``.tgz``)
+   or without downloading sub-module dependencies for testing and benchmarking,
+   use ``-DQPL_BUILD_TESTS=OFF``.
 
 3. Build the library and tests by executing the following commands in ``<qpl_library>``:
 

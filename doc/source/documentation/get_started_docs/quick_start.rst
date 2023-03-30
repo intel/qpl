@@ -37,22 +37,22 @@ here. See the comments after the code block.
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
 the prototypes of all the functions.
 
-At line 29, we call :c:func:`qpl_get_job_size` to query the required memory size
+At line 39, we call :c:func:`qpl_get_job_size` to query the required memory size
 based on the specified execution path.
 
-At lines 34 and 35, we allocate memory according to the returned value of ``size``.
+At lines 44 and 45, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
 :c:struct:`qpl_job`. The leading portion of the allocated memory is used to store
 the job structure, while the remaining portion is a buffer for internal usages.
 
-At line 36, we call :c:func:`qpl_init_job` to initialize the job structure
-and buffer, then we fill in necessary parameters at lines 42 to 48.
+At line 46, we call :c:func:`qpl_init_job` to initialize the job structure
+and buffer, then we fill in necessary parameters at lines 52 to 58.
 
 The job structure and the allocated buffer are passed to Intel QPL at line 51. After
 :c:func:`qpl_execute_job` completes successfully, we can retrieve the results stored
 in the job structure.
 
-Finally, we call :c:func:`qpl_fini_job` at line 57 to free the resources.
+Finally, we call :c:func:`qpl_fini_job` at line 67 to free the resources.
 
 In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
 Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.
@@ -78,6 +78,18 @@ To run the example on the Hardware Path, use:
 
    With the Hardware Path, the user must either place the ``libaccel-config`` library in ``/usr/lib64/``
    or specify the location of ``libaccel-config`` in ``LD_LIBRARY_PATH`` for the dynamic loader to find it.
+
+.. attention::
+
+    In the example above we do not set :c:member:`qpl_job.numa_id` value, so the library will auto detect NUMA node
+    of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.
+
+    Alternatively, user can set :c:member:`qpl_job.numa_id` and set matching ``numactl`` policy to ensure
+    that the calling process will be located on the same NUMA node as specified with ``numa_id``.
+
+    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
+
+    Refer to :ref:`library_numa_support_reference_link` section for more details.
 
 To run the example on the Software Path, use:
 
