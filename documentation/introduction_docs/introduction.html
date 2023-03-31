@@ -724,7 +724,7 @@ library depending on internal heuristics (<code class="docutils literal notransl
 </div>
 </div>
 <div class="section" id="numa-support">
-<h3>NUMA Support<a class="headerlink" href="#numa-support" title="Permalink to this headline">¶</a></h3>
+<span id="library-numa-support-reference-link"></span><h3>NUMA Support<a class="headerlink" href="#numa-support" title="Permalink to this headline">¶</a></h3>
 <p>Intel QPL is NUMA aware and respects the NUMA node ID of the calling
 thread. If a user needs to use a device from a specific node, it can be
 done in two ways:</p>
@@ -746,6 +746,11 @@ boundary. Users are responsible for balancing workloads between different nodes.
 <li><p>Library does not have APIs for <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Balancing</span></code> feature customization.</p></li>
 <li><p>Library does not support hardware path on Windows OS.</p></li>
 <li><p>Library is not developed for kernel mode usage. It is user level driver library.</p></li>
+<li><p>Library uses the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature required to handle page faults on the Intel® IAA side. The
+<code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
+work queue. Performance of Hardware Path applications can be increased if the application performs
+its own <code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>
+by setting the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details.</p></li>
 </ul>
 </div>
 <div class="section" id="library-apis">

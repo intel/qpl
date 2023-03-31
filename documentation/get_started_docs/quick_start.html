@@ -581,18 +581,18 @@ here. See the comments after the code block.</p>
 </div>
 <p>The application only needs to include one header file <code class="docutils literal notranslate"><span class="pre">qpl/qpl.h</span></code>, which specifies
 the prototypes of all the functions.</p>
-<p>At line 29, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> to query the required memory size
+<p>At line 39, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> to query the required memory size
 based on the specified execution path.</p>
-<p>At lines 34 and 35, we allocate memory according to the returned value of <code class="docutils literal notranslate"><span class="pre">size</span></code>.
+<p>At lines 44 and 45, we allocate memory according to the returned value of <code class="docutils literal notranslate"><span class="pre">size</span></code>.
 Note that the value of <code class="docutils literal notranslate"><span class="pre">size</span></code> is greater than the size of the job structure
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a>. The leading portion of the allocated memory is used to store
 the job structure, while the remaining portion is a buffer for internal usages.</p>
-<p>At line 36, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> to initialize the job structure
-and buffer, then we fill in necessary parameters at lines 42 to 48.</p>
+<p>At line 46, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> to initialize the job structure
+and buffer, then we fill in necessary parameters at lines 52 to 58.</p>
 <p>The job structure and the allocated buffer are passed to Intel QPL at line 51. After
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> completes successfully, we can retrieve the results stored
 in the job structure.</p>
-<p>Finally, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_fini_job" title="qpl_fini_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_fini_job()</span></code></a> at line 57 to free the resources.</p>
+<p>Finally, we call <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_fini_job" title="qpl_fini_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_fini_job()</span></code></a> at line 67 to free the resources.</p>
 <p>In order to build the library and all the examples, including the one above, follow steps at <a class="reference internal" href="installation.html#building-library-reference-link"><span class="std std-ref">Building the Library</span></a>.
 Compiled examples then would be located in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/low-level-api/</span></code>.</p>
 <p>Alternatively, in order to build <code class="docutils literal notranslate"><span class="pre">compression_example.cpp</span></code> individually using existing Intel QPL installation, use:</p>
@@ -612,6 +612,15 @@ This would still require C++ runtime library installed on the system, and adding
 <p class="admonition-title">Attention</p>
 <p>With the Hardware Path, the user must either place the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library in <code class="docutils literal notranslate"><span class="pre">/usr/lib64/</span></code>
 or specify the location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> in <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> for the dynamic loader to find it.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>In the example above we do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value, so the library will auto detect NUMA node
+of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.</p>
+<p>Alternatively, user can set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> and set matching <code class="docutils literal notranslate"><span class="pre">numactl</span></code> policy to ensure
+that the calling process will be located on the same NUMA node as specified with <code class="docutils literal notranslate"><span class="pre">numa_id</span></code>.</p>
+<p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.</p>
+<p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
 </div>
 <p>To run the example on the Software Path, use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>software_path

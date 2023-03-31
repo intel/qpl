@@ -181,6 +181,7 @@ system resources utilization:
 .. warning::
    The implementation of ``Auto Path`` is in progress.
 
+.. _library_numa_support_reference_link:
 
 NUMA Support
 ============
@@ -207,6 +208,11 @@ Library Limitations
 - Library does not have APIs for ``Load Balancing`` feature customization.
 - Library does not support hardware path on Windows OS.
 - Library is not developed for kernel mode usage. It is user level driver library.
+- Library uses the ``Block On Fault`` feature required to handle page faults on the Intel® IAA side. The
+  ``block_on_fault`` attribute must be set with the ``accel-config`` for each
+  work queue. Performance of Hardware Path applications can be increased if the application performs
+  its own ``pre-faulting``. In this case, the ``Block On Fault`` feature must be disabled with the ``accel-config``
+  by setting the ``block_on_fault`` attribute to ``0``. Refer to :ref:`accelerator_configuration_reference_link` for more details.
 
 Library APIs
 ************

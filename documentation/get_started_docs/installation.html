@@ -664,16 +664,6 @@ sudo<span class="w"> </span>accel-config<span class="w"> </span>enable-wq<span c
 <p class="admonition-title">Attention</p>
 <p>Sudo privileges are required to configure Intel® IAA instance.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>By default, Intel® QPL uses the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature
-required to handle page faults on the Intel® IAA side. The
-<code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
-work queue. Performance of Hardware Path applications can be increased if the application performs
-its own <code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>
-by setting the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Users need to add <code class="docutils literal notranslate"><span class="pre">&quot;block_on_fault&quot;:0</span></code> in the configuration file
-(refer to the configuration files mentioned above).</p>
-</div>
 </div>
 <div class="section" id="building-the-library">
 <span id="building-library-reference-link"></span><h2>Building the Library<a class="headerlink" href="#building-the-library" title="Permalink to this headline">¶</a></h2>
@@ -725,8 +715,8 @@ under different conditions.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=[ON|OFF]</span></code> - Enables memory sanitizing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=[ON|OFF]</span></code> - Enables threads sanitizing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
 <p>If Intel QPL is build with <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code>, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.</p>
 </div>
 <ul class="simple">
@@ -738,14 +728,6 @@ For more information on existing examples, see <a class="reference internal" hre
 <li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TESTS=[OFF|ON]</span></code> - Enables building library testing and benchmarks frameworks (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).
 For more information on library testing, see <a class="reference internal" href="testing.html#library-testing-reference-link"><span class="std std-ref">Library Testing</span></a> section.
 For information on benchmarking the library, see <a class="reference internal" href="../bench_docs/guide.html#library-benchmarking-reference-link"><span class="std std-ref">Benchmarks Framework Guide</span></a>.</p></li>
-</ul>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>To build Intel QPL from the GitHub release package (<code class="docutils literal notranslate"><span class="pre">.tar</span></code>, <code class="docutils literal notranslate"><span class="pre">.tgz</span></code>)
-without downloading sub-module dependencies for testing and benchmarking,
-use <code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TESTS=OFF</span></code>.</p>
-</div>
-<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]</span></code> - Enables loading the accelerator configuration library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>)
 dynamically with dlopen (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).</p></li>
 </ul>
@@ -786,6 +768,12 @@ section are available in your environment.</p></li>
 <p class="admonition-title">Attention</p>
 <p><code class="docutils literal notranslate"><span class="pre">--recursive</span></code> is required for downloading sub-module dependencies for testing
 and benchmarking Intel QPL.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>To build Intel QPL from the GitHub release package (<code class="docutils literal notranslate"><span class="pre">.tar</span></code>, <code class="docutils literal notranslate"><span class="pre">.tgz</span></code>)
+or without downloading sub-module dependencies for testing and benchmarking,
+use <code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TESTS=OFF</span></code>.</p>
 </div>
 <ol class="arabic" start="3">
 <li><p>Build the library and tests by executing the following commands in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;</span></code>:</p>
