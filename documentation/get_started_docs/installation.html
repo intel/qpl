@@ -648,10 +648,10 @@ via the Intel® QPL source or from the Intel® QPL installed directory:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python3<span class="w"> </span>&lt;qpl-library&gt;/tools/scripts/accel_conf.py<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
 </pre></div>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python3<span class="w"> </span>&lt;install-dir&gt;/bin/scripts/accel_conf.py<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python3<span class="w"> </span>&lt;install-dir&gt;/share/QPL/scripts/accel_conf.py<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
 </pre></div>
 </div>
-<p>With configuration files found at either <code class="docutils literal notranslate"><span class="pre">&lt;qpl-library&gt;/tools/configs/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install-dir&gt;/bin/configs/</span></code>.
+<p>With configuration files found at either <code class="docutils literal notranslate"><span class="pre">&lt;qpl-library&gt;/tools/configs/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install-dir&gt;/share/QPL/configs/</span></code>.
 With configuration files of the format <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s.conf</span></code> or
 <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s-n&lt;which</span> <span class="pre">node&gt;.conf</span></code>.</p>
 <p>Alternatively, users can use the following commands to directly configure the device with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>:</p>
@@ -802,15 +802,20 @@ cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </
 │   └── qpl
 |       ├── c_api
 |       └── qpl.h
-└── lib or lib64
-    ├── cmake
-    └── libqpl.a
+|
+├── lib or lib64
+|   ├── cmake
+|   └── libqpl.a
+|
+└── share/QPL
+    ├── configs
+    └── scripts
 </pre></div>
 </div>
-<p>Executables for tests and benchmarks framework, as well as
-configuration files for Intel® IAA
+<p>Executables for tests and benchmarks framework are available in <code class="docutils literal notranslate"><span class="pre">bin/</span></code> folder.</p>
+<p>Configuration files and scripts for Intel® IAA
 (see <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details)
-are available in <code class="docutils literal notranslate"><span class="pre">bin/</span></code> folder.</p>
+are available in <code class="docutils literal notranslate"><span class="pre">share/QPL/</span></code> folder.</p>
 <p>Examples are located in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/</span></code>.</p>
 <p>Intel QPL could be easily integrated to other CMake projects once installed.
 Use <code class="docutils literal notranslate"><span class="pre">-DCMAKE_PREFIX_PATH</span></code> to point to the existing installation
