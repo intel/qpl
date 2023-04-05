@@ -717,6 +717,11 @@ under different conditions.</p>
 </ul>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
+<p>Options <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code> and <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=ON</span></code> are incompatible and
+can not be used for the same build.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
 <p>If Intel QPL is build with <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code>, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.</p>
 </div>
 <ul class="simple">

@@ -148,6 +148,11 @@ Intel QPL supports the following build options:
 
 .. attention::
 
+   Options ``-DSANITIZE_THREADS=ON`` and ``-DSANITIZE_MEMORY=ON`` are incompatible and
+   can not be used for the same build.
+
+.. attention::
+
    If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.
 
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
