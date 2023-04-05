@@ -42,7 +42,7 @@ static auto create_block(size_t length, int seed = 0) {
     return data_block;
 }
 
-int test(uint32_t in_len) {
+int test(size_t in_len) {
     // Generate input
     auto                 source = create_block(in_len, rand() % 26);
     std::vector<uint8_t> compressed(source.size() + 10u);
