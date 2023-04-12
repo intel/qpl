@@ -14,6 +14,10 @@ throughput compression and decompression combined with primitive analytic functi
 provide highly-optimized SW fallback on other Intel CPUs. Intel QPL primarily targets applications
 such as big-data and in-memory analytic databases.
 
+Intel QPL provides Low-Level C API. You can use it from C/C++ applications.
+You can also find Java* bindings in the [qpl-java](https://github.com/intel/qpl-java) project.
+Refer to its documentation for details.
+
 ## Table of Contents
 
 - [Get Started](#get-started)
@@ -33,8 +37,8 @@ refer to [Installation](https://intel.github.io/qpl/documentation/get_started_do
 ## Documentation
 
 Documentation is delivered using GitHub Pages. See full Intel QPL [online documentation](https://intel.github.io/qpl/index.html).
-
-**Offline Documentation**
+- [Developer Guide](https://intel.github.io/qpl/documentation/dev_guide_docs/low_level_developer_guide.html) explains key concepts of Low-Level C API.
+- [Low-Level C API Reference](https://intel.github.io/qpl/documentation/dev_ref_docs/low_level_api.html) provides reference to key APIs of the library.
 
 To build Intel QPL offline documentation, see the [Documentation Build Prerequisites](https://intel.github.io/qpl/documentation/get_started_docs/installation.html#building-the-documentation) chapter.
 
