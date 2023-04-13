@@ -21,28 +21,6 @@
 
 namespace bench::details
 {
-static inline void set_thread_affinity(const benchmark::State &state)
-{
-    thread_local bool is_set{false};
-    if(!is_set)
-    {
-        auto &info = get_sys_info();
-        std::uint32_t devices  = info.accelerators.total_devices;
-        if(devices)
-        {
-            pthread_t current_thread = pthread_self();
-            int cpu_index = ((state.thread_index()%devices)*info.cpu_physical_per_cluster+state.thread_index()/devices)%info.cpu_physical_per_socket;
-            cpu_set_t cpus;
-            CPU_ZERO(&cpus);
-            CPU_SET(cpu_index, &cpus);
-            pthread_setaffinity_np(current_thread, sizeof(cpu_set_t), &cpus);
-            //printf("Thread: %d - %d\n", state.thread_index(), cpu_index);
-        }
-
-        is_set = true;
-    }
-}
-
 template <path_e path, typename OperationT, typename ParamsT>
 static statistics_t measure_async(benchmark::State &state, const case_params_t &common_params, OperationT &&operations, ParamsT &&params)
 {
@@ -55,16 +33,15 @@ static statistics_t measure_async(benchmark::State &state, const case_params_t &
     }
     else
     {
-        auto devices   = get_current_numa_accels();
-        res.queue_size = common_params.queue_size_;
-        res.operations = res.queue_size*devices;
+        std::uint32_t numa    = get_current_numa();
+        std::uint32_t devices = get_number_of_devices_on_numa(numa);
+        res.queue_size        = common_params.queue_size_;
+        res.operations        = res.queue_size*devices;
     }
 
     res.operations_per_thread = res.operations/threads;
     if (res.operations_per_thread < 1)
         throw std::runtime_error("Operation pool is too small for given threads");
-
-    set_thread_affinity(state);
 
     operations.resize(res.operations_per_thread);
     for (auto &operation: operations)

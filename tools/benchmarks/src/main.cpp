@@ -69,7 +69,7 @@ static bool init_hw()
     return true;
 }
 
-static inline int get_num_devices(std::uint32_t numa) noexcept
+std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept
 {
     auto &disp = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     int counter = 0;
@@ -99,13 +99,31 @@ static inline int get_num_devices(std::uint32_t numa) noexcept
     return counter;
 }
 
-int get_current_numa_accels() noexcept
+uint32_t get_current_numa() noexcept
 {
     std::uint32_t tsc_aux = 0;
     __rdtscp(&tsc_aux);
     std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
 
-    return get_num_devices(numa);
+    return numa;
+}
+
+static inline accel_info_t& get_accels_info() noexcept
+{
+    static accel_info_t info;
+
+    auto &disp = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+
+    for(auto &device : disp) {
+        if (info.devices_per_numa.find(device.numa_id()) == info.devices_per_numa.end())
+            info.devices_per_numa[device.numa_id()] = 1;
+        else
+            info.devices_per_numa[device.numa_id()]++;
+    }
+
+    info.total_devices = disp.device_count();
+
+    return info;
 }
 
 const extended_info_t& get_sys_info()
@@ -141,7 +159,6 @@ const extended_info_t& get_sys_info()
             trim(key);
             trim(val);
 
-            // Start of descriptor
             if(key == "processor")
                 info.cpu_logical_cores++;
             else if(key == "physical id")
@@ -157,31 +174,23 @@ const extended_info_t& get_sys_info()
             else if(!info.cpu_stepping && key == "stepping")
                 info.cpu_stepping = atoi(val.c_str());
         }
+        info.cpu_physical_cores = info.cpu_physical_per_socket*info.cpu_sockets;
 
-        constexpr std::uint32_t clusters_per_socket = 4; // How to get this dynamically?
-        info.cpu_physical_cores       = info.cpu_physical_per_socket*info.cpu_sockets;
-        info.cpu_physical_per_cluster = info.cpu_physical_per_socket/clusters_per_socket;
+        info.accelerators = get_accels_info();
 
-        for(std::uint32_t i = 0; i < info.cpu_sockets; ++i)
-        {
-            auto devices = get_num_devices(i);
-            info.accelerators.total_devices += devices;
-            info.accelerators.socket.push_back(devices);
-        }
-
-        printf("== Host:   %s\n", info.host_name.c_str());
-        printf("== Kernel: %s\n", info.kernel.c_str());
-        printf("== CPU:    %s (%d)\n", info.cpu_model_name.c_str(), info.cpu_model);
-        printf("  --> Microcode: 0x%x\n", info.cpu_microcode);
-        printf("  --> Stepping:  %d\n", info.cpu_stepping);
-        printf("  --> Logical:   %d\n", info.cpu_logical_cores);
-        printf("  --> Physical:  %d\n", info.cpu_physical_cores);
-        printf("  --> Socket:    %d\n", info.cpu_physical_per_socket);
-        printf("  --> Cluster:   %d\n", info.cpu_physical_per_cluster);
-        printf("== Accelerators: %d\n", info.accelerators.total_devices);
-        for(std::uint32_t i = 0; i < info.accelerators.socket.size(); ++i)
-        {
-            printf("  --> NUMA %d: %d\n", i, info.accelerators.socket[i]);
+        /* Benchmarks output for system configuration details */
+        printf("Host Name:            %s\n", info.host_name.c_str());
+        printf("Kernel:               %s\n", info.kernel.c_str());
+        printf("CPU:                  %s (%d)\n", info.cpu_model_name.c_str(), info.cpu_model);
+        printf("    Microcode:        0x%x\n", info.cpu_microcode);
+        printf("    Stepping:         %d\n", info.cpu_stepping);
+        printf("    Logical Cores:    %d\n", info.cpu_logical_cores);
+        printf("    Physical Cores:   %d\n", info.cpu_physical_cores);
+        printf("    Cores per Socket: %d\n", info.cpu_physical_per_socket);
+        printf("    Sockets:          %d\n", info.cpu_sockets);
+        printf("Accelerators:         %ld\n", info.accelerators.total_devices);
+        for (auto& it : info.accelerators.devices_per_numa) {
+            printf("    On NUMA %d:        %ld\n", it.first, it.second);
         }
 #endif
         is_setup = true;

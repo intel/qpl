@@ -14,7 +14,7 @@
 #include <types.hpp>
 #include <x86intrin.h>
 #include <vector>
-
+#include <map>
 
 //
 // Defines
@@ -53,8 +53,8 @@ registry_t& get_registry();
 
 struct accel_info_t
 {
-    std::uint32_t              total_devices = 0;
-    std::vector<std::uint32_t> socket;
+    size_t                total_devices = 0;
+    std::map<int, size_t> devices_per_numa;
 };
 
 struct extended_info_t
@@ -69,14 +69,13 @@ struct extended_info_t
     std::uint32_t cpu_physical_cores       = 0;
     std::uint32_t cpu_sockets              = 0;
     std::uint32_t cpu_physical_per_socket  = 0;
-    std::uint32_t cpu_physical_per_cluster = 0;
     accel_info_t  accelerators;
 };
 
 const extended_info_t& get_sys_info();
 
-int get_current_numa_accels() noexcept;
-
+uint32_t get_current_numa() noexcept;
+uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept;
 
 constexpr std::uint64_t submitRetryWaitNs = 0;
 

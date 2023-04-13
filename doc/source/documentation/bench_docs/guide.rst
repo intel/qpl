@@ -36,13 +36,22 @@ The example below demonstrates running Deflate using Fixed block on accelerator 
     configure :ref:`Intel® In-Memory Analytics Accelerator (Intel® IAA) <accelerator_configuration_reference_link>`
     before executing the example.
 
+.. attention::
+
+    By default Benchmarks do not set :c:member:`qpl_job.numa_id` value, so the library will auto detect NUMA node
+    of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.
+
+    If you need to specify NUMA node for execution of this example,
+    use appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
+    or add ``--node=<numa_id>`` to execution command.
+
+    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
+
+    Refer to :ref:`library_numa_support_reference_link` section for more details.
+
 .. code-block:: shell
 
     sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1 --block_size=0
-
-.. note::
-
-    To obtain best performance on systems with NUMA (non-uniform memory access) architecture, it is recommended to use the next NUMA policy: ``numactl --cpunodebind <numa_id> --membind <numa_id>``. It is user responsibility to ensure that the devices from corresponding NUMA node were enabled beforehand.
 
 .. code-block:: shell
     :caption: Output to terminal:
@@ -62,12 +71,6 @@ Key Terms
 
 * **API**: Currently, only Low-Level C API is supported. Case naming: ``api:c``.
 * **Path**: Represents execution path for the library. Case naming: ``path:iaa`` for executing on accelerator, ``path:cpu`` for running on CPU.
-
-.. warning::
-
-    Executing on ``path:iaa`` requires accelerator to be already configured.
-    Refer to :ref:`accelerator configuration page <accelerator_configuration_reference_link>`.
-
 * **Execution mode**: defines synchronous or asynchronous execution. Case naming: ``exec:async``, ``exec:sync``.
 
     **Sync mode**: each measurement loop one call to Intel QPL operation is submitted always followed by blocking wait.
@@ -111,10 +114,22 @@ Executing on Hardware Path
 
 .. attention::
 
-    It is the user's responsibility to configure the accelerator.
     Currently, the library doesn't provide a way to specify a number of Intel IAA
     instance for execution and will use everything available on the system.
+
+    It is the user's responsibility to configure the accelerator.
     If you need to run on 1 or multiple Intel IAA instances, make sure your system is configured appropriately.
+
+.. attention::
+
+    By default, Intel QPL would use Intel IAA instances located on the NUMA node of the calling process.
+
+    If you need to specify NUMA node for execution,
+    use appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
+    or add ``--node=<numa_id>`` to execution command.
+
+    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
+    Refer to :ref:`library_numa_support_reference_link` section for more details.
 
 Latency Tests
 =============
@@ -130,7 +145,7 @@ Below are examples for compression (``deflate``) and decompression (``inflate``)
 
 .. code-block:: shell
 
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1 --block_size=4096
+    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*lvl:1.*" --benchmark_min_time=0.1 --block_size=4096
 
 Throughput Tests
 ================
@@ -139,15 +154,9 @@ For reporting or tracking throughput metric, use ``async`` mode, 1 to 4 Intel IA
 
 Below are examples for compression (``deflate``) and decompression (``inflate``) using 4kb block_size and ``queue_size=128``:
 
-.. attention::
-
-    Results with 4kb block_size are not stable (significant run-to-run variation is expected)
-    when running on 4 Intel IAA devices; this is a **known load balancing issue**.
-    Running with 16kb block_size should produce stable numbers.
-
 .. note::
 
-    ``--threads=2`` might not be enough for inflate to saturate full capacity,
+    ``--threads=2`` might not be enough for inflate operation to saturate full capacity,
     so it is recommended to use ``--threads=6`` or ``--threads=8`` to get best and stable results.
 
 .. code-block:: shell
@@ -157,7 +166,7 @@ Below are examples for compression (``deflate``) and decompression (``inflate``)
 
 .. code-block:: shell
 
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*" --benchmark_min_time=0.5 --block_size=4096 --queue_size=128 --threads=8
+    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5 --block_size=4096 --queue_size=128 --threads=8
 
 
 
