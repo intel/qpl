@@ -16,7 +16,6 @@
 
 namespace qpl::ml::util {
 
-
 static inline auto convert_status_iaa_to_qpl(HW_PATH_VOLATILE const hw_completion_record *const completion_record) {
     if (completion_record->error) {
         return status_list::hardware_error_base + completion_record->error;

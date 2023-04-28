@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "deflate_header_decompression.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "isal_kernels_wrappers.hpp"
 
 namespace qpl::ml::compression {
@@ -25,7 +25,7 @@ auto read_header_stateful(isal_inflate_state &inflate_state) noexcept-> qpl_ml_s
             copy_size = inflate_state.avail_in;
         }
 
-        util::copy(inflate_state.next_in,
+        core_sw::util::copy(inflate_state.next_in,
                    inflate_state.next_in + copy_size,
                    &inflate_state.tmp_in_buffer[inflate_state.tmp_in_size]);
 
@@ -57,7 +57,7 @@ auto read_header_stateful(isal_inflate_state &inflate_state) noexcept-> qpl_ml_s
         inflate_state.read_in = read_in_start;
         inflate_state.read_in_length = read_in_length_start;
 
-        util::copy(next_in_start_ptr,
+        core_sw::util::copy(next_in_start_ptr,
                    next_in_start_ptr + avail_in_start,
                    &inflate_state.tmp_in_buffer[inflate_state.tmp_in_size]);
 

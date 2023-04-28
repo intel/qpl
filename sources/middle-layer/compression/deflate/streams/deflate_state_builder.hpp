@@ -17,7 +17,7 @@
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "compression/deflate/containers/index_table.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "common/defs.hpp"
 
 #include "common/linear_allocator.hpp"

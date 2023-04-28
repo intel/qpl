@@ -22,7 +22,7 @@
 #include "deflate_slow_utils.h"
 #include "deflate_slow_matcher.h"
 #include "deflate_defs.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 constexpr uint32_t D_SIZE_HASH_TABLE  = 4096;
 constexpr uint32_t D_SIZE_HASH_STORE  = 4096;
@@ -41,7 +41,7 @@ static const uint32_t table_offset[30] = {
 };
 
 static inline qplc_slow_deflate_icf_body_t_ptr qplc_slow_deflate_icf_body() {
-    static const auto &table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_table();
+    static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table();
 
     return (qplc_slow_deflate_icf_body_t_ptr)table[0];
 }

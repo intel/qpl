@@ -12,7 +12,7 @@
 #include <algorithm> // std::max
 
 #include "qpl/qpl.h"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/hw_status_converting.hpp"
 #include "compression/verification/verification_state.hpp"
 
@@ -46,6 +46,8 @@ QPL_INLINE void own_init_decompress(qpl_job *qpl_job_ptr);
 QPL_INLINE void own_init_analytics (qpl_job *qpl_job_ptr);
 
 QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_ptr)) {
+    using namespace qpl;
+
     QPL_BAD_PTR_RET(job_size_ptr);
     QPL_BADARG_RET (qpl_path_auto > qpl_path || qpl_path_software < qpl_path, QPL_STS_PATH_ERR);
 
@@ -67,7 +69,7 @@ QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_p
 }
 
 QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
-    using namespace qpl::ml;
+    using namespace qpl;
 
     QPL_BADARG_RET (qpl_path_auto > qpl_path || qpl_path_software < qpl_path, QPL_STS_PATH_ERR);
     QPL_BAD_PTR_RET(qpl_job_ptr);
@@ -79,7 +81,7 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
     const uint32_t analytics_size           = QPL_ALIGNED_SIZE(own_get_job_size_analytics(qpl_path), QPL_DEFAULT_ALIGNMENT);
     const uint32_t middle_layer_buffer_size = QPL_ALIGNED_SIZE(own_get_job_size_middle_layer_buffer(qpl_path), QPL_DEFAULT_ALIGNMENT);
 
-    util::set_zeros((uint8_t *) qpl_job_ptr, job_size);
+    core_sw::util::set_zeros((uint8_t *) qpl_job_ptr, job_size);
 
     // qpl_job_ptr can have any alignment when allocated,
     // therefore need to manually calculate and align pointers to the auxiliary buffers
@@ -98,14 +100,14 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
         auto *const hw_state_ptr = (qpl_hw_state *) (qpl_job_ptr->data_ptr.hw_state_ptr);
         uint32_t hw_size = QPL_ALIGNED_SIZE(hw_get_job_size(), QPL_DEFAULT_ALIGNMENT);
 
-        util::set_zeros((uint8_t *) hw_state_ptr, hw_size);
+        core_sw::util::set_zeros((uint8_t *) hw_state_ptr, hw_size);
 
         if (qpl_path_hardware == qpl_job_ptr->data_ptr.path) {
             status = hw_accelerator_get_context(&hw_state_ptr->accel_context);
 
             if (HW_ACCELERATOR_STATUS_OK != status) {
                 qpl_job_ptr->data_ptr.path = qpl_path_software;
-                status = util::convert_hw_accelerator_status_to_qpl_status(status);
+                status = ml::util::convert_hw_accelerator_status_to_qpl_status(status);
             }
         }
     }
@@ -116,10 +118,10 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
 #endif
 
     // set internal structures to zero
-    util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.compress_state_ptr, comp_size);
-    util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.decompress_state_ptr, decomp_size);
-    util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.analytics_state_ptr, analytics_size);
-    util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.middle_layer_buffer_ptr, middle_layer_buffer_size);
+    core_sw::util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.compress_state_ptr, comp_size);
+    core_sw::util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.decompress_state_ptr, decomp_size);
+    core_sw::util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.analytics_state_ptr, analytics_size);
+    core_sw::util::set_zeros((uint8_t *) qpl_job_ptr->data_ptr.middle_layer_buffer_ptr, middle_layer_buffer_size);
 
     // initialize internal structures
     // note: ml is just a raw buffer, so no need
@@ -187,19 +189,20 @@ QPL_INLINE uint32_t own_get_job_size_analytics(qpl_path_t UNREFERENCED_PARAMETER
  * hence the std::max usage below.
  */
 uint32_t own_get_job_size_middle_layer_buffer(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
-    using namespace qpl::ml;
+    using namespace qpl;
+
     uint32_t size = 0u;
 
     if (qpl_path_software == qpl_path || qpl_path_auto == qpl_path) {
         uint32_t deflate_size      = 0;
         uint32_t huffman_only_size = 0;
 
-        deflate_size += compression::deflate_state<execution_path_t::software>::get_buffer_size();
-        deflate_size += compression::verify_state<execution_path_t::software>::get_buffer_size();
-        deflate_size += compression::inflate_state<execution_path_t::software>::get_buffer_size();
+        deflate_size += ml::compression::deflate_state<ml::execution_path_t::software>::get_buffer_size();
+        deflate_size += ml::compression::verify_state<ml::execution_path_t::software>::get_buffer_size();
+        deflate_size += ml::compression::inflate_state<ml::execution_path_t::software>::get_buffer_size();
 
-        huffman_only_size += compression::huffman_only_state<execution_path_t::software>::get_buffer_size();
-        huffman_only_size += compression::huffman_only_decompression_state<execution_path_t::software>::get_buffer_size();
+        huffman_only_size += ml::compression::huffman_only_state<ml::execution_path_t::software>::get_buffer_size();
+        huffman_only_size += ml::compression::huffman_only_decompression_state<ml::execution_path_t::software>::get_buffer_size();
 
         size += std::max(deflate_size, huffman_only_size);
     }
@@ -208,12 +211,12 @@ uint32_t own_get_job_size_middle_layer_buffer(qpl_path_t UNREFERENCED_PARAMETER(
         uint32_t deflate_size      = 0;
         uint32_t huffman_only_size = 0;
 
-        deflate_size += compression::deflate_state<execution_path_t::hardware>::get_buffer_size();
-        deflate_size += compression::verify_state<execution_path_t::hardware>::get_buffer_size();
-        deflate_size += compression::inflate_state<execution_path_t::hardware>::get_buffer_size();
+        deflate_size += ml::compression::deflate_state<ml::execution_path_t::hardware>::get_buffer_size();
+        deflate_size += ml::compression::verify_state<ml::execution_path_t::hardware>::get_buffer_size();
+        deflate_size += ml::compression::inflate_state<ml::execution_path_t::hardware>::get_buffer_size();
 
-        huffman_only_size += compression::huffman_only_state<execution_path_t::hardware>::get_buffer_size();
-        huffman_only_size += compression::huffman_only_decompression_state<execution_path_t::hardware>::get_buffer_size();
+        huffman_only_size += ml::compression::huffman_only_state<ml::execution_path_t::hardware>::get_buffer_size();
+        huffman_only_size += ml::compression::huffman_only_decompression_state<ml::execution_path_t::hardware>::get_buffer_size();
 
         size += std::max(deflate_size, huffman_only_size);
     }

@@ -4,13 +4,15 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-
-# Intel® Query Processing Library (Intel® QPL)
-# Build system
+# Build system for middle-layer layer, that includes:
+# - abstractions used on both hardware and software path, such as:
+#   - wrappers around analytic operations, CRC, etc. (analytics/, other/)
+#   - Huffman Table object implementation and (de)compression flow (compression/)
+#   - allocators (common/)
+#   - etc.
+# - logic related to submission to the accelerator (dispatcher/, util/)
 
 enable_language(CXX)
-
-generate_unpack_kernel_arrays(${CMAKE_CURRENT_BINARY_DIR})
 
 file(GLOB MIDDLE_LAYER_SRC
         analytics/*.cpp
@@ -26,13 +28,11 @@ file(GLOB MIDDLE_LAYER_SRC
         inflate/*.cpp
         ../core-iaa/sources/accelerator/*.cpp) # todo
 
-file(GLOB GENERATED_PX_TABLES_SRC ${CMAKE_CURRENT_BINARY_DIR}/generated/px_*.cpp)
-file(GLOB GENERATED_AVX512_TABLES_SRC ${CMAKE_CURRENT_BINARY_DIR}/generated/avx512_*.cpp)
-
 add_library(middle_layer_lib OBJECT
-        ${GENERATED_PX_TABLES_SRC}
-        ${GENERATED_AVX512_TABLES_SRC}
         ${MIDDLE_LAYER_SRC})
+
+set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
+             $<TARGET_OBJECTS:middle_layer_lib>)
 
 if (WIN32)
     modify_standard_language_flag(LANGUAGE_NAME "CXX"
@@ -59,14 +59,11 @@ target_compile_definitions(middle_layer_lib
         PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG>)
 
 set_target_properties(middle_layer_lib PROPERTIES CXX_STANDARD 17)
-set_source_files_properties(${GENERATED_PX_TABLES_SRC} PROPERTIES COMPILE_DEFINITIONS PLATFORM=0)
-set_source_files_properties(${GENERATED_AVX512_TABLES_SRC} PROPERTIES COMPILE_DEFINITIONS PLATFORM=2)
 
 target_include_directories(middle_layer_lib
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PUBLIC $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>
-        PUBLIC $<TARGET_PROPERTY:qplcore_px,INTERFACE_INCLUDE_DIRECTORIES>
-        PUBLIC $<TARGET_PROPERTY:qplcore_avx512,INTERFACE_INCLUDE_DIRECTORIES>
+        PUBLIC $<TARGET_PROPERTY:qplcore_sw_dispatcher,INTERFACE_INCLUDE_DIRECTORIES>
         PUBLIC $<TARGET_PROPERTY:isal,INTERFACE_INCLUDE_DIRECTORIES>
         PUBLIC $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>)
 

@@ -14,7 +14,7 @@
 #include "deflate_body_decompression.hpp"
 #include "isal_kernels_wrappers.hpp"
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/descriptor_processing.hpp"
 
 namespace qpl::ml::compression {
@@ -185,7 +185,7 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
             // Save decompression history into tmp_out buffer
             && saved_output_available - inflate_state_ptr->avail_out >= ISAL_DEF_HIST_SIZE) {
 
-            util::copy(inflate_state_ptr->next_out - ISAL_DEF_HIST_SIZE,
+            core_sw::util::copy(inflate_state_ptr->next_out - ISAL_DEF_HIST_SIZE,
                        inflate_state_ptr->next_out,
                        inflate_state_ptr->tmp_out_buffer);
 
@@ -364,7 +364,7 @@ static auto flush_tmp_out_buffer(isal_inflate_state &inflate_state) noexcept -> 
         status = status_list::more_output_needed;
     }
 
-    util::copy(&inflate_state.tmp_out_buffer[inflate_state.tmp_out_processed],
+    core_sw::util::copy(&inflate_state.tmp_out_buffer[inflate_state.tmp_out_processed],
                &inflate_state.tmp_out_buffer[inflate_state.tmp_out_processed] + copy_size,
                inflate_state.next_out);
 

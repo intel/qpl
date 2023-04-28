@@ -99,9 +99,7 @@ static inline hw_scan_range_t own_get_scan_one_value_range(hw_scan_operator_e sc
 }
 
 static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
-    using namespace qpl;
-    using namespace qpl::ml::util;
-    auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(job_ptr));
+    auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(qpl::job::get_state(job_ptr));
 
     auto                 *const descriptor_ptr    = (hw_descriptor *) &state_ptr->desc_ptr;
     hw_iaa_aecs_analytic *const filter_config_ptr = state_ptr->dcfg;
@@ -212,7 +210,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
                                                                             header);
             OWN_QPL_CHECK_STATUS(status)
 
-            job::update_input_stream(job_ptr, header.byte_size);
+            qpl::job::update_input_stream(job_ptr, header.byte_size);
         }
 
         const bool is_big_endian   = job_ptr->flags & QPL_FLAG_HUFFMAN_BE;
@@ -229,10 +227,10 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
         }
     }
 
-    return process_descriptor<qpl_status,
-                              execution_mode_t::async>(descriptor_ptr,
-                                                       (hw_completion_record *) &state_ptr->comp_ptr,
-                                                       job_ptr->numa_id);
+    return qpl::ml::util::process_descriptor<qpl_status,
+                                             qpl::ml::util::execution_mode_t::async>(descriptor_ptr,
+                                                                                     (hw_completion_record *) &state_ptr->comp_ptr,
+                                                                                     job_ptr->numa_id);
 }
 
 static inline qpl_status own_bad_argument_validation(qpl_job *const job_ptr) {
@@ -320,7 +318,7 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
         }
 
         case qpl_op_decompress:{
-            ml::util::set_zeros((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
+            core_sw::util::set_zeros((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 
             auto table_impl = use_as_huffman_table<qpl::ml::compression::compression_algorithm_e::deflate>(job_ptr->huffman_table);
 

@@ -16,9 +16,11 @@
 #include "compression/inflate/inflate_state.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
 #include "analytics_defs.hpp"
-#include "dispatcher/dispatcher.hpp"
 #include "common/limited_buffer.hpp"
 #include "util/checksum.hpp"
+
+// core-sw
+#include "dispatcher.hpp"
 
 namespace qpl::ml::analytics {
 
@@ -197,8 +199,8 @@ protected:
 private:
     auto initialize_sw_kernels() noexcept -> void;
 
-    dispatcher::unpack_table_t::value_type unpack_kernel_           = nullptr;
-    dispatcher::unpack_prle_table_t::value_type unpack_prle_kernel_ = nullptr;
+    core_sw::dispatcher::unpack_table_t::value_type unpack_kernel_           = nullptr;
+    core_sw::dispatcher::unpack_prle_table_t::value_type unpack_prle_kernel_ = nullptr;
 
     ml::compression::inflate_state<execution_path_t::software> state_;
 

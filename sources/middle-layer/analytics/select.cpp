@@ -8,6 +8,9 @@
 #include "descriptor_builder.hpp"
 #include "util/descriptor_processing.hpp"
 
+// core-sw
+#include "dispatcher.hpp"
+
 namespace qpl::ml::analytics {
 
 template <analytic_pipeline pipeline_t>
@@ -17,10 +20,10 @@ static inline auto select(input_stream_t &input_stream,
                           limited_buffer_t &unpack_buffer,
                           limited_buffer_t &set_buffer,
                           limited_buffer_t &output_buffer,
-                          dispatcher::aggregates_function_ptr_t aggregates_callback,
+                          core_sw::dispatcher::aggregates_function_ptr_t aggregates_callback,
                           aggregates_t &aggregates) noexcept -> uint32_t {
-    auto        table       = dispatcher::kernels_dispatcher::get_instance().get_select_table();
-    const auto  index       = dispatcher::get_select_index(input_stream.bit_width());
+    auto        table       = core_sw::dispatcher::kernels_dispatcher::get_instance().get_select_table();
+    const auto  index       = core_sw::dispatcher::get_select_index(input_stream.bit_width());
     const auto  select_impl = table[index];
 
     uint32_t source_elements = 0;
@@ -95,8 +98,8 @@ auto call_select<execution_path_t::software>(input_stream_t &input_stream,
                                              limited_buffer_t &output_buffer,
                                              int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
-    auto aggregates_table    = dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
-    auto aggregates_index    = dispatcher::get_aggregates_index(1u);
+    auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
+    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1u);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                 &aggregates_empty_callback :
                                 aggregates_table[aggregates_index];

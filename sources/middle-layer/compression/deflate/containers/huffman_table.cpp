@@ -10,7 +10,7 @@
 #include "compression/deflate/utils/fixed_huffman_table.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "compression/deflate/utils/huffman_table_utils.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 #include "qplc_compression_consts.h"
 
@@ -177,9 +177,9 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
     } else {
         /* Substitute in fixed block since it creates smaller block or fixed mode enabled */
         auto *fixed_hufftables_ptr = reinterpret_cast<uint8_t *>(&fixed_hufftables);
-        util::copy(fixed_hufftables_ptr,
-                   fixed_hufftables_ptr + sizeof(hufftables_icf),
-                   reinterpret_cast<uint8_t *>(huffman_table.get_isal_huffman_tables()));
+        core_sw::util::copy(fixed_hufftables_ptr,
+                            fixed_hufftables_ptr + sizeof(hufftables_icf),
+                            reinterpret_cast<uint8_t *>(huffman_table.get_isal_huffman_tables()));
         end_of_block = end_of_block ? 1 : 0;
         write_bits(bit_buffer, 0x2 | end_of_block, 3);
         compressed_len = fixed_compressed_len;

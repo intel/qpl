@@ -12,17 +12,17 @@
 #include "util.hpp"
 
 #include "qplc_api.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 #include "check_result.hpp"
 
 static inline qplc_pack_bits_t_ptr qplc_pack_bits(uint32_t index) {
-    static const auto &table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_pack_table();
+    static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_table();
 
     return (qplc_pack_bits_t_ptr) table[index];
 }
 
 static inline qplc_unpack_bits_t_ptr qplc_unpack_bits(uint32_t index) {
-    static const auto &table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
+    static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
 
     return (qplc_unpack_bits_t_ptr) table[index];
 }

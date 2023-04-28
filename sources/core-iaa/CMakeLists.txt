@@ -20,6 +20,9 @@ option(BLOCK_ON_FAULT "Use `Block on Fault` flag for descriptor" ON)
 # Create library
 add_library(core_iaa OBJECT ${HW_PATH_SRC})
 
+set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
+             $<TARGET_OBJECTS:core_iaa>)
+
 target_include_directories(core_iaa
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources/include>

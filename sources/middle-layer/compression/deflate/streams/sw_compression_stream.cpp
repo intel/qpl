@@ -6,7 +6,7 @@
 
 #include "sw_deflate_state.hpp"
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/util.hpp"
 #include "deflate_hash_table.h"
 
@@ -24,7 +24,7 @@ auto deflate_state<execution_path_t::software>::write_bytes(const uint8_t *data,
         return status_list::more_output_needed;
     }
 
-    util::copy(data, data + size, isal_stream_ptr_->next_out);
+    core_sw::util::copy(data, data + size, isal_stream_ptr_->next_out);
 
     isal_stream_ptr_->avail_out -= size;
     isal_stream_ptr_->total_out += size;
@@ -34,16 +34,16 @@ auto deflate_state<execution_path_t::software>::write_bytes(const uint8_t *data,
 }
 
 void deflate_state<execution_path_t::software>::save_bit_buffer() noexcept {
-    util::copy(reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf),
-               reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf) + sizeof(BitBuf2),
-               reinterpret_cast<uint8_t *>(bit_buffer_ptr));
+    core_sw::util::copy(reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf),
+                        reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf) + sizeof(BitBuf2),
+                        reinterpret_cast<uint8_t *>(bit_buffer_ptr));
 }
 
 void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
-    const auto &deflate_hash_table_reset = ((qplc_deflate_hash_table_reset_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[2]));
+    const auto &deflate_hash_table_reset = ((qplc_deflate_hash_table_reset_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[2]));
 
     auto level_buffer = reinterpret_cast<level_buf *>(isal_stream_ptr_->level_buf);
-    
+
     if (compression_level() == high_level) {
         hash_table_.hash_table_ptr = reinterpret_cast<uint32_t *>(level_buffer->hash_map.hash_table);
         hash_table_.hash_story_ptr = hash_table_.hash_table_ptr + high_hash_table_size;
@@ -93,7 +93,7 @@ void deflate_state<execution_path_t::software>::dump_bit_buffer() noexcept {
 void deflate_state<execution_path_t::software>::dump_isal_stream() noexcept {
     bytes_written_   += isal_stream_ptr_->total_out;
     bytes_processed_ += isal_stream_ptr_->total_in;
-    
+
     isal_stream_ptr_->total_out = 0;
     isal_stream_ptr_->total_in  = 0;
 }
@@ -138,7 +138,7 @@ auto deflate_state<execution_path_t::software>::init_level_buffer() noexcept -> 
 
 [[nodiscard]] auto deflate_state<execution_path_t::software>::are_buffers_empty() const noexcept -> bool {
     auto level_buffer = reinterpret_cast<level_buf *>(isal_stream_ptr_->level_buf);
-    
+
     return (!isal_stream_ptr_->avail_in &&
             level_buffer->hash_map.matches_next >= level_buffer->hash_map.matches_end
     );

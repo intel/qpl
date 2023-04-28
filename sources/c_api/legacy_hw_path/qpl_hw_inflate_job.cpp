@@ -14,7 +14,7 @@
  */
 
 #include "job.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/checkers.hpp"
 
@@ -79,7 +79,7 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         // Decompress random header
         if (qpl_job_ptr->ignore_start_bits != 0u) {
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
-            ml::util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
+            core_sw::util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
             aecs_ptr->inflate_options.decompress_state = DEF_STATE_HDR;
         }
 
@@ -335,8 +335,6 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
                                                         const uint8_t start_bit_offset,
                                                         hw_iaa_aecs *const state_ptr,
                                                         bool toggle_rw) {
-    using namespace qpl::ml;
-
     auto *const desc_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
     auto *const aecs_ptr = (hw_iaa_aecs_analytic *) state_ptr;
 
@@ -344,7 +342,7 @@ qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const des
     uint8_t  ignore_end_bits   = OWN_MAX_BIT_IDX & (0u - (header_bit_size + start_bit_offset));
     auto aecs_policy = (toggle_rw) ? (uint32_t)hw_aecs_toggle_rw : 0u;
 
-    util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
+    qpl::core_sw::util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
     if (0u != start_bit_offset) {
         aecs_policy |= hw_aecs_access_read;

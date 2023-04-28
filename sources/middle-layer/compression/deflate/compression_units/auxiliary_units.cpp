@@ -6,7 +6,7 @@
 
 #include "auxiliary_units.hpp"
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/util.hpp"
 #include "util/checksum.hpp"
 
@@ -16,7 +16,7 @@
 #include "deflate_slow_utils.h"
 
 #include "qplc_deflate_utils.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 #include "compression/huffman_only/huffman_only_compression_state.hpp"
 #include "compression/deflate/implementations/deflate_implementation.hpp"
@@ -26,11 +26,11 @@ extern void isal_deflate_hash(struct isal_zstream *stream, uint8_t *dict, uint32
 }
 
 static inline qplc_slow_deflate_body_t_ptr slow_deflate_body() {
-    return (qplc_slow_deflate_body_t_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
+    return (qplc_slow_deflate_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
 }
 
 static inline qplc_setup_dictionary_t_ptr qplc_setup_dictionary() {
-    return (qplc_setup_dictionary_t_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_setup_dictionary_table()[0]);
+    return (qplc_setup_dictionary_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_setup_dictionary_table()[0]);
 }
 
 namespace qpl::ml::compression {
@@ -116,7 +116,7 @@ auto init_compression(stream_t &stream, compression_state_t &state) noexcept -> 
     state = compression_state_t::start_new_block;
 
     if constexpr (std::is_same_v<deflate_state<execution_path_t::software>, stream_t>) {
-        if (stream.compression_mode_ != dynamic_mode || 
+        if (stream.compression_mode_ != dynamic_mode ||
             stream.mini_blocks_support() == mini_blocks_support_t::enabled) {
             state = compression_state_t::preprocess_new_block;
         }
@@ -232,9 +232,9 @@ auto flush_bit_buffer(stream_t &stream, compression_state_t &state) noexcept -> 
         stream.dump_bit_buffer();
     } else {
         if constexpr(std::is_same_v<stream_t, deflate_state<execution_path_t::software>>) {
-            util::copy(reinterpret_cast<uint8_t *>(bit_buffer),
-                       reinterpret_cast<uint8_t *>(bit_buffer) + sizeof(*bit_buffer),
-                       reinterpret_cast<uint8_t *>(stream.bit_buffer_ptr));
+            core_sw::util::copy(reinterpret_cast<uint8_t *>(bit_buffer),
+                                reinterpret_cast<uint8_t *>(bit_buffer) + sizeof(*bit_buffer),
+                                reinterpret_cast<uint8_t *>(stream.bit_buffer_ptr));
         }
     }
 
@@ -272,10 +272,10 @@ auto flush_write_buffer(stream_t &stream, compression_state_t &state) noexcept -
            : status_list::ok;
 }
 
-auto skip_rest_units(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+auto skip_rest_units(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream),
                      compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::finish_compression_process;
-    
+
     return status_list::ok;
 }
 
@@ -346,7 +346,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
 
     do {
         uint8_t *buf_start_in = nullptr;
-        
+
         internal = false;
         if (stream.isal_stream_ptr_->total_in - total_start < history_size + buffered_size) {
             internal = true;
@@ -356,8 +356,8 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
 
                 auto copy_down_src  = &isal_state->buffer[copy_start_offset];
                 auto copy_down_size = isal_state->b_bytes_valid - copy_start_offset;
-                
-                util::copy(copy_down_src, copy_down_src + copy_down_size, isal_state->buffer);
+
+                core_sw::util::copy(copy_down_src, copy_down_src + copy_down_size, isal_state->buffer);
 
                 auto start_offset = static_cast<uint32_t>(copy_down_src - isal_state->buffer);
 
@@ -384,9 +384,9 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
                 size = sizeof(isal_state->buffer) - isal_state->b_bytes_valid;
             }
 
-            util::copy(stream.isal_stream_ptr_->next_in,
-                       stream.isal_stream_ptr_->next_in + size,
-                       &isal_state->buffer[isal_state->b_bytes_valid]);
+            core_sw::util::copy(stream.isal_stream_ptr_->next_in,
+                                stream.isal_stream_ptr_->next_in + size,
+                                &isal_state->buffer[isal_state->b_bytes_valid]);
 
             stream.isal_stream_ptr_->next_in  += size;
             stream.isal_stream_ptr_->avail_in -= size;

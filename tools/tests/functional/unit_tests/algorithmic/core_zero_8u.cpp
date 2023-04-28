@@ -12,12 +12,12 @@
 #include "../t_common.hpp"
 
 #include "qplc_memop.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 namespace qpl::test {
 
     qplc_zero_t_ptr qplc_zero() {
-        static const auto& table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_zero_table();
+        static const auto& table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_zero_table();
 
         return (qplc_zero_t_ptr)table[0u];
     }

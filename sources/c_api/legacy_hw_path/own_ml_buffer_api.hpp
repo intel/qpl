@@ -7,7 +7,10 @@
 #ifndef QPL_SOURCES_HW_PATH_SOURCES_OWN_ML_QPL_BUFFER_API_H_
 #define QPL_SOURCES_HW_PATH_SOURCES_OWN_ML_QPL_BUFFER_API_H_
 
-#include "util/memory.hpp"
+#include "hardware_state.h"
+
+// core-sw
+#include "simple_memory_ops.hpp"
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,9 +31,10 @@ static inline uint32_t own_qpl_buffer_get_capacity(qpl_buffer *const UNREFERENCE
 static inline void own_qpl_buffer_fill(qpl_buffer *const buffer_ptr,
                                        uint8_t *const source_ptr,
                                        const uint32_t source_size) {
-    qpl::ml::util::copy(source_ptr,
-                        source_ptr + source_size,
-                        buffer_ptr->data + buffer_ptr->actual_bytes);
+    qpl::core_sw::util::copy(source_ptr,
+                             source_ptr + source_size,
+                             buffer_ptr->data + buffer_ptr->actual_bytes);
+
     buffer_ptr->actual_bytes += source_size;
 }
 

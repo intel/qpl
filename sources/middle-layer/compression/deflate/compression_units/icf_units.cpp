@@ -7,9 +7,9 @@
 #include "icf_units.hpp"
 
 #include "util/util.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 #include "qplc_deflate_utils.h"
 
 #include "deflate_slow_icf.h"
@@ -23,7 +23,7 @@ extern void isal_deflate_icf_finish_lvl3(struct isal_zstream *);
 }
 
 static inline qplc_slow_deflate_icf_body_t_ptr qplc_slow_deflate_icf_body() {
-    return (qplc_slow_deflate_icf_body_t_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[0]);
+    return (qplc_slow_deflate_icf_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[0]);
 }
 
 namespace qpl::ml::compression {
@@ -58,7 +58,7 @@ auto write_buffered_icf_header(deflate_state<execution_path_t::software> &stream
 
         auto *header_begin = deflate_header + isal_state->count;
 
-        util::copy(header_begin, header_begin + count, stream.isal_stream_ptr_->next_out);
+        core_sw::util::copy(header_begin, header_begin + count, stream.isal_stream_ptr_->next_out);
 
         stream.isal_stream_ptr_->next_out += count;
         stream.isal_stream_ptr_->avail_out -= count;
@@ -104,9 +104,9 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
                           ) + block_in_size;
     block_size          = block_size ? block_size : stored_block_header_length;
 
-    util::copy(reinterpret_cast<uint8_t *>(bit_buffer),
-               reinterpret_cast<uint8_t *>(bit_buffer) + sizeof(BitBuf2),
-               reinterpret_cast<uint8_t *>(&bit_writer_tmp));
+    core_sw::util::copy(reinterpret_cast<uint8_t *>(bit_buffer),
+                        reinterpret_cast<uint8_t *>(bit_buffer) + sizeof(BitBuf2),
+                        reinterpret_cast<uint8_t *>(&bit_writer_tmp));
 
     /* Write EOB in icf_buf */
     level_buffer->hist.ll_hist[end_of_block_code_index] = 1;
@@ -156,9 +156,9 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
         /* Reset stream for writing out a stored block */
         isal_state->has_eob_hdr = 0;
         auto *bit_writer_tmp_ptr = reinterpret_cast<uint8_t *>(&bit_writer_tmp);
-        util::copy(bit_writer_tmp_ptr,
-                   bit_writer_tmp_ptr + sizeof(BitBuf2),
-                   reinterpret_cast<uint8_t *>(bit_buffer));
+        core_sw::util::copy(bit_writer_tmp_ptr,
+                            bit_writer_tmp_ptr + sizeof(BitBuf2),
+                            reinterpret_cast<uint8_t *>(bit_buffer));
         state = compression_state_t::write_stored_block;
 
     } else if (buffer_header) {
@@ -167,9 +167,9 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
         level_buffer->deflate_hdr_extra_bits = bit_buffer->m_bit_count;
 
         flush(bit_buffer);
-        util::copy(reinterpret_cast<uint8_t *>(&bit_writer_tmp),
-                   reinterpret_cast<uint8_t *>(&bit_writer_tmp) + sizeof(BitBuf2),
-                   reinterpret_cast<uint8_t *>(bit_buffer));
+        core_sw::util::copy(reinterpret_cast<uint8_t *>(&bit_writer_tmp),
+                            reinterpret_cast<uint8_t *>(&bit_writer_tmp) + sizeof(BitBuf2),
+                            reinterpret_cast<uint8_t *>(bit_buffer));
 
         bit_buffer->m_bits      = 0;
         bit_buffer->m_bit_count = 0;
@@ -229,7 +229,7 @@ auto init_new_icf_block(deflate_state<execution_path_t::software> &stream, compr
     level_buffer->icf_buf_next      = level_buffer->icf_buf_start;
     level_buffer->icf_buf_avail_out = stream.isal_stream_ptr_->level_buf_size - level_struct_size - sizeof(deflate_icf);
 
-    util::set_zeros(reinterpret_cast<uint8_t *>(&level_buffer->hist), sizeof(isal_mod_hist));
+    core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(&level_buffer->hist), sizeof(isal_mod_hist));
 
     state = compression_state_t::compression_body;
 

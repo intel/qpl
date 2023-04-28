@@ -10,7 +10,7 @@
 #include "hw_definitions.h"
 #include "hw_aecs_api.h"
 #include "hw_descriptors_api.h"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 namespace qpl::ml::analytics {
 

@@ -6,12 +6,15 @@
 
 #include "compression/deflate/histogram.hpp"
 #include "util/descriptor_processing.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 #include "deflate_hash_table.h"
-#include "dispatcher/dispatcher.hpp"
+
 #include "../../../c_api/compression_operations/bit_writer.h"
 #include "../../../c_api/compression_operations/own_deflate_job.h"
+
+// core-sw
+#include "dispatcher.hpp"
 
 namespace qpl::ml::compression {
 
@@ -77,8 +80,8 @@ auto update_histogram<execution_path_t::hardware>(const uint8_t *begin,
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record;
     qpl_histogram                                                 hw_histogram;
 
-    util::set_zeros(descriptor.data, HW_PATH_DESCRIPTOR_SIZE);
-    util::set_zeros(&hw_histogram, sizeof(qpl_histogram));
+    core_sw::util::set_zeros(descriptor.data, HW_PATH_DESCRIPTOR_SIZE);
+    core_sw::util::set_zeros(&hw_histogram, sizeof(qpl_histogram));
 
     hw_iaa_descriptor_init_statistic_collector(&descriptor,
                                                begin,
@@ -113,7 +116,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t *begin,
     using namespace qpl::ml;
 
     static const auto &histogram_reset = ((qplc_deflate_histogram_reset_ptr)
-            (dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[1]));
+            (core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[1]));
 
     if (qpl_default_level == level) {
         isal_histogram isal_histogram_v = {{0u}, {0u}, {0u}};

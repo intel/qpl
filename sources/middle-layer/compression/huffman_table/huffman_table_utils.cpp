@@ -19,7 +19,7 @@
 #include "compression/huffman_table/serialization_utils.hpp"
 
 #include "util/util.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/descriptor_processing.hpp"
 
 #include "qplc_compression_consts.h"
@@ -28,6 +28,12 @@
 
 #include "compression/inflate/inflate.hpp"
 #include "compression/inflate/inflate_state.hpp"
+
+// core-sw
+#include "dispatcher.hpp"
+
+// isal
+#include "igzip_lib.h"
 
 namespace qpl::ml::compression {
 
@@ -181,7 +187,7 @@ static inline void store_isal_deflate_header(isal_hufftables *isal_huffman_table
     header_complete_byte_size += (0u == isal_huffman_table->deflate_hdr_extra_bits) ? 0u : 1u;
 
     // Use copy kernel to copy deflate header from isal huffman tables
-    auto copy_kernel = dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table();
+    auto copy_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table();
     copy_kernel[0]((uint8_t *) isal_huffman_table->deflate_hdr,
                    compression_table.get_deflate_header_data(),
                    header_complete_byte_size);
@@ -208,7 +214,7 @@ static inline void qpl_huffman_table_to_isal(const qpl_compression_huffman_table
     struct own_huffman_code offsets_huffman_table[QPLC_DEFLATE_D_TABLE_SIZE]   = {{0u, 0u, 0u}};
 
     // Memory initialization
-    qpl::ml::util::set_zeros((uint8_t *) isal_table_ptr, sizeof(struct isal_hufftables));
+    qpl::core_sw::util::set_zeros((uint8_t *) isal_table_ptr, sizeof(struct isal_hufftables));
 
     // Copying literals and match lengths Huffman table
     for (uint32_t i = 0; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
@@ -491,9 +497,9 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
         // Copy deflate header from compression to decompression table
         auto deflate_header_byte_size = util::bit_to_byte(compression_table.get_deflate_header_bit_size());
 
-        util::copy(compression_table.get_deflate_header_data(),
-                   compression_table.get_deflate_header_data() + deflate_header_byte_size,
-                   decompression_table.get_deflate_header_data());
+        core_sw::util::copy(compression_table.get_deflate_header_data(),
+                           compression_table.get_deflate_header_data() + deflate_header_byte_size,
+                           decompression_table.get_deflate_header_data());
 
         decompression_table.set_deflate_header_bit_size(compression_table.get_deflate_header_bit_size());
 
@@ -510,15 +516,15 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
         // Copy lookup tables from temporary state to decompression table
         auto *lit_huff_code_ptr = reinterpret_cast<uint8_t *>(&temporary_state.lit_huff_code);
 
-        util::copy(lit_huff_code_ptr,
-                   lit_huff_code_ptr + sizeof(temporary_state.lit_huff_code),
-                   reinterpret_cast<uint8_t *>(&decompression_table.get_canned_table()->literal_huffman_codes));
+        core_sw::util::copy(lit_huff_code_ptr,
+                            lit_huff_code_ptr + sizeof(temporary_state.lit_huff_code),
+                            reinterpret_cast<uint8_t *>(&decompression_table.get_canned_table()->literal_huffman_codes));
 
         auto *dist_huff_code_ptr = reinterpret_cast<uint8_t *>(&temporary_state.dist_huff_code);
 
-        util::copy(dist_huff_code_ptr,
-                   dist_huff_code_ptr + sizeof(temporary_state.dist_huff_code),
-                   reinterpret_cast<uint8_t *>(&decompression_table.get_canned_table()->distance_huffman_codes));
+        core_sw::util::copy(dist_huff_code_ptr,
+                            dist_huff_code_ptr + sizeof(temporary_state.dist_huff_code),
+                            reinterpret_cast<uint8_t *>(&decompression_table.get_canned_table()->distance_huffman_codes));
 
         // Copy eob symbol properties
         decompression_table.get_canned_table()->eob_code_and_len = temporary_state.eob_code_and_len;
@@ -545,7 +551,7 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
         const auto header_bit_size = compression_table.get_deflate_header_bit_size();
         hw_iaa_aecs *const aecs_ptr = decompression_table.get_hw_decompression_state();
 
-        util::set_zeros(aecs_ptr, sizeof(hw_iaa_aecs_analytic));
+        core_sw::util::set_zeros(aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
         uint32_t input_bytes_count = (header_bit_size + 7u) >> 3u;
         uint8_t  ignore_end_bits   = max_bit_index & (0u - header_bit_size);

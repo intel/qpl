@@ -36,9 +36,9 @@ auto deflate_state_builder<execution_path_t::software>::set_isal_internal_buffer
     stream_.huffman_table_icf_.init_isal_huffman_tables(&level_buffer->encode_tables);
 
     if (!stream_.is_first_chunk()) {
-        util::copy(reinterpret_cast<uint8_t *>(bit_buffer_ptr),
-                   reinterpret_cast<uint8_t *>(bit_buffer_ptr) + sizeof(BitBuf2),
-                   reinterpret_cast<uint8_t *>(&(&stream_.isal_stream_ptr_->internal_state)->bitbuf));
+        core_sw::util::copy(reinterpret_cast<uint8_t *>(bit_buffer_ptr),
+                            reinterpret_cast<uint8_t *>(bit_buffer_ptr) + sizeof(BitBuf2),
+                            reinterpret_cast<uint8_t *>(&(&stream_.isal_stream_ptr_->internal_state)->bitbuf));
     }
 }
 
@@ -60,7 +60,7 @@ void deflate_state_builder<execution_path_t::software>::set_huffman_table(qpl_co
 
     const uint8_t *const isal_huffman_table = get_isal_compression_huffman_table_ptr(huffman_table);
 
-    util::copy(isal_huffman_table,
+    core_sw::util::copy(isal_huffman_table,
                isal_huffman_table + sizeof(isal_hufftables),
                reinterpret_cast<uint8_t *>(stream_.isal_stream_ptr_->hufftables));
 }
@@ -89,7 +89,7 @@ void deflate_state_builder<execution_path_t::software>::init() noexcept {
 
     if (stream_.mini_blocks_support() == mini_blocks_support_t::enabled &&
         stream_.compression_mode_ == dynamic_mode) {
-        util::set_zeros(isal_state->buffer, sizeof(isal_huff_histogram));
+        core_sw::util::set_zeros(isal_state->buffer, sizeof(isal_huff_histogram));
 
         stream_.start_new_block_ = true;
     }

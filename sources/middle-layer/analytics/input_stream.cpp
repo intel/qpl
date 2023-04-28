@@ -6,6 +6,9 @@
 
 #include "input_stream.hpp"
 
+// core-sw
+#include "dispatcher.hpp"
+
 namespace qpl::ml::analytics {
 
 template <>
@@ -151,7 +154,7 @@ auto input_stream_t::unpack<analytic_pipeline::inflate_prle>(limited_buffer_t &o
     uint32_t valid_decompressed_bytes = result.output_bytes_ + prev_decompressed_bytes_;
 
     if (unpack_source_ptr != (decompress_begin_ + valid_decompressed_bytes)) {
-        util::copy(unpack_source_ptr, decompress_begin_ + valid_decompressed_bytes, decompress_begin_);
+        core_sw::util::copy(unpack_source_ptr, decompress_begin_ + valid_decompressed_bytes, decompress_begin_);
 
         current_decompress_      = decompress_begin_ + std::distance(unpack_source_ptr,
                                                                      decompress_begin_ + valid_decompressed_bytes);
@@ -186,13 +189,13 @@ auto input_stream_t::unpack<analytic_pipeline::inflate_prle>(limited_buffer_t &o
 }
 
 auto input_stream_t::initialize_sw_kernels() noexcept -> void {
-    auto unpack_table      = dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
-    auto unpack_prle_table = dispatcher::kernels_dispatcher::get_instance().get_unpack_prle_table();
+    auto unpack_table      = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
+    auto unpack_prle_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_prle_table();
 
     uint32_t is_stream_be = (stream_format_ == stream_format_t::be_format) ? 1 : 0;
 
-    uint32_t unpack_index = dispatcher::get_unpack_index(is_stream_be, bit_width_);
-    prle_index_ = dispatcher::get_unpack_prle_index(bit_width_);
+    uint32_t unpack_index = core_sw::dispatcher::get_unpack_index(is_stream_be, bit_width_);
+    prle_index_ = core_sw::dispatcher::get_unpack_prle_index(bit_width_);
 
     if (stream_format_ != stream_format_t::prle_format) {
         unpack_kernel_ = unpack_table[unpack_index];

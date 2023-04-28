@@ -13,7 +13,9 @@
 #define QPL_SOURCES_MIDDLE_LAYER_UTIL_CHECKSUM_HPP_
 
 #include "crc.h"
-#include "dispatcher/dispatcher.hpp"
+
+// core-sw
+#include "dispatcher.hpp"
 
 namespace qpl::ml::util {
 
@@ -91,7 +93,7 @@ inline uint32_t xor_checksum(const input_iterator_t source_begin,
                   (std::is_same<typename std::iterator_traits<input_iterator_t>::value_type, uint32_t>::value),
                   "Passed input iterator value type should be uint8_t, uint16_t or uint32_t");
 
-    auto xor_kernel = dispatcher::kernels_dispatcher::get_instance().get_xor_checksum_table()[0];
+    auto xor_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_xor_checksum_table()[0];
     auto length     = static_cast<uint32_t>(std::distance(source_begin, source_end));
 
     return xor_kernel(reinterpret_cast<const uint8_t *>(&*source_begin),

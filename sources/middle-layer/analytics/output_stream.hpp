@@ -11,9 +11,11 @@
 #include <iterator>
 
 #include "analytics_defs.hpp"
-#include "dispatcher/dispatcher.hpp"
 #include "common/buffer.hpp"
 #include "util/util.hpp"
+
+// core-sw
+#include "dispatcher.hpp"
 
 namespace qpl::ml::analytics {
 
@@ -77,7 +79,7 @@ protected:
     }
 
 private:
-    dispatcher::pack_index_table_t::value_type pack_index_kernel    = nullptr;
+    core_sw::dispatcher::pack_index_table_t::value_type pack_index_kernel    = nullptr;
     uint8_t                               *destination_current_ptr_ = nullptr;
     bool                                  is_inverted_              = false;
     bool                                  is_nominal_               = false;
@@ -155,32 +157,32 @@ public:
         stream_.destination_current_ptr_ = stream_.data();
 
         if constexpr(path == execution_path_t::software || path == execution_path_t::auto_detect) {
-            auto pack_table = dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
+            auto pack_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
             stream_.capacity_ = (std::distance(stream_.begin(), stream_.end()) * byte_bits_size)
                                 / stream_.actual_bit_width_;
 
             bool     is_output_be = (stream_.stream_format_ == stream_format_t::be_format);
-            uint32_t pack_index   = dispatcher::get_pack_index(is_output_be,
-                                                               static_cast<uint32_t>(stream_.bit_width_format_),
-                                                               static_cast<uint32_t>(stream_.is_nominal_));
+            uint32_t pack_index   = core_sw::dispatcher::get_pack_index(is_output_be,
+                                                                        static_cast<uint32_t>(stream_.bit_width_format_),
+                                                                        static_cast<uint32_t>(stream_.is_nominal_));
 
             stream_.pack_index_kernel = pack_table[pack_index];
 
             if constexpr(stream_type == array_stream) {
                 if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_
                     || stream_.input_buffer_bit_width_ > 1) {
-                    stream_.current_output_index_ = dispatcher::get_pack_bits_index(is_output_be,
-                                                                                    stream_.input_buffer_bit_width_,
-                                                                                    static_cast<uint32_t>(stream_.bit_width_format_));
+                    stream_.current_output_index_ = core_sw::dispatcher::get_pack_bits_index(is_output_be,
+                                                                                             stream_.input_buffer_bit_width_,
+                                                                                             static_cast<uint32_t>(stream_.bit_width_format_));
                 }
                 else {
                     stream_.current_output_index_ = stream_.initial_output_index_;
                 }
             } else {
                 if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_) {
-                    stream_.current_output_index_ = dispatcher::get_pack_bits_index(is_output_be,
-                                                                                    stream_.input_buffer_bit_width_,
-                                                                                    static_cast<uint32_t>(stream_.bit_width_format_));
+                    stream_.current_output_index_ = core_sw::dispatcher::get_pack_bits_index(is_output_be,
+                                                                                             stream_.input_buffer_bit_width_,
+                                                                                             static_cast<uint32_t>(stream_.bit_width_format_));
                 }
                 else {
                     stream_.current_output_index_ = stream_.initial_output_index_;

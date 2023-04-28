@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef MIDDLE_LAYER_UTIL_MEMORY_HPP
-#define MIDDLE_LAYER_UTIL_MEMORY_HPP
+#ifndef CORE_SW_DISPATCHER_SIMPLE_MEMORY_OPS_HPP
+#define CORE_SW_DISPATCHER_SIMPLE_MEMORY_OPS_HPP
 
-#include "dispatcher/dispatcher.hpp"
-#include "cstddef"
+#include <cstddef>
 
-namespace qpl::ml::util {
+#include "dispatcher.hpp"
+
+namespace qpl::core_sw::util {
 
 template <class input_iterator_t,
           class output_iterator_t>
@@ -36,8 +37,8 @@ inline void copy(const input_iterator_t source_begin,
                   (std::is_same<typename std::iterator_traits<output_iterator_t>::value_type, uint32_t>::value),
                   "Passed output iterator value type should be uint8_t, uint16_t or uint32_t");
 
-    auto copy_index  = dispatcher::get_memory_copy_index(default_bit_width);
-    auto copy_kernel = dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table()[copy_index];
+    auto copy_index  = core_sw::dispatcher::get_memory_copy_index(default_bit_width);
+    auto copy_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table()[copy_index];
 
     auto length = static_cast<uint32_t>(std::distance(source_begin, source_end));
 
@@ -70,8 +71,8 @@ inline void move(const input_iterator_t source_begin,
                   (std::is_same<typename std::iterator_traits<output_iterator_t>::value_type, uint32_t>::value),
                   "Passed output iterator value type should be uint8_t, uint16_t or uint32_t");
 
-    auto move_index  = dispatcher::get_memory_copy_index(default_bit_width);
-    auto move_kernel = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_move_table()[move_index];
+    auto move_index  = core_sw::dispatcher::get_memory_copy_index(default_bit_width);
+    auto move_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_move_table()[move_index];
 
     auto length = static_cast<uint32_t>(std::distance(source_begin, source_end));
 
@@ -83,10 +84,10 @@ inline void move(const input_iterator_t source_begin,
 template<class output_iterator_t>
 inline void set_zeros(output_iterator_t destination_begin,
                       size_t destination_bytes_length) noexcept {
-    const auto set_zero_kernel = dispatcher::kernels_dispatcher::get_instance().get_zero_table()[0u];
+    const auto set_zero_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_zero_table()[0u];
     set_zero_kernel(reinterpret_cast<uint8_t *>(destination_begin), static_cast<uint32_t>(destination_bytes_length));
 }
 
 }
 
-#endif // MIDDLE_LAYER_UTIL_MEMORY_HPP
+#endif // CORE_SW_DISPATCHER_SIMPLE_MEMORY_OPS_HPP

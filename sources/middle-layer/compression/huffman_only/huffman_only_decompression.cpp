@@ -8,7 +8,7 @@
 #include "common/bit_reverse.hpp"
 #include "util/util.hpp"
 #include "util/descriptor_processing.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/checksum.hpp"
 
 namespace qpl::ml::compression {
@@ -157,7 +157,7 @@ auto decompress_huffman_only<execution_path_t::software>(
     } else {
         auto big_endian_buffer_ptr = reinterpret_cast<uint16_t *>(decompression_state.get_buffer());
 
-        util::set_zeros(big_endian_buffer_ptr, huffman_only_be_buffer_size);
+        core_sw::util::set_zeros(big_endian_buffer_ptr, huffman_only_be_buffer_size);
 
         uint32_t total_bytes_read = 0u;
         uint32_t source_size = static_cast<uint32_t>(std::distance(source_ptr, source_end_ptr));

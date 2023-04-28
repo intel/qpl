@@ -12,7 +12,7 @@
 #include "random_generator.h"
 #include "../t_common.hpp"
 #include "qplc_memop.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 using TestEnviroment = qpl::test::util::TestEnvironment;
 using randomizer = qpl::test::random;
@@ -22,7 +22,7 @@ constexpr uint32_t TEST_SOURCE_SIZE = TEST_ARRAY_SIZE / 2u;
 constexpr uint32_t TEST_SPAN_SIZE   = TEST_ARRAY_SIZE / 4u;
 
 static inline qplc_move_t_ptr move() {
-    static const auto& table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_move_table();
+    static const auto& table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_move_table();
 
     return (qplc_move_t_ptr)table[0u];
 }

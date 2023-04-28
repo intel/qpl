@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "deflate_body_decompression.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 namespace qpl::ml::compression {
 
@@ -31,7 +31,7 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
 
     auto *bits_buffer_ptr = reinterpret_cast<uint8_t *>(&inflate_state.read_in);
 
-    util::copy(bits_buffer_ptr,
+    core_sw::util::copy(bits_buffer_ptr,
                bits_buffer_ptr + bytes_already_read,
                inflate_state.next_out);
 
@@ -62,7 +62,7 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
         }
     }
 
-    util::copy(inflate_state.next_in,
+    core_sw::util::copy(inflate_state.next_in,
                inflate_state.next_in + block_byte_size,
                inflate_state.next_out);
 

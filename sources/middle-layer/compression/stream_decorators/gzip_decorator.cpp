@@ -263,7 +263,7 @@ static inline auto write_gzip_header(uint8_t *const destination_ptr, const uint3
         return result;
     }
 
-    util::copy(default_gzip_header.data(), default_gzip_header.data() + gzip_sizes::gzip_header_size, destination_ptr);
+    core_sw::util::copy(default_gzip_header.data(), default_gzip_header.data() + gzip_sizes::gzip_header_size, destination_ptr);
 
     result.status_code_ = status_list::ok;
     result.bytes_done_  = gzip_sizes::gzip_header_size;
@@ -285,7 +285,7 @@ static inline auto write_gzip_trailer(uint8_t *destination_ptr,
     auto gzip_trailer = static_cast<uint64_t>(length) << 32u | crc;
     auto data_ptr = reinterpret_cast<uint8_t *>(&gzip_trailer);
 
-    util::copy(data_ptr, data_ptr + gzip_sizes::gzip_trailer_size, destination_ptr);
+    core_sw::util::copy(data_ptr, data_ptr + gzip_sizes::gzip_trailer_size, destination_ptr);
 
     result.status_code_ = status_list::ok;
     result.bytes_done_  = gzip_sizes::gzip_trailer_size;

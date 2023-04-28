@@ -9,7 +9,7 @@
 
 #include "compression/inflate/deflate_header_decompression.hpp"
 #include "common/defs.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "common/linear_allocator.hpp"
 #include "verification_defs.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"

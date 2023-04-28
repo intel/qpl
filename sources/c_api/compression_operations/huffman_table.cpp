@@ -9,7 +9,7 @@
  *  Job API (public C API)
  */
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/checkers.hpp"
 #include "own_checkers.h"
 #include "huffman_table.hpp"

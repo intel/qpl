@@ -13,11 +13,11 @@
 #include "check_result.hpp"
 
 #include "qplc_api.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 
 qplc_expand_t_ptr qplc_expand(uint32_t index) {
-    static const auto &table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_expand_table();
+    static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_expand_table();
 
     return (qplc_expand_t_ptr) table[index];
 }

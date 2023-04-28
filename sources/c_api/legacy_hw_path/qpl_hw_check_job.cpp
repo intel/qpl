@@ -11,7 +11,7 @@
 
 #include "util/descriptor_processing.hpp"
 #include "job.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/completion_record.hpp"
 #include "compression/deflate/compression_units/stored_block_units.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
@@ -34,15 +34,15 @@ qpl_status own_hw_compress_finalize(qpl_job *const job_ptr,
                                     const uint32_t checksum) {
     state_ptr->execution_history.execution_step = qpl_task_execution_step_completed;
     if (QPL_FLAG_GZIP_MODE & job_ptr->flags) {
-        if (sizeof(qpl::ml::compression::gzip_decorator::gzip_trailer) > job_ptr->available_out) {
+        if (sizeof(ml::compression::gzip_decorator::gzip_trailer) > job_ptr->available_out) {
             return QPL_STS_DST_IS_SHORT_ERR;
         }
 
-        qpl::ml::compression::gzip_decorator::gzip_trailer trailer{};
+        ml::compression::gzip_decorator::gzip_trailer trailer{};
         trailer.crc32 = checksum;
         trailer.input_size = job_ptr->total_in;
 
-        qpl::ml::compression::gzip_decorator::write_trailer_unsafe(job_ptr->next_out_ptr, job_ptr->available_out, trailer);
+        ml::compression::gzip_decorator::write_trailer_unsafe(job_ptr->next_out_ptr, job_ptr->available_out, trailer);
 
         job_ptr->next_out_ptr  += sizeof(trailer);
         job_ptr->available_out -= sizeof(trailer);
@@ -53,7 +53,7 @@ qpl_status own_hw_compress_finalize(qpl_job *const job_ptr,
 }
 
 qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
-    using namespace qpl::ml::util;
+    using namespace qpl;
 
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
     hw_iaa_analytics_descriptor  *const desc_ptr   = &state_ptr->desc_ptr;
@@ -64,7 +64,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
     // Check verification step
     if (QPL_OPCODE_DECOMPRESS == ADOF_GET_OPCODE(desc_ptr->op_code_op_flags)) {
-        OWN_QPL_CHECK_STATUS(convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *>(comp_ptr)))
+        OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *>(comp_ptr)))
 
         qpl_job_ptr->idx_num_written += comp_ptr->output_size / sizeof(uint64_t);
 
@@ -116,7 +116,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
             bytes_written += bits_to_flush / 8u;
         }
 
-        bytes_written += qpl::ml::compression::write_stored_blocks(const_cast<uint8_t *>(input_data_ptr),
+        bytes_written += ml::compression::write_stored_blocks(const_cast<uint8_t *>(input_data_ptr),
                                                                    input_data_size,
                                                                    output_ptr,
                                                                    output_size,
@@ -157,7 +157,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     // Validate descriptor result
 
 
-    OWN_QPL_CHECK_STATUS(convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr)))
+    OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr)))
 
 
     // Fix for QPL_FLAG_HUFFMAN_BE in ver 1.0, shall be ommited for future HW versions
@@ -178,10 +178,10 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
         hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
 
-        auto status = process_descriptor<qpl_status,
-                                         execution_mode_t::async>((hw_descriptor *) desc_ptr,
-                                                                  (hw_completion_record *) &state_ptr->comp_ptr,
-                                                                  qpl_job_ptr->numa_id);
+        auto status = ml::util::process_descriptor<qpl_status,
+                                                   ml::util::execution_mode_t::async>((hw_descriptor *) desc_ptr,
+                                                                                      (hw_completion_record *) &state_ptr->comp_ptr,
+                                                                                       qpl_job_ptr->numa_id);
 
         HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 
@@ -215,7 +215,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
 extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
     using namespace qpl;
-    using namespace qpl::ml::util;
+
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
     const auto *desc_ptr = &state_ptr->desc_ptr;
@@ -239,12 +239,12 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
     if (qpl_op_compress == qpl_job_ptr->op) {
         if(job::is_canned_mode_compression(qpl_job_ptr))
         {
-            auto status = convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr));
+            auto status = ml::util::convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr));
             // Align with the behavior of non-canned mode compression overflow (stored block also doesn't fit), which replaces
             // the returned error code "destination_is_short_error" from Intel® In-Memory Analytics Accelerator
             // with "more_output_needed"
-            if (status == qpl::ml::status_list::destination_is_short_error) {
-                status = qpl::ml::status_list::more_output_needed;
+            if (status == ml::status_list::destination_is_short_error) {
+                status = ml::status_list::more_output_needed;
             }
             OWN_QPL_CHECK_STATUS(status)
 
@@ -255,11 +255,11 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
             return QPL_STS_OK;
         }
 
-        return qpl::ml::hw_check_compress_job(qpl_job_ptr);
+        return ml::hw_check_compress_job(qpl_job_ptr);
     }
 
     if (job::is_canned_mode_decompression(qpl_job_ptr)) {
-        OWN_QPL_CHECK_STATUS(convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)))
+        OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)))
 
         job::update_aggregates(qpl_job_ptr, comp_ptr->sum_agg, comp_ptr->min_first_agg, comp_ptr->max_last_agg);
         job::update_checksums(qpl_job_ptr, comp_ptr->crc, comp_ptr->xor_checksum);
@@ -270,7 +270,7 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
     }
 
     if ((AD_STATUS_SUCCESS != comp_ptr->status) && (AD_STATUS_OUTPUT_OVERFLOW != comp_ptr->status)) {
-        return static_cast<qpl_status>(convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)));
+        return static_cast<qpl_status>(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)));
     }
 
     HW_IMMEDIATELY_RET((0u != comp_ptr->error_code), ml::status_list::hardware_error_base + comp_ptr->error_code);
@@ -325,9 +325,9 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
                            QPL_STS_LIBRARY_INTERNAL_ERR);
 
         if (0u != state_ptr->accumulation_buffer.actual_bytes) {
-            ml::util::move(state_ptr->accumulation_buffer.data + size,
-                           state_ptr->accumulation_buffer.data + size + state_ptr->accumulation_buffer.actual_bytes,
-                           state_ptr->accumulation_buffer.data);
+            core_sw::util::move(state_ptr->accumulation_buffer.data + size,
+                                state_ptr->accumulation_buffer.data + size + state_ptr->accumulation_buffer.actual_bytes,
+                                state_ptr->accumulation_buffer.data);
         }
     } else {
         job::update_input_stream(qpl_job_ptr, size);

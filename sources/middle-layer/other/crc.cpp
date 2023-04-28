@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "crc.hpp"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 #include "util/descriptor_processing.hpp"
 
 #include "hw_descriptors_api.h"

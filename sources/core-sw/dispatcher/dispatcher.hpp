@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef DISPATCHER_HPP_
-#define DISPATCHER_HPP_
+#ifndef CORE_SW_DISPATCHER_DISPATCHER_HPP_
+#define CORE_SW_DISPATCHER_DISPATCHER_HPP_
 
 #include <array>
 #include <cstdint>
@@ -25,7 +25,7 @@
 
 #define BITS_2_DATA_TYPE_INDEX(x) (OWN_MIN_((((x) - 1u) >> 3u), 2u))
 
-namespace qpl::ml::dispatcher {
+namespace qpl::core_sw::dispatcher {
 enum arch_t {
     px_arch     = 0,
     avx2_arch   = 1,
@@ -170,6 +170,6 @@ private:
     arch_t arch_;
 };
 
-} // namespace qpl::ml::dispatcher
+} // namespace qpl::core_sw::dispatcher
 
-#endif // DISPATCHER_HPP_
+#endif // CORE_SW_DISPATCHER_DISPATCHER_HPP_

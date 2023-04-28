@@ -65,6 +65,12 @@ set(FEATURE_FLAGS -DHAVE_AS_KNOWS_AVX512 -DAS_FEATURE_LEVEL=10)
 add_library(isal OBJECT ${ISAL_C_SRC})
 add_library(isal_asm OBJECT ${ISAL_ASM_SRC})
 
+set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
+             $<TARGET_OBJECTS:isal>)
+
+set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
+             $<TARGET_OBJECTS:isal_asm>)
+
 # Setting external and internal interfaces for ISA-L library
 target_include_directories(isal
                            PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

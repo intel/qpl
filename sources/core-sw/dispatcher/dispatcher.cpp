@@ -44,7 +44,7 @@ unsigned long long _xgetbv(unsigned int index) {
 // a standalone dispatching logic and has its own masks.
 #define CPUID_AVX512_MASK (CPUID_AVX512F | CPUID_AVX512CD | CPUID_AVX512VL | CPUID_AVX512BW | CPUID_AVX512DQ)
 
-namespace qpl::ml::dispatcher {
+namespace qpl::core_sw::dispatcher {
 class kernel_dispatcher_singleton
 {
 public:

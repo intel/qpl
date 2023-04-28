@@ -8,7 +8,7 @@
 #ifndef QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_CONTAINERS_DECOMPRESSION_STATE_HPP_
 #define QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_CONTAINERS_DECOMPRESSION_STATE_HPP_
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "common/linear_allocator.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
 #include "inflate.hpp"
@@ -282,7 +282,7 @@ private:
 
     // TODO: Replace full descriptor zeroing by partial zeroing
     inline void reset() noexcept {
-        util::set_zeros(descriptor_, sizeof(hw_descriptor));
+        core_sw::util::set_zeros(descriptor_, sizeof(hw_descriptor));
     }
 };
 
@@ -322,13 +322,13 @@ inline auto inflate_state<execution_path_t::software>::decompress_table(decompre
     // Copy lookup tables from decompression table to inflate state
     auto *literal_table_ptr = reinterpret_cast<uint8_t *>(&canned_table_ptr->literal_huffman_codes);
 
-    util::copy(literal_table_ptr,
+    core_sw::util::copy(literal_table_ptr,
                literal_table_ptr + sizeof(inflate_state_->lit_huff_code),
                reinterpret_cast<uint8_t *>(&inflate_state_->lit_huff_code));
 
     auto *distance_table_ptr = reinterpret_cast<uint8_t *>(&canned_table_ptr->distance_huffman_codes);
 
-    util::copy(distance_table_ptr,
+    core_sw::util::copy(distance_table_ptr,
                distance_table_ptr + sizeof(inflate_state_->dist_huff_code),
                reinterpret_cast<uint8_t *>(&inflate_state_->dist_huff_code));
 
@@ -579,7 +579,7 @@ template <>
     hw_iaa_aecs_decompress_clean_input_accumulator(&header_aecs_ptr->inflate_options);
 
     if (0u != access_properties_.ignore_start_bits) {
-        util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE);
+        core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE);
         aecs_policy = static_cast<hw_iaa_aecs_access_policy>(hw_aecs_access_read | hw_aecs_toggle_rw);
 
         initialize_random_access(header_aecs_ptr,

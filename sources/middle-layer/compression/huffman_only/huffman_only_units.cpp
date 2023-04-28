@@ -7,7 +7,7 @@
 #include "huffman_only_units.hpp"
 
 #include "util/util.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 #include "igzip_lib.h"
 #include "bitbuf2.h"

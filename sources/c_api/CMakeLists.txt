@@ -11,13 +11,9 @@ enable_language(C CXX)
 
 file(GLOB_RECURSE QPL_C_API_SRC *.c *.cpp)
 
-add_library(qpl STATIC ${QPL_C_API_SRC}
-        $<TARGET_OBJECTS:isal>
-        $<TARGET_OBJECTS:isal_asm>
-        $<TARGET_OBJECTS:qplcore_px>
-        $<TARGET_OBJECTS:qplcore_avx512>
-        $<TARGET_OBJECTS:core_iaa>
-        $<TARGET_OBJECTS:middle_layer_lib>)
+get_property(LIB_DEPS GLOBAL PROPERTY QPL_LIB_DEPS)
+
+add_library(qpl STATIC ${QPL_C_API_SRC} ${LIB_DEPS})
 
 target_include_directories(qpl
         PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>

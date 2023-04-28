@@ -8,18 +8,21 @@
 #include "descriptor_builder.hpp"
 #include "util/descriptor_processing.hpp"
 
+// core-sw
+#include "dispatcher.hpp"
+
 namespace qpl::ml::analytics {
 
 template <analytic_pipeline pipeline_t>
 static inline auto extract(input_stream_t &input_stream,
                            limited_buffer_t &buffer,
                            output_stream_t<array_stream> &output_stream,
-                           const dispatcher::aggregates_function_ptr_t aggregates_callback,
+                           const core_sw::dispatcher::aggregates_function_ptr_t aggregates_callback,
                            aggregates_t &aggregates,
                            const uint32_t param_low,
                            const uint32_t param_high) noexcept -> uint32_t {
-    auto     table        = dispatcher::kernels_dispatcher::get_instance().get_extract_i_table();
-    uint32_t index        = dispatcher::get_extract_index(input_stream.bit_width());
+    auto     table        = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_i_table();
+    uint32_t index        = core_sw::dispatcher::get_extract_index(input_stream.bit_width());
     auto     extract_impl = table[index];
 
     uint32_t source_index = 0;
@@ -68,8 +71,8 @@ template <analytic_pipeline = analytic_pipeline::simple>
 static inline auto extract(input_stream_t &input_stream,
                            limited_buffer_t &buffer,
                            output_stream_t<array_stream> &output_stream,
-                           const dispatcher::extract_function_ptr_t extract_kernel,
-                           const dispatcher::aggregates_function_ptr_t aggregates_callback,
+                           const core_sw::dispatcher::extract_function_ptr_t extract_kernel,
+                           const core_sw::dispatcher::aggregates_function_ptr_t aggregates_callback,
                            aggregates_t &aggregates,
                            const uint32_t param_low,
                            const uint32_t param_high) noexcept -> uint32_t {
@@ -152,8 +155,8 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
     uint32_t                    input_bit_width = input_stream.bit_width();
     uint32_t                    status_code     = status_list::ok;
 
-    auto aggregates_table    = dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
-    auto aggregates_index    = dispatcher::get_aggregates_index(input_bit_width);
+    auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
+    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(input_bit_width);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                       &aggregates_empty_callback :
                                       aggregates_table[aggregates_index];
@@ -161,8 +164,8 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
     if ((input_bit_width == 8u || input_bit_width == 16u || input_bit_width == 32u) &&
         input_stream.stream_format() == stream_format_t::le_format &&
         !input_stream.is_compressed()) {
-        auto     extract_table  = dispatcher::kernels_dispatcher::get_instance().get_extract_table();
-        uint32_t extract_index  = dispatcher::get_extract_index(input_bit_width);
+        auto     extract_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_table();
+        uint32_t extract_index  = core_sw::dispatcher::get_extract_index(input_bit_width);
         auto     extract_kernel = extract_table[extract_index];
 
         status_code = extract<analytic_pipeline::simple>(input_stream,

@@ -10,7 +10,7 @@
  */
 
 #include "dictionary_utils.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 namespace qpl::ml::compression {
 
@@ -91,9 +91,9 @@ auto build_dictionary(qpl_dictionary &dictionary,
 
     dictionary.raw_dictionary_size = raw_dict_size;
 
-    util::copy(raw_dict_ptr,
-               raw_dict_ptr + raw_dict_size,
-               reinterpret_cast<uint8_t *>(&dictionary) + current_offset);
+    core_sw::util::copy(raw_dict_ptr,
+                        raw_dict_ptr + raw_dict_size,
+                        reinterpret_cast<uint8_t *>(&dictionary) + current_offset);
 
     return status_list::ok;
 }

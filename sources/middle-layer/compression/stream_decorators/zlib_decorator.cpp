@@ -17,7 +17,7 @@
 
 #include "common/bit_reverse.hpp"
 
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 namespace qpl::ml::compression {
 
@@ -104,7 +104,7 @@ static inline auto own_write_header(uint8_t *const destination_ptr, const uint32
         return result;
     }
 
-    util::copy(default_zlib_header.data(), default_zlib_header.data() + zlib_sizes::zlib_header_size, destination_ptr);
+    core_sw::util::copy(default_zlib_header.data(), default_zlib_header.data() + zlib_sizes::zlib_header_size, destination_ptr);
 
     result.status_code_ = status_list::ok;
     result.bytes_done_  = zlib_sizes::zlib_header_size;
@@ -128,7 +128,7 @@ static inline auto own_write_trailer(uint8_t *destination_ptr,
 
     auto data_ptr = reinterpret_cast<uint8_t *>(&zlib_trailer);
 
-    util::copy(data_ptr, data_ptr + zlib_sizes::zlib_trailer_size, destination_ptr);
+    core_sw::util::copy(data_ptr, data_ptr + zlib_sizes::zlib_trailer_size, destination_ptr);
 
     result.status_code_ = status_list::ok;
     result.bytes_done_  = zlib_sizes::zlib_trailer_size;

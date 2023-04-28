@@ -12,10 +12,10 @@
 #include "check_result.hpp"
 
 #include "qplc_api.h"
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 
 static inline qplc_pack_vector_t_ptr qplc_pack_vector(uint32_t index) {
-    static const auto &table = qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
+    static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
 
     return (qplc_pack_vector_t_ptr) table[index];
 }

@@ -7,7 +7,7 @@
 #include "stored_block_units.hpp"
 
 #include "util/util.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 #include "util/checksum.hpp"
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 
@@ -57,7 +57,7 @@ static auto write_stored_block(uint8_t *source_ptr,
     output_size -= sizeof(stored_block_header_t);
 
     // Write raw data
-    util::copy(source_ptr, source_ptr + source_size, current_output_ptr);
+    core_sw::util::copy(source_ptr, source_ptr + source_size, current_output_ptr);
 
     current_output_ptr += source_size;
 
@@ -148,7 +148,7 @@ auto write_stored_block(deflate_state<execution_path_t::software> &stream, compr
             stream.write_bytes(next_in, copy_size);
 
             isal_state->count = 0;
-            
+
             state = compression_state_t::write_stored_block_header;
         }
 
@@ -157,10 +157,10 @@ auto write_stored_block(deflate_state<execution_path_t::software> &stream, compr
         if (isal_state->block_next == isal_state->block_end) {
             if (stream.isal_stream_ptr_->avail_in) {
                 stream.reset_match_history();
-                
+
                 state = compression_state_t::start_new_block;
             } else {
-            
+
                 state = isal_state->has_eob_hdr
                         ? compression_state_t::finish_deflate_block
                         : compression_state_t::finish_compression_process;

@@ -42,18 +42,6 @@ function(modify_standard_language_flag)
     set(CMAKE_${MODIFY_LANGUAGE_NAME}_FLAGS ${NEW_COMPILE_FLAGS} PARENT_SCOPE)
 endfunction()
 
-macro(get_list_of_supported_optimizations optimizations_list)
-    list(APPEND optimizations_list "px_")
-    list(APPEND optimizations_list "avx512_")
-endmacro(get_list_of_supported_optimizations)
-
-function(get_postfix_from_prefix prefix postfix)
-
-    string(REPLACE "_" "" prefix ${prefix})
-    set(${postfix} "_${prefix}" PARENT_SCOPE)
-
-endfunction()
-
 function(get_function_name_with_default_bit_width in_function_name bit_width out_function_name)
 
     if(in_function_name MATCHES ".*_i")
@@ -70,7 +58,13 @@ function(get_function_name_with_default_bit_width in_function_name bit_width out
 
 endfunction()
 
-function(generate_unpack_kernel_arrays current_directory)
+macro(get_list_of_supported_optimizations PLATFORMS_LIST)
+    list(APPEND PLATFORMS_LIST "")
+    list(APPEND PLATFORMS_LIST "px")
+    list(APPEND PLATFORMS_LIST "avx512")
+endmacro(get_list_of_supported_optimizations)
+
+function(generate_unpack_kernel_arrays current_directory PLATFORMS_LIST)
     list(APPEND UNPACK_POSTFIX_LIST "")
     list(APPEND UNPACK_PRLE_POSTFIX_LIST "")
     list(APPEND PACK_POSTFIX_LIST "")
@@ -78,12 +72,6 @@ function(generate_unpack_kernel_arrays current_directory)
     list(APPEND SCAN_POSTFIX_LIST "")
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "")
     list(APPEND DEFAULT_BIT_WIDTH_LIST "")
-
-    list(APPEND PLATFORM_PREFIX_LIST "")
-    list(APPEND PLATFORM_PREFIX_LIST "avx512_")
-    list(APPEND PLATFORM_PREFIX_LIST "px_")
-
-
 
     #create list of functions that use only 8u 16u 32u postfixes
     list(APPEND DEFAULT_BIT_WIDTH_FUNCTIONS_LIST "unpack_prle")
@@ -117,7 +105,6 @@ function(generate_unpack_kernel_arrays current_directory)
     endforeach()
 
     # create unpack kernel postfixes
-
     foreach(input_width RANGE 1 32 1)
         if(input_width LESS 8 OR input_width EQUAL 8)
             list(APPEND UNPACK_POSTFIX_LIST "_${input_width}u8u")
@@ -131,7 +118,6 @@ function(generate_unpack_kernel_arrays current_directory)
     endforeach()
 
     # create pack kernel postfixes
-
     foreach(output_width RANGE 1 8 1)
         list(APPEND PACK_POSTFIX_LIST "_8u${output_width}u")
     endforeach()
@@ -149,28 +135,24 @@ function(generate_unpack_kernel_arrays current_directory)
     list(APPEND PACK_POSTFIX_LIST "_16u32u")
 
     # create pack index kernel postfixes
-
     list(APPEND PACK_INDEX_POSTFIX_LIST "_nu")
     list(APPEND PACK_INDEX_POSTFIX_LIST "_8u")
     list(APPEND PACK_INDEX_POSTFIX_LIST "_8u16u")
     list(APPEND PACK_INDEX_POSTFIX_LIST "_8u32u")
 
     # write to file
-
     file(MAKE_DIRECTORY ${current_directory}/generated)
 
-    foreach(PLATFORM_PREFIX IN LISTS PLATFORM_PREFIX_LIST)
-        set(PLATFORM_POSTFIX "")
-        get_postfix_from_prefix(${PLATFORM_PREFIX} PLATFORM_POSTFIX)
-
+    foreach(PLATFORM_VALUE IN LISTS PLATFORMS_LIST)
         set(directory "${current_directory}/generated")
+        set(PLATFORM_PREFIX "${PLATFORM_VALUE}_")
 
         #
         # Write unpack table
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}unpack.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}unpack.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}unpack.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}unpack.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}unpack.cpp "unpack_table_t ${PLATFORM_PREFIX}unpack_table = {\n")
 
         #write LE kernels
@@ -200,7 +182,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}pack.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}pack.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}pack.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack.cpp "pack_table_t ${PLATFORM_PREFIX}pack_table = {\n")
 
         #write LE kernels
@@ -230,7 +212,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}scan.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}scan.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}scan.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}scan.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}scan.cpp "scan_table_t ${PLATFORM_PREFIX}scan_table = {\n")
 
         #get last element of the list
@@ -253,7 +235,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}scan_i.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}scan_i.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}scan_i.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}scan_i.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}scan_i.cpp "scan_i_table_t ${PLATFORM_PREFIX}scan_i_table = {\n")
 
         #get last element of the list
@@ -276,7 +258,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}pack_index.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "pack_index_table_t ${PLATFORM_PREFIX}pack_index_table = {\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "\t${PLATFORM_PREFIX}qplc_pack_bits_nu,\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}pack_index.cpp "\t${PLATFORM_PREFIX}qplc_pack_index_8u,\n")
@@ -295,7 +277,7 @@ function(generate_unpack_kernel_arrays current_directory)
         foreach(DEAULT_BIT_WIDTH_FUNCTION IN LISTS DEFAULT_BIT_WIDTH_FUNCTIONS_LIST)
             file(WRITE ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "#include \"qplc_api.h\"\n")
             file(APPEND ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-            file(APPEND ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "namespace qpl::ml::dispatcher\n{\n")
+            file(APPEND ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "namespace qpl::core_sw::dispatcher\n{\n")
             file(APPEND ${directory}/${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}.cpp "${DEAULT_BIT_WIDTH_FUNCTION}_table_t ${PLATFORM_PREFIX}${DEAULT_BIT_WIDTH_FUNCTION}_table = {\n")
 
             #get last element of the list
@@ -322,7 +304,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}aggregates.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}aggregates.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}aggregates.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}aggregates.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}aggregates.cpp "aggregates_table_t ${PLATFORM_PREFIX}aggregates_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}aggregates.cpp "\t${PLATFORM_PREFIX}qplc_bit_aggregates_8u,\n")
@@ -337,7 +319,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "memory_copy_table_t ${PLATFORM_PREFIX}memory_copy_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}memory_copy.cpp "\t${PLATFORM_PREFIX}qplc_copy_8u,\n")
@@ -351,7 +333,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}zero.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}zero.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}zero.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}zero.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}zero.cpp "zero_table_t ${PLATFORM_PREFIX}zero_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}zero.cpp "\t${PLATFORM_PREFIX}qplc_zero_8u};\n")
@@ -363,7 +345,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}move.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}move.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}move.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}move.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}move.cpp "move_table_t ${PLATFORM_PREFIX}move_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}move.cpp "\t${PLATFORM_PREFIX}qplc_move_8u};\n")
@@ -375,7 +357,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}crc64.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}crc64.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}crc64.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}crc64.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}crc64.cpp "crc64_table_t ${PLATFORM_PREFIX}crc64_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}crc64.cpp "\t${PLATFORM_PREFIX}qplc_crc64};\n")
@@ -387,7 +369,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "#include \"qplc_api.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "xor_checksum_table_t ${PLATFORM_PREFIX}xor_checksum_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}xor_checksum.cpp "\t${PLATFORM_PREFIX}qplc_xor_checksum_8u};\n")
@@ -401,7 +383,7 @@ function(generate_unpack_kernel_arrays current_directory)
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "#include \"deflate_hash_table.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "#include \"deflate_histogram.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "deflate_table_t ${PLATFORM_PREFIX}deflate_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate.cpp "\t reinterpret_cast<void *>(&${PLATFORM_PREFIX}slow_deflate_icf_body),\n")
@@ -415,7 +397,7 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "#include \"deflate_slow.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "deflate_fix_table_t ${PLATFORM_PREFIX}deflate_fix_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}deflate_fix.cpp "\t reinterpret_cast<void *>(&${PLATFORM_PREFIX}slow_deflate_body)};\n")
@@ -427,14 +409,12 @@ function(generate_unpack_kernel_arrays current_directory)
         #
         file(WRITE ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "#include \"deflate_slow_utils.h\"\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "#include \"dispatcher/dispatcher.hpp\"\n")
-        file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "namespace qpl::ml::dispatcher\n{\n")
+        file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "namespace qpl::core_sw::dispatcher\n{\n")
         file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "setup_dictionary_table_t ${PLATFORM_PREFIX}setup_dictionary_table = {\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "\t reinterpret_cast<void *>(&${PLATFORM_PREFIX}setup_dictionary)};\n")
 
         file(APPEND ${directory}/${PLATFORM_PREFIX}setup_dictionary.cpp "}\n")
-
-
 
     endforeach()
 endfunction()

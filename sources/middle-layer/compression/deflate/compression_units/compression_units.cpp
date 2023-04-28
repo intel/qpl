@@ -7,7 +7,7 @@
 #include "compression_units.hpp"
 
 #include "util/util.hpp"
-#include "util/memory.hpp"
+#include "simple_memory_ops.hpp"
 
 #include "deflate_slow.h"
 #include "deflate_slow_utils.h"
@@ -18,11 +18,11 @@
 #include "igzip_lib.h"
 #include "bitbuf2.h"
 
-#include "dispatcher/dispatcher.hpp"
+#include "dispatcher.hpp"
 #include "qplc_deflate_utils.h"
 
 static inline qplc_slow_deflate_body_t_ptr qplc_slow_deflate_body() {
-    return (qplc_slow_deflate_body_t_ptr)(qpl::ml::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
+    return (qplc_slow_deflate_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
 }
 
 extern "C" {
@@ -82,7 +82,7 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
             count = buffer_used(bit_buffer);
         } else {
             uint8_t *rest_or_deflate_header = deflate_header + isal_state->count;
-            util::copy(rest_or_deflate_header, rest_or_deflate_header + count, stream.isal_stream_ptr_->next_out);
+            core_sw::util::copy(rest_or_deflate_header, rest_or_deflate_header + count, stream.isal_stream_ptr_->next_out);
 
             stream.isal_stream_ptr_->next_out += count;
         }
@@ -231,7 +231,7 @@ auto deflate_finish(deflate_state<execution_path_t::software> &stream, compressi
     return status;
 }
 
-auto write_end_of_block(deflate_state<execution_path_t::software> &stream, 
+auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
                         compression_state_t &UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
@@ -279,12 +279,12 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stre
                                                                          stream.compression_mode(),
                                                                          mini_blocks_support_t::disabled,
                                                                          dictionary_support_t::disabled);
-    
+
     auto source_begin = stream.source_begin_ptr_;
     auto source_size  = stream.source_size_;
 
     qpl_ml_status status = status_list::ok;
-    
+
     auto compress_block = [&] (uint8_t *source_begin, uint32_t source_size) -> void {
         compression_state_t state = compression_state_t::init_compression;
 
@@ -341,9 +341,9 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stre
 
 auto build_huffman_table(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
     auto status = preprocess_static_block(stream, state);
-    
+
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
-    
+
     isal_huff_histogram *histogram = reinterpret_cast<isal_huff_histogram *>(isal_state->buffer);
 
     isal_update_histogram(stream.isal_stream_ptr_->next_in, stream.isal_stream_ptr_->avail_in, histogram);
@@ -355,11 +355,11 @@ auto build_huffman_table(deflate_state<execution_path_t::software> &stream, comp
 }
 
 auto preprocess_static_block(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
-    if (!stream.is_first_chunk() && 
+    if (!stream.is_first_chunk() &&
         stream.compression_mode() != canned_mode &&
         stream.should_start_new_block()) {
         auto status = write_end_of_block(stream, state);
-        
+
         if (status) {
             return status;
         }
@@ -370,14 +370,14 @@ auto preprocess_static_block(deflate_state<execution_path_t::software> &stream, 
     return status_list::ok;
 }
 
-auto skip_header(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+auto skip_header(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream),
                  compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::compression_body;
 
     return status_list::ok;
 }
 
-auto skip_preprocessing(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream), 
+auto skip_preprocessing(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream),
                         compression_state_t &state) noexcept -> qpl_ml_status {
     state = compression_state_t::start_new_block;
 
