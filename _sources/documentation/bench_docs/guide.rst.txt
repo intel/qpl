@@ -18,6 +18,8 @@ To cover these cases the benchmarks provide several performance metrics and mode
     Currently, the Intel QPL benchmarks framework offers limited support.
 
     - Compression and decompression are supported for fixed and dynamic modes; canned mode is not supported.
+    - CRC operations are supported. The supported CRCs are the default CRC64, CRC32 (Gzip), CRC32 (wimax),
+      CRC32-C (ICSCI), CRC-16-T10-DIF, and CRC-16-CCITT.
     - Huffman only mode is not supported.
     - Analytic operations are not supported.
 
@@ -104,6 +106,14 @@ which input is a regexp based on the case name.
 For instance, for launching compression operation using Low-Level C API, synchronous execution and fixed mode
 on a CPU, use the next expression ``--benchmark_filter="deflate.*:c/.*:cpu.*:sync.*fixed"``.
 
+To run decompression benchmarks, run the filter with ``inflate``.
+
+To run CRC benchmarks, run the filter with ``crc``. To filter for a specific CRC operation, run the filter with 
+one of the following phrases at the end: ``crc32_gzip``, ``crc32_iscsi``, ``crc32_wimax``, ``T10DIF``, ``crc16_ccitt``,
+``crc64``. 
+
+For example, to run CRC benchmarks on only crc64, the following filter would work: ``--benchmark_filter="crc.*:c/.*:cpu.*:sync.*crc64"``.
+
 Executing on Hardware Path
 ==========================
 
@@ -167,7 +177,3 @@ Below are examples for compression (``deflate``) and decompression (``inflate``)
 .. code-block:: shell
 
     numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5 --block_size=4096 --queue_size=128 --threads=8
-
-
-
-

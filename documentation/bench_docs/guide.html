@@ -548,6 +548,8 @@ To cover these cases the benchmarks provide several performance metrics and mode
 <p>Currently, the Intel QPL benchmarks framework offers limited support.</p>
 <ul class="simple">
 <li><p>Compression and decompression are supported for fixed and dynamic modes; canned mode is not supported.</p></li>
+<li><p>CRC operations are supported. The supported CRCs are the default CRC64, CRC32 (Gzip), CRC32 (wimax),
+CRC32-C (ICSCI), CRC-16-T10-DIF, and CRC-16-CCITT.</p></li>
 <li><p>Huffman only mode is not supported.</p></li>
 <li><p>Analytic operations are not supported.</p></li>
 </ul>
@@ -627,6 +629,11 @@ run <code class="docutils literal notranslate"><span class="pre">./qpl_benchmark
 which input is a regexp based on the case name.</p>
 <p>For instance, for launching compression operation using Low-Level C API, synchronous execution and fixed mode
 on a CPU, use the next expression <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;deflate.*:c/.*:cpu.*:sync.*fixed&quot;</span></code>.</p>
+<p>To run decompression benchmarks, run the filter with <code class="docutils literal notranslate"><span class="pre">inflate</span></code>.</p>
+<p>To run CRC benchmarks, run the filter with <code class="docutils literal notranslate"><span class="pre">crc</span></code>. To filter for a specific CRC operation, run the filter with
+one of the following phrases at the end: <code class="docutils literal notranslate"><span class="pre">crc32_gzip</span></code>, <code class="docutils literal notranslate"><span class="pre">crc32_iscsi</span></code>, <code class="docutils literal notranslate"><span class="pre">crc32_wimax</span></code>, <code class="docutils literal notranslate"><span class="pre">T10DIF</span></code>, <code class="docutils literal notranslate"><span class="pre">crc16_ccitt</span></code>,
+<code class="docutils literal notranslate"><span class="pre">crc64</span></code>.</p>
+<p>For example, to run CRC benchmarks on only crc64, the following filter would work: <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;crc.*:c/.*:cpu.*:sync.*crc64&quot;</span></code>.</p>
 <div class="section" id="executing-on-hardware-path">
 <h3>Executing on Hardware Path<a class="headerlink" href="#executing-on-hardware-path" title="Permalink to this headline">¶</a></h3>
 <div class="admonition warning">
