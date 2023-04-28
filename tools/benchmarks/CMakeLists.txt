@@ -10,6 +10,7 @@ add_executable(qpl_benchmarks
     src/main.cpp
     src/cases/deflate.cpp
     src/cases/inflate.cpp
+    src/cases/crc64.cpp
 )
 
 target_link_libraries(qpl_benchmarks

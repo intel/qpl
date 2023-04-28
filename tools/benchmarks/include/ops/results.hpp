@@ -30,4 +30,13 @@ struct inflate_results_t
 
     data_type_t data_;
 };
+
+struct crc64_results_t
+{
+    using data_type_t = std::vector<std::uint8_t>;
+
+    explicit crc64_results_t() {}
+
+    data_type_t data_;
+};
 }

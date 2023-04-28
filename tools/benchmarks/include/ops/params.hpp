@@ -48,4 +48,19 @@ struct inflate_params_t
     bool                  no_headers_{false};
     const canned_table_t *p_canned_table_table_{nullptr};
 };
+
+struct crc64_params_t
+{
+    explicit crc64_params_t() = default;
+    crc64_params_t(const data_t &stream, size_t original_size, crc_type_e type) :
+        p_stream_(&stream),
+        original_size_(original_size),
+        crc_type(type)
+    {}
+
+    const data_t         *p_stream_{nullptr};
+    size_t                original_size_{0};
+    crc_type_e            crc_type;
+};
+
 }

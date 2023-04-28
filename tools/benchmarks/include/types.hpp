@@ -79,7 +79,8 @@ enum class batch_e
 enum class operation_e
 {
     deflate,
-    inflate
+    inflate,
+    crc64
 };
 
 enum class stat_type_e
@@ -95,6 +96,16 @@ enum class huffman_type_e
     static_,
     dynamic,
     canned
+};
+
+enum class crc_type_e
+{
+    crc32_gzip,
+    crc32_wimax,
+    crc32_iscsi,
+    T10DIF,
+    crc16_ccitt,
+    crc64
 };
 
 enum class task_status_e
