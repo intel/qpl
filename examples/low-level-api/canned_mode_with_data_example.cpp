@@ -86,7 +86,7 @@ auto main(int argc, char **argv) -> int {
                                                   DEFAULT_ALLOCATOR_C,
                                                   &huffman_table);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during table creation.");
+            throw std::runtime_error("An error acquired during Huffman table creation.");
         }
 
         // Filling deflate histogram first
@@ -96,12 +96,12 @@ auto main(int argc, char **argv) -> int {
                                                qpl_default_level,
                                                execution_path);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while compression occurred.");
+            throw std::runtime_error("An error acquired during gathering statistics for Huffman table.");
         }
 
         status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while compression occurred.");
+            throw std::runtime_error("An error acquired during Huffman table initialization.");
         }
 
         // Now perform canned mode compression
@@ -117,7 +117,7 @@ auto main(int argc, char **argv) -> int {
         // Compression
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while compression occurred.");
+            throw std::runtime_error("An error while compression occurred.");
         }
 
         const uint32_t compressed_size = job->total_out;
@@ -134,13 +134,13 @@ auto main(int argc, char **argv) -> int {
         // Decompression
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while decompression occurred.");
+            throw std::runtime_error("An error while decompression occurred.");
         }
 
         // Freeing resources
         status = qpl_huffman_table_destroy(huffman_table);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while destroying table occurred.");
+            throw std::runtime_error("An error while destroying table occurred.");
         }
 
         status = qpl_fini_job(job);
