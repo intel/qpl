@@ -6,6 +6,8 @@
  .. ***************************************************************************/
 
 
+.. _huffman_only_reference_link:
+
 Huffman-Only Compression/Decompression
 ######################################
 
@@ -15,7 +17,6 @@ compression and decompression.
 
 .. warning::
    The implementation of Huffman-only compression/decompression is in progress.
-
 
 To use the hardware for non-DEFLATE usages, three advanced flags can be
 specified:
@@ -88,6 +89,27 @@ compression Huffman table must be non-null. Either it must point to a reserved
 memory area where the table be created in the case :c:macro:`QPL_FLAG_DYNAMIC_HUFFMAN`, or to
 already created table otherwise.
 
+Since the Huffman-only compressed output does not have an EOB token, there is no guarantee that the stream ends
+at a byte boundary. Therefore, the :c:member:`qpl_job.last_bit_offset` field in the compression job is written to indicate
+the number of bits written in the last byte. Set :c:member:`qpl_job.ignore_end_bits` in the decompression job
+according to :c:member:`qpl_job.last_bit_offset` in the compression job:
+
+.. code-block:: c
+
+    decompression_job_ptr->ignore_end_bits = (8 - compression_job_ptr->last_bit_offset) & 7;
+
+However, if :c:macro:`QPL_FLAG_HUFFMAN_BE` is specified, every 16-bit word is processed as a unit. Therefore,
+the values in :c:member:`qpl_job.last_bit_offset` and :c:member:`qpl_job.ignore_end_bits` can be up to 15, instead of 7.
+Set :c:member:`qpl_job.ignore_end_bits` in the decompression job as:
+
+.. code-block:: c
+
+    decompression_job_ptr->ignore_end_bits = (16 - compression_job_ptr->last_bit_offset) & 15;
+
+.. warning::
+   The first generation of Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware has a limitation
+   that does not allow ignore_end_bits to be greater than 7. Therefore, use the Software
+   Path if the Huffman-only decompression job has :c:member:`qpl_job.ignore_end_bits` set to a value greater than 7.
 
 Big Endian 16 Format
 ====================

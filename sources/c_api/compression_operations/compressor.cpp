@@ -98,6 +98,29 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
             auto state = builder.build();
             result = compress_huffman_only<path>(job_ptr->next_in_ptr, job_ptr->available_in, state);
         }
+
+        // Fix for QPL_FLAG_HUFFMAN_BE in IAA 1.0.
+        // The workaround: When writing to the AECS compress Huffman table, if using IAA 1.0 and the job is a LAST job,
+        // and the job specifies Big-Endian-16 mode: set the Huffman code for LL[256] to be 8 bits of 00.
+        // Also, set the compression flag for append EOB at end.
+        // When such a job completes (i.e. one modified as above), then the output size should have
+        // the low-order bit cleared (i.e. rounded down to a multiple of 2)
+        // and the last bit offset needs to be fixed for some cases.
+        if (qpl::ml::execution_path_t::hardware == path && ((job_ptr->flags & (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST)) == (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST))) {
+            if (result.output_bytes_ % 2 == 1) {
+                // odd output size
+                if (result.last_bit_offset != 0) {
+                    result.last_bit_offset += 8;
+                }
+                result.output_bytes_ &= ~1u;
+            } else {
+                // even output size
+                if (result.last_bit_offset == 0) {
+                    result.last_bit_offset += 8;
+                }
+            }
+        }
+
     } else { // Deflate Mode
         auto builder = (job_ptr->flags & QPL_FLAG_FIRST) ?
                        deflate_state_builder<path>::create(allocator) :

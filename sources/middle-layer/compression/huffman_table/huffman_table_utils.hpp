@@ -45,9 +45,9 @@
 #define QPL_HUFFMAN_ONLY_REPRESENTATION  0x10u
 
 /**
- * Combine all (software, hardware, deflate) representation flags to build the complete compression table
+ * Combine software and hardware representation flags to build both compression tables for auto_path
  */
-#define QPL_COMPLETE_COMPRESSION_TABLE (QPL_HW_REPRESENTATION | QPL_DEFLATE_REPRESENTATION | QPL_SW_REPRESENTATION)
+#define QPL_SW_AND_HW_COMPRESSION_TABLES (QPL_HW_REPRESENTATION | QPL_SW_REPRESENTATION)
 /** @} */
 
 /**
@@ -195,7 +195,7 @@ static inline auto get_path_flags(execution_path_t path) {
         case execution_path_t::software:
             return QPL_SW_REPRESENTATION;
         default:
-            return QPL_COMPLETE_COMPRESSION_TABLE;
+            return QPL_SW_AND_HW_COMPRESSION_TABLES;
     }
 }
 

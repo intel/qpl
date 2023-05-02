@@ -102,6 +102,27 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
     job_ptr->decomp_end_processing = OWN_RESERVED_INFLATE_MANIPULATOR;
 
     ASSERT_EQ(QPL_STS_INVALID_DECOMP_END_PROC_ERR, run_job_api(job_ptr)) << "Incorrect DecompressEndProcessing ";
+
+
+    // BE16 format
+    if (qpl_path_hardware == job_ptr->data_ptr.path) {
+        job_ptr->flags = QPL_FLAG_NO_HDRS | QPL_FLAG_HUFFMAN_BE;
+        uint32_t odd_source_size = source.size();
+        if (odd_source_size % 2 == 0) {
+            odd_source_size -= 1;
+        }
+        set_input_stream(job_ptr,
+                         source.data(),
+                         odd_source_size,
+                         NOT_APPLICABLE_PARAMETER,
+                         NOT_APPLICABLE_PARAMETER,
+                         static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
+        job_ptr->ignore_end_bits       = 0u;
+        job_ptr->ignore_start_bits     = 0u;
+        job_ptr->decomp_end_processing = qpl_stop_and_check_for_bfinal_eob;
+
+        ASSERT_EQ(QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR, run_job_api(job_ptr)) << "Odd input stream size for BE16 ";
+    }
 }
 
 /**

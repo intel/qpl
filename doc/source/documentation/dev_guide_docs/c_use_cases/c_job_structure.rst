@@ -67,6 +67,10 @@ before being written. The :c:member:`qpl_job.last_bit_offset` field indicates
 where the data actually ends: when the output stream does not end at a byte
 boundary, this field contains the number of bits written to the last byte.
 When the output stream ends at a byte boundary, the value of this field is 0 (not 8).
+The Huffman-only compression also writes the :c:member:`qpl_job.last_bit_offset` field.
+You need to set the :c:member:`qpl_job.ignore_end_bits` field in the Huffman-only
+decompression. For details on the Huffman-only and the Big Endian 16 format, which is
+a special format it supports, see :ref:`huffman_only_reference_link`.
 
 Internal state that could be used and re-used for various operations and holds
 multiple internal representations is stored in :c:member:`qpl_job.data_ptr`

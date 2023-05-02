@@ -19,22 +19,6 @@ protected:
     void SetUp() override {
         BaseCrossTestFixture::SetUp();
         this->InitializeTestCases();
-
-        auto status = qpl_huffman_only_table_create(compression_table_type,
-                                                    qpl_path_auto,
-                                                    DEFAULT_ALLOCATOR_C,
-                                                    &c_huffman_table);
-        if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during table creation.");
-        }
-
-        status = qpl_huffman_only_table_create(decompression_table_type,
-                                               qpl_path_auto,
-                                               DEFAULT_ALLOCATOR_C,
-                                               &d_huffman_table);
-        if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during table creation.");
-        }
     }
 
     ~SimpleHuffmanOnlyCompressDecompressFixture() {
@@ -64,6 +48,22 @@ protected:
 
 public:
     testing::AssertionResult ValidateCompressHwDecompressSw() {
+        // Create Huffman Table objects for compression and decompression
+        auto status = qpl_huffman_only_table_create(compression_table_type,
+                                                    qpl_path_auto,
+                                                    DEFAULT_ALLOCATOR_C,
+                                                    &c_huffman_table);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("An error acquired during table creation.");
+        }
+
+        status = qpl_huffman_only_table_create(decompression_table_type,
+                                               qpl_path_auto,
+                                               DEFAULT_ALLOCATOR_C,
+                                               &d_huffman_table);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("An error acquired during table creation.");
+        }
 
         hw_job_ptr->op            = qpl_op_compress;
         hw_job_ptr->level         = qpl_default_level;
@@ -74,11 +74,11 @@ public:
 
         hw_job_ptr->huffman_table = c_huffman_table;
 
-        hw_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GEN_LITERALS | QPL_FLAG_OMIT_VERIFY | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
+        hw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GEN_LITERALS | QPL_FLAG_OMIT_VERIFY | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
         if (current_test_case.is_huffman_be)
             hw_job_ptr->flags |= QPL_FLAG_HUFFMAN_BE;
 
-        auto status = run_job_api(hw_job_ptr);
+        status = run_job_api(hw_job_ptr);
         ASSERT_ERR_STATUS(status) << "Compression status: " << status;
 
         sw_job_ptr->op            = qpl_op_decompress;
@@ -88,10 +88,18 @@ public:
         sw_job_ptr->next_out_ptr  = sw_destination.data();
         sw_job_ptr->available_out = static_cast<uint32_t>(sw_destination.size());
 
-        qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        if (current_test_case.is_huffman_be) {
+            sw_job_ptr->ignore_end_bits = (16 - hw_job_ptr->last_bit_offset) & 15;
+        } else {
+            sw_job_ptr->ignore_end_bits = (8 - hw_job_ptr->last_bit_offset) & 7;
+        }
+
+        status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        ASSERT_ERR_STATUS(status) << "qpl_huffman_table_init_with_other status: " << status;
+
         sw_job_ptr->huffman_table = d_huffman_table;
 
-        sw_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
+        sw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
         if (current_test_case.is_huffman_be)
             sw_job_ptr->flags |= QPL_FLAG_HUFFMAN_BE;
 
@@ -110,6 +118,22 @@ public:
     }
 
     testing::AssertionResult ValidateCompressSwDecompressHw(qpl_compression_levels level) {
+        // Create Huffman Table objects for compression and decompression
+        auto status = qpl_huffman_only_table_create(compression_table_type,
+                                                    qpl_path_auto,
+                                                    DEFAULT_ALLOCATOR_C,
+                                                    &c_huffman_table);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("An error acquired during table creation.");
+        }
+
+        status = qpl_huffman_only_table_create(decompression_table_type,
+                                               qpl_path_auto,
+                                               DEFAULT_ALLOCATOR_C,
+                                               &d_huffman_table);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("An error acquired during table creation.");
+        }
 
         sw_job_ptr->op            = qpl_op_compress;
         sw_job_ptr->level         = level;
@@ -120,11 +144,11 @@ public:
 
         sw_job_ptr->huffman_table = c_huffman_table;
 
-        sw_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GEN_LITERALS | QPL_FLAG_OMIT_VERIFY | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
+        sw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GEN_LITERALS | QPL_FLAG_OMIT_VERIFY | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
         if (current_test_case.is_huffman_be)
             sw_job_ptr->flags |= QPL_FLAG_HUFFMAN_BE;
 
-        auto status = run_job_api(sw_job_ptr);
+        status = run_job_api(sw_job_ptr);
         ASSERT_ERR_STATUS(status) << "Compression status: " << status;
 
         hw_job_ptr->op            = qpl_op_decompress;
@@ -133,14 +157,30 @@ public:
         hw_job_ptr->next_out_ptr  = hw_destination.data();
         hw_job_ptr->available_out = static_cast<uint32_t>(hw_destination.size());
 
-        qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        if (current_test_case.is_huffman_be) {
+            hw_job_ptr->ignore_end_bits = (16 - sw_job_ptr->last_bit_offset) & 15;
+        } else {
+            hw_job_ptr->ignore_end_bits = (8 - sw_job_ptr->last_bit_offset) & 7;
+        }
+
+        status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        ASSERT_ERR_STATUS(status) << "qpl_huffman_table_init_with_other status: " << status;
+
         hw_job_ptr->huffman_table = d_huffman_table;
 
-        hw_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
+        hw_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
         if (current_test_case.is_huffman_be)
             hw_job_ptr->flags |= QPL_FLAG_HUFFMAN_BE;
 
         status = run_job_api(hw_job_ptr);
+
+        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress.
+        //  Expect error in this case.
+        if (QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR == status && current_test_case.is_huffman_be &&
+            hw_job_ptr->ignore_end_bits > 7) {
+            return testing::AssertionSuccess();
+        }
+
         ASSERT_ERR_STATUS(status) << "Decompression status: " << status;
 
         hw_destination.resize(hw_job_ptr->total_out);

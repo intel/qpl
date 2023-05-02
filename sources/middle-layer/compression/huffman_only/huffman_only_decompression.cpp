@@ -114,7 +114,6 @@ static auto perform_huffman_only_decompression(
         }
     } while (decode_next_symbol);
 
-    result.completed_bytes_ = current_symbol_index;
     result.output_bytes_    = current_symbol_index;
 
     return result;
@@ -165,6 +164,7 @@ auto decompress_huffman_only<execution_path_t::software>(
         auto current_source_ptr = reinterpret_cast<const uint16_t *>(source_ptr);
 
         // Perform decompression while there are enough bytes in the source
+        // in 4k chunk sizes (which is the size of decompression_state huffman only buffer)
         while (total_bytes_read < source_size) {
             uint32_t source_bytes_available = source_size - total_bytes_read;
 
@@ -205,9 +205,8 @@ auto decompress_huffman_only<execution_path_t::software>(
                                                                        restored_huffman_table,
                                                                        is_last_chunk);
 
-            destination_ptr += iteration_result.completed_bytes_;
-            available_out   -= iteration_result.completed_bytes_;
-            result.completed_bytes_ += iteration_result.completed_bytes_;
+            destination_ptr += iteration_result.output_bytes_;
+            available_out   -= iteration_result.output_bytes_;
             result.output_bytes_    += iteration_result.output_bytes_;
 
             if (result.status_code_ != status_list::ok) {

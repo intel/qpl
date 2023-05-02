@@ -128,7 +128,7 @@ noexcept -> huffman_only_compression_state_builder & {
 }
 
 auto huffman_only_compression_state_builder<execution_path_t::software>::verify(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
-    stream_.is_verification_enabled_ = true;
+    stream_.is_verification_enabled_ = value;
 
     return *this;
 }
@@ -193,7 +193,7 @@ noexcept -> huffman_only_compression_state_builder & {
 }
 
 auto huffman_only_compression_state_builder<execution_path_t::hardware>::verify(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
-    stream_.is_verification_enabled_ = true;
+    stream_.is_verification_enabled_ = value;
 
     return *this;
 }

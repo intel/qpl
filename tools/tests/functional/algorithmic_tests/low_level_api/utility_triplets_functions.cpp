@@ -157,7 +157,7 @@ protected:
         } else {
             if (QPL_STS_OK != status) {
                 if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
-                    // Fix for HW issue in version 1.0 NO_HDR mode does not work for the case of BE16 compression.
+                    // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.
                     // The fix for this is too complicated, and this is really a niche operation.
@@ -167,7 +167,7 @@ protected:
                     // buffer, and compare that against the original input.
 
                     std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
-                    std::cout << "It is known issue for NO_HDR BE version 1.0 - ignoring\n";
+                    std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
                 } else {
                     FAIL() << "Deflate status: " << status << "\n";
                 }
@@ -184,13 +184,27 @@ protected:
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
+        if (QPL_FLAG_HUFFMAN_BE == flag_be) {
+            decompression_job_ptr->ignore_end_bits = (16 - job_ptr->last_bit_offset) & 15;
+        } else {
+            decompression_job_ptr->ignore_end_bits = (8 - job_ptr->last_bit_offset) & 7;
+        }
+
         // Decompress
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
         ASSERT_EQ(QPL_STS_OK, status);
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status);
+
+        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress. Expect error in this case.
+        bool skip_verify = false;
+        if (QPL_FLAG_HUFFMAN_BE == flag_be && qpl_path_hardware == job_ptr->data_ptr.path && decompression_job_ptr->ignore_end_bits > 7) {
+            ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
+            skip_verify = true;
+        } else {
+            ASSERT_EQ(QPL_STS_OK, status);
+        }
 
         // Free resources
         status = qpl_huffman_table_destroy(c_huffman_table);
@@ -204,8 +218,9 @@ protected:
         qpl_fini_job(decompression_job_ptr);
 
         // Verify
-        ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
-
+        if (!skip_verify) {
+            ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
+        }
     }
 
     void build_triplets_and_run_huffman_only_deflate(std::vector<uint8_t> &source_for_compression_table,
@@ -284,7 +299,7 @@ protected:
         } else {
             if (QPL_STS_OK != status) {
                 if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
-                    // Fix for HW issue in version 1.0 NO_HDR mode does not work for the case of BE16 compression.
+                    // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.
                     // The fix for this is too complicated, and this is really a niche operation.
@@ -294,7 +309,7 @@ protected:
                     // buffer, and compare that against the original input.
 
                     std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
-                    std::cout << "It is known issue for NO_HDR BE version 1.0 - ignoring\n";
+                    std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
                 } else {
                     FAIL() << "Deflate status: " << status << "\n";
                 }
@@ -310,16 +325,27 @@ protected:
         decompression_job_ptr->huffman_table = d_huffman_table;
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
-        decompression_job_ptr->ignore_end_bits =
-                8u - ((job_ptr->last_bit_offset == 0) ? 8 : job_ptr->last_bit_offset);
+
+        if (QPL_FLAG_HUFFMAN_BE == flag_be) {
+            decompression_job_ptr->ignore_end_bits = (16 - job_ptr->last_bit_offset) & 15;
+        } else {
+            decompression_job_ptr->ignore_end_bits = (8 - job_ptr->last_bit_offset) & 7;
+        }
 
         // Decompress
         status = qpl_huffman_table_init_with_other(d_huffman_table, c_triplets_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
-        ASSERT_EQ(QPL_STS_OK, status);
+
+        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress. Expect error in this case.
+        bool skip_verify = false;
+        if (QPL_FLAG_HUFFMAN_BE == flag_be && qpl_path_hardware == job_ptr->data_ptr.path && decompression_job_ptr->ignore_end_bits > 7) {
+            ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
+            skip_verify = true;
+        } else {
+            ASSERT_EQ(QPL_STS_OK, status);
+        }
 
         // Free resources
         status = qpl_huffman_table_destroy(c_huffman_table);
@@ -333,7 +359,9 @@ protected:
         qpl_fini_job(decompression_job_ptr);
 
         // Verify
-        ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
+        if (!skip_verify) {
+            ASSERT_TRUE(CompareVectors(source, reference_buffer, max_length));
+        }
     }
 
     uint8_t *job_buffer            = nullptr;

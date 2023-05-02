@@ -23,10 +23,30 @@ namespace qpl::job {
 namespace details {
 
 auto inline bad_arguments_check(const qpl_job *const job_ptr) -> uint32_t {
-    // Check ignore bits fields
-    if (job_ptr->ignore_start_bits > 7u ||
-        job_ptr->ignore_end_bits > 7u) {
-        return QPL_STS_INVALID_PARAM_ERR;
+    // Checks for Huffman only decompression with BE16 format
+    if (job::is_huffman_only_decompression(job_ptr) && (job_ptr->flags & QPL_FLAG_HUFFMAN_BE)) {
+        // Check ignore bits fields
+        // BE16 format processes a 16-bit word at a time, so
+        // ignored bits may be up to 15
+        if (job_ptr->ignore_start_bits > 15u || job_ptr->ignore_end_bits > 15u) {
+            return QPL_STS_INVALID_PARAM_ERR;
+        }
+
+        // IAA 1.0 limitation: Huffman only decompression with BE16 format cannot work
+        // if ignore_end_bits is greater than 7
+        if (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware &&
+            (job_ptr->ignore_end_bits > 7u)) {
+            return QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR;
+        }
+
+        // Check input size
+        if (job_ptr->available_in % 2 == 1) {
+            return QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR;
+        }
+
+    // Check ignore bits fields for normal format
+    } else if (job_ptr->ignore_start_bits > 7u || job_ptr->ignore_end_bits > 7u) {
+       return QPL_STS_INVALID_PARAM_ERR;
     }
 
     // Check decomp_end_processing field

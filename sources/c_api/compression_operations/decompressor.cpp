@@ -55,50 +55,6 @@ void inline set_representation_flags(qpl_decompression_huffman_table *qpl_decomp
 #pragma GCC diagnostic ignored "-Wstack-usage=4096"
 #endif
 
-// @todo workaround: there is bug in HW path for Huffman Only + BE
-// this code should be removed after fix in HW
-uint32_t inline workaround_huffman_only_be_hw(qpl_job* const job_ptr, qpl::ml::compression::endianness_t* endianness)
-{
-    uint32_t flag_wrkrnd = 0;
-    if (job_ptr->flags & QPL_FLAG_HUFFMAN_BE) {
-        if (job_ptr->available_in & 1) {
-            if (0 == *(job_ptr->next_in_ptr + job_ptr->available_in - 1)) {
-                job_ptr->available_in--;
-            }
-        }
-        else {
-            if (0 != job_ptr->available_in) {
-                if (0 == *(job_ptr->next_in_ptr + job_ptr->available_in - 2)) {
-                    if (0 == *(job_ptr->next_in_ptr + job_ptr->available_in - 1)) {
-                        job_ptr->available_in--;
-                    }
-                    else {
-                        uint16_t* start_wrkrnd_ptr = (uint16_t*)job_ptr->next_in_ptr;
-                        uint32_t half_available_in = job_ptr->available_in >> 1;
-                        for (uint32_t count_words = 0; count_words < half_available_in; count_words++) {
-                            uint16_t data16_in = start_wrkrnd_ptr[count_words];
-                            uint16_t data16_out = 0;
-                            uint16_t run1_h, run1_l;
-                            for (run1_h = 0x8000, run1_l = 1; run1_h; run1_h >>= 1, run1_l += run1_l) {
-                                if (data16_in & run1_l) {
-                                    data16_out |= run1_h;
-                                }
-                            }
-                            start_wrkrnd_ptr[count_words] = data16_out;
-                        }
-                        flag_wrkrnd = 1;
-                        job_ptr->available_in--;
-                        job_ptr->flags &= (~QPL_FLAG_HUFFMAN_BE);
-                        *endianness = qpl::ml::compression::little_endian;
-                    }
-                }
-            }
-        }
-    }
-    return flag_wrkrnd;
-}
-//@todo the end of code for removing
-
 template <qpl::ml::execution_path_t path>
 uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
     using namespace qpl::ml::compression;
@@ -135,22 +91,21 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
 
         auto endianness = (job_ptr->flags & QPL_FLAG_HUFFMAN_BE) ? big_endian : little_endian;
 
-        // @todo workaround: there is bug in HW path for Huffman Only + BE
-        // this code should be removed after fix in HW
-        uint32_t flag_wrkrnd = 0;
-        // @todo the end of code for removing
-
         if constexpr (path == qpl::ml::execution_path_t::software) {
+            // available_in and ignore_end_bits were set based on BE16 format, update them for normal format:
+            // if ignore_end_bits is greater than 8, in the last 16-bit word, only the first byte
+            // is (partially) written and the second byte is empty. Therefore, subtract available_in by 1 and
+            // ignore_end_bits by 8.
+            if (endianness == big_endian && job_ptr->ignore_end_bits > 8) {
+                job_ptr->available_in -= 1;
+                job_ptr->ignore_end_bits -= 8;
+            }
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
                     .crc_seed(job_ptr->crc)
                     .endianness(endianness);
             state.last_bits_offset(static_cast<uint8_t>(qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
         } else {
-            // @todo  workaround: there is bug in HW path for Huffman Only + BE
-            // this code should be removed after fix in HW
-            flag_wrkrnd = workaround_huffman_only_be_hw(job_ptr, &endianness);
-            // @todo the end of code for removing
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
                     .crc_seed(job_ptr->crc)
@@ -158,12 +113,6 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
             state.ignore_end_bits = job_ptr->ignore_end_bits;
         }
         result = decompress_huffman_only<path>(state, decompression_table);
-        // @todo workaround: there is bug in HW path for Huffman Only + BE
-        // this code should be removed after fix in HW
-        if (flag_wrkrnd) {
-           job_ptr->flags |= QPL_FLAG_HUFFMAN_BE;
-        }
-        // @todo the end of code for removing
     } else {
         // Prepare decompression state
         auto state = (job_ptr->flags & QPL_FLAG_FIRST) ?

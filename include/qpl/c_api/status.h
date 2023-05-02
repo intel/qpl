@@ -35,7 +35,7 @@ extern "C" {
         /**< Operation preprocessing or postprocessing errors */
 #define QPL_OPERATION_ERROR_BASE     200u
         /**< Execution step errors */
-#define QPL_OPERATION_STATUS_BASE    300u 
+#define QPL_OPERATION_STATUS_BASE    300u
         /**< Execution step statuses */
 #define QPL_INIT_ERROR_BASE          500u
         /**< Initialization step errors */
@@ -56,7 +56,7 @@ extern "C" {
         /**< Calculates status for operation preprocessing or postprocessing step */
 #define QPL_OPERATION_ERROR(x)      QPL_OPERATION_ERROR_BASE + x
         /**< Calculates status for operation execution step */
-#define QPL_OPERATION_STATUS(x)     QPL_OPERATION_STATUS_BASE + x     
+#define QPL_OPERATION_STATUS(x)     QPL_OPERATION_STATUS_BASE + x
         /**< Calculates status for operation execution step */
 #define QPL_INIT_ERROR(x)           QPL_INIT_ERROR_BASE + x
         /**< Calculates status for initialization step */
@@ -65,7 +65,7 @@ extern "C" {
 
 /**
  * @enum qpl_status
- * @brief Intel QPL return status list (Errors marked `Internal` indicate an issue within the library) 
+ * @brief Intel QPL return status list (Errors marked `Internal` indicate an issue within the library)
  */
 typedef enum {
 /* ====== Processing Statuses ====== */
@@ -117,6 +117,10 @@ typedef enum {
 // <-- Serialization
     QPL_STS_SERIALIZATION_FORMAT_ERROR    = QPL_PARAMETER_ERROR(40u), /**< Unsupported Serialization format */
     QPL_STS_SERIALIZATION_CORRUPTED_DUMP  = QPL_PARAMETER_ERROR(41u), /**< Deserialization can't re-create the table from the input stream */
+
+// <-- Huffman Only BE16 Format Decompression
+    QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR = QPL_PARAMETER_ERROR(45u), /**< Limitation in IAA 1.0, Huffman only BE16 decompression cannot work if ignore_end_bits is greater than 7 */
+    QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR          = QPL_PARAMETER_ERROR(46u), /**< Huffman only BE16 decompression input has an odd number of bytes */
 
 /* --- Processing Errors --- */
     QPL_STS_INVALID_DEFLATE_DATA_ERR  = QPL_SERVICE_LOGIC_ERROR(0u), /**< Currently unused */

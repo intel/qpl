@@ -57,7 +57,7 @@ typedef struct {
     uint32_t               flags;              /**< Auxiliary operation flags - see below */
     uint32_t               crc;                /**< CRC - Input and Output */
     uint32_t               xor_checksum;       /**< Simple XOR check sum */
-    uint32_t               last_bit_offset;    /**< Actual bits in the last written byte */
+    uint32_t               last_bit_offset;    /**< Actual bits in the last written byte (or word for BE16 format) */
     qpl_compression_levels level;              /**< Compression level - default or high */
     qpl_statistics_mode    statistics_mode;    /**< Represents mode in which deflate should be performed */
 
@@ -74,8 +74,8 @@ typedef struct {
 
     // Advanced decompress fields
     uint8_t decomp_end_processing;    /**< Value is qpl_decomp_end_proc */
-    uint8_t ignore_start_bits;        /**< 0-7 - a number of bits to skip at the start of the 1st byte */
-    uint8_t ignore_end_bits;          /**< 0-7 - a number of bits to ignore at the end of the last byte */
+    uint8_t ignore_start_bits;        /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the start of the 1st byte (or word for BE16 format) */
+    uint8_t ignore_end_bits;          /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the end of the last byte (or word for BE16 format) */
 
     // CRC64 fields
     uint64_t crc64_poly;    /**< Polynomial used for the crc64 operation */

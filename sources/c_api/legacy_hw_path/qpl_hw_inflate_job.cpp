@@ -307,7 +307,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     desc_ptr->decomp_flags     = decompression_flags;
     desc_ptr->filter_flags     = 0u;
 
-    // Fix for QPL_FLAG_HUFFMAN_BE in ver 1.0, shall be ommited for future HW versions
+    // Fix for QPL_FLAG_HUFFMAN_BE in IAA 1.0.
     // This affects the verify operation when NO_HDRS is specified. The issue is that there is no EOB token,
     // so in some cases the 0 padding bits added to the end of the stream (to reach a byte boundary) may
     // decode into a valid output byte, causing the verify operation to fail.
