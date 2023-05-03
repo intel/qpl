@@ -485,7 +485,7 @@
   <blockquote>
 <div></div></blockquote>
 <div class="section" id="huffman-only-compression-decompression">
-<h1>Huffman-Only Compression/Decompression<a class="headerlink" href="#huffman-only-compression-decompression" title="Permalink to this headline">¶</a></h1>
+<span id="huffman-only-reference-link"></span><h1>Huffman-Only Compression/Decompression<a class="headerlink" href="#huffman-only-compression-decompression" title="Permalink to this headline">¶</a></h1>
 <p>The Intel® Query Processing Library (Intel® QPL) supports Huffman-only
 compression and decompression.</p>
 <div class="admonition warning">
@@ -571,6 +571,25 @@ flag, otherwise the result would not be decompressed with the Intel QPL.</p>
 compression Huffman table must be non-null. Either it must point to a reserved
 memory area where the table be created in the case <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a>, or to
 already created table otherwise.</p>
+<p>Since the Huffman-only compressed output does not have an EOB token, there is no guarantee that the stream ends
+at a byte boundary. Therefore, the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> field in the compression job is written to indicate
+the number of bits written in the last byte. Set <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> in the decompression job
+according to <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> in the compression job:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">decompression_job_ptr</span><span class="o">-&gt;</span><span class="n">ignore_end_bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">compression_job_ptr</span><span class="o">-&gt;</span><span class="n">last_bit_offset</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>However, if <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_HUFFMAN_BE" title="QPL_FLAG_HUFFMAN_BE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a> is specified, every 16-bit word is processed as a unit. Therefore,
+the values in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> can be up to 15, instead of 7.
+Set <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> in the decompression job as:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">decompression_job_ptr</span><span class="o">-&gt;</span><span class="n">ignore_end_bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">16</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">compression_job_ptr</span><span class="o">-&gt;</span><span class="n">last_bit_offset</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The first generation of Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware has a limitation
+that does not allow ignore_end_bits to be greater than 7. Therefore, use the Software
+Path if the Huffman-only decompression job has <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> set to a value greater than 7.</p>
+</div>
 <div class="section" id="big-endian-16-format">
 <h2>Big Endian 16 Format<a class="headerlink" href="#big-endian-16-format" title="Permalink to this headline">¶</a></h2>
 <p>Normal DEFLATE streams are little-endian (LE). Tokens are written

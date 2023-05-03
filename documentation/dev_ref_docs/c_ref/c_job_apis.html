@@ -705,7 +705,7 @@
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.last_bit_offset">
 <span class="target" id="de/daa/structqpl__job_1abcd5fb5f81981dd4f81037f2aaadb914"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_bit_offset</span></span></span><a class="headerlink" href="#c.qpl_job.last_bit_offset" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>Actual bits in the last written byte </p>
+<dd><p>Actual bits in the last written byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
@@ -765,13 +765,13 @@
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.ignore_start_bits">
 <span class="target" id="de/daa/structqpl__job_1a4d4996fd40f4e8752fb4994e33e47393"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_start_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_start_bits" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>0-7 - a number of bits to skip at the start of the 1st byte </p>
+<dd><p>0-7 (or 0-15 for BE16 format) - a number of bits to skip at the start of the 1st byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.ignore_end_bits">
 <span class="target" id="de/daa/structqpl__job_1a2d3ed143796e72cb00f1b83155043ae5"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_end_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_end_bits" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>0-7 - a number of bits to ignore at the end of the last byte </p>
+<dd><p>0-7 (or 0-15 for BE16 format) - a number of bits to skip at the end of the last byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
