@@ -51,7 +51,7 @@ namespace qpl::test {
             sw_job_ptr->next_in_ptr   = sw_source.data();
             sw_job_ptr->available_in  = static_cast<uint32_t>(sw_source.size());
             sw_job_ptr->crc64_poly    = current_test_case.poly;
-            
+
             sw_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
             if (current_test_case.is_be_bit_order)
                 sw_job_ptr->flags |= QPL_FLAG_CRC64_BE;
@@ -75,7 +75,7 @@ namespace qpl::test {
             status = run_job_api(hw_job_ptr);
             ASSERT_ERR_STATUS(status) << "Decompression status: " << status;
 
-            bool crcs_is_equal = sw_job_ptr->crc64 == sw_job_ptr->crc64;
+            bool crcs_is_equal = (hw_job_ptr->crc64 == sw_job_ptr->crc64);
 
             if (!crcs_is_equal) {
                 return testing::AssertionFailure() << "CRCs don't match";
