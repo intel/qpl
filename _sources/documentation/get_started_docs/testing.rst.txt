@@ -157,7 +157,6 @@ build using the Clang compiler (version 12.0.1 or higher) with the
 Fuzz tests are not installed into ``<install_dir>/bin/`` but available
 in:
 
-- ``<qpl_library>/build/tools/tests/fuzzing/high-level-api/``
 - ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
 
 To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``,
