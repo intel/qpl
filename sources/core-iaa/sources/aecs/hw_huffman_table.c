@@ -15,8 +15,8 @@
 #include "hw_aecs_api.h"
 #include "own_compress.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
+// core-sw
+#include "simple_memory_ops_c_bind.h"
 
 #define OWN_ONE_64U (1ULL)
 
@@ -223,7 +223,7 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
         }
     }
 
-    avx512_qplc_zero_8u((uint8_t *) codes_ptr, hist_size * sizeof(*codes_ptr));
+    call_c_set_zeros_uint8_t((uint8_t *) codes_ptr, hist_size * sizeof(*codes_ptr));
     for (idx = node_ptr; idx < jdx; idx++) {
         h1 = heap[idx];
         codes_ptr[(uint32_t) h1] = (uint32_t) (h1 >> 32u);
@@ -444,7 +444,7 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
     uint64_t       data;
     const uint32_t extra_bits[3] = {2, 3, 7};
 
-    avx512_qplc_zero_8u((uint8_t *) cl_counts, sizeof(cl_counts));
+    call_c_set_zeros_uint8_t((uint8_t *) cl_counts, sizeof(cl_counts));
     num_cl_tokens = hw_rl_encode(ll_codes_ptr, num_ll_codes, cl_counts, cl_tokens);
     num_cl_tokens += hw_rl_encode(d_codes_ptr, num_d_codes, cl_counts, cl_tokens + num_cl_tokens);
 

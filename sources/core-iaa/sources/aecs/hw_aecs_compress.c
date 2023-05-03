@@ -11,8 +11,8 @@
 #include "own_compress.h"
 #include "own_checkers.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
+// core-sw
+#include "simple_memory_ops_c_bind.h"
 #include "qplc_compression_consts.h"
 
 #define OWN_STATUS_OK 0u
@@ -100,7 +100,7 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
     if (0u == (aecs_ptr->num_output_accum_bits & 7u)) {
         // Byte aligned
         byte_offset = aecs_ptr->num_output_accum_bits / 8u;
-        avx512_qplc_copy_8u(header_ptr, aecs_ptr->output_accum + byte_offset, (header_bit_size + 7u) / 8u);
+        call_c_copy_uint8_t(header_ptr, aecs_ptr->output_accum + byte_offset, (header_bit_size + 7u) / 8u);
 
         // Clear bfinal bit and set corresponding value to it
         aecs_ptr->output_accum[byte_offset] &= ~(BFINAL_BIT);
@@ -142,12 +142,14 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
 HW_PATH_IAA_AECS_API(void, compress_set_deflate_huffman_table, (hw_iaa_aecs_compress *const aecs_ptr,
         const hw_iaa_huffman_codes *const literal_length_codes,
         const hw_iaa_huffman_codes *const distance_codes_ptr)) {
-    avx512_qplc_copy_8u((const uint8_t *) literal_length_codes,
-                  (uint8_t *) aecs_ptr->histogram.ll_sym,
-                  MAX_HEAP * sizeof(uint32_t));
-    avx512_qplc_copy_8u((const uint8_t *) distance_codes_ptr,
-                  (uint8_t *) aecs_ptr->histogram.d_sym,
-                  30u * sizeof(uint32_t));
+
+    call_c_copy_uint8_t((const uint8_t *) literal_length_codes,
+                        (uint8_t *) aecs_ptr->histogram.ll_sym,
+                        MAX_HEAP * sizeof(uint32_t));
+
+    call_c_copy_uint8_t((const uint8_t *) distance_codes_ptr,
+                        (uint8_t *) aecs_ptr->histogram.d_sym,
+                        30u * sizeof(uint32_t));
 }
 
 HW_PATH_IAA_AECS_API(void, compress_write_deflate_dynamic_header_from_histogram, (hw_iaa_aecs_compress *const aecs_ptr,
@@ -169,9 +171,9 @@ HW_PATH_IAA_AECS_API(void, compress_write_deflate_dynamic_header_from_histogram,
 
 HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table, (hw_iaa_aecs_compress *const aecs_ptr,
                                                                      hw_iaa_huffman_codes *const literal_length_codes)) {
-    avx512_qplc_copy_8u((const uint8_t *) literal_length_codes,
-                  (uint8_t *) aecs_ptr->histogram.ll_sym,
-                  MAX_HEAP * sizeof(uint32_t));
+    call_c_copy_uint8_t((const uint8_t *) literal_length_codes,
+                        (uint8_t *) aecs_ptr->histogram.ll_sym,
+                        MAX_HEAP * sizeof(uint32_t));
 }
 
 HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_compress *const aecs_ptr,
@@ -181,9 +183,10 @@ HW_PATH_IAA_AECS_API(void, compress_set_huffman_only_huffman_table_from_histogra
 
 HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_iaa_aecs_compress *const aecs_ptr,
                                                                        hw_iaa_c_huffman_only_table *const huffman_table_ptr)) {
-    avx512_qplc_copy_8u((uint8_t *) aecs_ptr->histogram.ll_sym,
+    call_c_copy_uint8_t((uint8_t *) aecs_ptr->histogram.ll_sym,
                         (uint8_t *) huffman_table_ptr->literals_matches,
                         QPLC_DEFLATE_LITERALS_COUNT * sizeof(uint32_t));
-    avx512_qplc_zero_8u((uint8_t *) huffman_table_ptr->offsets,
-                        QPLC_DEFLATE_OFFSETS_COUNT * sizeof(uint32_t));
+
+    call_c_set_zeros_uint8_t((uint8_t *) huffman_table_ptr->offsets,
+                             QPLC_DEFLATE_OFFSETS_COUNT * sizeof(uint32_t));
 }

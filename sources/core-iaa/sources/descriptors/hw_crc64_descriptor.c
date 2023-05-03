@@ -9,8 +9,7 @@
 #include "own_hw_definitions.h"
 #include "hw_descriptors_api.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
+#include "simple_memory_ops_c_bind.h"
 
 /**
  * @brief Defines a type of the Intel® In-Memory Analytics Accelerator (Intel® IAA)
@@ -41,7 +40,7 @@ HW_PATH_IAA_API(void, descriptor_init_crc64, (hw_descriptor *const descriptor_pt
                                               const uint64_t polynomial,
                                               const bool is_be_bit_order,
                                               const bool is_inverse)) {
-    avx512_qplc_zero_8u((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
+    call_c_set_zeros_uint8_t((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 
     own_hw_crc64_descriptor *const this_ptr = (own_hw_crc64_descriptor *) descriptor_ptr;
 

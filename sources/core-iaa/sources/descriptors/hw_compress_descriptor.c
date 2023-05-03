@@ -8,8 +8,7 @@
 #include "hw_descriptors_api.h"
 #include "own_hw_definitions.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
+#include "simple_memory_ops_c_bind.h"
 
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint32_t trusted_fields;          /**< @todo */
@@ -45,7 +44,7 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const
     this_ptr->aecs_ptr             = NULL;
     this_ptr->aecs_size            = 0u;
 
-    avx512_qplc_zero_8u(this_ptr->reserved, sizeof(this_ptr->reserved));
+    call_c_set_zeros_uint8_t(this_ptr->reserved, sizeof(this_ptr->reserved));
 
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
 
@@ -68,7 +67,7 @@ HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor *const descr
     this_ptr->op_code_op_flags  = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
     this_ptr->compression_flags = 0u;
 
-    avx512_qplc_zero_8u(this_ptr->reserved, sizeof(this_ptr->reserved));
+    call_c_set_zeros_uint8_t(this_ptr->reserved, sizeof(this_ptr->reserved));
 }
 
 HW_PATH_IAA_API(void, descriptor_init_deflate_body, (hw_descriptor *const descriptor_ptr,
@@ -87,7 +86,7 @@ HW_PATH_IAA_API(void, descriptor_init_deflate_body, (hw_descriptor *const descri
     this_ptr->destination_ptr      = destination_ptr;
     this_ptr->max_destination_size = destination_size;
 
-    avx512_qplc_zero_8u(this_ptr->reserved, sizeof(this_ptr->reserved));
+    call_c_set_zeros_uint8_t(this_ptr->reserved, sizeof(this_ptr->reserved));
 }
 
 HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descriptor_ptr,

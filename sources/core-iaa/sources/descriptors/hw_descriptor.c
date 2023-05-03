@@ -7,11 +7,13 @@
 #include "hw_descriptors_api.h"
 #include "own_analytic_descriptor.h"
 
+#include "simple_memory_ops_c_bind.h"
+
 #define PLATFORM 2
 #include "qplc_memop.h"
 
 HW_PATH_IAA_API(void, descriptor_reset, (hw_descriptor *const descriptor_ptr)) {
-    avx512_qplc_zero_8u((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
+    call_c_set_zeros_uint8_t((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 }
 
 HW_PATH_IAA_API(void, descriptor_set_completion_record, (hw_descriptor *const descriptor_ptr,

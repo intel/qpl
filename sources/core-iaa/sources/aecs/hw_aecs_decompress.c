@@ -11,8 +11,8 @@
 #include "own_hw_definitions.h"
 #include "own_checkers.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
+// core-sw
+#include "simple_memory_ops_c_bind.h"
 
 #define OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT 32u
 #define OWN_MAX_BIT_IDX               7u
@@ -49,7 +49,7 @@ static inline void hw_pack(uint32_t out[5], const uint16_t in[15]) {
 
 HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                                        hw_iaa_d_huffman_only_table *const huffman_table_ptr)) {
-    avx512_qplc_zero_8u((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
+    call_c_set_zeros_uint8_t((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
     hw_pack(aecs_ptr->lit_len_first_tbl_idx, huffman_table_ptr->first_table_indexes);
     hw_pack(aecs_ptr->lit_len_num_codes, huffman_table_ptr->number_of_codes);
@@ -60,7 +60,7 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
     aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFu;
     aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFu;
     aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFu;
-    avx512_qplc_copy_8u((uint8_t *) huffman_table_ptr->index_to_char, (uint8_t *) aecs_ptr->lit_len_sym, 256u);
+    call_c_copy_uint8_t((uint8_t *) huffman_table_ptr->index_to_char, (uint8_t *) aecs_ptr->lit_len_sym, 256u);
 }
 
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_decompress *const aecs_ptr,
