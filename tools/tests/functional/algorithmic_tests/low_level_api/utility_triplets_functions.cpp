@@ -49,6 +49,9 @@ protected:
 
         // Cannot use ASSERT here because this is non-void function
         EXPECT_NE(literals_matches_table_ptr, nullptr) << "Compression table is null";
+        if (literals_matches_table_ptr == nullptr) {
+            return result_triplets;
+        }
 
         const uint16_t qpl_code_mask = (1u << huffman_code_bit_length) - 1u;
 
