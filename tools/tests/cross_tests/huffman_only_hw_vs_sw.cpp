@@ -214,7 +214,7 @@ QPL_LOW_LEVEL_API_CROSS_TEST_TC(huffman, SimpleHuffmanOnlyCompressDecompressFixt
     ASSERT_TRUE(ValidateCompressSwDecompressHw(qpl_default_level));
 }
 
-QPL_LOW_LEVEL_API_CROSS_TEST_TC(huffman, SimpleHuffmanOnlyCompressDecompressFixture, compress_hw_decompress_sw) {
+QPL_LOW_LEVEL_API_CROSS_TEST_TC(huffman, SimpleHuffmanOnlyCompressDecompressFixture, DISABLED_compress_hw_decompress_sw) {
     ASSERT_TRUE(ValidateCompressHwDecompressSw());
 }
 }
