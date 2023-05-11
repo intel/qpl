@@ -615,10 +615,14 @@ binary distribution and can be built only from the sources.</p>
 <p>Intel® QPL supports only the Intel 64 platform.</p>
 <div class="section" id="software-path-requirements">
 <h3>Software Path Requirements<a class="headerlink" href="#software-path-requirements" title="Permalink to this headline">¶</a></h3>
+<p>The execution using Software Path does not imply any specific requirements on a system
+besides resolving <a class="reference internal" href="#building-library-prerequisites-reference-link"><span class="std std-ref">Build Prerequisites</span></a>.
+Intel® QPL relies on a run-time kernels dispatcher and CPUID check to choose
+the best available implementation.</p>
 <div class="line-block">
-<div class="line"><strong>Minimum requirements</strong></div>
-<div class="line">x86-64 CPU with Intel® Advanced Vector Extensions 2 support
-(Intel® microarchitecture code name Broadwell).</div>
+<div class="line"><strong>Minimal tested platform</strong></div>
+<div class="line">x86-64 CPU with Intel® Streaming SIMD Extensions 4.2
+(Intel® microarchitecture code name Nehalem).</div>
 </div>
 <div class="line-block">
 <div class="line"><strong>Recommended requirements for better performance</strong></div>
