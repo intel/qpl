@@ -20,9 +20,14 @@ Intel® QPL supports only the Intel 64 platform.
 Software Path Requirements
 ==========================
 
-| **Minimum requirements**
-| x86-64 CPU with Intel® Advanced Vector Extensions 2 support
-  (Intel® microarchitecture code name Broadwell).
+The execution using Software Path does not imply any specific requirements on a system
+besides resolving :ref:`Build Prerequisites <building_library_prerequisites_reference_link>`.
+Intel® QPL relies on a run-time kernels dispatcher and CPUID check to choose
+the best available implementation.
+
+| **Minimal tested platform**
+| x86-64 CPU with Intel® Streaming SIMD Extensions 4.2
+  (Intel® microarchitecture code name Nehalem).
 
 | **Recommended requirements for better performance**
 | x86-64 CPU with Intel® Advanced Vector Extensions 512 support
