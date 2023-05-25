@@ -152,6 +152,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                                                                          &state.meta_data_->aecs_[actual_aecs].histogram,
                                                                          state.is_last_chunk());
 
+        /* Append EOB after final token */
         hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
                                                         hw_iaa_terminator_t::end_of_block);
     } else {
@@ -179,6 +180,15 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             result.status_code_ = QPL_STS_LIBRARY_INTERNAL_ERR;
             return result;
         }
+
+        if (state.is_last_chunk()) {
+            /* Append EOB after final token if single job is used or if we start a new block (starting with the new Huffman Table),
+               or append EOB and bFinal Stored block in case of the "middle" of multiple jobs to produce valid stream */
+            hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
+                                                            !(state.start_new_block || state.is_first_chunk())
+                                                            ? hw_iaa_terminator_t::final_end_of_block
+                                                            : hw_iaa_terminator_t::end_of_block);
+        }
     }
 
     auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_compress_access_lookup_table[state.processing_step] |
@@ -189,13 +199,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                                         state.meta_data_->aecs_,
                                         access_policy);
 
-    if (state.is_last_chunk()) {
-        hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
-                                                        hw_iaa_terminator_t::final_end_of_block);
-    }
-
     result = util::process_descriptor<compression_operation_result_t,
-            util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
+             util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
 
     if (result.status_code_ == status_list::destination_is_short_error) {
         // There can't be multiple stored blocks while indexing

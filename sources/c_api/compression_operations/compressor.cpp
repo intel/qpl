@@ -177,7 +177,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                 result = gzip_decorator::wrap(deflate<path, deflate_mode_t::deflate_default>,
                                               state,
                                               job_ptr->next_in_ptr,
-                                              job_ptr->available_in);
+                                              job_ptr->available_in,  // current job input size
+                                              job_ptr->total_in);     // total for previously completed jobs
             } else if (job_ptr->flags & QPL_FLAG_ZLIB_MODE) {
                 result = zlib_decorator::wrap(deflate<path, deflate_mode_t::deflate_default>,
                                               state,

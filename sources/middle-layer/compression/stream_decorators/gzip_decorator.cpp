@@ -293,8 +293,13 @@ static inline auto write_gzip_trailer(uint8_t *destination_ptr,
     return result;
 }
 
-template <class F, class state_t, class ...arguments>
-auto gzip_decorator::wrap(F function, state_t &state, arguments... args) noexcept -> compression_operation_result_t {
+template <class F, class state_t>
+auto gzip_decorator::wrap(F function,
+                          state_t &state,
+                          uint8_t *begin,
+                          const uint32_t current_in_size,
+                          const uint32_t prev_processed_size) noexcept -> compression_operation_result_t
+{
     compression_operation_result_t result{};
 
     auto data_ptr      = state.next_out();
@@ -312,14 +317,14 @@ auto gzip_decorator::wrap(F function, state_t &state, arguments... args) noexcep
         state.set_output_prologue(wrapper_bytes);
     }
 
-    result = function(state, args...);
+    result = function(state, begin, current_in_size);
 
     result.output_bytes_ += wrapper_bytes;
 
     if (!result.status_code_ && state.is_last_chunk()) {
         auto wrapper_result = write_gzip_trailer(data_ptr + result.output_bytes_,
                                                  data_size - result.output_bytes_,
-                                                 result.output_bytes_,
+                                                 prev_processed_size + current_in_size,
                                                  result.checksums_.crc32_);
 
         if (wrapper_result.status_code_) {
@@ -337,18 +342,20 @@ using deflate_t = decltype(deflate<path, deflate_mode_t::deflate_default>)*;
 
 template
 auto gzip_decorator::wrap<deflate_t<execution_path_t::software>,
-                          deflate_state<execution_path_t::software>,
-                          uint8_t *, uint32_t>(deflate_t<execution_path_t::software> function,
+                          deflate_state<execution_path_t::software> >
+                                              (deflate_t<execution_path_t::software> function,
                                                deflate_state<execution_path_t::software> &state,
                                                uint8_t *begin,
-                                               const uint32_t size) noexcept -> compression_operation_result_t;
+                                               const uint32_t current_in_size,
+                                               const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 
 template
 auto gzip_decorator::wrap<deflate_t<execution_path_t::hardware>,
-                          deflate_state<execution_path_t::hardware>,
-                          uint8_t *, uint32_t>(deflate_t<execution_path_t::hardware> function,
+                          deflate_state<execution_path_t::hardware> >
+                                              (deflate_t<execution_path_t::hardware> function,
                                                deflate_state<execution_path_t::hardware> &state,
                                                uint8_t *begin,
-                                               const uint32_t size) noexcept -> compression_operation_result_t;
+                                               const uint32_t current_in_size,
+                                               const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 
 }

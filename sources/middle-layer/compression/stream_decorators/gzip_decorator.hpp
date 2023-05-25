@@ -29,8 +29,12 @@ public:
     template <class F, class state_t, class ...arguments>
     static auto unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t;
 
-    template <class F, class state_t, class ...arguments>
-    static auto wrap(F function, state_t &state, arguments... args) noexcept -> compression_operation_result_t;
+    template <class F, class state_t>
+    static auto wrap(F function,
+                     state_t &state,
+                     uint8_t *begin,
+                     const uint32_t current_in_size,
+                     const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 
     struct gzip_header {
         uint8_t ID1;
@@ -52,7 +56,7 @@ public:
 
     static auto read_header(const uint8_t *destination_ptr, uint32_t stream_size, gzip_header &header) noexcept -> qpl_ml_status;
 
-    static inline void write_header_unsafe(const uint8_t *destination_ptr, 
+    static inline void write_header_unsafe(const uint8_t *destination_ptr,
                                            uint32_t UNREFERENCED_PARAMETER(size)) noexcept {
         *(uint64_t *) (destination_ptr)      = *(uint64_t *) (&default_gzip_header[0]);
         *(uint16_t *) (destination_ptr + 8u) = *(uint16_t *) (&default_gzip_header[8]);
@@ -62,8 +66,8 @@ public:
 
     static inline auto read_trailer(const uint8_t *destination_ptr, uint32_t size, gzip_trailer &trailer) noexcept -> int32_t;
 
-    static inline void write_trailer_unsafe(const uint8_t *destination_ptr, 
-                                            uint32_t UNREFERENCED_PARAMETER(size), 
+    static inline void write_trailer_unsafe(const uint8_t *destination_ptr,
+                                            uint32_t UNREFERENCED_PARAMETER(size),
                                             gzip_trailer &trailer) noexcept {
         *(uint32_t *) (destination_ptr)      = trailer.crc32;
         *(uint32_t *) (destination_ptr + 4u) = trailer.input_size;
