@@ -7,6 +7,7 @@
 #ifndef __TSRAND_H__
 #define __TSRAND_H__
 #include <string>
+#include <cstdint>
 
 namespace qpl::test
 {

@@ -16,6 +16,7 @@
 #include "map"
 #include "optional"
 #include "string"
+#include <cstdint>
 
 namespace qpl::test {
 class CommandLine {
