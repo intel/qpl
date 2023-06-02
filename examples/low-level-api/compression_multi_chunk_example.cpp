@@ -28,7 +28,7 @@
  * The example compresses data with multi-chunk and decompresses data using single job with Deflate fixed Huffman encoding.
  *
  */
- 
+
 constexpr const uint32_t source_size = 1000;
 
 
@@ -76,35 +76,34 @@ auto main(int argc, char** argv) -> int {
     job->huffman_table = NULL;
 
     // In this example source data has splitted up to 5 chunks with chunk size equals source size / 5.
-    int chunk_count = 5; 
-    int chunk_size = source.size()/chunk_count; 
-    for (int iteration_count = 0; iteration_count < chunk_count; iteration_count++ ) {
-        
-        auto source_bytes_left  = static_cast<uint32_t>(source.size());
-        
-        // QPL_FLAG_LAST is set in the last chunk
-        while (source_bytes_left > 0) {
-            if (chunk_size >= source_bytes_left) {
-                job->flags |= QPL_FLAG_LAST;
-                chunk_size = source_bytes_left;
-            }
-            
-            source_bytes_left -= chunk_size;
-            job->next_in_ptr  = source.data() + iteration_count * chunk_size;
-            job->available_in = chunk_size;
+    int chunk_count = 5;
+    int chunk_size = source.size()/chunk_count;
+    int iteration_count = 0;
 
-            // Execute compression operation
-            status = qpl_execute_job(job);
-            if (status != QPL_STS_OK) {
-                throw std::runtime_error("Error while compression occurred.");
-            }
-            
-            job->flags &= ~QPL_FLAG_FIRST;
-            iteration_count++;
+    auto source_bytes_left  = static_cast<uint32_t>(source.size());
+
+    // QPL_FLAG_LAST is set in the last chunk
+    while (source_bytes_left > 0) {
+        if (chunk_size >= source_bytes_left) {
+            job->flags |= QPL_FLAG_LAST;
+            chunk_size = source_bytes_left;
         }
 
-        destination.resize(job->total_out);
+        source_bytes_left -= chunk_size;
+        job->next_in_ptr  = source.data() + iteration_count * chunk_size;
+        job->available_in = chunk_size;
+
+        // Execute compression operation
+        status = qpl_execute_job(job);
+        if (status != QPL_STS_OK) {
+            throw std::runtime_error("Error while compression occurred.");
+        }
+
+        job->flags &= ~QPL_FLAG_FIRST;
+        iteration_count++;
     }
+
+    destination.resize(job->total_out);
     const uint32_t compressed_size = job->total_out;
 
     //The code below checks if a compression operation works correctly
