@@ -102,7 +102,7 @@ auto create_rle_group(rle_element_t rle_element) -> std::vector<uint8_t> {
                                           rle_element.repeat_count);
 
     // Store RLE group header into result vector
-    for (size_t i = 0; i < prle_header.size(); i++) {
+    for (size_t i = 0; i < prle_header.size() && source_it != result_vector.end(); i++) {
         *source_it = prle_header.at(i);
         source_it++;
     }
@@ -116,7 +116,7 @@ auto create_rle_group(rle_element_t rle_element) -> std::vector<uint8_t> {
     bits_in_buffer += rle_element.bit_width;
 
     // Pack RLE-value to result vector
-    while (0 < bits_in_buffer)
+    while (0 < bits_in_buffer && source_it != result_vector.end())
     {
         *source_it = (uint8_t)buffer;
         source_it++;
