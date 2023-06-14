@@ -21,7 +21,7 @@
 typedef enum {
     HW_ACCELERATOR_STATUS_OK                    = 0u, /**< Accelerator returned success */
     HW_ACCELERATOR_SUPPORT_ERR                  = 1u, /** System doesn't support accelerator */
-    HW_ACCELERATOR_LIBACCEL_NOT_FOUND           = 2u, /**< libaccel is not found */
+    HW_ACCELERATOR_LIBACCEL_NOT_FOUND           = 2u, /**< Required version of libaccel-config is not found */
     HW_ACCELERATOR_LIBACCEL_ERROR               = 3u, /**< Accelerator instance can not be found */
     HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE    = 4u, /**< Enabled work queues are not found or no enabled devices */
     /* Not exposed to external API */

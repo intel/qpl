@@ -13,6 +13,8 @@
 #include <sys/mman.h>
 #include <dlfcn.h>
 
+#include <string.h> // strncmp
+
 static const char *accelerator_configuration_driver_name = "libaccel-config.so.1";
 
 /**
@@ -37,6 +39,7 @@ static qpl_desc_t functions_table[] = {
         {NULL, "accfg_wq_get_devname"},
         {NULL, "accfg_device_get_version"},
         {NULL, "accfg_wq_get_block_on_fault"},
+        {NULL, "accfg_device_get_iaa_cap"},
 
         // Terminate list/init
         {NULL, NULL}
@@ -151,6 +154,12 @@ int accfg_wq_get_block_on_fault(accfg_wq *wq) {
     return ((accfg_wq_get_block_on_fault_ptr) functions_table[17].function)(wq);
 }
 
+// @todo this is a workaround to optionally load accfg_device_get_iaa_cap
+int accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap) {
+    if (functions_table[18].function == NULL) return 1;
+    return ((accfg_device_get_iaa_cap_ptr) functions_table[18].function) (device, iaa_cap);
+}
+
 /* ------ Internal functions implementation ------ */
 
 bool own_load_configuration_functions(void *driver_instance_ptr) {
@@ -160,13 +169,22 @@ bool own_load_configuration_functions(void *driver_instance_ptr) {
     while (functions_table[i].function_name) {
         DIAG("    loading %s\n", functions_table[i].function_name);
         functions_table[i].function = (library_function) dlsym(driver_instance_ptr, functions_table[i].function_name);
-        i++;
 
         char *err_message = dlerror();
 
         if (err_message) {
-            return false;
+            // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
+            char *iaa_cap_func_name = "accfg_device_get_iaa_cap";
+            size_t iaa_cap_func_name_len = strlen(iaa_cap_func_name);
+            if (strlen(functions_table[i].function_name) == iaa_cap_func_name_len &&
+                strncmp(functions_table[i].function_name, iaa_cap_func_name, iaa_cap_func_name_len) == 0) {
+                DIAGA("Failed to load API accfg_device_get_iaa_cap from accel-config, HW generation 2 features will not be used.\n");
+            } else {
+                return false;
+            }
         }
+
+        i++;
     }
 
     return true;

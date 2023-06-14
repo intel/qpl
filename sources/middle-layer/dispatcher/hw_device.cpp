@@ -111,6 +111,18 @@ auto hw_device::get_block_on_fault_available() const noexcept -> bool {
     return GC_BLOCK_ON_FAULT(gen_cap_register_);
 }
 
+auto hw_device::get_gen_2_min_capabilities() const noexcept -> bool {
+    return IC_GEN_2_MIN_CAP(iaa_cap_register_);
+}
+
+auto hw_device::get_header_gen_support() const noexcept -> bool {
+    return IC_HEADER_GEN(iaa_cap_register_);
+}
+
+auto hw_device::get_dict_compress_support() const noexcept -> bool {
+    return IC_DICT_COMP(iaa_cap_register_);
+}
+
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);
@@ -146,6 +158,20 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     DIAG("%5s: GENCAP: indexing support:                    %d\n",          name_ptr, get_indexing_support_enabled());
     DIAG("%5s: GENCAP: maximum decompression set size:      %d\n",          name_ptr, get_max_decompressed_set_size());
     DIAG("%5s: GENCAP: maximum set size:                    %d\n",          name_ptr, get_max_set_size());
+
+    // Retrieve IAACAP if available
+    uint64_t iaa_cap = 0u;
+    int32_t get_iaa_cap_status = accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
+    if (get_iaa_cap_status) {
+        // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
+        DIAGA("%5s: IAACAP: Failed to read IAACAP, HW gen 2 features will not be used\n", name_ptr);
+        if (version_major_ > 1u) {
+            return HW_ACCELERATOR_LIBACCEL_NOT_FOUND;
+        }
+    }
+
+    iaa_cap_register_ = iaa_cap;
+    DIAG("%5s: IAACAP: %" PRIu64 "\n", name_ptr, iaa_cap_register_);
 
     // Working queues initialization stage
     auto *wq_ptr = accfg_wq_get_first(device_ptr);

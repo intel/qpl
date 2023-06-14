@@ -89,6 +89,8 @@ typedef unsigned int            (*accfg_device_get_version_ptr)(accfg_dev *devic
 
 typedef int                     (*accfg_wq_get_block_on_fault_ptr)(accfg_wq *wq);
 
+typedef int                     (*accfg_device_get_iaa_cap_ptr)(accfg_dev *device, uint64_t *iaa_cap);
+
 #ifdef __cplusplus
 }
 #endif

@@ -61,12 +61,19 @@ public:
 
     [[nodiscard]] auto get_overlapping_available() const noexcept -> bool;
 
-    [[nodiscard]] auto get_block_on_fault_available() const noexcept -> bool;
+    [[nodiscard]] auto get_block_on_fault_available()const noexcept -> bool;
+
+    [[nodiscard]] auto get_gen_2_min_capabilities() const noexcept -> bool;
+
+    [[nodiscard]] auto get_header_gen_support() const noexcept -> bool;
+
+    [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;
 
 private:
     queues_container_t working_queues_   = {};    /**< Set of available HW working queues */
     uint32_t           queue_count_      = 0u;    /**< Number of working queues that are available */
     uint64_t           gen_cap_register_ = 0u;    /**< GENCAP register content */
+    uint64_t           iaa_cap_register_ = 0u;    /**< IAACAP register content */
     uint64_t           numa_node_id_     = 0u;    /**< NUMA node id of the device */
     uint32_t           version_major_    = 0u;    /**< Major version of discovered device */
     uint32_t           version_minor_    = 0u;    /**< Minor version of discovered device */

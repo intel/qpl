@@ -71,6 +71,17 @@ extern "C" {
 
 /** @} */
 
+/**
+ * @name Iaacap Configuration Macros
+ * @anchor HW_IAACAP_MACROS
+ * @{
+ */
+#define IC_GEN_2_MIN_CAP(IAACAP)            (((IAACAP))    &0x01)       /**< IAACAP bit 0      - generation 2 Minimum Capabilities support */
+#define IC_DICT_COMP(IAACAP)                (((IAACAP)>>7) &0x01)       /**< IAACAP bit 7      - dictionary compression support            */
+#define IC_HEADER_GEN(IAACAP)               (((IAACAP)>>8) &0x01)       /**< IAACAP bit 8      - header Generation support                 */
+
+/** @} */
+
 /* ====== Structures ====== */
 
 /**

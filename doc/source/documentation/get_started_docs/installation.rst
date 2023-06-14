@@ -110,7 +110,7 @@ Before building Intel® QPL, install and set up the following tools:
 
 - GNU Make
 
-Additionally, ``libaccel-config`` library version 3.2 or higher may be required
+Additionally, ``libaccel-config`` library version 4.0 or higher may be required
 when building and running Intel QPL with certain build options (see
 :ref:`building_library_build_options_reference_link` for more details).
 Refer to `accel-config releases <https://github.com/intel/idxd-config/releases>`__ for the
