@@ -554,7 +554,7 @@ template <>
     }
 
     hw_iaa_aecs_decompress_set_crc_seed(&decompress_aecs_[execution_state_ptr->aecs_index], inflate_state_.crc);
-    hw_iaa_descriptor_init_inflate(descriptor_, decompress_aecs_, HW_AECS_ANALYTICS_SIZE, access_policy);
+    hw_iaa_descriptor_init_inflate(descriptor_, decompress_aecs_, HW_AECS_FILTER_AND_DECOMPRESS, access_policy);
     hw_iaa_descriptor_set_inflate_stop_check_rule(descriptor_,
                                                   static_cast<hw_iaa_decompress_start_stop_rule_t>(end_processing_condition_),
                                                   is_last() || (end_processing_condition_ & check_on_nonlast_block));
@@ -570,16 +570,16 @@ template <>
 template <>
 [[nodiscard]] inline auto inflate_state<execution_path_t::hardware>::build_descriptor<inflate_mode_t::inflate_header>() noexcept -> hw_descriptor * {
     auto *buffer_ptr = allocator_.allocate<uint8_t, util::memory_block_t::aligned_64u>(
-            HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE * 2);
+            HW_AECS_FILTER_AND_DECOMPRESS_WA_HB * 2);
     decompress_aecs_ = reinterpret_cast<hw_iaa_aecs_analytic *>(buffer_ptr);
 
     auto aecs_policy = hw_aecs_toggle_rw;
 
-    auto *header_aecs_ptr = reinterpret_cast<hw_iaa_aecs_analytic *>(buffer_ptr + HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE);
+    auto *header_aecs_ptr = reinterpret_cast<hw_iaa_aecs_analytic *>(buffer_ptr + HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
     hw_iaa_aecs_decompress_clean_input_accumulator(&header_aecs_ptr->inflate_options);
 
     if (0u != access_properties_.ignore_start_bits) {
-        core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE);
+        core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
         aecs_policy = static_cast<hw_iaa_aecs_access_policy>(hw_aecs_access_read | hw_aecs_toggle_rw);
 
         initialize_random_access(header_aecs_ptr,
@@ -602,7 +602,7 @@ template <>
 [[nodiscard]] inline auto inflate_state<execution_path_t::hardware>::build_descriptor<inflate_mode_t::inflate_body>() noexcept -> hw_descriptor * {
     if (decompress_aecs_ == nullptr) {
         auto buffer = allocator_.allocate<uint8_t, util::memory_block_t::aligned_64u>(
-                HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE);
+                HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
         decompress_aecs_ = reinterpret_cast<hw_iaa_aecs_analytic *>(buffer);
     }
 

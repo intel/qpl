@@ -16,7 +16,7 @@
 typedef struct inflate_state isal_inflate_state;
 
 namespace qpl::ml::compression {
-constexpr uint32_t hw_state_data_size = HW_AECS_ANALYTICS_SIZE + HW_PATH_STRUCTURES_REQUIRED_ALIGN;
+constexpr uint32_t hw_state_data_size = HW_AECS_FILTER_AND_DECOMPRESS + HW_PATH_STRUCTURES_REQUIRED_ALIGN;
 
 /**
  * @brief The following structure stores lookup table, which can be used for canned mode decompression later

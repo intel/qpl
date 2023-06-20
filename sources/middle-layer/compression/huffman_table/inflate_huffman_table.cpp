@@ -20,11 +20,11 @@ decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
 
     // making sure that the ptr to hw_decompression_table is properly aligned
     // note: the call to std::align would change the ptr and the buffer size
-    // at the end size of actual data stored in hw_decompression_table_ptr is HW_AECS_ANALYTICS_SIZE
+    // at the end size of actual data stored in hw_decompression_table_ptr is HW_AECS_FILTER_AND_DECOMPRESS
     // and sizeof(qpl::ml::compression::hw_decompression_state) =
-    // = HW_PATH_STRUCTURES_REQUIRED_ALIGN + HW_AECS_ANALYTICS_SIZE
+    // = HW_PATH_STRUCTURES_REQUIRED_ALIGN + HW_AECS_FILTER_AND_DECOMPRESS
     auto aligned_aecs_ptr = std::align(HW_PATH_STRUCTURES_REQUIRED_ALIGN,
-                                       HW_AECS_ANALYTICS_SIZE,
+                                       HW_AECS_FILTER_AND_DECOMPRESS,
                                        pointer_to_be_aligned_ptr,
                                        aecs_buffer_size);
 

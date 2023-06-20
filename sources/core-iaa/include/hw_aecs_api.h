@@ -33,10 +33,23 @@
 extern "C" {
 #endif
 
-#define HW_AECS_COMPRESSION_SIZE             0x620u   /**< AECS Compression size */
-#define HW_AECS_ANALYTICS_SIZE               0x1500u  /**< AECS Analytic size */
-#define HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE  0x440u   /**< AECS Analytic size for Random Assess */
-#define HW_AECS_ANALYTIC_FILTER_ONLY_SIZE    0x20u    /**< AECS Analytic size for Filter only operations */
+/** @brief AECS size for operation: Filter. */
+#define HW_AECS_FILTER                         0x20u
+
+/**
+ * @brief AECS size for Decompress operation,
+ * when History Buffer is not required (e.g. Decompress with Indexing).
+ * @note Size is sufficient to accommodate AECS Format-1 and 2. */
+#define HW_AECS_FILTER_AND_DECOMPRESS_WA_HB    0x4E0
+
+/** @brief AECS size for operation: Decompress. */
+#define HW_AECS_FILTER_AND_DECOMPRESS          0x1500u
+
+/** @brief AECS size for operation: Compress (With Huffman Table). */
+#define HW_AECS_COMPRESS_WITH_HT               0x620u
+
+/** @brief Size of hw_iaa_aecs_decompress structure */
+#define HW_AECS_DECOMPRESS_STATE               0x1458u
 
 typedef void                              hw_iaa_aecs;                 /**< Common AECS type */
 typedef void                              hw_iaa_huffman_codes;        /**< Forward declaration */

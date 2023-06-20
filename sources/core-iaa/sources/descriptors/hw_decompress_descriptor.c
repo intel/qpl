@@ -83,7 +83,7 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const desc
                              | ADDF_IGNORE_END_BITS(MAX_BIT_IDX & ignore_end_bits);
 
     this_ptr->src2_ptr     = (uint8_t *) aecs_ptr;
-    this_ptr->src2_size    = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
+    this_ptr->src2_size    = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;
 
 
     if (access_policy & hw_aecs_access_read) {
@@ -110,7 +110,7 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_body, (hw_descriptor *const descri
                              | ADDF_IGNORE_END_BITS(MAX_BIT_IDX & ignore_end_bit);
 
     this_ptr->src2_ptr  = (uint8_t *) this_aecs_ptr;
-    this_ptr->src2_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
+    this_ptr->src2_size = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;
 
     this_aecs_ptr->inflate_options.decompress_state = DEF_STATE_LL_TOKEN;
 }
@@ -129,7 +129,7 @@ HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *c
                             | ADDF_IGNORE_END_BITS(MAX_BIT_IDX & ignore_end_bits);
 
     this_ptr->src2_ptr  = (uint8_t *) aecs_ptr;
-    this_ptr->src2_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
+    this_ptr->src2_size = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;
 }
 
 HW_PATH_IAA_API(void, descriptor_set_inflate_stop_check_rule, (hw_descriptor *const descriptor_ptr,

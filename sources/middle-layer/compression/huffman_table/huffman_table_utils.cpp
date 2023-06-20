@@ -1217,7 +1217,7 @@ bool is_equal(qpl_decompression_huffman_table &table,
     hw_decompression_state* other_hw = other_decompression_table.get_hw_decompression_state();
 
     // Comparing actual data stored in hw state here
-    auto hw_table_diff = std::memcmp(hw, other_hw, HW_AECS_ANALYTICS_SIZE);
+    auto hw_table_diff = std::memcmp(hw, other_hw, HW_AECS_FILTER_AND_DECOMPRESS);
 
     return (sw_table_diff == 0) && (hw_table_diff == 0) && (deflate_buf_diff == 0) && (lookup_buf_diff == 0);
 }

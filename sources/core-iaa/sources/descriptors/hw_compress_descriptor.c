@@ -104,7 +104,7 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descri
     bool is_final = !(access_policy & hw_aecs_access_write);
 
     this_ptr->aecs_ptr  = (uint8_t *) aecs_ptr;
-    this_ptr->aecs_size = HW_AECS_COMPRESSION_SIZE;
+    this_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT;
 
     if (is_final) {
         this_ptr->compression_flags |= ADCF_FLUSH_OUTPUT;

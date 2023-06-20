@@ -28,7 +28,7 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
 
 void hw_create_huff_tables_no_hdr(uint32_t *ll_codes_ptr, uint32_t *ll_hist_ptr);
 
-static_assert(sizeof(hw_iaa_aecs_compress) == HW_AECS_COMPRESSION_SIZE, "hw_aecs_analytic size is not correct");
+static_assert(sizeof(hw_iaa_aecs_compress) == HW_AECS_COMPRESS_WITH_HT, "hw_iaa_aecs_compress size is not correct");
 
 HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob, (hw_iaa_aecs_compress *const eacs_deflate_ptr,
         const hw_huffman_code eob_symbol)) {

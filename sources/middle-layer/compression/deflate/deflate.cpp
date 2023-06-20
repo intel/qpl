@@ -100,7 +100,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
 //
 //        hw_iaa_descriptor_inflate_set_aecs(state.verify_descriptor_,
 //                                           state.aecs_verify_,
-//                                           HW_AECS_ANALYTICS_SIZE,
+//                                           HW_AECS_FILTER_AND_DECOMPRESS,
 //                                           hw_aecs_access_read);
 //
 //        hw_iaa_descriptor_inflate_set_flush(state.verify_descriptor_);
@@ -244,7 +244,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         if (verify_access_policy) {
             hw_iaa_descriptor_inflate_set_aecs(state.verify_descriptor_,
                                                state.aecs_verify_,
-                                               HW_AECS_ANALYTICS_SIZE,
+                                               HW_AECS_FILTER_AND_DECOMPRESS,
                                                verify_access_policy);
         }
 

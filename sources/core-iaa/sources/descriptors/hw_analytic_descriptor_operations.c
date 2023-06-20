@@ -19,7 +19,7 @@ static inline void own_hw_descriptor_single_source_filter_set_second_source(hw_d
     own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor*) descriptor_ptr;
 
     this_ptr->second_source_ptr  = (uint8_t *) filter_config_ptr;
-    this_ptr->second_source_size = HW_AECS_ANALYTIC_FILTER_ONLY_SIZE;
+    this_ptr->second_source_size = HW_AECS_FILTER;
 
     this_ptr->op_code_op_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
 }

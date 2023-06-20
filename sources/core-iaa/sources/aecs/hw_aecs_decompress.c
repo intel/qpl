@@ -15,9 +15,10 @@
 #include "simple_memory_ops_c_bind.h"
 
 #define OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT 32u
-#define OWN_MAX_BIT_IDX               7u
+#define OWN_MAX_BIT_IDX                        7u
 
-static_assert(sizeof(hw_iaa_aecs_analytic) == HW_AECS_ANALYTICS_SIZE, "hw_aecs_analytic size is not correct");
+static_assert(sizeof(hw_iaa_aecs_analytic) == HW_AECS_FILTER_AND_DECOMPRESS, "hw_aecs_analytic size is not correct");
+static_assert(sizeof(hw_iaa_aecs_decompress) == HW_AECS_DECOMPRESS_STATE, "hw_iaa_aecs_decompress size is not correct");
 
 #define OWN_STATUS_OK 0u
 #define OWN_STATUS_ERROR 1u

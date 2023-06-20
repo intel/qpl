@@ -413,7 +413,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             }
 
             job::reset<qpl_op_decompress>(qpl_job_ptr);
-            state_ptr->aecs_size = HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE;
+            state_ptr->aecs_size = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;
             return hw_submit_task(qpl_job_ptr);
         case qpl_op_compress:
             if (flags & QPL_FLAG_FIRST) {
@@ -439,7 +439,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
         own_hw_state_reset(state_ptr);
 
         state_ptr->aecs_size = (qpl_job_ptr->flags & QPL_FLAG_RND_ACCESS)
-                               ? HW_AECS_ANALYTIC_RANDOM_ACCESS_SIZE
+                               ? HW_AECS_FILTER_AND_DECOMPRESS_WA_HB
                                : sizeof(hw_iaa_aecs_analytic);
 
         desc_ptr->src2_ptr  = (uint8_t *) state_ptr->dcfg;
