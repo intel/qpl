@@ -13,6 +13,8 @@
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "util/descriptor_processing.hpp"
 
+#include "dispatcher/hw_dispatcher.hpp"
+
 namespace qpl::ml::compression {
 
 auto deflate_pass(deflate_state<execution_path_t::software> &stream, uint8_t *begin, uint32_t size) noexcept -> compression_operation_result_t {
@@ -132,30 +134,76 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
     state.meta_data_->stored_bits = hw_iaa_aecs_compress_accumulator_get_actual_bits(&state.meta_data_->aecs_[actual_aecs]);
 
+    // Check if header generation is supported in hardware
+    bool is_hw_header_gen_supported = false;
+
+#if defined( __linux__ )
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device = dispatcher.device(0);
+    is_hw_header_gen_supported = device.get_header_gen_support();
+#endif //__linux__
+
+    // There are two modes for header generation: 1-pass and 2-pass.
+    // 1-pass can be used if dictionary is not used and source size is no larger than 4KB.
+    // 1-pass header generation will calculate the statistics and Huffman Table together with compression
+    // 2-pass header generation will calculate Huffman Table in the 1st pass, and compress data in the 2nd pass
+    // (2-pass is similar to dynamic deflate without header generation support)
+    bool is_hw_1_pass_header_gen = state.collect_statistic_descriptor_ && is_hw_header_gen_supported && source_size <= 4096u;
+    bool is_hw_2_pass_header_gen = state.collect_statistic_descriptor_ && is_hw_header_gen_supported && source_size > 4096u;
+
     // Collect statistic
     if (state.collect_statistic_descriptor_) { // Dynamic mode used
-        hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
-                                                   source_begin_ptr, source_size,
-                                                   &state.meta_data_->aecs_[actual_aecs].histogram);
-        hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
-                                                       state.meta_data_->mini_block_size_);
+        if (is_hw_2_pass_header_gen) {
+            hw_iaa_descriptor_init_statistic_collector_with_header_gen(state.collect_statistic_descriptor_,
+                                                       source_begin_ptr, source_size,
+                                                       state.meta_data_->aecs_, actual_aecs, state.is_last_chunk(), state.is_first_chunk());
+            hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
+                                                           state.meta_data_->mini_block_size_);
 
-        result = util::process_descriptor<compression_operation_result_t,
-                                          util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
-                                                                        state.completion_record_);
+            /* Append EOB so that EOB will have a Huffman code */
+            hw_iaa_descriptor_compress_set_termination_rule(state.collect_statistic_descriptor_,
+                                                            hw_iaa_terminator_t::end_of_block);
 
-        if (result.status_code_) {
-            return result;
+            // The 1st pass will generate Huffman table and deflate header
+            result = util::process_descriptor<compression_operation_result_t,
+                                              util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
+                                                                            state.completion_record_);
+
+            if (result.status_code_) {
+                return result;
+            }
+
+            // Invert the AECS toggle for compress because src2 is written as AECS
+            state.meta_data_->aecs_index ^= 1u;
+            actual_aecs = state.meta_data_->aecs_index;
+
+        } else if (!is_hw_header_gen_supported) {
+            // If header generation is not supported, the software will compute the Huffman table
+            // based on statistics generated in the 1st pass
+            hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
+                                                       source_begin_ptr, source_size,
+                                                       &state.meta_data_->aecs_[actual_aecs].histogram);
+            hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
+                                                           state.meta_data_->mini_block_size_);
+
+            result = util::process_descriptor<compression_operation_result_t,
+                                              util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
+                                                                            state.completion_record_);
+
+            if (result.status_code_) {
+                return result;
+            }
+
+            hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(&state.meta_data_->aecs_[actual_aecs],
+                                                                             &state.meta_data_->aecs_[actual_aecs].histogram,
+                                                                             state.is_last_chunk());
         }
 
-        hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(&state.meta_data_->aecs_[actual_aecs],
-                                                                         &state.meta_data_->aecs_[actual_aecs].histogram,
-                                                                         state.is_last_chunk());
-
-        /* Append EOB after final token */
+        /* For dynamic mode, append EOB after final token in the compression descriptor */
         hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
                                                         hw_iaa_terminator_t::end_of_block);
-    } else {
+
+    } else { // Static or fixed mode used
         if (state.is_first_chunk() || state.start_new_block) {
             // If we want to write a new deflate block and it's a continuable compression task, then insert EOB
             if (!state.is_first_chunk()) {
@@ -195,9 +243,18 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                                                                 actual_aecs);
 
     hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, source_begin_ptr, source_size);
-    hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
-                                        state.meta_data_->aecs_,
-                                        access_policy);
+
+    if (is_hw_1_pass_header_gen) {
+        hw_iaa_descriptor_set_1_pass_header_gen(state.compress_descriptor_,
+                                                state.meta_data_->aecs_,
+                                                actual_aecs,
+                                                state.is_last_chunk(),
+                                                state.is_first_chunk());
+    } else {
+        hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
+                                            state.meta_data_->aecs_,
+                                            access_policy);
+    }
 
     result = util::process_descriptor<compression_operation_result_t,
              util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
@@ -212,10 +269,11 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     }
 
     if (state.verify_descriptor_ && !result.status_code_) {
+        auto verify_actual_aecs = state.meta_data_->verify_aecs_index; // AECS used to read for verify
         result.indexes_written_ = state.prev_written_indexes;
 
         auto verify_access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_verify_access_lookup_table[state.processing_step] |
-                                                                           actual_aecs);
+                                                                           verify_actual_aecs);
 
         if (state.is_first_chunk()) {
             auto initial_bit_offset = static_cast<uint32_t> (state.meta_data_->prologue_size_ * byte_bits_size);
@@ -264,10 +322,15 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         }
 
         result.indexes_written_ += verify_result.indexes_written_;
+
+        // Invert AECS toggle for verify
+        state.meta_data_->verify_aecs_index ^= 1u;
     }
 
     if (result.status_code_ == status_list::ok) {
+        // Invert AECS toggle for compression
         state.meta_data_->aecs_index ^= 1u;
+
         result.completed_bytes_ = source_size;
     }
 

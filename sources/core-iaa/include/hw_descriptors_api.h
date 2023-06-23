@@ -234,6 +234,43 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const
                                                             const uint8_t *const source_ptr,
                                                             const uint32_t source_size,
                                                             hw_iaa_histogram *const histogram_ptr));
+/**
+ * @brief Setup descriptor to generate Huffman Table and Deflate header for `source_ptr`
+ * and save one into `aecs_ptr` (creates `compress descriptor`).
+ * Huffman Table and Deflate header can be used for dynamic compression.
+ *
+ * @param[out] descriptor_ptr  @ref hw_descriptor
+ * @param[in] source_ptr       source stream
+ * @param[in] source_size      source size
+ * @param[in] aecs_ptr         @ref hw_iaa_aecs_compress
+ * @param[in] aecs_index       AECS index
+ * @param[in] b_final          is final job or not
+ * @param[in] b_first          is first job or not
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_init_statistic_collector_with_header_gen, (hw_descriptor *const descriptor_ptr,
+                                                                            const uint8_t *const source_ptr,
+                                                                            const uint32_t source_size,
+                                                                            hw_iaa_aecs *const aecs_ptr,
+                                                                            const uint8_t aecs_index,
+                                                                            const uint32_t b_final,
+                                                                            const uint32_t b_first));
+
+/**
+ * @brief Setup descriptor to perform 1-pass Header Generation dynamic compression.
+ *
+ * @param[out] descriptor_ptr  @ref hw_descriptor
+ * @param[in] aecs_ptr         @ref hw_iaa_aecs_compress
+ * @param[in] aecs_index       AECS index
+ * @param[in] b_final          is final job or not
+ * @param[in] b_first          is first job or not
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen, (hw_descriptor *const descriptor_ptr,
+                                                         hw_iaa_aecs *const aecs_ptr,
+                                                         const uint8_t aecs_index,
+                                                         const uint32_t b_final,
+                                                         const uint32_t b_first));
 
 /**
  * @brief Setup descriptor to perform `Compress` operation (creates `compress descriptor`)

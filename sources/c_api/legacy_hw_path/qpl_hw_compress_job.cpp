@@ -22,6 +22,8 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression_operations/huffman_table.hpp"
 
+#include "dispatcher/hw_dispatcher.hpp"
+
 static inline qpl_comp_style own_get_compression_style(const qpl_job *const job_ptr) {
     if (job_ptr->flags & QPL_FLAG_DYNAMIC_HUFFMAN) {
         return qpl_cst_dynamic;
@@ -52,6 +54,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
                                                       qpl_task_execution_step_header_inserting;
         state_ptr->execution_history.comp_style     = compression_style;
         state_ptr->aecs_hw_read_offset = 0u;
+        state_ptr->verify_aecs_hw_read_offset = 0u;
 
         configuration_ptr = &state_ptr->ccfg[0];
         configuration_ptr->num_output_accum_bits = 0u;
@@ -87,12 +90,66 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         HW_IMMEDIATELY_RET(!((state_ptr->execution_history.execution_step == qpl_task_execution_step_header_inserting)
                             || (flags & QPL_FLAG_NO_HDRS)),
                            QPL_STS_LIBRARY_INTERNAL_ERR);
-        hw_iaa_descriptor_init_statistic_collector((hw_descriptor *) descriptor_ptr,
-                                                   qpl_job_ptr->next_in_ptr,
-                                                   qpl_job_ptr->available_in,
-                                                   &configuration_ptr->histogram);
-        if (flags & QPL_FLAG_GEN_LITERALS) {
-            hw_iaa_descriptor_compress_set_huffman_only_mode((hw_descriptor *) descriptor_ptr);
+
+        // Check if header generation is supported in hardware
+        bool is_hw_header_gen_supported = false;
+
+#if defined( __linux__ )
+        static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+        const auto &device = dispatcher.device(0);
+        is_hw_header_gen_supported = device.get_header_gen_support();
+#endif //__linux__
+
+        // TODO: enable Huffman only header gen
+        is_hw_header_gen_supported = (flags & QPL_FLAG_NO_HDRS) ? 0u : is_hw_header_gen_supported;
+
+        bool is_hw_1_pass_header_gen = is_hw_header_gen_supported && qpl_job_ptr->available_in <= 4096u;
+        bool is_hw_2_pass_header_gen = is_hw_header_gen_supported && qpl_job_ptr->available_in > 4096u;
+
+        if (is_hw_1_pass_header_gen) {
+            // For 1-pass header gen, Huffman Table generation and compression will be done in the same pass
+            hw_iaa_descriptor_init_deflate_body((hw_descriptor *) descriptor_ptr,
+                                                 qpl_job_ptr->next_in_ptr,
+                                                 qpl_job_ptr->available_in,
+                                                 qpl_job_ptr->next_out_ptr,
+                                                 qpl_job_ptr->available_out);
+
+            hw_iaa_descriptor_set_1_pass_header_gen((hw_descriptor *) descriptor_ptr,
+                                                    (hw_iaa_aecs *) state_ptr->ccfg,
+                                                    state_ptr->aecs_hw_read_offset,
+                                                    flags & QPL_FLAG_LAST,
+                                                    flags & QPL_FLAG_FIRST);
+
+            hw_iaa_descriptor_compress_set_termination_rule((hw_descriptor *) descriptor_ptr,
+                                                            hw_iaa_terminator_t::end_of_block);
+
+       } else if (is_hw_2_pass_header_gen) {
+            // 2-pass header generation, the first pass will calculate Huffman Table
+            hw_iaa_descriptor_init_statistic_collector_with_header_gen((hw_descriptor *) descriptor_ptr,
+                                                                       qpl_job_ptr->next_in_ptr,
+                                                                       qpl_job_ptr->available_in,
+                                                                       (hw_iaa_aecs *) state_ptr->ccfg,
+                                                                       state_ptr->aecs_hw_read_offset,
+                                                                       flags & QPL_FLAG_LAST,
+                                                                       flags & QPL_FLAG_FIRST);
+
+            // Append EOB so that EOB will have a Huffman code
+            hw_iaa_descriptor_compress_set_termination_rule((hw_descriptor *) descriptor_ptr,
+                                                            hw_iaa_terminator_t::end_of_block);
+
+
+            // Invert AECS toggle for compress because src2 will be written as AECS
+            state_ptr->aecs_hw_read_offset ^= 1u;
+
+       } else {
+            // Dynamic deflate, the first pass will calculate the statistics
+            hw_iaa_descriptor_init_statistic_collector((hw_descriptor *) descriptor_ptr,
+                                                       qpl_job_ptr->next_in_ptr,
+                                                       qpl_job_ptr->available_in,
+                                                       &configuration_ptr->histogram);
+             if (flags & QPL_FLAG_GEN_LITERALS) {
+                hw_iaa_descriptor_compress_set_huffman_only_mode((hw_descriptor *) descriptor_ptr);
+             }
         }
         hw_iaa_descriptor_compress_set_mini_block_size((hw_descriptor *) descriptor_ptr,
                                                        (hw_iaa_mini_block_size_t) qpl_job_ptr->mini_block_size);
@@ -234,6 +291,18 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) ? true : false;
     bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1u : 0u;
 
+    // Check if header generation is supported in hardware
+    bool is_hw_header_gen_supported = false;
+
+#if defined( __linux__ )
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device = dispatcher.device(0);
+    is_hw_header_gen_supported = device.get_header_gen_support();
+#endif //__linux__
+
+    // TODO: enable Huffman only header gen
+    is_hw_header_gen_supported = (flags & QPL_FLAG_NO_HDRS) ? 0u : is_hw_header_gen_supported;
+
     state_ptr->saved_num_output_accum_bits = hw_iaa_aecs_compress_accumulator_get_actual_bits(cfg_in_ptr);
 
     if (is_huffman_only) {
@@ -250,7 +319,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
         hw_iaa_aecs_compress_store_huffman_only_huffman_table(cfg_in_ptr, compression_table.get_sw_compression_table());
 
         table_impl->set_deflate_header_bits_size(0u);
-    } else {
+    } else if (!is_hw_header_gen_supported) {
         hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(cfg_in_ptr,
                                                                          &cfg_in_ptr->histogram,
                                                                          is_final_block);
@@ -286,6 +355,8 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     auto access_policy = is_final_block ?
         hw_aecs_access_read | state_ptr->aecs_hw_read_offset :
         hw_aecs_access_read | hw_aecs_access_write | state_ptr->aecs_hw_read_offset;
+
+    // For 2-pass header generation and dynamic deflate, this is the second pass for actual compression
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) desc_ptr,
                                         state_ptr->ccfg,
                                         static_cast<hw_iaa_aecs_access_policy>(access_policy));

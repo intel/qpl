@@ -22,7 +22,8 @@ HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint8_t *aecs_ptr;                /**< AECS address (32-bit aligned) */
     uint32_t max_destination_size;    /**< Maximum destination size */
     uint32_t aecs_size;               /**< AECS size (multiple of 32-bytes, LE 288 bytes) */
-    uint8_t  reserved[8];             /**< Reserved bytes */
+    uint32_t compression_2_flags;     /**< Compression 2 flags */
+    uint8_t  reserved[4];             /**< Reserved bytes */
 } own_hw_compress_descriptor;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 
@@ -50,6 +51,9 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const
 
     this_ptr->compression_flags = ADCF_STATS_MODE;
 
+    // Reset Compression 2 flags
+    this_ptr->compression_2_flags = 0u;
+
     // reserved in case of SWQ
     // , so need to make sure that there is no garbage is stored
     this_ptr->trusted_fields = 0u;
@@ -58,6 +62,99 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector, (hw_descriptor *const
     // (Request Completion Interrupt flag is 0, no interrupt is generated)
     // , so need to make sure that there is no garbage is stored
     if (!(this_ptr->op_code_op_flags & (1 << 3))) this_ptr->interrupt_handle = 0u;
+}
+
+
+HW_PATH_IAA_API(void, descriptor_init_statistic_collector_with_header_gen, (hw_descriptor *const descriptor_ptr,
+                                                                            const uint8_t *const source_ptr,
+                                                                            const uint32_t source_size,
+                                                                            hw_iaa_aecs *const aecs_ptr,
+                                                                            const uint8_t aecs_index,
+                                                                            const uint32_t b_final,
+                                                                            const uint32_t b_first)) {
+    own_hw_compress_descriptor *const this_ptr = (own_hw_compress_descriptor *) descriptor_ptr;
+
+    this_ptr->source_ptr           = (uint8_t *) source_ptr;
+    this_ptr->source_size          = source_size;
+
+    // The 1st pass will not perform the actual compression
+    this_ptr->destination_ptr      = NULL;
+    this_ptr->max_destination_size = 0u;
+
+    // Source 2 will be read/written as AECS
+    this_ptr->aecs_ptr             = (uint8_t *) aecs_ptr;
+    this_ptr->aecs_size            = HW_AECS_COMPRESS_WITH_HT;
+
+    call_c_set_zeros_uint8_t(this_ptr->reserved, sizeof(this_ptr->reserved));
+
+    this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
+
+    // Source 2 will be read except in the first job
+    this_ptr->op_code_op_flags |= b_first ? 0u : ADOF_READ_SRC2(AD_RDSRC2_AECS);
+
+    // Source 2 will be written as AEcs
+    this_ptr->op_code_op_flags |= ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS);
+
+    // Set AECS toggle
+    this_ptr->op_code_op_flags |= aecs_index ? ADOF_AECS_SEL : 0u;
+
+    if (b_final) {
+        // Enable 2-Pass header gen and generate a bFinal Deflate Header
+         this_ptr->compression_flags = ADCF_ENABLE_HDR_GEN(7u);
+    } else {
+        // Enable 2-Pass header gen and generate a Deflate Header
+         this_ptr->compression_flags = ADCF_ENABLE_HDR_GEN(6u);
+    }
+
+    // Set the Write AECS Huffman Tables flag in descriptor Compression 2 flags to enable writing AECS
+    this_ptr->compression_2_flags = ADCF_WRITE_AECS_HT;
+
+    // reserved in case of SWQ
+    // so need to make sure that there is no garbage is stored
+    this_ptr->trusted_fields = 0u;
+
+    // reserved when bit #4 in op_code_op_flags is 0
+    // (Request Completion Interrupt flag is 0, no interrupt is generated)
+    // , so need to make sure that there is no garbage is stored
+    if (!(this_ptr->op_code_op_flags & (1 << 3))) this_ptr->interrupt_handle = 0u;
+}
+
+HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen, (hw_descriptor *const descriptor_ptr,
+                                                         hw_iaa_aecs *const aecs_ptr,
+                                                         const uint8_t aecs_index,
+                                                         const uint32_t b_final,
+                                                         const uint32_t b_first)) {
+    own_hw_compress_descriptor *const this_ptr = (own_hw_compress_descriptor *) descriptor_ptr;
+
+    if (b_first && b_final) {
+        // If there is only one job, source 2 will not be used as AECS
+        this_ptr->aecs_ptr             = NULL;
+        this_ptr->aecs_size            = 0u;
+    } else {
+        // If there are multiple jobs, source 2 should be used as AECS
+        this_ptr->aecs_ptr             = (uint8_t *) aecs_ptr;
+        this_ptr->aecs_size            = HW_AECS_COMPRESS_WITH_HT;
+    }
+
+    // Set AECS toggle
+    this_ptr->op_code_op_flags |= aecs_index ? ADOF_AECS_SEL : 0u;
+
+    if (b_final) {
+        // Enable 1-Pass header gen and generate a bFinal Deflate Header
+         this_ptr->compression_flags |= ADCF_ENABLE_HDR_GEN(3u);
+         this_ptr->compression_flags |= ADCF_FLUSH_OUTPUT;
+    } else {
+        // Enable 1-Pass header gen and generate a Deflate Header
+         this_ptr->compression_flags |= ADCF_ENABLE_HDR_GEN(2u);
+    }
+
+    // Source 2 will be read except in the first job and will be written except in the last job
+    this_ptr->op_code_op_flags |= b_first ? 0u : ADOF_READ_SRC2(AD_RDSRC2_AECS);
+    this_ptr->op_code_op_flags |= b_final ? 0u : ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS);
+
+    // Reset compression_2_flags
+    this_ptr->compression_2_flags = 0u;
+
 }
 
 HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor *const descriptor_ptr)) {
@@ -105,6 +202,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descri
 
     this_ptr->aecs_ptr  = (uint8_t *) aecs_ptr;
     this_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT;
+
+    this_ptr->compression_2_flags = 0u;
 
     if (is_final) {
         this_ptr->compression_flags |= ADCF_FLUSH_OUTPUT;

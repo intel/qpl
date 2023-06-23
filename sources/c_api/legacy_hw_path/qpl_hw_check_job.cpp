@@ -68,7 +68,11 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
         qpl_job_ptr->idx_num_written += comp_ptr->output_size / sizeof(uint64_t);
 
+        // Invert AECS toggle for compression
         state_ptr->aecs_hw_read_offset ^= 1u;
+
+        // Invert AECS toggle for verify
+        state_ptr->verify_aecs_hw_read_offset ^= 1u;
 
         return (is_final_block && (comp_ptr->crc != state_ptr->execution_history.compress_crc))
         ? QPL_STS_INTL_VERIFY_ERR
@@ -149,6 +153,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
             return hw_submit_verify_job(qpl_job_ptr);
         }
 
+        // Invert AECS toggle for compression
         state_ptr->aecs_hw_read_offset ^= 1;
 
         return QPL_STS_OK;
@@ -182,8 +187,17 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         }
     }
 
-    // Statistic collection: Process statistic and resubmit deflate task
-    if (ADCF_STATS_MODE & desc_ptr->decomp_flags) {
+    // Check if 2-pass header generation is used. There are 3 different modes indicated by the flag value:
+    // 5: 2-pass header gen without Deflate header
+    // 6: 2-pass header gen with Deflate header
+    // 7: 2-pass header gen with bFinal Deflate header
+    bool hw_2_pass_header_gen = ADCF_ENABLE_HDR_GEN(5u) == (ADCF_ENABLE_HDR_GEN(5u) & desc_ptr->decomp_flags) ||
+                                ADCF_ENABLE_HDR_GEN(6u) == (ADCF_ENABLE_HDR_GEN(6u) & desc_ptr->decomp_flags) ||
+                                ADCF_ENABLE_HDR_GEN(7u) == (ADCF_ENABLE_HDR_GEN(7u) & desc_ptr->decomp_flags);
+
+    // Resubmit deflate task for dynamic deflate (statistics generated in first pass)
+    // or 2-pass header generation (Huffman table generated in first pass).
+    if (ADCF_STATS_MODE & desc_ptr->decomp_flags || hw_2_pass_header_gen) {
         qpl_job_ptr->crc          = comp_ptr->crc;
         qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
 
@@ -217,6 +231,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         return hw_submit_verify_job(qpl_job_ptr);
     }
 
+    //  Invert AECS toggle for compression
     state_ptr->aecs_hw_read_offset ^= 1u;
 
     return QPL_STS_OK;

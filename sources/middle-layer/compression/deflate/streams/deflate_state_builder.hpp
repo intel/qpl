@@ -175,8 +175,9 @@ public:
         common_type builder(allocator);
 
         builder.state_.processing_step = util::multitask_status::multi_chunk_first_chunk;
-        builder.state_.meta_data_->aecs_index     = 0u;
-        builder.state_.meta_data_->prologue_size_ = 0u;
+        builder.state_.meta_data_->aecs_index        = 0u;
+        builder.state_.meta_data_->prologue_size_    = 0u;
+        builder.state_.meta_data_->verify_aecs_index = 0u;
 
         hw_iaa_aecs_compress_clean_accumulator(builder.state_.meta_data_->aecs_);
 

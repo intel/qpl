@@ -208,7 +208,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     hw_iaa_analytics_descriptor  *desc_ptr = &state_ptr->desc_ptr;
     hw_iaa_completion_record *comp_ptr = &state_ptr->comp_ptr;
 
-    hw_iaa_aecs_decompress *aecs_inflate_ptr = &state_ptr->dcfg[state_ptr->aecs_hw_read_offset].inflate_options;
+    hw_iaa_aecs_decompress *aecs_inflate_ptr = &state_ptr->dcfg[state_ptr->verify_aecs_hw_read_offset].inflate_options;
     hw_iaa_aecs_compress   *aecs_deflate_ptr = &state_ptr->ccfg[state_ptr->aecs_hw_read_offset];
 
     bool is_first_job        = QPL_FLAG_FIRST & qpl_job_ptr->flags;
@@ -298,7 +298,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
 
     // Set operation flags
     op_flags |= (QPL_FLAG_CRC32C & qpl_job_ptr->flags) ? ADOF_CRC32C : 0u;
-    op_flags |= (state_ptr->aecs_hw_read_offset) ? ADOF_AECS_SEL : 0u;
+    op_flags |= (state_ptr->verify_aecs_hw_read_offset) ? ADOF_AECS_SEL : 0u;
 
     desc_ptr->op_code_op_flags = op_flags;
     desc_ptr->decomp_flags     = decompression_flags;

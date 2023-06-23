@@ -82,12 +82,14 @@ extern "C" {
 #define ADDF_ENABLE_IDXING(x)   (((x) & 7u) << 10u)     /**< @todo */
 
 // compression flags
-#define ADCF_STATS_MODE         (1u << 0u)              /**< @todo */
-#define ADCF_FLUSH_OUTPUT       (1u << 1u)              /**< @todo */
-#define ADCF_END_PROC(x)        (((x) & 3u) << 2u)      /**< @todo */
-#define ADCF_GEN_LITS           (1u << 4u)              /**< @todo */
-#define ADCF_COMP_BE            (1u << 5u)              /**< @todo */
-#define ADCF_ENABLE_IDXING(x)   (((uint32_t)(x) & 7u) << 6u)      /**< @todo */
+#define ADCF_STATS_MODE         (1u << 0u)                    /**< @todo */
+#define ADCF_FLUSH_OUTPUT       (1u << 1u)                    /**< @todo */
+#define ADCF_END_PROC(x)        (((x) & 3u) << 2u)            /**< @todo */
+#define ADCF_GEN_LITS           (1u << 4u)                    /**< @todo */
+#define ADCF_COMP_BE            (1u << 5u)                    /**< @todo */
+#define ADCF_ENABLE_IDXING(x)   (((uint32_t)(x) & 7u) << 6u)  /**< @todo */
+#define ADCF_ENABLE_HDR_GEN(x)  (((uint32_t)(x) & 7u) << 12u) /**< Enable Header Generation */
+#define ADCF_WRITE_AECS_HT      (1u << 1u)                    /**< Write AECS Huffman Tables */
 
 // crc64 flags
 #define ADC64F_INVCRC           (1u << 14u)             /**< @todo */

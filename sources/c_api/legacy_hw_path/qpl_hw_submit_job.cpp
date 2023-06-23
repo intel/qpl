@@ -356,6 +356,7 @@ static inline void own_hw_state_reset(qpl_hw_state *const state_ptr) {
     state_ptr->execution_history.first_job_has_been_submitted = false;
     state_ptr->accumulation_buffer.actual_bytes               = 0u;
     state_ptr->aecs_hw_read_offset                            = 0u;
+    state_ptr->verify_aecs_hw_read_offset                     = 0u;
 }
 
 #define STOP_CHECK_RULE_COUNT 7u

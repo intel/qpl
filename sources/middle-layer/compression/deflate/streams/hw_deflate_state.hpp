@@ -75,13 +75,24 @@ protected:
     util::multitask_status        processing_step                = util::multitask_status::ready;
     uint32_t                      prev_written_indexes           = 0u; // todo align with SW
 
+
+    /**
+     * @brief Meta data for deflate.
+     */
     struct meta_data {
-        uint8_t                  aecs_index       = 0u;
-        uint32_t                 stored_bits      = 0u;
-        hw_huffman_code          eob_code         = {};
-        hw_iaa_aecs_compress     *aecs_           = nullptr;
-        hw_iaa_mini_block_size_t mini_block_size_ = static_cast<hw_iaa_mini_block_size_t>(mini_block_size_none);
-        uint32_t                 prologue_size_   = 0u;
+        uint8_t                  aecs_index        = 0u; /**< AECS read index for deflate AECS */
+        uint32_t                 stored_bits       = 0u; /**< @todo */
+        hw_huffman_code          eob_code          = {}; /**< @todo */
+        hw_iaa_aecs_compress     *aecs_            = nullptr;
+                                                         /**< Pointer to the AECS. The memory being referenced is
+                                                              twice the size of the AECS. Read and write will occur
+                                                              to different halves of the memory, and alternate in case there's
+                                                              a sequence of descriptors. The aecs_index and verify_aecs_index
+                                                              indicate which half should be read */
+        hw_iaa_mini_block_size_t mini_block_size_  = static_cast<hw_iaa_mini_block_size_t>(mini_block_size_none);
+                                                         /**< @todo */
+        uint32_t                 prologue_size_    = 0u; /**< @todo */
+        uint8_t                  verify_aecs_index = 0u; /**< AECS read index for verify AECS */
     };
 
     meta_data *meta_data_ = nullptr;

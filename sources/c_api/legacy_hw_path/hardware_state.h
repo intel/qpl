@@ -64,20 +64,21 @@ typedef struct {
  * @note Structure is aligned to 64-bytes, put things that need alignment first
  */
 typedef struct {
-    hw_iaa_analytics_descriptor  desc_ptr;                                     /**< @todo */
+    hw_iaa_analytics_descriptor  desc_ptr;                                 /**< @todo */
     hw_iaa_completion_record comp_ptr;                                     /**< @todo */
     hw_iaa_aecs_analytic     dcfg[2];                                      /**< @todo */
     hw_iaa_aecs_compress     ccfg[2];                                      /**< @todo */
     qpl_buffer               accumulation_buffer;
     qpl_execution_history    execution_history;
     uint32_t                 config_valid;                                 /**< @todo */
-    uint32_t                 aecs_hw_read_offset;                          /**< @todo */
+    uint32_t                 aecs_hw_read_offset;                          /**< AECS read offset for deflate AECS */
     uint32_t                 aecs_size;                                    /**< @todo */
     hw_huffman_code          eob_code;
     uint32_t                 saved_num_output_accum_bits;                  /**< @todo */
     hw_accelerator_context   accel_context;
     uint32_t                 descriptor_not_submitted;
     bool                     job_is_submitted;
+    uint32_t                 verify_aecs_hw_read_offset;                   /**< AECS read offset for verify AECS */
 } qpl_hw_state;
 
 #ifdef __cplusplus
