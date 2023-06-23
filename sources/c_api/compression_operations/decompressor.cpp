@@ -9,8 +9,14 @@
  *  Job API (public C API)
  */
 
+// c_api
+#include "job.hpp"
+#include "arguments_check.hpp"
+#include "huffman_table.hpp"
 #include "own_defs.h"
 #include "compression_state_t.h"
+
+// ML
 #include "common/defs.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "compression/inflate/inflate.hpp"
@@ -19,9 +25,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
-#include "job.hpp"
-#include "arguments_check.hpp"
-#include "huffman_table.hpp"
+#include "dispatcher/hw_dispatcher.hpp"
 
 namespace qpl {
 
@@ -135,6 +139,16 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                                 job_ptr->ignore_start_bits,
                                 job_ptr->ignore_end_bits});
         }
+
+#if defined( __linux__ )
+        if constexpr (qpl::ml::execution_path_t::hardware == path) {
+            static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+            const auto &device      = dispatcher.device(0);
+            aecs_format format      = (device.get_gen_2_min_capabilities() == 0) ? mapping_table : mapping_cam;
+
+            state.aecs_format_version(format);
+        }
+#endif
 
         if (job::is_dictionary(job_ptr)) {
                 if constexpr (qpl::ml::execution_path_t::software == path) {

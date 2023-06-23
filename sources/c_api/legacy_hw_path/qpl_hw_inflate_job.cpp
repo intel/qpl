@@ -13,32 +13,40 @@
  * @{
  */
 
+// c_api
 #include "job.hpp"
-#include "simple_memory_ops.hpp"
-#include "util/descriptor_processing.hpp"
-#include "util/checkers.hpp"
 
-#include "hw_descriptors_api.h"
-
-#include "own_defs.h"
-#include "hardware_defs.h"
-#include "hw_accelerator_api.h"
-
-#include "hardware_state.h"
-#include "own_ml_submit_operation_api.hpp"
+// ML
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/dictionary/dictionary_defs.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
 #include "compression_operations/huffman_table.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
+#include "dispatcher/hw_dispatcher.hpp"
+#include "util/descriptor_processing.hpp"
+#include "util/checkers.hpp"
+
+// core-sw
+#include "simple_memory_ops.hpp"
+
+// core-iaa
+#include "hw_aecs_api.h"
+#include "hw_descriptors_api.h"
+#include "own_defs.h"
+#include "hardware_defs.h"
+#include "hw_accelerator_api.h"
+
+// legacy_hw_path
+#include "hardware_state.h"
+#include "own_ml_submit_operation_api.hpp"
 
 #define DEF_STATE_HDR           1u /**< @todo // looking at block header */
 #define DEF_STATE_LL_TOKEN      0u /**< @todo // looking at block header */
 
 extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
-                                    uint32_t last_job,
-                                    uint8_t *next_in_ptr,
-                                    uint32_t available_in) {
+                                               uint32_t last_job,
+                                               uint8_t *next_in_ptr,
+                                               uint32_t available_in) {
     using namespace qpl;
     using namespace qpl::ml::util;
     using namespace qpl::ml::compression;
@@ -65,6 +73,14 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     const bool is_dictionary_mode = (qpl_job_ptr->flags & QPL_FLAG_FIRST ||
                                      !state_ptr->execution_history.first_job_has_been_submitted) &&
                                              qpl_job_ptr->dictionary != NULL;
+
+#if defined( __linux__ )
+    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device            = dispatcher.device(0);
+    bool is_aecs_format2_expected = (device.get_gen_2_min_capabilities() == 0) ? false : true;
+#else
+    bool is_aecs_format2_expected = false;
+#endif
 
     if (state_ptr->execution_history.first_job_has_been_submitted) {
         operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
@@ -134,6 +150,8 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         desc_ptr->src1_size = --qpl_job_ptr->available_in;
     }
 
+    hw_iaa_aecs_decompress_state_set_aecs_format(&aecs_ptr->inflate_options, is_aecs_format2_expected);
+
     // AECS Write policy
     if (IS_RND_ACCESS_BODY(qpl_job_ptr->flags)) {
         decompression_flags |= ADDF_FLUSH_OUTPUT;
@@ -168,35 +186,6 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
                                                        (hw_completion_record *) &state_ptr->comp_ptr,
                                                        qpl_job_ptr->numa_id);
 }
-
-#if 0
-extern "C" qpl_status hw_submit_simple_inflate(qpl_job *qpl_job_ptr) {
-    using namespace qpl::ml::util;
-    auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
-
-    hw_iaa_analytics_descriptor *const desc_ptr  = &state_ptr->desc_ptr;
-
-    // Descriptor buffers set
-    desc_ptr->src1_ptr     = qpl_job_ptr->next_in_ptr;
-    desc_ptr->src1_size    = qpl_job_ptr->available_in;
-    desc_ptr->dst_ptr      = qpl_job_ptr->next_out_ptr;
-    desc_ptr->max_dst_size = qpl_job_ptr->available_out;
-    desc_ptr->src2_ptr     = NULL;
-    desc_ptr->src2_size    = 0;
-
-    desc_ptr->op_code_op_flags      = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS) | ((qpl_job_ptr->flags & QPL_FLAG_CRC32C) ? ADOF_CRC32C : 0u);
-    desc_ptr->decomp_flags          = ADDF_ENABLE_DECOMP | ADDF_FLUSH_OUTPUT;;
-
-    hw_iaa_descriptor_set_inflate_stop_check_rule((hw_descriptor *) desc_ptr,
-                                                  static_cast<hw_iaa_decompress_start_stop_rule_t>(qpl_job_ptr->decomp_end_processing),
-                                                  true);
-
-    return process_descriptor<qpl_status,
-                              execution_mode_t::async>(desc_ptr,
-                                                       (hw_completion_record *) &state_ptr->comp_ptr,
-                                                       qpl_job_ptr->numa_id);
-}
-#endif
 
 /**
  * @brief @b hw_submit_verify_job - verifies compression @ref qpl_job result. Performs inflate operation with
@@ -242,6 +231,14 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                                    | ADDF_SUPPRESS_OUTPUT
                                    | ADDF_ENABLE_IDXING(qpl_job_ptr->mini_block_size)
                                    | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0u);
+
+#if defined( __linux__ )
+    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device            = dispatcher.device(0);
+    bool is_aecs_format2_expected = (device.get_gen_2_min_capabilities() == 0) ? false : true;
+#else
+    bool is_aecs_format2_expected = false;
+#endif
 
     if (is_first_job) {
         if (is_indexing_enabled) {
@@ -319,6 +316,8 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
         desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(8u - comp_ptr->output_bits);
     }
 
+    hw_iaa_aecs_decompress_state_set_aecs_format(aecs_inflate_ptr, is_aecs_format2_expected);
+
     auto status = process_descriptor<qpl_status,
                                      execution_mode_t::async>((hw_descriptor *) desc_ptr,
                                                               (hw_completion_record *) &state_ptr->comp_ptr,
@@ -327,45 +326,6 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     HW_IMMEDIATELY_RET(status, QPL_STS_QUEUES_ARE_BUSY_ERR)
 
     return QPL_STS_BEING_PROCESSED;
-}
-
-qpl_status hw_descriptor_decompress_init_inflate_header(hw_descriptor *const descriptor_ptr,
-                                                        uint8_t *header_ptr,
-                                                        const uint32_t header_bit_size,
-                                                        const uint8_t start_bit_offset,
-                                                        hw_iaa_aecs *const state_ptr,
-                                                        bool toggle_rw) {
-    auto *const desc_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
-    auto *const aecs_ptr = (hw_iaa_aecs_analytic *) state_ptr;
-
-    uint32_t input_bytes_count = (header_bit_size + start_bit_offset + 7u) >> 3u;
-    uint8_t  ignore_end_bits   = OWN_MAX_BIT_IDX & (0u - (header_bit_size + start_bit_offset));
-    auto aecs_policy = (toggle_rw) ? (uint32_t)hw_aecs_toggle_rw : 0u;
-
-    qpl::core_sw::util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
-
-    if (0u != start_bit_offset) {
-        aecs_policy |= hw_aecs_access_read;
-        aecs_ptr->inflate_options.idx_bit_offset   = 7u & start_bit_offset;
-
-        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
-                                                                   header_ptr,
-                                                                   input_bytes_count,
-                                                                   start_bit_offset,
-                                                                   ignore_end_bits);
-
-        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
-
-        header_ptr++;
-        input_bytes_count--;
-    }
-
-    hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, header_ptr, input_bytes_count);
-
-    hw_iaa_descriptor_init_inflate_header((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bits,
-                                          static_cast<hw_iaa_aecs_access_policy>(aecs_policy));
-
-    return QPL_STS_OK;
 }
 
 extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor *const descriptor_ptr,

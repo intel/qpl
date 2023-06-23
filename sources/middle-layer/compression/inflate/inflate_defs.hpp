@@ -57,6 +57,12 @@ struct huffman_code {
     uint8_t  extra_bit_count;    /**< Number of extra bits */
     uint8_t  length;             /**< Huffman code length */
 };
+
+enum aecs_format {
+    mapping_table,
+    mapping_cam
+};
+
 }
 
 #endif // QPL_MIDDLE_LAYER_COMPRESSION_INFLATE_INFLATE_PROPERTIES_HPP

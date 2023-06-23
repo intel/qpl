@@ -91,7 +91,6 @@ typedef enum {
     hw_aecs_processing_terminated_with_eob  = 0x8u   /**< @todo add description */
 } hw_iaa_aecs_decompress_state;
 
-
 /**
  * @brief Describes @ref hw_iaa_aecs_analytic substructure that contains additional input/output data of filter operations
  */
@@ -104,36 +103,60 @@ typedef struct {
     uint32_t drop_initial_decompress_out_bytes;    /**< Number bytes that should be dropped before Filtering start */
 } hw_iaa_aecs_filter;
 
-
 /**
- * @brief Describes @ref hw_iaa_aecs_analytic substructure that contains additional input/output data of decompress operation
+ * @brief Describes @ref hw_iaa_aecs_decompress structure.
+ * Contains Decompress part of AECS data, with unions for using either Format-1 or Format-2.
  */
 typedef struct {
     // Decompression buffers
-    uint32_t output_accumulator[3];                         /**< Output accumulator */
-    uint32_t idx_bit_offset;                                /**< Initial indexing index */
-    uint64_t input_accum[32];                               /**< Input accumulators */
-    uint8_t  input_accum_size[32];                          /**< Input accumulators valid bits */
-    // Decompression State
-    uint32_t reserved0[2];                                  /**< Reserved bytes */
-    uint32_t lit_len_first_tbl_idx[5];                      /**< @todo */
-    uint32_t lit_len_num_codes[5];                          /**< @todo */
-    uint32_t lit_len_first_code[5];                         /**< @todo */
-    uint32_t lit_len_first_len_code[5];                     /**< @todo */
-    uint32_t reserved1[62];                                 /**< Reserved bytes */
-    uint8_t  lit_len_sym[268];                              /**< LL huffman codes mapping table */
-    uint16_t decompress_state;                              /**< Indicates the state of decompress parser */
-    uint16_t reserved2;                                     /**< Reserved bytes */
-    uint32_t reserved3[43];                                 /**< Reserved bytes */
+    uint32_t output_accumulator[2];                         /**< Output Accumulator Data */
+    uint32_t output_acc_bits_valid;                         /**< Output Accumulator Bits Valid, bit 0 is used to indicate AECS Format */
+    uint32_t idx_bit_offset;                                /**< Bit Offset for Indexing */
+    uint64_t input_accum[32];                               /**< Input Accumulator Data */
+    uint8_t  input_accum_size[32];                          /**< Input Accumulator Valid Bits */
+
+    // Decompress/Analytics Internal State
+    uint32_t eob_cam_entry;                                 /**< EOB CAM Entry */
+    uint8_t  drop_initial_bits;                             /**< Drop Initial Bits */
+    uint8_t  aecs_format;                                   /**< AECS Format identifier: 0 for Format-1 and 1 for Format-2 */
+    uint16_t reserved0;                                     /**< Reserved bytes */
+
+    uint32_t lit_len_first_tbl_idx[5];                      /**< ALU First Table Index, each ALU field is 5 DWORDS or Reserved in case of AECS format-2 */
+    uint32_t lit_len_num_codes[5];                          /**< ALU Num Codes */
+    uint32_t lit_len_first_code[5];                         /**< ALU First Code */
+    uint32_t lit_len_first_len_code[5];                     /**< ALU First Len Code */
+
+    uint32_t reserved1[62];                                 /**< Reserved bytes, LL CAM, Reserved fields, Distance CAM and Min Length-Code Length */
+
+    union {
+        struct {
+            uint32_t reserved2[6];                          /**< Reserved bytes, as not in use for AECS format-2 */
+            uint8_t  ll_mapping_cam_1[224];                 /**< LL Mapping CAM, part 1 */
+            uint32_t reserved3[5];                          /**< Reserved bytes, as not in use for AECS format-2 */
+        };
+        uint8_t lit_len_sym[268];                           /**< LL Mapping Table */
+    };
+
+    uint16_t decompress_state;                              /**< State of decompress parser in bits 3:0 */
+    uint16_t reserved4;                                     /**< Reserved bytes, Number of bits not processed */
+
+    union {
+        struct {
+            uint32_t reserved5[2];                          /**< Reserved bytes, Stored Block Bytes Remaining and Reserved Fields  */
+            uint8_t  ll_mapping_cam_2[144];                 /**< LL Mapping CAM, part 2 */
+            uint32_t reserved6[5];                          /**< Reserved bytes */
+        };
+        uint32_t reserved7[43];                             /**< Reserved bytes, Stored Block Bytes Remaining and Reserved Fields */
+    };
+
     struct {
         uint16_t history_buffer_write_offset  : 15;         /**< Offset to the first unwritten byte in history_buffer */
-        uint16_t is_history_buffer_overflowed : 1;          /**< True or false value, which indicates whenever history buffer capacity was exceed */
-    } history_buffer_params;                                /**< History size description */
-    uint16_t reserved4;                                     /**< Reserved bytes */
-    uint8_t  history_buffer[4096];                          /**< History buffer */
-    uint32_t reserved5[6];                                  /**< Reserved bytes */
+        uint16_t is_history_buffer_overflowed : 1;          /**< True or False, indicates if History Buffer capacity exceeded */
+    } history_buffer_params;                                /**< History Buffer Write Pointer Data */
+    uint16_t reserved8;                                     /**< Reserved bytes */
+    uint8_t  history_buffer[4096];                          /**< History Buffer Data */
+    uint32_t reserved9[6];                                  /**< Reserved bytes, Padding */
 } hw_iaa_aecs_decompress;
-
 
 /**
  * @brief Describes an AECS state shared with Decompress and Filter operations. Decompress and Filter operations
@@ -384,7 +407,6 @@ HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob, (hw_iaa_aecs_compres
 HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                                        hw_iaa_d_huffman_only_table *const huffman_table_ptr));
 
-
 /**
  * @brief Setup @ref hw_iaa_aecs_decompress to decompress data with huffman codes calculated with provided histogram.
  *
@@ -460,8 +482,6 @@ HW_PATH_IAA_AECS_API(bool, decompress_is_empty_input_accumulator, (hw_iaa_aecs_d
  *
  * @param [in, out] aecs_ptr pointer to valid @ref hw_iaa_aecs_decompress
  * @param [in]      decompression_state decompression stage to set
- *
- * @return @todo add description
  */
 static inline
 HW_PATH_IAA_AECS_API(void, decompress_set_decompression_state, (hw_iaa_aecs_decompress *const aecs_ptr,
@@ -475,8 +495,6 @@ HW_PATH_IAA_AECS_API(void, decompress_set_decompression_state, (hw_iaa_aecs_deco
  * @param [in] aecs_ptr pointer to valid @ref hw_iaa_aecs_decompress
  * @param [in] raw_dictionary_ptr pointer to dictionary
  * @param [in] dictionary_size    dictionary size in bytes
- *
- * @return @todo add description
  */
 HW_PATH_IAA_AECS_API(void, decompress_set_dictionary, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                        const uint8_t *const raw_dictionary_ptr,
@@ -533,6 +551,28 @@ HW_PATH_IAA_AECS_API(void, filter_set_drop_initial_decompressed_bytes, (hw_iaa_a
 static inline
 HW_PATH_IAA_AECS_API(void, decompress_set_crc_seed, (hw_iaa_aecs_analytic *const aecs_ptr, const uint32_t seed)) {
     aecs_ptr->filtering_options.crc = seed;
+}
+
+/**
+ * @brief Set AECS Format related bits to 0 (Format-1) or 1 (Format-2) in @ref hw_iaa_aecs_decompress.
+ * @details In order to specify AECS Format two bits are required to be set to 0 or 1:
+ * low order bit in the "Output Bits Valid" field and AECS Format Number.
+ *
+ * @param [out] aecs_ptr pointer to @ref hw_iaa_aecs_decompress
+ * @param [in]  is_aecs_format2_expected indicator of AECS Format
+ *
+ */
+static inline
+HW_PATH_IAA_AECS_API(void, decompress_state_set_aecs_format, (hw_iaa_aecs_decompress *const aecs_ptr,
+                                                              bool is_aecs_format2_expected)) {
+        if (is_aecs_format2_expected) {
+            aecs_ptr->output_acc_bits_valid |= 0x1u;
+            aecs_ptr->aecs_format |= 1;
+        }
+        else {
+            aecs_ptr->output_acc_bits_valid &= ~(0x1u);
+            aecs_ptr->aecs_format &= ~1;
+        }
 }
 
 /** @} */
