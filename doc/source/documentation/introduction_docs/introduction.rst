@@ -53,7 +53,7 @@ interacts with. The components in the diagram are numbered from 0 to 8, each wit
 6. Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
    Intel QPL keeps its own copy of relevant source code from Intel ISA-L.
 7. Set of low-level descriptors and service functions for interaction with Intel IAA hardware
-   (using Accelerator Interfacing Architecture ISA).
+   using Intel® Accelerator Interfacing Architecture.
 8. The accelerator utility library (``libaccel-config``), which is linked to Intel QPL, provides APIs for communicating
    with Intel IAA hardware.
 9. The Intel® Data Accelerator Driver (``idxd``) is a kernel driver that manages Intel IAA devices.
