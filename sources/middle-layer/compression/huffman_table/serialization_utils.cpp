@@ -107,7 +107,11 @@ size_t flatten_table_size(const qplc_huffman_table_flat_format &table) {
     table_size += sizeof(table.number_of_codes);
     table_size += sizeof(table.first_codes);
     table_size += sizeof(table.first_table_indexes);
-    table_size += sizeof(table.index_to_char);
+
+    table_size += sizeof(table.format_stored);
+    table_size += (table.format_stored == ht_with_mapping_table)
+                  ? sizeof(table.index_to_char)
+                  : sizeof(table.lit_cam);
 
     return table_size;
 }
@@ -195,7 +199,14 @@ void serialize_table(const qplc_huffman_table_flat_format &table, uint8_t *buffe
     write_impl(&dst, &(table.number_of_codes));
     write_impl(&dst, &(table.first_codes));
     write_impl(&dst, &(table.first_table_indexes));
-    write_impl(&dst, &(table.index_to_char));
+
+    write_impl(&dst, &(table.format_stored));
+    if (table.format_stored == ht_with_mapping_table) {
+        write_impl(&dst, &(table.index_to_char));
+    }
+    else {
+        write_impl(&dst, &(table.lit_cam));
+    }
 }
 
 void serialize_table(const hw_decompression_state &table, uint8_t *buffer) {
@@ -268,7 +279,14 @@ void deserialize_table(const uint8_t * const buffer, qplc_huffman_table_flat_for
     read_impl(&src, &(table.number_of_codes));
     read_impl(&src, &(table.first_codes));
     read_impl(&src, &(table.first_table_indexes));
-    read_impl(&src, &(table.index_to_char));
+
+    read_impl(&src, &(table.format_stored));
+    if (table.format_stored == ht_with_mapping_table) {
+        read_impl(&src, &(table.index_to_char));
+    }
+    else {
+        read_impl(&src, &(table.lit_cam));
+    }
 }
 
 void deserialize_table(const uint8_t * const buffer, hw_decompression_state &table) {

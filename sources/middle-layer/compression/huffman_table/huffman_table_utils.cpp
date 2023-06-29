@@ -9,28 +9,26 @@
 #include <cstdlib>
 #include <cstring> // memcmp
 
+// ML
+#include "dispatcher/hw_dispatcher.hpp"
 #include "common/bit_reverse.hpp"
 #include "common/allocation_buffer_t.hpp"
-
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "compression/huffman_table/deflate_huffman_table.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp"
 #include "compression/huffman_table/serialization_utils.hpp"
-
-#include "util/util.hpp"
-#include "simple_memory_ops.hpp"
-#include "util/descriptor_processing.hpp"
-
-#include "qplc_compression_consts.h"
-#include "qplc_huffman_table.h"
-#include "deflate_histogram.h"
-
 #include "compression/inflate/inflate.hpp"
 #include "compression/inflate/inflate_state.hpp"
+#include "util/descriptor_processing.hpp"
+#include "util/util.hpp"
 
 // core-sw
 #include "dispatcher.hpp"
+#include "simple_memory_ops.hpp"
+#include "qplc_compression_consts.h"
+#include "qplc_huffman_table.h"
+#include "deflate_histogram.h"
 
 // isal
 #include "igzip_lib.h"
@@ -321,21 +319,45 @@ static inline auto triplets_code_values_comparator(const void *a, const void *b)
     return (int) first_triplet->code > second_triplet->code;
 }
 
+/**
+ * @brief Routine to construct decompression representation for Huffman Only from triplets.
+ * Builds software representation required for hardware path, would be later packed into
+ * aecs decompress structure.
+ *
+ * @details Based on the IAACAP bit 0 (that also indicates AECS Format supported by accelerator),
+ * build either mapping table and first table indices array or mapping CAM.
+ * Also construct number of codes and first codes arrays (used in both Formats).
+ * Basic idea is to go through all bitwidths (1-15), filter out the triplets corresponding
+ * to a given code lengths, sort this subset and fill data required for specified format.
+ *
+ * Mapping table (corresponds to AECS Format-1) is such that:
+ * we store all the symbols with length 1 first (sorted), then all the symbols with length 2 (sorted), etc.
+ * For a given code length i, number of such codes is number_of_codes[i],
+ * region with these codes in the mapping table starts with first_table_indexes[i] offset,
+ * and additionally we store first_code[i] for the code with length i that is first once sorted.
+ * Table index for certain input code of length i could be computed then as:
+ * first_table_indexes[i] + input code - first_code[i].
+ *
+ * Mapping CAM (corresponds to AECS Format-2) is such that, for each entry
+ * the index is the input symbol and the value is the pair of input code length and (input code - first code),
+ * stored in first 4 bits and next 4 bits respectively;
+ * Therefore CAM size is exactly 265 (number of len codes without once requiring extra bits).
+ * Working with Mapping CAM requires number_of_codes and first_codes arrays,
+ * but doesn't require first_table_indexes (as calculating offset is not needed).
+*/
 static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplets_ptr,
                                                       size_t triplets_count,
                                                       qplc_huffman_table_flat_format *decompression_table_ptr) noexcept {
-    // Variables
     uint32_t empty_position = 0u;
 
     // Calculate code lengths histogram
     std::for_each(triplets_ptr, triplets_ptr + triplets_count,
-                  [decompression_table_ptr](const qpl_triplet &item) {
-                      if (item.code_length != 0) {
-                          decompression_table_ptr->number_of_codes[item.code_length - 1u]++;
-                      }
-                  });
+                [decompression_table_ptr](const qpl_triplet &item) {
+                    if (item.code_length != 0) {
+                        decompression_table_ptr->number_of_codes[item.code_length - 1u]++;
+                    }
+                });
 
-    // Calculate first codes
     for (uint32_t i = 1u; i <= 15u; i++) {
         std::array<qpl_triplet, 256> filtered{};
 
@@ -343,7 +365,7 @@ static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplet
             continue;
         }
 
-        // Filtering by code length
+        // Filtering out codes matching given bitwidth
         const auto last_filtered = std::copy_if(triplets_ptr,
                                                 triplets_ptr + triplets_count,
                                                 filtered.begin(),
@@ -351,20 +373,30 @@ static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplet
                                                     return triplet.code_length == i;
                                                 });
 
-        // Sorting to get the right order for mapping table (charToSortedCode)
-        size_t number_of_elements_to_sort = std::distance(filtered.begin(), last_filtered);
-        qsort(filtered.data(), number_of_elements_to_sort, sizeof(qpl_triplet), triplets_code_values_comparator);
+        // Sorting to get the right order: charToSortedCode
+        size_t number_of_elements = std::distance(filtered.begin(), last_filtered);
+        qsort(filtered.data(), number_of_elements, sizeof(qpl_triplet), triplets_code_values_comparator);
 
-        decompression_table_ptr->first_codes[i - 1u]         = filtered[0].code;
-        decompression_table_ptr->first_table_indexes[i - 1u] = empty_position;
+        decompression_table_ptr->first_codes[i - 1u] = filtered[0].code;
 
-        // Writing of sorted codes
-        const uint32_t start_position = empty_position;
+        // Filling in mapping table or CAM related structures
+        if (decompression_table_ptr->format_stored == ht_with_mapping_table) {
 
-        while (empty_position < (start_position + std::distance(filtered.begin(), last_filtered))) {
-            decompression_table_ptr->index_to_char[empty_position] = filtered[empty_position -
-                                                                              start_position].character;
-            empty_position++;
+            decompression_table_ptr->first_table_indexes[i - 1u] = empty_position;
+
+            const uint32_t start_position = empty_position;
+            while (empty_position < (start_position + number_of_elements)) {
+                decompression_table_ptr->index_to_char[empty_position] = filtered[empty_position -
+                                                                                  start_position].character;
+                empty_position++;
+            }
+        }
+        else {
+            uint32_t idx = 0;
+            while (idx < number_of_elements) {
+                decompression_table_ptr->lit_cam[filtered[idx].character] = i | (idx << 4);
+                idx++;
+            }
         }
     }
 }
@@ -742,19 +774,46 @@ template <>
 auto huffman_table_init(decompression_huffman_table &table,
                         const qpl_triplet *const triplets_ptr,
                         const std::size_t triplets_count,
-                        const uint32_t UNREFERENCED_PARAMETER(representation_flags)) noexcept -> qpl_ml_status {
+                        const uint32_t representation_flags) noexcept -> qpl_ml_status {
+
+    qplc_huffman_table_flat_format* decompression_table_ptr = table.get_sw_decompression_table();
+
+    /*
+        By default, mapping table is stored in qplc_huffman_table_flat_format.
+        However, since it is also used for hardware_path, need to check
+        whether AECS Format-1 or 2 is required, and set appropriate storage format.
+
+        Note: QPL_SW_REPRESENTATION corresponds to HT generated for software path only.
+    */
+    decompression_table_ptr->format_stored = ht_with_mapping_table;
+#if defined( __linux__ )
+    if (!(representation_flags & QPL_SW_REPRESENTATION)) {
+        static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+        const auto &device            = dispatcher.device(0);
+        decompression_table_ptr->format_stored = (device.get_gen_2_min_capabilities() == 0)
+                                                ? ht_with_mapping_table
+                                                : ht_with_mapping_cam;
+    }
+#endif
+
     if (table.is_sw_decompression_table_used()) {
         details::triplets_to_sw_decompression_table(triplets_ptr,
                                                     triplets_count,
-                                                    table.get_sw_decompression_table());
+                                                    decompression_table_ptr);
     }
 
+    /* @todo Clarify the logic on hardware path, as hw_decompression_table is not in use currently.
+
+       Note:
+       During execution (perform_decompress -> decompress_huffman_only -> process_descriptor),
+       Huffman Table is built from table.get_sw_decompression_table()
+       (see middle-layer/compression/huffman_only/huffman_only_decompression_state.{c,h}pp),
+       we then write its data to AECS for Decompress
+       (using hw_iaa_aecs_decompress_set_huffman_only_huffman_table). */
     if (table.is_hw_decompression_table_used()) {
         details::triplets_to_sw_decompression_table(triplets_ptr,
                                                     triplets_count,
-                                                    table.get_sw_decompression_table());
-        // @todo implement one
-        // just a stab there
+                                                    decompression_table_ptr);
     }
 
     return status_list::ok;
@@ -827,7 +886,7 @@ auto huffman_table_init(qpl_decompression_huffman_table &table,
         table.representation_mask |= QPL_HW_REPRESENTATION;
     }
 
-    auto status = huffman_table_init(decompression_table, triplets_ptr, triplets_count);
+    auto status = huffman_table_init(decompression_table, triplets_ptr, triplets_count, representation_flags);
 
     return status;
 }

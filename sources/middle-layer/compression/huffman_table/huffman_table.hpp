@@ -29,24 +29,24 @@ enum class huffman_table_type_e : uint8_t {
 
 enum class table_version_e : uint8_t {
     v_beta = 0u,
+    v_1_2_0 = 1u,
 };
 
-constexpr auto LAST_VERSION = table_version_e::v_beta;
+constexpr auto LAST_VERSION = table_version_e::v_1_2_0;
 
-/*
-    note: struct_id should be bumped to a new id once meta internals have changed
-    note: table_version should be bumped to a new version once huffman_table or
-          its internals have changed
-    this way we could support multiple versions for deserialization
-*/
+/**
+ * @brief meta structure that is holding information about Huffman Table internals and
+ * its versioning.
+**/
 struct huffman_table_meta_t {
-    char magic_num[4] = "qpl";
-    uint32_t struct_id = 0xAA;
-    compression_algorithm_e algorithm;
-    table_version_e version;
-    huffman_table_type_e type;
-    execution_path_t path;
-    uint32_t   flags;
+    char magic_num[4] = "qpl";         /**< marker at the beginning of the stream with serialized Huffman Table */
+    uint32_t struct_id = 0xAA;         /**< meta structure version, should be changed to a different id if meta structure was changed */
+    compression_algorithm_e algorithm; /**< indication whether table is used for Deflate, Huffman Only or Canned */
+    table_version_e version;           /**< table version, should be changed to a new one if Huffman Table internals were changed;
+                                            this way we could support multiple versions for (de)serialization */
+    huffman_table_type_e type;         /**< indication whether table holds data for compression, decompression or both */
+    execution_path_t path;             /**< indication whether table was created for execution on host or accelerator */
+    uint32_t   flags;                  /**< currently mirrors information stored in other members */
 };
 
 template<compression_algorithm_e algorithm>

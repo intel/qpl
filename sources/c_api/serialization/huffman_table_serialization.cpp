@@ -162,6 +162,15 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
     // e.g. qpl::ml::serialization::v1::deserialize_meta
     qpl::ml::serialization::deserialize_meta(stream_buffer, *meta_ptr);
 
+    // todo: add support for deserializing table object that stores
+    // different version of HT
+    if (meta_ptr->version != LAST_VERSION) {
+        std::destroy_at(meta_ptr);
+        meta_allocator.deallocator(buffer);
+
+        return QPL_STS_SERIALIZATION_FORMAT_ERROR;
+    }
+
     // creation
     qpl_status status = QPL_STS_OK;
     if (meta_ptr->algorithm == compression_algorithm_e::deflate) {

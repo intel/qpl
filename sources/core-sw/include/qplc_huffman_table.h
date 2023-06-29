@@ -20,6 +20,15 @@ extern "C" {
 #endif
 
 /**
+ * @brief Flag to specify whether Mapping Table or Mapping CAM
+ * is stored in Huffman Table of qplc_huffman_table_flat_format type.
+*/
+typedef enum {
+    ht_with_mapping_table = 0u,
+    ht_with_mapping_cam   = 1u,
+} huffman_table_aecs_format;
+
+/**
  * @brief Structure that holds Huffman codes for compression
  *
  * There are two different Huffman tables:
@@ -36,7 +45,6 @@ typedef struct {
     uint32_t literals_matches[QPLC_DEFLATE_LL_TABLE_SIZE];  /**< Huffman table for literals and match lengths */
     uint32_t offsets[QPLC_DEFLATE_D_TABLE_SIZE];            /**< Huffman table for offsets */
 } qplc_huffman_table_default_format;
-
 
 /**
  * @brief Structure that holds information to build Huffman table
@@ -58,11 +66,20 @@ typedef struct {
      */
     uint16_t first_table_indexes[QPLC_HUFFMAN_CODES_PROPERTIES_TABLE_SIZE];
 
-    /**
-     * Symbol of code of given index
-     * The codes are sorted by the rule specified in the RFC1951 3.2.2.
-     */
-    uint8_t index_to_char[QPLC_INDEX_TO_CHAR_TABLE_SIZE];
+    union {
+        /**
+         * Symbol of code of given index
+         * The codes are sorted by the rule specified in the RFC1951 3.2.2.
+         */
+        uint8_t index_to_char[QPLC_INDEX_TO_CHAR_TABLE_SIZE];
+
+        /**
+         * @todo add description, figure out if could be reduced to uint8_t
+         */
+        uint16_t lit_cam[QPLC_LIT_CAM_SIZE];
+    };
+
+    huffman_table_aecs_format format_stored;
 } qplc_huffman_table_flat_format;
 
 inline uint16_t qplc_huffman_table_get_ll_code(const qplc_huffman_table_default_format *table,

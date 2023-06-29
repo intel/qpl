@@ -42,13 +42,13 @@ extern "C" {
 #define QPLC_HUFFMAN_CODE_LENGTH_OFFSET 0xFu  /**< Huffman code length offset */
 #define QPLC_LENGTH_MASK                (QPLC_HUFFMAN_CODE_LENGTH_MASK << QPLC_HUFFMAN_CODE_LENGTH_OFFSET)
 #define QPLC_HUFFMAN_CODE_MASK          ((1u << QPLC_HUFFMAN_CODE_LENGTH_OFFSET) - 1u) /**< Huffman code mask */
-
-#define QPLC_HUFFMAN_CODE_BIT_LENGTH    15u /**< Number of bits used to store Huffman code */
-#define QPLC_HUFFMAN_CODE_MAX_LENGTH    16u
-#define QPLC_HUFFMAN_CODES_PROPERTIES_TABLE_SIZE (QPLC_HUFFMAN_CODE_MAX_LENGTH - 1u)
-#define QPLC_INDEX_TO_CHAR_TABLE_SIZE   257u
-
 #define BFINAL_BIT                      1u    /**< Bfinal bit value in deflate header */
+
+// ------ Huffman Only table decompression related sizes ------ //
+#define QPLC_HUFFMAN_CODE_BIT_LENGTH             15u /**< Number of bits used to store Huffman code (maximum supported by hardware path) */
+#define QPLC_HUFFMAN_CODES_PROPERTIES_TABLE_SIZE (QPLC_HUFFMAN_CODE_BIT_LENGTH)
+#define QPLC_INDEX_TO_CHAR_TABLE_SIZE            257u /**< Mapping table size (corresponds to AECS Format-1) */
+#define QPLC_LIT_CAM_SIZE                        265u /**< Mapping CAM size (corresponds to AECS Format-2) */
 
 #ifdef __cplusplus
 }
