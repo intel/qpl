@@ -22,7 +22,7 @@ foreach(source_file ${files})
     if (NOT ${source_file} MATCHES "with_data")
         target_link_libraries(${example_name} PRIVATE qpl)
     else()
-        target_link_libraries(${example_name} PRIVATE qpl $<$<C_COMPILER_ID:GNU>:stdc++fs>)
+        target_link_libraries(${example_name} PRIVATE qpl $<$<C_COMPILER_ID:GNU,Clang>:stdc++fs>)
     endif()
     set_target_properties(${example_name} PROPERTIES CXX_STANDARD 17)
 

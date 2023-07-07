@@ -73,6 +73,14 @@ namespace qpl::test
             strm << ": HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE";
             strm << " - No enabled shared WQ";
             break;
+        case HW_ACCELERATOR_SUPPORT_ERR:
+            strm << ": HW_ACCELERATOR_SUPPORT_ERR";
+            strm << " - System doesn't support accelerator";
+            break;
+        case HW_ACCELERATOR_WQ_IS_BUSY:
+            strm << ": HW_ACCELERATOR_WQ_IS_BUSY";
+            strm << " - Work queue is busy with task processing";
+            break;
         }
         return strm;
     }
@@ -121,6 +129,12 @@ namespace qpl::test
 
             case qpl_op_compress:
                 return "Compress";
+            
+            case qpl_op_decompress:
+                return "Decompress";
+
+            case qpl_op_crc64:
+                return "CRC";
 
             default:
                 return "";

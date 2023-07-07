@@ -99,8 +99,6 @@ namespace gz_generator
 
             TestConfigurator() = delete;
 
-            virtual GenStatus generate() = 0;
-
             std::unique_ptr<std::stringstream> getConfig() override;
     };
 }
