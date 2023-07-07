@@ -20,6 +20,7 @@
 #include "compression_operations/arguments_check.hpp"
 #include "other_operations/arguments_check.hpp"
 #include "util/descriptor_processing.hpp"
+#include "util/aecs_format_checker.hpp"
 
 // Middle Layer
 #include "job.hpp"
@@ -490,6 +491,48 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     }
 
     return hw_submit_decompress_job(qpl_job_ptr, is_last_job, source_ptr, source_size);
+}
+
+extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor *const descriptor_ptr,
+                                                                  uint8_t **const data_ptr,
+                                                                  uint32_t *const data_size,
+                                                                  uint8_t *out_ptr,
+                                                                  uint32_t out_size,
+                                                                  const uint8_t ignore_start_bit,
+                                                                  const uint8_t ignore_end_bit,
+                                                                  const uint32_t crc_seed,
+                                                                  hw_iaa_aecs *const state_ptr) {
+    auto *const desc_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
+    auto *const aecs_ptr = (hw_iaa_aecs_analytic *) state_ptr;
+
+    hw_iaa_aecs_decompress_set_crc_seed(aecs_ptr, crc_seed);
+
+    if (0u != ignore_start_bit) {
+        aecs_ptr->inflate_options.idx_bit_offset = OWN_MAX_BIT_IDX & ignore_start_bit;
+        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
+                                                                   (*data_ptr),
+                                                                   (*data_size),
+                                                                   ignore_start_bit,
+                                                                   ignore_end_bit);
+
+        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
+
+        (*data_ptr)++;
+        (*data_size)--;
+    }
+
+    hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, (*data_ptr), (*data_size));
+    hw_iaa_descriptor_set_output_buffer((hw_descriptor*) desc_ptr, out_ptr, out_size);
+
+    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
+                                    ? true
+                                    : false;
+
+    hw_iaa_aecs_decompress_state_set_aecs_format(&aecs_ptr->inflate_options, is_aecs_format2_expected);
+
+    hw_iaa_descriptor_init_inflate_body((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bit);
+
+    return QPL_STS_OK;
 }
 
 /** @} */

@@ -60,7 +60,6 @@ protected:
             const uint32_t file_size = (uint32_t) source.size();
 
             qpl_huffman_table_t c_huffman_table;
-
             status = qpl_huffman_only_table_create(compression_table_type,
                                                    GetExecutionPath(),
                                                    DEFAULT_ALLOCATOR_C,
@@ -381,7 +380,7 @@ protected:
         // Compress
         status = qpl_execute_job(job);
         EXPECT_EQ(QPL_STS_OK, status) << "Error in compression\n";
-    
+
         // Get the size of compressed data
         const uint32_t compressed_size = job->total_out;
 
@@ -396,8 +395,6 @@ protected:
         ASSERT_EQ(compressed_size, 125) << "Compressed size was not equal to expected compressed size\n";
     }
 };
-
-
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, dynamic_le, DeflateTestHuffmanOnly) {
     RunHuffmanOnlyDynamicTest();
@@ -415,10 +412,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, static_be, DeflateTestHuffman
     RunHuffmanOnlyStaticTest(true);
 }
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, dynamic_le, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyDynamicTest(false, false);
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, dynamic_le, DeflateTestHuffmanOnly) {
+    RunHuffmanOnlyDynamicTest(false, false);
+}
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, dynamic_be, DeflateTestHuffmanOnly) {
     RunHuffmanOnlyDynamicTest(true, false);
@@ -428,11 +424,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, static_le, DeflateTest
     RunHuffmanOnlyStaticTest(false, false);
 }
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, static_be, DeflateTestHuffmanOnly)
-    {
-        RunHuffmanOnlyStaticTest(true, false);
-    }
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only_verify, static_be, DeflateTestHuffmanOnly) {
+    RunHuffmanOnlyStaticTest(true, false);
+}
+
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, dynamic_correct_single_value_source, DeflateTestHuffmanOnly) {
     RunHuffmanOnlyDynamicCorrectnessTest();
 }
+
 }

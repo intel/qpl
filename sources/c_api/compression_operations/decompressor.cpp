@@ -26,6 +26,7 @@
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
 #include "dispatcher/hw_dispatcher.hpp"
+#include "util/aecs_format_checker.hpp"
 
 namespace qpl {
 
@@ -115,6 +116,8 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                     .crc_seed(job_ptr->crc)
                     .endianness(endianness);
             state.ignore_end_bits = job_ptr->ignore_end_bits;
+
+            state.aecs_format_version(qpl::ml::util::get_device_aecs_format());
         }
         result = decompress_huffman_only<path>(state, decompression_table);
     } else {
@@ -140,15 +143,9 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                                 job_ptr->ignore_end_bits});
         }
 
-#if defined( __linux__ )
         if constexpr (qpl::ml::execution_path_t::hardware == path) {
-            static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-            const auto &device      = dispatcher.device(0);
-            aecs_format format      = (device.get_gen_2_min_capabilities() == 0) ? mapping_table : mapping_cam;
-
-            state.aecs_format_version(format);
+            state.aecs_format_version(qpl::ml::util::get_device_aecs_format());
         }
-#endif
 
         if (job::is_dictionary(job_ptr)) {
                 if constexpr (qpl::ml::execution_path_t::software == path) {

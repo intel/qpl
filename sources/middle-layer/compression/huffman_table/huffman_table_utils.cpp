@@ -22,6 +22,7 @@
 #include "compression/inflate/inflate_state.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/util.hpp"
+#include "util/aecs_format_checker.hpp"
 
 // core-sw
 #include "dispatcher.hpp"
@@ -786,15 +787,11 @@ auto huffman_table_init(decompression_huffman_table &table,
         Note: QPL_SW_REPRESENTATION corresponds to HT generated for software path only.
     */
     decompression_table_ptr->format_stored = ht_with_mapping_table;
-#if defined( __linux__ )
     if (!(representation_flags & QPL_SW_REPRESENTATION)) {
-        static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-        const auto &device            = dispatcher.device(0);
-        decompression_table_ptr->format_stored = (device.get_gen_2_min_capabilities() == 0)
+        decompression_table_ptr->format_stored = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::mapping_table)
                                                 ? ht_with_mapping_table
                                                 : ht_with_mapping_cam;
     }
-#endif
 
     if (table.is_sw_decompression_table_used()) {
         details::triplets_to_sw_decompression_table(triplets_ptr,

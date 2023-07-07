@@ -25,6 +25,7 @@
 #include "dispatcher/hw_dispatcher.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/checkers.hpp"
+#include "util/aecs_format_checker.hpp"
 
 // core-sw
 #include "simple_memory_ops.hpp"
@@ -74,13 +75,9 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
                                      !state_ptr->execution_history.first_job_has_been_submitted) &&
                                              qpl_job_ptr->dictionary != NULL;
 
-#if defined( __linux__ )
-    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    const auto &device            = dispatcher.device(0);
-    bool is_aecs_format2_expected = (device.get_gen_2_min_capabilities() == 0) ? false : true;
-#else
-    bool is_aecs_format2_expected = false;
-#endif
+    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
+                                    ? true
+                                    : false;
 
     if (state_ptr->execution_history.first_job_has_been_submitted) {
         operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
@@ -232,13 +229,9 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                                    | ADDF_ENABLE_IDXING(qpl_job_ptr->mini_block_size)
                                    | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0u);
 
-#if defined( __linux__ )
-    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    const auto &device            = dispatcher.device(0);
-    bool is_aecs_format2_expected = (device.get_gen_2_min_capabilities() == 0) ? false : true;
-#else
-    bool is_aecs_format2_expected = false;
-#endif
+    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
+                                    ? true
+                                    : false;
 
     if (is_first_job) {
         if (is_indexing_enabled) {
@@ -328,38 +321,3 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     return QPL_STS_BEING_PROCESSED;
 }
 
-extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor *const descriptor_ptr,
-                                                                  uint8_t **const data_ptr,
-                                                                  uint32_t *const data_size,
-                                                                  uint8_t *out_ptr,
-                                                                  uint32_t out_size,
-                                                                  const uint8_t ignore_start_bit,
-                                                                  const uint8_t ignore_end_bit,
-                                                                  const uint32_t crc_seed,
-                                                                  hw_iaa_aecs *const state_ptr) {
-    auto *const desc_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
-    auto *const aecs_ptr = (hw_iaa_aecs_analytic *) state_ptr;
-
-    hw_iaa_aecs_decompress_set_crc_seed(aecs_ptr, crc_seed);
-
-    if (0u != ignore_start_bit) {
-        aecs_ptr->inflate_options.idx_bit_offset = OWN_MAX_BIT_IDX & ignore_start_bit;
-        auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
-                                                                   (*data_ptr),
-                                                                   (*data_size),
-                                                                   ignore_start_bit,
-                                                                   ignore_end_bit);
-
-        HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
-
-        (*data_ptr)++;
-        (*data_size)--;
-    }
-
-    hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, (*data_ptr), (*data_size));
-    hw_iaa_descriptor_set_output_buffer((hw_descriptor*) desc_ptr, out_ptr, out_size);
-
-    hw_iaa_descriptor_init_inflate_body((hw_descriptor *) desc_ptr, aecs_ptr, ignore_end_bit);
-
-    return QPL_STS_OK;
-}
