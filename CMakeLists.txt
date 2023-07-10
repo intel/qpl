@@ -16,7 +16,7 @@ else ()
     cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 endif ()
 
-project(QPL VERSION 1.1.0 LANGUAGES C CXX)
+project(QPL VERSION 1.2.0 LANGUAGES C CXX)
 
 set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/overrides.cmake")
 
