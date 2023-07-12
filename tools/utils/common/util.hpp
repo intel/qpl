@@ -20,6 +20,22 @@
 
 namespace qpl::test
 {
+    static std::vector<hw_compression_level> hw_levels{
+        hw_compression_level::HW_NONE,
+        hw_compression_level::SMALL,
+        hw_compression_level::LARGE
+    };
+
+    static std::vector<sw_compression_level> sw_levels{
+        sw_compression_level::SW_NONE, 
+        sw_compression_level::LEVEL_0,
+        sw_compression_level::LEVEL_1,
+        sw_compression_level::LEVEL_2,
+        sw_compression_level::LEVEL_3,
+        sw_compression_level::LEVEL_4,
+        sw_compression_level::LEVEL_9
+    };
+
     static constexpr size_t   max_input_bit_width = 32;
     static constexpr uint32_t bit_bit_width = 1;
     static constexpr uint32_t additional_bytes_for_compression = 100;
