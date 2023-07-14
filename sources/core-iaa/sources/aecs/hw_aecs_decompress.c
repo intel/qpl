@@ -331,27 +331,69 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
     hw_iaa_aecs_decompress_state_set_aecs_format(aecs_ptr, (huffman_table_ptr->format_stored == ht_with_mapping_cam));
 }
 
+/**
+ * @brief Routine to transform AECS compression state to decompression for Huffman Only.
+ *
+ * @details Here Huffman Codes are stored in hw_iaa_histogram->ll_sym structure.
+ * Goal is to build either Mapping Table and First Table Indices array or Mapping CAM.
+ * Also construct Number of Codes and First Codes arrays (used in both Formats).
+ *
+ * Mapping table (corresponds to AECS Format-1) is such that:
+ * we store all the symbols with length 1 first (sorted), then all the symbols with length 2 (sorted), etc.
+ * For a given code length i, number of such codes is num_codes[i],
+ * region with these codes in the mapping table starts with first_tbl_idx[i] offset,
+ * and additionally we store first_code[i] for the code with length i that is first once sorted.
+ * Table index for certain input code of length i could be computed then as:
+ * first_tbl_idx[i] + input code - first_code[i].
+ *
+ * Mapping CAM (corresponds to AECS Format-2) is such that, for each entry
+ * the index is the input symbol and the value is the pair of input code length and (input code - first code),
+ * stored in first 4 bits and next 4 bits respectively;
+ * Therefore CAM size is exactly 265 (number of len codes without those requiring extra bits).
+ * Working with Mapping CAM requires num_codes and first_codes arrays,
+ * but doesn't require first_tbl_idx (as calculating offset is not needed).
+ *
+ * In AECS for Compress Huffman Codes are stored such that in hw_iaa_histogram->ll_sym entry is a code,
+ * its index is a symbol, and bits 18:15 is a length.
+*/
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                                                          const hw_iaa_histogram *const histogram_ptr)) {
+                                                                                          const hw_iaa_histogram *const histogram_ptr,
+                                                                                          bool is_aecs_format2_expected)) {
+    uint32_t idx;
+    uint32_t code, len;
+
+    // common for Mapping Table and Mapping CAM representations
     uint16_t num_codes[16];
     uint16_t first_code[16];
     uint16_t next_code[16];
+
+    // AECS Format-1 specifics
     uint16_t first_tbl_idx[16];
-    uint32_t idx;
-    uint32_t len;
-    uint32_t code;
     uint8_t  *lit_len_sym;
+
+    // AECS Format-2 specifics
+    uint16_t lit_cam[265];
+    uint16_t cam_offset[16];
 
     const uint32_t *const ll_huffman_table = histogram_ptr->ll_sym;
     aecs_ptr->decompress_state = DEF_STATE_LL_TOKEN;
 
+    // Initialization
     num_codes[0] = 0u;
     for (idx = 1u; idx <= 15u; idx++) {
         num_codes[idx] = first_code[idx] = next_code[idx] = 0u;
     }
 
-    first_tbl_idx[0] = 0u;
+    if (is_aecs_format2_expected) {
+        for (idx = 1u; idx <= 15u; idx++) {
+            cam_offset[idx] = 0u;
+        }
 
+        call_c_set_zeros_uint8_t((uint8_t *) lit_cam, sizeof(lit_cam));
+    }
+
+    // Iterate through all 256 codes
+    // and fill in common parts as well as Mapping CAM
     for (idx = 0u; idx < 256u; idx++) {
         code = ll_huffman_table[idx];
         len  = code >> 15u;
@@ -363,7 +405,7 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
         }
         code &= 0x7FFFu;
         if (0u == num_codes[len]) {
-            // first time
+            // First Time a certain length code is met
             num_codes[len]  = 1u;
             first_code[len] = code;
             next_code[len]  = code + 1u;
@@ -374,12 +416,34 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
             }
             next_code[len]++;
         }
+
+        if (is_aecs_format2_expected) {
+            // cam_offset to store entries of certain length in a sorted way
+            lit_cam[idx] = len | ((cam_offset[len]++) << 4);
+        }
     }
 
-    for (idx = 0u; idx < 15u; idx++) {
-        first_tbl_idx[idx + 1] = first_tbl_idx[idx] + num_codes[idx];
+    // Pack Mapping CAM to AECS for Decompress
+    if (is_aecs_format2_expected) {
+        pack_cam(aecs_ptr->ll_mapping_cam_1, aecs_ptr->ll_mapping_cam_2, lit_cam);
     }
-    pack_table(aecs_ptr->lit_len_first_tbl_idx, first_tbl_idx + 1u);
+    else { // Compute and pack First Table Indices and Mapping Table
+        first_tbl_idx[0] = 0u;
+        for (idx = 0u; idx < 15u; idx++) {
+            first_tbl_idx[idx + 1] = first_tbl_idx[idx] + num_codes[idx];
+        }
+        pack_table(aecs_ptr->lit_len_first_tbl_idx, first_tbl_idx + 1u);
+
+        lit_len_sym = aecs_ptr->lit_len_sym;
+        for (idx    = 0u; idx < 256u; idx++) {
+            len = ll_huffman_table[idx] >> 15u;
+            if (len != 0u) {
+                lit_len_sym[first_tbl_idx[len]++] = idx;
+            }
+        }
+    }
+
+    // Pack common parts
     pack_table(aecs_ptr->lit_len_num_codes, num_codes + 1u);
     pack_table(aecs_ptr->lit_len_first_code, first_code + 1u);
     aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFu;
@@ -387,14 +451,6 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
     aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFu;
     aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFu;
     aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFu;
-
-    lit_len_sym = aecs_ptr->lit_len_sym;
-    for (idx    = 0u; idx < 256u; idx++) {
-        len = ll_huffman_table[idx] >> 15u;
-        if (len != 0u) {
-            lit_len_sym[first_tbl_idx[len]++] = idx;
-        }
-    }
 
     return 0;
 }

@@ -251,7 +251,8 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
 
         if (is_huffman_only) {
             if (hw_iaa_aecs_decompress_set_huffman_only_huffman_table_from_histogram(aecs_inflate_ptr,
-                                                                                     &aecs_deflate_ptr->histogram)) {
+                                                                                     &aecs_deflate_ptr->histogram,
+                                                                                     is_aecs_format2_expected)) {
                 return QPL_STS_INVALID_HUFFMAN_TABLE_ERR;
             }
 

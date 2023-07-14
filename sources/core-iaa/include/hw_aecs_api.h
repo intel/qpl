@@ -410,14 +410,16 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
 /**
  * @brief Setup @ref hw_iaa_aecs_decompress to decompress data with huffman codes calculated with provided histogram.
  *
- * @param [in,out] aecs_ptr      pointer to @ref hw_iaa_aecs_decompress
- * @param [in]     histogram_ptr histogram collected with using @ref hw_iaa_descriptor_init_statistic_collector
+ * @param [in,out] aecs_ptr                 pointer to @ref hw_iaa_aecs_decompress
+ * @param [in]     histogram_ptr            histogram collected with using @ref hw_iaa_descriptor_init_statistic_collector
+ * @param [in]     is_aecs_format2_expected flag to indicate whether mapping table or CAM should be filled in
  *
  * @return 0 if success, 1 otherwise
  *
  */
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_decompress *const aecs_ptr,
-                                                                                          const hw_iaa_histogram *const histogram_ptr));
+                                                                                          const hw_iaa_histogram *const histogram_ptr,
+                                                                                          bool is_aecs_format2_expected));
 
 /** @} */
 
@@ -434,7 +436,7 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
  *
  * @details Can be used to achieve random access to compressed data.
  *
- * @param [out] aecs_ptr           pointer to @ref hw_iaa_aecs_decompress
+ * @param [out] aecs_ptr          pointer to @ref hw_iaa_aecs_decompress
  * @param [in] source_ptr         data to decompress
  * @param [in] source_size        data size to decompress
  * @param [in] ignore_start_bits  none-actual bit count in the beginning of the source stream

@@ -74,7 +74,11 @@ typedef struct {
         uint8_t index_to_char[QPLC_INDEX_TO_CHAR_TABLE_SIZE];
 
         /**
-         * @todo add description, figure out if could be reduced to uint8_t
+         * Mapping CAM (for AECS Format-2 compatibility).
+         * For each entry the index is the input symbol,
+         * the value is the pair of input code length and (input code - first code),
+         * stored in first 4 bits and next 4 bits respectively.
+         * CAM size is exactly 265, that is number of len codes without those requiring extra bits.
          */
         uint16_t lit_cam[QPLC_LIT_CAM_SIZE];
     };
