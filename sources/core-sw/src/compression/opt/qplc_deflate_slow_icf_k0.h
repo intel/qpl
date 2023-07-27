@@ -17,10 +17,9 @@
 #define MIN_MATCH4  4
 #define _CMP_MATCH_LENGTH MIN_MATCH4
 
-static inline uint32_t hash_crc(const uint8_t* p_src)
-{
+static inline uint32_t hash_crc(const uint8_t* p_src) {
     return _mm_crc32_u32(0, *(uint32_t*)(p_src));
-} /* hash_src */
+}
 
 static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     uint32_t x, y, z, u;
@@ -32,8 +31,9 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     res = u + (x >> z);
     return res;
 }
+
 /*
-ref code of function:
+// Reference implementation of the function above.
 static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     if (offset <= 2) {
         return offset - 1;
@@ -85,44 +85,51 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
         return ~0u;
     }
 }
-
 */
 
 inline static void own_write_deflate_icf(struct deflate_icf* icf,
-    uint32_t lit_len,
-    uint32_t lit_dist,
-    uint32_t extra_bits) {
+                                         uint32_t lit_len,
+                                         uint32_t lit_dist,
+                                         uint32_t extra_bits) {
     *(uint32_t*)icf = lit_len |
         (lit_dist << LIT_LEN_BIT_COUNT) |
         (extra_bits << (LIT_LEN_BIT_COUNT + DIST_LIT_BIT_COUNT));
 }
-inline static void own_write_deflate_icf_lit(struct deflate_icf* icf, uint32_t lit_len) {
+
+inline static void own_write_deflate_icf_lit(struct deflate_icf* icf,
+                                             uint32_t lit_len) {
     *(uint32_t*)icf = lit_len | (LITERAL_DISTANCE_IN_ICF << LIT_LEN_BIT_COUNT);
 }
 
-OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
-    const uint8_t* const lower_bound_ptr,
-    const uint8_t        * const upper_bound_ptr,
-    deflate_hash_table_t * hash_table_ptr,
-    isal_mod_hist        * histogram_ptr,
-    deflate_icf_stream* icf_stream_ptr)) {
+/**
+ * @brief Main deflate body function for high-level compression, returns number of processed bytes.
+ *
+ * @note hash_table_ptr->hash_table_ptr stores head of hash chain for specific hash key,
+ * hash_table_ptr->hash_story_ptr stores and links the positions of strings with the same
+ * hash index. By default, first is initialized to OWN_UNINITIALIZED_INDEX_32u and second to 0.
+ **/
+OWN_OPT_FUN(uint32_t, k0_slow_deflate_icf_body,
+            (uint8_t * current_ptr, const uint8_t* const lower_bound_ptr,
+             const uint8_t* const upper_bound_ptr, deflate_hash_table_t* hash_table_ptr,
+             isal_mod_hist* histogram_ptr, deflate_icf_stream* icf_stream_ptr)) {
     const uint8_t*       p_src_tmp;
     const uint8_t*       p_str;
-    const uint8_t* const p_src = lower_bound_ptr;
+    const uint8_t* const p_src        = lower_bound_ptr;
     int32_t*             p_hash_table = (int32_t*)hash_table_ptr->hash_table_ptr;
     int32_t*             p_hash_story = (int32_t*)hash_table_ptr->hash_story_ptr;
-    int                  src_start = (int)(current_ptr - lower_bound_ptr);
-    int                  src_len = (int)(upper_bound_ptr - lower_bound_ptr) - (MAX_MATCH + MIN_MATCH4 - 1);
-    int                  dst_len = (int)((int*)icf_stream_ptr->end_ptr - (int*)(icf_stream_ptr->next_ptr)) - 1;
-    int                  indx_src = (int)(current_ptr - lower_bound_ptr);
-    int                  indx_dst = 0;
-    int                  hash_mask = hash_table_ptr->hash_mask;
-    int                  win_mask = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
-    int                  hash_key = 0;
-    int                  bound, win_bound, tmp, candidat, index;
-    uint32_t             win_size = QPLC_DEFLATE_MAXIMAL_OFFSET;
-    uint16_t             dist;
-    uint8_t              length;
+
+    int      src_start = (int)(current_ptr - lower_bound_ptr);
+    int      src_len   = (int)(upper_bound_ptr - lower_bound_ptr) - (MAX_MATCH + MIN_MATCH4 - 1);
+    int      dst_len   = (int)((int*)icf_stream_ptr->end_ptr - (int*)(icf_stream_ptr->next_ptr)) - 1;
+    int      indx_src  = (int)(current_ptr - lower_bound_ptr);
+    int      indx_dst  = 0;
+    int      hash_mask = hash_table_ptr->hash_mask;
+    int      win_mask  = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
+    int      hash_key  = 0;
+    int      bound, win_bound, tmp, candidat, index;
+    uint32_t win_size = QPLC_DEFLATE_MAXIMAL_OFFSET;
+    uint16_t dist;
+    uint8_t  length;
 
     {
         /* The general case has been replaced with a fixed case for perfpormance reason. */
@@ -266,7 +273,7 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
                                 hash_key = hash_crc(p_src + k) & hash_mask;
                                 p_hash_story[k & win_mask] = p_hash_table[hash_key];
                                 p_hash_table[hash_key] = k;
-                            }                           
+                            }
                         }
                         get_distance_icf_code(prev_dist, &distance, &extra_bits);
                         own_write_deflate_icf(icf_stream_ptr->next_ptr, prev_bound + LEN_OFFSET, distance, extra_bits);
@@ -431,7 +438,10 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
                 p_hash_table[hash_key] = indx_src;
                 bound = (_CMP_MATCH_LENGTH - 1);
                 chain_length = chain_length_current;
-                for (int k = 0; ((win_bound - tmp) & (k - chain_length)) < 0; k++) {
+                for (int k = 0; k < chain_length; k++) {
+                    if (!(win_bound < tmp)) {
+                        break;
+                    }
                     p_src_tmp = p_src + tmp;
                     candidat = tmp;
                     tmp = p_hash_story[tmp & win_mask];
@@ -506,7 +516,10 @@ OWN_OPT_FUN(uint32_t,k0_slow_deflate_icf_body,(uint8_t* current_ptr,
                     bound_lim = QPL_MIN((src_len - indx_src), MAX_MATCH);
                     bound = 3;
                     chain_length = chain_length_current;
-                    for (int k = 0; ((win_bound - tmp) & (k - chain_length)) < 0; k++) {
+                    for (int k = 0; k < chain_length; k++) {
+                        if (!(win_bound < tmp)) {
+                            break;
+                        }
                         p_src_tmp = p_src + tmp;
                         candidat = tmp;
                         tmp = p_hash_story[tmp & win_mask];
