@@ -295,6 +295,11 @@ To build the offline version of the documentation, the following tools must be i
 - `sphinx_book_theme <https://executablebooks.org/en/latest/>`__  (e.g., with ``pip3 install sphinx-book-theme``)
 - `Breathe <https://breathe.readthedocs.io/en/latest/>`__ 4.29.0 or higher (e.g., with ``pip3 install breathe``)
 
+Use `requirements.txt` file to install predefined version of components.
+.. code-block:: shell
+   
+   pip install -r <qpl_library>/doc/requirements.txt
+
 Build Steps
 ===========
 
