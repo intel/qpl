@@ -156,7 +156,6 @@ auto main(int argc, char **argv) -> int {
         }
 
         std::cout << path.path().filename() << ": " << (float) source.size() / (float) compressed_size << std::endl;
-        break;
     }
 
     return 0;
