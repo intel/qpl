@@ -35,7 +35,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Low-Level C API Key Concepts" href="../dev_guide_docs/low_level_developer_guide.html" />
-    <link rel="prev" title="Code Examples" href="code_examples.html" />
+    <link rel="prev" title="Filter and Other Operations" href="filter_and_other_operations.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -105,10 +105,27 @@
    Quick Start
   </a>
  </li>
- <li class="toctree-l1">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="code_examples.html">
    Code Examples
   </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="compression_decompression.html">
+     Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="filter_and_other_operations.html">
+     Filter and Other Operations
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
@@ -126,8 +143,8 @@
   <a class="reference internal" href="../dev_guide_docs/low_level_developer_guide.html">
    Low-Level C API Key Concepts
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -141,8 +158,8 @@
     <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_deflate.html">
      Deflate Compression/Decompression
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -166,8 +183,8 @@
       <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_deflate_indexing.html">
        Indexing
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-      <label for="toctree-checkbox-3">
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -200,8 +217,8 @@
     <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations.html">
      Filter and Other Operations
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-    <label for="toctree-checkbox-4">
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -210,8 +227,8 @@
       <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_operations_op.html">
        Operations
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-      <label for="toctree-checkbox-5">
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -274,8 +291,8 @@
     <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_advanced_topics.html">
      Advanced Topics
     </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
      <i class="fas fa-chevron-down">
      </i>
     </label>
@@ -305,8 +322,8 @@
   <a class="reference internal" href="../dev_ref_docs/low_level_api.html">
    Low-Level C API Key References
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -654,11 +671,11 @@ for example:</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="code_examples.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="filter_and_other_operations.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Code Examples</p>
+            <p class="prev-next-title">Filter and Other Operations</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="../dev_guide_docs/low_level_developer_guide.html" title="next page">
