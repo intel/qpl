@@ -8,10 +8,8 @@
 Advanced Topics
 ###############
 
-
 .. toctree::
-   :maxdepth: 4
-   :hidden:
+   :maxdepth: 1
 
    Advanced Decompress Features <c_advanced_topics_decompress>
    Advanced Filter Features <c_advanced_topics_filter>

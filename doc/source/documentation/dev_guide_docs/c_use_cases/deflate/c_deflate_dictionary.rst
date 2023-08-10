@@ -5,8 +5,10 @@
  .. ***************************************************************************/
 
 
-Deflate with Dictionary
-#######################
+Compressing with a Dictionary
+#############################
+
+.. _compressing_with_dictionary_reference_link:
 
 
 Intel® Query Processing Library (Intel® QPL) supports compression with

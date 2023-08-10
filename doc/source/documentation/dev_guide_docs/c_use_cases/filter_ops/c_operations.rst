@@ -56,8 +56,7 @@ it reflects the number of elements in source-2.
 
 
 .. toctree::
-   :maxdepth: 4
-   :hidden:
+   :maxdepth: 1
 
    c_operations_op
    c_operations_output_modification

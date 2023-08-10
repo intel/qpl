@@ -8,10 +8,10 @@
 Deflate Decompression
 #####################
 
+.. _decompress_settings_for_deflate_reference_link:
 
 Job Structure Settings
 **********************
-
 
 Fixed, Dynamic, and Static Blocks
 =================================
@@ -99,16 +99,6 @@ which follows RFC 3720. To compute the 16-bit XOR checksum, the data is
 treated as 16-bit words. If the data has an odd number of bytes,
 the final byte is zero-extended to 16 bits.
 
-
-Gzip Stream Decompression
-*************************
-
-The Gzip standard defines an encapsulation layer around a Deflate
-stream. In particular, a Gzip stream consists of a Gzip header, a
-Deflate stream, and a Gzip trailer. The decompressor assumes a raw
-Deflate stream by default. If the :c:macro:`QPL_FLAG_GZIP_MODE` flag is specified,
-then the library will skip over the Gzip header on the first job, and
-then start parsing the Deflate stream.
 
 
 

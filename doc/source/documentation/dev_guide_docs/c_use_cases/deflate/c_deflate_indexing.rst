@@ -8,6 +8,8 @@
 Deflate with Indexing
 #####################
 
+.. _deflate_with_indexing_reference_link:
+
 Indexing is used to generate a fully-compliant Deflate stream. This
 stream can be decompressed in its entirety with any compliant Deflate
 decompressor, with "random access" in the middle of the stream.

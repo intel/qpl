@@ -11,15 +11,12 @@ Low-Level C API Key References
 ##############################
 
 This document describes the Intel® Query Processing Library (Intel® QPL)
-low-level C API. The document provides descriptions of the main entities
+Low-Level C API. The document provides descriptions of the main entities
 and operations used.
-
-For a general introduction to Intel QPL, see :ref:`introduction_reference_link`.
 
 
 .. toctree::
    :maxdepth: 4
-   :hidden:
 
    c_ref/c_job_apis
    c_ref/c_huffman_table_apis

@@ -1,0 +1,39 @@
+ .. ***************************************************************************
+ .. * Copyright (C) 2023 Intel Corporation
+ .. *
+ .. * SPDX-License-Identifier: MIT
+ .. ***************************************************************************/
+
+Deflate Compression and Decompression
+#####################################
+
+Intel QPL supports DEFLATE (Deflate) lossless data compression file format
+as specified in `RFC 1951 <https://www.rfc-editor.org/info/rfc1951>`_.
+
+.. attention::
+   Compression and decompression for the Deflate stream are supported
+   with a history buffer no larger than 4 KB.
+
+For more details on various supported Deflate flavors, refer to
+:ref:`the Deflate Compression <compressed_data_format_reference_link>` section.
+For instructions on how the Deflate stream could be decompressed,
+use :ref:`Deflate Decompression <decompress_settings_for_deflate_reference_link>`.
+
+Additionally Intel QPL supports :ref:`compressing with a Dictionary <compressing_with_dictionary_reference_link>`,
+:ref:`using Deflate with Indexing <deflate_with_indexing_reference_link>`,
+and dividing :ref:`compression and decompression into multiple jobs <multiple_jobs_reference_link>`.
+
+Intel QPL Deflate could be made compatible with
+ZLIB Format (as specified in `RFC 1950 <https://www.rfc-editor.org/info/rfc1950>`_)
+or GZIP (as specified in `RFC 1952 <https://www.rfc-editor.org/info/rfc1952>`_).
+See the :ref:`Support of ZLIB and GZIP Formats <zlib_and_gzip_compatibility_reference_link>` section for more details.
+
+.. toctree::
+   :maxdepth: 1
+
+   c_deflate_compression
+   c_deflate_decompression
+   c_deflate_multiple_jobs
+   c_deflate_dictionary
+   c_deflate_indexing
+   c_deflate_zlib_gzip

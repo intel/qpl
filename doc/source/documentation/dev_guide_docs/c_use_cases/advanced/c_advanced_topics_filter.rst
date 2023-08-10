@@ -12,8 +12,8 @@ The library implements a number of “advanced” features that augment or
 modify the normal behavior of filter operations.
 
 
-Omit Checksums / Aggregates Calculation
-=======================================
+Omit Checksums and Aggregates Calculation
+=========================================
 
 
 If the flag :c:macro:`QPL_FLAG_OMIT_CHECKSUMS` is specified, then CRC/XOR
@@ -25,7 +25,7 @@ optimizations. See the :ref:`hw_path_optimizations_reference_link`
 section for more information.
 
 
-Invert_output
+Invert Output
 =============
 
 
@@ -38,32 +38,36 @@ For example, doing a ``SCAN_LT`` with ``INV_OUT`` is the same as doing a
 ``SCAN_RANGE``.
 
 
-initial_output_index
+Initial Output Index
 ====================
 
 
 When using output modification with a bit-vector output, the indices of
 the 1-bits are written to the output. By default, the index of the first
-bit is 0. By setting the ``initial_output_index`` field to a non-zero value,
-the index of the first bit can be set.
+bit is 0. By setting the :c:member:`qpl_job.initial_output_index` field
+to a non-zero value, the index of the first bit can be set.
 
 This could be used, for example, if a column of data was broken into
 groups of 1,000,000. The first such group could be processed with an
 initial index of 0, the second group with an initial index of 1,000,000,
 the third group with an initial index of 2,000,000, etc.
 
-**Note**: This field only affects the indices written for the
-modification of the bit vector output. It does not affect the indices
-used for the ``qpl_extract`` operation. Those always start at 0 for the first
-element.
+.. attention::
 
-**Note**: This field does not affect operations that invoke
-``src2`` - see the table :ref:`Operations <c_operations_table_reference_link>`
-for operations with number of input streams equal to 2. This statement means
-that ``initialOutputIndex`` field works for ``qpl_scan`` operation only.
+    This field only affects the indices written for the
+    modification of the bit vector output. It does not affect the indices
+    used for the :c:member:`qpl_operation.qpl_op_extract` operation.
+    Those always start at 0 for the first element.
+
+.. attention::
+
+    This field does not affect operations that invoke
+    ``src2`` (see the table :ref:`Operations <c_operations_table_reference_link>`
+    for operations with number of input streams equal to 2). This statement means
+    that ``initial_output_index`` field works for ``qpl_op_scan_*`` operation only.
 
 
-drop_initial_bytes
+Drop Initial Bytes
 ==================
 
 
@@ -71,14 +75,14 @@ In some cases, the filter input data may be compressed, and the
 uncompressed data might contain some sort of header before the columnar
 data begins. Assuming that this header is an integral number of bytes
 (i.e. that the columnar data begins on a byte boundary of the
-uncompressed data), the ``drop_initial_bytes`` field can be used to have the
+uncompressed data), the :c:member:`qpl_job.drop_initial_bytes` field can be used to have the
 filter unit skip over these bytes.
 
 
-.. note::
+.. attention::
 
-    The ``drop_initial_bytes`` feature is supported only by
-    1-source filter operations. Maximal ``drop_initial_bytes``
+    The :c:member:`qpl_job.drop_initial_bytes` feature is supported only by
+    1-source filter operations. Maximal :c:member:`qpl_job.drop_initial_bytes`
     feature value is 65,535 bytes.
 
 

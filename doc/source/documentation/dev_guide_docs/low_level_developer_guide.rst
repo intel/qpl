@@ -13,15 +13,13 @@ Low-Level C API Key Concepts
 This document provides instructions on how to use the
 Intel® Query Processing Library (Intel® QPL) low-level C API.
 
-
 .. toctree::
-   :maxdepth: 4
-   :hidden:
+   :maxdepth: 1
 
+   c_use_cases/c_asynchronous_execution
    c_use_cases/c_job_structure
-   c_use_cases/c_deflate
+   c_use_cases/deflate/c_deflate
    c_use_cases/c_huffman_only
    c_use_cases/c_use_huffman_tables
-   c_use_cases/c_operations
-   c_use_cases/c_asynchronous_execution
-   c_use_cases/c_advanced_topics
+   c_use_cases/filter_ops/c_operations
+   c_use_cases/advanced/c_advanced_topics
