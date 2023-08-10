@@ -14,6 +14,7 @@
 
 #include "common/defs.hpp"
 #include "qpl/c_api/job.h"
+#include "compression_operations/compression_state_t.h"
 
 namespace qpl::job {
 
@@ -47,6 +48,12 @@ static inline auto get_execution_path(const qpl_job *const job_ptr) noexcept -> 
 static inline auto get_state(const qpl_job *const job_ptr) noexcept {
     return job_ptr->data_ptr.hw_state_ptr;
 }
+
+static inline auto get_adler32(const qpl_job *const job_ptr) noexcept {
+    auto *data_ptr = (own_compression_state_t *) job_ptr->data_ptr.compress_state_ptr;
+    return data_ptr->adler32;
+}
+
 
 static inline bool is_indexing_enabled(const qpl_job *const job_ptr) noexcept {
     return job_ptr->mini_block_size;
@@ -130,10 +137,12 @@ static inline bool is_verification_supported(const qpl_job *const qpl_job_ptr) n
     return stream_should_be_verified;
 }
 
-static inline bool hardware_supported(const qpl_job *const qpl_ptr) {
+/**
+ * @brief Check for skipping high level compression on hardware/auto execution paths.
+*/
+static inline bool is_supported_on_hardware(const qpl_job *const qpl_ptr) {
     return ((qpl_path_hardware == qpl_ptr->data_ptr.path || qpl_path_auto == qpl_ptr->data_ptr.path)
-            && !is_high_level_compression(qpl_ptr)
-            && !is_zlib_flag_set(qpl_ptr));
+            && !is_high_level_compression(qpl_ptr));
 }
 
 // ------ JOB SETTERS ------ //
@@ -145,6 +154,9 @@ static inline void reset(qpl_job *const qpl_job_ptr) noexcept {
     qpl_job_ptr->idx_num_written = 0u;
 }
 
+/**
+ * @brief set new CRC-32 and XOR checksum values
+*/
 static inline void update_checksums(qpl_job *const qpl_job_ptr,
                                     uint32_t crc32,
                                     uint32_t xor_checksum) noexcept {
@@ -152,8 +164,20 @@ static inline void update_checksums(qpl_job *const qpl_job_ptr,
     qpl_job_ptr->xor_checksum = xor_checksum;
 }
 
+/**
+ * @brief set new CRC-64 checksum value
+*/
 static inline void update_crc(qpl_job *const qpl_job_ptr, uint64_t crc64) noexcept {
     qpl_job_ptr->crc64 = crc64;
+}
+
+/**
+ * @brief set new Adler-32 checksum value
+*/
+static inline void update_adler32(qpl_job *const qpl_job_ptr,
+                                  uint32_t adler32_in) noexcept {
+    auto *data_ptr = (own_compression_state_t *) qpl_job_ptr->data_ptr.compress_state_ptr;
+    data_ptr->adler32 = adler32_in;
 }
 
 static inline void update_aggregates(qpl_job *const qpl_job_ptr,

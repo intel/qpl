@@ -37,7 +37,7 @@ enum class crc_type_t {
     crc_32c    /**< To use 0x11edc6f41 polynomial for crc calculation, which is the one used by iSCSI */
 };
 
-auto adler32(uint8_t *begin, uint32_t size, uint32_t seed) noexcept -> uint32_t;
+auto adler32(const uint8_t *const begin, uint32_t size, uint32_t seed) noexcept -> uint32_t;
 
 template <class input_iterator_t>
 inline uint32_t crc32_gzip(const input_iterator_t source_begin,

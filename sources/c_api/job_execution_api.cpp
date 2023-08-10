@@ -42,13 +42,10 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 
     qpl_path_t path = qpl_job_ptr->data_ptr.path;
 
-    if (qpl_path_hardware == path) {
-        if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
+    if ((qpl_path_hardware == path)
+        && (qpl_op_compress == qpl_job_ptr->op)
+        && (qpl_high_level == qpl_job_ptr->level)) {
             return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
-        }
-        if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
-            return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-        }
     }
 
     if (qpl_path_hardware == qpl_job_ptr->data_ptr.path || qpl_path_auto == qpl_job_ptr->data_ptr.path) {
@@ -170,7 +167,7 @@ QPL_FUN("C" qpl_status, qpl_check_job, (qpl_job *qpl_job_ptr)) {
     QPL_BAD_PTR_RET(qpl_job_ptr);
     uint32_t status = QPL_STS_OK;
 
-    if (qpl::job::hardware_supported(qpl_job_ptr)) {
+    if (qpl::job::is_supported_on_hardware(qpl_job_ptr)) {
         status = hw_check_job(qpl_job_ptr);
     }
 
@@ -182,7 +179,7 @@ QPL_FUN("C" qpl_status, qpl_wait_job, (qpl_job *qpl_job_ptr)) {
 
     uint32_t status = QPL_STS_OK;
     // HW path doesn't support qpl_high_level compression ratio and ZLIB headers/trailers
-    if (qpl::job::hardware_supported(qpl_job_ptr)) {
+    if (qpl::job::is_supported_on_hardware(qpl_job_ptr)) {
         do {
             status = hw_check_job(qpl_job_ptr);
         } while (QPL_STS_BEING_PROCESSED == status);
@@ -196,7 +193,7 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
 
     QPL_BAD_PTR_RET(qpl_job_ptr);
 
-    if (job::hardware_supported(qpl_job_ptr)) {
+    if (job::is_supported_on_hardware(qpl_job_ptr)) {
         auto *const analytics_state_ptr = reinterpret_cast<own_analytics_state_t *>(qpl_job_ptr->data_ptr.analytics_state_ptr);
 
         if (job::is_extract(qpl_job_ptr)) {

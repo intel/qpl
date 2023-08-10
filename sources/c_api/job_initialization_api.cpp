@@ -231,7 +231,8 @@ QPL_INLINE void own_init_decompress(qpl_job* UNREFERENCED_PARAMETER(qpl_job_ptr)
 QPL_INLINE void own_init_compress(qpl_job *qpl_job_ptr) {
     auto *data_ptr = (own_compression_state_t *) qpl_job_ptr->data_ptr.compress_state_ptr;
 
-    data_ptr->middle_layer_compression_style = 0;
+    data_ptr->middle_layer_compression_style = 0u;
+    data_ptr->adler32 = 0u;
 }
 
 QPL_INLINE void own_init_analytics(qpl_job *qpl_job_ptr) {

@@ -43,6 +43,7 @@ template <>
 void inline job::update<operation_result_t>(qpl_job *job_ptr, operation_result_t &result) noexcept {
     job::update_output_stream(job_ptr, result.output_bytes_, result.last_bit_offset);
     job::update_checksums(job_ptr, result.checksums_.crc32_, result.checksums_.xor_);
+    job::update_adler32(job_ptr, result.checksums_.adler32_);
 
     if (job::is_indexing_enabled(job_ptr)) {
         job::update_index_table(job_ptr, result.indexes_written_);
@@ -183,7 +184,8 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                 result = zlib_decorator::wrap(deflate<path, deflate_mode_t::deflate_default>,
                                               state,
                                               job_ptr->next_in_ptr,
-                                              job_ptr->available_in);
+                                              job_ptr->available_in,       // current job input size
+                                              job::get_adler32(job_ptr));  // previously computed checksum
             } else {
                 result = default_decorator::wrap(deflate<path, deflate_mode_t::deflate_default>,
                                                  state,

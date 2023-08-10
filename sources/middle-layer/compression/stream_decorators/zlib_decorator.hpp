@@ -19,15 +19,41 @@
 #include "compression/deflate/streams/compression_stream.hpp"
 #include "util/checksum.hpp"
 
+#include <cstdint>
+#include <array>
+
 namespace qpl::ml::compression {
+
+namespace zlib_sizes {
+constexpr size_t zlib_header_size  = 2;
+constexpr size_t zlib_trailer_size = 4;
+}
+
+/**
+ * @brief Default header for zlib wrappers.
+ *
+ * Lower bits of default_zlib_header[0] is a CM, (compression method, 8 is deflate):
+ *   default_zlib_header[0] |= (8 & 0x0F).
+ * Upper bits of default_zlib_header[0] is a CINFO (window size, 4 corresponds to 4 kb):
+ *   default_zlib_header[0] |= ((4 << 4) & 0xF0).
+ * default_zlib_header[1] is the checksum for FLEVEL 0 (fastest compression, possibly lower compression ratio)
+ * and CINFO 4.
+*/
+constexpr std::array<uint8_t, zlib_sizes::zlib_header_size> default_zlib_header = {0x48, 0x0D};
 
 class zlib_decorator {
 public:
     template <class F, class state_t, class ...arguments>
-    static auto unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t;
+    static auto unwrap(F function,
+                       state_t &state,
+                       arguments... args) noexcept -> decompression_operation_result_t;
 
-    template <class F, class state_t, class ...arguments>
-    static auto wrap(F function, state_t &state, arguments... args) noexcept -> compression_operation_result_t;
+    template <class F, class state_t>
+    static auto wrap(F function,
+                     state_t &state,
+                     uint8_t *begin,
+                     const uint32_t current_in_size,
+                     const uint32_t prev_adler32) noexcept -> compression_operation_result_t;
 
     struct zlib_header {
         uint8_t compression_info;
@@ -39,6 +65,18 @@ public:
     };
 
     static auto read_header(const uint8_t *stream_ptr, uint32_t stream_size, zlib_header &header) noexcept -> qpl_ml_status;
+
+    static inline void write_header_unsafe(const uint8_t *destination_ptr) noexcept {
+        *(uint8_t *) (destination_ptr)      = default_zlib_header[0];
+        *(uint8_t *) (destination_ptr + 1u) = default_zlib_header[1];
+    }
+
+    static inline void write_trailer_unsafe(const uint8_t *destination_ptr,
+                                            const uint32_t trailer) noexcept {
+
+        *(uint32_t *) (destination_ptr) = trailer;
+    }
+
 };
 
 }

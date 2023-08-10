@@ -21,11 +21,6 @@
 
 namespace qpl::ml::compression {
 
-namespace zlib_sizes {
-constexpr size_t zlib_header_size  = 2;
-constexpr size_t zlib_trailer_size = 4;
-}
-
 namespace zlib_flags {
 constexpr uint8_t check             = 0x1u | 0x2u | 0x4u | 0x8u | 0x10u;
 constexpr uint8_t dictionary        = 0x20u;
@@ -44,8 +39,6 @@ struct wrapper_result_t {
     uint32_t bytes_done_;
 };
 
-constexpr std::array<uint8_t, zlib_sizes::zlib_header_size> default_zlib_header = {0x78, 0xDA};
-
 auto zlib_decorator::read_header(const uint8_t *stream_ptr,
                                  uint32_t stream_size,
                                  zlib_header &header) noexcept -> qpl_ml_status {
@@ -58,14 +51,12 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
     header.byte_size = zlib_fields::ZLIB_MIN_HEADER_SIZE;
 
     const uint8_t compression_method_and_flag = *stream_ptr++;
-
-    const uint8_t compression_method = compression_method_and_flag & 0xf;
+    const uint8_t compression_method          = compression_method_and_flag & 0xf;
+    const uint8_t compression_info            = compression_method_and_flag >> zlib_fields::ZLIB_INFO_OFFSET;
 
     if (zlib_fields::CM_ZLIB_DEFAULT_VALUE != compression_method) {
         return status_list::gzip_header_error;
     }
-
-    const uint8_t compression_info = compression_method_and_flag >> zlib_fields::ZLIB_INFO_OFFSET;
 
     const uint8_t flags = *stream_ptr++;
 
@@ -74,6 +65,7 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
     }
 
     header.compression_info = compression_info;
+
 
     header.flags = flags;
 
@@ -96,7 +88,21 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
     return status_list::ok;
 }
 
-static inline auto own_write_header(uint8_t *const destination_ptr, const uint32_t size) noexcept -> wrapper_result_t {
+/**
+ * @brief Function to write zlib header.
+ * Header structure (according to RFC1950):
+ *   CMF (Compression Method and flags)
+ *     bits 0-3  CM     Compression method
+ *     bits 4-7  CINFO  Compression info
+ *   FLAGS
+ *     bits 0-4  FCHECK Checksum for CMF and FLAGS
+ *     bit  5    FDICT  Preset dictionary
+ *     bits 6-7  FLEVEL Compression level
+ *
+ * @todo Change to have window size as an input argument vs hardcoding.
+*/
+static inline auto own_write_header(uint8_t *const destination_ptr,
+                                    const uint32_t size) noexcept -> wrapper_result_t {
     wrapper_result_t result{};
 
     if (size < zlib_sizes::zlib_header_size) {
@@ -104,7 +110,9 @@ static inline auto own_write_header(uint8_t *const destination_ptr, const uint32
         return result;
     }
 
-    core_sw::util::copy(default_zlib_header.data(), default_zlib_header.data() + zlib_sizes::zlib_header_size, destination_ptr);
+    core_sw::util::copy(default_zlib_header.data(),
+                        default_zlib_header.data() + zlib_sizes::zlib_header_size,
+                        destination_ptr);
 
     result.status_code_ = status_list::ok;
     result.bytes_done_  = zlib_sizes::zlib_header_size;
@@ -112,9 +120,9 @@ static inline auto own_write_header(uint8_t *const destination_ptr, const uint32
     return result;
 }
 
-static inline auto own_write_trailer(uint8_t *destination_ptr,
-                                     const uint32_t size,
-                                     const uint32_t adler32) noexcept -> wrapper_result_t {
+static inline auto own_swap_and_write_trailer(uint8_t *destination_ptr,
+                                              const uint32_t size,
+                                              const uint32_t adler32) noexcept -> wrapper_result_t {
     wrapper_result_t result{};
 
     if (size < zlib_sizes::zlib_trailer_size) {
@@ -217,9 +225,13 @@ noexcept -> decompression_operation_result_t;
 
 /* ------ ZLIB WRAP ------ */
 
-template <class F, class state_t, class ...arguments>
-auto zlib_decorator::wrap(F function, state_t &state, arguments... args) noexcept -> compression_operation_result_t {
-    // todo use adler32 with accumulation
+template <class F, class state_t>
+auto zlib_decorator::wrap(F function,
+                          state_t &state,
+                          uint8_t *begin,
+                          const uint32_t current_in_size,
+                          const uint32_t prev_adler32) noexcept -> compression_operation_result_t
+{
     compression_operation_result_t result{};
 
     auto data_ptr      = state.next_out();
@@ -237,14 +249,18 @@ auto zlib_decorator::wrap(F function, state_t &state, arguments... args) noexcep
         state.set_output_prologue(wrapper_bytes);
     }
 
-    result = function(state, args...);
+    result = function(state, begin, current_in_size);
 
     result.output_bytes_ += wrapper_bytes;
 
+    result.checksums_.adler32_ = qpl::ml::util::adler32(begin,
+                                                        current_in_size,
+                                                        prev_adler32);
+
     if (!result.status_code_ && state.is_last_chunk()) {
-        auto wrapper_result = own_write_trailer(data_ptr + result.output_bytes_,
-                                                data_size - result.output_bytes_,
-                                                result.checksums_.crc32_);
+        auto wrapper_result = own_swap_and_write_trailer(data_ptr + result.output_bytes_,
+                                                         data_size - result.output_bytes_,
+                                                         result.checksums_.adler32_);
 
         if (wrapper_result.status_code_) {
             return result;
@@ -261,17 +277,19 @@ using deflate_t = decltype(deflate<path, deflate_mode_t::deflate_default>) *;
 
 template
 auto zlib_decorator::wrap<deflate_t<execution_path_t::software>,
-                          deflate_state<execution_path_t::software>,
-                          uint8_t *, uint32_t>(deflate_t<execution_path_t::software> function,
+                          deflate_state<execution_path_t::software> >
+                                              (deflate_t<execution_path_t::software> function,
                                                deflate_state<execution_path_t::software> &state,
                                                uint8_t *begin,
-                                               const uint32_t size) noexcept -> compression_operation_result_t;
+                                               const uint32_t current_in_size,
+                                               const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 
 template
 auto zlib_decorator::wrap<deflate_t<execution_path_t::hardware>,
-                          deflate_state<execution_path_t::hardware>,
-                          uint8_t *, uint32_t>(deflate_t<execution_path_t::hardware> function,
+                          deflate_state<execution_path_t::hardware> >
+                                              (deflate_t<execution_path_t::hardware> function,
                                                deflate_state<execution_path_t::hardware> &state,
                                                uint8_t *begin,
-                                               const uint32_t size) noexcept -> compression_operation_result_t;
+                                               const uint32_t current_in_size,
+                                               const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 }

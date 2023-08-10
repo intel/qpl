@@ -25,6 +25,7 @@
 // Middle Layer
 #include "job.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
+#include "compression/stream_decorators/zlib_decorator.hpp"
 
 // Hardware Core
 #include "hardware_state.h"
@@ -453,6 +454,18 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             auto status = qpl::ml::compression::gzip_decorator::read_header(qpl_job_ptr->next_in_ptr,
                                                                             qpl_job_ptr->available_in,
                                                                             header);
+            OWN_QPL_CHECK_STATUS(status)
+
+            job::update_input_stream(qpl_job_ptr, header.byte_size);
+        }
+
+        if (flags & QPL_FLAG_ZLIB_MODE) {
+            qpl::ml::compression::zlib_decorator::zlib_header header;
+
+            auto status = qpl::ml::compression::zlib_decorator::read_header(qpl_job_ptr->next_in_ptr,
+                                                                            qpl_job_ptr->available_in,
+                                                                            header);
+
             OWN_QPL_CHECK_STATUS(status)
 
             job::update_input_stream(qpl_job_ptr, header.byte_size);

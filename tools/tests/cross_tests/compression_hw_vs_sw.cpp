@@ -49,12 +49,8 @@ protected:
             test_case.header = gzip_header;
             AddNewTestCase(test_case);
 
-/*
-// TODO
-// hw_path doesn't support zlib_header at the present
-//                test_case.header = zlib_header;
-//                AddNewTestCase(test_case);
-*/
+            test_case.header = zlib_header;
+            AddNewTestCase(test_case);
         }
     }
 
@@ -100,11 +96,6 @@ public:
     }
 
     testing::AssertionResult ValidateCompressSwDecompressHw(qpl_compression_levels level) {
-        if (level == qpl_high_level && sw_job_ptr->flags & zlib_header) {
-            // @todo Jira: https://jira.devtools.intel.com/browse/IPP-6479
-            return testing::AssertionSuccess() << "[MUST_FIX] Skipped Test case: " << current_test_case;
-        }
-
         if (level == qpl_high_level && current_test_case.block_type == block_fixed) {
             return testing::AssertionSuccess() << "Is not supported feature: " << current_test_case;
         }

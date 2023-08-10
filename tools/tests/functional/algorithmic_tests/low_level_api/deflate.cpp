@@ -48,7 +48,7 @@ public:
 
 protected:
     void InitializeTestCases() override {
-        auto      dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+        auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
         for (auto data: dataset.get_data()) {
             DeflateTestCase test_case{};
             test_case.file_name = data.first;
@@ -90,13 +90,6 @@ protected:
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
-
-        if (qpl_path_hardware == job_ptr->data_ptr.path) {
-            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
-                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
-                return;
-            }
-        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         if (no_header == current_test_case.header) {
@@ -142,15 +135,6 @@ protected:
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         status = run_job_api(job_ptr);
-
-        if (qpl_path_hardware == job_ptr->data_ptr.path) {
-            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
-                EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
-                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
-                return;
-            }
-        }
-
         if(QPL_STS_OK != status){
             EXPECT_EQ(qpl_huffman_table_destroy(huffman_table_ptr), QPL_STS_OK);
         }
@@ -185,12 +169,6 @@ protected:
 
         auto status = run_job_api(job_ptr);
 
-        if (qpl_path_hardware == job_ptr->data_ptr.path) {
-            if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
-                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, status);
-                return;
-            }
-        }
         ASSERT_EQ(QPL_STS_OK, status);
 
         destination.resize(job_ptr->total_out);

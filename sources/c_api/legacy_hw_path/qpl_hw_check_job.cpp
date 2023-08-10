@@ -15,6 +15,8 @@
 #include "util/completion_record.hpp"
 #include "compression/deflate/compression_units/stored_block_units.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
+#include "compression/stream_decorators/zlib_decorator.hpp"
+#include "util/checksum.hpp"
 
 #include "own_defs.h"
 #include "hardware_state.h"
@@ -29,15 +31,17 @@ namespace qpl::ml {
 
 #define AECS_WRITTEN(p) ((((p)->op_code_op_flags >> 18u) & 3u) == AD_WRSRC2_ALWAYS)
 
-qpl_status own_hw_compress_finalize(qpl_job *const job_ptr,
-                                    qpl_hw_state *state_ptr,
-                                    const uint32_t checksum) {
+qpl_status set_state_to_complete_and_wrap(qpl_job *const job_ptr,
+                                          qpl_hw_state *state_ptr,
+                                          const uint32_t checksum) {
     state_ptr->execution_history.execution_step = qpl_task_execution_step_completed;
+
     if (QPL_FLAG_GZIP_MODE & job_ptr->flags) {
         if (sizeof(ml::compression::gzip_decorator::gzip_trailer) > job_ptr->available_out) {
             return QPL_STS_DST_IS_SHORT_ERR;
         }
 
+        // gzip trailer is the checksum and size of uncompressed stream
         ml::compression::gzip_decorator::gzip_trailer trailer{};
         trailer.crc32 = checksum;
         trailer.input_size = job_ptr->total_in;
@@ -47,6 +51,26 @@ qpl_status own_hw_compress_finalize(qpl_job *const job_ptr,
         job_ptr->next_out_ptr  += sizeof(trailer);
         job_ptr->available_out -= sizeof(trailer);
         job_ptr->total_out     += sizeof(trailer);
+    }
+
+    if (QPL_FLAG_ZLIB_MODE & job_ptr->flags) {
+        if (sizeof(ml::compression::zlib_sizes::zlib_trailer_size) > job_ptr->available_out) {
+            return QPL_STS_DST_IS_SHORT_ERR;
+        }
+
+        // zlib trailer is a single checksum value
+        uint32_t adler32 = job::get_adler32(job_ptr);
+
+        uint32_t trailer_value = swap_bytes((adler32 & util::most_significant_16_bits) |
+                                            ((adler32 & util::least_significant_16_bits) + 1) %
+                                             util::adler32_mod);
+
+        ml::compression::zlib_decorator::write_trailer_unsafe(job_ptr->next_out_ptr,
+                                                              trailer_value);
+
+        job_ptr->next_out_ptr  += sizeof(trailer_value);
+        job_ptr->available_out -= sizeof(trailer_value);
+        job_ptr->total_out     += sizeof(trailer_value);
     }
 
     return QPL_STS_OK;
@@ -121,16 +145,15 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         }
 
         bytes_written += ml::compression::write_stored_blocks(const_cast<uint8_t *>(input_data_ptr),
-                                                                   input_data_size,
-                                                                   output_ptr,
-                                                                   output_size,
-                                                                   bits_to_flush & 7u,
-                                                                   is_final_block);
+                                                              input_data_size,
+                                                              output_ptr,
+                                                              output_size,
+                                                              bits_to_flush & 7u,
+                                                              is_final_block);
 
-        // Calculate checksums
+        // Calculate checksums and update their values in job ptr
         uint32_t crc, xor_checksum;
         hw_iaa_aecs_compress_get_checksums(cfg_in_ptr, &crc, &xor_checksum);
-
         crc = !(qpl_job_ptr->flags & QPL_FLAG_CRC32C) ?
               util::crc32_gzip(input_data_ptr, input_data_ptr + input_data_size, crc) :
               util::crc32_iscsi_inv(input_data_ptr, input_data_ptr + input_data_size, crc);
@@ -139,15 +162,29 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
         hw_iaa_aecs_compress_set_checksums(cfg_out_ptr, crc, xor_checksum);
 
-        job::update_input_stream(qpl_job_ptr, input_data_size);
-        job::update_output_stream(qpl_job_ptr, bytes_written, bytes_written);
         job::update_checksums(qpl_job_ptr, crc, xor_checksum);
 
+        if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
+            uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
+            uint32_t new_acc_adler32 = qpl::ml::util::adler32(input_data_ptr,
+                                                              input_data_size,
+                                                              prev_adler32);
+            job::update_adler32(qpl_job_ptr, new_acc_adler32);
+        }
+
+        // Update output ptrs and offsets in job ptr
+        job::update_output_stream(qpl_job_ptr, bytes_written, bytes_written);
+
         if (is_final_block) {
-            own_hw_compress_finalize(qpl_job_ptr, state_ptr, crc);
-        } else {
+            // Flag state as completed and wrap stream into gzip or zlib if necessary
+            set_state_to_complete_and_wrap(qpl_job_ptr, state_ptr, crc);
+        }
+        else {
             state_ptr->execution_history.execution_step = qpl_task_execution_step_header_inserting;
         }
+
+        // Update input ptrs and offsets in job ptr
+        job::update_input_stream(qpl_job_ptr, input_data_size);
 
         if (!(QPL_FLAG_OMIT_VERIFY & qpl_job_ptr->flags)) {
             return hw_submit_verify_job(qpl_job_ptr);
@@ -216,16 +253,30 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     // Body encoding step: Update Job with descriptor results
     state_ptr->config_valid = AECS_WRITTEN(desc_ptr);
 
-    job::update_input_stream(qpl_job_ptr, qpl_job_ptr->available_in);
-    job::update_output_stream(qpl_job_ptr, comp_ptr->output_size, comp_ptr->output_bits);
+    // Calculate checksums and update their values in job ptr
     job::update_checksums(qpl_job_ptr, comp_ptr->crc, comp_ptr->xor_checksum);
 
+    if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
+        uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
+        uint32_t new_acc_adler32 = qpl::ml::util::adler32(qpl_job_ptr->next_in_ptr,
+                                                          qpl_job_ptr->available_in,
+                                                          prev_adler32);
+        job::update_adler32(qpl_job_ptr, new_acc_adler32);
+    }
+
+    // Update output ptrs and offsets in job ptr
+    job::update_output_stream(qpl_job_ptr, comp_ptr->output_size, comp_ptr->output_bits);
+
     if (is_final_block) {
-        own_hw_compress_finalize(qpl_job_ptr, state_ptr, comp_ptr->crc);
-    } else if (!(QPL_FLAG_DYNAMIC_HUFFMAN & qpl_job_ptr->flags)) {
-        // Not last
+        // Flag state as completed and wrap stream into gzip or zlib if necessary
+        set_state_to_complete_and_wrap(qpl_job_ptr, state_ptr, comp_ptr->crc);
+    }
+    else if (!(QPL_FLAG_DYNAMIC_HUFFMAN & qpl_job_ptr->flags)) {
         state_ptr->execution_history.execution_step = qpl_task_execution_step_data_processing;
     }
+
+    // Update input ptrs and offsets in job ptr
+    job::update_input_stream(qpl_job_ptr, qpl_job_ptr->available_in);
 
     if (!(QPL_FLAG_OMIT_VERIFY & qpl_job_ptr->flags)) {
         return hw_submit_verify_job(qpl_job_ptr);

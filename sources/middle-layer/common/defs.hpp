@@ -52,8 +52,9 @@ constexpr qpl_ml_status compression_reference_before_start = QPL_STS_REF_BEFORE_
 }
 
 struct checksums_t {
-    uint32_t crc32_ = 0;
-    uint32_t xor_   = 0;
+    uint32_t crc32_   = 0;
+    uint32_t xor_     = 0;
+    uint32_t adler32_ = 0;
 };
 
 struct aggregates_t {

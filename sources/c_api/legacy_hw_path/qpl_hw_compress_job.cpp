@@ -20,6 +20,7 @@
 
 #include "common/bit_reverse.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
+#include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression_operations/huffman_table.hpp"
 
 #include "dispatcher/hw_dispatcher.hpp"
@@ -62,11 +63,21 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         configuration_ptr->xor_checksum          = 0u;
 
         if (flags & QPL_FLAG_GZIP_MODE) {
-            HW_IMMEDIATELY_RET((available_out < qpl::ml::compression::OWN_GZIP_HEADER_LENGTH),
-                               QPL_STS_DST_IS_SHORT_ERR);
+            if (available_out < qpl::ml::compression::OWN_GZIP_HEADER_LENGTH)
+                return QPL_STS_DST_IS_SHORT_ERR;
+
             qpl::ml::compression::gzip_decorator::write_header_unsafe(next_out_ptr, available_out);
 
             content_header_size += qpl::ml::compression::OWN_GZIP_HEADER_LENGTH;
+        }
+
+        if (flags & QPL_FLAG_ZLIB_MODE) {
+            if (available_out < qpl::ml::compression::zlib_sizes::zlib_header_size)
+                return QPL_STS_DST_IS_SHORT_ERR;
+
+            qpl::ml::compression::zlib_decorator::write_header_unsafe(next_out_ptr);
+
+            content_header_size += qpl::ml::compression::zlib_sizes::zlib_header_size;
         }
 
         qpl_job_ptr->total_in      = 0u;
