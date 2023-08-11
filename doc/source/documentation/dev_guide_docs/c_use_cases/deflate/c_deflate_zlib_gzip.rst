@@ -13,7 +13,7 @@ Compression and Decompression of ZLIB Stream
 ============================================
 
 In order to be compatible with ZLIB compression or decompression,
-Intel QPL needs to either wrap the output stream
+Intel® Query Processing Library (Intel® QPL) needs to either wrap the output stream
 (on a first and last job, when doing compression) and insert
 the correct ZLIB header and trailer information, or unwrap
 (on a first job, when doing decompression) the provided stream.

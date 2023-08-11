@@ -7,7 +7,8 @@
 Deflate Compression and Decompression
 #####################################
 
-Intel QPL supports DEFLATE (Deflate) lossless data compression file format
+The Intel® Query Processing Library (Intel® QPL) supports
+DEFLATE (Deflate) lossless data compression file format
 as specified in `RFC 1951 <https://www.rfc-editor.org/info/rfc1951>`_.
 
 .. attention::
