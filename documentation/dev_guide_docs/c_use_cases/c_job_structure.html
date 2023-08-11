@@ -34,8 +34,8 @@
     <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Deflate Compression and Decompression" href="deflate/c_deflate.html" />
-    <link rel="prev" title="Asynchronous Execution" href="c_asynchronous_execution.html" />
+    <link rel="next" title="Deflate Compression/Decompression" href="c_deflate.html" />
+    <link rel="prev" title="Low-Level C API Key Concepts" href="../low_level_developer_guide.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -149,19 +149,14 @@
    </i>
   </label>
   <ul class="current">
-   <li class="toctree-l2">
-    <a class="reference internal" href="c_asynchronous_execution.html">
-     Asynchronous Execution
-    </a>
-   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Job Structure
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="deflate/c_deflate.html">
-     Deflate Compression and Decompression
+    <a class="reference internal" href="c_deflate.html">
+     Deflate Compression/Decompression
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
     <label for="toctree-checkbox-3">
@@ -170,28 +165,23 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="deflate/c_deflate_compression.html">
-       Deflate Compression
+      <a class="reference internal" href="c_deflate_compression.html">
+       Compression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="deflate/c_deflate_decompression.html">
-       Deflate Decompression
+      <a class="reference internal" href="c_deflate_decompression.html">
+       Decompression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="deflate/c_deflate_multiple_jobs.html">
-       Compression and Decompression across Multiple Jobs
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="deflate/c_deflate_dictionary.html">
-       Compressing with a Dictionary
+      <a class="reference internal" href="c_deflate_dictionary.html">
+       Dictionary
       </a>
      </li>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="deflate/c_deflate_indexing.html">
-       Deflate with Indexing
+      <a class="reference internal" href="c_deflate_indexing.html">
+       Indexing
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
       <label for="toctree-checkbox-4">
@@ -200,27 +190,22 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="deflate/c_deflate_indexing_format.html">
+        <a class="reference internal" href="c_deflate_indexing_format.html">
          Format of Indices
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="deflate/c_deflate_indexing_usage.html">
+        <a class="reference internal" href="c_deflate_indexing_usage.html">
          Creating and Using Indices
         </a>
        </li>
       </ul>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="deflate/c_deflate_zlib_gzip.html">
-       Support of ZLIB and GZIP Formats
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="c_huffman_only.html">
-     Huffman-Only Compression and Decompression
+     Huffman-Only Compression/Decompression
     </a>
    </li>
    <li class="toctree-l2">
@@ -229,7 +214,7 @@
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="filter_ops/c_operations.html">
+    <a class="reference internal" href="c_operations.html">
      Filter and Other Operations
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
@@ -239,7 +224,7 @@
     </label>
     <ul>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="filter_ops/c_operations_op.html">
+      <a class="reference internal" href="c_operations_op.html">
        Operations
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
@@ -249,56 +234,61 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="filter_ops/c_operations_op_scan.html">
+        <a class="reference internal" href="c_operations_op_scan.html">
          Scan
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="filter_ops/c_operations_op_extract.html">
+        <a class="reference internal" href="c_operations_op_extract.html">
          Extract
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="filter_ops/c_operations_op_select.html">
+        <a class="reference internal" href="c_operations_op_select.html">
          Select
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="filter_ops/c_operations_op_expand.html">
+        <a class="reference internal" href="c_operations_op_expand.html">
          Expand
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="filter_ops/c_operations_op_crc64.html">
+        <a class="reference internal" href="c_operations_op_crc64.html">
          CRC-64
         </a>
        </li>
       </ul>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="filter_ops/c_operations_output_modification.html">
+      <a class="reference internal" href="c_operations_output_modification.html">
        Output Modification
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="filter_ops/c_operations_aggregates.html">
+      <a class="reference internal" href="c_operations_aggregates.html">
        Aggregates
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="filter_ops/c_operations_parsers.html">
+      <a class="reference internal" href="c_operations_parsers.html">
        Parser
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="filter_ops/c_operations_hw_path_optimization.html">
+      <a class="reference internal" href="c_operations_hw_path_optimization.html">
        Hardware Path Optimizations
       </a>
      </li>
     </ul>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="advanced/c_advanced_topics.html">
+    <a class="reference internal" href="c_advanced_topics.html">
      Advanced Topics
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
@@ -308,12 +298,12 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="advanced/c_advanced_topics_decompress.html">
+      <a class="reference internal" href="c_advanced_topics_decompress.html">
        Advanced Decompress Features
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="advanced/c_advanced_topics_filter.html">
+      <a class="reference internal" href="c_advanced_topics_filter.html">
        Advanced Filter Features
       </a>
      </li>
@@ -538,7 +528,7 @@ When the output stream ends at a byte boundary, the value of this field is 0 (no
 The Huffman-only compression also writes the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.last_bit_offset" title="qpl_job.last_bit_offset"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.last_bit_offset</span></code></a> field.
 You need to set the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> field in the Huffman-only
 decompression. For details on the Huffman-only and the Big Endian 16 format, which is
-a special format it supports, see <a class="reference internal" href="c_huffman_only.html#huffman-only-reference-link"><span class="std std-ref">Huffman-Only Compression and Decompression</span></a>.</p>
+a special format it supports, see <a class="reference internal" href="c_huffman_only.html#huffman-only-reference-link"><span class="std std-ref">Huffman-Only Compression/Decompression</span></a>.</p>
 <p>Internal state that could be used and re-used for various operations and holds
 multiple internal representations is stored in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.data_ptr" title="qpl_job.data_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.data_ptr</span></code></a>
 and shouldn’t be touched by the user. Memory for internal state is allocated
@@ -559,17 +549,17 @@ for different execution paths is not possible.</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="c_asynchronous_execution.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../low_level_developer_guide.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Asynchronous Execution</p>
+            <p class="prev-next-title">Low-Level C API Key Concepts</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="deflate/c_deflate.html" title="next page">
+    <a class='right-next' id="next-link" href="c_deflate.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Deflate Compression and Decompression</p>
+        <p class="prev-next-title">Deflate Compression/Decompression</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

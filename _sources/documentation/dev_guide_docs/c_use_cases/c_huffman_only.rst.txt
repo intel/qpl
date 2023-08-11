@@ -8,11 +8,12 @@
 
 .. _huffman_only_reference_link:
 
-Huffman-Only Compression and Decompression
-##########################################
+Huffman-Only Compression/Decompression
+######################################
 
-The Intel® Query Processing Library (Intel® QPL) supports Huffman-Only
+The Intel® Query Processing Library (Intel® QPL) supports Huffman-only
 compression and decompression.
+
 
 .. warning::
    The implementation of Huffman-only compression/decompression is in progress.

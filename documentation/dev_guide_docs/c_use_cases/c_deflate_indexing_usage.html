@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creating and Using Indices &#8212; Intel® QPL v1.2.0 Documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Huffman-Only Compression/Decompression" href="c_huffman_only.html" />
+    <link rel="prev" title="Format of Indices" href="c_deflate_indexing_format.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Intel® QPL v1.2.0 Documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  About
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../introduction_docs/legal.html">
+   Notices and Disclaimers
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Get Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/quick_start.html">
+   Quick Start
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../get_started_docs/code_examples.html">
+   Code Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../get_started_docs/compression_decompression.html">
+     Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../get_started_docs/filter_and_other_operations.html">
+     Filter and Other Operations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../get_started_docs/testing.html">
+   Library Testing
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Guide
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../low_level_developer_guide.html">
+   Low-Level C API Key Concepts
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_job_structure.html">
+     Job Structure
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="c_deflate.html">
+     Deflate Compression/Decompression
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_compression.html">
+       Compression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_decompression.html">
+       Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_dictionary.html">
+       Dictionary
+      </a>
+     </li>
+     <li class="toctree-l3 current active has-children">
+      <a class="reference internal" href="c_deflate_indexing.html">
+       Indexing
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul class="current">
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_deflate_indexing_format.html">
+         Format of Indices
+        </a>
+       </li>
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         Creating and Using Indices
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_huffman_only.html">
+     Huffman-Only Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_use_huffman_tables.html">
+     Huffman Table Objects
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="c_operations.html">
+     Filter and Other Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="c_operations_op.html">
+       Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_scan.html">
+         Scan
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_extract.html">
+         Extract
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_select.html">
+         Select
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_expand.html">
+         Expand
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_operations_op_crc64.html">
+         CRC-64
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_aggregates.html">
+       Aggregates
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_parsers.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_operations_hw_path_optimization.html">
+       Hardware Path Optimizations
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="c_advanced_topics.html">
+     Advanced Topics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_advanced_topics_decompress.html">
+       Advanced Decompress Features
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_advanced_topics_filter.html">
+       Advanced Filter Features
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dev_ref_docs/low_level_api.html">
+   Low-Level C API Key References
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html">
+     Job APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html">
+     Huffman Table APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html">
+     Status Codes
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Benchmarking
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../bench_docs/guide.html">
+   Benchmarks Framework Guide
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../contributing_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/documentation/dev_guide_docs/c_use_cases/c_deflate_indexing_usage.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_guide_docs/c_use_cases/c_deflate_indexing_usage.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_guide_docs/c_use_cases/c_deflate_indexing_usage.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">
+   Computing the Size of the Index Array
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-indices">
+   Creating Indices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multi-block-usage">
+     Multi-Block Usage
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#decompressing-the-block-header">
+       Decompressing the Block Header
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#decompressing-the-mini-block">
+       Decompressing the Mini-block
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-block-usage">
+     Single Block Usage
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Creating and Using Indices</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">
+   Computing the Size of the Index Array
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-indices">
+   Creating Indices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multi-block-usage">
+     Multi-Block Usage
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#decompressing-the-block-header">
+       Decompressing the Block Header
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#decompressing-the-mini-block">
+       Decompressing the Mini-block
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-block-usage">
+     Single Block Usage
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="creating-and-using-indices">
+<h1>Creating and Using Indices<a class="headerlink" href="#creating-and-using-indices" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="computing-the-size-of-the-index-array">
+<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Permalink to this headline">¶</a></h2>
+<p>The expected number of index values can be obtained from:</p>
+<p><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">num_index_values(uint32_t</span> <span class="pre">buf_size,</span> <span class="pre">uint32_t</span> <span class="pre">idx_size,</span> <span class="pre">uint32_t</span> <span class="pre">blk_size);</span></code></p>
+<p>where the arguments are the size of the uncompressed data, the size of
+the mini-block, and the size of the block. It assumes all the blocks to
+have the same (uncompressed) size (as specified) or this value is 0. If
+the value is 0, all of the input is compressed into a single block
+(whose size is the same as buf_size).</p>
+<p>One index value is stored per mini-block, two values are stored per
+block, and one extra index value. In the first example (multi-block
+usage), 3 blocks and 11 mini-blocks present, so the total number of
+indices is 3*2+11+1 = 18. In the second example (single-block usage), 1
+block and 11 mini-blocks present, so the total number of indices is
+1*2+11+1 = 14.</p>
+</div>
+<div class="section" id="creating-indices">
+<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Permalink to this headline">¶</a></h2>
+<p>To generate indices, the application needs to allocate an array large
+enough to hold all of the index values. The application then defines the
+mini-block size using the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.mini_block_size" title="qpl_job.mini_block_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.mini_block_size</span></code></a> field,
+points to the index table memory with the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.idx_array" title="qpl_job.idx_array"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.idx_array</span></code></a>
+field, and specifies the size of the table with the
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.idx_max_size" title="qpl_job.idx_max_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.idx_max_size</span></code></a> field.</p>
+<p>The index generation is done as part of the verification pass, so the
+application cannot specify the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_VERIFY" title="QPL_FLAG_OMIT_VERIFY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a> flag.</p>
+<p>Intel® Query Processing Library (Intel® QPL) implements two
+slightly different approaches:</p>
+<ul class="simple">
+<li><p>with multiple blocks of fixed size,</p></li>
+<li><p>with a single block.</p></li>
+</ul>
+<p>To allow for CRC checking, the entire mini-block needs to be
+decompressed. If the desired data straddles two mini-blocks, then the
+application separately decompresses each of the mini-blocks, and then
+extracts the data from both.</p>
+<p>To use this feature, specify the <code class="docutils literal notranslate"><span class="pre">ignore_start_bits</span></code> flag and the
+<code class="docutils literal notranslate"><span class="pre">ignore_end_bits</span></code> flag. Both flags should contain values from 0 through 7.
+They indicate the number of bits at the start and end of the first byte
+to be skipped/ignored. This allows the application to start and end
+decompression on a bit rather than a byte boundary.</p>
+<p>In general, for each job one would get a START bit-offset and an END
+bit-offset from the index array. More particularly, the START bit is the
+first bit to be processed. The END bit is the last bit to be processed
+plus one. So the total number of bits to be processed is just (END -
+START).</p>
+<p>To convert these to job structure parameters, one needs to calculate:</p>
+<ul class="simple">
+<li><p>the offsets of the byte containing the START bit,</p></li>
+<li><p>the number of bytes to process (i.e. the number of bytes starting
+with the START byte to include the byte containing the last bit to be
+processed (END - 1)),</p></li>
+<li><p>the number of bits to ignore at the start of the first byte,</p></li>
+<li><p>the number of bits to ignore at the end of the last byte.</p></li>
+</ul>
+<p>One way to do this is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span> <span class="o">=</span> <span class="n">comp_buffer</span> <span class="o">+</span> <span class="n">START</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">ignore_start_bits</span> <span class="o">=</span> <span class="n">START</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span> <span class="o">=</span> <span class="p">((</span><span class="n">END</span><span class="o">+</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">START</span><span class="o">/</span><span class="mi">8</span><span class="p">);</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">ignore_end_bits</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">END</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that ((END+7)/8) - (START/8) is not the same as ((END+7-START)/8).</p>
+<div class="section" id="multi-block-usage">
+<h3>Multi-Block Usage<a class="headerlink" href="#multi-block-usage" title="Permalink to this headline">¶</a></h3>
+<p>For multi-block case, there is a “block_size”, where all blocks but the
+last are exactly that size, and the last block is no larger than that
+size. The block_size is a multiple of the mini-block size.</p>
+<p>During the compression, each block of input data is submitted as a
+single job. Each job is flagged with either <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a> or
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a>.</p>
+<p>Using the indices requires up to two jobs. The first parses the block
+header, and the second decompresses the specified mini-block. To
+decompress multiple mini-blocks within a given block, the header only
+needs to be parsed once. For example, the application can maintain a
+“block cache”. Then to decode a given mini-block (if its header is in
+the cache), a single job decompresses the mini-block. If its header is
+not in the cache, then some entry in the cache is replaced with the
+decompressed data from the new header, and the second job decompresses
+the mini-block.</p>
+<p>The application needs a derived value: <em>mb_per_b</em>, which is the number of
+mini-blocks per block. This is the ratio of the two sizes.</p>
+<p>To access the mini-block containing byte “B”, compute which mini-block
+needs to be decompressed first. This is “M”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">B</span> <span class="o">/</span> <span class="n">mini</span><span class="o">-</span><span class="n">block_size</span>
+</pre></div>
+</div>
+<p>Then compute which block and mini-block within that block contains “B”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blk_num</span> <span class="o">=</span> <span class="n">M</span> <span class="o">/</span> <span class="n">mb_per_b</span>
+<span class="n">mblk_num</span> <span class="o">=</span> <span class="n">M</span> <span class="o">%</span> <span class="n">mb_per_b</span>
+</pre></div>
+</div>
+<p><strong>Note</strong> that if the <em>mb_per_b</em> is a power of two, then this can be done
+as a SHIFT and an AND rather than using actual divides.</p>
+<div class="section" id="decompressing-the-block-header">
+<h4>Decompressing the Block Header<a class="headerlink" href="#decompressing-the-block-header" title="Permalink to this headline">¶</a></h4>
+<p>The index of the start of the block header is
+<code class="docutils literal notranslate"><span class="pre">(blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2))</span></code>. The index of the end is one greater
+than this.</p>
+<p>The job to parse the header is a decompress job with <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>. The START bit offset and the END bit offset are
+the low 32-bits of the two entries identified earlier. Those offsets are
+converted to job parameters as previously described.</p>
+</div>
+<div class="section" id="decompressing-the-mini-block">
+<h4>Decompressing the Mini-block<a class="headerlink" href="#decompressing-the-mini-block" title="Permalink to this headline">¶</a></h4>
+<p>The index of the start of the block header is
+<code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2)</span> <span class="pre">+</span> <span class="pre">mb_num)</span></code>, and the index of the end
+is one greater. That is, the start of the mini-block is found by adding
+the mini-block number within the block to the end of the block header.</p>
+<p>For example, assuming the user wants to decompress mini-block 6. In this
+case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
+The header can be found between indices 6 and 7, and the mini-block
+between indices 9 and 10.</p>
+<p>The job uses the flag <a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>.</p>
+<p>The initial CRC (i.e. the value written to job crc before the job is
+executed) is the CRC value (the high 32-bits of the index array) from
+the start of the mini-block. In the previous example, that is from index 1.
+After the job completes, the returned CRC value (in job crc) should
+match the CRC value from the end of the mini-block, in this example 10.
+If it does not match, then the mini-block is not decompressed properly.</p>
+</div>
+</div>
+<div class="section" id="single-block-usage">
+<h3>Single Block Usage<a class="headerlink" href="#single-block-usage" title="Permalink to this headline">¶</a></h3>
+<p>This scenario is similar to the Multi-block case, except that there is
+only one block, and the <em>mb_per_b</em> is not used.</p>
+<p>In this case, the header is always between indices 0 and 1, and the
+start of the mini-block is index M+1. So using the example earlier, if
+the user wants to decompress mini-block 6, the start of that mini-block
+would be index 7.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="c_deflate_indexing_format.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Format of Indices</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="c_huffman_only.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Huffman-Only Compression/Decompression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Intel<br/>
+    
+        &copy; Copyright 2022, Intel.<br/>
+      <div class="extra_footer">
+        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
