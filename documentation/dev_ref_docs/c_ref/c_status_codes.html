@@ -150,13 +150,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_job_structure.html">
      Job Structure
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate.html">
-     Deflate Compression/Decompression
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate.html">
+     Deflate Compression and Decompression
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
     <label for="toctree-checkbox-3">
@@ -165,23 +170,28 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_compression.html">
-       Compression
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_compression.html">
+       Deflate Compression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_decompression.html">
-       Decompression
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_decompression.html">
+       Deflate Decompression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_dictionary.html">
-       Dictionary
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_multiple_jobs.html">
+       Compression and Decompression across Multiple Jobs
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_dictionary.html">
+       Compressing with a Dictionary
       </a>
      </li>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing.html">
-       Indexing
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing.html">
+       Deflate with Indexing
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
       <label for="toctree-checkbox-4">
@@ -190,22 +200,27 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing_format.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_format.html">
          Format of Indices
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_deflate_indexing_usage.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage.html">
          Creating and Using Indices
         </a>
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_zlib_gzip.html">
+       Support of ZLIB and GZIP Formats
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_huffman_only.html">
-     Huffman-Only Compression/Decompression
+     Huffman-Only Compression and Decompression
     </a>
    </li>
    <li class="toctree-l2">
@@ -214,7 +229,7 @@
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations.html">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations.html">
      Filter and Other Operations
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
@@ -224,7 +239,7 @@
     </label>
     <ul>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op.html">
        Operations
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
@@ -234,61 +249,56 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_scan.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_scan.html">
          Scan
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_extract.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_extract.html">
          Extract
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_select.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_select.html">
          Select
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_expand.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_expand.html">
          Expand
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_op_crc64.html">
+        <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_crc64.html">
          CRC-64
         </a>
        </li>
       </ul>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_output_modification.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_output_modification.html">
        Output Modification
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_aggregates.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_aggregates.html">
        Aggregates
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_parsers.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_parsers.html">
        Parser
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_operations_hw_path_optimization.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_hw_path_optimization.html">
        Hardware Path Optimizations
       </a>
      </li>
     </ul>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_asynchronous_execution.html">
-     Asynchronous Execution
-    </a>
-   </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics.html">
+    <a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics.html">
      Advanced Topics
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
@@ -298,12 +308,12 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics_decompress.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics_decompress.html">
        Advanced Decompress Features
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_advanced_topics_filter.html">
+      <a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics_filter.html">
        Advanced Filter Features
       </a>
      </li>

@@ -14,15 +14,10 @@ Low-Level C API Examples
 ************************
 
 This section contains a number of simple Low-Level C API examples, illustrating how you
-can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code grouped by functionality:
-
--  :ref:`Compression/Decompression <compression_decompression_examples_c_reference_link>`
--  :ref:`Filter and Other Operations <filter_and_other_operations_c_reference_link>`
-
+can use the Intel® Query Processing Library (Intel® QPL) with C or C++ code grouped by functionality.
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
 
-   compression_decompression 
-   filter_and_other_operations 
+   compression_decompression
+   filter_and_other_operations
