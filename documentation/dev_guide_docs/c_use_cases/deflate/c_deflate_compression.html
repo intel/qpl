@@ -1,0 +1,869 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deflate Compression &#8212; Intel® QPL v1.2.0 Documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Deflate Decompression" href="c_deflate_decompression.html" />
+    <link rel="prev" title="Deflate Compression and Decompression" href="c_deflate.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Intel® QPL v1.2.0 Documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  About
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../introduction_docs/introduction.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../introduction_docs/legal.html">
+   Notices and Disclaimers
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Get Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../get_started_docs/installation.html">
+   Installation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../get_started_docs/quick_start.html">
+   Quick Start
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../get_started_docs/code_examples.html">
+   Code Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../get_started_docs/compression_decompression.html">
+     Compression/Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../get_started_docs/filter_and_other_operations.html">
+     Filter and Other Operations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../get_started_docs/testing.html">
+   Library Testing
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Guide
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../../low_level_developer_guide.html">
+   Low-Level C API Key Concepts
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_job_structure.html">
+     Job Structure
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="c_deflate.html">
+     Deflate Compression and Decompression
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Deflate Compression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_decompression.html">
+       Deflate Decompression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_multiple_jobs.html">
+       Compression and Decompression across Multiple Jobs
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_dictionary.html">
+       Compressing with a Dictionary
+      </a>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="c_deflate_indexing.html">
+       Deflate with Indexing
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_deflate_indexing_format.html">
+         Format of Indices
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="c_deflate_indexing_usage.html">
+         Creating and Using Indices
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="c_deflate_zlib_gzip.html">
+       Support of ZLIB and GZIP Formats
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_huffman_only.html">
+     Huffman-Only Compression and Decompression
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../c_use_huffman_tables.html">
+     Huffman Table Objects
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../filter_ops/c_operations.html">
+     Filter and Other Operations
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../filter_ops/c_operations_op.html">
+       Operations
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../filter_ops/c_operations_op_scan.html">
+         Scan
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../filter_ops/c_operations_op_extract.html">
+         Extract
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../filter_ops/c_operations_op_select.html">
+         Select
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../filter_ops/c_operations_op_expand.html">
+         Expand
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../filter_ops/c_operations_op_crc64.html">
+         CRC-64
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../filter_ops/c_operations_output_modification.html">
+       Output Modification
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../filter_ops/c_operations_aggregates.html">
+       Aggregates
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../filter_ops/c_operations_parsers.html">
+       Parser
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../filter_ops/c_operations_hw_path_optimization.html">
+       Hardware Path Optimizations
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../advanced/c_advanced_topics.html">
+     Advanced Topics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../advanced/c_advanced_topics_decompress.html">
+       Advanced Decompress Features
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../advanced/c_advanced_topics_filter.html">
+       Advanced Filter Features
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Developer Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../../dev_ref_docs/low_level_api.html">
+   Low-Level C API Key References
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html">
+     Job APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_huffman_table_apis.html">
+     Huffman Table APIs
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html">
+     Common Definitions
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html">
+     Status Codes
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Benchmarking
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../bench_docs/guide.html">
+   Benchmarks Framework Guide
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Contributing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../contributing_docs/issue_reporting.html">
+   Issue Reporting
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../../_sources/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_compression.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        
+        <a class="issues-button"
+            href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_guide_docs/c_use_cases/deflate/c_deflate_compression.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_compression.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supported-compressed-data-formats">
+   Supported Compressed Data Formats
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#job-structure-settings">
+   Job Structure Settings
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fixed-blocks">
+     Fixed Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dynamic-blocks">
+     Dynamic Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#static-blocks-and-canned-mode">
+     Static Blocks and Canned Mode
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structure-of-compressed-data">
+   Structure of Compressed Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflate-compression-structure-fixed-reference-link">
+     Fixed Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Dynamic Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#static-blocks">
+     Static Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#canned">
+     Canned
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compression-output-overflow">
+   Compression Output Overflow
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compression-verification">
+   Compression Verification
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Deflate Compression</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supported-compressed-data-formats">
+   Supported Compressed Data Formats
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#job-structure-settings">
+   Job Structure Settings
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fixed-blocks">
+     Fixed Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dynamic-blocks">
+     Dynamic Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#static-blocks-and-canned-mode">
+     Static Blocks and Canned Mode
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#structure-of-compressed-data">
+   Structure of Compressed Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deflate-compression-structure-fixed-reference-link">
+     Fixed Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Dynamic Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#static-blocks">
+     Static Blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#canned">
+     Canned
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compression-output-overflow">
+   Compression Output Overflow
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compression-verification">
+   Compression Verification
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <blockquote>
+<div></div></blockquote>
+<div class="section" id="deflate-compression">
+<h1>Deflate Compression<a class="headerlink" href="#deflate-compression" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="supported-compressed-data-formats">
+<span id="compressed-data-format-reference-link"></span><h2>Supported Compressed Data Formats<a class="headerlink" href="#supported-compressed-data-formats" title="Permalink to this headline">¶</a></h2>
+<p>The Deflate standard organizes the compressed data into a series of
+“blocks”. Each block is defined by one of the three types:</p>
+<ul class="simple">
+<li><p><strong>Stored Block</strong>: The input data is stored in an uncompressed form.</p></li>
+<li><p><strong>Fixed Block</strong>: The input data is compressed with a fixed Huffman table
+defined by the standard. The fixed Huffman table is usually suboptimal, but in
+this case the compressed stream doesn’t need to include a set of Huffman codes.</p></li>
+<li><p><strong>Dynamic Block</strong>: The input data is compressed with a Huffman table that
+is optimized for that particular block. This results in a more
+efficient code, but requires two passes: one pass to analyze the
+data and gather its statistics, with which an optimal Huffman table can be generated,
+and another pass to compress the data with the optimal Huffman table.</p></li>
+</ul>
+<p>Intel® Query Processing Library (Intel® QPL) includes a fourth type called
+<strong>Static Block</strong>, where the input data is compressed with a user-defined Huffman
+table which can differ from block to block. A static block, from the point of view
+of the Deflate standard, is a dynamic block. However, for static blocks, the Huffman
+tables are determined ahead of time and do not depend on the input data. Note that
+the compression can happen in one pass with a static block because the Huffman
+Table is provided by the application. The application is responsible for providing
+a suitable Huffman table for the data; otherwise, the compression ratio may be low.</p>
+<p>Intel QPL provides another compression mode called <strong>Canned</strong>, which, like
+static compression, compresses the input data with a user-defined Huffman table. But
+it does not write the 3-bit Deflate header and the Huffman table to the output stream.
+This mode is useful when compressing many small buffers all with the same Huffman
+table. It offers the compression speed of static compression, with a better
+compression ratio (since it saves the bits used for the header and the Huffman table),
+and a faster decompression speed (since the same Huffman table does not need to
+be parsed multiple times).</p>
+</div>
+<div class="section" id="job-structure-settings">
+<h2>Job Structure Settings<a class="headerlink" href="#job-structure-settings" title="Permalink to this headline">¶</a></h2>
+<p>This section introduces the basic settings of the job structure for Deflate compression jobs
+using different available modes.
+In the code snippets below, it is assumed that a single job is used, for
+details on how to divide workload into multiple jobs submissions,
+refer to <a class="reference internal" href="c_deflate_multiple_jobs.html#multiple-jobs-reference-link"><span class="std std-ref">Compression and Decompression across Multiple Jobs</span></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The compression mode cannot be changed across related jobs.
+For example, it is not supported to start a sequence of jobs using <strong>Dynamic Compression</strong>
+and then switch to <strong>Static Compression</strong> halfway through the sequence.</p>
+</div>
+<div class="section" id="fixed-blocks">
+<h3>Fixed Blocks<a class="headerlink" href="#fixed-blocks" title="Permalink to this headline">¶</a></h3>
+<p>The job structure for fixed compression can be set using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynamic-blocks">
+<h3>Dynamic Blocks<a class="headerlink" href="#dynamic-blocks" title="Permalink to this headline">¶</a></h3>
+<p>The job structure for dynamic compression can be set using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_DYNAMIC_HUFFMAN</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="static-blocks-and-canned-mode">
+<h3>Static Blocks and Canned Mode<a class="headerlink" href="#static-blocks-and-canned-mode" title="Permalink to this headline">¶</a></h3>
+<p>The job structure for static compression can be set using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The job structure for canned compression can be set using:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_size</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_CANNED_MODE</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">huffman_table</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The Huffman table object <code class="docutils literal notranslate"><span class="pre">huffman_table</span></code> can be allocated by
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_deflate_huffman_table_create" title="qpl_deflate_huffman_table_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_deflate_huffman_table_create()</span></code></a> and initialized with
+literal/length and distance histograms through <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_histogram" title="qpl_huffman_table_init_with_histogram"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_histogram()</span></code></a>.
+Refer to the <a class="reference internal" href="../c_use_huffman_tables.html#huffman-tables-api-label"><span class="std std-ref">Huffman Table Objects</span></a> section for more information.</p>
+<p>If the stream is compressed with multiple jobs, then in the middle of the
+stream, the application can specify a different Huffman table and use the
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a> flag. This will instruct the library to end the
+current block and to start a new block with the new table. The
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a> is not needed on the first job (i.e., this flag
+is implied when <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> is set).</p>
+<p>If the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a> flag is not used, then the table
+pointed to in the job structure must be the same as those used by the
+previous job. If the tables are changed without signaling the library with
+the appropriate flags, the resulting bit-stream will not be valid.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The current implementation does not support canned compression
+across multiple jobs, thus canned compression jobs must specify
+the flags <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> | <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="structure-of-compressed-data">
+<h2>Structure of Compressed Data<a class="headerlink" href="#structure-of-compressed-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deflate-compression-structure-fixed-reference-link">
+<span id="id1"></span><h3>Fixed Blocks<a class="headerlink" href="#deflate-compression-structure-fixed-reference-link" title="Permalink to this headline">¶</a></h3>
+<p>If a single job is used, compressible data will result in one large
+fixed block, while incompressible data could lead to multiple
+stored blocks.</p>
+<p>If multiple jobs are used and all data are compressible, then the
+result will be one large fixed block followed by a zero-length stored
+block which is marked as the final block. When some of the jobs
+contain incompressible data, the result will be a mixture of fixed
+blocks, stored blocks, and a possible zero-length stored block
+at the end. Note that there will be at most one fixed block between
+stored blocks.</p>
+</div>
+<div class="section" id="id2">
+<h3>Dynamic Blocks<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>On the <code class="docutils literal notranslate"><span class="pre">hardware_path</span></code>, the data from one job will be compressed as a single
+dynamic block when the data is compressible, or as multiple stored blocks
+when the data is incompressible. The data from one job may be compressed
+as multiple dynamic blocks on the software path.</p>
+</div>
+<div class="section" id="static-blocks">
+<h3>Static Blocks<a class="headerlink" href="#static-blocks" title="Permalink to this headline">¶</a></h3>
+<p>The structure of compressed data using static compression is similar to
+what was described in <a class="reference internal" href="#deflate-compression-structure-fixed-reference-link"><span class="std std-ref">Fixed Blocks</span></a>,
+except that there can be multiple static blocks between stored blocks
+due to the change of a Huffman table using <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a>.</p>
+</div>
+<div class="section" id="canned">
+<span id="deflate-compression-structure-canned-reference-link"></span><h3>Canned<a class="headerlink" href="#canned" title="Permalink to this headline">¶</a></h3>
+<p>Canned compression only writes the body of one static block to the output
+buffer. If the input data is incompressible, even when the size of the
+output buffer is enough for a stored block, the library returns the
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> status.</p>
+</div>
+</div>
+<div class="section" id="compression-output-overflow">
+<h2>Compression Output Overflow<a class="headerlink" href="#compression-output-overflow" title="Permalink to this headline">¶</a></h2>
+<p>If the compressed output does not fit into the output buffer (e.g., a bad Huffman table
+is provided by the application, causing data to expand in a static compression),
+the library attempts to copy the input data into the output stream as a series
+of <code class="docutils literal notranslate"><span class="pre">stored</span> <span class="pre">blocks</span></code>. When the <code class="docutils literal notranslate"><span class="pre">stored</span> <span class="pre">blocks</span></code> fit into the output buffer,
+the library writes them to the output buffer and returns the
+successful <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_OK" title="QPL_STS_OK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a> status. If the stored blocks do not
+fit, the library returns the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> status and
+the compression fails.</p>
+<p>To avoid this failure, users are suggested to use an output buffer with a size slightly
+larger than the size of the input buffer so that it can accommodate the
+additional headers for stored blocks. This suggestion does not apply to canned
+compression (see <a class="reference internal" href="#deflate-compression-structure-canned-reference-link"><span class="std std-ref">Canned</span></a>).</p>
+</div>
+<div class="section" id="compression-verification">
+<h2>Compression Verification<a class="headerlink" href="#compression-verification" title="Permalink to this headline">¶</a></h2>
+<p>By default, the library will verify the correctness of the generated
+compressed bit stream. The library decompresses the resulting bit
+stream, and then checks that the CRC of the decompressed data matches
+the CRC of the original data. If the user does not want to pay the
+additional performance cost for verification, the step can be skipped
+with the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_VERIFY" title="QPL_FLAG_OMIT_VERIFY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a> flag.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Currently verification is not performed in case of <code class="docutils literal notranslate"><span class="pre">Huffman</span> <span class="pre">only</span> <span class="pre">BE</span></code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently compression verification on the software path only works with
+indexing and data of size smaller than 32 KB in other modes.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="c_deflate.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Deflate Compression and Decompression</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="c_deflate_decompression.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Deflate Decompression</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Intel<br/>
+    
+        &copy; Copyright 2022, Intel.<br/>
+      <div class="extra_footer">
+        <p align="right"><a href="https://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></p>
+      </div>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

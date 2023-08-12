@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huffman-Only Compression/Decompression &#8212; Intel® QPL v1.2.0 Documentation</title>
+    <title>Huffman-Only Compression and Decompression &#8212; Intel® QPL v1.2.0 Documentation</title>
     
   <link href="../../../_static/css/theme.css" rel="stylesheet">
   <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Huffman Table Objects" href="c_use_huffman_tables.html" />
-    <link rel="prev" title="Creating and Using Indices" href="c_deflate_indexing_usage.html" />
+    <link rel="prev" title="Support of ZLIB and GZIP Formats" href="deflate/c_deflate_zlib_gzip.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -150,13 +150,18 @@
   </label>
   <ul class="current">
    <li class="toctree-l2">
+    <a class="reference internal" href="c_asynchronous_execution.html">
+     Asynchronous Execution
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="c_job_structure.html">
      Job Structure
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="c_deflate.html">
-     Deflate Compression/Decompression
+    <a class="reference internal" href="deflate/c_deflate.html">
+     Deflate Compression and Decompression
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
     <label for="toctree-checkbox-3">
@@ -165,23 +170,28 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_deflate_compression.html">
-       Compression
+      <a class="reference internal" href="deflate/c_deflate_compression.html">
+       Deflate Compression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_deflate_decompression.html">
-       Decompression
+      <a class="reference internal" href="deflate/c_deflate_decompression.html">
+       Deflate Decompression
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_deflate_dictionary.html">
-       Dictionary
+      <a class="reference internal" href="deflate/c_deflate_multiple_jobs.html">
+       Compression and Decompression across Multiple Jobs
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="deflate/c_deflate_dictionary.html">
+       Compressing with a Dictionary
       </a>
      </li>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="c_deflate_indexing.html">
-       Indexing
+      <a class="reference internal" href="deflate/c_deflate_indexing.html">
+       Deflate with Indexing
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
       <label for="toctree-checkbox-4">
@@ -190,22 +200,27 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_deflate_indexing_format.html">
+        <a class="reference internal" href="deflate/c_deflate_indexing_format.html">
          Format of Indices
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_deflate_indexing_usage.html">
+        <a class="reference internal" href="deflate/c_deflate_indexing_usage.html">
          Creating and Using Indices
         </a>
        </li>
       </ul>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="deflate/c_deflate_zlib_gzip.html">
+       Support of ZLIB and GZIP Formats
+      </a>
+     </li>
     </ul>
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Huffman-Only Compression/Decompression
+     Huffman-Only Compression and Decompression
     </a>
    </li>
    <li class="toctree-l2">
@@ -214,7 +229,7 @@
     </a>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="c_operations.html">
+    <a class="reference internal" href="filter_ops/c_operations.html">
      Filter and Other Operations
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
@@ -224,7 +239,7 @@
     </label>
     <ul>
      <li class="toctree-l3 has-children">
-      <a class="reference internal" href="c_operations_op.html">
+      <a class="reference internal" href="filter_ops/c_operations_op.html">
        Operations
       </a>
       <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
@@ -234,61 +249,56 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_scan.html">
+        <a class="reference internal" href="filter_ops/c_operations_op_scan.html">
          Scan
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_extract.html">
+        <a class="reference internal" href="filter_ops/c_operations_op_extract.html">
          Extract
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_select.html">
+        <a class="reference internal" href="filter_ops/c_operations_op_select.html">
          Select
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_expand.html">
+        <a class="reference internal" href="filter_ops/c_operations_op_expand.html">
          Expand
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="c_operations_op_crc64.html">
+        <a class="reference internal" href="filter_ops/c_operations_op_crc64.html">
          CRC-64
         </a>
        </li>
       </ul>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_operations_output_modification.html">
+      <a class="reference internal" href="filter_ops/c_operations_output_modification.html">
        Output Modification
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_operations_aggregates.html">
+      <a class="reference internal" href="filter_ops/c_operations_aggregates.html">
        Aggregates
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_operations_parsers.html">
+      <a class="reference internal" href="filter_ops/c_operations_parsers.html">
        Parser
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_operations_hw_path_optimization.html">
+      <a class="reference internal" href="filter_ops/c_operations_hw_path_optimization.html">
        Hardware Path Optimizations
       </a>
      </li>
     </ul>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="c_asynchronous_execution.html">
-     Asynchronous Execution
-    </a>
-   </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="c_advanced_topics.html">
+    <a class="reference internal" href="advanced/c_advanced_topics.html">
      Advanced Topics
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
@@ -298,12 +308,12 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_advanced_topics_decompress.html">
+      <a class="reference internal" href="advanced/c_advanced_topics_decompress.html">
        Advanced Decompress Features
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="c_advanced_topics_filter.html">
+      <a class="reference internal" href="advanced/c_advanced_topics_filter.html">
        Advanced Filter Features
       </a>
      </li>
@@ -475,7 +485,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Huffman-Only Compression/Decompression</h1>
+                <h1>Huffman-Only Compression and Decompression</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -501,9 +511,9 @@
                 
   <blockquote>
 <div></div></blockquote>
-<div class="section" id="huffman-only-compression-decompression">
-<span id="huffman-only-reference-link"></span><h1>Huffman-Only Compression/Decompression<a class="headerlink" href="#huffman-only-compression-decompression" title="Permalink to this headline">¶</a></h1>
-<p>The Intel® Query Processing Library (Intel® QPL) supports Huffman-only
+<div class="section" id="huffman-only-compression-and-decompression">
+<span id="huffman-only-reference-link"></span><h1>Huffman-Only Compression and Decompression<a class="headerlink" href="#huffman-only-compression-and-decompression" title="Permalink to this headline">¶</a></h1>
+<p>The Intel® Query Processing Library (Intel® QPL) supports Huffman-Only
 compression and decompression.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1178,11 +1188,11 @@ to use the bit-reversed form of the Huffman Codes as well.</p>
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="c_deflate_indexing_usage.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="deflate/c_deflate_zlib_gzip.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Creating and Using Indices</p>
+            <p class="prev-next-title">Support of ZLIB and GZIP Formats</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="c_use_huffman_tables.html" title="next page">
