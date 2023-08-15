@@ -29,7 +29,7 @@ target_compile_options(tool_common
         PRIVATE $<$<CONFIG:Debug>:>
         PRIVATE $<$<CONFIG:Release>:>
         PRIVATE $<$<C_COMPILER_ID:GNU>:-m64;-Werror>
-        PRIVATE $<$<C_COMPILER_ID:MSVC>:/WX; /wd4244 /wd4996>)
+        PRIVATE $<$<C_COMPILER_ID:MSVC>:/WX; /wd4996>)
 
 if (WIN32)
     target_compile_definitions(tool_common PUBLIC
