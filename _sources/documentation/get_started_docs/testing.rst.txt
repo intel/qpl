@@ -64,13 +64,17 @@ To see the full list of other available test options specific to the library
 .. code:: shell
 
    <install_dir>/bin/tests --qpl-tests-help
+   
+.. note::
+      
+    software_path and synchronous execution mode is used for testing by default,
+    use --async=on and --path=hw to specify otherwise
 
 .. note::
 
    Running functional tests on the hardware path requires first configuring
    Intel® In-Memory Analytics Accelerator (Intel® IAA).
    See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
-
 
 Cross Tests
 ***********
