@@ -103,7 +103,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
 
     DIAG("     %7s: opening descriptor %s", work_queue_dev_name, path);
     auto fd = open(path, O_RDWR);
-    if(0 >= fd)
+    if(0 > fd)
     {
         DIAGA(", access denied\n");
         return HW_ACCELERATOR_LIBACCEL_ERROR;
