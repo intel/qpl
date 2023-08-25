@@ -51,7 +51,7 @@ public:
     auto get_isal_huffman_tables() const noexcept -> hufftables_icf *;
 
 private:
-    hufftables_icf                               *huffman_table_;
+    hufftables_icf                               *huffman_table_      = nullptr;
     uint32_t                                      max_ll_code_index_  = 0;
     uint32_t                                      max_d_code_index_   = 0;
     bool                                          provided_           = false;

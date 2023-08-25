@@ -136,7 +136,7 @@ namespace qpl::test
         std::vector<uint8_t> destination;
 
     private:
-        uint8_t     *m_job_buffer;
+        uint8_t     *m_job_buffer = nullptr;
         uint32_t    m_seed;
         qpl_path_t m_execution_path;
     };
