@@ -109,6 +109,9 @@ static uint32_t ref_qplc_pack_index_8u32u(const uint8_t* src_ptr, uint32_t num_e
 
 
 constexpr uint32_t TEST_BUFFER_SIZE = 128u;
+constexpr uint32_t fun_indx_pack_idx_8u     = 1;
+constexpr uint32_t fun_indx_pack_idx_8u16u  = 2;
+constexpr uint32_t fun_indx_pack_idx_8u32u  = 3;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -136,7 +139,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u, base) {
             uint32_t status;
             uint32_t ref_status;
 
-            status = (uint32_t)qplc_pack_vector(1)(source.data(), length, &p_dst_8u, length_dst, &index);
+            status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u)(source.data(), length, &p_dst_8u, length_dst, &index);
             ref_status = (uint32_t)ref_qplc_pack_index_8u(source.data(), length, &p_ref_dst_8u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -155,7 +158,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u, base) {
                 uint32_t ref_index = UINT8_MAX - 32u;
                 uint32_t status;
                 uint32_t ref_status;
-                status = (uint32_t)qplc_pack_vector(1)(source.data(), length,
+                status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u)(source.data(), length,
                     &p_dst_16u, length_dst, &index);
                 ref_status = (uint32_t)ref_qplc_pack_index_8u(source.data(), length,
                     &p_ref_dst_16u, length_dst, &ref_index);
@@ -177,6 +180,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
 
+    const int 
+
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
@@ -194,7 +199,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
             uint32_t status;
             uint32_t ref_status;
 
-            status = (uint32_t)qplc_pack_vector(2)(source.data(), length, &p_dst_8u, length_dst, &index);
+            status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u16u)(source.data(), length, &p_dst_8u, length_dst, &index);
             ref_status = (uint32_t)ref_qplc_pack_index_8u16u(source.data(), length, &p_ref_dst_8u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -215,7 +220,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
             uint32_t status;
             uint32_t ref_status;
 
-            status = (uint32_t)qplc_pack_vector(2)(source.data(), length, &p_dst_8u, length_dst, &index);
+            status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u16u)(source.data(), length, &p_dst_8u, length_dst, &index);
             ref_status = (uint32_t)ref_qplc_pack_index_8u16u(source.data(), length, &p_ref_dst_8u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -250,7 +255,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u32u, base) {
             uint32_t status;
             uint32_t ref_status;
 
-            status = (uint32_t)qplc_pack_vector(3)(source.data(), length, &p_dst_8u, length_dst, &index);
+            status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u32u)(source.data(), length, &p_dst_8u, length_dst, &index);
             ref_status = (uint32_t)ref_qplc_pack_index_8u32u(source.data(), length, &p_ref_dst_8u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -269,7 +274,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u32u, base) {
                 uint32_t status;
                 uint32_t ref_status;
 
-                status = (uint32_t)qplc_pack_vector(3)(source.data(), length, &p_dst_8u, length_dst, &index);
+                status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u32u)(source.data(), length, &p_dst_8u, length_dst, &index);
                 ref_status = (uint32_t)ref_qplc_pack_index_8u32u(source.data(), length, &p_ref_dst_8u, length_dst, &ref_index);
                 ASSERT_EQ(status, ref_status);
                 ASSERT_EQ(index, ref_index);
