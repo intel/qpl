@@ -8,7 +8,7 @@
 #include <algorithm>
 
 #include "random_generator.h"
-#include "iostream"
+#include <iostream>
 
 /* ------ gzRandU ------ */
 
@@ -96,7 +96,7 @@ qpl::test::random_base::operator uint8_t()
 {
    double val = gen();
    val += 0.5;
-   val        = std::min(std::max(val, (double) 0), (double) UINT8_MAX);
+   val = std::min(std::max(val, (double) 0), (double) UINT8_MAX);
 
    return (uint8_t) val;
 }
@@ -145,7 +145,7 @@ qpl::test::random_base::operator uint32_t()
    double val = gen();
    val += 0.5;
 
-   int32_t uVal;
+   uint32_t uVal;
    if (val >= (double) UINT32_MAX) {
       uVal = UINT32_MAX;
    } else if (val < (double) 0u) {
@@ -184,7 +184,7 @@ qpl::test::random_base::operator uint64_t()
    double val = gen();
    val += 0.5;
 
-   int64_t uVal;
+   uint64_t uVal;
    if (val >= (double) UINT64_MAX) {
       uVal = UINT64_MAX;
    } else if (val < (double) 0u) {
