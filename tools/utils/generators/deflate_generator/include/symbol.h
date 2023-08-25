@@ -67,6 +67,10 @@ class symbol_list
             m_num_lit = m_num_sym = 0;
         }
 
+        symbol_list(const symbol_list& other) = delete;
+
+        symbol_list& operator=(const symbol_list &list) = delete;
+
         ~symbol_list()
         {
             symbol_page *curr, *next;

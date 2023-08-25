@@ -109,14 +109,6 @@ IndexTable::IndexTable(uint32_t miniBlockCount, uint32_t miniBlocksPerBlock)
     IndexTable::reset(miniBlockCount, miniBlocksPerBlock);
 }
 
-IndexTable::IndexTable(const IndexTable &indexArray)
-    : m_blockCount(indexArray.m_blockCount),
-     m_miniBlockCount(indexArray.m_miniBlockCount),
-     m_miniBlocksPerBlock(indexArray.m_miniBlocksPerBlock),
-     m_indices(indexArray.m_indices)
-{
-}
-
 void IndexTable::fillOffsets(std::vector<uint32_t> vector)
 {
     for (auto i = 0; i < m_indices.size() && i < vector.size(); i++)
