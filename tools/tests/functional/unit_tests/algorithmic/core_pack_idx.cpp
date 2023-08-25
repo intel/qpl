@@ -180,8 +180,6 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
 
-    const int 
-
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
