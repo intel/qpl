@@ -22,7 +22,7 @@ static inline auto expand(input_stream_t &input_stream,
                           output_stream_t<array_stream> &output_stream,
                           core_sw::dispatcher::aggregates_function_ptr_t aggregates_callback,
                           aggregates_t &aggregates) noexcept -> uint32_t {
-    const auto table       = core_sw::dispatcher::kernels_dispatcher::get_instance().get_expand_table();
+    const auto &table       = core_sw::dispatcher::kernels_dispatcher::get_instance().get_expand_table();
     const auto index       = core_sw::dispatcher::get_expand_index(input_stream.bit_width());
     const auto expand_impl = table[index];
 
@@ -115,7 +115,7 @@ auto call_expand<execution_path_t::software>(input_stream_t &input_stream,
                                              limited_buffer_t &output_buffer,
                                              int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
-    auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
+    auto &aggregates_table   = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1u);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                 &aggregates_empty_callback :

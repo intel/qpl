@@ -21,7 +21,7 @@ static inline auto extract(input_stream_t &input_stream,
                            aggregates_t &aggregates,
                            const uint32_t param_low,
                            const uint32_t param_high) noexcept -> uint32_t {
-    auto     table        = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_i_table();
+    auto     &table       = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_i_table();
     uint32_t index        = core_sw::dispatcher::get_extract_index(input_stream.bit_width());
     auto     extract_impl = table[index];
 
@@ -155,7 +155,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
     uint32_t                    input_bit_width = input_stream.bit_width();
     uint32_t                    status_code     = status_list::ok;
 
-    auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
+    auto &aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(input_bit_width);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                       &aggregates_empty_callback :
@@ -164,7 +164,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
     if ((input_bit_width == 8u || input_bit_width == 16u || input_bit_width == 32u) &&
         input_stream.stream_format() == stream_format_t::le_format &&
         !input_stream.is_compressed()) {
-        auto     extract_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_table();
+        auto     &extract_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_table();
         uint32_t extract_index  = core_sw::dispatcher::get_extract_index(input_bit_width);
         auto     extract_kernel = extract_table[extract_index];
 

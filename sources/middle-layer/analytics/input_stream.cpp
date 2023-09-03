@@ -189,8 +189,8 @@ auto input_stream_t::unpack<analytic_pipeline::inflate_prle>(limited_buffer_t &o
 }
 
 auto input_stream_t::initialize_sw_kernels() noexcept -> void {
-    auto unpack_table      = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
-    auto unpack_prle_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_prle_table();
+    auto &unpack_table      = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
+    auto &unpack_prle_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_prle_table();
 
     uint32_t is_stream_be = (stream_format_ == stream_format_t::be_format) ? 1 : 0;
 

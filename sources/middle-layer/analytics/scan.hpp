@@ -47,7 +47,7 @@ static inline auto scan(input_stream_t &input_stream,
                         aggregates_t &aggregates,
                         uint32_t param_low,
                         uint32_t param_high) noexcept -> uint32_t {
-    auto table     = core_sw::dispatcher::kernels_dispatcher::get_instance().get_scan_i_table();
+    auto &table     = core_sw::dispatcher::kernels_dispatcher::get_instance().get_scan_i_table();
     auto index     = core_sw::dispatcher::get_scan_index(input_stream.bit_width(), static_cast<uint32_t>(comparator));
     auto scan_impl = table[index];
 
@@ -145,7 +145,7 @@ static inline auto call_scan_sw(input_stream_t &input_stream,
     auto corrected_param_low  = correct_input_param(input_bit_width, param_low);
     auto corrected_param_high = correct_input_param(input_bit_width, param_high);
 
-    auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
+    auto &aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
     auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1u);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                 &aggregates_empty_callback :
@@ -155,7 +155,7 @@ static inline auto call_scan_sw(input_stream_t &input_stream,
         input_stream.stream_format() == stream_format_t::le_format &&
         !input_stream.is_compressed()) {
 
-        auto scan_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_scan_table();
+        auto &scan_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_scan_table();
         auto scan_index  = core_sw::dispatcher::get_scan_index(input_bit_width, (uint32_t) comparator);
         auto scan_kernel = scan_table[scan_index];
 

@@ -186,7 +186,7 @@ static inline void store_isal_deflate_header(isal_hufftables *isal_huffman_table
     header_complete_byte_size += (0u == isal_huffman_table->deflate_hdr_extra_bits) ? 0u : 1u;
 
     // Use copy kernel to copy deflate header from isal huffman tables
-    auto copy_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table();
+    auto &copy_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table();
     copy_kernel[0]((uint8_t *) isal_huffman_table->deflate_hdr,
                    compression_table.get_deflate_header_data(),
                    header_complete_byte_size);
@@ -1279,4 +1279,3 @@ bool is_equal(qpl_decompression_huffman_table &table,
 }
 
 };
-
