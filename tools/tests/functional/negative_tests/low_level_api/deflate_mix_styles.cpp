@@ -26,7 +26,10 @@ static qpl_status perform_dynamic_compression(qpl_job *job_ptr,
     job_ptr->flags         = order_flag | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
     job_ptr->huffman_table = nullptr;
 
-    return run_job_api(job_ptr);
+    qpl_status status = run_job_api(job_ptr);
+    if (status != QPL_STS_OK)
+        std::cout << "run_job_api status is " << status << "\n";
+    return status;
 }
 
 static qpl_status perform_static_compression(qpl_job *job_ptr,
@@ -44,8 +47,7 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     status = qpl_deflate_huffman_table_create(compression_table_type, path, {malloc, free}, &huffman_table);
     if (status != QPL_STS_OK) {
-        std::cout << "Huffman table create error";
-
+        std::cout << "qpl_deflate_huffman_table_create status is " << status << "\n";
         return status;
     }
 
@@ -55,20 +57,20 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
                                            qpl_default_level,
                                            path);
     if (status != QPL_STS_OK) {
-        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
-            std::cout << "Table destruction failed";
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) {
+            std::cout << "qpl_huffman_table_destroy failed\n";
         }
-        std::cout << "Statistics gathering failed";
+        std::cout << "qpl_gather_deflate_statistics status is " << status << "\n";
 
         return status;
     }
 
     status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
     if (status != QPL_STS_OK) {
-        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
-            std::cout << "Table destruction failed";
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) {
+            std::cout << "qpl_huffman_table_destroy failed\n";
         }
-        std::cout << "Table build failed";
+        std::cout << "qpl_huffman_table_init_with_histogram status is " << status << "\n";
 
         return status;
     }
@@ -83,10 +85,10 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     status = run_job_api(job_ptr);
     if (status != QPL_STS_OK) {
-        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) { 
-            std::cout << "Table destruction failed";
+        if(qpl_huffman_table_destroy(huffman_table) != QPL_STS_OK) {
+            std::cout << "qpl_huffman_table_destroy failed\n";
         }
-        std::cout << "Job failed";
+        std::cout << "run_job_api status is " << status << "\n";
 
         return status;
     }
@@ -94,8 +96,7 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
 
     status = qpl_huffman_table_destroy(huffman_table);
     if (status != QPL_STS_OK) {
-        std::cout << "Table destruction failed";
-
+        std::cout << "qpl_huffman_table_destroy failed\n";
         return status;
     }
 
@@ -118,9 +119,17 @@ static qpl_status perform_fixed_compression(qpl_job *job_ptr,
 
     job_ptr->huffman_table = nullptr;
 
-    return run_job_api(job_ptr);
+    qpl_status status = run_job_api(job_ptr);
+    if (status != QPL_STS_OK)
+        std::cout << "run_job_api status is " << status << "\n";
+    return status;
 }
 
+/**
+ * @warning It is expected for the second submission (compressing with different style)
+ * to fail with the QPL_STS_INVALID_COMPRESS_STYLE_ERR status code since it is not allowed
+ * to change compression style in the middle of a sequence of jobs.
+*/
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different_styles) {
     const uint32_t    maximum_length = 4096;
     qpl::test::random random_style(0, 2u, GetSeed());
@@ -160,7 +169,6 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
                                                                      destination.data(),
                                                                      (uint32_t) destination.size(),
                                                                      QPL_FLAG_FIRST);
-
     ASSERT_EQ(QPL_STS_OK, first_run_status);
 
     bytes_remain -= current_block_length;
@@ -179,6 +187,6 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
 
     ASSERT_EQ(QPL_STS_INVALID_COMPRESS_STYLE_ERR, second_run_status)
                                 << "First style: " << previous_style
-                                << ",second style: " << current_style;
+                                << ", second style: " << current_style;
 }
 }
