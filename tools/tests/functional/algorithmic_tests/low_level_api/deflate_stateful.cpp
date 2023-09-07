@@ -8,6 +8,7 @@
 #include <array>
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
+#include "huffman_table_unique.hpp"
 
 namespace qpl::test {
 enum compression_mode {
@@ -239,7 +240,7 @@ qpl_status decompress_with_chunks(std::vector<uint8_t> &compressed_source,
     return result;
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -288,12 +289,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_stateful_compression)
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -343,12 +344,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_stateful_compression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -393,12 +394,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_default_verify_stateful_compr
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -448,12 +449,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_high_verify_stateful_compress
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -498,12 +499,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_stateful_compression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -553,12 +554,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_stateful_compression) {
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default_verify) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -603,12 +604,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_default_verify_stateful_compres
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -658,12 +659,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_high_verify_stateful_compressio
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -687,18 +688,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
                                                execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        qpl_huffman_table_t c_huffman_table;
+        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                               execution_path,
+                                                               DEFAULT_ALLOCATOR_C),
+                                   any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-        status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
-                                                  &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -715,34 +711,23 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_stateful_compression) 
                                                                                 compressed_source,
                                                                                 block_size,
                                                                                 job_ptr,
-                                                                                c_huffman_table,
+                                                                                table.get(),
                                                                                 qpl_default_level,
                                                                                 true);
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
                                             reference,
                                             job_ptr,
                                             source.size());
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
-
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -775,18 +760,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        qpl_huffman_table_t c_huffman_table;
+        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                               execution_path,
+                                                               DEFAULT_ALLOCATOR_C),
+                                   any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-        status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
-                                                  &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -803,34 +783,23 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_stateful_compression) {
                                                                                 compressed_source,
                                                                                 block_size,
                                                                                 job_ptr,
-                                                                                c_huffman_table,
+                                                                                table.get(),
                                                                                 qpl_high_level,
                                                                                 true);
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
                                             reference,
                                             job_ptr,
                                             source.size());
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
-
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -858,19 +827,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        qpl_huffman_table_t c_huffman_table;
+        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                               execution_path,
+                                                               DEFAULT_ALLOCATOR_C),
+                                   any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-        status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
-                                                  &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-
-        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -887,37 +850,23 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_default_verify_stateful_compre
                                                                                 compressed_source,
                                                                                 block_size,
                                                                                 job_ptr,
-                                                                                c_huffman_table,
+                                                                                table.get(),
                                                                                 qpl_default_level,
                                                                                 false);
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
                                             reference,
                                             job_ptr,
                                             source.size());
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
-
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     if (execution_path == qpl_path_hardware) {
@@ -949,18 +898,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
                                                execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        qpl_huffman_table_t c_huffman_table;
+        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                               execution_path,
+                                                               DEFAULT_ALLOCATOR_C),
+                                   any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-        status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
-                                                  &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -977,34 +921,23 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_high_verify_stateful_compressi
                                                                                 compressed_source,
                                                                                 block_size,
                                                                                 job_ptr,
-                                                                                c_huffman_table,
+                                                                                table.get(),
                                                                                 qpl_high_level,
                                                                                 false);
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
             status = decompress_with_chunks(compressed_source,
                                             reference,
                                             job_ptr,
                                             source.size());
-
-            if(QPL_STS_OK != status){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
-
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table.";
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -1121,12 +1054,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, dynamic_start_new_block) {
                 reference.resize(saved_output_bytes);
             }
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -1243,12 +1176,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, fixed_start_new_block) {
                 reference.resize(saved_output_bytes);
             }
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -1274,15 +1207,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        qpl_huffman_table_t c_huffman_table;
+        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                               execution_path,
+                                                               DEFAULT_ALLOCATOR_C),
+                                   any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-        status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
-                                                  &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
+        status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
         for (auto block_size: get_chunk_sizes()) {
@@ -1318,7 +1249,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
 
                 job_ptr->next_in_ptr   = source.data();
                 job_ptr->next_out_ptr  = compressed_source.data();
-                job_ptr->huffman_table = c_huffman_table;
+                job_ptr->huffman_table = table.get();
 
                 job_ptr->level = qpl_default_level;
 
@@ -1387,11 +1318,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflat, static_start_new_block) {
                 reference.resize(saved_output_bytes);
             }
 
-            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors missmatch!. " << error_message;
+            ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
-
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Failed to destroy table. ";
     }
 }
 
