@@ -34,6 +34,7 @@ public:
         builder.state_.crc_seed(0);
         builder.state_.reset_state();
         builder.state_.reset_miniblock_state();
+        builder.state_.required_crc(0);
 
         return builder;
     }
@@ -42,6 +43,7 @@ public:
         auto builder = verification_state_builder<execution_path_t::software>(allocator);
         builder.state_.first(false);
         builder.state_.reset();
+        builder.state_.required_crc(0);
 
         return builder;
     }

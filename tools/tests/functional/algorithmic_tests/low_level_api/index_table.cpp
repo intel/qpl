@@ -116,39 +116,39 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
     EXPECT_EQ(*compressed_size_ptr, available_in);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_find_header_block_index){
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_header_block_index){
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;
     uint32_t block_index;
     uint32_t *block_index_ptr = &block_index;
     table.block_count = 10;
 
+    table.mini_block_count = 10;
     table.mini_blocks_per_block = 1;
+    ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     auto status = qpl_find_header_block_index(table_ptr, 0, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 0));
 
-    table.mini_blocks_per_block = 1;
     status = qpl_find_header_block_index(table_ptr, 1, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 1));
 
-    table.mini_blocks_per_block = 1;
     status = qpl_find_header_block_index(table_ptr, 2, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 2));
 
+    table.mini_block_count = 20;
     table.mini_blocks_per_block = 2;
+    ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     status = qpl_find_header_block_index(table_ptr, 0, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 0));
 
-    table.mini_blocks_per_block = 2;
     status = qpl_find_header_block_index(table_ptr, 1, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 1));
 
-    table.mini_blocks_per_block = 2;
     status = qpl_find_header_block_index(table_ptr, 2, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 2));
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_find_mini_block_index){
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_mini_block_index){
     // works on HW path, not on SW path
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;
@@ -156,27 +156,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_find_mini_block_index){
     uint32_t *block_index_ptr = &block_index;
     table.block_count = 10;
 
+    table.mini_block_count = 10;
     table.mini_blocks_per_block = 1;
+    ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     auto status = qpl_find_mini_block_index(table_ptr, 0, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 0));
 
-    table.mini_blocks_per_block = 1;
     status = qpl_find_mini_block_index(table_ptr, 1, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 1));
 
-    table.mini_blocks_per_block = 1;
     status = qpl_find_mini_block_index(table_ptr, 2, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 2));
 
+    table.mini_block_count = 20;
     table.mini_blocks_per_block = 2;
+    ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     status = qpl_find_mini_block_index(table_ptr, 0, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 0));
 
-    table.mini_blocks_per_block = 2;
     status = qpl_find_mini_block_index(table_ptr, 1, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 1));
 
-    table.mini_blocks_per_block = 2;
     status = qpl_find_mini_block_index(table_ptr, 2, block_index_ptr);
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 2));
 }

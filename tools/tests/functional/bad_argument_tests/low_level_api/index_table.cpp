@@ -93,7 +93,9 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, find_header_block_index) {
     uint32_t *block_index_ptr = &block_index;
     qpl_index_table table;
     table.mini_blocks_per_block = 0;
+    table.mini_block_count = 0;
     qpl_index_table *table_ptr = &table;
+
 
     auto status = qpl_find_header_block_index(table_ptr, mini_block_number, block_index_ptr);
 
@@ -116,6 +118,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, find_mini_block_index) {
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;
     table.mini_blocks_per_block = 0;
+    table.mini_block_count = 0;
 
     auto status = qpl_find_mini_block_index(table_ptr, mini_block_number, block_index_ptr);
 
