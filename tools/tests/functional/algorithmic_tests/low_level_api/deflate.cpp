@@ -49,7 +49,7 @@ public:
 protected:
     void InitializeTestCases() override {
         auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
-        for (auto data: dataset.get_data()) {
+        for (auto &data: dataset.get_data()) {
             DeflateTestCase test_case{};
             test_case.file_name = data.first;
             test_case.header    = no_header;
