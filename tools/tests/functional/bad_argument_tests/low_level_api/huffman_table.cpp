@@ -90,7 +90,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init) {
                                                    GetExecutionPath(),
                                                    DEFAULT_ALLOCATOR_C,
                                                    &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
@@ -125,7 +125,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init) {
                                                 GetExecutionPath(),
                                                 DEFAULT_ALLOCATOR_C,
                                                 &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
@@ -162,7 +162,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_tripl
                                                    GetExecutionPath(),
                                                    DEFAULT_ALLOCATOR_C,
                                                    &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(table, nullptr, TRIPLET_COUNT));
 
@@ -185,7 +185,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
                                                 GetExecutionPath(),
                                                 DEFAULT_ALLOCATOR_C,
                                                 &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_triplets(table, nullptr, TRIPLET_COUNT));
 
@@ -201,7 +201,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_other
                                                    GetExecutionPath(),
                                                    DEFAULT_ALLOCATOR_C,
                                                    &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_other(table, nullptr));
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_other(nullptr, table));
@@ -212,12 +212,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_other
                                            GetExecutionPath(),
                                            DEFAULT_ALLOCATOR_C,
                                            &another_table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
-    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
-    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_other) {
@@ -227,7 +227,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
                                                 GetExecutionPath(),
                                                 DEFAULT_ALLOCATOR_C,
                                                 &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_other(table, nullptr));
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_other(nullptr, table));
@@ -238,12 +238,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
                                               GetExecutionPath(),
                                               DEFAULT_ALLOCATOR_C,
                                               &another_table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
-    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
-    ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(another_table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_get_type) {
@@ -254,13 +254,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_get_type) {
                                                    GetExecutionPath(),
                                                    DEFAULT_ALLOCATOR_C,
                                                    &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(nullptr, &type));
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(table, nullptr));
 
-    qpl_huffman_table_destroy(table);
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_get_type) {
@@ -271,13 +271,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_get_type) 
                                                 GetExecutionPath(),
                                                 DEFAULT_ALLOCATOR_C,
                                                 &table);
-    ASSERT_FALSE(status);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(nullptr, &type));
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_get_type(table, nullptr));
 
-    qpl_huffman_table_destroy(table);
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
@@ -288,10 +288,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
 
     qpl_huffman_table_t table{};
 
-    qpl_huffman_only_table_create(combined_table_type,
-                                  GetExecutionPath(),
-                                  DEFAULT_ALLOCATOR_C,
-                                  &table);
+    auto status = qpl_huffman_only_table_create(combined_table_type,
+                                                GetExecutionPath(),
+                                                DEFAULT_ALLOCATOR_C,
+                                                &table);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR,
               qpl_huffman_table_get_serialized_size(table, DEFAULT_SERIALIZATION_OPTIONS, nullptr));
@@ -301,7 +302,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
     EXPECT_EQ(QPL_STS_SERIALIZATION_FORMAT_ERROR,
               qpl_huffman_table_get_serialized_size(table, bad_options, &table_size));
 
-    qpl_huffman_table_destroy(table);
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
@@ -315,10 +316,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
 
     qpl_huffman_table_t table{};
 
-    qpl_huffman_only_table_create(combined_table_type,
-                                  GetExecutionPath(),
-                                  DEFAULT_ALLOCATOR_C,
-                                  &table);
+    auto status = qpl_huffman_only_table_create(combined_table_type,
+                                                GetExecutionPath(),
+                                                DEFAULT_ALLOCATOR_C,
+                                                &table);
+    ASSERT_EQ(QPL_STS_OK, status);
+
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_serialize(table,
                                                                 nullptr,
@@ -337,7 +340,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
                                                                               buffer_size,
                                                                               bad_options));
 
-    qpl_huffman_table_destroy(table);
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deserialize) {
@@ -346,10 +349,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deserialize) {
 
     qpl_huffman_table_t table{};
 
-    qpl_huffman_only_table_create(combined_table_type,
-                                  GetExecutionPath(),
-                                  DEFAULT_ALLOCATOR_C,
-                                  &table);
+    auto status = qpl_huffman_only_table_create(combined_table_type,
+                                                GetExecutionPath(),
+                                                DEFAULT_ALLOCATOR_C,
+                                                &table);
+    ASSERT_EQ(QPL_STS_OK, status);
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_deserialize(nullptr,
                                                                   buffer_size,
@@ -366,7 +370,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deserialize) {
                                                                   DEFAULT_ALLOCATOR_C,
                                                                   nullptr));
 
-    qpl_huffman_table_destroy(table);
+    EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
 
 
