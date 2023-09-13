@@ -31,8 +31,6 @@ public:
 
     IndexTable() = default;
 
-    IndexTable(const IndexTable &indexArray);
-
     /* ------ Index search index in the table ------ */
     uint32_t findHeaderBlockIndex(uint32_t miniBlockNumber);
 
