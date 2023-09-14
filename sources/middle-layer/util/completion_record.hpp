@@ -10,7 +10,6 @@
 #include "common/defs.hpp"
 #include "analytics/analytics_defs.hpp"
 #include "other/other_defs.hpp"
-#include "compression/zero_defs.hpp"
 #include "compression/compression_defs.hpp"
 #include "hw_completion_record_api.h"
 
@@ -67,24 +66,6 @@ noexcept -> other::crc_operation_result_t {
                                 | static_cast<uint64_t>(analytic_completion_record->max_last_agg);
 
     return crc_operation_result;
-}
-
-template <>
-inline auto completion_record_convert_to_result<compression::zero_operation_result_t>(HW_PATH_VOLATILE hw_completion_record * completion_record_ptr)
-noexcept -> compression::zero_operation_result_t {
-    compression::zero_operation_result_t zero_operation_result{};
-
-    auto *const zero_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
-
-    zero_operation_result.status_code_           = convert_status_iaa_to_qpl(completion_record_ptr);
-    zero_operation_result.aggregates_.min_value_ = zero_completion_record->min_first_agg;
-    zero_operation_result.aggregates_.max_value_ = zero_completion_record->max_last_agg;
-    zero_operation_result.aggregates_.sum_       = zero_completion_record->sum_agg;
-    zero_operation_result.checksums_.crc32_      = zero_completion_record->crc;
-    zero_operation_result.checksums_.xor_        = zero_completion_record->xor_checksum;
-    zero_operation_result.output_bytes_          = zero_completion_record->output_size;
-
-    return zero_operation_result;
 }
 
 template <>
