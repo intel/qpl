@@ -284,7 +284,7 @@ HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor *const descr
 /**
  * @brief Setup descriptor to perform stream compression
  *
- * @param[out] descriptor_ptr    @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body
+ * @param[out] descriptor_ptr    @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
  * @param[in] source_ptr        input data
  * @param[in] source_size       input size
  * @param[in] destination_ptr   destination buffer
@@ -304,7 +304,8 @@ HW_PATH_IAA_API(void, descriptor_init_compress_verification, (hw_descriptor * de
 /**
  * @brief Setup `compress descriptor` to to compress stream with huffman codes only, e.g without LZ coding.
  *
- * @param[out] descriptor_ptr @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body or @ref hw_iaa_descriptor_init_statistic_collector
+ * @param[out] descriptor_ptr @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
+ *                            or @ref hw_iaa_descriptor_init_statistic_collector
  *
  */
 static inline
@@ -318,7 +319,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_huffman_only_mode, (hw_descriptor 
 /**
  * @brief Setup `compress descriptor`to compress stream in the `big-endian` format
  *
- * @param[out] descriptor_ptr @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body or @ref hw_iaa_descriptor_init_statistic_collector
+ * @param[out] descriptor_ptr @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
+ *                                 or @ref hw_iaa_descriptor_init_statistic_collector
  *
  */
 static inline
@@ -332,7 +334,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_be_output_mode, (hw_descriptor *co
 /**
  * @brief Setup `compress descriptor` to compress stream by `mini-blocks`
  *
- * @param[out] descriptor_ptr @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body or @ref hw_iaa_descriptor_init_statistic_collector
+ * @param[out] descriptor_ptr @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
+ *                            or @ref hw_iaa_descriptor_init_statistic_collector
  * @param[in]  mini_block_size size of `mini-blocks` in the stream
  *
  */
@@ -348,7 +351,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_mini_block_size, (hw_descriptor *c
 /**
  * @brief Setup `compress descriptor`to terminate compressed stream by concrete way.
  *
- * @param[out] descriptor_ptr @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body or @ref hw_iaa_descriptor_init_statistic_collector
+ * @param[out] descriptor_ptr @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
+ *                            or @ref hw_iaa_descriptor_init_statistic_collector
  * @param[in] terminator      used stream termination
  *
  */
@@ -365,7 +369,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_termination_rule, (hw_descriptor *
 
  * @brief Setup AECS to `compress descriptor`
  *
- * @param descriptor_ptr @ref hw_descriptor previously inited with @ref hw_iaa_descriptor_init_compress_body or @ref hw_iaa_descriptor_init_statistic_collector
+ * @param descriptor_ptr @ref hw_descriptor previously initialized with @ref hw_iaa_descriptor_init_compress_body
+ *                       or @ref hw_iaa_descriptor_init_statistic_collector
  * @param aecs_ptr       @ref hw_iaa_aecs_compress
  * @param access_policy  @ref hw_iaa_aecs_access_policy
  *
@@ -552,6 +557,53 @@ HW_PATH_IAA_API(void, descriptor_set_crc_rfc3720, (hw_descriptor *const descript
 HW_PATH_IAA_API(void, descriptor_set_completion_record, (hw_descriptor *const descriptor_ptr,
                                                          HW_PATH_VOLATILE hw_completion_record *const completion_record));
 
+
+/**
+ * @todo API will be described after refactoring completed
+ */
+static inline
+HW_PATH_IAA_API(void, descriptor_compress_verification_set_index_table, (hw_descriptor *const descriptor_ptr,
+                                                                         uint64_t *const index_table_ptr,
+                                                                         const uint32_t size,
+                                                                         const uint32_t capacity)) {
+    hw_iaa_descriptor_set_output_buffer(descriptor_ptr,
+                                        (uint8_t *)(&index_table_ptr[size]),
+                                        (capacity - size) * sizeof(uint64_t));
+}
+
+/**
+ * @todo API will be described after refactoring completed
+ */
+static inline
+HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *const descriptor_ptr, bool flag)) {
+    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01u;
+    const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5u;
+
+    // Cache control is a reserved field for CRC64, so set the flag to false to clear this field
+    if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_iaa_analytics_descriptor *)descriptor_ptr)->op_code_op_flags)) {
+        flag = false;
+    }
+
+    if(flag)
+        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] |= CACHE_CONTROL_FLAG_BIT_MASK;
+    else
+        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] &= ~CACHE_CONTROL_FLAG_BIT_MASK;
+}
+
+/**
+ * @todo API will be described after refactoring completed
+ */
+static inline
+HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr, bool flag)) {
+    const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
+    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 4u;
+
+    if(flag)
+        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] |= BLOCK_ON_FAULT_FLAG_BIT_MASK;
+    else
+        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] &= ~BLOCK_ON_FAULT_FLAG_BIT_MASK;
+}
+
 /** @} */
 
 /* ################# DESCRIPTOR GETTERS ################# */
@@ -605,58 +657,6 @@ HW_PATH_IAA_API(void, descriptor_get_input_buffer, (hw_descriptor *const descrip
     *size       = this_ptr->src1_size;
 }
 
-/**
- * @todo API will be described after refactoring completed
- */
-HW_PATH_IAA_API(void, descriptor_set_completion_record, (hw_descriptor *const descriptor_ptr,
-                                                         HW_PATH_VOLATILE hw_completion_record *const completion_record));
-
-/**
- * @todo API will be described after refactoring completed
- */
-static inline
-HW_PATH_IAA_API(void, descriptor_compress_verification_set_index_table, (hw_descriptor *const descriptor_ptr,
-                                                                         uint64_t *const index_table_ptr,
-                                                                         const uint32_t size,
-                                                                         const uint32_t capacity)) {
-    hw_iaa_descriptor_set_output_buffer(descriptor_ptr,
-                                        (uint8_t *)(&index_table_ptr[size]),
-                                        (capacity - size) * sizeof(uint64_t));
-}
-
-
-/**
- * @todo API will be described after refactoring completed
- */
-static inline
-HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination, (hw_descriptor *const descriptor_ptr, bool flag)) {
-    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01u;
-    const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5u;
-
-    // Cache control is a reserved field for CRC64, so set the flag to false to clear this field
-    if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_iaa_analytics_descriptor *)descriptor_ptr)->op_code_op_flags)) {
-        flag = false;
-    }
-
-    if(flag)
-        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] |= CACHE_CONTROL_FLAG_BIT_MASK;
-    else
-        descriptor_ptr->data[CACHE_CONTROL_FLAG_BYTE_OFFSET] &= ~CACHE_CONTROL_FLAG_BIT_MASK;
-}
-
-/**
- * @todo API will be described after refactoring completed
- */
-static inline
-HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor *const descriptor_ptr, bool flag)) {
-    const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
-    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 4u;
-
-    if(flag)
-        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] |= BLOCK_ON_FAULT_FLAG_BIT_MASK;
-    else
-        descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] &= ~BLOCK_ON_FAULT_FLAG_BIT_MASK;
-}
 
 /**
  * @todo API will be described after refactoring completed
