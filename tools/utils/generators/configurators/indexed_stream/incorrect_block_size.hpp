@@ -14,7 +14,7 @@ namespace gz_generator
     class InflateIndexIncorrectBlockSizeConfigurator : public ConfiguratorDecompressIndex
     {
         public:
-            InflateIndexIncorrectBlockSizeConfigurator(Gen32u seed, SpecialTestOptions testOptions)
+            InflateIndexIncorrectBlockSizeConfigurator(Gen32u seed, SpecialTestOptions &testOptions)
                     : ConfiguratorDecompressIndex(seed, testOptions) {}
 
             InflateIndexIncorrectBlockSizeConfigurator() = delete;

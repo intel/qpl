@@ -14,7 +14,7 @@ namespace gz_generator
     class ConfiguratorDecompressIndexNoErr: public ConfiguratorDecompressIndex
     {
         public:
-            ConfiguratorDecompressIndexNoErr(Gen32u seed, SpecialTestOptions testOptions)
+            ConfiguratorDecompressIndexNoErr(Gen32u seed, SpecialTestOptions &testOptions)
                 : ConfiguratorDecompressIndex(seed, testOptions) {}
 
             ConfiguratorDecompressIndexNoErr() = delete;

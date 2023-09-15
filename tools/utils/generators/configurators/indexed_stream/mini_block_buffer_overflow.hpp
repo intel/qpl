@@ -14,7 +14,7 @@ namespace  gz_generator
     class InflateMiniBlockBufferOverflowConfigurator: public ConfiguratorDecompressIndex
     {
         public:
-            InflateMiniBlockBufferOverflowConfigurator(Gen32u seed, SpecialTestOptions testOptions)
+            InflateMiniBlockBufferOverflowConfigurator(Gen32u seed, SpecialTestOptions &testOptions)
                     : ConfiguratorDecompressIndex(seed, testOptions) {}
 
             InflateMiniBlockBufferOverflowConfigurator() = delete;
