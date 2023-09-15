@@ -31,7 +31,7 @@ private:
 
 public:
     deflate_t() noexcept {}
-    ~deflate_t() noexcept
+    ~deflate_t() 
     {
         deinit_lib_impl();
     }

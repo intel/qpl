@@ -31,7 +31,7 @@ private:
 
 public:
     inflate_t() noexcept {}
-    ~inflate_t() noexcept
+    ~inflate_t()
     {
         deinit_lib_impl();
     }

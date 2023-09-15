@@ -36,7 +36,7 @@ private:
 
 public:
     crc64_t() noexcept {}
-    ~crc64_t() noexcept
+    ~crc64_t() 
     {
         deinit_lib_impl();
     }
