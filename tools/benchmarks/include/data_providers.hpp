@@ -14,9 +14,14 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
+#include <cstdint>
 
 namespace bench::data
 {
+static const uint32_t min_tested_block_size = 4096;
+static const uint32_t max_tested_block_size = 65536;
+
 static inline dataset_t read_dataset(const std::string &path)
 {
     dataset_t dataset;
@@ -40,6 +45,22 @@ static inline dataset_t read_dataset(const std::string &path)
     std::sort(dataset.begin(), dataset.end(), [](auto &a, auto &b){ return a.name < b.name; });
 
     return dataset;
+}
+
+
+// This function will return a vector of block sizes, from min_tested_block_size => max_tested_block_size
+// where only one size is larger/same size as the full data size (0 is considered larger/same size)
+static inline std::vector<std::uint32_t> generate_block_sizes(const data_t &data){
+    uint32_t max_block_size_for_data = std::min((size_t)max_tested_block_size, data.buffer.size());
+    std::vector<uint32_t> block_sizes;
+    uint32_t size;
+    for(size = min_tested_block_size; size <= max_block_size_for_data; size *= 2){
+        block_sizes.push_back(size);
+    }
+    if(size/2 < data.buffer.size()){
+        block_sizes.push_back(0);
+    }
+    return block_sizes;
 }
 
 static inline auto split_data(const data_t &data, std::size_t block_size)

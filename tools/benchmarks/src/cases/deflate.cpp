@@ -11,6 +11,8 @@
 #include <utility.hpp>
 #include <measure.hpp>
 #include <stdexcept>
+#include <cstdint>
+
 
 using namespace bench;
 
@@ -71,7 +73,7 @@ static inline void cases_set(data_t &data, huffman_type_e huffman, const canned_
 
 BENCHMARK_SET_DELAYED(deflate)
 {
-    std::vector<std::int32_t>   block_sizes = (cmd::get_block_size() >= 0) ? std::vector<std::int32_t>{cmd::get_block_size()} : std::vector<std::int32_t>{4096, 8192, 16384, 65536, 0} ;
+    std::vector<std::uint32_t>   block_sizes;
     std::vector<huffman_type_e> huffman_modes{huffman_type_e::fixed, huffman_type_e::dynamic};
     std::vector<double>         canned_parts = (cmd::FLAGS_canned_part >= 0) ? std::vector<double>{cmd::FLAGS_canned_part} : std::vector<double>{0.1, 0.5, 0};
     std::vector<std::int32_t>   sw_levels{1, 3};
@@ -80,6 +82,7 @@ BENCHMARK_SET_DELAYED(deflate)
     auto dataset = data::read_dataset(cmd::FLAGS_dataset);
     for(auto &data : dataset)
     {
+        block_sizes = (cmd::get_block_size() >= 0) ? std::vector<std::uint32_t>{static_cast<uint32_t>(cmd::get_block_size())} : data::generate_block_sizes(data) ;
         for(auto &size : block_sizes)
         {
             auto blocks = data::split_data(data, size);
