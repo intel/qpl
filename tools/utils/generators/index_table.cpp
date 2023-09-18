@@ -119,5 +119,5 @@ void IndexTable::fillOffsets(std::vector<uint32_t> vector)
 
 bool operator==(const Index &index1, const Index &index2)
 {
-    return *((uint64_t*) &index1.crc) == *((uint64_t*) &index2.crc);
+    return (index1.bit_offset == index2.bit_offset) && (index1.crc == index2.crc);
 }
