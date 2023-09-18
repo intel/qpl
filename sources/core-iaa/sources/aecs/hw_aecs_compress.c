@@ -46,7 +46,7 @@ HW_PATH_IAA_AECS_API(void, compress_accumulator_flush, (hw_iaa_aecs_compress *co
     const uint32_t bytes_to_flush = (bit_offset + 7u) / 8u;
 
     for (uint32_t i = 0u; i < bytes_to_flush; i++) {
-        *next_out_pptr[i] = aecs_ptr->output_accum[i];
+        (*next_out_pptr)[i] = aecs_ptr->output_accum[i];
     }
 
     aecs_ptr->num_output_accum_bits = 0u;

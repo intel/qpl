@@ -105,6 +105,12 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
     if (meta_ptr->algorithm != compression_algorithm_e::deflate)
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
+    size_t reqd_stream_buffer_size;
+    qpl_huffman_table_get_serialized_size(table, options, &reqd_stream_buffer_size);
+
+    if(stream_buffer_size < reqd_stream_buffer_size)
+        return QPL_STS_SIZE_ERR;
+
     // todo: move impl to a special namespace to reflect meta struct version,
     // to accommodate future implementations
     // e.g. qpl::ml::serialization::v1::serialize_meta
