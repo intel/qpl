@@ -216,9 +216,14 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         }
     }
 
-    if (result.status_code_ == 0) {
+    /**
+     * @warning In the case of "output overflow" upon decompression,
+     * need to update job structure to the valid state for continuing upon resubmission.
+    */
+    if (result.status_code_ == 0 || result.status_code_ == QPL_STS_INTL_OUTPUT_OVERFLOW) {
         job::update(job_ptr, result);
     }
+
     if (result.status_code_ == QPL_STS_INTL_OUTPUT_OVERFLOW) {
         return QPL_STS_MORE_OUTPUT_NEEDED;
     }
