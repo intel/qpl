@@ -59,33 +59,44 @@ Refer to the :ref:`huffman-tables-api-label` section for more information.
    the flags :c:macro:`QPL_FLAG_FIRST` | :c:macro:`QPL_FLAG_LAST`.
 
 
-Decompression "Output Overflow"
-*******************************
+Getting :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` after Decompression
+*****************************************************************
 
-In general, the application may not know how much data a given
-compressed stream will decompress to. If the output buffer filled up
-before the input is completely processed, the decompression can
-be resumed with a new output buffer to contain the remaining decompressed
-output.
+In general, the application may not know how much data a given compressed stream will decompress to.
+If the output buffer fills up before the input is completely processed,
+the library returns the status :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`, which means that the decompressor stopped early
+to avoid overflowing the output buffer.
+In that case, only partial data is written to the output, and internal state is now stored in the job structure.
+This allows for the decompression operation to resume from the same place where it stopped.
 
-When the output buffer filled up before the input is completely processed,
-the library returns the status :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`. In this case,
-users can provide a new output buffer and reset :c:member:`qpl_job.next_out_ptr`
-and :c:member:`qpl_job.available_out` accordingly. The input buffer
-parameters :c:member:`qpl_job.next_in_ptr` and :c:member:`qpl_job.available_in`
-do not need to be reset since they would have been updated.
-
-Note that it is possible that the :c:member:`qpl_job.available_in` field
-is 0, but the returned status is :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`. In this case,
-the subsequent job will be submitted with a zero-length input buffer.
-
+The job structure would be updated as in the result of successful execution, meaning, for example, that
+the size of the partial data written to the output is available via :c:member:`qpl_job.total_out`,
+and input buffer parameters :c:member:`qpl_job.next_in_ptr` and :c:member:`qpl_job.available_in`
+are updated by the library to reflect how many input bytes were processed successfully.
 
 .. note::
-    The situation is called euphemistically "output overflow"
-    although no actual overflow occurs. It comes from the fact that
-    the output buffer would have been overflowed if the decompressor did
-    not stop early.
+    It is possible to have :c:member:`qpl_job.available_in` returned as `0` and get the
+    :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` error.
+    This case means that all the input bytes were processed,
+    but the output buffer was smaller than required, and resubmission will happen with the
+    input buffer of zero length.
 
+In order to submit job for continuation:
+  - The user must not reset input :c:member:`qpl_job.next_in_ptr` and :c:member:`qpl_job.available_in` parameters,
+    as they were updated by the library and already reflect the correct offset.
+  - If the job was marked previously with :c:macro:`QPL_FLAG_FIRST`, this flag must be unset.
+  - The user must provide an output buffer for continuation and reset :c:member:`qpl_job.next_out_ptr`
+    to its value and :c:member:`qpl_job.available_out` to its size.
+    The user could choose, for instance, to allocate a bigger output buffer or to reuse the same memory.
+    In the latter case, previously decompressed data must be stored somewhere else,
+    as it would be overwritten otherwise.
+
+.. attention::
+    If returned values in :c:member:`qpl_job.available_in` and :c:member:`qpl_job.available_out` fields
+    are the same when error :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` occurred,
+    this means that the library was not able to make any forward progress.
+    In this case, it is most probably that the output buffer size is too small,
+    and the user must allocate a bigger chunk of memory for an output.
 
 Checksums
 *********

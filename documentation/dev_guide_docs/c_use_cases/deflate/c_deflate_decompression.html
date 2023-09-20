@@ -488,8 +488,14 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#decompression-output-overflow">
-   Decompression “Output Overflow”
+  <a class="reference internal nav-link" href="#getting-qpl-sts-more-output-needed-after-decompression">
+   Getting
+   <code class="xref c c-macro docutils literal notranslate">
+    <span class="pre">
+     QPL_STS_MORE_OUTPUT_NEEDED
+    </span>
+   </code>
+   after Decompression
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -535,8 +541,14 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#decompression-output-overflow">
-   Decompression “Output Overflow”
+  <a class="reference internal nav-link" href="#getting-qpl-sts-more-output-needed-after-decompression">
+   Getting
+   <code class="xref c c-macro docutils literal notranslate">
+    <span class="pre">
+     QPL_STS_MORE_OUTPUT_NEEDED
+    </span>
+   </code>
+   after Decompression
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -598,28 +610,46 @@ the flags <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_comm
 </div>
 </div>
 </div>
-<div class="section" id="decompression-output-overflow">
-<h2>Decompression “Output Overflow”<a class="headerlink" href="#decompression-output-overflow" title="Permalink to this headline">¶</a></h2>
-<p>In general, the application may not know how much data a given
-compressed stream will decompress to. If the output buffer filled up
-before the input is completely processed, the decompression can
-be resumed with a new output buffer to contain the remaining decompressed
-output.</p>
-<p>When the output buffer filled up before the input is completely processed,
-the library returns the status <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>. In this case,
-users can provide a new output buffer and reset <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_out_ptr" title="qpl_job.next_out_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_out_ptr</span></code></a>
-and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a> accordingly. The input buffer
-parameters <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a>
-do not need to be reset since they would have been updated.</p>
-<p>Note that it is possible that the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> field
-is 0, but the returned status is <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>. In this case,
-the subsequent job will be submitted with a zero-length input buffer.</p>
+<div class="section" id="getting-qpl-sts-more-output-needed-after-decompression">
+<h2>Getting <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> after Decompression<a class="headerlink" href="#getting-qpl-sts-more-output-needed-after-decompression" title="Permalink to this headline">¶</a></h2>
+<p>In general, the application may not know how much data a given compressed stream will decompress to.
+If the output buffer fills up before the input is completely processed,
+the library returns the status <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>, which means that the decompressor stopped early
+to avoid overflowing the output buffer.
+In that case, only partial data is written to the output, and internal state is now stored in the job structure.
+This allows for the decompression operation to resume from the same place where it stopped.</p>
+<p>The job structure would be updated as in the result of successful execution, meaning, for example, that
+the size of the partial data written to the output is available via <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.total_out" title="qpl_job.total_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.total_out</span></code></a>,
+and input buffer parameters <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a>
+are updated by the library to reflect how many input bytes were processed successfully.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The situation is called euphemistically “output overflow”
-although no actual overflow occurs. It comes from the fact that
-the output buffer would have been overflowed if the decompressor did
-not stop early.</p>
+<p>It is possible to have <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> returned as <cite>0</cite> and get the
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> error.
+This case means that all the input bytes were processed,
+but the output buffer was smaller than required, and resubmission will happen with the
+input buffer of zero length.</p>
+</div>
+<dl class="simple">
+<dt>In order to submit job for continuation:</dt><dd><ul class="simple">
+<li><p>The user must not reset input <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_in_ptr" title="qpl_job.next_in_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_in_ptr</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> parameters,
+as they were updated by the library and already reflect the correct offset.</p></li>
+<li><p>If the job was marked previously with <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a>, this flag must be unset.</p></li>
+<li><p>The user must provide an output buffer for continuation and reset <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.next_out_ptr" title="qpl_job.next_out_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.next_out_ptr</span></code></a>
+to its value and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a> to its size.
+The user could choose, for instance, to allocate a bigger output buffer or to reuse the same memory.
+In the latter case, previously decompressed data must be stored somewhere else,
+as it would be overwritten otherwise.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>If returned values in <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a> fields
+are the same when error <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> occurred,
+this means that the library was not able to make any forward progress.
+In this case, it is most probably that the output buffer size is too small,
+and the user must allocate a bigger chunk of memory for an output.</p>
 </div>
 </div>
 <div class="section" id="checksums">
