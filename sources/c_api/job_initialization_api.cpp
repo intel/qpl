@@ -14,7 +14,6 @@
 #include "qpl/qpl.h"
 #include "simple_memory_ops.hpp"
 #include "util/hw_status_converting.hpp"
-#include "compression/verification/verification_state.hpp"
 
 // Legacy
 #include "own_defs.h"

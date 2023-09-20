@@ -17,7 +17,6 @@
 
 #include "deflate_slow_utils.h"
 #include "deflate_slow_matcher.h"
-#include "deflate_defs.h"
 
 typedef struct deflate_icf_stream deflate_icf_stream;
 
