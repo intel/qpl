@@ -296,8 +296,9 @@ To build the offline version of the documentation, the following tools must be i
 - `Breathe <https://breathe.readthedocs.io/en/latest/>`__ 4.29.0 or higher (e.g., with ``pip3 install breathe``)
 
 Use `requirements.txt` file to install predefined version of components.
+
 .. code-block:: shell
-   
+
    pip install -r <qpl_library>/doc/requirements.txt
 
 Build Steps
