@@ -111,7 +111,7 @@ protected:
         destination.resize(max_length * 2);
         std::fill(destination.begin(), destination.end(), 0u);
 
-        // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decomressed size;
+        // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decompressed size;
         // This also should be mentioned in the manual: decompression can generate up to 7 extra
         // bytes from the last byte padding bits.
         reference_buffer.resize(max_length + 7u);

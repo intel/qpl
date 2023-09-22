@@ -6,17 +6,19 @@
 
 #include <array>
 #include <memory>
+
 #include "operation_test.hpp"
 #include "source_provider.hpp"
 #include "ta_ll_common.hpp"
+#include "huffman_table_unique.hpp"
 
 namespace qpl::test {
 template <class Iterator>
 auto init_huffman_table(qpl_huffman_table_t huffman_table,
-                                    Iterator begin,
-                                    Iterator end,
-                                    qpl_compression_levels level,
-                                    qpl_path_t path) -> void {
+                        Iterator begin,
+                        Iterator end,
+                        qpl_compression_levels level,
+                        qpl_path_t path) -> void {
     auto           *source_ptr = &*begin;
     const uint32_t source_size = std::distance(begin, end);
 
@@ -27,11 +29,9 @@ auto init_huffman_table(qpl_huffman_table_t huffman_table,
                                                 &deflate_histogram,
                                                 level,
                                                 path);
-
     ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather statistics";
 
     status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
-
     ASSERT_EQ(status, QPL_STS_OK) << "Failed to build compression table";
 }
 
@@ -73,18 +73,18 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             qpl_huffman_table_t huffman_table;
             auto ht_destroy_status = QPL_STS_OK;
 
-            auto status = qpl_deflate_huffman_table_create(combined_table_type,
-                                                           path,
-                                                           DEFAULT_ALLOCATOR_C,
-                                                           &huffman_table);
-            ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+            unique_huffman_table table(deflate_huffman_table_maker(combined_table_type,
+                                                                   path,
+                                                                   DEFAULT_ALLOCATOR_C),
+                                       any_huffman_table_deleter);
+            ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
-            init_huffman_table(huffman_table,
+            init_huffman_table(table.get(),
                                source.data(),
                                source.data() + file_size,
                                qpl_default_level,
                                path);
-            ASSERT_EQ(QPL_STS_OK, status) << "Failed to build huffman table";
+            ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize huffman table";
 
             // Configure compression job fields
             job_ptr->op            = qpl_op_compress;
@@ -93,17 +93,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             job_ptr->available_in  = file_size;
             job_ptr->next_out_ptr  = destination.data();
             job_ptr->available_out = static_cast<uint32_t>(destination.size());
-            job_ptr->huffman_table = huffman_table;
+            job_ptr->huffman_table = table.get();
             job_ptr->flags         = QPL_FLAG_FIRST |
                                      QPL_FLAG_LAST |
                                      QPL_FLAG_OMIT_VERIFY |
                                      QPL_FLAG_CANNED_MODE;
 
             status = run_job_api(job_ptr);
-            if (QPL_STS_OK != status) {
-                ht_destroy_status = qpl_huffman_table_destroy(huffman_table);
-                ASSERT_EQ(QPL_STS_OK, ht_destroy_status) << "Huffman table destruction failed when exiting the test upon compression failure";
-            }
             ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
             destination.resize(job_ptr->total_out);
@@ -121,13 +117,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             job_ptr->next_out_ptr  = reference_buffer.data();
             job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
             job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
-            job_ptr->huffman_table = huffman_table;
+            job_ptr->huffman_table = table.get();
 
             status = run_job_api(job_ptr);
-            if (QPL_STS_OK != status) {
-                ht_destroy_status = qpl_huffman_table_destroy(huffman_table);
-                ASSERT_EQ(QPL_STS_OK, ht_destroy_status) << "Huffman table destruction failed when exiting the test upon decompression failure";
-            }
             ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
             reference_buffer.resize(job_ptr->total_out);
@@ -143,9 +135,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
                                        source,
                                        file_size,
                                        "File: " + dataset.first));
-
-            status = qpl_huffman_table_destroy(huffman_table);
-            ASSERT_EQ(QPL_STS_OK, status) << "Huffman table destruction failed";
 
             destination.resize(source.size() * 2);
             reference_buffer.resize(source.size());

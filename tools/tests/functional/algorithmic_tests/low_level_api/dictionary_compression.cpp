@@ -13,6 +13,7 @@
 #include "util.hpp"
 #include "check_result.hpp"
 #include "random_generator.h"
+#include "huffman_table_unique.hpp"
 
 namespace qpl::test {
 enum compression_mode {
@@ -410,7 +411,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateless) {
     // HW dictionary compression is not enabled, so compression path is always set to SW
     // Upon enabling of HW dictionary compression, these tests should be updated so that
     // compression path takes in the given execution path, like decompression path currently does
-    
+
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1655,13 +1656,11 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -1670,24 +1669,17 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
                 compress_with_chunks<compression_mode::static_compression>(source,
                                                                            compressed_destination,
                                                                            source.size(),
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_default_level);
 
                 decompress_with_chunks(compressed_destination,
@@ -1695,7 +1687,6 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
                                        compressed_destination.size(),
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -1755,13 +1746,11 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -1770,17 +1759,10 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -1791,7 +1773,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
                                                                            compressed_destination,
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_default_level);
 
                 decompress_with_chunks(compressed_destination,
@@ -1799,7 +1781,6 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
                                        compressed_destination.size(),
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -1859,13 +1840,11 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -1874,24 +1853,17 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 compress_with_chunks<compression_mode::static_compression>(source,
                                                                            compressed_destination,
                                                                            source.size(),
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_default_level);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -1903,7 +1875,6 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
                                        decompression_chunk_size,
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -1963,13 +1934,11 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -1978,17 +1947,10 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -1999,7 +1961,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
                                                                            compressed_destination,
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_default_level);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -2010,7 +1972,6 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
                                        decompression_chunk_size,
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -2070,13 +2031,11 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -2085,24 +2044,17 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
                                                        &deflate_histogram,
                                                        qpl_high_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 compress_with_chunks<compression_mode::static_compression>(source,
                                                                            compressed_destination,
                                                                            source.size(),
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_high_level);
 
                 decompress_with_chunks(compressed_destination,
@@ -2110,7 +2062,6 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
                                        compressed_destination.size(),
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -2170,13 +2121,11 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -2185,17 +2134,10 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -2206,7 +2148,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
                                                                            compressed_destination,
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_high_level);
 
                 decompress_with_chunks(compressed_destination,
@@ -2214,7 +2156,6 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
                                        compressed_destination.size(),
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -2274,13 +2215,11 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -2289,24 +2228,17 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 compress_with_chunks<compression_mode::static_compression>(source,
                                                                            compressed_destination,
                                                                            source.size(),
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_high_level);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -2318,7 +2250,6 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
                                        decompression_chunk_size,
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -2378,13 +2309,11 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                                                                       compression_execution_path,
+                                                                       DEFAULT_ALLOCATOR_C),
+                                           any_huffman_table_deleter);
+                ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -2393,17 +2322,10 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
@@ -2414,7 +2336,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
                                                                            compressed_destination,
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           table.get(),
                                                                            qpl_compression_levels::qpl_high_level);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -2425,7 +2347,6 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
                                        decompression_chunk_size,
                                        dictionary_ptr);
 
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
                 ASSERT_TRUE(CompareVectors(decompressed_destination, source));
             }
         }
@@ -2489,13 +2410,11 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                          compression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                         compression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                            any_huffman_table_deleter);
+                ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
@@ -2504,48 +2423,35 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(c_table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
                 compress_with_chunks<compression_mode::canned_compression>(source,
                                                                            compressed_destination,
                                                                            source.size(),
                                                                            dictionary_ptr,
-                                                                           c_huffman_table,
+                                                                           c_table.get(),
                                                                            qpl_compression_levels::qpl_default_level);
 
                 // Create and fill the decompression table
-                qpl_huffman_table_t d_huffman_table;
+                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                                                                         decompression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
-                status = qpl_deflate_huffman_table_create(decompression_table_type,
-                                                          decompression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-                status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+                status = qpl_huffman_table_init_with_other(d_table.get(),
+                                                           c_table.get());
+                ASSERT_EQ(status, QPL_STS_OK) << "Decompression table initialization failed\n";
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
                                        compressed_destination.size(),
                                        dictionary_ptr,
-                                       d_huffman_table);
-
-                status = qpl_huffman_table_destroy(c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Compression table destruction failed";
-
-                status = qpl_huffman_table_destroy(d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Decompression table destruction failed";
+                                       d_table.get());
             }
         }
     }
@@ -2579,7 +2485,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
         }
         else {
             hw_compr_level = hw_levels[i];
-        } 
+        }
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
 
@@ -2592,32 +2498,23 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                 }
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                               compression_execution_path,
-                                                               DEFAULT_ALLOCATOR_C,
-                                                               &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                         compression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
-                status = qpl_gather_deflate_statistics(source.data(),
+                auto status = qpl_gather_deflate_statistics(source.data(),
                                                        static_cast<uint32_t>(source.size()),
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(c_table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
                 std::vector<uint8_t> destination(source.size() * 2);
@@ -2663,19 +2560,14 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                qpl_huffman_table_t d_huffman_table;
+                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                                                                         decompression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
-                status = qpl_deflate_huffman_table_create(decompression_table_type,
-                                                          decompression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-                status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_other(d_table.get(),
+                                                           c_table.get());
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Compress
@@ -2685,7 +2577,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                 compression_job_ptr->available_out = static_cast<uint32_t>(destination.size());
                 compression_job_ptr->next_out_ptr  = destination.data();
                 compression_job_ptr->dictionary    = dictionary_ptr;
-                compression_job_ptr->huffman_table = c_huffman_table;
+                compression_job_ptr->huffman_table = c_table.get();
 
                 qpl::test::random random(0u, 0u, seed);
 
@@ -2707,10 +2599,6 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                     compression_job_ptr->next_in_ptr  = source.data() + iteration_count * chunk_size;
                     compression_job_ptr->available_in = current_chunk_size;
                     status = run_job_api(compression_job_ptr);
-                    if(QPL_STS_OK != status){
-                        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                        EXPECT_EQ(qpl_huffman_table_destroy(d_huffman_table), QPL_STS_OK);
-                    }
                     ASSERT_EQ(status, QPL_STS_OK);
 
                     compression_job_ptr->flags &= ~QPL_FLAG_FIRST;
@@ -2726,11 +2614,9 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
                 decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());
                 decompression_job_ptr->next_out_ptr  = reference.data();
                 decompression_job_ptr->dictionary    = dictionary_ptr;
-                decompression_job_ptr->huffman_table = d_huffman_table;
+                decompression_job_ptr->huffman_table = d_table.get();
 
                 status = run_job_api(decompression_job_ptr);
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                EXPECT_EQ(qpl_huffman_table_destroy(d_huffman_table), QPL_STS_OK);
                 ASSERT_EQ(status, QPL_STS_OK);
 
                 ASSERT_TRUE(CompareVectors(reference, source));
@@ -2783,32 +2669,22 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
                 std::vector<uint8_t> reference(source.size(), 0);
 
                 // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
-
-                auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                               compression_execution_path,
-                                                               DEFAULT_ALLOCATOR_C,
-                                                               &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                         compression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
-                status = qpl_gather_deflate_statistics(source.data(),
+                auto status = qpl_gather_deflate_statistics(source.data(),
                                                        static_cast<uint32_t>(source.size()),
                                                        &deflate_histogram,
                                                        qpl_default_level,
                                                        compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(c_table.get(), &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
                 uint32_t compression_job_size   = 0;
@@ -2851,16 +2727,14 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                qpl_huffman_table_t d_huffman_table;
+                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                                                                         decompression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
-                status = qpl_deflate_huffman_table_create(decompression_table_type,
-                                                          decompression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-                status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
-
+                status = qpl_huffman_table_init_with_other(d_table.get(),
+                                                           c_table.get());
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Compress
@@ -2872,7 +2746,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
                 compression_job_ptr->next_out_ptr  = destination.data();
                 compression_job_ptr->dictionary    = dictionary_ptr;
                 compression_job_ptr->level         = qpl_compression_levels::qpl_high_level;
-                compression_job_ptr->huffman_table = c_huffman_table;
+                compression_job_ptr->huffman_table = c_table.get();
 
                 status = run_job_api(compression_job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK);
@@ -2886,18 +2760,12 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
                 decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());
                 decompression_job_ptr->next_out_ptr  = reference.data();
                 decompression_job_ptr->dictionary    = dictionary_ptr;
-                decompression_job_ptr->huffman_table = d_huffman_table;
+                decompression_job_ptr->huffman_table = d_table.get();
 
                 status = run_job_api(decompression_job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK);
 
                 ASSERT_TRUE(CompareVectors(reference, source));
-
-                status = qpl_huffman_table_destroy(c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK);
-
-                status = qpl_huffman_table_destroy(d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK);
 
                 qpl_fini_job(compression_job_ptr);
                 qpl_fini_job(decompression_job_ptr);
@@ -2946,33 +2814,25 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
                 if (dictionary_length > 4096) {
                     dictionary_length = static_cast<uint32_t>(source.size());
                 }
-                // Create and fill the compression table
-                qpl_huffman_table_t c_huffman_table;
 
-                auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                               compression_execution_path,
-                                                               DEFAULT_ALLOCATOR_C,
-                                                               &c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+                // Create and fill the compression table
+                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                         compression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
                 // Build the table
-                status = qpl_gather_deflate_statistics(source.data(),
-                                                       static_cast<uint32_t>(source.size()),
-                                                       &deflate_histogram,
-                                                       qpl_default_level,
-                                                       compression_execution_path);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                auto status = qpl_gather_deflate_statistics(source.data(),
+                                                            static_cast<uint32_t>(source.size()),
+                                                            &deflate_histogram,
+                                                            qpl_default_level,
+                                                            compression_execution_path);
                 ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
-                status = qpl_huffman_table_init_with_histogram(c_huffman_table, &deflate_histogram);
-
-                if(QPL_STS_OK != status){
-                    EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-                }
+                status = qpl_huffman_table_init_with_histogram(c_table.get(),
+                                                               &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table init failed";
 
                 std::vector<uint8_t> destination(source.size() * 2);
@@ -3018,16 +2878,14 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                qpl_huffman_table_t d_huffman_table;
+                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                                                                         decompression_execution_path,
+                                                                         DEFAULT_ALLOCATOR_C),
+                                             any_huffman_table_deleter);
+                ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
-                status = qpl_deflate_huffman_table_create(decompression_table_type,
-                                                          decompression_execution_path,
-                                                          DEFAULT_ALLOCATOR_C,
-                                                          &d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-                status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
-
+                status = qpl_huffman_table_init_with_other(d_table.get(),
+                                                           c_table.get());
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Compress
@@ -3037,7 +2895,7 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
                 compression_job_ptr->next_out_ptr  = destination.data();
                 compression_job_ptr->dictionary    = dictionary_ptr;
                 compression_job_ptr->level         = qpl_compression_levels::qpl_high_level;
-                compression_job_ptr->huffman_table = c_huffman_table;
+                compression_job_ptr->huffman_table = c_table.get();
 
                 qpl::test::random random(0u, 0u, seed);
 
@@ -3074,18 +2932,12 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
                 decompression_job_ptr->available_out = static_cast<uint32_t>(reference.size());
                 decompression_job_ptr->next_out_ptr  = reference.data();
                 decompression_job_ptr->dictionary    = dictionary_ptr;
-                decompression_job_ptr->huffman_table = d_huffman_table;
+                decompression_job_ptr->huffman_table = d_table.get();
 
                 status = run_job_api(decompression_job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK);
 
                 ASSERT_TRUE(CompareVectors(reference, source));
-
-                status = qpl_huffman_table_destroy(c_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK);
-
-                status = qpl_huffman_table_destroy(d_huffman_table);
-                ASSERT_EQ(status, QPL_STS_OK);
 
                 qpl_fini_job(compression_job_ptr);
                 qpl_fini_job(decompression_job_ptr);
