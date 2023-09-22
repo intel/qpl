@@ -9,9 +9,6 @@
 
 #include "simple_memory_ops_c_bind.h"
 
-#define PLATFORM 2
-#include "qplc_memop.h"
-
 HW_PATH_IAA_API(void, descriptor_reset, (hw_descriptor *const descriptor_ptr)) {
     call_c_set_zeros_uint8_t((uint8_t *) descriptor_ptr, sizeof(hw_descriptor));
 }
