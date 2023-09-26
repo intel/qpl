@@ -7,6 +7,7 @@
 #include "base_cross_test_fixture.hpp"
 #include "huffman_only_test_cases.hpp"
 #include "compression_huffman_table.hpp"
+#include "iaa_features_checks.hpp"
 
 namespace qpl::test {
 
@@ -175,9 +176,11 @@ public:
         status = run_job_api(hw_job_ptr);
 
         // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress.
-        //  Expect error in this case.
+        // Expect error in this case.
+        // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
+        // this limitation will not apply.
         if (QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR == status && current_test_case.is_huffman_be &&
-            hw_job_ptr->ignore_end_bits > 7) {
+            hw_job_ptr->ignore_end_bits > 7 && !are_iaa_gen_2_min_capabilities_present()) {
             return testing::AssertionSuccess();
         }
 

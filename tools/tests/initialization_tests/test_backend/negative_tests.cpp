@@ -11,7 +11,7 @@
 
 #include "hw_accelerator_api.h"
 #include "gtest/gtest.h"
-#include "util.hpp"
+#include "hw_status.h"
 
 /**
  * @brief Negative tests register
@@ -22,10 +22,6 @@ TEST(tn_init, test) { \
     hw_accelerator_status  status = hw_accelerator_get_context(&context); \
     EXPECT_EQ(status, expected_value); } \
 
-namespace qpl::test {
-
 QPL_INIT_NEGATIVE_TEST(libaccel_not_found, HW_ACCELERATOR_LIBACCEL_NOT_FOUND);
 QPL_INIT_NEGATIVE_TEST(instance_not_found, HW_ACCELERATOR_LIBACCEL_ERROR);
 QPL_INIT_NEGATIVE_TEST(work_queues_not_available, HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE);
-
-}

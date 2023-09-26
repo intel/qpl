@@ -13,11 +13,9 @@
 #include "gtest/gtest.h"
 #include "hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
-#include "util.hpp"
+#include "hw_status.h"
 
 #define QPL_INIT_ALGORITHMIC_TEST(test) TEST(ta_init, test) /**< Algorithmic tests register */
-
-namespace qpl::test {
 
 QPL_INIT_ALGORITHMIC_TEST(try_init) {
     hw_accelerator_context context;
@@ -64,5 +62,4 @@ QPL_INIT_ALGORITHMIC_TEST(gencap_read_correctly) {
     qpl::ml::dispatcher::hw_dispatcher::get_instance();
 
     EXPECT_EQ(status, HW_ACCELERATOR_STATUS_OK);
-}
 }

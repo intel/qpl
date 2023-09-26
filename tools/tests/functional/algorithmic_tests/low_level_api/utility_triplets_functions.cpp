@@ -9,6 +9,7 @@
 #include "../../../common/operation_test.hpp"
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
+#include "iaa_features_checks.hpp"
 
 namespace qpl::test {
 constexpr uint32_t offsets_table_size = 30u;
@@ -159,7 +160,8 @@ protected:
             ASSERT_EQ(QPL_STS_OK, status);
         } else {
             if (QPL_STS_OK != status) {
-                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
+                // Check HW version
+                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be && !are_iaa_gen_2_min_capabilities_present()) {
                     // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.
@@ -168,6 +170,9 @@ protected:
                     // (no headers and big-endian-16), verify not be used, and if the user wants to verify
                     // the output, they should (within the app) decompress the compressed buffer into a new
                     // buffer, and compare that against the original input.
+
+                    // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
+                    // this limitation will not apply.
 
                     std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
                     std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
@@ -200,9 +205,17 @@ protected:
         // Decompress
         status = run_job_api(decompression_job_ptr);
 
-        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress. Expect error in this case.
+        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress.
+        // Expect error in this case.
+        // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
+        // this limitation will not apply.
         bool skip_verify = false;
-        if (QPL_FLAG_HUFFMAN_BE == flag_be && qpl_path_hardware == job_ptr->data_ptr.path && decompression_job_ptr->ignore_end_bits > 7) {
+
+        if (qpl_path_hardware == job_ptr->data_ptr.path &&
+            QPL_FLAG_HUFFMAN_BE == flag_be &&
+            decompression_job_ptr->ignore_end_bits > 7 &&
+            !are_iaa_gen_2_min_capabilities_present()) {
+
             ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
             skip_verify = true;
         } else {
@@ -301,7 +314,8 @@ protected:
             ASSERT_EQ(QPL_STS_OK, status);
         } else {
             if (QPL_STS_OK != status) {
-                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be) {
+                // Check HW version
+                if (QPL_STS_INTL_VERIFY_ERR == status && QPL_FLAG_HUFFMAN_BE == flag_be && !are_iaa_gen_2_min_capabilities_present()) {
                     // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                     // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                     // So in some cases, verify will fail in the BE16 case.
@@ -310,6 +324,9 @@ protected:
                     // (no headers and big-endian-16), verify not be used, and if the user wants to verify
                     // the output, they should (within the app) decompress the compressed buffer into a new
                     // buffer, and compare that against the original input.
+
+                    // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
+                    // this limitation will not apply.
 
                     std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
                     std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
@@ -341,9 +358,17 @@ protected:
         // Decompress
         status = run_job_api(decompression_job_ptr);
 
-        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress. Expect error in this case.
+        // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress.
+        // Expect error in this case.
+        // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
+        // this limitation will not apply.
         bool skip_verify = false;
-        if (QPL_FLAG_HUFFMAN_BE == flag_be && qpl_path_hardware == job_ptr->data_ptr.path && decompression_job_ptr->ignore_end_bits > 7) {
+
+        if (qpl_path_hardware == job_ptr->data_ptr.path &&
+            QPL_FLAG_HUFFMAN_BE == flag_be &&
+            decompression_job_ptr->ignore_end_bits > 7 &&
+            !are_iaa_gen_2_min_capabilities_present()) {
+
             ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
             skip_verify = true;
         } else {

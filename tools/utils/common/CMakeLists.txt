@@ -9,7 +9,7 @@
 
 enable_language(CXX)
 
-file(GLOB SOURCES *.cpp )
+file(GLOB SOURCES *.cpp hw_dispatcher/*.cpp hw_dispatcher/*.c )
 
 add_library(tool_common STATIC ${SOURCES})
 
@@ -17,8 +17,7 @@ target_include_directories(tool_common
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         PRIVATE $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>     #todo remove dependency
         PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>                #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>   #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>)           #todo remove dependency
+        PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>)   #todo remove dependency
 
 set_target_properties(tool_common PROPERTIES CXX_STANDARD 17)
 
@@ -57,5 +56,6 @@ else ()
             Linux
             LINUX32E
             _linux32e
-            _LINUX32E)
+            _LINUX32E
+            PRIVATE $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG>)
 endif ()

@@ -13,7 +13,7 @@
 #include <fstream>
 
 #include "qpl/qpl.h"
-#include "hw_status.h"
+#include "hw_dispatcher/hw_status.h"
 
 #define HIGH_BIT_MASK 0x80
 #define BYTE_BIT_LENGTH 8u
@@ -54,47 +54,47 @@ namespace qpl::test
     class hw_accelerator_status
     {
     public:
-        hw_accelerator_status(::hw_accelerator_status status) : _status{status} {}
+        hw_accelerator_status(::qpl_test_hw_accelerator_status status) : _status{status} {}
 
-        operator ::hw_accelerator_status() const
+        operator ::qpl_test_hw_accelerator_status() const
         {
             return _status;
         }
     private:
-        ::hw_accelerator_status _status;
+        ::qpl_test_hw_accelerator_status _status;
     };
 
     static std::ostream & operator<<(std::ostream &strm, hw_accelerator_status const &status_ex)
     {
-        ::hw_accelerator_status status = status_ex;
+        ::qpl_test_hw_accelerator_status status = status_ex;
         strm << status;
         switch(status)
         {
-        case HW_ACCELERATOR_STATUS_OK:
-            strm << ": HW_ACCELERATOR_STATUS_OK";
+        case QPL_TEST_HW_ACCELERATOR_STATUS_OK:
+            strm << ": QPL_TEST_HW_ACCELERATOR_STATUS_OK";
             break;
-        case HW_ACCELERATOR_NULL_PTR_ERR:
-            strm << ": HW_ACCELERATOR_NULL_PTR_ERR";
+        case QPL_TEST_HW_ACCELERATOR_NULL_PTR_ERR:
+            strm << ": QPL_TEST_HW_ACCELERATOR_NULL_PTR_ERR";
             strm << " - null pointer error";
             break;
-        case HW_ACCELERATOR_LIBACCEL_NOT_FOUND:
-            strm << ": HW_ACCELERATOR_LIBACCEL_NOT_FOUND";
+        case QPL_TEST_HW_ACCELERATOR_LIBACCEL_NOT_FOUND:
+            strm << ": QPL_TEST_HW_ACCELERATOR_LIBACCEL_NOT_FOUND";
             strm << " - proper version of libaccel-config.so.1 was not found in the /usr/lib64";
             break;
-        case HW_ACCELERATOR_LIBACCEL_ERROR:
-            strm << ": HW_ACCELERATOR_LIBACCEL_ERROR";
+        case QPL_TEST_HW_ACCELERATOR_LIBACCEL_ERROR:
+            strm << ": QPL_TEST_HW_ACCELERATOR_LIBACCEL_ERROR";
             strm << " - libaccel-config internal error";
             break;
-        case HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE:
-            strm << ": HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE";
+        case QPL_TEST_HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE:
+            strm << ": QPL_TEST_HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE";
             strm << " - No enabled shared WQ";
             break;
-        case HW_ACCELERATOR_SUPPORT_ERR:
-            strm << ": HW_ACCELERATOR_SUPPORT_ERR";
+        case QPL_TEST_HW_ACCELERATOR_SUPPORT_ERR:
+            strm << ": QPL_TEST_HW_ACCELERATOR_SUPPORT_ERR";
             strm << " - System doesn't support accelerator";
             break;
-        case HW_ACCELERATOR_WQ_IS_BUSY:
-            strm << ": HW_ACCELERATOR_WQ_IS_BUSY";
+        case QPL_TEST_HW_ACCELERATOR_WQ_IS_BUSY:
+            strm << ": QPL_TEST_HW_ACCELERATOR_WQ_IS_BUSY";
             strm << " - Work queue is busy with task processing";
             break;
         }

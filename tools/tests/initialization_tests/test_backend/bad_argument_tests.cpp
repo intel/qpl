@@ -13,16 +13,12 @@
 #include "gtest/gtest.h"
 #include "hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
-#include "util.hpp"
+#include "hw_status.h"
 
 #define QPL_INIT_BAD_ARGUMENT_TEST(test) TEST(tb_init, test) /**< Bad argument tests register */
-
-namespace qpl::test {
 
 QPL_INIT_BAD_ARGUMENT_TEST(context_null) {
     hw_accelerator_status status = hw_accelerator_get_context(nullptr);
 
     EXPECT_EQ(status, HW_ACCELERATOR_NULL_PTR_ERR);
-}
-
 }
