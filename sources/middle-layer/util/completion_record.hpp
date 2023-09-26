@@ -79,7 +79,7 @@ noexcept -> compression::decompression_operation_result_t {
     decompression_operation_result.output_bytes_     = completion_record->output_size;
     decompression_operation_result.completed_bytes_  = completion_record->bytes_completed;
     decompression_operation_result.checksums_.crc32_ = completion_record->crc;
-    decompression_operation_result.checksums_.xor_ = completion_record->xor_checksum;
+    decompression_operation_result.checksums_.xor_   = completion_record->xor_checksum;
 
     return decompression_operation_result;
 }
@@ -94,9 +94,9 @@ noexcept -> compression::compression_operation_result_t {
     compression_operation_result.status_code_      = convert_status_iaa_to_qpl(completion_record_ptr);
     compression_operation_result.output_bytes_     = completion_record->output_size;
     compression_operation_result.completed_bytes_  = completion_record->bytes_completed;
-    compression_operation_result.last_bit_offset   = completion_record->output_bits & 7;
+    compression_operation_result.last_bit_offset   = completion_record->output_bits;
     compression_operation_result.checksums_.crc32_ = completion_record->crc;
-    compression_operation_result.checksums_.xor_ = completion_record->xor_checksum;
+    compression_operation_result.checksums_.xor_   = completion_record->xor_checksum;
 
     return compression_operation_result;
 }
@@ -111,7 +111,7 @@ noexcept -> compression::verification_pass_result_t {
     verification_pass_result.status_code_      = convert_status_iaa_to_qpl(completion_record_ptr);
     verification_pass_result.indexes_written_  = completion_record->output_size / sizeof (uint64_t);
     verification_pass_result.checksums_.crc32_ = completion_record->crc;
-    verification_pass_result.checksums_.xor_ = completion_record->xor_checksum;
+    verification_pass_result.checksums_.xor_   = completion_record->xor_checksum;
 
     return verification_pass_result;
 }

@@ -207,7 +207,7 @@ public:
 
     inline auto dictionary(qpl_dictionary &dictionary) noexcept -> inflate_state &;
 
-    inline auto aecs_format_version(aecs_format format_in) noexcept -> inflate_state &;
+    inline auto set_is_gen1_hw(bool is_gen1) noexcept -> inflate_state &;
 
     [[nodiscard]] inline auto is_first() const noexcept -> bool;
 
@@ -241,7 +241,7 @@ private:
     hw_descriptor                         *descriptor_        = nullptr;
     HW_PATH_VOLATILE hw_completion_record *completion_record_ = nullptr;
     hw_iaa_aecs_analytic                  *decompress_aecs_   = nullptr;
-    aecs_format                            aecs_format_stored = mapping_table;
+    bool                                   is_gen1_hw_        = true;
 
     bool                   is_dictionary_set = false;
     qpl_dictionary         *dictionary_ptr   = nullptr;
@@ -470,8 +470,8 @@ inline auto inflate_state<execution_path_t::hardware>::input_access(access_prope
     return *this;
 }
 
-inline auto inflate_state<execution_path_t::hardware>::aecs_format_version(aecs_format format_in) noexcept -> inflate_state & {
-    aecs_format_stored = format_in;
+inline auto inflate_state<execution_path_t::hardware>::set_is_gen1_hw(bool is_gen1) noexcept -> inflate_state & {
+    is_gen1_hw_ = is_gen1;
 
     return *this;
 }
@@ -572,7 +572,7 @@ template <>
     hw_iaa_aecs_decompress_set_crc_seed(&decompress_aecs_[execution_state_ptr->aecs_index], inflate_state_.crc);
 
     hw_iaa_aecs_decompress_state_set_aecs_format(&decompress_aecs_[execution_state_ptr->aecs_index].inflate_options,
-                                                 (aecs_format_stored == mapping_cam));
+                                                 !is_gen1_hw_);
 
     hw_iaa_descriptor_init_inflate(descriptor_, decompress_aecs_, HW_AECS_FILTER_AND_DECOMPRESS, access_policy);
     hw_iaa_descriptor_set_inflate_stop_check_rule(descriptor_,
@@ -602,7 +602,7 @@ template <>
     hw_iaa_aecs_decompress_clean_input_accumulator(&header_aecs_ptr->inflate_options);
 
     hw_iaa_aecs_decompress_state_set_aecs_format(&header_aecs_ptr->inflate_options,
-                                                 (aecs_format_stored == mapping_cam));
+                                                 !is_gen1_hw_);
 
     if (0u != access_properties_.ignore_start_bits) {
         core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
@@ -648,7 +648,7 @@ template <>
     hw_iaa_aecs_decompress_set_crc_seed(decompress_aecs_, inflate_state_.crc);
 
     hw_iaa_aecs_decompress_state_set_aecs_format(&decompress_aecs_->inflate_options,
-                                                 (aecs_format_stored == mapping_cam));
+                                                 !is_gen1_hw_);
 
     hw_iaa_descriptor_init_inflate_body(descriptor_,
                                         decompress_aecs_,

@@ -373,11 +373,13 @@ HW_PATH_IAA_API(void, descriptor_compress_set_termination_rule, (hw_descriptor *
  *                       or @ref hw_iaa_descriptor_init_statistic_collector
  * @param aecs_ptr       @ref hw_iaa_aecs_compress
  * @param access_policy  @ref hw_iaa_aecs_access_policy
+ * @param is_gen1        HW is generation 1
  *
  */
 HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descriptor_ptr,
                                                      hw_iaa_aecs *const aecs_ptr,
-                                                     const hw_iaa_aecs_access_policy access_policy));
+                                                     const hw_iaa_aecs_access_policy access_policy,
+                                                     bool is_gen1));
 
 /**
  * @todo API will be described after refactoring completed
@@ -405,7 +407,8 @@ HW_PATH_IAA_API(void, descriptor_compress_verification_write_initial_index, (hw_
 HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *const descriptor_ptr,
                                                                 hw_iaa_aecs *const aecs_ptr,
                                                                 const bool huffman_be,
-                                                                const uint8_t ignore_end_bits));
+                                                                const uint8_t ignore_end_bits,
+                                                                const bool is_gen1));
 
 
 /**

@@ -71,15 +71,18 @@ extern "C" {
 #define ADOF_GET_OPCODE(x)      (((x) >> 24u) & 0xFFu)  /**< @todo */
 
 // decompression flags
-#define ADDF_ENABLE_DECOMP      (1u << 0u)              /**< @todo */
-#define ADDF_FLUSH_OUTPUT       (1u << 1u)              /**< @todo */
-#define ADDF_STOP_ON_EOB        (1u << 2u)              /**< @todo */
-#define ADDF_CHECK_FOR_EOB      (1u << 3u)              /**< @todo */
-#define ADDF_SEL_BFINAL_EOB     (1u << 4u)              /**< @todo */
-#define ADDF_DECOMP_BE          (1u << 5u)              /**< @todo */
-#define ADDF_IGNORE_END_BITS(x) (((x) & 7u) << 6u)      /**< @todo */
-#define ADDF_SUPPRESS_OUTPUT    (1u << 9u)              /**< @todo */
-#define ADDF_ENABLE_IDXING(x)   (((x) & 7u) << 10u)     /**< @todo */
+#define ADDF_ENABLE_DECOMP       (1u << 0u)              /**< @todo */
+#define ADDF_FLUSH_OUTPUT        (1u << 1u)              /**< @todo */
+#define ADDF_STOP_ON_EOB         (1u << 2u)              /**< @todo */
+#define ADDF_CHECK_FOR_EOB       (1u << 3u)              /**< @todo */
+#define ADDF_SEL_BFINAL_EOB      (1u << 4u)              /**< @todo */
+#define ADDF_DECOMP_BE           (1u << 5u)              /**< @todo */
+#define ADDF_IGNORE_END_BITS(x)  (((x) & 7u) << 6u)      /**< This 3-bit flag represents the number of bits
+                                                              to ignore at the end of the compressed input stream.
+                                                              Sometimes, a 4th bit may be supported (see below) */
+#define ADDF_IGNORE_END_BITS_EXT (1u << 14u)             /**< The 4th high-order bit for Ignore End Bits */
+#define ADDF_SUPPRESS_OUTPUT     (1u << 9u)              /**< @todo */
+#define ADDF_ENABLE_IDXING(x)    (((x) & 7u) << 10u)     /**< @todo */
 
 // compression flags
 #define ADCF_STATS_MODE         (1u << 0u)                    /**< @todo */

@@ -22,6 +22,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression_operations/huffman_table.hpp"
+#include "util/iaa_features_checks.hpp"
 
 #include "dispatcher/hw_dispatcher.hpp"
 
@@ -274,9 +275,11 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         auto access_policy = is_final_block ?
             hw_aecs_access_read | state_ptr->aecs_hw_read_offset :
             hw_aecs_access_read | hw_aecs_access_write | state_ptr->aecs_hw_read_offset;
+
         hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) descriptor_ptr,
                                             state_ptr->ccfg,
-                                            static_cast<hw_iaa_aecs_access_policy>(access_policy));
+                                            static_cast<hw_iaa_aecs_access_policy>(access_policy),
+                                            !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
         if (is_final_block && !is_huffman_only) {
             descriptor_ptr->decomp_flags |=
@@ -370,7 +373,8 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     // For 2-pass header generation and dynamic deflate, this is the second pass for actual compression
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) desc_ptr,
                                         state_ptr->ccfg,
-                                        static_cast<hw_iaa_aecs_access_policy>(access_policy));
+                                        static_cast<hw_iaa_aecs_access_policy>(access_policy),
+                                        !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
     hw_iaa_descriptor_set_completion_record((hw_descriptor *) desc_ptr, (hw_completion_record *) comp_ptr);
     comp_ptr->status = 0u;
@@ -414,7 +418,8 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
     auto access_policy = is_final_block ? hw_aecs_access_read : hw_aecs_access_read | hw_aecs_access_write;
     hw_iaa_descriptor_compress_set_aecs((hw_descriptor *) descriptor_ptr,
                                         state_ptr->ccfg,
-                                        static_cast<hw_iaa_aecs_access_policy>(access_policy));
+                                        static_cast<hw_iaa_aecs_access_policy>(access_policy),
+                                        !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
     descriptor_ptr->decomp_flags |= ADCF_END_PROC(AD_APPEND_EOB);
 

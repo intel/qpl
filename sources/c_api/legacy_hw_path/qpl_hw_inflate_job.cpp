@@ -25,7 +25,7 @@
 #include "dispatcher/hw_dispatcher.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/checkers.hpp"
-#include "util/aecs_format_checker.hpp"
+#include "util/iaa_features_checks.hpp"
 
 // core-sw
 #include "simple_memory_ops.hpp"
@@ -71,13 +71,16 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
                                    | ((qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) ? ADDF_DECOMP_BE : 0u)
                                    | ADDF_IGNORE_END_BITS(qpl_job_ptr->ignore_end_bits & OWN_MAX_BIT_IDX);
 
+    // Check availability of the ignore end bits extension bit
+    if (qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
+        decompression_flags |= (qpl_job_ptr->ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+    }
+
     const bool is_dictionary_mode = (qpl_job_ptr->flags & QPL_FLAG_FIRST ||
                                      !state_ptr->execution_history.first_job_has_been_submitted) &&
                                              qpl_job_ptr->dictionary != NULL;
 
-    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
-                                    ? true
-                                    : false;
+    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     if (state_ptr->execution_history.first_job_has_been_submitted) {
         operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
@@ -229,9 +232,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                                    | ADDF_ENABLE_IDXING(qpl_job_ptr->mini_block_size)
                                    | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0u);
 
-    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
-                                    ? true
-                                    : false;
+    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     if (is_first_job) {
         if (is_indexing_enabled) {
@@ -303,11 +304,22 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     // so in some cases the 0 padding bits added to the end of the stream (to reach a byte boundary) may
     // decode into a valid output byte, causing the verify operation to fail.
     // The fix is that when the library is creating the verify job and NO_HDRS is specified, and it is a LAST job,
-    // then the descriptor flags field for IGNORE_END_BITs should be set to (8-output_bits),
+    // then the descriptor flags field for IGNORE_END_BITs should be set to (8u - output_bits),
+    // or (16u - output_bits) for Big Endian 16
     // where output_bits is the output_bits field from the compress jobs completion record.
     if (((qpl_job_ptr->flags & (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS)) ==
          (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS))) {
-        desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(8u - comp_ptr->output_bits);
+        if (qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) {
+            uint8_t ignore_end_bits = 16u - comp_ptr->output_bits;
+            desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(ignore_end_bits & OWN_MAX_BIT_IDX);
+
+            // Check availability of the ignore end bits extension bit
+            if (qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
+                desc_ptr->decomp_flags |= (ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+            }
+        } else {
+            desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(8u - comp_ptr->output_bits);
+        }
     }
 
     hw_iaa_aecs_decompress_state_set_aecs_format(aecs_inflate_ptr, is_aecs_format2_expected);

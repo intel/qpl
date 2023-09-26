@@ -162,6 +162,8 @@ private:
     // Verification
     bool is_verification_enabled_ = false;
 
+    bool is_gen1_hw_ = true;
+
     template <execution_path_t path, class stream_t>
     friend auto compress_huffman_only(uint8_t *begin,
                                       const uint32_t size,

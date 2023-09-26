@@ -17,6 +17,7 @@
 #include "compression_state_t.h"
 
 #include "util/checkers.hpp"
+#include "util/iaa_features_checks.hpp"
 
 namespace qpl::job {
 
@@ -34,9 +35,11 @@ auto inline bad_arguments_check(const qpl_job *const job_ptr) -> uint32_t {
 
         // IAA 1.0 limitation: Huffman only decompression with BE16 format cannot work
         // if ignore_end_bits is greater than 7
-        if (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware &&
-            (job_ptr->ignore_end_bits > 7u)) {
-            return QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR;
+        if (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware) {
+            // Check availability of the ignore end bits extension bit
+            if (job_ptr->ignore_end_bits > 7u && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
+                return QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR;
+            }
         }
 
         // Check input size

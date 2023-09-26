@@ -20,7 +20,7 @@
 #include "compression_operations/arguments_check.hpp"
 #include "other_operations/arguments_check.hpp"
 #include "util/descriptor_processing.hpp"
-#include "util/aecs_format_checker.hpp"
+#include "util/iaa_features_checks.hpp"
 
 // Middle Layer
 #include "job.hpp"
@@ -537,9 +537,7 @@ extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor 
     hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, (*data_ptr), (*data_size));
     hw_iaa_descriptor_set_output_buffer((hw_descriptor*) desc_ptr, out_ptr, out_size);
 
-    bool is_aecs_format2_expected = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::aecs_format::mapping_cam)
-                                    ? true
-                                    : false;
+    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     hw_iaa_aecs_decompress_state_set_aecs_format(&aecs_ptr->inflate_options, is_aecs_format2_expected);
 

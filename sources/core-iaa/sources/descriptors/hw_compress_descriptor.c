@@ -188,7 +188,8 @@ HW_PATH_IAA_API(void, descriptor_init_deflate_body, (hw_descriptor *const descri
 
 HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descriptor_ptr,
                                                      hw_iaa_aecs *const aecs_ptr,
-                                                     const hw_iaa_aecs_access_policy access_policy)) {
+                                                     const hw_iaa_aecs_access_policy access_policy,
+                                                     bool is_gen1)) {
     own_hw_compress_descriptor *const this_ptr = (own_hw_compress_descriptor *) descriptor_ptr;
 
     uint32_t read_flag  = (access_policy & hw_aecs_access_read) ? ADOF_READ_SRC2(AD_RDSRC2_AECS) : 0;
@@ -212,7 +213,7 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descri
         // The workaround: When writing to the AECS compress Huffman table, if using IAA 1.0 and the job is a LAST job,
         // and the job specifies Big-Endian-16 mode: set the Huffman code for LL[256] to be 8 bits of 00.
         // Also, set the compression flag for append EOB at end.
-        if (this_ptr->compression_flags & ADCF_COMP_BE) {
+        if ((this_ptr->compression_flags & ADCF_COMP_BE) && is_gen1) {
             hw_iaa_aecs_compress *const compress_state = (hw_iaa_aecs_compress *const) aecs_ptr;
             // V1 work-around
             compress_state[toggle_aecs_flag].histogram.ll_sym[256] = 8u << 15u;

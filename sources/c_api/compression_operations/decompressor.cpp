@@ -26,7 +26,7 @@
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "compression/stream_decorators/default_decorator.hpp"
 #include "dispatcher/hw_dispatcher.hpp"
-#include "util/aecs_format_checker.hpp"
+#include "util/iaa_features_checks.hpp"
 
 namespace qpl {
 
@@ -117,7 +117,7 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
                     .endianness(endianness);
             state.ignore_end_bits = job_ptr->ignore_end_bits;
 
-            state.aecs_format_version(qpl::ml::util::get_device_aecs_format());
+            state.set_is_gen1_hw(!qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
         }
         result = decompress_huffman_only<path>(state, decompression_table);
     } else {
@@ -144,7 +144,7 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         }
 
         if constexpr (qpl::ml::execution_path_t::hardware == path) {
-            state.aecs_format_version(qpl::ml::util::get_device_aecs_format());
+            state.set_is_gen1_hw(!qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
         }
 
         if (job::is_dictionary(job_ptr)) {

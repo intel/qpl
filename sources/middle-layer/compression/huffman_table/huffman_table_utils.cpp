@@ -22,7 +22,7 @@
 #include "compression/inflate/inflate_state.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/util.hpp"
-#include "util/aecs_format_checker.hpp"
+#include "util/iaa_features_checks.hpp"
 
 // core-sw
 #include "dispatcher.hpp"
@@ -788,7 +788,7 @@ auto huffman_table_init(decompression_huffman_table &table,
     */
     decompression_table_ptr->format_stored = ht_with_mapping_table;
     if (!(representation_flags & QPL_SW_REPRESENTATION)) {
-        decompression_table_ptr->format_stored = (qpl::ml::util::get_device_aecs_format() == qpl::ml::compression::mapping_table)
+        decompression_table_ptr->format_stored = (!qpl::ml::util::are_iaa_gen_2_min_capabilities_present())
                                                 ? ht_with_mapping_table
                                                 : ht_with_mapping_cam;
     }

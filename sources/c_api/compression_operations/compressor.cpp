@@ -27,6 +27,7 @@
 #include "job.hpp"
 #include "compressor.hpp"
 #include "arguments_check.hpp"
+#include "util/iaa_features_checks.hpp"
 
 #include "own_defs.h"
 #include "compression_state_t.h"
@@ -81,6 +82,10 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                .verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY))
                .total_out(job_ptr->total_out);
 
+        if (qpl::ml::execution_path_t::hardware == path) {
+            builder.set_is_gen1_hw(!qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
+        }
+
         if (job_ptr->huffman_table != nullptr) {
 
             OWN_QPL_CHECK_STATUS(check_huffman_table_is_correct<compression_algorithm_e::huffman_only>(job_ptr->huffman_table))
@@ -107,7 +112,9 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
         // When such a job completes (i.e. one modified as above), then the output size should have
         // the low-order bit cleared (i.e. rounded down to a multiple of 2)
         // and the last bit offset needs to be fixed for some cases.
-        if (qpl::ml::execution_path_t::hardware == path && ((job_ptr->flags & (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST)) == (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST))) {
+        if (qpl::ml::execution_path_t::hardware == path
+            && ((job_ptr->flags & (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST)) == (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST))
+            && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
             if (result.output_bytes_ % 2 == 1) {
                 // odd output size
                 if (result.last_bit_offset != 0) {

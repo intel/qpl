@@ -12,6 +12,7 @@
 
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "util/descriptor_processing.hpp"
+#include "util/iaa_features_checks.hpp"
 
 #include "dispatcher/hw_dispatcher.hpp"
 
@@ -53,7 +54,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
     hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, begin, size);
     hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
                                         state.meta_data_->aecs_,
-                                        hw_aecs_access_read);
+                                        hw_aecs_access_read,
+                                        !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
     auto result = util::process_descriptor<compression_operation_result_t,
                                            util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
@@ -253,7 +255,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     } else {
         hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
                                             state.meta_data_->aecs_,
-                                            access_policy);
+                                            access_policy,
+                                            !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
     }
 
     result = util::process_descriptor<compression_operation_result_t,

@@ -118,7 +118,7 @@ public:
 
     inline auto decompress_table(decompression_huffman_table &decompression_table) noexcept -> huffman_only_decompression_state &;
 
-    inline auto aecs_format_version(aecs_format format_in) noexcept -> huffman_only_decompression_state &;
+    inline auto set_is_gen1_hw(bool is_gen1) noexcept -> huffman_only_decompression_state &;
 
     [[nodiscard]] inline auto get_endianness(endianness_t endianness) noexcept -> endianness_t;
 
@@ -143,7 +143,7 @@ private:
     hw_descriptor                         *descriptor_        = nullptr;
     HW_PATH_VOLATILE hw_completion_record *completion_record_ = nullptr;
     hw_iaa_aecs_analytic                  *decompress_aecs_   = nullptr;
-    aecs_format                            aecs_format_stored = mapping_table;
+    bool                                   is_gen1_hw_        = true;
 
     uint32_t                              input_size_         = 0u;
     uint32_t             crc_                                 = 0u;
@@ -256,8 +256,8 @@ inline auto huffman_only_decompression_state<execution_path_t::hardware>::decomp
     return *this;
 }
 
-inline auto huffman_only_decompression_state<execution_path_t::hardware>::aecs_format_version(aecs_format format_in) noexcept -> huffman_only_decompression_state & {
-    aecs_format_stored = format_in;
+inline auto huffman_only_decompression_state<execution_path_t::hardware>::set_is_gen1_hw(bool is_gen1) noexcept -> huffman_only_decompression_state & {
+    is_gen1_hw_ = is_gen1;
 
     return *this;
 }
@@ -265,9 +265,9 @@ inline auto huffman_only_decompression_state<execution_path_t::hardware>::aecs_f
 inline auto huffman_only_decompression_state<execution_path_t::hardware>::build_descriptor() noexcept -> hw_descriptor * {
     hw_iaa_aecs_decompress_set_crc_seed(decompress_aecs_, crc_);
 
-    hw_iaa_descriptor_init_huffman_only_decompress(descriptor_, decompress_aecs_, endianness_, ignore_end_bits);
+    hw_iaa_descriptor_init_huffman_only_decompress(descriptor_, decompress_aecs_, endianness_, ignore_end_bits, is_gen1_hw_);
 
-    hw_iaa_aecs_decompress_state_set_aecs_format(&decompress_aecs_->inflate_options, (aecs_format_stored == mapping_cam));
+    hw_iaa_aecs_decompress_state_set_aecs_format(&decompress_aecs_->inflate_options, !is_gen1_hw_);
 
     hw_iaa_descriptor_set_completion_record(descriptor_, completion_record_);
 

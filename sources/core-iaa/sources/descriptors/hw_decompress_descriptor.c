@@ -118,7 +118,8 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_body, (hw_descriptor *const descri
 HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *const descriptor_ptr,
                                                                 hw_iaa_aecs *const aecs_ptr,
                                                                 const bool huffman_be,
-                                                                const uint8_t ignore_end_bits)) {
+                                                                const uint8_t ignore_end_bits,
+                                                                const bool is_gen1)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
 
     this_ptr->trusted_fields   = 0u;
@@ -127,6 +128,10 @@ HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *c
                             | ADDF_FLUSH_OUTPUT
                             | (huffman_be ? ADDF_DECOMP_BE : 0u)
                             | ADDF_IGNORE_END_BITS(MAX_BIT_IDX & ignore_end_bits);
+
+    if (!is_gen1) {
+        this_ptr->decomp_flags |= (ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+    }
 
     this_ptr->src2_ptr  = (uint8_t *) aecs_ptr;
     this_ptr->src2_size = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;

@@ -17,6 +17,7 @@
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "util/checksum.hpp"
+#include "util/iaa_features_checks.hpp"
 
 #include "own_defs.h"
 #include "hardware_state.h"
@@ -201,7 +202,6 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
     OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr)))
 
-
     // Fix for QPL_FLAG_HUFFMAN_BE in IAA 1.0.
     // The workaround: When writing to the AECS compress Huffman table, if using IAA 1.0 and the job is a LAST job,
     // and the job specifies Big-Endian-16 mode: set the Huffman code for LL[256] to be 8 bits of 00.
@@ -209,7 +209,8 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     // When such a job completes (i.e. one modified as above), then the output size should have
     // the low-order bit cleared (i.e. rounded down to a multiple of 2)
     // and the output_bits needs to be fixed for some cases.
-    if (((qpl_job_ptr->flags & (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST)) == (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST))) {
+    if (((qpl_job_ptr->flags & (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST)) == (QPL_FLAG_HUFFMAN_BE | QPL_FLAG_LAST))
+        && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
         if (comp_ptr->output_size % 2 == 1) {
             // odd output size
             if (comp_ptr->output_bits != 0) {

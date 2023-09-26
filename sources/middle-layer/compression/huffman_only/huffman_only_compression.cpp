@@ -134,7 +134,8 @@ auto compress_huffman_only<execution_path_t::hardware>(uint8_t *begin,
 
         hw_iaa_descriptor_compress_set_aecs(stream.descriptor_compress_,
                                             stream.compress_aecs_,
-                                            hw_aecs_access_read);
+                                            hw_aecs_access_read,
+                                            stream.is_gen1_hw_);
     }
 
     // Compress

@@ -45,6 +45,8 @@ public:
 
     inline auto total_out(uint32_t total_out_value) noexcept -> huffman_only_compression_state_builder&;
 
+    inline auto set_is_gen1_hw(bool value) noexcept -> huffman_only_compression_state_builder &;
+
     inline auto build() noexcept -> huffman_only_state<execution_path_t::software>;
 
 private:
@@ -77,6 +79,8 @@ public:
     inline auto verify(bool value) noexcept -> huffman_only_compression_state_builder &;
 
     inline auto total_out(uint32_t total_out_value) noexcept -> huffman_only_compression_state_builder&;
+
+    inline auto set_is_gen1_hw(bool value) noexcept -> huffman_only_compression_state_builder &;
 
     inline auto build() noexcept -> huffman_only_state<execution_path_t::hardware>;
 
@@ -140,6 +144,10 @@ noexcept -> huffman_only_compression_state_builder& {
     return *this;
 }
 
+inline auto huffman_only_compression_state_builder<execution_path_t::software>::set_is_gen1_hw(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
+    return *this;
+}
+
 inline auto huffman_only_compression_state_builder<execution_path_t::software>::build()
 noexcept -> huffman_only_state<execution_path_t::software> {
     return stream_;
@@ -192,7 +200,7 @@ noexcept -> huffman_only_compression_state_builder & {
     return *this;
 }
 
-auto huffman_only_compression_state_builder<execution_path_t::hardware>::verify(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
+inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::verify(bool UNREFERENCED_PARAMETER(value)) noexcept -> huffman_only_compression_state_builder & {
     stream_.is_verification_enabled_ = value;
 
     return *this;
@@ -206,6 +214,12 @@ noexcept -> huffman_only_compression_state_builder& {
 }
 
 
+inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::set_is_gen1_hw(bool value) noexcept -> huffman_only_compression_state_builder & {
+    stream_.is_gen1_hw_ = value;
+
+    return *this;
+}
+
 inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::build()
 noexcept -> huffman_only_state<execution_path_t::hardware> {
     if (!stream_.descriptor_collect_statistic_) {
@@ -217,7 +231,8 @@ noexcept -> huffman_only_state<execution_path_t::hardware> {
 
         hw_iaa_descriptor_compress_set_aecs(stream_.descriptor_compress_,
                                             stream_.compress_aecs_,
-                                            hw_aecs_access_read);
+                                            hw_aecs_access_read,
+                                            stream_.is_gen1_hw_);
     }
 
     return stream_;
