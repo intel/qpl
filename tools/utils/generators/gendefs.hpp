@@ -25,7 +25,7 @@
 /**
 *@{
 *@name basic types definitions
-*@typedefs 
+*@typedefs
 */
 typedef unsigned char  Gen8u;  /**< unsigned 8bit  int */
 typedef unsigned short Gen16u; /**< unsigned 16bit int */
@@ -136,7 +136,11 @@ struct GenDecompressionHuffmanTable
     Gen16u number_of_codes[15];
     Gen16u first_codes[15];
     Gen16u first_table_indexes[15];
-    Gen8u  index_to_char[256];
+    union {
+        Gen8u  index_to_char[257];
+        Gen16u lit_cam[265];
+    };
+    Gen8u format_stored;
 };
 
 
