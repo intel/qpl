@@ -79,6 +79,7 @@ typedef struct {
     uint32_t                 descriptor_not_submitted;
     bool                     job_is_submitted;
     uint32_t                 verify_aecs_hw_read_offset;                   /**< AECS read offset for verify AECS */
+    bool                     is_page_fault_processed;                      /**< Flag to limit resubmissions due to Page Fault to 1 */
 } qpl_hw_state;
 
 #ifdef __cplusplus

@@ -171,7 +171,7 @@ typedef enum {
 /* --- Corresponds to the status codes in the Completion Record from Intel® In-Memory Analytics Accelerator --- */
     QPL_STS_INTL_INPROG                 = QPL_OPERATION_STATUS(0u),   /**< Internal Status Code */
     QPL_STS_INTL_SUCCESS                = QPL_OPERATION_STATUS(1u),   /**< Internal Status Code */
-    QPL_STS_INTL_PAGE_FAULT             = QPL_OPERATION_STATUS(3u),   /**< Internal Status Code */
+    QPL_STS_INTL_PAGE_FAULT             = QPL_OPERATION_STATUS(3u),   /**< Page Fault occurred on Read */
     QPL_STS_INTL_INVALID_PAGE_REQ       = QPL_OPERATION_STATUS(4u),   /**< Internal Status Code */
     QPL_STS_INTL_ANALYTIC_ERROR         = QPL_OPERATION_STATUS(10u),  /**< Internal Status Code */
     QPL_STS_INTL_OUTPUT_OVERFLOW        = QPL_OPERATION_STATUS(11u),  /**< Internal Status Code */
@@ -205,7 +205,7 @@ typedef enum {
     QPL_STS_INVALID_NUM_ELEM            = QPL_OPERATION_STATUS(51u),  /**< Number Elements for Filter operation is 0 */
     QPL_STS_INVALID_SRC1_WIDTH          = QPL_OPERATION_STATUS(52u),  /**< Invalid source-1 bit-width */
     QPL_STS_INV_OUTPUT                  = QPL_OPERATION_STATUS(53u),  /**< Invert Output flag was used when the output was not a bit-vector */
-    QPL_STS_INTL_W_PAGE_FAULT           = QPL_OPERATION_STATUS(131u), /**< Internal Status Code */
+    QPL_STS_INTL_W_PAGE_FAULT           = QPL_OPERATION_STATUS(131u), /**< Page Fault occurred on Write */
     QPL_STS_INTL_W_INVALID_PAGE_REQ     = QPL_OPERATION_STATUS(132u), /**< Internal Status Code */
     QPL_STS_INTL_W_TRANSLATION_PF       = QPL_OPERATION_STATUS(154u), /**< Internal Status Code */
 

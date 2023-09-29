@@ -57,6 +57,9 @@ typedef uint8_t hw_operation_status; /**< Accelerator status type */
 #define AD_STATUS_INVALID_NUM_ELEM         0x33    /**< `Number Elements` for `Filter` operation is 0 */
 #define AD_STATUS_INVALID_SRC1_WIDTH       0x34    /**< Invalid `source-1` bit-width */
 #define AD_STATUS_INVALID_INV_OUTPUT       0x35    /**< `Invert Output Flag` was used when the output was not a bit-vector */
+
+#define AD_STATUS_READ_PAGE_FAULT         (3u + 0u)   /**< Page Fault happened on Read */
+#define AD_STATUS_WRITE_PAGE_FAULT        (3u + 128u) /**< Page Fault happened on Write (in this case 7th bit of status is set to 1) */
 /** @} */
 
 

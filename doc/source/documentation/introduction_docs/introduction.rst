@@ -198,6 +198,26 @@ done in two ways:
 Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.
 
+Page Faults Handling
+====================
+
+If a page fault occurs during operations supported by Intel QPL on Intel IAA,
+no partial completion is available and the operation must be resubmitted to the device.
+
+If ``Block on Fault`` is set (that is, the ``block_on_fault`` attribute must be set to ``1``
+with the ``accel-config`` for each work queue), the device waits for page faults to be resolved
+and then continues the operation.
+
+If the user, for performance or any other reason, chooses to not rely on ``Block on Fault``
+(that is, the ``block_on_fault`` attribute is set to ``0``), Intel QPL tries to resolve a page fault
+on the software level and then resubmit the operation to the device.
+In the case of ``Hardware Path``, single resubmission to the device is attempted, and, in the case of the failure,
+:c:macro:`QPL_STS_INTL_PAGE_FAULT` or :c:macro:`QPL_STS_INTL_W_PAGE_FAULT` is returned.
+In the case of ``Auto Path``, single resubmission to the device is attempted, and, in the case of the failure,
+the operation is continued on the ``Software Path``.
+
+Refer to :ref:`accelerator_configuration_reference_link` for more details on setting ``block_on_fault`` and other attributes.
+
 .. _library_limitations_reference_link:
 
 Library Limitations
@@ -208,11 +228,6 @@ Library Limitations
 - Library does not have APIs for ``Load Balancing`` feature customization.
 - Library does not support hardware path on Windows OS.
 - Library is not developed for kernel mode usage. It is user level driver library.
-- Library uses the ``Block On Fault`` feature required to handle page faults on the Intel® IAA side. The
-  ``block_on_fault`` attribute must be set with the ``accel-config`` for each
-  work queue. Performance of Hardware Path applications can be increased if the application performs
-  its own ``pre-faulting``. In this case, the ``Block On Fault`` feature must be disabled with the ``accel-config``
-  by setting the ``block_on_fault`` attribute to ``0``. Refer to :ref:`accelerator_configuration_reference_link` for more details.
 
 Library APIs
 ************

@@ -54,6 +54,49 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
 
         operation_result = wait_descriptor_result<return_t>(completion_record_ptr);
 
+        // Simple Page Faults handling: if status AD_STATUS_READ_PAGE_FAULT or AD_STATUS_WRITE_PAGE_FAULT,
+        // check that the Fault Address is available, touch the memory and resubmit descriptor again.
+        if ((AD_STATUS_READ_PAGE_FAULT == completion_record_ptr->status ||
+             AD_STATUS_WRITE_PAGE_FAULT == completion_record_ptr->status)) {
+
+            uint8_t fault_info = 0U; // not in use currently
+            uint64_t fault_address = 0U;
+            hw_iaa_completion_record_get_fault_address(completion_record_ptr, &fault_info, &fault_address);
+
+            DIAG("Page Fault happened with completion record status equals %d, Fault Address is %p\n",
+                 (int)completion_record_ptr->status, (void *)fault_address);
+
+            // If Fault Address is available, try to resubmit the job.
+            // TODO: Add logic for figuring out the size of the faulted memory to touch all the related pages.
+            // TODO: On 2nd generation, we could additionally check if Fault Address is available via Fault Info.
+            if (fault_address != 0U) {
+                if (AD_STATUS_READ_PAGE_FAULT == completion_record_ptr->status) {
+                    volatile char* read_fault_address = (char *)fault_address;
+                    *read_fault_address;
+                }
+                else { // AD_STATUS_WRITE_PAGE_FAULT
+                    volatile char* write_fault_address = (char *)fault_address;
+                    *write_fault_address = *write_fault_address;
+                }
+
+                // Mark completion record as not completed for awaiter
+                completion_record_ptr->status = AD_STATUS_INPROG;
+
+                auto enqueue_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
+                uint32_t status = convert_hw_accelerator_status_to_qpl_status(enqueue_status);
+                if (status_list::ok != status) {
+                    if constexpr(std::is_same<decltype(status), return_t>::value) {
+                        return status;
+                    } else {
+                        operation_result.status_code_ = status;
+                        return operation_result;
+                    }
+                }
+
+                operation_result = wait_descriptor_result<return_t>(completion_record_ptr);
+            }
+        }
+
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.processed_bytes_ = reinterpret_cast<hw_iaa_analytics_descriptor *>(descriptor_ptr)->src1_size;
         }

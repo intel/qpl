@@ -15,6 +15,7 @@
 #ifndef HW_PATH_HW_COMPLETION_RECORD_API_H_
 #define HW_PATH_HW_COMPLETION_RECORD_API_H_
 
+#include <assert.h>
 #include <stdint.h>
 
 #include "hw_definitions.h"
@@ -36,7 +37,8 @@ extern "C" {
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     hw_operation_status status;      /**< Descriptor execution result */
     hw_operation_error error_code;   /**< Operation execution status */
-    uint16_t reserved0;              /**< Reserved bytes */
+    uint8_t  fault_info;             /**< Contains additional information about the encountered Page Fault */
+    uint8_t  reserved0;              /**< Reserved bytes */
     uint32_t bytes_completed;        /**< Total processed input bytes */
     uint64_t fault_address;          /**< Page Fault address */
     uint64_t invalid_flags;          /**< Contain bit-mask for invalid flags */
@@ -54,6 +56,11 @@ HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 
 /**
+ * @warning Assert to ensure @ref hw_iaa_completion_record size is kept unchanged.
+*/
+static_assert(sizeof(hw_iaa_completion_record) == 0x40u, "hw_iaa_completion_record size is not correct");
+
+/**
  * @brief Set Completion record as fictional completed.
  * @details Can be used to emulate success task execution while input data is collected into accumulation buffer.
  * @param completion_record_ptr pointer to @ref hw_iaa_completion_record
@@ -65,6 +72,22 @@ static inline void hw_iaa_completion_record_init_trivial_completion(hw_iaa_compl
     completion_record_ptr->error_code      = 0u;
     completion_record_ptr->bytes_completed = bytes_processed;
     completion_record_ptr->output_size     = 0u;
+}
+
+/**
+ * @brief Get Fault Info and Fault Address from the completion record.
+ *
+ * @param completion_record_ptr pointer to @ref hw_iaa_completion_record
+ * @param fault_info_out        output Fault Info storage
+ * @param fault_address_out     output Fault Address storage
+ */
+static inline void hw_iaa_completion_record_get_fault_address(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr,
+                                                              uint8_t* fault_info_out,
+                                                              uint64_t* fault_address_out) {
+    hw_iaa_completion_record* in_memory_completion_record = (hw_iaa_completion_record *)completion_record_ptr;
+
+    *fault_info_out    = in_memory_completion_record->fault_info;
+    *fault_address_out = in_memory_completion_record->fault_address;
 }
 
 #ifdef __cplusplus

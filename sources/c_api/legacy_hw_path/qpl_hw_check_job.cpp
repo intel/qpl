@@ -28,6 +28,10 @@
 #include "util/checkers.hpp"
 #include "common/defs.hpp"
 
+// core-iaa/include
+#include "hw_completion_record_api.h"
+#include "hw_devices.h"
+
 namespace qpl::ml {
 
 #define AECS_WRITTEN(p) ((((p)->op_code_op_flags >> 18u) & 3u) == AD_WRSRC2_ALWAYS)
@@ -291,7 +295,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
 }
 
-extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
+extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     using namespace qpl;
 
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
@@ -304,14 +308,52 @@ extern "C" qpl_status hw_check_job (qpl_job * qpl_job_ptr) {
         return QPL_STS_JOB_NOT_SUBMITTED;
     }
 
-    if (0u == comp_ptr->status) {
+    if (AD_STATUS_INPROG == comp_ptr->status) {
         return QPL_STS_BEING_PROCESSED;
     }
 
     if (TRIVIAL_COMPLETE == comp_ptr->status) {
-        job::update_input_stream (qpl_job_ptr, comp_ptr->bytes_completed);
+        job::update_input_stream(qpl_job_ptr, comp_ptr->bytes_completed);
 
         return QPL_STS_OK;
+    }
+
+    // Simple Page Faults handling: if status AD_STATUS_READ_PAGE_FAULT or AD_STATUS_WRITE_PAGE_FAULT,
+    // check that the Fault Address is available, touch the memory and resubmit descriptor again.
+    if ((AD_STATUS_READ_PAGE_FAULT == comp_ptr->status ||
+         AD_STATUS_WRITE_PAGE_FAULT == comp_ptr->status) &&
+         state_ptr->is_page_fault_processed != true) {
+
+        DIAG("Page Fault happened with completion record status equals %d, Fault Address is %p\n",
+             (int)comp_ptr->status, (void *)comp_ptr->fault_address);
+
+        // If Fault Address is available, try to resubmit the job.
+        // TODO: Add logic for figuring out the size of the faulted memory to touch all the related pages.
+        // TODO: On 2nd generation, we could additionally check if Fault Address is available via Fault Info.
+        if (comp_ptr->fault_address != 0U) {
+            char* fault_address = (char *)comp_ptr->fault_address;
+
+            if (AD_STATUS_READ_PAGE_FAULT == comp_ptr->status) {
+                volatile char* read_fault_address = fault_address;
+                *read_fault_address;
+            }
+            else { // AD_STATUS_WRITE_PAGE_FAULT
+                volatile char* write_fault_address = fault_address;
+                *write_fault_address = *write_fault_address;
+            }
+
+            auto status = ml::util::process_descriptor<qpl_status,
+                                                       ml::util::execution_mode_t::async>((hw_descriptor *) desc_ptr,
+                                                                                          (hw_completion_record *) &state_ptr->comp_ptr,
+                                                                                          qpl_job_ptr->numa_id);
+
+            HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
+
+            // Set the flag to ensure we attempt only single resubmission.
+            state_ptr->is_page_fault_processed = true;
+
+            return QPL_STS_BEING_PROCESSED;
+        }
     }
 
     if (qpl_op_compress == qpl_job_ptr->op) {
