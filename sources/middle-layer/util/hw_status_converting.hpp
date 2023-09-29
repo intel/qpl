@@ -28,6 +28,8 @@ inline qpl_status convert_hw_accelerator_status_to_qpl_status(const uint32_t sta
             return QPL_STS_INIT_LIBACCEL_ERROR;
         case HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE:
             return QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE;
+        case HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ:
+            return QPL_STS_NOT_SUPPORTED_BY_WQ;
         default:
             return QPL_STS_LIBRARY_INTERNAL_ERR;
     }

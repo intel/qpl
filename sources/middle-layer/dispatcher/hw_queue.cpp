@@ -122,6 +122,22 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     priority_       = accfg_wq_get_priority(work_queue_ptr);
     block_on_fault_ = accfg_wq_get_block_on_fault(work_queue_ptr);
 
+    accfg_op_config op_cfg;
+    int32_t get_op_cfg_status = accfg_wq_get_op_config(work_queue_ptr, &op_cfg);
+    if(get_op_cfg_status) {
+        DIAGA("Failed to load API accfg_wq_get_op_config from accel-config, WQ operation configs will not be used.\n");
+        op_cfg_enabled_ = false;
+    }
+    else{
+        for(uint8_t bit_group_index = 0; bit_group_index < TOTAL_OP_CFG_BIT_GROUPS; bit_group_index++){
+            op_cfg_register_[bit_group_index] = op_cfg.bits[bit_group_index];
+        }
+        for(uint8_t bit_group_index = 0; bit_group_index < TOTAL_OP_CFG_BIT_GROUPS; bit_group_index++){
+            DIAG("%5s: OPCFG[%i]: 0x%08" PRIx32 "\n", work_queue_dev_name, bit_group_index, op_cfg_register_[bit_group_index]);
+        }
+        op_cfg_enabled_ = true;
+    }
+
 #if 0
     DIAG("     %7s: size:        %d\n", work_queue_dev_name, accfg_wq_get_size(work_queue_ptr));
     DIAG("     %7s: threshold:   %d\n", work_queue_dev_name, accfg_wq_get_threshold(work_queue_ptr));
@@ -152,5 +168,12 @@ auto hw_queue::get_block_on_fault() const noexcept -> bool {
     return block_on_fault_;
 }
 
+auto hw_queue::is_operation_supported(uint32_t operation) const noexcept -> bool {
+    return OC_GET_OP_SUPPORTED(op_cfg_register_, operation);
+}
+
+auto hw_queue::get_op_configuration_support() const noexcept -> bool {
+    return op_cfg_enabled_;
+}
 }
 #endif //__linux__

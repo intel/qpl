@@ -27,6 +27,7 @@ typedef enum {
     /* Not exposed to external API */
     HW_ACCELERATOR_NULL_PTR_ERR                 = 5u, /**< Null pointer error */
     HW_ACCELERATOR_WQ_IS_BUSY                   = 6u, /**< Work queue is busy with task processing */
+    HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ          = 7u, /**< Work queue OPCFG doesn't support operation */
 } hw_accelerator_status;
 
 /**

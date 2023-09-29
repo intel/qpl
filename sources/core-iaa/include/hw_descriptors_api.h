@@ -648,6 +648,20 @@ HW_PATH_IAA_API(uint32_t, descriptor_get_number_of_elements, (hw_descriptor *con
 }
 
 /**
+ * @brief Get operation from descriptor
+ *
+ * @param[in] descriptor_ptr @ref hw_descriptor
+ * @return operation field from descriptor
+ */
+static inline
+HW_PATH_IAA_API(uint8_t, descriptor_get_operation, (hw_descriptor *const descriptor_ptr)) {
+    hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
+
+    const uint8_t OP_CODE_BIT_OFFSET = 24;
+    return (uint8_t) (this_ptr->op_code_op_flags >> OP_CODE_BIT_OFFSET);
+}
+
+/**
  * @todo API will be described after refactoring completed
  */
 static inline

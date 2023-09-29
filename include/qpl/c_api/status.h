@@ -77,6 +77,7 @@ typedef enum {
     QPL_STS_QUEUES_ARE_BUSY_ERR     = QPL_PROCESSING_ERROR(5u), /**< Descriptor can't be submitted into filled work queue */
     QPL_STS_LIBRARY_INTERNAL_ERR    = QPL_PROCESSING_ERROR(6u), /**< Unexpected internal error condition */
     QPL_STS_JOB_NOT_SUBMITTED       = QPL_PROCESSING_ERROR(7u), /**< The job being checked/waited has not been submitted */
+    QPL_STS_NOT_SUPPORTED_BY_WQ     = QPL_PROCESSING_ERROR(8u), /**< Work queue not configured to support operation */
 
 /* ====== Operations Statuses ====== */
 /* --- Incorrect Parameter Value --- */

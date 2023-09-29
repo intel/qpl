@@ -40,6 +40,7 @@ static qpl_desc_t functions_table[] = {
         {NULL, "accfg_device_get_version"},
         {NULL, "accfg_wq_get_block_on_fault"},
         {NULL, "accfg_device_get_iaa_cap"},
+        {NULL, "accfg_wq_get_op_config"},
 
         // Terminate list/init
         {NULL, NULL}
@@ -160,6 +161,12 @@ int accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap) {
     return ((accfg_device_get_iaa_cap_ptr) functions_table[18].function) (device, iaa_cap);
 }
 
+// @todo this is a workaround to optionally load accfg_wq_get_op_config
+int accfg_wq_get_op_config(accfg_wq *wq, struct accfg_op_config *op_cfg) {
+    if (functions_table[19].function == NULL) return 1;
+    return ((accfg_wq_get_op_config_ptr) functions_table[19].function)(wq, op_cfg);
+}
+
 /* ------ Internal functions implementation ------ */
 
 bool own_load_configuration_functions(void *driver_instance_ptr) {
@@ -176,9 +183,16 @@ bool own_load_configuration_functions(void *driver_instance_ptr) {
             // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
             char *iaa_cap_func_name = "accfg_device_get_iaa_cap";
             size_t iaa_cap_func_name_len = strlen(iaa_cap_func_name);
+            // @todo this is a workaround to optionally load accfg_wq_get_op_config
+            char *op_config_func_name = "accfg_wq_get_op_config";
+            size_t op_config_func_name_len = strlen(op_config_func_name);
+
             if (strlen(functions_table[i].function_name) == iaa_cap_func_name_len &&
                 strncmp(functions_table[i].function_name, iaa_cap_func_name, iaa_cap_func_name_len) == 0) {
                 DIAGA("Failed to load API accfg_device_get_iaa_cap from accel-config, HW generation 2 features will not be used.\n");
+            } else if(strlen(functions_table[i].function_name) == op_config_func_name_len &&
+                strncmp(functions_table[i].function_name, op_config_func_name, op_config_func_name_len) == 0) {
+                DIAGA("Failed to load API accfg_wq_get_op_config from accel-config, WQ operation configs will not be used.\n");
             } else {
                 return false;
             }

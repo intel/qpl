@@ -91,6 +91,8 @@ typedef int                     (*accfg_wq_get_block_on_fault_ptr)(accfg_wq *wq)
 
 typedef int                     (*accfg_device_get_iaa_cap_ptr)(accfg_dev *device, uint64_t *iaa_cap);
 
+typedef int                     (*accfg_wq_get_op_config_ptr)(accfg_wq *wq, struct accfg_op_config *op_cfg);
+
 #ifdef __cplusplus
 }
 #endif

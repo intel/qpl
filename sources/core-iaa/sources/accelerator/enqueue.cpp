@@ -15,9 +15,7 @@
 #include "dispatcher/numa.hpp"
 
 extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id) {
-    auto result = HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
-    auto enqueue_failed = false;
-
+    hw_accelerator_status result = HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ;
 
 #if defined( __linux__ )
     static auto                               &dispatcher  = qpl::ml::dispatcher::hw_dispatcher::get_instance();
@@ -55,15 +53,13 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
 
         hw_iaa_descriptor_hint_cpu_cache_as_destination((hw_descriptor *) desc_ptr, device.get_cache_write_available());
 
-        enqueue_failed = device.enqueue_descriptor(desc_ptr);
-        if (enqueue_failed) {
+        hw_accelerator_status enqueue_result = device.enqueue_descriptor(desc_ptr);
+        if (enqueue_result == HW_ACCELERATOR_WQ_IS_BUSY) {
             result = HW_ACCELERATOR_WQ_IS_BUSY;
-        } else {
+        } else if (enqueue_result == HW_ACCELERATOR_STATUS_OK) {
             result = HW_ACCELERATOR_STATUS_OK;
             break;
         }
-
-
     }
 #else
     // Not supported on Windows yet

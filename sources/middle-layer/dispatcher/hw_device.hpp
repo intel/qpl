@@ -33,7 +33,7 @@ public:
 
     void fill_hw_context(hw_accelerator_context *hw_context_ptr) const noexcept;
 
-    [[nodiscard]] auto enqueue_descriptor(void *desc_ptr) const noexcept -> bool;
+    [[nodiscard]] auto enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status;
 
     [[nodiscard]] auto initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status;
 

@@ -82,6 +82,15 @@ extern "C" {
 
 /** @} */
 
+/**
+ * @name Opconfig Configuration Macros
+ * @anchor HW_OPCFG_MACROS
+ * @{
+ */
+#define OC_GET_OP_SUPPORTED(OPCFG, OP)      (((OPCFG[7 - (OP/32)])>>OP%32) &0x01) /**< OPCFG bit {OP}  - generic operation support          */
+
+/** @} */
+
 /* ====== Structures ====== */
 
 /**

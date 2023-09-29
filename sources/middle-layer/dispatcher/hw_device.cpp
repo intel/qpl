@@ -56,23 +56,37 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
     hw_context_ptr->device_properties.block_on_fault_enabled        = hw_device::get_block_on_fault_available();
 }
 
-auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> bool {
-    uint8_t retry = 0u;
+auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status {
     static thread_local std::uint32_t wq_idx = 0;
+    bool is_op_supported_by_wq = false;
 
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
     for (uint64_t try_count = 0u; try_count < queue_count_; ++try_count) {
         hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) desc_ptr, working_queues_[wq_idx].get_block_on_fault());
-
-        retry = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
-        wq_idx = (wq_idx+1) % queue_count_;
-        if (!retry) {
-            break;
+        if ( working_queues_[wq_idx].get_op_configuration_support() &&
+            !working_queues_[wq_idx].is_operation_supported(hw_iaa_descriptor_get_operation((hw_descriptor *)desc_ptr))) {
+            // For submitting when OPCFG is supported, logic is :
+            //   If all WQs don't support operation, return HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ
+            //   If any WQ supports operation, but submission fails, then return HW_ACCELERATOR_WQ_IS_BUSY
+            wq_idx = (wq_idx+1) % queue_count_;
+            continue;
+        }
+        else {
+            qpl_status enqueue_status = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
+            wq_idx = (wq_idx+1) % queue_count_;
+            is_op_supported_by_wq = true;
+            if (QPL_STS_OK == enqueue_status) {
+                return HW_ACCELERATOR_STATUS_OK;
+            }
         }
     }
-
-    return static_cast<bool>(retry);
+    if (!is_op_supported_by_wq) {
+        return HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ;
+    }
+    else {
+        return HW_ACCELERATOR_WQ_IS_BUSY;
+    }
 }
 
 auto hw_device::get_max_set_size() const noexcept -> uint32_t {
