@@ -6,6 +6,7 @@
 
 #include <array>
 #include <memory>
+#include <stdint.h>
 #include "operation_test.hpp"
 #include "source_provider.hpp"
 #include "ta_ll_common.hpp"
@@ -227,8 +228,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
             decompression_job_ptr->next_out_ptr  = reference_buffer.data();
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
             decompression_job_ptr->huffman_table = d_huffman_table;
-            decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | 
+            decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
                                                    QPL_FLAG_CANNED_MODE;
+
+            ASSERT_NE(job_ptr->idx_num_written, 0U);
 
             // Decompress by miniblocks
             for (uint32_t i = 0; i < job_ptr->idx_num_written - 1; i++) {
@@ -472,7 +475,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
             decompression_job_ptr->next_out_ptr  = reference_buffer.data();
             decompression_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
             decompression_job_ptr->huffman_table = d_huffman_table;
-            decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | 
+            decompression_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST |
                                                    QPL_FLAG_CANNED_MODE;
 
             // Decompress by miniblocks

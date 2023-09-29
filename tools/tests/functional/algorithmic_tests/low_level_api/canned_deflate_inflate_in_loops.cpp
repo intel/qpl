@@ -59,10 +59,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size";
 
         auto job_buffer = std::make_unique<uint8_t[]>(size);
-        job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
+        auto *const comp_decomp_job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
 
         // Init job for a file
-        status = qpl_init_job(path, job_ptr);
+        status = qpl_init_job(path, comp_decomp_job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to init job";
 
         uint32_t compressed_size = -1;
@@ -87,48 +87,48 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize huffman table";
 
             // Configure compression job fields
-            job_ptr->op            = qpl_op_compress;
-            job_ptr->level         = qpl_default_level;
-            job_ptr->next_in_ptr   = source.data();
-            job_ptr->available_in  = file_size;
-            job_ptr->next_out_ptr  = destination.data();
-            job_ptr->available_out = static_cast<uint32_t>(destination.size());
-            job_ptr->huffman_table = table.get();
-            job_ptr->flags         = QPL_FLAG_FIRST |
-                                     QPL_FLAG_LAST |
-                                     QPL_FLAG_OMIT_VERIFY |
-                                     QPL_FLAG_CANNED_MODE;
+            comp_decomp_job_ptr->op            = qpl_op_compress;
+            comp_decomp_job_ptr->level         = qpl_default_level;
+            comp_decomp_job_ptr->next_in_ptr   = source.data();
+            comp_decomp_job_ptr->available_in  = file_size;
+            comp_decomp_job_ptr->next_out_ptr  = destination.data();
+            comp_decomp_job_ptr->available_out = static_cast<uint32_t>(destination.size());
+            comp_decomp_job_ptr->huffman_table = table.get();
+            comp_decomp_job_ptr->flags         = QPL_FLAG_FIRST |
+                                                 QPL_FLAG_LAST |
+                                                 QPL_FLAG_OMIT_VERIFY |
+                                                 QPL_FLAG_CANNED_MODE;
 
-            status = run_job_api(job_ptr);
+            status = run_job_api(comp_decomp_job_ptr);
             ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
-            destination.resize(job_ptr->total_out);
+            destination.resize(comp_decomp_job_ptr->total_out);
 
             // Check if the compressed size is the same as in the previous loop
             if (loop != 0) {
-                EXPECT_EQ(compressed_size, job_ptr->total_out) << "File: " + dataset.first;
+                EXPECT_EQ(compressed_size, comp_decomp_job_ptr->total_out) << "File: " + dataset.first;
             }
-            compressed_size = job_ptr->total_out;
+            compressed_size = comp_decomp_job_ptr->total_out;
 
             // Configure decompression job fields
-            job_ptr->op            = qpl_op_decompress;
-            job_ptr->next_in_ptr   = destination.data();
-            job_ptr->available_in  = job_ptr->total_out;
-            job_ptr->next_out_ptr  = reference_buffer.data();
-            job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
-            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
-            job_ptr->huffman_table = table.get();
+            comp_decomp_job_ptr->op            = qpl_op_decompress;
+            comp_decomp_job_ptr->next_in_ptr   = destination.data();
+            comp_decomp_job_ptr->available_in  = comp_decomp_job_ptr->total_out;
+            comp_decomp_job_ptr->next_out_ptr  = reference_buffer.data();
+            comp_decomp_job_ptr->available_out = static_cast<uint32_t>(reference_buffer.size());
+            comp_decomp_job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE;
+            comp_decomp_job_ptr->huffman_table = table.get();
 
-            status = run_job_api(job_ptr);
+            status = run_job_api(comp_decomp_job_ptr);
             ASSERT_EQ(QPL_STS_OK, status) << "Decompression failed";
 
-            reference_buffer.resize(job_ptr->total_out);
+            reference_buffer.resize(comp_decomp_job_ptr->total_out);
 
             // Check if the decompressed size is the same as in the previous loop
             if (decompressed_size != -1) {
-                EXPECT_EQ(decompressed_size, job_ptr->total_out) << "File: " + dataset.first;
+                EXPECT_EQ(decompressed_size, comp_decomp_job_ptr->total_out) << "File: " + dataset.first;
             }
-            decompressed_size = job_ptr->total_out;
+            decompressed_size = comp_decomp_job_ptr->total_out;
 
             EXPECT_EQ(source.size(), reference_buffer.size());
             EXPECT_TRUE(CompareVectors(reference_buffer,
@@ -140,7 +140,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             reference_buffer.resize(source.size());
        }
 
-       status = qpl_fini_job(job_ptr);
+       status = qpl_fini_job(comp_decomp_job_ptr);
        ASSERT_EQ(QPL_STS_OK, status) << "Failed to fini job";
     }
 }
