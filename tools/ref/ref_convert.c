@@ -36,7 +36,7 @@ qpl_status ref_convert_to_32u_le_be(const uint8_t *const source_ptr,
     uint32_t number_of_bits_in_buffer = 0;
 
     // source_ptr vector's length in bits
-    int64_t bit_length  = (int64_t) (number_of_elements * source_bit_width);
+    int64_t bit_length  = (int64_t)number_of_elements * source_bit_width;
     int64_t byte_length = REF_BIT_2_BYTE(bit_length);
 
     // Current position in source_ptr

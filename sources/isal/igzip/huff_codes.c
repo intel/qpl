@@ -1675,16 +1675,16 @@ create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
 	for (; i < max_ll_code + 1; i++) {
 		combined_table[i] = ll_codes[i].length;
 		compressed_len +=
-		    (ll_codes[i].length + len_code_extra_bits[i - 257]) * ll_hist[i];
+		    (ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t) ll_hist[i];
 		static_compressed_len +=
-		    (static_ll_codes[i].length + len_code_extra_bits[i - 257]) * ll_hist[i];
+		    (static_ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t) ll_hist[i];
 	}
 
 	for (i = 0; i < max_d_code + 1; i++) {
 		combined_table[i + max_ll_code + 1] = d_codes[i].length;
-		compressed_len += (d_codes[i].length + dist_code_extra_bits[i]) * d_hist[i];
+		compressed_len += (d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t) d_hist[i];
 		static_compressed_len +=
-		    (static_d_codes[i].length + dist_code_extra_bits[i]) * d_hist[i];
+		    (static_d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t) d_hist[i];
 	}
 
 	if (static_compressed_len > compressed_len) {

@@ -123,14 +123,14 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
 
         for (; i < huffman_table.max_ll_code_index_ + 1; i++) {
             combined_table[i] = ll_codes[i].length;
-            compressed_len += (ll_codes[i].length + length_code_extra_bits[i - 257]) * ll_histogram[i];
-            fixed_compressed_len += (fixed_ll_codes[i].length + length_code_extra_bits[i - 257]) * ll_histogram[i];
+            compressed_len += (ll_codes[i].length + length_code_extra_bits[i - 257]) * static_cast<uint64_t>(ll_histogram[i]);
+            fixed_compressed_len += (fixed_ll_codes[i].length + length_code_extra_bits[i - 257]) * static_cast<uint64_t>(ll_histogram[i]);
         }
 
         for (i = 0; i < huffman_table.max_d_code_index_ + 1; i++) {
             combined_table[i + huffman_table.max_ll_code_index_ + 1] = d_codes[i].length;
-            compressed_len += (d_codes[i].length + distance_code_extra_bits[i]) * d_histogram[i];
-            fixed_compressed_len += (fixed_d_codes[i].length + distance_code_extra_bits[i]) * d_histogram[i];
+            compressed_len += (d_codes[i].length + distance_code_extra_bits[i]) * static_cast<uint64_t>(d_histogram[i]);
+            fixed_compressed_len += (fixed_d_codes[i].length + distance_code_extra_bits[i]) * static_cast<uint64_t>(d_histogram[i]);
         }
     } else {
         huffman_table.max_ll_code_index_ = max_ll_code_index;
@@ -140,11 +140,11 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
         }
 
         for (; i < huffman_table.max_ll_code_index_ + 1; i++) {
-            fixed_compressed_len += (fixed_ll_codes[i].length + length_code_extra_bits[i - 257]) * ll_histogram[i];
+            fixed_compressed_len += (fixed_ll_codes[i].length + length_code_extra_bits[i - 257]) * static_cast<uint64_t>(ll_histogram[i]);
         }
 
         for (i = 0; i < huffman_table.max_d_code_index_ + 1; i++) {
-            fixed_compressed_len += (fixed_d_codes[i].length + distance_code_extra_bits[i]) * d_histogram[i];
+            fixed_compressed_len += (fixed_d_codes[i].length + distance_code_extra_bits[i]) * static_cast<uint64_t>(d_histogram[i]);
         }
     }
 

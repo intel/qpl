@@ -74,7 +74,7 @@ namespace gz_generator
     }
 // heap array has elements from 1...n
 // Make a heap starting with i
-// 
+//
 static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
 {
     uint32_t child;
@@ -164,7 +164,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             node_ptr -= 2;
             heap[1] = h_new;
             heapify64(heap, heap_size, 1);
-        } 
+        }
         while (heap_size > 1);
         heap[node_ptr] = (uint32_t) heap[1];
 
@@ -726,7 +726,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         // write the first CL code here, because bitbuf2_write can only safely
         // write up to 56 bits
         if (num_cl_enc_lens)
-            data |= (cl_enc_lens[cl_perm[0]]) << (3 + 5 + 5 + 4);
+            data |= static_cast<uint64_t>(cl_enc_lens[cl_perm[0]]) << (3 + 5 + 5 + 4);
         else
             data |= (cl_codes[cl_perm[0]] >> 24) << (3 + 5 + 5 + 4);
         bb->write(data, 3 + 5 + 5 + 4 + 3);
