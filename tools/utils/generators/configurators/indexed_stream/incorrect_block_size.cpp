@@ -12,10 +12,10 @@ GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
     Gen32u miniBlocksPerBlock = m_pIndexTable->getMiniBlocksPerBlock();
     Gen32u mini_block_size = m_miniBlockSize;
 
-    Gen32u delta = 0;
+    Gen32s delta = 0;
     qpl::test::random randomDelta(-8, 8, m_seed);
 
-    while ((delta = static_cast<Gen32u>(randomDelta)) == 0u);
+    while ((delta = static_cast<Gen32s>(randomDelta)) == 0u);
 
     // Generate first block
     TestConfigurator::declareDynamicBlock();
@@ -46,7 +46,7 @@ GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
 
     // End Stream
     ConfiguratorDecompressIndex::declareFinishBlock();
-    
+
     // We Must break table table specification
     m_pIndexTable->reset(2, 1);
 
