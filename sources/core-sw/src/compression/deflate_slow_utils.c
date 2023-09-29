@@ -58,10 +58,11 @@ static inline void compute_offset_code(const struct isal_hufftables *huffman_tab
 
     offset -= 1u;
     significant_bits = count_significant_bits(offset);
+    // TODO: look into possibility of exiting early in case of significant_bits <= 1
 
     number_of_extra_bits = significant_bits - 2u;
-    extra_bits           = offset & ((1u << number_of_extra_bits) - 1u);
-    offset >>= number_of_extra_bits;
+    extra_bits           = offset & ((1u << (number_of_extra_bits % 32)) - 1u);
+    offset >>= number_of_extra_bits % 32;
     symbol               = offset + 2 * number_of_extra_bits;
 
     // Extracting information from table
@@ -120,8 +121,8 @@ static void compute_distance_icf_code(uint32_t distance, uint32_t *code, uint32_
     msb = bsr(distance);
     assert(msb >= 1);
     num_extra_bits = msb - 2;
-    *extra_bits = distance & ((1 << num_extra_bits) - 1);
-    distance >>= num_extra_bits;
+    *extra_bits = distance & ((1 << (num_extra_bits % 32)) - 1);
+    distance >>= num_extra_bits % 32;
     *code = distance + 2 * num_extra_bits;
     assert(*code < 30);
 }

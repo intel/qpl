@@ -90,8 +90,8 @@ static void compute_dist_code(struct isal_hufftables *hufftables, uint16_t dist,
 	msb = bsr(dist);
 	assert(msb >= 1);
 	num_extra_bits = msb - 2;
-	extra_bits = dist & ((1 << num_extra_bits) - 1);
-	dist >>= num_extra_bits;
+	extra_bits = dist & ((1 << (num_extra_bits % 32)) - 1);
+	dist >>= num_extra_bits % 32;
 	sym = dist + 2 * num_extra_bits;
 	assert(sym < 30);
 	code = hufftables->dcodes[sym - IGZIP_DECODE_OFFSET];
@@ -144,8 +144,8 @@ static void compute_dist_icf_code(uint32_t dist, uint32_t *code, uint32_t *extra
 	msb = bsr(dist);
 	assert(msb >= 1);
 	num_extra_bits = msb - 2;
-	*extra_bits = dist & ((1 << num_extra_bits) - 1);
-	dist >>= num_extra_bits;
+	*extra_bits = dist & ((1 << (num_extra_bits % 32)) - 1);
+	dist >>= num_extra_bits % 32;
 	*code = dist + 2 * num_extra_bits;
 	assert(*code < 30);
 }
