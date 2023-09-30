@@ -409,6 +409,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>
@@ -593,6 +594,22 @@ devices will be selected only from this node.</p></li>
 <p>Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.</p>
 </section>
+<section id="page-faults-handling">
+<h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Permalink to this heading">#</a></h3>
+<p>If a page fault occurs during operations supported by Intel QPL on Intel IAA,
+no partial completion is available and the operation must be resubmitted to the device.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">on</span> <span class="pre">Fault</span></code> is set (that is, the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set to <code class="docutils literal notranslate"><span class="pre">1</span></code>
+with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each work queue), the device waits for page faults to be resolved
+and then continues the operation.</p>
+<p>If the user, for performance or any other reason, chooses to not rely on <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">on</span> <span class="pre">Fault</span></code>
+(that is, the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>), Intel QPL tries to resolve a page fault
+on the software level and then resubmit the operation to the device.
+In the case of <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code>, single resubmission to the device is attempted, and, in the case of the failure,
+<a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_INTL_PAGE_FAULT" title="QPL_STS_INTL_PAGE_FAULT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_FAULT</span></code></a> or <a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_INTL_W_PAGE_FAULT" title="QPL_STS_INTL_W_PAGE_FAULT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_PAGE_FAULT</span></code></a> is returned.
+In the case of <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>, single resubmission to the device is attempted, and, in the case of the failure,
+the operation is continued on the <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code>.</p>
+<p>Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details on setting <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> and other attributes.</p>
+</section>
 </section>
 <section id="library-limitations">
 <span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Permalink to this heading">#</a></h2>
@@ -602,11 +619,6 @@ boundary. Users are responsible for balancing workloads between different nodes.
 <li><p>Library does not have APIs for <code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Balancing</span></code> feature customization.</p></li>
 <li><p>Library does not support hardware path on Windows OS.</p></li>
 <li><p>Library is not developed for kernel mode usage. It is user level driver library.</p></li>
-<li><p>Library uses the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature required to handle page faults on the Intel® IAA side. The
-<code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code> for each
-work queue. Performance of Hardware Path applications can be increased if the application performs
-its own <code class="docutils literal notranslate"><span class="pre">pre-faulting</span></code>. In this case, the <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">On</span> <span class="pre">Fault</span></code> feature must be disabled with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>
-by setting the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details.</p></li>
 </ul>
 </section>
 <section id="library-apis">
@@ -672,6 +684,7 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>
