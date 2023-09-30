@@ -410,6 +410,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>
@@ -610,6 +611,19 @@ In the case of <code class="docutils literal notranslate"><span class="pre">Auto
 the operation is continued on the <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code>.</p>
 <p>Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details on setting <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> and other attributes.</p>
 </section>
+<section id="work-queue-support">
+<span id="library-work-queue-support-reference-link"></span><h3>Work Queue Support<a class="headerlink" href="#work-queue-support" title="Permalink to this heading">#</a></h3>
+<p>Intel IAA 2.0 supports the ability to configure which operations are supported using
+the OPCFG register.</p>
+<p>As of Intel QPL 1.3.0 or higher with <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 4.0
+or higher, the device dispatcher respects each work queue’s OPCFG register.
+The operation isn’t submitted to work queues that do not support it and returns a
+<a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_NOT_SUPPORTED_BY_WQ" title="QPL_STS_NOT_SUPPORTED_BY_WQ"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_BY_WQ</span></code></a> status if no available work queue supports the operation.</p>
+<p>In the case of older Intel QPL version, operations are submitted to any available
+work queue. This may result in errors when the work queue does not support the operation.</p>
+<p>In the case of an older Intel IAA or <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> version without OPCFG support, no issues
+would arise as work queues would allow all available operations.</p>
+</section>
 </section>
 <section id="library-limitations">
 <span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Permalink to this heading">#</a></h2>
@@ -685,6 +699,7 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>

@@ -218,6 +218,25 @@ the operation is continued on the ``Software Path``.
 
 Refer to :ref:`accelerator_configuration_reference_link` for more details on setting ``block_on_fault`` and other attributes.
 
+.. _library_work_queue_support_reference_link:
+
+Work Queue Support
+==================
+
+Intel IAA 2.0 supports the ability to configure which operations are supported using
+the OPCFG register.
+
+As of Intel QPL 1.3.0 or higher with ``libaccel-config`` library version 4.0
+or higher, the device dispatcher respects each work queue's OPCFG register.
+The operation isn't submitted to work queues that do not support it and returns a
+:c:macro:`QPL_STS_NOT_SUPPORTED_BY_WQ` status if no available work queue supports the operation.
+
+In the case of older Intel QPL version, operations are submitted to any available
+work queue. This may result in errors when the work queue does not support the operation.
+
+In the case of an older Intel IAA or ``libaccel-config`` version without OPCFG support, no issues
+would arise as work queues would allow all available operations.
+
 .. _library_limitations_reference_link:
 
 Library Limitations
