@@ -123,7 +123,12 @@ token_parser_c::parse_one_string(token_c *token,
     uint32_t ctype;
 
     for (i=1; i<strlen; i++) {
-        c = TOLOWER(getc());
+        c = getc();
+        if (c == -1){
+            fprintf(stderr, "End of file while parsing string.");
+            throw std::exception();
+        }
+        c = TOLOWER(c);
         if (c != str[i]) {
             fprintf(stderr, "Unknown keyword: ");
             for (j=0; j<i; j++)
@@ -155,7 +160,12 @@ token_parser_c::parse_two_strings(token_c *token,
     const char *str;
     token_type_t type;
 
-    c = TOLOWER(getc());
+    c = getc();
+    if (c == -1){
+        fprintf(stderr, "End of file while parsing string.");
+        throw std::exception();
+    }
+    c = TOLOWER(c);
     ctype = CTYPE(c);
     if (('\0' == str1[1]) && !(ctype & (CC_WORD | CC_NUMBER))) {
         str = str1;
@@ -167,7 +177,12 @@ token_parser_c::parse_two_strings(token_c *token,
         ungetc(c);
     } else if (c == str1[1]) {
         for (i=2; i<strlen1; i++) {
-            c = TOLOWER(getc());
+            c = getc();
+            if (c == -1){
+                fprintf(stderr, "End of file while parsing string.");
+                throw std::exception();
+            }
+            c = TOLOWER(c);
             if (c != str1[i]) {
                 fprintf(stderr, "Unknown keyword: ");
                 for (j=0; j<i; j++)
@@ -180,7 +195,12 @@ token_parser_c::parse_two_strings(token_c *token,
         type = type1;
     } else if (c == str2[1]) {
         for (i=2; i<strlen2; i++) {
-            c = TOLOWER(getc());
+            c = getc();
+            if (c == -1){
+                fprintf(stderr, "End of file while parsing string.");
+                throw std::exception();
+            }
+            c = TOLOWER(c);
             if (c != str2[i]) {
                 fprintf(stderr, "Unknown keyword: ");
                 for (j=0; j<i; j++)
@@ -221,7 +241,12 @@ token_parser_c::parse_three_strings(token_c *token,
     const char *str;
     token_type_t type;
 
-    c = TOLOWER(getc());
+    c = getc();
+    if (c == -1){
+        fprintf(stderr, "End of file while parsing string.");
+        throw std::exception();
+    }
+    c = TOLOWER(c);
     ctype = CTYPE(c);
     if (('\0' == str1[1]) && !(ctype & (CC_WORD | CC_NUMBER))) {
         str = str1;
@@ -237,7 +262,12 @@ token_parser_c::parse_three_strings(token_c *token,
         ungetc(c);
     } else if (c == str1[1]) {
         for (i=2; i<strlen1; i++) {
-            c = TOLOWER(getc());
+            c = getc();
+            if (c == -1){
+                fprintf(stderr, "End of file while parsing string.");
+                throw std::exception();
+            }
+            c = TOLOWER(c);
             if (c != str1[i]) {
                 fprintf(stderr, "Unknown keyword: ");
                 for (j=0; j<i; j++)
@@ -250,7 +280,12 @@ token_parser_c::parse_three_strings(token_c *token,
         type = type1;
     } else if (c == str2[1]) {
         for (i=2; i<strlen2; i++) {
-            c = TOLOWER(getc());
+            c = getc();
+            if (c == -1){
+                fprintf(stderr, "End of file while parsing string.");
+                throw std::exception();
+            }
+            c = TOLOWER(c);
             if (c != str2[i]) {
                 fprintf(stderr, "Unknown keyword: ");
                 for (j=0; j<i; j++)
@@ -263,7 +298,12 @@ token_parser_c::parse_three_strings(token_c *token,
         type = type2;
     } else if (c == str3[1]) {
         for (i=2; i<strlen3; i++) {
-            c = TOLOWER(getc());
+            c = getc();
+            if (c == -1){
+                fprintf(stderr, "End of file while parsing string.");
+                throw std::exception();
+            }
+            c = TOLOWER(c);
             if (c != str3[i]) {
                 fprintf(stderr, "Unknown keyword: ");
                 for (j=0; j<i; j++)
