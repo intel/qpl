@@ -42,6 +42,27 @@ inline bool are_iaa_gen_2_min_capabilities_present() {
     return are_gen2_capabilities_present;
 }
 
+/**
+ * @brief Function to check IAACAP bit and return a boolean to
+ * indicate whether dictionary compression is supported.
+ *
+ * @note It is safe to check IAACAP value on a single device only,
+ * since we do not expect to have devices with different generations
+ * available on the same host.
+*/
+inline bool is_dictionary_compress_supported() {
+    bool is_dict_compress_supported = false;
+
+#if defined( __linux__ )
+    static auto &dispatcher = hw_dispatcher::get_instance();
+    if (dispatcher.is_hw_support()) {
+        const auto &device = dispatcher.device(0);
+        is_dict_compress_supported = device.get_dict_compress_support();
+    }
+#endif
+
+    return is_dict_compress_supported;
+}
 }
 
 #endif //QPL_TOOLS_UTILS_COMMON_IAA_FEATURES_CHECKS_HPP_

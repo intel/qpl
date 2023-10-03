@@ -28,6 +28,9 @@ namespace qpl::test {
 /**< IAACAP bit 0 - generation 2 Minimum Capabilities support */
 #define QPL_TEST_IC_GEN_2_MIN_CAP(IAACAP) (((IAACAP))&0x01)
 
+/**< IAACAP bit 7 - dictionary compression support */
+#define QPL_TEST_IC_DICT_COMP(IAACAP) (((IAACAP)>>7) &0x01)
+
 class hw_device final {
 
 public:
@@ -38,6 +41,8 @@ public:
     [[nodiscard]] auto initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> qpl_test_hw_accelerator_status;
 
     [[nodiscard]] auto get_gen_2_min_capabilities() const noexcept -> bool;
+
+    [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;
 
 private:
     uint64_t           iaa_cap_register_ = 0u;    /**< IAACAP register content */

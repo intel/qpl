@@ -47,6 +47,10 @@ auto hw_device::get_gen_2_min_capabilities() const noexcept -> bool {
     return QPL_TEST_IC_GEN_2_MIN_CAP(iaa_cap_register_);
 }
 
+auto hw_device::get_dict_compress_support() const noexcept -> bool {
+    return QPL_TEST_IC_DICT_COMP(iaa_cap_register_);
+}
+
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> qpl_test_hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);

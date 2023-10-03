@@ -14,6 +14,7 @@
 #include "check_result.hpp"
 #include "random_generator.h"
 #include "huffman_table_unique.hpp"
+#include "iaa_features_checks.hpp"
 
 namespace qpl::test {
 enum compression_mode {
@@ -45,7 +46,8 @@ void compress_with_chunks(std::vector<uint8_t> &source,
                           uint32_t chunk_size,
                           qpl_dictionary *dictionary_ptr,
                           qpl_huffman_table_t table_ptr,
-                          qpl_compression_levels level) {
+                          qpl_compression_levels level,
+                          qpl_path_t compression_execution_path) {
 }
 
 template <>
@@ -54,8 +56,8 @@ void compress_with_chunks<compression_mode::dynamic_compression>(std::vector<uin
                                                                  uint32_t chunk_size,
                                                                  qpl_dictionary *dictionary_ptr,
                                                                  qpl_huffman_table_t table_ptr,
-                                                                 qpl_compression_levels level) {
-    auto compression_execution_path = qpl_path_t::qpl_path_software;
+                                                                 qpl_compression_levels level,
+                                                                 qpl_path_t compression_execution_path) {
 
     uint32_t compression_job_size = 0;
 
@@ -116,8 +118,8 @@ void compress_with_chunks<compression_mode::static_compression>(std::vector<uint
                                                                 uint32_t chunk_size,
                                                                 qpl_dictionary *dictionary_ptr,
                                                                 qpl_huffman_table_t table_ptr,
-                                                                qpl_compression_levels level) {
-    auto compression_execution_path = qpl_path_t::qpl_path_software;
+                                                                qpl_compression_levels level,
+                                                                qpl_path_t compression_execution_path) {
 
     uint32_t compression_job_size = 0;
 
@@ -180,8 +182,8 @@ void compress_with_chunks<compression_mode::canned_compression>(std::vector<uint
                                                                 uint32_t chunk_size,
                                                                 qpl_dictionary *dictionary_ptr,
                                                                 qpl_huffman_table_t table_ptr,
-                                                                qpl_compression_levels level) {
-    auto compression_execution_path = qpl_path_t::qpl_path_software;
+                                                                qpl_compression_levels level,
+                                                                qpl_path_t compression_execution_path) {
 
     uint32_t compression_job_size = 0;
 
@@ -244,8 +246,8 @@ void compress_with_chunks<compression_mode::fixed_compression>(std::vector<uint8
                                                                uint32_t chunk_size,
                                                                qpl_dictionary *dictionary_ptr,
                                                                qpl_huffman_table_t table_ptr,
-                                                               qpl_compression_levels level) {
-    auto compression_execution_path = qpl_path_t::qpl_path_software;
+                                                               qpl_compression_levels level,
+                                                               qpl_path_t compression_execution_path) {
 
     uint32_t compression_job_size = 0;
 
@@ -408,11 +410,13 @@ void decompress_with_chunks(std::vector<uint8_t> &compressed_source,
 }
 
 GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateless) {
-    // HW dictionary compression is not enabled, so compression path is always set to SW
-    // Upon enabling of HW dictionary compression, these tests should be updated so that
-    // compression path takes in the given execution path, like decompression path currently does
-
-    auto compression_execution_path   = qpl_path_t::qpl_path_software;
+    // HW dictionary compression is only enabled with single job, and HW compression only supports
+    // default level. So, compression path could only be set to the given execution path (SW or HW)
+    // for stateless default level tests. For other tests, compression path is hardcoded to SW.
+    auto compression_execution_path = qpl_path_t::qpl_path_software;
+    if (is_dictionary_compress_supported()) {
+        compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     uint32_t num_iterations = 0;
@@ -469,7 +473,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateless) {
                                                                             source.size(),
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_default_level);
+                                                                            qpl_compression_levels::qpl_default_level,
+                                                                            compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -545,7 +550,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression) {
                                                                             chunk_size,
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_default_level);
+                                                                            qpl_compression_levels::qpl_default_level,
+                                                                            compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -616,7 +622,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_decompression) {
                                                                             source.size(),
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_default_level);
+                                                                            qpl_compression_levels::qpl_default_level,
+                                                                            compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -696,7 +703,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression_and_decompr
                                                                             compression_chunk_size,
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_default_level);
+                                                                            qpl_compression_levels::qpl_default_level,
+                                                                            compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -771,7 +779,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateless) {
                                                                             source.size(),
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_high_level);
+                                                                            qpl_compression_levels::qpl_high_level,
+                                                                            compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -847,7 +856,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression) {
                                                                             chunk_size,
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_high_level);
+                                                                            qpl_compression_levels::qpl_high_level,
+                                                                            compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -917,7 +927,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_decompression) {
                                                                             source.size(),
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_high_level);
+                                                                            qpl_compression_levels::qpl_high_level,
+                                                                            compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -995,7 +1006,8 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression_and_decompress
                                                                             compression_chunk_size,
                                                                             dictionary_ptr,
                                                                             nullptr,
-                                                                            qpl_compression_levels::qpl_high_level);
+                                                                            qpl_compression_levels::qpl_high_level,
+                                                                            compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -1012,7 +1024,10 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression_and_decompress
 }
 
 GTEST_TEST(ta_c_api_dictionary, fixed_default_stateless) {
-    auto compression_execution_path   = qpl_path_t::qpl_path_software;
+    auto compression_execution_path = qpl_path_t::qpl_path_software;
+    if (is_dictionary_compress_supported()) {
+        compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     uint32_t num_iterations = 0;
@@ -1068,7 +1083,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateless) {
                                                                           source.size(),
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_default_level);
+                                                                          qpl_compression_levels::qpl_default_level,
+                                                                          compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1143,7 +1159,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression) {
                                                                           chunk_size,
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_default_level);
+                                                                          qpl_compression_levels::qpl_default_level,
+                                                                          compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1213,7 +1230,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_decompression) {
                                                                           source.size(),
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_default_level);
+                                                                          qpl_compression_levels::qpl_default_level,
+                                                                          compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -1291,7 +1309,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression_and_decompres
                                                                           compression_chunk_size,
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_default_level);
+                                                                          qpl_compression_levels::qpl_default_level,
+                                                                          compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -1364,7 +1383,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateless) {
                                                                           source.size(),
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_high_level);
+                                                                          qpl_compression_levels::qpl_high_level,
+                                                                          compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1439,7 +1459,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression) {
                                                                           chunk_size,
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_high_level);
+                                                                          qpl_compression_levels::qpl_high_level,
+                                                                          compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1509,7 +1530,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_decompression) {
                                                                           source.size(),
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_high_level);
+                                                                          qpl_compression_levels::qpl_high_level,
+                                                                          compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -1587,7 +1609,8 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression_and_decompressio
                                                                           compression_chunk_size,
                                                                           dictionary_ptr,
                                                                           nullptr,
-                                                                          qpl_compression_levels::qpl_high_level);
+                                                                          qpl_compression_levels::qpl_high_level,
+                                                                          compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -1604,7 +1627,10 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression_and_decompressio
 }
 
 GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
-    auto compression_execution_path   = qpl_path_t::qpl_path_software;
+    auto compression_execution_path = qpl_path_t::qpl_path_software;
+    if (is_dictionary_compress_supported()) {
+        compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     uint32_t num_iterations = 0;
@@ -1680,7 +1706,8 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
                                                                            source.size(),
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_default_level);
+                                                                           qpl_compression_levels::qpl_default_level,
+                                                                           compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1774,7 +1801,8 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_default_level);
+                                                                           qpl_compression_levels::qpl_default_level,
+                                                                           compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -1864,7 +1892,8 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
                                                                            source.size(),
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_default_level);
+                                                                           qpl_compression_levels::qpl_default_level,
+                                                                           compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -1962,7 +1991,8 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_default_level);
+                                                                           qpl_compression_levels::qpl_default_level,
+                                                                           compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -2055,7 +2085,8 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
                                                                            source.size(),
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_high_level);
+                                                                           qpl_compression_levels::qpl_high_level,
+                                                                           compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -2149,7 +2180,8 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_high_level);
+                                                                           qpl_compression_levels::qpl_high_level,
+                                                                           compression_execution_path);
 
                 decompress_with_chunks(compressed_destination,
                                        decompressed_destination,
@@ -2239,7 +2271,8 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
                                                                            source.size(),
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_high_level);
+                                                                           qpl_compression_levels::qpl_high_level,
+                                                                           compression_execution_path);
 
                 qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
@@ -2337,7 +2370,8 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
                                                                            compression_chunk_size,
                                                                            dictionary_ptr,
                                                                            table.get(),
-                                                                           qpl_compression_levels::qpl_high_level);
+                                                                           qpl_compression_levels::qpl_high_level,
+                                                                           compression_execution_path);
 
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
@@ -2434,7 +2468,8 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
                                                                            source.size(),
                                                                            dictionary_ptr,
                                                                            c_table.get(),
-                                                                           qpl_compression_levels::qpl_default_level);
+                                                                           qpl_compression_levels::qpl_default_level,
+                                                                           compression_execution_path);
 
                 // Create and fill the decompression table
                 unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,

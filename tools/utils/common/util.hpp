@@ -21,7 +21,6 @@
 namespace qpl::test
 {
     static std::vector<hw_compression_level> hw_levels{
-        hw_compression_level::HW_NONE,
         hw_compression_level::SMALL,
         hw_compression_level::LARGE,
         hw_compression_level::HW_LEVEL_1,
@@ -30,7 +29,6 @@ namespace qpl::test
     };
 
     static std::vector<sw_compression_level> sw_levels{
-        sw_compression_level::SW_NONE,
         sw_compression_level::LEVEL_0,
         sw_compression_level::LEVEL_1,
         sw_compression_level::LEVEL_2,
@@ -148,7 +146,7 @@ namespace qpl::test
 
             case qpl_op_compress:
                 return "Compress";
-            
+
             case qpl_op_decompress:
                 return "Decompress";
 
