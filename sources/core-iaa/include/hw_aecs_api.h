@@ -45,8 +45,14 @@ extern "C" {
 /** @brief AECS size for operation: Decompress. */
 #define HW_AECS_FILTER_AND_DECOMPRESS          0x1500u
 
-/** @brief AECS size for operation: Compress (With Huffman Table). */
+/** @brief Max size of dictionary in Compress AECS. */
+#define HW_AECS_MAX_DICTIONARY_SIZE            0x3000u
+
+/** @brief AECS size for operation: Compress (with Huffman Table). */
 #define HW_AECS_COMPRESS_WITH_HT               0x620u
+
+/** @brief AECS size for operation: Compress (with Huffman Table and largest possible dictionary). */
+#define HW_AECS_COMPRESS_WITH_HT_AND_DICT      (HW_AECS_COMPRESS_WITH_HT + HW_AECS_MAX_DICTIONARY_SIZE)
 
 /** @brief Size of hw_iaa_aecs_decompress structure */
 #define HW_AECS_DECOMPRESS_STATE               0x1458u
@@ -182,12 +188,13 @@ typedef struct {
  * @brief Describes an AECS state for Compress operation.
  */
 typedef struct {
-    uint32_t         crc;                      /**< Initial (on input) or final (on output) CRC Checksum value */
-    uint32_t         xor_checksum;             /**< Initial (on input) or final (on output) XOR Checksum value */
-    uint32_t         reserved0[5];             /**< Reserved bytes */
-    uint32_t         num_output_accum_bits;    /**< Number of bits that are valid in Output Accumulator */
-    uint8_t          output_accum[256];        /**< Output Accumulator */
-    hw_iaa_histogram histogram;                /**< Huffman codes used for compression */
+    uint32_t         crc;                                     /**< Initial (on input) or final (on output) CRC Checksum value */
+    uint32_t         xor_checksum;                            /**< Initial (on input) or final (on output) XOR Checksum value */
+    uint32_t         reserved0[5];                            /**< Reserved bytes */
+    uint32_t         num_output_accum_bits;                   /**< Number of bits that are valid in Output Accumulator */
+    uint8_t          output_accum[256];                       /**< Output Accumulator */
+    hw_iaa_histogram histogram;                               /**< Huffman codes used for compression */
+    uint8_t          dictionary[HW_AECS_MAX_DICTIONARY_SIZE]; /**< Dictionary used for compression */
 } hw_iaa_aecs_compress;
 
 /* ====== AECS Compress ====== */
@@ -361,6 +368,31 @@ HW_PATH_IAA_AECS_API(void, compress_get_checksums, (const hw_iaa_aecs_compress *
     *crc          = aecs_ptr->crc;
 }
 
+
+/**
+ * @brief Get the address of @ref hw_iaa_aecs_compress with the specified AECS read index.
+ *
+ * @param [in] ccfg_base   pointer to the base address of @ref hw_iaa_aecs_compress
+ * @param [in] aecs_index  AECS read index
+ * @param [in] aecs_size   actual size of @ref hw_iaa_aecs_compress, which includes the dictionary
+ * @return the address corresponding to the AECS read index provided
+ */
+static inline
+HW_PATH_IAA_AECS_API(hw_iaa_aecs_compress*, compress_get_aecs_ptr, (hw_iaa_aecs_compress *const ccfg_base,
+                                                                    const uint32_t aecs_index,
+                                                                    const uint32_t aecs_size)) {
+    if (!(aecs_index == 0U || aecs_index == 1U) || (aecs_size > HW_AECS_COMPRESS_WITH_HT_AND_DICT)) {
+        return NULL;
+    }
+
+    if (aecs_index == 0U) {
+        return ccfg_base;
+    }
+
+    uint8_t *ccfg = (uint8_t*)(ccfg_base);
+    return (hw_iaa_aecs_compress *)(ccfg + aecs_size);
+}
+
 /**
  * @brief Set crc32 and xor checksums seeds into @ref hw_iaa_aecs_compress.
  *
@@ -386,6 +418,19 @@ HW_PATH_IAA_AECS_API(void, compress_set_checksums, (hw_iaa_aecs_compress *const 
  */
 HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob, (hw_iaa_aecs_compress *const eacs_deflate_ptr,
                                                              const hw_huffman_code eob_symbol));
+
+/**
+ * @brief Set dictionary in @ref hw_iaa_aecs_compress
+ *
+ * @param [out] aecs_ptr                    pointer to valid @ref hw_iaa_aecs_compress
+ * @param [in]  dictionary_data_ptr         pointer to dictionary text
+ * @param [in]  dictionary_size_in_aecs     AECS dictionary size in bytes
+ * @param [in]  aecs_raw_dictionary_offset  offset of raw dictionary in AECS
+ */
+HW_PATH_IAA_AECS_API(void, compress_set_dictionary, (const hw_iaa_aecs_compress *const aecs_ptr,
+                                                     const uint8_t *const dictionary_data_ptr,
+                                                     const uint32_t dictionary_size_in_aecs,
+                                                     const uint32_t aecs_raw_dictionary_offset));
 /** @} */
 
 /* ====== AECS Decompress ====== */

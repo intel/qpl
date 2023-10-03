@@ -166,11 +166,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
 
         if (job_ptr->dictionary != nullptr &&
             job_ptr->flags & QPL_FLAG_FIRST) {
-            if constexpr (qpl::ml::execution_path_t::software == path) {
-                builder.dictionary(*job_ptr->dictionary);
-            } else {
-                return qpl::ml::status_list::not_supported_err;
-            }
+            builder.dictionary(*job_ptr->dictionary);
         }
 
         auto state = builder.verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY))

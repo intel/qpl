@@ -211,6 +211,8 @@ public:
 
     inline auto compression_table(qpl_compression_huffman_table *huffman_table) noexcept -> common_type &;
 
+    inline auto dictionary(qpl_dictionary &dictionary) noexcept -> common_type &;
+
     inline auto verify(bool value) noexcept -> common_type &;
 
 protected:
@@ -255,7 +257,11 @@ inline auto deflate_state_builder<execution_path_t::hardware>::terminate(bool va
 }
 
 inline auto deflate_state_builder<execution_path_t::hardware>::crc_seed(util::checksum_accumulator value) noexcept -> common_type & {
-    hw_iaa_aecs_compress_set_checksums(&state_.meta_data_->aecs_[state_.meta_data_->aecs_index], value.crc32, 0u);
+    hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state_.meta_data_->aecs_, state_.meta_data_->aecs_index, state_.meta_data_->aecs_size);
+    if (!actual_aecs) {
+        return *this;
+    }
+    hw_iaa_aecs_compress_set_checksums(actual_aecs, value.crc32, 0U);
 
     return *this;
 }
@@ -293,7 +299,11 @@ inline auto deflate_state_builder<execution_path_t::hardware>::collect_statistic
 
 inline auto deflate_state_builder<execution_path_t::hardware>::compression_table(qpl_compression_huffman_table *huffman_table) noexcept -> common_type & {
     state_.huffman_table_ = huffman_table;
-    hw_iaa_aecs_compress_set_deflate_huffman_table(&state_.meta_data_->aecs_[state_.meta_data_->aecs_index],
+    hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state_.meta_data_->aecs_, state_.meta_data_->aecs_index, state_.meta_data_->aecs_size);
+    if (!actual_aecs) {
+        return *this;
+    }
+    hw_iaa_aecs_compress_set_deflate_huffman_table(actual_aecs,
                                                    get_literals_lengths_table_ptr(state_.huffman_table_),
                                                    get_offsets_table_ptr(state_.huffman_table_));
 
@@ -301,6 +311,12 @@ inline auto deflate_state_builder<execution_path_t::hardware>::compression_table
     uint32_t eob_code_len = code_length >> 15u;
     state_.meta_data_->eob_code.code   = util::revert_bits((uint16_t) code_length) >> (16u - eob_code_len);
     state_.meta_data_->eob_code.length = eob_code_len;
+
+    return *this;
+}
+
+inline auto deflate_state_builder<execution_path_t::hardware>::dictionary(qpl_dictionary &dictionary) noexcept -> common_type & {
+    state_.dictionary_ = &dictionary;
 
     return *this;
 }
@@ -315,7 +331,11 @@ inline auto deflate_state_builder<execution_path_t::hardware>::verify(bool value
 
 [[nodiscard]] inline auto deflate_state_builder<execution_path_t::hardware>::build() noexcept -> state_type {
     if (!state_.collect_statistic_descriptor_ && !state_.huffman_table_) {
-        hw_iaa_aecs_compress_set_deflate_huffman_table(&state_.meta_data_->aecs_[state_.meta_data_->aecs_index],
+        hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state_.meta_data_->aecs_, state_.meta_data_->aecs_index, state_.meta_data_->aecs_size);
+        if (!actual_aecs) {
+            return state_;
+        }
+        hw_iaa_aecs_compress_set_deflate_huffman_table(actual_aecs,
                                                        reinterpret_cast<const void *>(fixed_literals_table),
                                                        reinterpret_cast<const void *>(fixed_offsets_table));
         state_.meta_data_->eob_code.code   = 0u;

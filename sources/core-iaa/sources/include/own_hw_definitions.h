@@ -93,6 +93,7 @@ extern "C" {
 #define ADCF_ENABLE_IDXING(x)   (((uint32_t)(x) & 7u) << 6u)  /**< @todo */
 #define ADCF_ENABLE_HDR_GEN(x)  (((uint32_t)(x) & 7u) << 12u) /**< Enable Header Generation */
 #define ADCF_WRITE_AECS_HT      (1u << 1u)                    /**< Write AECS Huffman Tables */
+#define ADCF_LOAD_DICT(x)       (((uint32_t)(x) & 3u) << 10u) /**< Load dictionary */
 
 // crc64 flags
 #define ADC64F_INVCRC           (1u << 14u)             /**< @todo */

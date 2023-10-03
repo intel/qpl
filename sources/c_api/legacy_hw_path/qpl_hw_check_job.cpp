@@ -16,6 +16,7 @@
 #include "compression/deflate/compression_units/stored_block_units.hpp"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/stream_decorators/zlib_decorator.hpp"
+#include "compression/dictionary/dictionary_utils.hpp"
 #include "util/checksum.hpp"
 #include "util/iaa_features_checks.hpp"
 
@@ -85,12 +86,18 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     using namespace qpl;
 
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
-    hw_iaa_analytics_descriptor  *const desc_ptr   = &state_ptr->desc_ptr;
-    hw_iaa_completion_record *const comp_ptr   = &state_ptr->comp_ptr;
-    hw_iaa_aecs_compress     *const cfg_in_ptr = &state_ptr->ccfg[state_ptr->aecs_hw_read_offset];
-    hw_iaa_aecs_compress     *const cfg_out_ptr = &state_ptr->ccfg[state_ptr->aecs_hw_read_offset ^ 1u];
-    bool  is_final_block                           = QPL_FLAG_LAST & qpl_job_ptr->flags;
+    hw_iaa_analytics_descriptor  *const desc_ptr = &state_ptr->desc_ptr;
+    hw_iaa_completion_record *const comp_ptr     = &state_ptr->comp_ptr;
+    bool  is_final_block                         = QPL_FLAG_LAST & qpl_job_ptr->flags;
 
+    hw_iaa_aecs_compress *const cfg_in_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset, state_ptr->aecs_size);
+    if (!cfg_in_ptr) {
+        return QPL_STS_LIBRARY_INTERNAL_ERR;
+    }
+    hw_iaa_aecs_compress *const cfg_out_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset ^ 1u, state_ptr->aecs_size);
+    if (!cfg_out_ptr) {
+        return QPL_STS_LIBRARY_INTERNAL_ERR;
+    }
     // Check verification step
     if (QPL_OPCODE_DECOMPRESS == ADOF_GET_OPCODE(desc_ptr->op_code_op_flags)) {
         OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *>(comp_ptr)))
@@ -244,6 +251,23 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
 
         hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
+
+        // Setup dictionary in compression descriptor
+        if (qpl_job_ptr->dictionary != nullptr) {
+            qpl_dictionary *dictionary               = qpl_job_ptr->dictionary;
+            const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
+            const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
+            uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+
+            hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) desc_ptr,
+                                                        dict_size_in_aecs,
+                                                        dictionary_data_ptr,
+                                                        dictionary->aecs_raw_dictionary_offset,
+                                                        state_ptr->ccfg,
+                                                        state_ptr->aecs_hw_read_offset,
+                                                        state_ptr->aecs_size,
+                                                        load_dictionary_val);
+        }
 
         auto status = ml::util::process_descriptor<qpl_status,
                                                    ml::util::execution_mode_t::async>((hw_descriptor *) desc_ptr,

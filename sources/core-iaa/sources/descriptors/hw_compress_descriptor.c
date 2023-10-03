@@ -9,6 +9,7 @@
 #include "own_hw_definitions.h"
 
 #include "simple_memory_ops_c_bind.h"
+#include "hw_aecs_api.h"
 
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint32_t trusted_fields;          /**< @todo */
@@ -155,6 +156,42 @@ HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen, (hw_descriptor *const de
     // Reset compression_2_flags
     this_ptr->compression_2_flags = 0u;
 
+}
+
+HW_PATH_IAA_API(void, descriptor_compress_set_dictionary_mode, (hw_descriptor *const descriptor_ptr,
+                                                                uint32_t load_dictionary_value,
+                                                                uint32_t dictionary_size_in_aecs)) {
+    own_hw_compress_descriptor *const this_ptr = (own_hw_compress_descriptor *) descriptor_ptr;
+
+    // Set Load dictionary flag, src2 read, src2 read size
+    this_ptr->compression_flags |= ADCF_LOAD_DICT(load_dictionary_value);
+    this_ptr->op_code_op_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
+    this_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT + dictionary_size_in_aecs;
+}
+
+HW_PATH_IAA_API(void, descriptor_compress_setup_dictionary, (hw_descriptor *const descriptor_ptr,
+                                                             const uint32_t dict_size_in_aecs,
+                                                             const uint8_t *const dictionary_data_ptr,
+                                                             const uint32_t aecs_raw_dictionary_offset,
+                                                             hw_iaa_aecs_compress *ccfg_base,
+                                                             uint32_t aecs_index,
+                                                             uint32_t aecs_size,
+                                                             uint32_t load_dictionary_val)) {
+
+    hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(ccfg_base,
+                                                                              aecs_index,
+                                                                              aecs_size);
+    if (!actual_aecs_ptr) {
+        return;
+    }
+    hw_iaa_aecs_compress_set_dictionary(actual_aecs_ptr,
+                                        dictionary_data_ptr,
+                                        dict_size_in_aecs,
+                                        aecs_raw_dictionary_offset);
+
+    hw_iaa_descriptor_compress_set_dictionary_mode((hw_descriptor *) descriptor_ptr,
+                                                   load_dictionary_val,
+                                                   dict_size_in_aecs);
 }
 
 HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor *const descriptor_ptr)) {

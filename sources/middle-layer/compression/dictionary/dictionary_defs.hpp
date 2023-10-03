@@ -27,20 +27,22 @@ enum class software_compression_level {
     LEVEL_9 = 9
 };
 
-enum class hardware_compression_level {
+enum class hardware_dictionary_level {
     HW_NONE = dict_none,
-    SMALL   = 0,
-    LARGE   = 1
+    LEVEL_1 = 0, /* 2K dictionary w/ hash table built w/ 2 pointers per entry */
+    LEVEL_2 = 1, /* 4K dictionary w/ hash table built w/ 2 pointers per entry */
+    LEVEL_3 = 2  /* 4K dictionary w/ hash table built w/ 4 pointers per entry */
 };
 
 struct qpl_dictionary {
-    software_compression_level sw_level;
-    hardware_compression_level hw_level;
-    size_t                     raw_dictionary_size;
-    uint32_t                   dictionary_id;
-    uint32_t                   sw_hash_table_offset;
-    uint32_t                   hw_hash_table_offset;
-    uint32_t                   raw_dictionary_offset;
+    software_compression_level sw_level;                   /* Software compression level */
+    hardware_dictionary_level  hw_dict_level;              /* Hardware compression level */
+    size_t                     raw_dictionary_size;        /* Raw dictionary size */
+    uint32_t                   aecs_raw_dictionary_offset; /* Offset of raw dictionary in @ref hw_iaa_aecs_compress dictionary section */
+    uint32_t                   dictionary_id;              /* Dictionary ID */
+    uint32_t                   raw_dictionary_offset;      /* Raw dictionary offset in @ref qpl_dictionary buffer */
+    uint32_t                   hw_hash_table_offset;       /* HW hash table offset in @ref qpl_dictionary buffer */
+    uint32_t                   sw_hash_table_offset;       /* SW hash table offset in @ref qpl_dictionary buffer */
 };
 
 // namespace qpl::ml::compression {

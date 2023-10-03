@@ -209,8 +209,10 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     hw_iaa_completion_record *comp_ptr = &state_ptr->comp_ptr;
 
     hw_iaa_aecs_decompress *aecs_inflate_ptr = &state_ptr->dcfg[state_ptr->verify_aecs_hw_read_offset].inflate_options;
-    hw_iaa_aecs_compress   *aecs_deflate_ptr = &state_ptr->ccfg[state_ptr->aecs_hw_read_offset];
-
+    hw_iaa_aecs_compress   *aecs_deflate_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset, state_ptr->aecs_size);
+    if (!aecs_deflate_ptr) {
+        return QPL_STS_LIBRARY_INTERNAL_ERR;
+    }
     bool is_first_job        = QPL_FLAG_FIRST & qpl_job_ptr->flags;
     bool is_last_job         = QPL_FLAG_LAST & qpl_job_ptr->flags;
     bool is_huffman_only     = QPL_FLAG_NO_HDRS & qpl_job_ptr->flags;

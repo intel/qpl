@@ -28,7 +28,7 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
 
 void hw_create_huff_tables_no_hdr(uint32_t *ll_codes_ptr, uint32_t *ll_hist_ptr);
 
-static_assert(sizeof(hw_iaa_aecs_compress) == HW_AECS_COMPRESS_WITH_HT, "hw_iaa_aecs_compress size is not correct");
+static_assert(sizeof(hw_iaa_aecs_compress) == HW_AECS_COMPRESS_WITH_HT_AND_DICT, "hw_iaa_aecs_compress size is not correct");
 
 HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob, (hw_iaa_aecs_compress *const eacs_deflate_ptr,
         const hw_huffman_code eob_symbol)) {
@@ -189,4 +189,16 @@ HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_
 
     call_c_set_zeros_uint8_t((uint8_t *) huffman_table_ptr->offsets,
                              QPLC_DEFLATE_OFFSETS_COUNT * sizeof(uint32_t));
+}
+
+HW_PATH_IAA_AECS_API(void, compress_set_dictionary, (const hw_iaa_aecs_compress *const aecs_ptr,
+                                                     const uint8_t *const dictionary_data_ptr,
+                                                     const uint32_t dictionary_size_in_aecs,
+                                                     const uint32_t aecs_raw_dictionary_offset)) {
+    call_c_set_zeros_uint8_t((uint8_t *) aecs_ptr->dictionary, aecs_raw_dictionary_offset);
+
+    // Copy dictionary to the dictionary section in compress AECS
+    call_c_copy_uint8_t(dictionary_data_ptr,
+                        (uint8_t *) aecs_ptr->dictionary + aecs_raw_dictionary_offset,
+                        dictionary_size_in_aecs - aecs_raw_dictionary_offset);
 }

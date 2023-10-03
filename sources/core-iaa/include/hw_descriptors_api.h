@@ -273,6 +273,39 @@ HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen, (hw_descriptor *const de
                                                          const uint32_t b_first));
 
 /**
+ * @brief Setup descriptor to perform dictionary compression.
+ *
+ * @param[out] descriptor_ptr           @ref hw_descriptor
+ * @param[in]  load_dictionary_value    value that should be used in Load Dictionary Flag
+ * @param[in]  dictionary_size_in_aecs  size of dictionary in AECS
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_compress_set_dictionary_mode, (hw_descriptor *const descriptor_ptr,
+                                                                uint32_t load_dictionary_value,
+                                                                uint32_t dictionary_size_in_aecs));
+
+/**
+ * @brief Setup descriptor and AECS for dictionary compression.
+ *
+ * @param[out] descriptor_ptr              @ref hw_descriptor
+ * @param[in]  dict_size_in_aecs           size of dictionary in AECS
+ * @param[in]  dictionary_data_ptr         pointer to the raw dictionary region in @ref qpl_dictionary
+ * @param[in]  aecs_raw_dictionary_offset  offset of raw dictionary in AECS
+ * @param[out] ccfg_base                   pointer to the base address of @ref hw_iaa_aecs_compress
+ * @param[in]  aecs_index                  AECS read index
+ * @param[in]  aecs_size                   actual size of @ref hw_iaa_aecs_compress, which includes the dictionary
+ * @param[in]  load_dictionary_val         value that should be used in Load Dictionary Flag
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_compress_setup_dictionary, (hw_descriptor *const descriptor_ptr,
+                                                             const uint32_t dict_size_in_aecs,
+                                                             const uint8_t *const dictionary_data_ptr,
+                                                             const uint32_t aecs_raw_dictionary_offset,
+                                                             hw_iaa_aecs_compress *ccfg_base,
+                                                             uint32_t aecs_index,
+                                                             uint32_t aecs_size,
+                                                             uint32_t load_dictionary_val));
+/**
  * @brief Setup descriptor to perform `Compress` operation (creates `compress descriptor`)
  *
  * @param[out] descriptor_ptr @ref hw_descriptor

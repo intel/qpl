@@ -16,6 +16,9 @@
 
 #include "dispatcher/hw_dispatcher.hpp"
 
+// core-iaa
+#include "hw_aecs_api.h" // HW_AECS_COMPRESS_WITH_HT
+
 namespace qpl::ml::compression {
 
 auto deflate_pass(deflate_state<execution_path_t::software> &stream, uint8_t *begin, uint32_t size) noexcept -> compression_operation_result_t {
@@ -134,24 +137,56 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     auto actual_aecs      = state.meta_data_->aecs_index; // AECS used to read
     auto output_begin_ptr = state.next_out();
 
-    state.meta_data_->stored_bits = hw_iaa_aecs_compress_accumulator_get_actual_bits(&state.meta_data_->aecs_[actual_aecs]);
-
-    // Check if header generation is supported in hardware
-    bool is_hw_header_gen_supported = false;
+    // Check if features are supported in hardware
+    bool is_hw_header_gen_supported    = false;
+    bool is_hw_dict_compress_supported = false;
 
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     const auto &device = dispatcher.device(0);
     is_hw_header_gen_supported = device.get_header_gen_support();
+    is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
+
+    // If dictionary is provided, check that the followings are true:
+    // 1. compression with dictionary is supported
+    // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path)
+    // 3. the hardware_dictionary_level is set
+    qpl_dictionary *dictionary = state.dictionary_;
+    if (dictionary) {
+        bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
+        if (!is_hw_dict_compress_supported || !is_single_chunk || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
+            result.status_code_ = status_list::not_supported_err;
+            return result;
+        }
+
+        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
+
+    } else {
+        state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT;
+    }
+    hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
+    if (!actual_aecs_ptr) {
+        result.status_code_ = status_list::internal_error;
+        return result;
+    }
+    state.meta_data_->stored_bits = hw_iaa_aecs_compress_accumulator_get_actual_bits(actual_aecs_ptr);
 
     // There are two modes for header generation: 1-pass and 2-pass.
     // 1-pass can be used if dictionary is not used and source size is no larger than 4KB.
     // 1-pass header generation will calculate the statistics and Huffman Table together with compression
     // 2-pass header generation will calculate Huffman Table in the 1st pass, and compress data in the 2nd pass
     // (2-pass is similar to dynamic deflate without header generation support)
-    bool is_hw_1_pass_header_gen = state.collect_statistic_descriptor_ && is_hw_header_gen_supported && source_size <= 4096u;
-    bool is_hw_2_pass_header_gen = state.collect_statistic_descriptor_ && is_hw_header_gen_supported && source_size > 4096u;
+    bool is_hw_1_pass_header_gen = false;
+    bool is_hw_2_pass_header_gen = false;
+    if (state.collect_statistic_descriptor_ && is_hw_header_gen_supported) {
+        if (source_size <= 4096U && !dictionary) {
+            is_hw_1_pass_header_gen = true;
+        } else {
+            is_hw_2_pass_header_gen = true;
+        }
+    }
 
     // Collect statistic
     if (state.collect_statistic_descriptor_) { // Dynamic mode used
@@ -165,6 +200,22 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             /* Append EOB so that EOB will have a Huffman code */
             hw_iaa_descriptor_compress_set_termination_rule(state.collect_statistic_descriptor_,
                                                             hw_iaa_terminator_t::end_of_block);
+
+            // Setup dictionary in statistics collection descriptor
+            if (dictionary) {
+                const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
+                const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
+                uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+
+                hw_iaa_descriptor_compress_setup_dictionary(state.collect_statistic_descriptor_,
+                                                            dict_size_in_aecs,
+                                                            dictionary_data_ptr,
+                                                            dictionary->aecs_raw_dictionary_offset,
+                                                            state.meta_data_->aecs_,
+                                                            state.meta_data_->aecs_index,
+                                                            state.meta_data_->aecs_size,
+                                                            load_dictionary_val);
+            }
 
             // The 1st pass will generate Huffman table and deflate header
             result = util::process_descriptor<compression_operation_result_t,
@@ -180,11 +231,16 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             actual_aecs = state.meta_data_->aecs_index;
 
         } else if (!is_hw_header_gen_supported) {
+            hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
+            if (!actual_aecs_ptr) {
+                result.status_code_ = status_list::internal_error;
+                return result;
+            }
             // If header generation is not supported, the software will compute the Huffman table
             // based on statistics generated in the 1st pass
             hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
                                                        source_begin_ptr, source_size,
-                                                       &state.meta_data_->aecs_[actual_aecs].histogram);
+                                                       &actual_aecs_ptr->histogram);
             hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
                                                            state.meta_data_->mini_block_size_);
 
@@ -196,8 +252,8 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                 return result;
             }
 
-            hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(&state.meta_data_->aecs_[actual_aecs],
-                                                                             &state.meta_data_->aecs_[actual_aecs].histogram,
+            hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(actual_aecs_ptr,
+                                                                             &actual_aecs_ptr->histogram,
                                                                              state.is_last_chunk());
         }
 
@@ -207,21 +263,28 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
     } else { // Static or fixed mode used
         if (state.is_first_chunk() || state.start_new_block) {
+            hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
+            if (!actual_aecs_ptr) {
+                result.status_code_ = status_list::internal_error;
+                return result;
+            }
+
+
             // If we want to write a new deflate block and it's a continuable compression task, then insert EOB
             if (!state.is_first_chunk()) {
-                hw_iaa_aecs_compress_accumulator_insert_eob(&state.meta_data_->aecs_[actual_aecs],
+                hw_iaa_aecs_compress_accumulator_insert_eob(actual_aecs_ptr,
                                                             state.meta_data_->eob_code);
             }
 
             if (state.huffman_table_) { // Static mode used
                 result.status_code_ = hw_iaa_aecs_compress_write_deflate_dynamic_header(
-                        &state.meta_data_->aecs_[actual_aecs],
+                        actual_aecs_ptr,
                         get_deflate_header_ptr(state.huffman_table_),
                         get_deflate_header_bits_size(state.huffman_table_),
                         state.is_last_chunk());
             } else { // Fixed mode used
                 result.status_code_ = hw_iaa_aecs_compress_write_deflate_fixed_header(
-                        &state.meta_data_->aecs_[actual_aecs],
+                        actual_aecs_ptr,
                         state.is_last_chunk());
             }
         }
@@ -257,6 +320,22 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                                             state.meta_data_->aecs_,
                                             access_policy,
                                             !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
+    }
+
+    // Setup dictionary in compression descriptor
+    if (dictionary) {
+        const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
+        const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
+        uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+
+        hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
+                                                    dict_size_in_aecs,
+                                                    dictionary_data_ptr,
+                                                    dictionary->aecs_raw_dictionary_offset,
+                                                    state.meta_data_->aecs_,
+                                                    state.meta_data_->aecs_index,
+                                                    state.meta_data_->aecs_size,
+                                                    load_dictionary_val);
     }
 
     result = util::process_descriptor<compression_operation_result_t,

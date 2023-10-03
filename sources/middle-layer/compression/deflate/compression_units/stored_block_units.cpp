@@ -277,7 +277,12 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
     }
 
     if (actual_bits_in_aecs) {
-        hw_iaa_aecs_compress_accumulator_flush(&state.meta_data_->aecs_[state.meta_data_->aecs_index], &output_ptr, actual_bits_in_aecs);
+        hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index, state.meta_data_->aecs_size);
+        if (!actual_aecs) {
+            result.status_code_ = status_list::internal_error;
+            return result;
+        }
+        hw_iaa_aecs_compress_accumulator_flush(actual_aecs, &output_ptr, actual_bits_in_aecs);
 
         auto shift = actual_bits_in_aecs / byte_bit_size;
         output_ptr  += shift;
@@ -289,8 +294,13 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
 
     // Calculate checksums
     uint32_t crc, xor_checksum;
-    hw_iaa_aecs_compress_get_checksums(&state.meta_data_->aecs_[state.meta_data_->aecs_index],
-                                       &crc, &xor_checksum);
+    hw_iaa_aecs_compress *actual_aecs_in = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index, state.meta_data_->aecs_size);
+    if (!actual_aecs_in) {
+        result.status_code_ = status_list::internal_error;
+        return result;
+    }
+
+    hw_iaa_aecs_compress_get_checksums(actual_aecs_in, &crc, &xor_checksum);
 
     crc = (false) ? // @todo Add Support of 2 different crc polynomials
           util::crc32_iscsi_inv(input_ptr, input_ptr + input_size, crc) :
@@ -298,8 +308,13 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
 
     xor_checksum = util::xor_checksum(input_ptr, input_ptr + input_size, xor_checksum);
 
-    hw_iaa_aecs_compress_set_checksums(&state.meta_data_->aecs_[state.meta_data_->aecs_index ^ 1u],
-                                       crc, xor_checksum);
+    hw_iaa_aecs_compress *actual_aecs_out = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index ^ 1u, state.meta_data_->aecs_size);
+    if (!actual_aecs_out) {
+        result.status_code_ = status_list::internal_error;
+        return result;
+    }
+
+    hw_iaa_aecs_compress_set_checksums(actual_aecs_out, crc, xor_checksum);
 
     // Prepare result
     result.checksums_.crc32_ = crc;

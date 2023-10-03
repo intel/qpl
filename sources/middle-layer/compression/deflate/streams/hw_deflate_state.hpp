@@ -16,6 +16,7 @@
 #include "compression/deflate/deflate.hpp"
 #include "compression/deflate/streams/compression_stream.hpp"
 #include "compression/deflate/compression_units/stored_block_units.hpp"
+#include "compression/dictionary/dictionary_utils.hpp"
 
 namespace qpl::ml::compression {
 
@@ -71,6 +72,7 @@ protected:
     hw_descriptor                 *verify_descriptor_            = nullptr;
     HW_PATH_VOLATILE hw_completion_record *completion_record_    = nullptr;
     qpl_compression_huffman_table *huffman_table_                = nullptr;
+    qpl_dictionary                *dictionary_                   = nullptr;
     bool                          start_new_block                = false;
     util::multitask_status        processing_step                = util::multitask_status::ready;
     uint32_t                      prev_written_indexes           = 0u; // todo align with SW
@@ -93,6 +95,10 @@ protected:
                                                          /**< @todo */
         uint32_t                 prologue_size_    = 0u; /**< @todo */
         uint8_t                  verify_aecs_index = 0u; /**< AECS read index for verify AECS */
+        uint32_t                 aecs_size         = HW_AECS_COMPRESS_WITH_HT;
+                                                         /**< The actual compress AECS size, which includes any dictionary used.
+                                                              This size will be used as the Source 2 transfer size. The default
+                                                              value HW_AECS_COMPRESS_WITH_HT is the AECS size without dictionary */
     };
 
     meta_data *meta_data_ = nullptr;
@@ -141,7 +147,12 @@ inline void deflate_state<execution_path_t::hardware>::allocate_verification_sta
 }
 
 inline auto deflate_state<execution_path_t::hardware>::crc() const noexcept -> uint32_t {
-    return meta_data_->aecs_[meta_data_->aecs_index].crc;
+    hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(meta_data_->aecs_, meta_data_->aecs_index, meta_data_->aecs_size);
+    if (!actual_aecs) {
+        return 0U;
+    }
+
+    return actual_aecs->crc;
 }
 
 } // namespace qpl::ml::compression

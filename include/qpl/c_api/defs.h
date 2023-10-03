@@ -304,12 +304,17 @@ typedef enum {
 } sw_compression_level;
 
 /**
- * @brief Enumerates the compression level on hardware path, used for building @ref qpl_dictionary
+ * @brief Enumerates the compression level on hardware path, used for building @ref qpl_dictionary.
+ * A higher compression level and larger dictionary size generally result in a better compression ratio,
+ * but it will also result in higher latency.
  */
 typedef enum {
-    HW_NONE = DICT_NONE, /**< No compression expected to be performed on hardware */
-    SMALL   = 0,         /**< The lowest compression level */
-    LARGE   = 1          /**< The highest compression level */
+    HW_NONE    = DICT_NONE, /**< No compression expected to be performed on hardware */
+    SMALL      = 0,         /**< The lowest compression level */
+    LARGE      = 1,         /**< The highest compression level */
+    HW_LEVEL_1 = 2,         /**< The 1st dictionary compression level, using a small-sized dictionary */
+    HW_LEVEL_2 = 3,         /**< The 2nd dictionary compression level, using a medium-sized dictionary */
+    HW_LEVEL_3 = 4          /**< The 3rd dictionary compression level, using a large-sized dictionary */
 } hw_compression_level;
 
 
