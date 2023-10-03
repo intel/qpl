@@ -36,7 +36,7 @@ private:
 
 public:
     crc64_t() noexcept {}
-    ~crc64_t() 
+    ~crc64_t() noexcept(false)
     {
         deinit_lib_impl();
     }
@@ -181,7 +181,7 @@ protected:
         result_poly <<= poly_shift;
 
         return result_poly;
-    }    
+    }
 
 private:
     friend class ops::operation_base_t<crc64_t>;
