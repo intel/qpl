@@ -341,11 +341,11 @@ REF_INLINE qpl_status own_extract_output_to_format(const uint32_t *const source_
         return status;
     }
 
-    qpl_job_ptr->total_in += qpl_job_ptr->available_in;
-    qpl_job_ptr->total_out   = output_bytes;
-    qpl_job_ptr->next_in_ptr = (uint8_t *) (source_ptr + (qpl_job_ptr->available_in) - available_bytes);
-    qpl_job_ptr->next_out_ptr += output_bytes;
-    qpl_job_ptr->available_in -= qpl_job_ptr->available_in;
+    qpl_job_ptr->total_in       = qpl_job_ptr->available_in;
+    qpl_job_ptr->total_out      = output_bytes;
+    qpl_job_ptr->next_in_ptr   += qpl_job_ptr->available_in;
+    qpl_job_ptr->next_out_ptr  += output_bytes;
+    qpl_job_ptr->available_in   = 0;
     qpl_job_ptr->available_out -= output_bytes;
 
     return QPL_STS_OK;

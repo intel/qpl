@@ -374,12 +374,12 @@ REF_INLINE qpl_status own_select_output_to_format(const uint32_t *const source_p
     }
 
     // Update required fields in Job structure
-    qpl_job_ptr->total_in  = qpl_job_ptr->available_in;
-    qpl_job_ptr->total_out = output_bytes;
-    qpl_job_ptr->next_in_ptr += qpl_job_ptr->available_in;
-    qpl_job_ptr->next_out_ptr += qpl_job_ptr->total_out;
-    qpl_job_ptr->available_in -= qpl_job_ptr->available_in;
-    qpl_job_ptr->available_out -= qpl_job_ptr->total_out;
+    qpl_job_ptr->total_in       = qpl_job_ptr->available_in;
+    qpl_job_ptr->total_out      = output_bytes;
+    qpl_job_ptr->next_in_ptr   += qpl_job_ptr->available_in;
+    qpl_job_ptr->next_out_ptr  += output_bytes;
+    qpl_job_ptr->available_in   = 0;
+    qpl_job_ptr->available_out -= output_bytes;
 
     return QPL_STS_OK;
 }
