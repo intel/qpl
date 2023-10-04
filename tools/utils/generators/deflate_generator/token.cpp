@@ -481,7 +481,12 @@ token_parser_c::parse_number(token_c *token, int c)
 {
     uint32_t ctype;
     if (c == '0') {
-        c = TOLOWER(getc());
+        c = getc();
+        if (c == -1){
+            fprintf(stderr, "End of file while parsing number.");
+            throw std::exception();
+        }
+        c = TOLOWER(c);
         if (c == 'x')
             return parse_hex(token);
         ctype = CTYPE(c);
