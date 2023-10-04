@@ -13,66 +13,116 @@ Compressing with a Dictionary
 
 Intel® Query Processing Library (Intel® QPL) supports compression with
 preset dictionary by implementing several auxiliary functions that work
-with ``qpl_dictionary``.
+with :c:struct:`qpl_dictionary`. The dictionary itself is just a block of text
+conceptually prepended to the input stream. The combined dictionary and
+input stream is compressed, and the compressed tokens associated with the
+dictionary are dropped. Another way to look at this is that, with dictionary
+compression, a given bit of data to be compressed can be matched against a
+location before the start of the buffer. The dictionary can be used to improve
+the compression ratio of small buffers.
 
 
 Building Dictionary
 *******************
 
 
-First, you need to allocate the buffer for ``qpl_dictionary``. The size
-of that buffer can be obtained by the ``qpl_get_dictionary_size(...)``
+First, you need to allocate the buffer for :c:struct:`qpl_dictionary`. The size
+of that buffer can be obtained by the :c:func:`qpl_get_dictionary_size`
 function.
 
 .. code:: c
 
-   qpl_get_dictionary_size(sw_compression_level, hw_compression_level, size_t);
+   size_t qpl_get_dictionary_size(sw_compression_level, hw_compression_level, size_t);
 
 
-This function accepts 3 arguments: the software and hardware compression
-levels, and the size (in bytes) of a raw dictionary.
+This function accepts 3 arguments: the software and hardware dictionary
+compression levels, and the size (in bytes) of a raw dictionary.
+
+A higher dictionary compression level generally results in a better compression ratio,
+but it will also cause a higher latency for the compress operation. Some applications
+may find that the improvement in compression ratio is not worth the increase in
+compress latency and opt for a lower dictionary compression level.
 
 To do the compression only on software path, set the
-``hw_compression_level`` parameter to ``HW_NONE``. In this case, the
-buffer size needed for ``qpl_dictionary`` will be smaller.
+:c:enum:`hw_compression_level` parameter to ``HW_NONE``. In this case, the
+buffer size needed for :c:struct:`qpl_dictionary` will be smaller. Similarly,
+to do the compression only on hardware path, set the :c:enum:`sw_compression_level` parameter
+to ``SW_NONE``.
 
+On software path, the maximum size of a raw dictionary is ``4K`` bytes. On hardware path,
+the maximum size of a raw dictionary depends on the ``hw_compression_level``:
 
-After allocating the buffer, ``qpl_build_dictionary(...)`` function
-should be used to fill the ``qpl_dictionary``.
++---------------------------------+----------------------------+
+| HW dictionary compression level | Max size of raw dictionary |
++=================================+============================+
+|           HW_LEVEL_1            |            2 KB            |
++---------------------------------+----------------------------+
+|           HW_LEVEL_2            |            4 KB            |
++---------------------------------+----------------------------+
+|           HW_LEVEL_3            |            4 KB            |
++---------------------------------+----------------------------+
+
+If the size of the raw dictionary specified by the user is larger than the maximum size,
+the maximum size will be used to calculate the dictionary size. And the last bytes
+of the raw dictionary will be used to build the dictionary.
+
+After allocating the buffer, :c:func:`qpl_build_dictionary` function
+should be used to fill the :c:struct:`qpl_dictionary`.
 
 
 .. code:: c
 
-   qpl_build_dictionary(qpl_dictionary *dict_ptr,
-                        sw_compression_level sw_level,
-                        hw_compression_level hw_level,
-                        const uint8_t *raw_dict_ptr,
-                        size_t raw_dict_size))
+   qpl_status qpl_build_dictionary(qpl_dictionary       *dict_ptr,
+                                   sw_compression_level sw_level,
+                                   hw_compression_level hw_level,
+                                   const uint8_t        *raw_dict_ptr,
+                                   size_t               raw_dict_size))
 
 
 This function accepts a pointer to allocated dictionary buffer, the software
-and hardware compression levels, a pointer to the array containing the raw
-dictionary data to use, and its length.
+and hardware dictionary compression levels, a pointer to the array containing
+the raw dictionary data to use, and its length.
 
-**Note**: If the dictionary length is larger than 4,096
-bytes, then only the last 4,096 bytes will be used.
+**Note**: If the raw dictionary length is larger than the maximum raw dictionary
+size, then only the last bytes will be used.
 
 Several auxiliary functions can be used to work with dictionary:
 
--  ``qpl_get_dictionary_id(..)`` and ``qpl_set_dictionary_id(...)`` sets
-   and gets dictionary ID of ``qpl_dictionary`` (can be used in case of
+-  :c:func:`qpl_get_dictionary_id` and :c:func:`qpl_set_dictionary_id` sets
+   and gets dictionary ID of :c:struct:`qpl_dictionary` (can be used in case of
    zlib header).
--  ``qpl_get_existing_dict_size(...)`` is used to get the size (in
-   bytes) of the ``qpl_dictionary`` structure built.
+-  :c:func:`qpl_get_existing_dict_size` is used to get the size (in
+   bytes) of the :c:struct:`qpl_dictionary` structure built.
 
 
 Compressing with Dictionary
 ***************************
 
 
-Compression with preset dictionary can be done for dynamic, fixed,
-static, and canned compression modes. In order to do the compression,
-the ``qpl_job->dictionary`` field should point to the built dictionary:
+Compression with dictionary is supported only on certain generations of
+Intel® In-Memory Analytics Accelerator (Intel® IAA). The :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`
+error will be returned if the operation is not supported. The software path can be
+used as an alternative.
+
+On hardware path, compression with dictionary can be done for dynamic, fixed, and
+static compression modes. 
+
+.. attention::
+
+    Canned compression mode and multi-job execution (i.e. :c:macro:`QPL_FLAG_FIRST` and
+    :c:macro:`QPL_FLAG_LAST` are not set in the same job) are not supported 
+    for dictionary compression on hardware path.
+
+On software path, compression with dictionary can be done for dynamic, fixed, static,
+and canned compression modes. 
+
+.. attention::
+
+    Verification is not supported with dictionary compression on either software or
+    hardware path. :c:macro:`QPL_FLAG_OMIT_VERIFY` needs to be set when dictionary is used.
+
+In order to do the compression,
+the :c:member:`qpl_job.dictionary` field should point to the built dictionary:
 
 .. code:: c
 
@@ -85,7 +135,11 @@ the ``qpl_job->dictionary`` field should point to the built dictionary:
 
 
 The dictionary cannot be set in the middle of the compression stream.
-The job should be marked as FIRST.
+The job should be marked with :c:macro:`QPL_FLAG_FIRST`.
+
+
+Decompressing with Dictionary
+*****************************
 
 
 To decompress the stream previously compressed with the dictionary, the

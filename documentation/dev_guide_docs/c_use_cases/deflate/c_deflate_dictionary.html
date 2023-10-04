@@ -402,6 +402,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-dictionary">Building Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compressing-with-dictionary">Compressing with Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-with-dictionary">Decompressing with Dictionary</a></li>
 </ul>
             </nav>
         </div>
@@ -419,48 +420,101 @@ document.write(`
 <h1>Compressing with a Dictionary<a class="headerlink" href="#compressing-with-a-dictionary" title="Permalink to this heading">#</a></h1>
 <p id="compressing-with-dictionary-reference-link">Intel® Query Processing Library (Intel® QPL) supports compression with
 preset dictionary by implementing several auxiliary functions that work
-with <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>.</p>
+with <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The dictionary itself is just a block of text
+conceptually prepended to the input stream. The combined dictionary and
+input stream is compressed, and the compressed tokens associated with the
+dictionary are dropped. Another way to look at this is that, with dictionary
+compression, a given bit of data to be compressed can be matched against a
+location before the start of the buffer. The dictionary can be used to improve
+the compression ratio of small buffers.</p>
 <section id="building-dictionary">
 <h2>Building Dictionary<a class="headerlink" href="#building-dictionary" title="Permalink to this heading">#</a></h2>
-<p>First, you need to allocate the buffer for <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The size
-of that buffer can be obtained by the <code class="docutils literal notranslate"><span class="pre">qpl_get_dictionary_size(...)</span></code>
+<p>First, you need to allocate the buffer for <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The size
+of that buffer can be obtained by the <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_dictionary_size()</span></code>
 function.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_get_dictionary_size</span><span class="p">(</span><span class="n">sw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="n">hw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">size_t</span><span class="w"> </span><span class="nf">qpl_get_dictionary_size</span><span class="p">(</span><span class="n">sw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="n">hw_compression_level</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>This function accepts 3 arguments: the software and hardware compression
-levels, and the size (in bytes) of a raw dictionary.</p>
+<p>This function accepts 3 arguments: the software and hardware dictionary
+compression levels, and the size (in bytes) of a raw dictionary.</p>
+<p>A higher dictionary compression level generally results in a better compression ratio,
+but it will also cause a higher latency for the compress operation. Some applications
+may find that the improvement in compression ratio is not worth the increase in
+compress latency and opt for a lower dictionary compression level.</p>
 <p>To do the compression only on software path, set the
-<code class="docutils literal notranslate"><span class="pre">hw_compression_level</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">HW_NONE</span></code>. In this case, the
-buffer size needed for <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> will be smaller.</p>
-<p>After allocating the buffer, <code class="docutils literal notranslate"><span class="pre">qpl_build_dictionary(...)</span></code> function
-should be used to fill the <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_build_dictionary</span><span class="p">(</span><span class="n">qpl_dictionary</span><span class="w"> </span><span class="o">*</span><span class="n">dict_ptr</span><span class="p">,</span>
-<span class="w">                     </span><span class="n">sw_compression_level</span><span class="w"> </span><span class="n">sw_level</span><span class="p">,</span>
-<span class="w">                     </span><span class="n">hw_compression_level</span><span class="w"> </span><span class="n">hw_level</span><span class="p">,</span>
-<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">raw_dict_ptr</span><span class="p">,</span>
-<span class="w">                     </span><span class="kt">size_t</span><span class="w"> </span><span class="n">raw_dict_size</span><span class="p">))</span>
+<code class="xref c c-enum docutils literal notranslate"><span class="pre">hw_compression_level</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">HW_NONE</span></code>. In this case, the
+buffer size needed for <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> will be smaller. Similarly,
+to do the compression only on hardware path, set the <code class="xref c c-enum docutils literal notranslate"><span class="pre">sw_compression_level</span></code> parameter
+to <code class="docutils literal notranslate"><span class="pre">SW_NONE</span></code>.</p>
+<p>On software path, the maximum size of a raw dictionary is <code class="docutils literal notranslate"><span class="pre">4K</span></code> bytes. On hardware path,
+the maximum size of a raw dictionary depends on the <code class="docutils literal notranslate"><span class="pre">hw_compression_level</span></code>:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>HW dictionary compression level</p></th>
+<th class="head"><p>Max size of raw dictionary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>HW_LEVEL_1</p></td>
+<td><p>2 KB</p></td>
+</tr>
+<tr class="row-odd"><td><p>HW_LEVEL_2</p></td>
+<td><p>4 KB</p></td>
+</tr>
+<tr class="row-even"><td><p>HW_LEVEL_3</p></td>
+<td><p>4 KB</p></td>
+</tr>
+</tbody>
+</table>
+<p>If the size of the raw dictionary specified by the user is larger than the maximum size,
+the maximum size will be used to calculate the dictionary size. And the last bytes
+of the raw dictionary will be used to build the dictionary.</p>
+<p>After allocating the buffer, <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_build_dictionary()</span></code> function
+should be used to fill the <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_status</span><span class="w"> </span><span class="n">qpl_build_dictionary</span><span class="p">(</span><span class="n">qpl_dictionary</span><span class="w">       </span><span class="o">*</span><span class="n">dict_ptr</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">sw_compression_level</span><span class="w"> </span><span class="n">sw_level</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">hw_compression_level</span><span class="w"> </span><span class="n">hw_level</span><span class="p">,</span>
+<span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w">        </span><span class="o">*</span><span class="n">raw_dict_ptr</span><span class="p">,</span>
+<span class="w">                                </span><span class="kt">size_t</span><span class="w">               </span><span class="n">raw_dict_size</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>This function accepts a pointer to allocated dictionary buffer, the software
-and hardware compression levels, a pointer to the array containing the raw
-dictionary data to use, and its length.</p>
-<p><strong>Note</strong>: If the dictionary length is larger than 4,096
-bytes, then only the last 4,096 bytes will be used.</p>
+and hardware dictionary compression levels, a pointer to the array containing
+the raw dictionary data to use, and its length.</p>
+<p><strong>Note</strong>: If the raw dictionary length is larger than the maximum raw dictionary
+size, then only the last bytes will be used.</p>
 <p>Several auxiliary functions can be used to work with dictionary:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">qpl_get_dictionary_id(..)</span></code> and <code class="docutils literal notranslate"><span class="pre">qpl_set_dictionary_id(...)</span></code> sets
-and gets dictionary ID of <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> (can be used in case of
+<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_dictionary_id()</span></code> and <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_set_dictionary_id()</span></code> sets
+and gets dictionary ID of <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> (can be used in case of
 zlib header).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">qpl_get_existing_dict_size(...)</span></code> is used to get the size (in
-bytes) of the <code class="docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> structure built.</p></li>
+<li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_existing_dict_size()</span></code> is used to get the size (in
+bytes) of the <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code> structure built.</p></li>
 </ul>
 </section>
 <section id="compressing-with-dictionary">
 <h2>Compressing with Dictionary<a class="headerlink" href="#compressing-with-dictionary" title="Permalink to this heading">#</a></h2>
-<p>Compression with preset dictionary can be done for dynamic, fixed,
-static, and canned compression modes. In order to do the compression,
-the <code class="docutils literal notranslate"><span class="pre">qpl_job-&gt;dictionary</span></code> field should point to the built dictionary:</p>
+<p>Compression with dictionary is supported only on certain generations of
+Intel® In-Memory Analytics Accelerator (Intel® IAA). The <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a>
+error will be returned if the operation is not supported. The software path can be
+used as an alternative.</p>
+<p>On hardware path, compression with dictionary can be done for dynamic, fixed, and
+static compression modes.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Canned compression mode and multi-job execution (i.e. <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> are not set in the same job) are not supported
+for dictionary compression on hardware path.</p>
+</div>
+<p>On software path, compression with dictionary can be done for dynamic, fixed, static,
+and canned compression modes.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Verification is not supported with dictionary compression on either software or
+hardware path. <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_VERIFY" title="QPL_FLAG_OMIT_VERIFY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a> needs to be set when dictionary is used.</p>
+</div>
+<p>In order to do the compression,
+the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.dictionary" title="qpl_job.dictionary"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.dictionary</span></code></a> field should point to the built dictionary:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
 <span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">op</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
 <span class="n">job_ptr</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_DYNAMIC_HUFFMAN</span><span class="p">;</span>
@@ -470,7 +524,10 @@ the <code class="docutils literal notranslate"><span class="pre">qpl_job-&gt;dic
 </pre></div>
 </div>
 <p>The dictionary cannot be set in the middle of the compression stream.
-The job should be marked as FIRST.</p>
+The job should be marked with <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a>.</p>
+</section>
+<section id="decompressing-with-dictionary">
+<h2>Decompressing with Dictionary<a class="headerlink" href="#decompressing-with-dictionary" title="Permalink to this heading">#</a></h2>
 <p>To decompress the stream previously compressed with the dictionary, the
 same dictionary should be specified for the first decompression job:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
@@ -530,6 +587,7 @@ same dictionary should be specified for the first decompression job:</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-dictionary">Building Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compressing-with-dictionary">Compressing with Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-with-dictionary">Decompressing with Dictionary</a></li>
 </ul>
   </nav></div>
 
