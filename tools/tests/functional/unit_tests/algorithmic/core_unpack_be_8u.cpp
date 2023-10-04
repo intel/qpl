@@ -53,11 +53,11 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_be_8u, base) {
 
     std::generate(buffer.begin(), buffer.end(), [&random_value](){return static_cast<uint8_t>(random_value);});
 
-    for (uint32_t nbits = 4; nbits <= 4; nbits++) {
+    for (uint32_t nbits = 1; nbits <= 7; nbits++) {
         source.fill(0);
         fill_src_buffer_8u(buffer.data(), source.data(), buffer.size(), nbits);
         for (uint32_t length = TEST_BUFFER_SIZE; length <= TEST_BUFFER_SIZE; length++) {
-            for (uint32_t start_bit = 4; start_bit < 5; start_bit++) {
+            for (uint32_t start_bit = 0; start_bit < 8; start_bit++) {
                 if ((2 == nbits) || (6 == nbits)) {
                     if (start_bit & 1) {
                         continue;
