@@ -9,9 +9,9 @@
 
 enable_language(CXX)
 
-file(GLOB SOURCES ./*.cpp)
+file(GLOB SOURCES *.cpp)
 
-add_executable(stress_thread_tests ${SOURCES})
+add_library(stress_thread_tests OBJECT ${SOURCES})
 
 target_include_directories(stress_thread_tests
         PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>) #todo remove dependency

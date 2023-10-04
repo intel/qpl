@@ -9,7 +9,7 @@
 
 #include "gtest/gtest.h"
 
-#include "tt_common.hpp"
+#include "../tt_common.hpp"
 #include "qpl/qpl.h"
 
 #include "source_provider.hpp"

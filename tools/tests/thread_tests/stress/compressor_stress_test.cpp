@@ -14,60 +14,101 @@
 #include <vector>
 #include <thread>
 #include <future>
+#include <mutex>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <utility>
 
-#include "compressor_stress_test.hpp"
+#include "gtest/gtest.h"
 #include "qpl/qpl.h"
+#include "check_result.hpp"
+#include "../tt_common.hpp"
 
 namespace qpl::test {
 
-static int32_t verbose_level = 0;
-
-namespace details {
-
-struct data_property_t {
-    uint32_t min_block_length = 100;
-    uint32_t max_block_length = 16384;
-};
-
-static auto create_block(size_t length, int seed = 0) {
-    std::vector<uint8_t> data_block(length);
-    auto                 symbol = 0u;
-
-    auto next_symbol = [&symbol, &seed]() -> auto {
-        return 'a' + ((symbol++ + seed) % 20);
-    };
-
-    std::generate(data_block.begin(), data_block.end(), next_symbol);
-
-    return data_block;
+static void trim(std::string &str) {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char val) { return !std::isspace(val); }));
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char val) { return !std::isspace(val); }).base(), str.end());
 }
 
-int test(size_t in_len) {
-    // Generate input
-    auto                 source = create_block(in_len, rand() % 26);
-    std::vector<uint8_t> compressed(source.size() + 10u);
-    std::vector<uint8_t> uncompressed(source.size());
+static uint32_t get_num_cores() {
 
-    if (verbose_level >= 1) {
-        std::cout << std::this_thread::get_id() << "source length: " << source.size() << std::endl;
+    static bool is_setup{false};
+    static std::mutex guard;
+
+    uint32_t cpu_sockets             = 1U;
+    uint32_t cpu_physical_per_socket = 1U;
+    uint32_t cpu_physical_cores      = 1U;
+
+    guard.lock();
+    if(!is_setup)
+    {
+#if defined( __linux__ )
+        
+        std::ifstream info_file("/proc/cpuinfo");
+        if(!info_file.is_open()){
+            guard.unlock();
+            throw std::runtime_error("Failed to open /proc/cpuinfo");
+        }
+
+        std::string line;
+        while (std::getline(info_file, line))
+        {
+            if (line.empty())
+                continue;
+            auto del_index = line.find(':');
+            if(del_index == std::string::npos)
+                continue;
+
+            auto key = line.substr(0, del_index);
+            auto val = line.substr(del_index+1);
+            
+            trim(key);
+            trim(val);
+
+            if(key == "physical id")
+                cpu_sockets = std::max(cpu_sockets, (std::uint32_t)atoi(val.c_str())+1);
+            else if(!cpu_physical_per_socket && key == "cpu cores")
+                cpu_physical_per_socket = std::max(cpu_physical_per_socket, (std::uint32_t)atoi(val.c_str()));
+        }
+        cpu_physical_cores = cpu_physical_per_socket*cpu_sockets;
+
+        // Print num cores for debugging purposes
+        printf("Physical Cores:   %d\n", cpu_physical_cores);
+#endif
+        is_setup = true;
     }
+    guard.unlock();
+
+    return cpu_physical_cores;
+}
+
+int compress_test() {
+    // Generate input
+    auto &dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+    auto source = dataset.get_data().begin()->second;
+
+    std::vector<uint8_t> compressed(source.size() * 2);
+    std::vector<uint8_t> uncompressed(source.size());
 
     qpl_status status;
 
     // job structure initialization
+    auto path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t size = 0;
-    status = qpl_get_job_size(qpl_path_hardware, &size);
+    status = qpl_get_job_size(path, &size);
     if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_get_job_size sts: " << status << std::endl;
+        return status;
     }
 
     std::unique_ptr<uint8_t[]> job_buffer;
     job_buffer = std::make_unique<uint8_t[]>(size);
     auto job   = reinterpret_cast<qpl_job *>(job_buffer.get());
 
-    status = qpl_init_job(qpl_path_hardware, job);
+    status = qpl_init_job(path, job);
     if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_init_job sts: " << status << std::endl;
+        return status;
     }
 
     // perform compression
@@ -81,7 +122,7 @@ int test(size_t in_len) {
 
     status = qpl_execute_job(job);
     if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_execute_job sts: " << status << std::endl;
+        return status;
     }
 
     const uint32_t compressed_size = job->total_out;
@@ -93,89 +134,56 @@ int test(size_t in_len) {
     job->available_in  = compressed_size;
     job->available_out = static_cast<uint32_t>(uncompressed.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+
     status = qpl_execute_job(job);
     if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_execute_job sts: " << status << std::endl;
+        return status;
     }
 
     uint32_t out_len = job->total_out;
-    if (verbose_level >= 1 || QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "uncompressed length: " << out_len << std::endl;
-    }
 
     status = qpl_fini_job(job);
-    if (QPL_STS_OK != status) {
-        std::cout << std::this_thread::get_id() << "qpl_fini_job sts: " << status << std::endl;
-    }
 
     if (QPL_STS_OK != status) {
-        return 1;
-    } else if (out_len != in_len) {
-        std::cout << std::this_thread::get_id() << "length mismatch" << std::endl;
-        return 1;
-    } else if (source != uncompressed) {
-        std::cout << std::this_thread::get_id() << "data mismatch" << std::endl;
-        return 1;
+        return status;
+    } else if (out_len != source.size()) {
+        return -1;
+    } else if (!CompareVectors(source, uncompressed)) {
+        return -2;
     }
 
     return 0;
 }
 
-int runThroughIterations(uint32_t iterations, data_property_t data_property) {
-    std::cout << "Thread id: " << std::this_thread::get_id() << "\n";
-    decltype(test(0u)) result{};
-
-    for (uint32_t i = 0; i < iterations; i++) {
-        auto in_len = rand() % (data_property.max_block_length - data_property.min_block_length)
-                            + data_property.min_block_length;
-
-        result = test(in_len);
-
-        if (result != 0) {
-            return result;
-        }
-    }
-    return result;
-}
-
-}
-
-CompressorStressTest::CompressorStressTest(int iterations, int thread_count)
-        : iterations_per_thread_(iterations), thread_count_(thread_count) {
-    // No action required
-}
-
-void CompressorStressTest::set_min_block_length(uint32_t length) {
-    min_block_length_ = length;
-}
-
-void CompressorStressTest::set_max_block_length(uint32_t length) {
-    max_block_length_ = length;
-}
-
-void CompressorStressTest::run() {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decompression) {
     bool                          test_passed = true;
     std::vector<std::future<int>> results;
 
-    details::data_property_t data_property = {min_block_length_, max_block_length_};
+    uint32_t num_threads = get_num_cores();
 
-    results.reserve(thread_count_ - 1);
+    ASSERT_TRUE(num_threads > 0);
 
-    for (uint32_t i = 0; i < thread_count_ - 1; i++) {
-        results.push_back(std::async(details::runThroughIterations, iterations_per_thread_, data_property));
+    results.reserve(num_threads);
+
+    for (uint32_t i = 0; i < num_threads; i++) {
+        results.push_back(std::async(std::launch::async, compress_test));
     }
 
-    if (details::runThroughIterations(iterations_per_thread_, data_property) != 0) {
-        test_passed = false;
-    }
-
-    for (auto &result: results) {
-        auto ret = result.get();
-        if (ret != 0) {
+    std::cout << "Number of threads spawned: " << num_threads << std::endl;
+    for (uint32_t i = 0; i < results.size(); i++) {
+        auto ret = results[i].get();
+        if (ret > QPL_STS_OK && ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
             test_passed = false;
+            std::cout << "Thread " << i << " had QPL error " << ret << std::endl;
+        } else if (ret == -1) {
+            test_passed = false;
+            std::cout << "Thread " << i << " compression and decompression resulted in length mismatch" << std::endl;
+        } else if (ret == -2) {
+            test_passed = false;
+            std::cout << "Thread " << i << " compression and decompression resulted in data mismatch" << std::endl;
         }
     }
 
-    std::cout << ((test_passed) ? "PASSED" : "FAILED") << std::endl;
+    ASSERT_EQ(test_passed, true);
 }
-}
+} // namespace qpl::test

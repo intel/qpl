@@ -16,6 +16,7 @@ add_subdirectory(negative_tests)
 
 add_executable(tests main.cpp
                $<TARGET_OBJECTS:thread_tests>
+               $<TARGET_OBJECTS:stress_thread_tests>
                $<TARGET_OBJECTS:algorithmic_tests>
                $<TARGET_OBJECTS:bad_argument_tests>
                $<TARGET_OBJECTS:negative_tests>
