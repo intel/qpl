@@ -69,7 +69,7 @@ static uint32_t get_num_cores() {
 
             if(key == "physical id")
                 cpu_sockets = std::max(cpu_sockets, (std::uint32_t)atoi(val.c_str())+1);
-            else if(!cpu_physical_per_socket && key == "cpu cores")
+            else if(key == "cpu cores")
                 cpu_physical_per_socket = std::max(cpu_physical_per_socket, (std::uint32_t)atoi(val.c_str()));
         }
         cpu_physical_cores = cpu_physical_per_socket*cpu_sockets;
@@ -174,7 +174,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
         auto ret = results[i].get();
         if (ret > QPL_STS_OK && ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
             test_passed = false;
-            std::cout << "Thread " << i << " had QPL error " << ret << std::endl;
+            std::cout << "Thread " << i << " returned with error code " << ret << std::endl;
         } else if (ret == -1) {
             test_passed = false;
             std::cout << "Thread " << i << " compression and decompression resulted in length mismatch" << std::endl;
