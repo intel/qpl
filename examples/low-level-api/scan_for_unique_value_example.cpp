@@ -87,7 +87,8 @@ auto main(int argc, char** argv) -> int {
     // Freeing resources
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job finalization.");
+        std::cout << "An error " << status << " acquired during job finalization.\n";
+        return 1;
     }
 
     // Compare with reference
