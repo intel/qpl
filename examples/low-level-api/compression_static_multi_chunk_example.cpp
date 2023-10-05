@@ -9,7 +9,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -62,25 +61,28 @@ auto main(int argc, char** argv) -> int {
     // Job initialization
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job size getting.");
+        std::cout << "An error " << status << " acquired during job size getting.\n";
+        return 1;
     }
 
     job_buffer = std::make_unique<uint8_t[]>(size);
     qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during compression job initializing.");
+        std::cout << "An error " << status << " acquired during job initializing.\n";
+        return 1;
     }
-    
-    // The Huffman table object (huffman_table) allocation
+
+    // The Huffman table object (c_huffman_table) allocation
     qpl_huffman_table_t c_huffman_table;
     status = qpl_deflate_huffman_table_create(compression_table_type,
                                               execution_path,
                                               DEFAULT_ALLOCATOR_C,
                                               &c_huffman_table);
-
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during huffman table creation.");
+        std::cout << "An error " << status << " acquired during Huffman table creation.\n";
+        return 1;
     }
 
     // The Huffman table initialization using deflate tokens histogram.
@@ -91,12 +93,16 @@ auto main(int argc, char** argv) -> int {
                                            qpl_default_level,
                                            execution_path);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during gathering statistics for huffman table.");
+        std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
+        qpl_huffman_table_destroy(c_huffman_table);
+        return 1;
     }
 
     status = qpl_huffman_table_init_with_histogram(c_huffman_table, &histogram);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during huffman table initialization.");
+        std::cout << "An error " << status << " acquired during Huffman table initialization.\n";
+        qpl_huffman_table_destroy(c_huffman_table);
+        return 1;
     }
 
     // Initialize qpl_job structure before performing a compression operation.
@@ -108,13 +114,15 @@ auto main(int argc, char** argv) -> int {
     job->available_out = static_cast<uint32_t>(destination.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = c_huffman_table;
-  
+
     // In this example source data has splitted up to 5 chunks with unequal chunk sizes. Sum of all chunk sizes is equal to source_size
     uint32_t iteration_count = 0;
     auto source_bytes_left = static_cast<uint32_t>(source_size);
-    std::vector<uint32_t> chunk_sizes {50, 250, 150, 350, 200};  
+    std::vector<uint32_t> chunk_sizes {50, 250, 150, 350, 200};
     if (sum(chunk_sizes) != source_size) {
-        throw std::runtime_error("Sum of all chunk sizes isn't equal to source_size.");
+        std::cout << "Sum of all chunk sizes isn't equal to source_size.\n";
+        qpl_huffman_table_destroy(c_huffman_table);
+        return 1;
     }
 
     while (source_bytes_left > 0) {
@@ -123,16 +131,18 @@ auto main(int argc, char** argv) -> int {
             job->flags |= QPL_FLAG_LAST;
             chunk_sizes[iteration_count] = source_bytes_left;
         }
-            
+
         job->next_in_ptr  = source.data() + chunk_sizes[iteration_count];
         job->available_in = chunk_sizes[iteration_count];
 
         // Execute compression operation
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while compression occurred.");
+            std::cout << "An error " << status << " acquired during compression.\n";
+            qpl_huffman_table_destroy(c_huffman_table);
+            return 1;
         }
-            
+
         job->flags &= ~QPL_FLAG_FIRST;
         source_bytes_left -= chunk_sizes[iteration_count];
         iteration_count++;
@@ -153,29 +163,37 @@ auto main(int argc, char** argv) -> int {
     // Execute decompression operation
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while decompression occurred.");
+        std::cout << "An error " << status << " acquired during decompression.\n";
+        qpl_huffman_table_destroy(c_huffman_table);
+        return 1;
+    }
+
+    // Destroying c_huffman_table
+    status = qpl_huffman_table_destroy(c_huffman_table);
+    if (status != QPL_STS_OK) {
+        std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
+        return 1;
     }
 
     // Freeing resources
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job finalization.");
-    }
-    // Destroying huffman_table
-    status = qpl_huffman_table_destroy(c_huffman_table);
-    if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during Huffman table destroyng.");
+        std::cout << "An error " << status << " acquired during job finalization.\n";
+        return 1;
     }
 
     // Compare reference functions
     for (size_t i = 0; i < source_size; i++) {
         if (source[i] != reference[i]) {
-            throw std::runtime_error("Content wasn't successfully compressed and decompressed.");
+            std::cout << "Content wasn't successfully compressed and decompressed.\n";
+            return 1;
         }
     }
 
-    std::cout << "Content was successfully compressed and decompressed." << std::endl;
-    std::cout << "Compressed size: " << compressed_size << std::endl;
+    std::cout << "Content was successfully compressed and decompressed.\n";
+    std::cout << "Input size: " << source_size << ", compressed size: " << compressed_size
+    << ", compression ratio: " << (float)source_size/(float)compressed_size << ".\n";
+
 
     return 0;
 }

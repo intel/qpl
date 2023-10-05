@@ -8,8 +8,8 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <numeric>
-#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -47,7 +47,7 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> mask_after_scan(source_size / 8, 4);
     std::vector<uint8_t> destination(source_size, 4);
 
-    qpl_job    *job;
+    std::unique_ptr<uint8_t[]> job_buffer;
     qpl_status status;
     uint32_t   size = 0;
 
@@ -57,13 +57,17 @@ auto main(int argc, char** argv) -> int {
     // Job initialization
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job size getting.");
+        std::cout << "An error " << status << " acquired during job size getting.\n";
+        return 1;
     }
 
-    job    = (qpl_job *) std::malloc(size);
+    job_buffer = std::make_unique<uint8_t[]>(size);
+    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job initializing.");
+        std::cout << "An error " << status << " acquired during job initializing.\n";
+        return 1;
     }
 
     // Performing a scan operation
@@ -79,7 +83,8 @@ auto main(int argc, char** argv) -> int {
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job execution.");
+        std::cout << "An error " << status << " acquired during performing scan.\n";
+        return 1;
     }
 
     const auto scan_byte_size = job->total_out;
@@ -100,7 +105,8 @@ auto main(int argc, char** argv) -> int {
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job execution.");
+        std::cout << "An error " << status << " acquired during performing select.\n";
+        return 1;
     }
 
     const auto select_byte_size = job->total_out;
@@ -108,15 +114,15 @@ auto main(int argc, char** argv) -> int {
     // Freeing resources
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job finalization.");
+        std::cout << "An error " << status << " acquired during job finalization.\n";
+        return 1;
     }
 
-    std::free(job);
-
-    // Check if everything was alright
+    // Compare with reference
     for (uint32_t i = 0; i < select_byte_size; i++) {
         if (destination[i] != boundary) {
-            throw std::runtime_error("Incorrect value was chosen while operation performing.");
+            std::cout << "Select was done incorrectly.\n";
+            return 1;
         }
     }
 

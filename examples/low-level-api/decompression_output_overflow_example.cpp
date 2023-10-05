@@ -80,7 +80,7 @@ auto main(int argc, char** argv) -> int {
     // Compression
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        std::cout << "An error " << status << " acquired while compression.\n";
+        std::cout << "An error " << status << " acquired during compression.\n";
         return 1;
     }
 

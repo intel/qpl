@@ -10,7 +10,6 @@
 #include <vector>
 #include <memory>
 #include <stdint.h>
-#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -51,7 +50,8 @@ auto main(int argc, char** argv) -> int {
                                               DEFAULT_ALLOCATOR_C,
                                               &huffman_table);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while creation occurred.");
+        std::cout << "An error " << status << " acquired during Huffman table creation.\n";
+        return 1;
     }
 
     // Creation of deflate histogram
@@ -63,13 +63,17 @@ auto main(int argc, char** argv) -> int {
                                            qpl_default_level,
                                            execution_path);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while building histogram occurred.");
+        std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
+        qpl_huffman_table_destroy(huffman_table);
+        return 1;
     }
 
     // Initialization of Huffman table with deflate histogram
     status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while initializing occurred.");
+        std::cout << "An error " << status << " acquired during Huffman table initialization.\n";
+        qpl_huffman_table_destroy(huffman_table);
+        return 1;
     }
 
     size_t serialized_size;
@@ -79,10 +83,13 @@ auto main(int argc, char** argv) -> int {
                                                    DEFAULT_SERIALIZATION_OPTIONS,
                                                    &serialized_size);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while getting serialize size occurred.");
+        std::cout << "An error " << status << " acquired during getting serialized size of Huffman table.\n";
+        qpl_huffman_table_destroy(huffman_table);
+        return 1;
     }
 
-    uint8_t* buffer = (uint8_t*) std::malloc(serialized_size);
+    std::unique_ptr<uint8_t[]> unique_buffer = std::make_unique<uint8_t[]>(serialized_size);
+    uint8_t* buffer= reinterpret_cast<uint8_t *>(unique_buffer.get());
 
     // Serialization of a table
     status = qpl_huffman_table_serialize(huffman_table,
@@ -90,7 +97,9 @@ auto main(int argc, char** argv) -> int {
                                          serialized_size,
                                          DEFAULT_SERIALIZATION_OPTIONS);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while serializing occurred.");
+        std::cout << "An error " << status << " acquired during serializing Huffman table.\n";
+        qpl_huffman_table_destroy(huffman_table);
+        return 1;
     }
 
     // Deserialization of a table
@@ -100,21 +109,23 @@ auto main(int argc, char** argv) -> int {
                                            DEFAULT_ALLOCATOR_C,
                                            &other_huffman_table);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while deserializing occurred.");
+        std::cout << "An error " << status << " acquired during deserializing Huffman table.\n";
+        qpl_huffman_table_destroy(huffman_table);
+        return 1;
     }
 
     // Freeing resources
     status = qpl_huffman_table_destroy(huffman_table);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while destroying table occurred.");
+        std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
+        return 1;
     }
 
     status = qpl_huffman_table_destroy(other_huffman_table);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while destroying table occurred.");
+        std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
+        return 1;
     }
-
-    std::free(buffer);
 
     std::cout << "Huffman table was successfully serialized and deserialized." << std::endl;
     std::cout << "Serialized size: " << serialized_size << std::endl;

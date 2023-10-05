@@ -9,7 +9,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -30,7 +29,6 @@
  */
 
 constexpr const uint32_t source_size = 1000;
-
 
 auto main(int argc, char** argv) -> int {
 
@@ -55,14 +53,17 @@ auto main(int argc, char** argv) -> int {
     // Job initialization
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job size getting.");
+        std::cout << "An error " << status << " acquired during job size getting.\n";
+        return 1;
     }
 
     job_buffer = std::make_unique<uint8_t[]>(size);
     qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during compression job initializing.");
+        std::cout << "An error " << status << " acquired during job initializing.\n";
+        return 1;
     }
 
     // Initialize qpl_job structure before performing a compression operation.
@@ -96,7 +97,8 @@ auto main(int argc, char** argv) -> int {
         // Execute compression operation
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("Error while compression occurred.");
+            std::cout << "An error " << status << " acquired during compression.\n";
+            return 1;
         }
 
         job->flags &= ~QPL_FLAG_FIRST;
@@ -119,24 +121,28 @@ auto main(int argc, char** argv) -> int {
     // Execute decompression operation
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("Error while decompression occurred.");
+        std::cout << "An error " << status << " acquired during decompression.\n";
+        return 1;
     }
 
     // Freeing resources
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job finalization.");
+        std::cout << "An error " << status << " acquired during job finalization.\n";
+        return 1;
     }
 
     // Compare reference functions
     for (size_t i = 0; i < source.size(); i++) {
         if (source[i] != reference[i]) {
-            throw std::runtime_error("Content wasn't successfully compressed and decompressed.");
+            std::cout << "Content wasn't successfully compressed and decompressed.\n";
+            return 1;
         }
     }
 
     std::cout << "Content was successfully compressed and decompressed." << std::endl;
-    std::cout << "Compressed size: " << compressed_size << std::endl;
+    std::cout << "Input size: " << source.size() << ", compressed size: " << compressed_size
+    << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
 
     return 0;
 }

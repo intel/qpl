@@ -11,7 +11,6 @@
 #include <memory>
 #include <filesystem>
 #include <fstream>
-#include <stdexcept> // for runtime_error
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -46,7 +45,7 @@ auto main(int argc, char **argv) -> int {
         std::ifstream file(path.path().string(), std::ifstream::binary);
 
         if (!file.is_open()) {
-            std::cout << "Couldn't open the file in " << dataset_path << std::endl;
+            std::cout << "Unable to open file in " << dataset_path << std::endl;
             return 1;
         }
 
@@ -68,14 +67,17 @@ auto main(int argc, char **argv) -> int {
         // Job initialization
         status = qpl_get_job_size(execution_path, &size);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during job size getting.");
+            std::cout << "An error " << status << " acquired during job size getting.\n";
+            return 1;
         }
 
         job_buffer = std::make_unique<uint8_t[]>(size);
         qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
         status = qpl_init_job(execution_path, job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during compression job initializing.");
+            std::cout << "An error " << status << " acquired during job initializing.\n";
+            return 1;
         }
 
         // Huffman table initialization
@@ -86,7 +88,8 @@ auto main(int argc, char **argv) -> int {
                                                   DEFAULT_ALLOCATOR_C,
                                                   &huffman_table);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during Huffman table creation.");
+            std::cout << "An error " << status << " acquired during Huffman table creation.\n";
+            return 1;
         }
 
         // Filling deflate histogram first
@@ -96,12 +99,16 @@ auto main(int argc, char **argv) -> int {
                                                qpl_default_level,
                                                execution_path);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during gathering statistics for Huffman table.");
+            std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
+            qpl_huffman_table_destroy(huffman_table);
+            return 1;
         }
 
         status = qpl_huffman_table_init_with_histogram(huffman_table, &deflate_histogram);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during Huffman table initialization.");
+            std::cout << "An error " << status << " acquired during Huffman table initialization.\n";
+            qpl_huffman_table_destroy(huffman_table);
+            return 1;
         }
 
         // Now perform canned mode compression
@@ -117,7 +124,9 @@ auto main(int argc, char **argv) -> int {
         // Compression
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error while compression occurred.");
+            std::cout << "An error " << status << " acquired during compression.\n";
+            qpl_huffman_table_destroy(huffman_table);
+            return 1;
         }
 
         const uint32_t compressed_size = job->total_out;
@@ -134,28 +143,35 @@ auto main(int argc, char **argv) -> int {
         // Decompression
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error while decompression occurred.");
+            std::cout << "An error " << status << " acquired during decompression.\n";
+            qpl_huffman_table_destroy(huffman_table);
+            return 1;
         }
 
         // Freeing resources
         status = qpl_huffman_table_destroy(huffman_table);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error while destroying table occurred.");
+            std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
+            return 1;
         }
 
         status = qpl_fini_job(job);
         if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during job finalization.");
+            std::cout << "An error " << status << " acquired during job finalization.\n";
+            return 1;
         }
 
         // Compare reference functions
         for (size_t i = 0; i < source.size(); i++) {
             if (source[i] != reference[i]) {
-                throw std::runtime_error("Content wasn't successfully compressed and decompressed.");
+                std::cout << "Content wasn't successfully compressed and decompressed.\n";
+                return 1;
             }
         }
 
-        std::cout << path.path().filename() << ": " << (float) source.size() / (float) compressed_size << std::endl;
+        std::cout << "Content of " << path.path().filename() << " was successfully compressed and decompressed.\n";
+        std::cout << "" "Input size: " << source.size() << ", compressed size: " << compressed_size
+        << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
     }
 
     return 0;

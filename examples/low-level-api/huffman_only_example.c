@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
    qpl_status status;
    uint32_t size = 0;
 
-    // Getting job size 
+    // Getting job size
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         printf("An error acquired during job size getting. Error status = %d\n", status);
@@ -62,8 +62,8 @@ int main(int argc, char** argv) {
     compress_job = (qpl_job *)malloc(size);
     if (compress_job == NULL) {
         printf("An error acquired during allocation of compression job. Error status = %d\n", status);
-        return status; 
-    } 
+        return status;
+    }
 
     status = qpl_init_job(execution_path, compress_job);
     if (status != QPL_STS_OK) {
@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
     qpl_huffman_table_t c_huffman_table;
 
     // The next line is a workaround for DEFAULT_ALLOCATOR_C macros.
-    // This macros works only with C++ code. 
+    // This macros works only with C++ code.
     allocator_t default_allocator_c = {malloc, free};
     status = qpl_huffman_only_table_create(compression_table_type,
                                            execution_path,
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 
     if (status != QPL_STS_OK) {
         printf("An error acquired during huffman table creation. Error status = %d\n", status);
-        
+
         qpl_huffman_table_destroy(c_huffman_table);
         qpl_fini_job(compress_job);
         free(compress_job);
@@ -104,15 +104,15 @@ int main(int argc, char** argv) {
     compress_job->next_out_ptr  = destination;
     compress_job->available_in  = source_size;
     compress_job->available_out = (uint32_t)(source_size * 2);
-    compress_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS 
+    compress_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS
                                                  | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
     compress_job->huffman_table = c_huffman_table;
 
     // Executing compression operation
     status = qpl_execute_job(compress_job);
     if (status != QPL_STS_OK) {
-        printf("Error while compression occurred. Error status = %d\n", status);
-        
+        printf("Error during compression occurred. Error status = %d\n", status);
+
         qpl_huffman_table_destroy(c_huffman_table);
         qpl_fini_job(compress_job);
         free(compress_job);
@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
     status = qpl_fini_job(compress_job);
     if (status != QPL_STS_OK) {
         printf("An error acquired during compression job finalization. Error status = %d\n", status);
-        
+
         free(compress_job);
         qpl_huffman_table_destroy(c_huffman_table);
 
@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
     free(compress_job);
 
     // The code below checks if a compression operation works correctly
-    
+
     // Allocating the decompression Huffman Table object for Huffman-only
     qpl_huffman_table_t d_huffman_table;
     status = qpl_huffman_only_table_create(decompression_table_type,
@@ -146,13 +146,13 @@ int main(int argc, char** argv) {
 
      if (status != QPL_STS_OK) {
         printf("An error acquired during decompression Huffman table creation. Error status = %d\n", status);
-        
+
         qpl_huffman_table_destroy(c_huffman_table);
         qpl_huffman_table_destroy(d_huffman_table);
 
         return status;
     }
-    
+
     // Initializing decompression table with the values from compression table
     status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
     if (status != QPL_STS_OK) {
@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
 
         qpl_huffman_table_destroy(c_huffman_table);
         qpl_huffman_table_destroy(d_huffman_table);
-      
+
         return status;
     }
 
@@ -179,7 +179,7 @@ int main(int argc, char** argv) {
     if (decompress_job == NULL){
         printf("An error acquired during malloc function for decompress job. Error status = %d\n", status);
         return status;
-    } 
+    }
 
     status = qpl_init_job(execution_path, decompress_job);
     if (status != QPL_STS_OK) {
@@ -190,8 +190,8 @@ int main(int argc, char** argv) {
         free(decompress_job);
 
         return status;
-    } 
-     
+    }
+
     // Initializing decompression qpl_job structure before performing a decompression operation
     decompress_job->op            = qpl_op_decompress;
     decompress_job->next_in_ptr   = destination;
@@ -205,20 +205,20 @@ int main(int argc, char** argv) {
     // Executing decompression operation
     status = qpl_execute_job(decompress_job);
     if (status != QPL_STS_OK) {
-        printf("Error while decompression occurred. Error status = %d\n", status);
-        
+        printf("Error during decompression occurred. Error status = %d\n", status);
+
         qpl_huffman_table_destroy(d_huffman_table);
         qpl_fini_job(decompress_job);
         free(decompress_job);
 
         return status;
     }
-    
-    // Freeing decompression job resources 
+
+    // Freeing decompression job resources
     status = qpl_fini_job(decompress_job);
     if (status != QPL_STS_OK) {
         printf("An error acquired during decompression job finalization. Error status = %d\n", status);
-        
+
         qpl_huffman_table_destroy(d_huffman_table);
         free(decompress_job);
 

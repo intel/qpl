@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
-#include <stdexcept> // for runtime_error
+#include <memory>
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
@@ -44,7 +44,7 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> source(source_size, 0);
     uint32_t             destination;
 
-    qpl_job    *job;
+    std::unique_ptr<uint8_t[]> job_buffer;
     qpl_status status;
     uint32_t   size = 0;
 
@@ -54,12 +54,17 @@ auto main(int argc, char** argv) -> int {
     // Job initialization
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job size getting.");
+        std::cout << "An error " << status << " acquired during job size getting.\n";
+        return 1;
     }
-    job    = (qpl_job *) std::malloc(size);
+
+    job_buffer = std::make_unique<uint8_t[]>(size);
+    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job initializing.");
+        std::cout << "An error " << status << " acquired during job initializing.\n";
+        return 1;
     }
 
     // Performing an operation
@@ -75,7 +80,8 @@ auto main(int argc, char** argv) -> int {
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        throw std::runtime_error("An error acquired during job execution.");
+        std::cout << "An error " << status << " acquired during performing scan.\n";
+        return 1;
     }
 
     // Freeing resources
@@ -84,11 +90,10 @@ auto main(int argc, char** argv) -> int {
         throw std::runtime_error("An error acquired during job finalization.");
     }
 
-    std::free(job);
-
-    // Check if everything was alright
+    // Compare with reference
     if (source[destination] != boundary) {
-        throw std::runtime_error("Incorrect index was chosen while job execution.");
+        std::cout << "Scan was done incorrectly.\n";
+        return 1;
     }
 
     std::cout << "Scan was performed successfully." << std::endl;
