@@ -3,9 +3,9 @@
  .. *
  .. * SPDX-License-Identifier: MIT
  .. ***************************************************************************/
- 
+
  .. _compression_decompression_examples_c_reference_link:
- 
+
 Compression/Decompression
 *************************
 
@@ -53,6 +53,13 @@ Multi-chunk Compression with Static Block
 
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_static_multi_chunk_example.cpp
+    :language: cpp
+
+Decompression "Output Overflow" error
+=====================================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/decompression_output_overflow_example.cpp
     :language: cpp
 
 Serialization
