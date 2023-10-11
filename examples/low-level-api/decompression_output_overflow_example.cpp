@@ -37,13 +37,6 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    if (execution_path == qpl_path_software) {
-        std::cout << "Currently software_path doesn't support continuation upon QPL_STS_MORE_OUTPUT_NEEDED"
-                  <<  ", so the example would be skipped.\n";
-        std::cout << "This limitation would be addressed in one of the upcoming releases.\n";
-        return 0;
-    }
-
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size / 2, 4);

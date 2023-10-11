@@ -217,10 +217,13 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
     }
 
     /**
-     * @warning In the case of "output overflow" upon decompression,
+     * @warning In case the output buffer fills up before the input is completely processed upon decompression,
+     * (i.e. getting QPL_STS_MORE_OUTPUT_NEEDED on sw path or internal status QPL_STS_INTL_OUTPUT_OVERFLOW on hw path)
      * need to update job structure to the valid state for continuing upon resubmission.
     */
-    if (result.status_code_ == 0 || result.status_code_ == QPL_STS_INTL_OUTPUT_OVERFLOW) {
+    if (result.status_code_ == 0 ||
+        (qpl::ml::execution_path_t::software == path && result.status_code_ == QPL_STS_MORE_OUTPUT_NEEDED) ||
+        (qpl::ml::execution_path_t::hardware == path && result.status_code_ == QPL_STS_INTL_OUTPUT_OVERFLOW)) {
         job::update(job_ptr, result);
     }
 
