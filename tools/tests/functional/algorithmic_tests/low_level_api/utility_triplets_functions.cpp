@@ -11,6 +11,8 @@
 #include "source_provider.hpp"
 #include "iaa_features_checks.hpp"
 
+#include "huffman_table_unique.hpp"
+
 namespace qpl::test {
 constexpr uint32_t offsets_table_size = 30u;
 
@@ -94,20 +96,18 @@ protected:
         std::vector<uint8_t> reference_buffer;
         uint32_t             status     = QPL_STS_OK;
 
-        qpl_huffman_table_t c_huffman_table;
-        qpl_huffman_table_t d_huffman_table;
+        // Create compression and decompression tables
+        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+                                                                      GetExecutionPath(),
+                                                                      DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        status = qpl_huffman_only_table_create(compression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_only_table_create(decompression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &d_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+        unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+                                                                      GetExecutionPath(),
+                                                                      DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
         std::fill(destination.begin(), destination.end(), 0u);
@@ -118,22 +118,19 @@ protected:
         reference_buffer.resize(max_length + 7u);
         std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
 
-        build_compression_table(c_huffman_table,
+        build_compression_table(c_table.get(),
                                 source_for_compression_table.begin(),
                                 source_for_compression_table.end());
 
-        auto triplets = create_triplets_from_table(c_huffman_table);
+        auto triplets = create_triplets_from_table(c_table.get());
 
-        qpl_huffman_table_t c_triplets_huffman_table;
+        unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
+                                                                                    GetExecutionPath(),
+                                                                                    DEFAULT_ALLOCATOR_C),
+                                                   any_huffman_table_deleter);
+        ASSERT_NE(c_table_from_triplets.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        status = qpl_huffman_only_table_create(compression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &c_triplets_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = qpl_huffman_table_init_with_triplets(c_triplets_huffman_table, triplets.data(), triplets.size());
-
+        status = qpl_huffman_table_init_with_triplets(c_table_from_triplets.get(), triplets.data(), triplets.size());
         ASSERT_EQ(QPL_STS_OK, status);
 
         // Now initialize compression job
@@ -146,7 +143,7 @@ protected:
         job_ptr->available_in  = max_length;
         job_ptr->available_out = max_length * 2;
 
-        job_ptr->huffman_table = c_triplets_huffman_table;
+        job_ptr->huffman_table = c_table_from_triplets.get();
         job_ptr->flags         = QPL_FLAG_FIRST |
                                  QPL_FLAG_LAST |
                                  QPL_FLAG_NO_HDRS |
@@ -188,7 +185,7 @@ protected:
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_in  = job_ptr->total_out;
         decompression_job_ptr->available_out = max_length + 7u;
-        decompression_job_ptr->huffman_table = d_huffman_table;
+        decompression_job_ptr->huffman_table = d_table.get();
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
@@ -199,7 +196,7 @@ protected:
         }
 
         // Decompress
-        status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
+        status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
         ASSERT_EQ(QPL_STS_OK, status);
 
         // Decompress
@@ -223,13 +220,6 @@ protected:
         }
 
         // Free resources
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-        status = qpl_huffman_table_destroy(d_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-        status = qpl_huffman_table_destroy(c_triplets_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
 
@@ -245,20 +235,19 @@ protected:
         auto                 max_length = static_cast<uint32_t>(source_for_compression_table.size());
         std::vector<uint8_t> reference_buffer;
         uint32_t             status     = QPL_STS_OK;
-        qpl_huffman_table_t c_huffman_table;
-        qpl_huffman_table_t d_huffman_table;
 
-        status = qpl_huffman_only_table_create(compression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+        // Create compression and decompression tables
+        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+                                                                      GetExecutionPath(),
+                                                                      DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        status = qpl_huffman_only_table_create(decompression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &d_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+        unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+                                                                      GetExecutionPath(),
+                                                                      DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
         std::fill(destination.begin(), destination.end(), 0u);
@@ -269,22 +258,19 @@ protected:
         reference_buffer.resize(max_length + 7u);
         std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
 
-        build_compression_table(c_huffman_table,
+        build_compression_table(c_table.get(),
                                 source_for_compression_table.begin(),
                                 source_for_compression_table.end());
 
-        auto triplets = create_triplets_from_table(c_huffman_table);
+        auto triplets = create_triplets_from_table(c_table.get());
 
-        qpl_huffman_table_t c_triplets_huffman_table;
+        unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
+                                                                                    GetExecutionPath(),
+                                                                                    DEFAULT_ALLOCATOR_C),
+                                                   any_huffman_table_deleter);
+        ASSERT_NE(c_table_from_triplets.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        status = qpl_huffman_only_table_create(compression_table_type,
-                                               GetExecutionPath(),
-                                               DEFAULT_ALLOCATOR_C,
-                                               &c_triplets_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-
-        status = qpl_huffman_table_init_with_triplets(c_triplets_huffman_table,
+        status = qpl_huffman_table_init_with_triplets(c_table_from_triplets.get(),
                                                       triplets.data(),
                                                       triplets.size());
 
@@ -300,7 +286,7 @@ protected:
         job_ptr->available_in  = max_length;
         job_ptr->available_out = max_length * 2;
 
-        job_ptr->huffman_table = c_triplets_huffman_table;
+        job_ptr->huffman_table = c_table_from_triplets.get();
         job_ptr->flags         = QPL_FLAG_FIRST |
                                  QPL_FLAG_LAST |
                                  QPL_FLAG_NO_HDRS |
@@ -342,7 +328,7 @@ protected:
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_in  = job_ptr->total_out;
         decompression_job_ptr->available_out = max_length + 7u;
-        decompression_job_ptr->huffman_table = d_huffman_table;
+        decompression_job_ptr->huffman_table = d_table.get();
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
@@ -353,7 +339,7 @@ protected:
         }
 
         // Decompress
-        status = qpl_huffman_table_init_with_other(d_huffman_table, c_triplets_huffman_table);
+        status = qpl_huffman_table_init_with_other(d_table.get(), c_table_from_triplets.get());
 
         // Decompress
         status = run_job_api(decompression_job_ptr);
@@ -376,13 +362,6 @@ protected:
         }
 
         // Free resources
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-        status = qpl_huffman_table_destroy(d_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-        status = qpl_huffman_table_destroy(c_triplets_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status);
-
         qpl_fini_job(job_ptr);
         qpl_fini_job(decompression_job_ptr);
 

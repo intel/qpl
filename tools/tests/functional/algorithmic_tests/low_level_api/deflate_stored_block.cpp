@@ -18,6 +18,8 @@
 #include "check_result.hpp"
 #include "source_provider.hpp"
 
+#include "huffman_table_unique.hpp"
+
 namespace qpl::test {
 
 constexpr uint32_t small_input_data_size    = 256u;
@@ -144,19 +146,17 @@ public:
         source_provider source_gen(input_size, 8u, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
-        qpl_huffman_table_t c_huffman_table;
+        // Create and initialize compression table
+        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                 GetExecutionPath(),
+                                                                 DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                       GetExecutionPath(),
-                                                       DEFAULT_ALLOCATOR_C,
-                                                       &c_huffman_table);
+        qpl_status status = fill_compression_table(c_table.get());
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled\n";
 
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = fill_compression_table(c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
-
-        job_ptr->huffman_table = c_huffman_table;
+        job_ptr->huffman_table = c_table.get();
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();
@@ -167,10 +167,7 @@ public:
         job_ptr->level         = level;
 
         status = run_job_api(job_ptr);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
-        ASSERT_EQ(status, QPL_STS_OK);
+        ASSERT_EQ(status, QPL_STS_OK) << "Compression job failed\n";
 
         auto total_byte_to_compare = input_size;
 
@@ -182,20 +179,16 @@ public:
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
             bool compare_segments_result = CompareSegments(stored_block_begin,
-                                        stored_block_end,
-                                        reference,
-                                        reference + bytes_to_compare,
-                                        "Stored block index: " + std::to_string(i));
-            if(!compare_segments_result){
-                EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-            }
+                                                           stored_block_end,
+                                                           reference,
+                                                           reference + bytes_to_compare,
+                                                           "Stored block index: " + std::to_string(i));
             ASSERT_TRUE(compare_segments_result);
 
             reference += bytes_to_compare;
             stored_block_begin += bytes_to_compare + stored_block_header_size;
             total_byte_to_compare -= bytes_to_compare;
         }
-        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>
@@ -215,22 +208,17 @@ public:
         source_provider source_gen(input_size, 8u, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
-        qpl_huffman_table_t c_huffman_table;
+        // Create and initialize compression table
+        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                 GetExecutionPath(),
+                                                                 DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                       GetExecutionPath(),
-                                                       DEFAULT_ALLOCATOR_C,
-                                                       &c_huffman_table);
-
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = fill_compression_table(c_huffman_table);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        qpl_status status = fill_compression_table(c_table.get());
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
-        job_ptr->huffman_table = c_huffman_table;
+        job_ptr->huffman_table = c_table.get();
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();
@@ -241,7 +229,6 @@ public:
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
-        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>
@@ -255,21 +242,17 @@ public:
         source_provider source_gen(input_size, 8u, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
-        qpl_huffman_table_t c_huffman_table;
+        // Create and initialize compression table
+        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                                                                 GetExecutionPath(),
+                                                                 DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                       GetExecutionPath(),
-                                                       DEFAULT_ALLOCATOR_C,
-                                                       &c_huffman_table);
-        ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-        status = fill_compression_table(c_huffman_table);
-        if(QPL_STS_OK != status){
-            EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
-        }
+        qpl_status status = fill_compression_table(c_table.get());
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
-        job_ptr->huffman_table = c_huffman_table;
+        job_ptr->huffman_table = c_table.get();
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();
@@ -281,7 +264,6 @@ public:
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
-        EXPECT_EQ(qpl_huffman_table_destroy(c_huffman_table), QPL_STS_OK);
     }
 
     template <uint32_t input_size>

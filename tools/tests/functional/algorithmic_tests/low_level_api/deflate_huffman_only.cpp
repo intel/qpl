@@ -10,6 +10,8 @@
 #include "source_provider.hpp"
 #include "iaa_features_checks.hpp"
 
+#include "huffman_table_unique.hpp"
+
 namespace qpl::test {
 constexpr uint64_t no_flag = 0;
 
@@ -50,7 +52,7 @@ protected:
 
             // TODO: resolve verification limitation:
             // Huffman Only verification currently does not work if buffer is larger than 4KB
-            // therefore this workaround temporarilty truncates the source buffer if verify is enabled
+            // therefore this workaround temporarily truncates the source buffer if verify is enabled
             if (!omit_verification) {
                 source.resize(4096);
             }
@@ -60,15 +62,14 @@ protected:
             std::vector<uint8_t> reference_buffer(destination.size(), 0u);
             const uint32_t file_size = (uint32_t) source.size();
 
-            qpl_huffman_table_t c_huffman_table;
-            status = qpl_huffman_only_table_create(compression_table_type,
-                                                   GetExecutionPath(),
-                                                   DEFAULT_ALLOCATOR_C,
-                                                   &c_huffman_table);
+            // Create the compression table
+            unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+                                                                          GetExecutionPath(),
+                                                                          DEFAULT_ALLOCATOR_C),
+                                         any_huffman_table_deleter);
+            ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-            ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-            job_ptr->huffman_table = c_huffman_table;
+            job_ptr->huffman_table = c_table.get();
             job_ptr->flags = QPL_FLAG_FIRST |
                 QPL_FLAG_LAST |
                 QPL_FLAG_NO_HDRS |
@@ -96,18 +97,15 @@ protected:
             }
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
-            qpl_huffman_table_t d_huffman_table;
+            // Create and fill the decompression table
+            unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+                                                                          GetExecutionPath(),
+                                                                          DEFAULT_ALLOCATOR_C),
+                                         any_huffman_table_deleter);
+            ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
-            status = qpl_huffman_only_table_create(decompression_table_type,
-                                                   GetExecutionPath(),
-                                                   DEFAULT_ALLOCATOR_C,
-                                                   &d_huffman_table);
-
-            ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-            status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
-
-            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
+            status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table initialization failed";
 
             decompression_job_ptr->op          = qpl_op_decompress;
             decompression_job_ptr->next_in_ptr = destination.data();
@@ -120,7 +118,7 @@ protected:
             } else {
                 decompression_job_ptr->ignore_end_bits            = (8 - job_ptr->last_bit_offset) & 7;
             }
-            decompression_job_ptr->huffman_table                  = d_huffman_table;
+            decompression_job_ptr->huffman_table                  = d_table.get();
             decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS |
                                                                        ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
             decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
@@ -146,12 +144,6 @@ protected:
             }
 
             // Free resources
-            status = qpl_huffman_table_destroy(c_huffman_table);
-            ASSERT_EQ(QPL_STS_OK, status) << "Compression table destruction failed";
-
-            status = qpl_huffman_table_destroy(d_huffman_table);
-            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table destruction failed";
-
             qpl_fini_job(job_ptr);
             qpl_fini_job(decompression_job_ptr);
 
@@ -173,7 +165,7 @@ protected:
 
             // TODO: resolve verification limitation:
             // Huffman Only verification currently does not work if buffer is larger than 4KB
-            // therefore this workaround temporarilty truncates the source buffer if verify is enabled
+            // therefore this workaround temporarily truncates the source buffer if verify is enabled
             if (!omit_verification) {
                 source.resize(4096);
             }
@@ -183,13 +175,12 @@ protected:
             std::vector<uint8_t> reference_buffer(destination.size(), 0u);
             const uint32_t file_size = (uint32_t) source.size();
 
-            qpl_huffman_table_t  c_huffman_table;
-            status = qpl_huffman_only_table_create(compression_table_type,
-                                                   GetExecutionPath(),
-                                                   DEFAULT_ALLOCATOR_C,
-                                                   &c_huffman_table);
-
-            ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
+            // Create the compression table
+            unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+                                                                          GetExecutionPath(),
+                                                                          DEFAULT_ALLOCATOR_C),
+                                         any_huffman_table_deleter);
+            ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             // Building table
             job_ptr->op            = qpl_op_compress;
@@ -198,7 +189,7 @@ protected:
             job_ptr->available_in  = file_size;
             job_ptr->available_out = file_size * 2;
 
-            job_ptr->huffman_table = c_huffman_table;
+            job_ptr->huffman_table = c_table.get();
             job_ptr->flags         = QPL_FLAG_FIRST |
                                      QPL_FLAG_LAST |
                                      QPL_FLAG_NO_HDRS |
@@ -239,7 +230,7 @@ protected:
             status = qpl_init_job(GetExecutionPath(), job_ptr);
             ASSERT_EQ(QPL_STS_OK, status);
 
-            job_ptr->huffman_table = c_huffman_table;
+            job_ptr->huffman_table = c_table.get();
             job_ptr->flags = QPL_FLAG_FIRST |
                 QPL_FLAG_LAST |
                 QPL_FLAG_NO_HDRS |
@@ -292,18 +283,15 @@ protected:
             }
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
-            qpl_huffman_table_t d_huffman_table;
+            // Create and fill the decompression table
+            unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+                                                                          GetExecutionPath(),
+                                                                          DEFAULT_ALLOCATOR_C),
+                                         any_huffman_table_deleter);
+            ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
-            status = qpl_huffman_only_table_create(decompression_table_type,
-                                                   GetExecutionPath(),
-                                                   DEFAULT_ALLOCATOR_C,
-                                                   &d_huffman_table);
-
-            ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
-
-            status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
-
-            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
+            status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
+            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table initialization failed";
 
             decompression_job_ptr->op          = qpl_op_decompress;
             decompression_job_ptr->next_in_ptr = destination.data();
@@ -316,7 +304,7 @@ protected:
             } else {
                 decompression_job_ptr->ignore_end_bits            = (8 - job_ptr->last_bit_offset) & 7;
             }
-            decompression_job_ptr->huffman_table                  = d_huffman_table;
+            decompression_job_ptr->huffman_table                  = d_table.get();
             decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
             decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
@@ -341,12 +329,6 @@ protected:
             }
 
             // Free resources
-            status = qpl_huffman_table_destroy(c_huffman_table);
-            ASSERT_EQ(QPL_STS_OK, status) << "Compression table creation failed";
-
-            status = qpl_huffman_table_destroy(d_huffman_table);
-            ASSERT_EQ(QPL_STS_OK, status) << "Decompression table creation failed";
-
             qpl_fini_job(job_ptr);
             qpl_fini_job(decompression_job_ptr);
 
@@ -387,10 +369,12 @@ protected:
         status = qpl_init_job(execution_path, job);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-        // Allocate compression Huffman table
-        qpl_huffman_table_t c_huffman_table;
-        status = qpl_huffman_only_table_create(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C, &c_huffman_table);
-        ASSERT_EQ(QPL_STS_OK, status) << "Failed to allocate compression table\n";
+        // Create compression table
+        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+                                                                      execution_path,
+                                                                      DEFAULT_ALLOCATOR_C),
+                                     any_huffman_table_deleter);
+        ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         // Fill in job structure for Huffman only compression
         job->op            = qpl_op_compress;
@@ -400,7 +384,7 @@ protected:
         job->next_out_ptr  = destination.data();
         job->available_out = destination_size;
         job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
-        job->huffman_table = c_huffman_table;
+        job->huffman_table = c_table.get();
 
         // Compress
         status = qpl_execute_job(job);
@@ -410,9 +394,6 @@ protected:
         const uint32_t compressed_size = job->total_out;
 
         // Free resources
-        status = qpl_huffman_table_destroy(c_huffman_table);
-        EXPECT_EQ(QPL_STS_OK, status) << "Compression table destruction failed\n";
-
         status = qpl_fini_job(job);
         ASSERT_EQ(QPL_STS_OK, status) << "Finishing job failed\n";
 
