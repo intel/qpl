@@ -212,7 +212,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init_with_other
                                            GetExecutionPath(),
                                            DEFAULT_ALLOCATOR_C,
                                            &another_table);
-    ASSERT_EQ(QPL_STS_OK, status);
+    if (status != QPL_STS_OK) {
+        qpl_huffman_table_destroy(table);
+        FAIL() << "Huffman Table creation failed\n";
+    }
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
@@ -238,7 +241,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init_with_
                                               GetExecutionPath(),
                                               DEFAULT_ALLOCATOR_C,
                                               &another_table);
-    ASSERT_EQ(QPL_STS_OK, status);
+    if (status != QPL_STS_OK) {
+        qpl_huffman_table_destroy(table);
+        FAIL() << "Huffman Table creation failed\n";
+    }
 
     EXPECT_EQ(QPL_STS_INVALID_HUFFMAN_TABLE_ERR, qpl_huffman_table_init_with_other(table, another_table));
 
