@@ -276,6 +276,8 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
         return result;
     }
 
+    uint32_t bytes_written = 0U;
+
     if (actual_bits_in_aecs) {
         hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index, state.meta_data_->aecs_size);
         if (!actual_aecs) {
@@ -285,12 +287,16 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
         hw_iaa_aecs_compress_accumulator_flush(actual_aecs, &output_ptr, actual_bits_in_aecs);
 
         auto shift = actual_bits_in_aecs / byte_bit_size;
-        output_ptr  += shift;
-        output_size -= shift;
+        bytes_written += shift;
     }
 
     // Write stored blocks
-    write_stored_blocks(input_ptr, input_size, output_ptr, output_size, actual_bits_in_aecs & 7u, state.is_last_chunk());
+    bytes_written += write_stored_blocks(input_ptr,
+                                         input_size,
+                                         output_ptr,
+                                         output_size,
+                                         actual_bits_in_aecs & 7u,
+                                         state.is_last_chunk());
 
     // Calculate checksums
     uint32_t crc, xor_checksum;
@@ -320,7 +326,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
     result.checksums_.crc32_ = crc;
     result.checksums_.xor_   = xor_checksum;
     result.completed_bytes_  = input_size;
-    result.output_bytes_     = output_size;
+    result.output_bytes_     = bytes_written;
     result.last_bit_offset   = 0u;
 
     result.status_code_ = status_list::ok;
