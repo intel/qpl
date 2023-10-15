@@ -85,13 +85,14 @@ auto main(int argc, char** argv) -> int {
 
     // QPL_FLAG_LAST is set in the last chunk
     while (source_bytes_left > 0) {
+        int previous_chunk_size = chunk_size;
         if (chunk_size >= source_bytes_left) {
             job->flags |= QPL_FLAG_LAST;
             chunk_size = source_bytes_left;
         }
 
         source_bytes_left -= chunk_size;
-        job->next_in_ptr  = source.data() + iteration_count * chunk_size;
+        job->next_in_ptr  = source.data() + iteration_count * previous_chunk_size;
         job->available_in = chunk_size;
 
         // Execute compression operation
