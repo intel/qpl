@@ -30,18 +30,22 @@
 
 constexpr const uint32_t source_size = 1000;
 
+// In this example source data is splitted to `chunk_count` pieces.
+// Compression is then performed via multiple job submissions.
+constexpr const uint32_t chunk_count = 7;
+
 auto main(int argc, char** argv) -> int {
 
-    // Default to Software Path
+    // Default to Software Path.
     qpl_path_t execution_path = qpl_path_software;
 
-    // Get path from input argument
+    // Get path from input argument.
     int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }
 
-    // Source and output containers
+    // Source and output containers.
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size / 2, 4);
     std::vector<uint8_t> reference(source_size, 7);
@@ -50,7 +54,7 @@ auto main(int argc, char** argv) -> int {
     qpl_status                 status;
     uint32_t                   size = 0;
 
-    // Job initialization
+    // Allocate and initialize job.
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job size getting.\n";
@@ -76,25 +80,29 @@ auto main(int argc, char** argv) -> int {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = NULL;
 
-    // In this example source data has splitted up to 5 chunks with chunk size equals source size / 5.
-    int chunk_count = 5;
-    int chunk_size = source.size()/chunk_count;
-    int iteration_count = 0;
+    // Calculate chunk size for the compression.
+    uint32_t chunk_size        = source_size/chunk_count;
+    uint32_t iteration_count   = 0U;
+    uint32_t source_bytes_left = static_cast<uint32_t>(source.size());
 
-    auto source_bytes_left  = static_cast<uint32_t>(source.size());
-
-    // QPL_FLAG_LAST is set in the last chunk
     while (source_bytes_left > 0) {
+        // Advance `next_in_ptr` pointer for the next iteration.
+        // If writing into contiguous memory, this step is not necessary,
+        // as the `next_in_ptr` will be updated at the end of previous execution by
+        // number of bytes processed.
+        job->next_in_ptr = source.data() + iteration_count * chunk_size;
+
+        // In this example, all chunks are equal in size except for the last one.
+        // So adjusting the size and setting the job to LAST.
         if (chunk_size >= source_bytes_left) {
             job->flags |= QPL_FLAG_LAST;
             chunk_size = source_bytes_left;
         }
 
         source_bytes_left -= chunk_size;
-        job->next_in_ptr  = source.data() + iteration_count * chunk_size;
-        job->available_in = chunk_size;
+        job->available_in  = chunk_size;
 
-        // Execute compression operation
+        // Execute compression operation.
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
             std::cout << "An error " << status << " acquired during compression.\n";
@@ -108,9 +116,9 @@ auto main(int argc, char** argv) -> int {
     destination.resize(job->total_out);
     const uint32_t compressed_size = job->total_out;
 
-    //The code below checks if a compression operation works correctly
+    // The code below checks if a compression operation works correctly.
 
-    // Initialize qpl_job structure before performing a decompression operation
+    // Initialize qpl_job structure before performing a decompression operation.
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = destination.data();
     job->next_out_ptr  = reference.data();
@@ -118,21 +126,21 @@ auto main(int argc, char** argv) -> int {
     job->available_out = static_cast<uint32_t>(reference.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    // Execute decompression operation
+    // Execute decompression operation.
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during decompression.\n";
         return 1;
     }
 
-    // Freeing resources
+    // Free resources.
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job finalization.\n";
         return 1;
     }
 
-    // Compare reference functions
+    // Compare compressed then decompressed buffer to original source.
     for (size_t i = 0; i < source.size(); i++) {
         if (source[i] != reference[i]) {
             std::cout << "Content wasn't successfully compressed and decompressed.\n";

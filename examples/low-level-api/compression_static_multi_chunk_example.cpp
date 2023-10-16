@@ -40,16 +40,16 @@ constexpr const uint32_t source_size = 1000;
 
 auto main(int argc, char** argv) -> int {
 
-    // Default to Software Path
+    // Default to Software Path.
     qpl_path_t execution_path = qpl_path_software;
 
-    // Get path from input argument
+    // Get path from input argument.
     int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }
 
-    // Source and output containers
+    // Source and output containers.
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size / 2, 4);
     std::vector<uint8_t> reference(source_size, 7);
@@ -58,7 +58,7 @@ auto main(int argc, char** argv) -> int {
     qpl_status                 status;
     uint32_t                   size = 0;
 
-    // Job initialization
+    // Allocate and initialize job structure.
     status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job size getting.\n";
@@ -74,7 +74,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    // The Huffman table object (c_huffman_table) allocation
+    // Allocate Huffman table object (c_huffman_table).
     qpl_huffman_table_t c_huffman_table;
     status = qpl_deflate_huffman_table_create(compression_table_type,
                                               execution_path,
@@ -85,7 +85,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    // The Huffman table initialization using deflate tokens histogram.
+    // Initialize Huffman table using deflate tokens histogram.
     qpl_histogram histogram{};
     status = qpl_gather_deflate_statistics(source.data(),
                                            source_size,
@@ -115,9 +115,8 @@ auto main(int argc, char** argv) -> int {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = c_huffman_table;
 
-    // In this example source data has splitted up to 5 chunks with unequal chunk sizes. Sum of all chunk sizes is equal to source_size
-    uint32_t iteration_count = 0;
-    auto source_bytes_left = static_cast<uint32_t>(source_size);
+    // In this example source data is splitted to 5 chunks with unequal chunk sizes.
+    // Sum of all chunk sizes MUST be equal to source_size.
     std::vector<uint32_t> chunk_sizes {50, 250, 150, 350, 200};
     if (sum(chunk_sizes) != source_size) {
         std::cout << "Sum of all chunk sizes isn't equal to source_size.\n";
@@ -125,17 +124,22 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    while (source_bytes_left > 0) {
-        // QPL_FLAG_LAST is set in the last chunk
-        if (chunk_sizes[iteration_count] >= source_bytes_left) {
+    uint32_t source_bytes_processed_previously = 0U;
+    for (size_t iteration_count = 0; iteration_count < chunk_sizes.size(); iteration_count++) {
+        // Set the job to LAST on the last iteration.
+        if (iteration_count == chunk_sizes.size() - 1) {
             job->flags |= QPL_FLAG_LAST;
-            chunk_sizes[iteration_count] = source_bytes_left;
         }
 
-        job->next_in_ptr  = source.data() + chunk_sizes[iteration_count];
+        // Advance `next_in_ptr` pointer for the next iteration by the amount
+        // of bytes processed previously.
+        // If writing into contiguous memory, this step is not necessary,
+        // as the `next_in_ptr` will be updated at the end of previous execution by
+        // number of bytes processed.
+        job->next_in_ptr  = source.data() + source_bytes_processed_previously;
         job->available_in = chunk_sizes[iteration_count];
 
-        // Execute compression operation
+        // Execute compression operation.
         status = qpl_execute_job(job);
         if (status != QPL_STS_OK) {
             std::cout << "An error " << status << " acquired during compression.\n";
@@ -144,15 +148,15 @@ auto main(int argc, char** argv) -> int {
         }
 
         job->flags &= ~QPL_FLAG_FIRST;
-        source_bytes_left -= chunk_sizes[iteration_count];
-        iteration_count++;
 
+        // Update offset for `next_in_ptr` by the total size of previous chunks.
+        source_bytes_processed_previously += chunk_sizes[iteration_count];
     }
     const uint32_t compressed_size = job->total_out;
 
-    // The code below checks if a compression operation works correctly
+    // The code below checks if a compression operation works correctly.
 
-    // Initialize qpl_job structure before performing a decompression operation
+    // Initialize qpl_job structure before performing a decompression operation.
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = destination.data();
     job->next_out_ptr  = reference.data();
@@ -160,7 +164,7 @@ auto main(int argc, char** argv) -> int {
     job->available_out = static_cast<uint32_t>(reference.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    // Execute decompression operation
+    // Execute decompression operation.
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during decompression.\n";
@@ -168,21 +172,21 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    // Destroying c_huffman_table
+    // Destroy c_huffman_table.
     status = qpl_huffman_table_destroy(c_huffman_table);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
         return 1;
     }
 
-    // Freeing resources
+    // Free resources.
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job finalization.\n";
         return 1;
     }
 
-    // Compare reference functions
+    // Compare compressed then decompressed buffer with original source.
     for (size_t i = 0; i < source_size; i++) {
         if (source[i] != reference[i]) {
             std::cout << "Content wasn't successfully compressed and decompressed.\n";
