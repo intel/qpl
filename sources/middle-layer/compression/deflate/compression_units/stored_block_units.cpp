@@ -289,6 +289,10 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
         auto shift = actual_bits_in_aecs / byte_bit_size;
         bytes_written += shift;
     }
+    else {
+        hw_iaa_aecs_compress *actual_aecs = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index, state.meta_data_->aecs_size);
+        actual_aecs->num_output_accum_bits = 0U;
+    }
 
     // Write stored blocks
     bytes_written += write_stored_blocks(input_ptr,

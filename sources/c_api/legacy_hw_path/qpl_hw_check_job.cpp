@@ -155,6 +155,9 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
             hw_iaa_aecs_compress_accumulator_flush(cfg_in_ptr, &output_ptr, bits_to_flush);
             bytes_written += bits_to_flush / 8u;
         }
+        else {
+            cfg_in_ptr->num_output_accum_bits = 0U;
+        }
 
         bytes_written += ml::compression::write_stored_blocks(const_cast<uint8_t *>(input_data_ptr),
                                                               input_data_size,
