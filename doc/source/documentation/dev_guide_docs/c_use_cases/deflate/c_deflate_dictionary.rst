@@ -83,8 +83,11 @@ This function accepts a pointer to allocated dictionary buffer, the software
 and hardware dictionary compression levels, a pointer to the array containing
 the raw dictionary data to use, and its length.
 
-**Note**: If the raw dictionary length is larger than the maximum raw dictionary
-size, then only the last bytes will be used.
+.. attention::
+
+    To get the most benefit out of the dictionary, set ``raw_dict_size``
+    to the maximum size of the raw dictionary. If ``raw_dict_size`` is
+    larger than the maximum size, then only the last bytes will be used.
 
 Several auxiliary functions can be used to work with dictionary:
 
@@ -137,6 +140,10 @@ the :c:member:`qpl_job.dictionary` field should point to the built dictionary:
 The dictionary cannot be set in the middle of the compression stream.
 The job should be marked with :c:macro:`QPL_FLAG_FIRST`.
 
+.. warning::
+
+    On software path, the user must use the same value for the dictionary level
+    (i.e. :c:enum:`sw_compression_level`) and the compression level (i.e. :c:member:`qpl_job.level`).
 
 Decompressing with Dictionary
 *****************************
