@@ -481,8 +481,12 @@ should be used to fill the <code class="xref c c-struct docutils literal notrans
 <p>This function accepts a pointer to allocated dictionary buffer, the software
 and hardware dictionary compression levels, a pointer to the array containing
 the raw dictionary data to use, and its length.</p>
-<p><strong>Note</strong>: If the raw dictionary length is larger than the maximum raw dictionary
-size, then only the last bytes will be used.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>To get the most benefit out of the dictionary, set <code class="docutils literal notranslate"><span class="pre">raw_dict_size</span></code>
+to the maximum size of the raw dictionary. If <code class="docutils literal notranslate"><span class="pre">raw_dict_size</span></code> is
+larger than the maximum size, then only the last bytes will be used.</p>
+</div>
 <p>Several auxiliary functions can be used to work with dictionary:</p>
 <ul class="simple">
 <li><p><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_dictionary_id()</span></code> and <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_set_dictionary_id()</span></code> sets
@@ -525,6 +529,11 @@ the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.h
 </div>
 <p>The dictionary cannot be set in the middle of the compression stream.
 The job should be marked with <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On software path, the user must use the same value for the dictionary level
+(i.e. <code class="xref c c-enum docutils literal notranslate"><span class="pre">sw_compression_level</span></code>) and the compression level (i.e. <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.level" title="qpl_job.level"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.level</span></code></a>).</p>
+</div>
 </section>
 <section id="decompressing-with-dictionary">
 <h2>Decompressing with Dictionary<a class="headerlink" href="#decompressing-with-dictionary" title="Permalink to this heading">#</a></h2>
