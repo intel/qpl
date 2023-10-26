@@ -103,7 +103,7 @@ Compressing with Dictionary
 
 
 Compression with dictionary is supported only on certain generations of
-Intel® In-Memory Analytics Accelerator (Intel® IAA). The :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED`
+Intel® In-Memory Analytics Accelerator (Intel® IAA). The :c:macro:`QPL_STS_NOT_SUPPORTED_MODE_ERR`
 error will be returned if the operation is not supported. The software path can be
 used as an alternative.
 
