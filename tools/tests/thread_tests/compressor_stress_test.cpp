@@ -23,7 +23,7 @@
 #include "gtest/gtest.h"
 #include "qpl/qpl.h"
 #include "check_result.hpp"
-#include "../tt_common.hpp"
+#include "tt_common.hpp"
 
 namespace qpl::test {
 

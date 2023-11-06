@@ -9,12 +9,18 @@
 
 #include "gtest/gtest.h"
 
-#include "../tt_common.hpp"
+#include "ta_ll_common.hpp"
 #include "qpl/qpl.h"
 
 #include "source_provider.hpp"
 #include "util.hpp"
 #include "check_result.hpp"
+
+/* This test validates the library's asynchronous behavior
+   It generates a set number of jobs to submit (currently 7),
+   then submits them all in a batch. It then waits on each job
+   after all submits are finished, then verifies the correctness of each
+   job's output. */
 
 namespace qpl::test {
 
