@@ -23,9 +23,11 @@ namespace gz_generator
     {
         GenDecompressionHuffmanTable &m_huffmanTable;
         public:
-            HuffmanOnlyNoErrorConfigurator(Gen32u seed, GenDecompressionHuffmanTable &table)
+            HuffmanOnlyNoErrorConfigurator(Gen32u seed, GenDecompressionHuffmanTable &table, bool is_aecs_format2_expected)
                 : TestConfigurator(seed),
-                  m_huffmanTable(table){}
+                  m_huffmanTable(table),
+                  _is_aecs_format2_expected(is_aecs_format2_expected)
+                  {}
 
             HuffmanOnlyNoErrorConfigurator() = delete;
 
@@ -42,6 +44,8 @@ namespace gz_generator
             void declareAllLiterals(std::vector<Gen32u> &pLiteralVector);
             void saveHuffmanTable(std::vector<Gen32u> &pTestHuffmantable);
             void declareRawBlock();
+
+            bool _is_aecs_format2_expected = false;
     };
 }
 

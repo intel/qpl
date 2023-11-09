@@ -11,6 +11,7 @@
 #include "../../../common/operation_test.hpp"
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
+#include "iaa_features_checks.hpp"
 
 typedef struct qpl_decompression_huffman_table qpl_decompression_huffman_table;
 
@@ -64,46 +65,46 @@ public:
 
         job_ptr->op = qpl_op_decompress;
 
-            uint8_t*    next_in_ptr_save = job_ptr->next_in_ptr;
-            uint32_t    available_in_save = job_ptr->available_in;
-            uint32_t    total_in_save = job_ptr->total_in;
-            uint8_t*    next_out_ptr_save = job_ptr->next_out_ptr;
-            uint32_t    available_out_save = job_ptr->available_out;
-            uint32_t    total_out_save = job_ptr->total_out;
-            qpl_status  ref_status = QPL_STS_MORE_OUTPUT_NEEDED;
-            
-            qpl_status status = run_job_api(job_ptr);
+        uint8_t*    next_in_ptr_save = job_ptr->next_in_ptr;
+        uint32_t    available_in_save = job_ptr->available_in;
+        uint32_t    total_in_save = job_ptr->total_in;
+        uint8_t*    next_out_ptr_save = job_ptr->next_out_ptr;
+        uint32_t    available_out_save = job_ptr->available_out;
+        uint32_t    total_out_save = job_ptr->total_out;
+        qpl_status  ref_status = QPL_STS_MORE_OUTPUT_NEEDED;
 
-            if (ref_status == status) {
-                if (test_type == NO_ERR_HUFFMAN_ONLY) {
-                    for (uint8_t ign_end_bits = 1; ign_end_bits < 8; ign_end_bits++) {
-                        job_ptr->next_in_ptr = next_in_ptr_save;
-                        job_ptr->available_in = available_in_save;
-                        job_ptr->total_in = total_in_save;
-                        job_ptr->next_out_ptr = next_out_ptr_save;
-                        job_ptr->available_out = available_out_save;
-                        job_ptr->total_out = total_out_save;
-                        job_ptr->ignore_end_bits = ign_end_bits;
-                        job_ptr->last_bit_offset = ign_end_bits;
-                        status = run_job_api(job_ptr);
-                        if (QPL_STS_OK == status) {
-                            break;
-                        }
-                        if (ref_status != status) {
-                            break;
-                        }
+        qpl_status status = run_job_api(job_ptr);
+
+        if (ref_status == status) {
+            if (test_type == NO_ERR_HUFFMAN_ONLY) {
+                for (uint8_t ign_end_bits = 1; ign_end_bits < 8; ign_end_bits++) {
+                    job_ptr->next_in_ptr = next_in_ptr_save;
+                    job_ptr->available_in = available_in_save;
+                    job_ptr->total_in = total_in_save;
+                    job_ptr->next_out_ptr = next_out_ptr_save;
+                    job_ptr->available_out = available_out_save;
+                    job_ptr->total_out = total_out_save;
+                    job_ptr->ignore_end_bits = ign_end_bits;
+                    job_ptr->last_bit_offset = ign_end_bits;
+                    status = run_job_api(job_ptr);
+                    if (QPL_STS_OK == status) {
+                        break;
+                    }
+                    if (ref_status != status) {
+                        break;
                     }
                 }
             }
-
-            EXPECT_EQ(QPL_STS_OK, status);
-
-            return CompareVectors(destination,
-                                  reference_data,
-                                  test_type != NO_ERR_HUFFMAN_ONLY ?
-                                  job_ptr->total_out :
-                                  static_cast<uint32_t>(destination.size()));
         }
+
+        EXPECT_EQ(QPL_STS_OK, status);
+
+        return CompareVectors(destination,
+                                reference_data,
+                                test_type != NO_ERR_HUFFMAN_ONLY ?
+                                job_ptr->total_out :
+                                static_cast<uint32_t>(destination.size()));
+    }
 
 private:
     void SetSourceFromFile(std::string &file_name) {
@@ -128,6 +129,9 @@ private:
         TestFactor test_factor;
         test_factor.seed = GetSeed();
         test_factor.type = test_type;
+        if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_t::qpl_path_hardware) {
+            test_factor.specialTestOptions.is_aecs_format2_expected = are_iaa_gen_2_min_capabilities_present();
+        }
 
         gz_generator::InflateGenerator data_generator;
 

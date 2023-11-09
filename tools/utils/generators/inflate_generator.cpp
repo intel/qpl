@@ -65,7 +65,7 @@ std::unique_ptr<std::stringstream> gz_generator::InflateGenerator::getStreamDesc
 
         case NO_ERR_HUFFMAN_ONLY:
         {
-            HuffmanOnlyNoErrorConfigurator config(seed, testFactor.specialTestOptions.decompression_huffman_table);
+            HuffmanOnlyNoErrorConfigurator config(seed, testFactor.specialTestOptions.decompression_huffman_table, testFactor.specialTestOptions.is_aecs_format2_expected);
             config.generate();
 
             return config.getConfig();

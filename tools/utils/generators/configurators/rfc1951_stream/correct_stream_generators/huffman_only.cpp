@@ -160,15 +160,49 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffman
     return huffmanCodes;
 }
 
+
+/**
+ * @brief Routine to construct decompression representation for Huffman Only
+ *
+ * @details Based on the _is_aecs_format2_expected value (that indicates AECS Format to be generated),
+ * build either mapping table and first table indices array or mapping CAM.
+ * Also construct number of codes and first codes arrays (used in both Formats).
+ * Basic idea is to go through all bitwidths (1-15), filter out the triplets corresponding
+ * to a given code lengths, sort this subset and fill data required for specified format.
+ *
+ * Mapping table (corresponds to AECS Format-1) is such that:
+ * we store all the symbols with length 1 first (sorted), then all the symbols with length 2 (sorted), etc.
+ * For a given code length i, number of such codes is number_of_codes[i],
+ * region with these codes in the mapping table starts with first_table_indexes[i] offset,
+ * and additionally we store first_code[i] for the code with length i that is first once sorted.
+ * Table index for certain input code of length i could be computed then as:
+ * first_table_indexes[i] + input code - first_code[i].
+ *
+ * Mapping CAM (corresponds to AECS Format-2) is such that, for each entry
+ * the index is the input symbol and the value is the pair of input code length and (input code - first code),
+ * stored in first 4 bits and next 4 bits respectively;
+ * Therefore CAM size is exactly 265 (number of len codes without once requiring extra bits).
+ * Working with Mapping CAM requires number_of_codes and first_codes arrays,
+ * but doesn't require first_table_indexes (as calculating offset is not needed).
+*/
 void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::vector<Gen32u> &pLiteralLengthCodesTable,
                                                                            std::vector<Gen32u> &pHuffmanCodes)
 {
     // Variables
     Gen32u emptyPosition = 0u;
     Gen32u startPosition = 0u;
+    Gen32u bitWidthIndex = 0u;
 
     std::vector<GzHuffmanTriplet> tmpTriplets(256u);
     std::memset(&m_huffmanTable, 0u, sizeof(GenDecompressionHuffmanTable));
+
+    // Set format_stored
+    if (_is_aecs_format2_expected) {
+        m_huffmanTable.format_stored = ht_with_mapping_cam;
+    }
+    else{
+        m_huffmanTable.format_stored = ht_with_mapping_table;
+    }
 
     // Prepare triplets
     for (Gen16u i = 0u; i < 256u; i++)
@@ -177,7 +211,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
         tmpTriplets[i].len   = pLiteralLengthCodesTable[i];
         tmpTriplets[i].index = i;
 	}
-    
+
     // Calculate code lengths histogram
     std::for_each(tmpTriplets.begin(), tmpTriplets.end(), [&](const GzHuffmanTriplet &item)
     {
@@ -209,15 +243,25 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
             return a.code < b.code;
         });
 
-        m_huffmanTable.first_codes[i - 1u]        = filtered[0u].code;
-        m_huffmanTable.first_table_indexes[i - 1u] = emptyPosition;
+        m_huffmanTable.first_codes[i - 1u] = filtered[0u].code;
 
-        // Writing in sorted order
-        startPosition = emptyPosition;
-        while (emptyPosition < (startPosition + filtered.size()))
-        {
-            m_huffmanTable.index_to_char[emptyPosition] = filtered[emptyPosition - startPosition].index;
-            emptyPosition++;
+        if (_is_aecs_format2_expected) {
+            bitWidthIndex = 0;
+            for (auto item: filtered) {
+                m_huffmanTable.lit_cam[item.index] = item.len | (bitWidthIndex << 4);
+                bitWidthIndex++;
+            }
+        }
+        else {
+            m_huffmanTable.first_table_indexes[i - 1u] = emptyPosition;
+
+            // Writing in sorted order
+            startPosition = emptyPosition;
+            while (emptyPosition < (startPosition + filtered.size()))
+            {
+                m_huffmanTable.index_to_char[emptyPosition] = filtered[emptyPosition - startPosition].index;
+                emptyPosition++;
+            }
         }
     }
 }

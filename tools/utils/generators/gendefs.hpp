@@ -130,6 +130,11 @@ typedef enum
     INDEX_DECOMPRESS_INCORRECT_BLOCK_SIZE
 } TestType;
 
+typedef enum {
+    ht_with_mapping_table = 0u,
+    ht_with_mapping_cam   = 1u,
+} GenHuffmanTableAecsFormat;
+
 /*Qpl Huffman table*/
 struct GenDecompressionHuffmanTable
 {
@@ -140,7 +145,7 @@ struct GenDecompressionHuffmanTable
         Gen8u  index_to_char[257];
         Gen16u lit_cam[265];
     };
-    Gen8u format_stored;
+    GenHuffmanTableAecsFormat format_stored;
 };
 
 
@@ -152,6 +157,7 @@ struct SpecialTestOptions
     Gen32u                          mini_block_size;
     IndexTable*                     index_table = nullptr;
     GenDecompressionHuffmanTable    decompression_huffman_table{};
+    bool                            is_aecs_format2_expected = false;
 };
 
 
