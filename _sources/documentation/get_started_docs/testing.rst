@@ -17,6 +17,7 @@ are classified into:
 - Cross tests
 - Initialization tests
 - Fuzz tests
+- Thread tests
 
 
 Functional Tests
@@ -34,8 +35,6 @@ further divided into four groups:
   control over the input data format. These tests also check for cases
   that would lead to output overflow, and ensure proper error codes
   are thrown before overflow occurs.
-- Thread tests (``tt_*``) detect out-of-order read/write
-  operations for common structures by different threads.
 
 
 The tests can be launched using a single executable ``<install_dir>/bin/tests``.
@@ -169,3 +168,23 @@ for example:
 .. code:: shell
 
    <qpl_library>/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test -max_total_time=15
+
+
+Thread Tests
+************
+
+Thread tests validate library behavior when run in a highly multithreaded environment.
+The thread tests detect the number of physical cores on the system, then spawn
+an equivalent number of threads and attempt to perform library operations
+with each thread. It then ensures that the resulting output is correct. 
+
+To run thread tests, execute the following command:
+
+.. code:: shell
+
+   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=tt_*
+
+Thread tests support both hardware and software paths. To specify the path, use the flag 
+`--path=sw` or `--path=hw`. Users can also specify if asynchronous behavior is supported via 
+the flag `--async=on` or `--async=off`. By default the path is set to software and behavior
+is set to synchronous. 

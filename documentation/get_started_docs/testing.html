@@ -405,6 +405,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-tests">Initialization Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
             </nav>
         </div>
@@ -428,6 +429,7 @@ are classified into:</p>
 <li><p>Cross tests</p></li>
 <li><p>Initialization tests</p></li>
 <li><p>Fuzz tests</p></li>
+<li><p>Thread tests</p></li>
 </ul>
 <section id="functional-tests">
 <h2>Functional Tests<a class="headerlink" href="#functional-tests" title="Permalink to this heading">#</a></h2>
@@ -443,8 +445,6 @@ and input size checks to ensure the safety of all operations.</p></li>
 control over the input data format. These tests also check for cases
 that would lead to output overflow, and ensure proper error codes
 are thrown before overflow occurs.</p></li>
-<li><p>Thread tests (<code class="docutils literal notranslate"><span class="pre">tt_*</span></code>) detect out-of-order read/write
-operations for common structures by different threads.</p></li>
 </ul>
 <p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/tests</span></code>.
 To run all the functional tests, execute the following command:</p>
@@ -555,6 +555,21 @@ for example:</p>
 </pre></div>
 </div>
 </section>
+<section id="thread-tests">
+<h2>Thread Tests<a class="headerlink" href="#thread-tests" title="Permalink to this heading">#</a></h2>
+<p>Thread tests validate library behavior when run in a highly multithreaded environment.
+The thread tests detect the number of physical cores on the system, then spawn
+an equivalent number of threads and attempt to perform library operations
+with each thread. It then ensures that the resulting output is correct.</p>
+<p>To run thread tests, execute the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/<span class="w"> </span>--gtest_filter<span class="o">=</span>tt_*
+</pre></div>
+</div>
+<p>Thread tests support both hardware and software paths. To specify the path, use the flag
+<cite>–path=sw</cite> or <cite>–path=hw</cite>. Users can also specify if asynchronous behavior is supported via
+the flag <cite>–async=on</cite> or <cite>–async=off</cite>. By default the path is set to software and behavior
+is set to synchronous.</p>
+</section>
 </section>
 
 
@@ -605,6 +620,7 @@ for example:</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-tests">Initialization Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
   </nav></div>
 
