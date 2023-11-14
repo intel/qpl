@@ -51,7 +51,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     uint8_t              *next_out_ptr     = qpl_job_ptr->next_out_ptr;
     uint32_t             available_out     = qpl_job_ptr->available_out;
 
-    // Check if header generation is supported in hardware
+    // Check if header generation and dictionary compression are supported in hardware
     bool is_hw_header_gen_supported    = false;
     bool is_hw_dict_compress_supported = false;
 
@@ -463,7 +463,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     }
 }
 
-extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr) {
+extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr) {
     using namespace qpl::ml::compression;
 
     qpl_hw_state            *const state_ptr      = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
@@ -471,6 +471,33 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
     uint32_t flags = job_ptr->flags;
     bool is_final_block  = (flags & QPL_FLAG_LAST) ? true : false;
     bool is_first_block  = (flags & QPL_FLAG_FIRST) ? true : false;
+    qpl_dictionary *dictionary = job_ptr->dictionary;
+
+    // Check if dictionary compression is supported in hardware
+    bool is_hw_dict_compress_supported = false;
+
+#if defined( __linux__ )
+    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device            = dispatcher.device(0);
+    is_hw_dict_compress_supported = device.get_dict_compress_support();
+#endif //__linux__
+
+    // If dictionary is provided, check that the followings are true:
+    // 1. compression with dictionary is supported
+    // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path).
+    // 3. the hardware_dictionary_level is set
+    if (dictionary) {
+        if (!is_hw_dict_compress_supported || !(is_final_block && is_first_block) || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
+            return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+        }
+
+        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        state_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
+
+    } else {
+        state_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT;
+    }
+
 
     hw_iaa_descriptor_init_deflate_body((hw_descriptor *) descriptor_ptr,
                                         job_ptr->next_in_ptr,
@@ -500,8 +527,26 @@ extern "C" void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_pt
                                         static_cast<hw_iaa_aecs_access_policy>(access_policy),
                                         !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
+    // Setup dictionary in compression descriptor
+    if (dictionary) {
+        const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
+        const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
+        uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+
+        hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) descriptor_ptr,
+                                                    dict_size_in_aecs,
+                                                    dictionary_data_ptr,
+                                                    dictionary->aecs_raw_dictionary_offset,
+                                                    state_ptr->ccfg,
+                                                    state_ptr->aecs_hw_read_offset,
+                                                    state_ptr->aecs_size,
+                                                    load_dictionary_val);
+    }
+
     descriptor_ptr->decomp_flags |= ADCF_END_PROC(AD_APPEND_EOB);
 
     hw_iaa_descriptor_set_completion_record((hw_descriptor *) descriptor_ptr,
                                             (hw_completion_record *) &state_ptr->comp_ptr);
+
+    return QPL_STS_OK;
 }

@@ -30,7 +30,7 @@ void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor *de
                                                  hw_iaa_aecs_compress *cfg_in_ptr,
                                                  hw_iaa_completion_record *comp_ptr);
 
-void hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr);
+qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr);
 
 
 /* ====== Decompress ====== */

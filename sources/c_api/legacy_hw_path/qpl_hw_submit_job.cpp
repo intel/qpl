@@ -305,8 +305,9 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
 
         case qpl_op_compress: {
             if (job::is_canned_mode_compression(job_ptr)) {
-                hw_descriptor_compress_init_deflate_canned(job_ptr);
+                qpl_status status = hw_descriptor_compress_init_deflate_canned(job_ptr);
 
+                OWN_QPL_CHECK_STATUS(status)
                 break;
             }
 

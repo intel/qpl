@@ -53,6 +53,35 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
                                                                              const uint32_t size) noexcept -> compression_operation_result_t {
 //    auto output_begin_ptr = state.next_out();
 
+    compression_operation_result_t result;
+
+    // Check if dictionary is supported in hardware
+    bool is_hw_dict_compress_supported = false;
+#if defined( __linux__ )
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    const auto &device = dispatcher.device(0);
+    is_hw_dict_compress_supported = device.get_dict_compress_support();
+#endif //__linux__
+
+    // If dictionary is provided, check that the followings are true:
+    // 1. compression with dictionary is supported
+    // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path).
+    // 3. the hardware_dictionary_level is set
+    qpl_dictionary *dictionary = state.dictionary_;
+    if (dictionary) {
+        bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
+        if (!is_hw_dict_compress_supported || !is_single_chunk || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
+            result.status_code_ = status_list::not_supported_err;
+            return result;
+        }
+
+        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
+
+    } else {
+        state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT;
+    }
+
     hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_, end_of_block);
     hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, begin, size);
     hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
@@ -60,7 +89,24 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
                                         hw_aecs_access_read,
                                         !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
-    auto result = util::process_descriptor<compression_operation_result_t,
+
+    // Setup dictionary in compression descriptor
+    if (dictionary) {
+        const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
+        const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
+        uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+
+        hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
+                                                    dict_size_in_aecs,
+                                                    dictionary_data_ptr,
+                                                    dictionary->aecs_raw_dictionary_offset,
+                                                    state.meta_data_->aecs_,
+                                                    state.meta_data_->aecs_index,
+                                                    state.meta_data_->aecs_size,
+                                                    load_dictionary_val);
+    }
+
+    result = util::process_descriptor<compression_operation_result_t,
                                            util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
 
     if (result.status_code_ == status_list::ok) {
