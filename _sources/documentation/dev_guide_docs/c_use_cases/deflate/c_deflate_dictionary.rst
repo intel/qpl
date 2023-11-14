@@ -107,14 +107,13 @@ Intel® In-Memory Analytics Accelerator (Intel® IAA). The :c:macro:`QPL_STS_NOT
 error will be returned if the operation is not supported. The software path can be
 used as an alternative.
 
-On hardware path, compression with dictionary can be done for dynamic, fixed, and
-static compression modes. 
+On hardware path, compression with dictionary can be done for dynamic, fixed, static,
+and canned compression modes.
 
 .. attention::
 
-    Canned compression mode and multi-job execution (i.e. :c:macro:`QPL_FLAG_FIRST` and
-    :c:macro:`QPL_FLAG_LAST` are not set in the same job) are not supported 
-    for dictionary compression on hardware path.
+    Multi-job execution (i.e. :c:macro:`QPL_FLAG_FIRST` and :c:macro:`QPL_FLAG_LAST`
+    are not set in the same job) is not supported for dictionary compression on hardware path.
 
 On software path, compression with dictionary can be done for dynamic, fixed, static,
 and canned compression modes. 
@@ -152,7 +151,6 @@ Decompressing with Dictionary
 To decompress the stream previously compressed with the dictionary, the
 same dictionary should be specified for the first decompression job:
 
-
 .. code:: c
 
    // ...
@@ -161,3 +159,8 @@ same dictionary should be specified for the first decompression job:
    job_ptr->dictionary = dictionary_ptr;
 
    qpl_status = qpl_execute_job(job_ptr);
+
+.. attention::
+
+    Canned mode decompression with dictionary is not supported on hardware path. The software
+    path can be used as an alternative.

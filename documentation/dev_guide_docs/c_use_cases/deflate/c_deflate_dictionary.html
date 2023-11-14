@@ -503,13 +503,12 @@ bytes) of the <code class="xref c c-struct docutils literal notranslate"><span c
 Intel® In-Memory Analytics Accelerator (Intel® IAA). The <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_NOT_SUPPORTED_MODE_ERR" title="QPL_STS_NOT_SUPPORTED_MODE_ERR"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_MODE_ERR</span></code></a>
 error will be returned if the operation is not supported. The software path can be
 used as an alternative.</p>
-<p>On hardware path, compression with dictionary can be done for dynamic, fixed, and
-static compression modes.</p>
+<p>On hardware path, compression with dictionary can be done for dynamic, fixed, static,
+and canned compression modes.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Canned compression mode and multi-job execution (i.e. <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and
-<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> are not set in the same job) are not supported
-for dictionary compression on hardware path.</p>
+<p>Multi-job execution (i.e. <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>
+are not set in the same job) is not supported for dictionary compression on hardware path.</p>
 </div>
 <p>On software path, compression with dictionary can be done for dynamic, fixed, static,
 and canned compression modes.</p>
@@ -547,6 +546,11 @@ same dictionary should be specified for the first decompression job:</p>
 
 <span class="n">qpl_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job_ptr</span><span class="p">);</span>
 </pre></div>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Canned mode decompression with dictionary is not supported on hardware path. The software
+path can be used as an alternative.</p>
 </div>
 </section>
 </section>
