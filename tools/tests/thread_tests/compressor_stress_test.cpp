@@ -27,6 +27,14 @@
 
 namespace qpl::test {
 
+// With many threads spawned, some are expected to get QPL_STS_QUEUES_ARE_BUSY_ERR
+// We set a predetermined wait time and max resubmit count for threads to wait and 
+// resubmit their job. This will not make every single thread finish their job;
+// though it will allow more threads to complete work that can be tested.
+
+constexpr const uint32_t wait_time = 10; // in milliseconds
+constexpr const uint32_t max_resubmit_cnt = 10;
+
 static void trim(std::string &str) {
     str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char val) { return !std::isspace(val); }));
     str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char val) { return !std::isspace(val); }).base(), str.end());
@@ -120,7 +128,15 @@ int compress_test() {
     job->available_in  = source.size();
     job->available_out = static_cast<uint32_t>(compressed.size());
 
+    uint32_t resubmit_cnt = 0;
     status = qpl_execute_job(job);
+    
+    // If queues are busy, wait then resubmit before moving on
+    while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
+        status = qpl_execute_job(job);
+        resubmit_cnt++;
+    }
     if (QPL_STS_OK != status) {
         return status;
     }
@@ -135,7 +151,14 @@ int compress_test() {
     job->available_out = static_cast<uint32_t>(uncompressed.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
+    resubmit_cnt = 0;
     status = qpl_execute_job(job);
+    
+    while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
+        status = qpl_execute_job(job);
+        resubmit_cnt++;
+    }
     if (QPL_STS_OK != status) {
         return status;
     }
