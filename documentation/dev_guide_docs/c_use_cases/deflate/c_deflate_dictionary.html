@@ -404,6 +404,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-dictionary">Building Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compressing-with-dictionary">Compressing with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-with-dictionary">Decompressing with Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-software-path-and-hardware-path-with-dictionary">Mixing Software Path and Hardware Path with Dictionary</a></li>
 </ul>
             </nav>
         </div>
@@ -429,7 +430,7 @@ compression, a given bit of data to be compressed can be matched against a
 location before the start of the buffer. The dictionary can be used to improve
 the compression ratio of small buffers.</p>
 <section id="building-dictionary">
-<h2>Building Dictionary<a class="headerlink" href="#building-dictionary" title="Permalink to this heading">#</a></h2>
+<span id="building-dictionary-reference-link"></span><h2>Building Dictionary<a class="headerlink" href="#building-dictionary" title="Permalink to this heading">#</a></h2>
 <p>First, you need to allocate the buffer for <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The size
 of that buffer can be obtained by the <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_dictionary_size()</span></code>
 function.</p>
@@ -553,6 +554,13 @@ same dictionary should be specified for the first decompression job:</p>
 path can be used as an alternative.</p>
 </div>
 </section>
+<section id="mixing-software-path-and-hardware-path-with-dictionary">
+<h2>Mixing Software Path and Hardware Path with Dictionary<a class="headerlink" href="#mixing-software-path-and-hardware-path-with-dictionary" title="Permalink to this heading">#</a></h2>
+<p>To make sure that the dictionary data used for compression and decompression matches when compression
+and decompression take different paths, the user must provide a raw dictionary with a size equal to
+the maximum size of the raw dictionary
+(see <a class="reference internal" href="#building-dictionary-reference-link"><span class="std std-ref">building dictionary</span></a> for maximum size of the raw dictionary).</p>
+</section>
 </section>
 
 
@@ -602,6 +610,7 @@ path can be used as an alternative.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-dictionary">Building Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compressing-with-dictionary">Compressing with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-with-dictionary">Decompressing with Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-software-path-and-hardware-path-with-dictionary">Mixing Software Path and Hardware Path with Dictionary</a></li>
 </ul>
   </nav></div>
 
