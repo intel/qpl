@@ -22,6 +22,8 @@ location before the start of the buffer. The dictionary can be used to improve
 the compression ratio of small buffers.
 
 
+.. _building_dictionary_reference_link:
+
 Building Dictionary
 *******************
 
@@ -164,3 +166,12 @@ same dictionary should be specified for the first decompression job:
 
     Canned mode decompression with dictionary is not supported on hardware path. The software
     path can be used as an alternative.
+
+Mixing Software Path and Hardware Path with Dictionary
+******************************************************
+
+
+To make sure that the dictionary data used for compression and decompression matches when compression
+and decompression take different paths, the user must provide a raw dictionary with a size equal to
+the maximum size of the raw dictionary
+(see :ref:`building dictionary <building_dictionary_reference_link>` for maximum size of the raw dictionary).
