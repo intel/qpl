@@ -247,7 +247,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
 
         if (_is_aecs_format2_expected) {
             bitWidthIndex = 0;
-            for (auto item: filtered) {
+            for (auto &item: filtered) {
                 m_huffmanTable.lit_cam[item.index] = item.len | (bitWidthIndex << 4);
                 bitWidthIndex++;
             }
