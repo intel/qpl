@@ -27,8 +27,15 @@
 #define source_size 1000u
 
 int main(int argc, char** argv) {
+    printf("Intel(R) Query Processing Library version is %s.\n", qpl_get_library_version());
+
     // Default to Software Path
     qpl_path_t execution_path = qpl_path_software;
+
+    if (argc < 2) {
+        printf("Parameter for execution path was not provided. Use hardware_path or software_path.\n");
+        return 1;
+    }
 
     // Get path from input argument
     if (strcmp(argv[1], "hardware_path") == 0) {
@@ -39,7 +46,7 @@ int main(int argc, char** argv) {
          printf("The example will be run on the software path.\n");
     } else {
         printf("argv[1] = %s", argv[1]);
-        printf("Unrecognized value for parameter. Use hardware_path or software_path.\n");
+        printf("Unrecognized value for execution path parameter. Use hardware_path or software_path.\n");
         return 1;
     }
 

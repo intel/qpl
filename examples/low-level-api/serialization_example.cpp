@@ -29,6 +29,8 @@
 constexpr const uint32_t source_size    = 1000;
 
 auto main(int argc, char** argv) -> int {
+    std::cout << "Intel(R) Query Processing Library version is " << qpl_get_library_version() << ".\n";
+
     // Default to Software Path
     qpl_path_t execution_path = qpl_path_software;
 

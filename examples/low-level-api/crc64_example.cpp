@@ -31,6 +31,8 @@ constexpr const uint64_t poly          = 0x04C11DB700000000;
 constexpr const uint64_t reference_crc = 6467333940108591104;
 
 auto main(int argc, char** argv) -> int {
+    std::cout << "Intel(R) Query Processing Library version is " << qpl_get_library_version() << ".\n";
+
     // Default to Software Path
     qpl_path_t execution_path = qpl_path_software;
 
