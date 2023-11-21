@@ -9,87 +9,34 @@
  *  Tests
  */
 
-#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <future>
-#include <mutex>
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <utility>
 
 #include "gtest/gtest.h"
-#include "qpl/qpl.h"
-#include "check_result.hpp"
 #include "tt_common.hpp"
+
+#include "qpl/qpl.h"
+
+// common
+#include "check_result.hpp"
+
+// utils
+#include "system_info.hpp"
 
 namespace qpl::test {
 
 // With many threads spawned, some are expected to get QPL_STS_QUEUES_ARE_BUSY_ERR
-// We set a predetermined wait time and max resubmit count for threads to wait and 
+// We set a predetermined wait time and max resubmit count for threads to wait and
 // resubmit their job. This will not make every single thread finish their job;
 // though it will allow more threads to complete work that can be tested.
 
 constexpr const uint32_t wait_time = 10; // in milliseconds
 constexpr const uint32_t max_resubmit_cnt = 10;
 
-static void trim(std::string &str) {
-    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](unsigned char val) { return !std::isspace(val); }));
-    str.erase(std::find_if(str.rbegin(), str.rend(), [](unsigned char val) { return !std::isspace(val); }).base(), str.end());
-}
-
 static uint32_t get_num_cores() {
-
-    static bool is_setup{false};
-    static std::mutex guard;
-
-    uint32_t cpu_sockets             = 1U;
-    uint32_t cpu_physical_per_socket = 1U;
-    uint32_t cpu_physical_cores      = 1U;
-
-    guard.lock();
-    if(!is_setup)
-    {
-#if defined( __linux__ )
-        
-        std::ifstream info_file("/proc/cpuinfo");
-        if(!info_file.is_open()){
-            guard.unlock();
-            throw std::runtime_error("Failed to open /proc/cpuinfo");
-        }
-
-        std::string line;
-        while (std::getline(info_file, line))
-        {
-            if (line.empty())
-                continue;
-            auto del_index = line.find(':');
-            if(del_index == std::string::npos)
-                continue;
-
-            auto key = line.substr(0, del_index);
-            auto val = line.substr(del_index+1);
-            
-            trim(key);
-            trim(val);
-
-            if(key == "physical id")
-                cpu_sockets = std::max(cpu_sockets, (std::uint32_t)atoi(val.c_str())+1);
-            else if(key == "cpu cores")
-                cpu_physical_per_socket = std::max(cpu_physical_per_socket, (std::uint32_t)atoi(val.c_str()));
-        }
-        cpu_physical_cores = cpu_physical_per_socket*cpu_sockets;
-
-        // Print num cores for debugging purposes
-        printf("Physical Cores:   %d\n", cpu_physical_cores);
-#endif
-        is_setup = true;
-    }
-    guard.unlock();
-
-    return cpu_physical_cores;
+    return get_sys_info().cpu_physical_cores;
 }
 
 int compress_test() {
@@ -130,7 +77,7 @@ int compress_test() {
 
     uint32_t resubmit_cnt = 0;
     status = qpl_execute_job(job);
-    
+
     // If queues are busy, wait then resubmit before moving on
     while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
         std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
@@ -153,7 +100,7 @@ int compress_test() {
 
     resubmit_cnt = 0;
     status = qpl_execute_job(job);
-    
+
     while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
         std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
         status = qpl_execute_job(job);
