@@ -30,29 +30,29 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-14, 28-81, 99-111, 117-
-    :emphasize-lines: 13, 37, 43-44, 46, 53-59, 62, 69
+    :lines: 1-13, 28-35, 42-44, 46-82, 100-105, 118-
+    :emphasize-lines: 13, 31, 37-38, 40, 47-53, 56, 63
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
 the prototypes of all the functions.
 
-At line 37, we call :c:func:`qpl_get_job_size` to query the required memory size
+At line 31, we call :c:func:`qpl_get_job_size` to query the required memory size
 based on the specified execution path.
 
-At lines 43 and 44, we allocate memory according to the returned value of ``size``.
+At lines 37-38, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
 :c:struct:`qpl_job`. The leading portion of the allocated memory is used to store
 the job structure, while the remaining portion is a buffer for internal usages.
 
-At line 46, we call :c:func:`qpl_init_job` to initialize the job structure
-and buffer, then we fill in necessary parameters at lines 53 to 59.
+At line 40, we call :c:func:`qpl_init_job` to initialize the job structure
+and buffer, then we fill in necessary parameters at lines 47 to 53.
 
-The job structure and the allocated buffer are passed to Intel QPL at line 62. After
+The job structure and the allocated buffer are passed to Intel QPL at line 56. After
 :c:func:`qpl_execute_job` completes successfully, we can retrieve the results stored
 in the job structure.
 
-Finally, we call :c:func:`qpl_fini_job` at line 69 to free the resources.
+Finally, we call :c:func:`qpl_fini_job` at line 63 to free the resources.
 
 In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
 Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.
