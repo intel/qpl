@@ -787,19 +787,14 @@ auto huffman_table_init(decompression_huffman_table &table,
         Note: QPL_SW_REPRESENTATION corresponds to HT generated for software path only.
     */
     decompression_table_ptr->format_stored = ht_with_mapping_table;
-    if (!(representation_flags & QPL_SW_REPRESENTATION)) {
+    if (representation_flags & QPL_HW_REPRESENTATION) {
         decompression_table_ptr->format_stored = (!qpl::ml::util::are_iaa_gen_2_min_capabilities_present())
                                                 ? ht_with_mapping_table
                                                 : ht_with_mapping_cam;
     }
 
-    if (table.is_sw_decompression_table_used()) {
-        details::triplets_to_sw_decompression_table(triplets_ptr,
-                                                    triplets_count,
-                                                    decompression_table_ptr);
-    }
-
     /* @todo Clarify the logic on hardware path, as hw_decompression_table is not in use currently.
+       Currently, sw/hw/auto path all have the same representation and there is no difference in generating them.
 
        Note:
        During execution (perform_decompress -> decompress_huffman_only -> process_descriptor),
@@ -807,11 +802,10 @@ auto huffman_table_init(decompression_huffman_table &table,
        (see middle-layer/compression/huffman_only/huffman_only_decompression_state.{c,h}pp),
        we then write its data to AECS for Decompress
        (using hw_iaa_aecs_decompress_set_huffman_only_huffman_table). */
-    if (table.is_hw_decompression_table_used()) {
-        details::triplets_to_sw_decompression_table(triplets_ptr,
-                                                    triplets_count,
-                                                    decompression_table_ptr);
-    }
+    details::triplets_to_sw_decompression_table(triplets_ptr,
+                                                triplets_count,
+                                                decompression_table_ptr);
+
 
     return status_list::ok;
 }
