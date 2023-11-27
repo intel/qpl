@@ -40,6 +40,12 @@ Compression with Huffman-only
 .. literalinclude:: ../../../../examples/low-level-api/huffman_only_example.c
     :language: c
 
+Compression with Dictionary
+===========================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/compression_with_dictionary_example.cpp
+    :language: cpp
 
 Multi-chunk Compression with Fixed Block
 ========================================
