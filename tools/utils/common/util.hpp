@@ -18,6 +18,11 @@
 #define HIGH_BIT_MASK 0x80
 #define BYTE_BIT_LENGTH 8u
 
+// Required for version checking in PF tests
+// to ensure that MADV_PAGEOUT is available.
+#define QPL_PF_TESTS_REQ_MAJOR 5U
+#define QPL_PF_TESTS_REQ_MINOR 4U
+
 namespace qpl::test
 {
     static std::vector<hw_compression_level> hw_levels{
