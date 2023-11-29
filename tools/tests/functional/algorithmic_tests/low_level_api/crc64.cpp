@@ -22,6 +22,7 @@
 #include "operation_test.hpp"
 #include "system_info.hpp"
 #include "util.hpp"
+#include "common_defs.hpp"
 
 // utils
 #include "source_provider.hpp"
