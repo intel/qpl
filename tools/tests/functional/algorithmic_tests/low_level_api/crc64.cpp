@@ -233,9 +233,7 @@ namespace qpl::test
     }
 
 #if defined(__linux__)
-
-#include <linux/version.h>
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(QPL_PF_TESTS_REQ_MAJOR,QPL_PF_TESTS_REQ_MINOR,0) // for MADV_PAGEOUT
+#ifdef MADV_PAGEOUT
 
     class CRC64TestPageFault : public CRC64Test
     {
@@ -314,7 +312,7 @@ namespace qpl::test
         EXPECT_EQ(reference_status, library_status);
         ASSERT_EQ(reference_job_ptr->crc64, job_ptr->crc64);
     }
-#endif // #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,4,0)
+#endif // #ifdef MADV_PAGEOUT
 #endif // #if defined(__linux__)
 
 } // namespace qpl::test

@@ -6,12 +6,11 @@
 
 #if defined(__linux__)
 
-#include <linux/version.h>
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(QPL_PF_TESTS_REQ_MAJOR,QPL_PF_TESTS_REQ_MINOR,0) // for MADV_PAGEOUT
-
 #include <sys/mman.h>
 #include <unistd.h>
 #include <errno.h>
+
+#ifdef MADV_PAGEOUT
 
 #include <cstdlib>
 #include <memory>    // unique_ptr
@@ -150,5 +149,5 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_with_page_fault, write, InflateWith
 
 } // namespace qpl::test
 
-#endif // #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,4,0)
+#endif // #ifdef MADV_PAGEOUT
 #endif // #if defined(__linux__)
