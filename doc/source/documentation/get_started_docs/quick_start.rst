@@ -72,7 +72,12 @@ To run the example on the Hardware Path, use:
 
 .. code-block:: shell
 
-    sudo ./compression_example hardware_path
+    ./compression_example hardware_path
+
+.. attention::
+    Either sudo privileges or elevated permissions are required to initialize QPL job with `hardware_path`.
+
+    Refer to the :ref:`accelerator_configuration_reference_link` section for more details about getting permissions.
 
 .. attention::
 

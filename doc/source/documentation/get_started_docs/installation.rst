@@ -61,11 +61,11 @@ via the Intel® QPL source or from the Intel® QPL installed directory:
 
 .. code-block:: shell
 
-   sudo python3 <qpl-library>/tools/scripts/accel_conf.py --load=<path to config file>
+   python3 <qpl-library>/tools/scripts/accel_conf.py --load=<path to config file>
 
 .. code-block:: shell
 
-   sudo python3 <install-dir>/share/QPL/scripts/accel_conf.py <config file> --load=<path to config file>
+   python3 <install-dir>/share/QPL/scripts/accel_conf.py <config file> --load=<path to config file>
 
 With configuration files found at either ``<qpl-library>/tools/configs/`` or ``<install-dir>/share/QPL/configs/``.
 With configuration files of the format ``<# nodes>n<# devices>d<# engines>e<# of workqueues>w-s.conf`` or
@@ -75,14 +75,24 @@ Alternatively, users can use the following commands to directly configure the de
 
 .. code-block:: shell
 
-   sudo accel-config load-config -c <config file>
-   sudo accel-config enable-device <device>
-   sudo accel-config enable-wq <device>/<wq>
+   accel-config load-config -c <config file>
+   accel-config enable-device <device>
+   accel-config enable-wq <device>/<wq>
 
 .. attention::
 
-   Sudo privileges are required to configure Intel® IAA instance.
+   Either sudo privileges or elevated permissions are required to configure Intel® IAA instance.
 
+   If user is non-root, sysadmin with root privileges should give users access to special groups.
+
+   .. code-block:: shell
+
+      useradd iax
+      passwd iax
+      chown -R iax /dev/iax
+      su iax
+
+   Starting from ``accel config`` 3.2, all devices are configured with the ``dsadev`` group, so users can run QPL without root privileges if they belong to that group.
 
 .. _building_library_reference_link:
 
