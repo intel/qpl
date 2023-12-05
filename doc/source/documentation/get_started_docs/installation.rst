@@ -92,7 +92,7 @@ Alternatively, users can use the following commands to directly configure the de
       chown -R iax /dev/iax
       su iax
 
-   Starting from ``accel config`` 3.2, all devices are configured with the ``dsadev`` group, so users can run QPL without root privileges if they belong to that group.
+   Starting from ``accel config`` 3.2, all devices are configured with the ``dsadev`` group, so users can run Intel QPL without root privileges if they belong to that group.
 
 .. _building_library_reference_link:
 
