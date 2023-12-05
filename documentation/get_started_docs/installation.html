@@ -478,24 +478,32 @@ configured with the <code class="docutils literal notranslate"><span class="pre"
 <p>Intel® QPL provides a way to configure Intel® IAA through calling
 either of the following commands based on whether you are setting up
 via the Intel® QPL source or from the Intel® QPL installed directory:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python3<span class="w"> </span>&lt;qpl-library&gt;/tools/scripts/accel_conf.py<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>&lt;qpl-library&gt;/tools/scripts/accel_conf.py<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
 </pre></div>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>python3<span class="w"> </span>&lt;install-dir&gt;/share/QPL/scripts/accel_conf.py<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>&lt;install-dir&gt;/share/QPL/scripts/accel_conf.py<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;<span class="w"> </span>--load<span class="o">=</span>&lt;path<span class="w"> </span>to<span class="w"> </span>config<span class="w"> </span>file&gt;
 </pre></div>
 </div>
 <p>With configuration files found at either <code class="docutils literal notranslate"><span class="pre">&lt;qpl-library&gt;/tools/configs/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install-dir&gt;/share/QPL/configs/</span></code>.
 With configuration files of the format <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s.conf</span></code> or
 <code class="docutils literal notranslate"><span class="pre">&lt;#</span> <span class="pre">nodes&gt;n&lt;#</span> <span class="pre">devices&gt;d&lt;#</span> <span class="pre">engines&gt;e&lt;#</span> <span class="pre">of</span> <span class="pre">workqueues&gt;w-s-n&lt;which</span> <span class="pre">node&gt;.conf</span></code>.</p>
 <p>Alternatively, users can use the following commands to directly configure the device with the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>accel-config<span class="w"> </span>load-config<span class="w"> </span>-c<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;
-sudo<span class="w"> </span>accel-config<span class="w"> </span>enable-device<span class="w"> </span>&lt;device&gt;
-sudo<span class="w"> </span>accel-config<span class="w"> </span>enable-wq<span class="w"> </span>&lt;device&gt;/&lt;wq&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>accel-config<span class="w"> </span>load-config<span class="w"> </span>-c<span class="w"> </span>&lt;config<span class="w"> </span>file&gt;
+accel-config<span class="w"> </span>enable-device<span class="w"> </span>&lt;device&gt;
+accel-config<span class="w"> </span>enable-wq<span class="w"> </span>&lt;device&gt;/&lt;wq&gt;
 </pre></div>
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Sudo privileges are required to configure Intel® IAA instance.</p>
+<p>Either sudo privileges or elevated permissions are required to configure Intel® IAA instance.</p>
+<p>If user is non-root, sysadmin with root privileges should give users access to special groups.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>useradd<span class="w"> </span>iax
+passwd<span class="w"> </span>iax
+chown<span class="w"> </span>-R<span class="w"> </span>iax<span class="w"> </span>/dev/iax
+su<span class="w"> </span>iax
+</pre></div>
+</div>
+<p>Starting from <code class="docutils literal notranslate"><span class="pre">accel</span> <span class="pre">config</span></code> 3.2, all devices are configured with the <code class="docutils literal notranslate"><span class="pre">dsadev</span></code> group, so users can run QPL without root privileges if they belong to that group.</p>
 </div>
 </section>
 <section id="building-the-library">
