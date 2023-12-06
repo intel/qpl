@@ -75,7 +75,7 @@ To run the example on the Hardware Path, use:
     ./compression_example hardware_path
 
 .. attention::
-    Either sudo privileges or elevated permissions are required to initialize QPL job with `hardware_path`.
+    Either sudo privileges or elevated permissions are required to initialize Intel QPL job with `hardware_path`.
 
     Refer to the :ref:`accelerator_configuration_reference_link` section for more details about getting permissions.
 
