@@ -28,6 +28,8 @@
 constexpr const uint32_t source_size = 2048;
 
 auto main(int argc, char** argv) -> int {
+    std::cout << "Intel(R) Query Processing Library version is " << qpl_get_library_version() << ".\n";
+
     // Default to Software Path
     qpl_path_t execution_path = qpl_path_software;
 
@@ -76,10 +78,13 @@ auto main(int argc, char** argv) -> int {
         hw_compr_level = hw_compression_level::HW_LEVEL_1;
     }
 
+    // To build the dictionary, users must provide a raw dictionary.
     // To better improve the compression ratio with dictionary, users should
     // set raw_dict_size to the maximum size of the raw dictionary,
     // refer to Intel® Query Processing Library (Intel® QPL) documentation.
-    // In this example, we use the source data as the raw dictionary
+    // The raw dictionary should contain pieces of data that are most likely to occur in the real
+    // datasets to be compressed.
+    // In this example, to make things simple, we just use the source data as the raw dictionary.
     raw_dict_size = source.size();
     const uint8_t *raw_dict_ptr = source.data();
     dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level,
