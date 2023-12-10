@@ -56,13 +56,26 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     return res;
 }
 
-OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
-        const uint8_t        *const lower_bound_ptr,
-        const uint8_t        *const upper_bound_ptr,
-        deflate_hash_table_t *hash_table_ptr,
-        isal_mod_hist        *histogram_ptr,
-        deflate_icf_stream   *icf_stream_ptr)) {
-            
+/**
+ * @brief Main deflate body function for high-level dynamic mode compression,
+ * returns number of processed bytes.
+ *
+ * @note hash_table_ptr->hash_table_ptr stores head of hash chain for specific hash key,
+ * hash_table_ptr->hash_story_ptr stores and links the positions of strings with the same
+ * hash index. By default, first is initialized to OWN_UNINITIALIZED_INDEX_32u and second to 0.
+ *
+ * @note There's another similar function slow_deflate_body, without "_icf_" in its name.
+ * The difference is that this function writes an "intermediate compressed format" and
+ * increments histogram counters, while the non-icf function writes the actual huffman codes.
+ * The icf version is used for dynamic mode, while the non-icf version
+ * is used for static/fixed mode, or dynamic with mini blocks.
+ **/
+OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
+                                               const uint8_t *const lower_bound_ptr,
+                                               const uint8_t *const upper_bound_ptr,
+                                               deflate_hash_table_t *hash_table_ptr,
+                                               isal_mod_hist        *histogram_ptr,
+                                               deflate_icf_stream   *icf_stream_ptr)) {
 
     const uint8_t*       p_src_tmp;
     const uint8_t*       p_str;
@@ -128,7 +141,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                     #else
                     aUnit = *(const uint64_t*) p_str;
                     #endif
-                    
+
                     for (int k = 0; k < chain_length; k++) {
                         if (!(win_bound < tmp)) {
                             break;
@@ -141,7 +154,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                         }
 
                         #if PLATFORM >= K0
-                        
+
                         if (bound < 32) {
                             bUnit = _mm256_loadu_si256((__m256i const*)p_src_tmp);
                             bUnit = _mm256_cmpeq_epi8(bUnit, aUnit);
@@ -149,7 +162,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                             flag_cmp = ~flag_cmp;
                             flag_cmp = _tzcnt_u32(flag_cmp);
                         #else
-                        
+
                         if (bound < 8) {
                             bUnit = *(const uint64_t*) p_src_tmp;
                             bUnit ^= aUnit;	// 1-bits = difference
@@ -185,7 +198,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                                 flag_cmp = _tzcnt_u32(flag_cmp);
                                 bound += flag_cmp;
 
-                            #else 
+                            #else
 
                             if (flag_cmp != 8) {
                                 continue;
@@ -229,8 +242,8 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                                 flag_cmp = _tzcnt_u32(flag_cmp);
                                 l += flag_cmp;
 
-                            #else 
-                                
+                            #else
+
                             for (l = 0; l < 256; l += 8) {
                                 bUnit = (*(const uint64_t*)(p_str + l)) ^ (*(const uint64_t*)(p_src_tmp + l));
                                 if (bUnit != 0)
@@ -239,7 +252,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                             if (l != 256) {
                                 flag_cmp = tzbytecnt(bUnit);   // count low-order 0-bits
                                 l += flag_cmp;
-                                
+
                             #endif
 
                             } else {
@@ -598,7 +611,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t * current_ptr,
                         p_hash_table[hash_key] = indx_src;
                     }
                 }
-            }   
+            }
         }
     }
     return (uint32_t)(indx_src - src_start);

@@ -82,9 +82,9 @@ static inline uint32_t own_count_significant_bits(uint32_t value) {
 }
 
 static inline void _compute_offset_code(const struct isal_hufftables* huffman_table_ptr,
-    uint16_t offset,
-    uint64_t* const code_ptr,
-    uint32_t* const code_length_ptr) {
+                                        uint16_t offset,
+                                        uint64_t* const code_ptr,
+                                        uint32_t* const code_length_ptr) {
 
         // Variables
         uint32_t significant_bits;
@@ -129,12 +129,24 @@ static void _get_offset_code(const struct isal_hufftables* const huffman_table_p
     }
 }
 
-OWN_QPLC_FUN(uint32_t,slow_deflate_body,(uint8_t *current_ptr,
-                           const uint8_t *const lower_bound_ptr,
-                           const uint8_t *const upper_bound_ptr,
-                           deflate_hash_table_t   *hash_table_ptr,
-                           struct isal_hufftables *huffman_tables_ptr,
-                           struct BitBuf2 *bit_writer_ptr)) {
+/**
+ * @brief Main deflate body function for high-level static/fixed mode compression,
+ * returns number of processed bytes.
+ *
+ * @note There's another similar function named slow_deflate_icf_body, with "_icf_" in its name.
+ * The difference is that this function writes the actual huffman codes,
+ * while the icf version writes an "intermediate compressed format" and
+ * increments histogram counters.
+ * The icf version is used for dynamic mode, while the non-icf version
+ * is used for static/fixed mode, or dynamic with mini blocks.
+ *
+ **/
+OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
+                                          const uint8_t *const lower_bound_ptr,
+                                          const uint8_t *const upper_bound_ptr,
+                                          deflate_hash_table_t   *hash_table_ptr,
+                                          struct isal_hufftables *huffman_tables_ptr,
+                                          struct BitBuf2 *bit_writer_ptr)) {
 
     const uint8_t* p_src_tmp;
     const uint8_t* p_str;
@@ -251,7 +263,7 @@ OWN_QPLC_FUN(uint32_t,slow_deflate_body,(uint8_t *current_ptr,
                                 flag_cmp = _tzcnt_u32(flag_cmp);
                                 bound += flag_cmp;
 
-                            #else 
+                            #else
 
                             if (flag_cmp != 8) {
                                 continue;
@@ -305,7 +317,7 @@ OWN_QPLC_FUN(uint32_t,slow_deflate_body,(uint8_t *current_ptr,
                             if (l != 256) {
                                 flag_cmp = tzbytecnt(bUnit);   // count low-order 0-bits
                                 l += flag_cmp;
-                                
+
                             #endif
 
                             } else {
@@ -379,7 +391,7 @@ OWN_QPLC_FUN(uint32_t,slow_deflate_body,(uint8_t *current_ptr,
                 int bound_lim;
 
                 src_len += MAX_MATCH;
-                for (; ((src_len - indx_src) > 0) && (bit_writer_ptr->m_out_buf < bit_writer_ptr->m_out_end); indx_src++) {
+                for (; (indx_src < src_len) && (bit_writer_ptr->m_out_buf <= bit_writer_ptr->m_out_end); indx_src++) {
                     p_str = p_src + indx_src;
                     win_bound = indx_src - (int)win_size;
                     hash_key = hash_crc(p_str) & hash_mask;
@@ -506,7 +518,9 @@ OWN_QPLC_FUN(uint32_t,slow_deflate_body,(uint8_t *current_ptr,
             {
                 uint64_t code;
                 uint32_t code_length;
-                for (src_len += (MIN_MATCH4 - 1); ((src_len - indx_src) > 0) && (bit_writer_ptr->m_out_buf < bit_writer_ptr->m_out_end); indx_src++) {
+
+                // Process the last few bytes of input where no match can be made and emit literals
+                for (src_len += (MIN_MATCH4 - 1); (indx_src < src_len) && (bit_writer_ptr->m_out_buf <= bit_writer_ptr->m_out_end); indx_src++) {
                     prev_ch = p_src[indx_src];
                     code = huffman_tables_ptr->lit_table[prev_ch];
                     code_length = huffman_tables_ptr->lit_table_sizes[prev_ch];
