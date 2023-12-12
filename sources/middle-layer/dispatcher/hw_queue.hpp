@@ -8,6 +8,7 @@
 #define QPL_SOURCES_MIDDLE_LAYER_DISPATCHER_HW_QUEUE_HPP_
 
 #include <atomic>
+#include <array>
 
 #include "qpl/c_api/status.h"
 #include "hw_status.h"
@@ -19,6 +20,8 @@ namespace qpl::ml::dispatcher {
 class hw_queue {
 public:
     using descriptor_t = void;
+
+    using op_config_register_t = std::array<uint32_t, TOTAL_OP_CFG_BIT_GROUPS>;
 
     hw_queue() noexcept = default;
 
@@ -40,24 +43,22 @@ public:
 
     [[nodiscard]] auto get_block_on_fault() const noexcept -> bool;
 
-    [[nodiscard]] auto is_operation_supported(uint32_t operation) const noexcept -> bool;
-
     [[nodiscard]] auto get_op_configuration_support() const noexcept -> bool;
+
+    [[nodiscard]] auto get_op_config_register() const noexcept -> op_config_register_t;
 
     void set_portal_ptr(void *portal_ptr) noexcept;
 
     virtual ~hw_queue() noexcept;
 
 private:
-    bool                          block_on_fault_ = false;
-    int32_t                       priority_       = 0u;
-    uint64_t                      portal_mask_    = 0u;               /**< Mask for incrementing portals */
-    mutable void                  *portal_ptr_    = nullptr;
-    mutable std::atomic<uint64_t> portal_offset_  = 0u;               /**< Portal for enqcmd (mod page size)*/
-    bool                          op_cfg_enabled_ = false;
-
-    uint32_t                      op_cfg_register_[TOTAL_OP_CFG_BIT_GROUPS]  =
-                                    {0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u}; /**< OPCFG register content */
+    bool                          block_on_fault_  = false;
+    int32_t                       priority_        = 0u;
+    uint64_t                      portal_mask_     = 0u;               /**< Mask for incrementing portals */
+    mutable void                  *portal_ptr_     = nullptr;
+    mutable std::atomic<uint64_t> portal_offset_   = 0u;               /**< Portal for enqcmd (mod page size)*/
+    bool                          op_cfg_enabled_  = false;
+    op_config_register_t          op_cfg_register_ = {};               /**< OPCFG register content */
 };
 
 }

@@ -59,27 +59,24 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
 auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status {
     static thread_local std::uint32_t wq_idx = 0;
     bool is_op_supported_by_wq = false;
+    uint32_t operation = hw_iaa_descriptor_get_operation((hw_descriptor *)desc_ptr);
 
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
     for (uint64_t try_count = 0u; try_count < queue_count_; ++try_count) {
         hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) desc_ptr, working_queues_[wq_idx].get_block_on_fault());
-        if ( working_queues_[wq_idx].get_op_configuration_support() &&
-            !working_queues_[wq_idx].is_operation_supported(hw_iaa_descriptor_get_operation((hw_descriptor *)desc_ptr))) {
+        // If OPCFG functionality exists, check OPCFG register before submitting, otherwise try submission
+        if ( !op_cfg_enabled_ || get_operation_supported_on_wq(wq_idx, operation)){
             // For submitting when OPCFG is supported, logic is :
             //   If all WQs don't support operation, return HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ
             //   If any WQ supports operation, but submission fails, then return HW_ACCELERATOR_WQ_IS_BUSY
-            wq_idx = (wq_idx+1) % queue_count_;
-            continue;
-        }
-        else {
             qpl_status enqueue_status = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
-            wq_idx = (wq_idx+1) % queue_count_;
             is_op_supported_by_wq = true;
             if (QPL_STS_OK == enqueue_status) {
                 return HW_ACCELERATOR_STATUS_OK;
             }
         }
+        wq_idx = (wq_idx+1) % queue_count_;
     }
     if (!is_op_supported_by_wq) {
         return HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ;
@@ -135,6 +132,10 @@ auto hw_device::get_header_gen_support() const noexcept -> bool {
 
 auto hw_device::get_dict_compress_support() const noexcept -> bool {
     return IC_DICT_COMP(iaa_cap_register_);
+}
+
+auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool {
+    return OC_GET_OP_SUPPORTED(op_configs_[wq_idx], operation);
 }
 
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status {
@@ -220,6 +221,16 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     if (queue_count_ == 0) {
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
+
+    // Logic for op_cfg_enabled_ value
+    op_cfg_enabled_ = working_queues_[0].get_op_configuration_support();
+
+    for (uint32_t wq_idx = 0; wq_idx < queue_count_; wq_idx++) {
+        for (uint32_t register_index = 0 ; register_index < TOTAL_OP_CFG_BIT_GROUPS; register_index++) {
+            op_configs_[wq_idx] = working_queues_[wq_idx].get_op_config_register();
+        }
+    }
+
 
     return HW_ACCELERATOR_STATUS_OK;
 }

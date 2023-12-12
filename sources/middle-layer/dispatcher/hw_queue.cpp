@@ -168,12 +168,12 @@ auto hw_queue::get_block_on_fault() const noexcept -> bool {
     return block_on_fault_;
 }
 
-auto hw_queue::is_operation_supported(uint32_t operation) const noexcept -> bool {
-    return OC_GET_OP_SUPPORTED(op_cfg_register_, operation);
-}
-
 auto hw_queue::get_op_configuration_support() const noexcept -> bool {
     return op_cfg_enabled_;
+}
+
+auto hw_queue::get_op_config_register() const noexcept -> op_config_register_t {
+    return op_cfg_register_;
 }
 }
 #endif //__linux__
