@@ -20,6 +20,8 @@ corresponds to no output modification. The other three values invoke
 output modification.
 
 
+.. _analytics_output_modifications_nominal_bit_vector_reference_link:
+
 Output Modification for Nominal Bit Vector Output
 *************************************************
 

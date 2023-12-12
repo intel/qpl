@@ -417,11 +417,16 @@ This also reads a bit vector from <code class="docutils literal notranslate"><sp
 If you take the output of expand and perform a select operation on it
 (with the same bit vector as <code class="docutils literal notranslate"><span class="pre">source-2</span></code>),
 then you get back the same data as the original <code class="docutils literal notranslate"><span class="pre">source-1</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The output of expand may not be in a format readable by the select operation
+(for example, in the case mentioned in <a class="reference internal" href="c_operations_output_modification.html#analytics-output-modifications-nominal-bit-vector-reference-link"><span class="std std-ref">Output Modification for Nominal Bit Vector Output</span></a>)</p>
+</div>
 <p>In this operation, the bit-width of the output is the same as the bit
-width of <code class="docutils literal notranslate"><span class="pre">source-1</span></code>, but the number of output elements is equal to the
-number of input elements on <code class="docutils literal notranslate"><span class="pre">source-2</span></code>. So for this operation, the job
-field <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.num_input_elements" title="qpl_job.num_input_elements"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.num_input_elements</span></code></a> actually contains the number of elements in
-<code class="docutils literal notranslate"><span class="pre">source-2</span></code> rather than <code class="docutils literal notranslate"><span class="pre">source-1</span></code>.</p>
+width of <code class="docutils literal notranslate"><span class="pre">source-1</span></code> (unless explicitly changed by <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.out_bit_width" title="qpl_job.out_bit_width"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.out_bit_width</span></code></a>)
+but the number of output elements is equal to the number of input elements on
+<code class="docutils literal notranslate"><span class="pre">source-2</span></code>. So for this operation, the job field <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.num_input_elements" title="qpl_job.num_input_elements"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.num_input_elements</span></code></a>
+actually contains the number of elements in <code class="docutils literal notranslate"><span class="pre">source-2</span></code> rather than <code class="docutils literal notranslate"><span class="pre">source-1</span></code>.</p>
 <p>Each 0-bit from <code class="docutils literal notranslate"><span class="pre">source-2</span></code> writes a zero to the output. Each 1-bit writes
 the next entry from <code class="docutils literal notranslate"><span class="pre">source-1</span></code>.</p>
 </section>
