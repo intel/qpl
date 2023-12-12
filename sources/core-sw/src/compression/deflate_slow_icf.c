@@ -491,7 +491,6 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                     int k;
 
                     dist = (uint16_t)(indx_src - index);
-                    length = (uint8_t)(bound - 3);
                     get_distance_icf_code(dist, &distance, &extra_bits);
                     own_write_deflate_icf(icf_stream_ptr->next_ptr, bound + LEN_OFFSET, distance, extra_bits);
                     icf_stream_ptr->next_ptr++;
