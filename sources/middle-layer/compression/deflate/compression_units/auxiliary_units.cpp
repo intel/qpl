@@ -349,7 +349,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
 
         internal = false;
         if (stream.isal_stream_ptr_->total_in - total_start < history_size + buffered_size) {
-            internal = true;
+            internal = true; // We are copying data into the internal buffer for compression
 
             if (isal_state->b_bytes_processed > history_size) {
                 uint32_t copy_start_offset = isal_state->b_bytes_processed - history_size;
@@ -448,15 +448,15 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
         state = internal_state;
     } while (!status && internal && stream.isal_stream_ptr_->avail_in && stream.isal_stream_ptr_->avail_out);
 
-    if (!internal) {
+    if (internal) {
         stream.isal_stream_ptr_->next_in  -= buffered_size;
         stream.isal_stream_ptr_->avail_in += buffered_size;
         stream.isal_stream_ptr_->total_in -= buffered_size;
-
+        isal_state->b_bytes_valid -= buffered_size;
+    } else {
         memmove(isal_state->buffer, stream.isal_stream_ptr_->next_in - history_size, history_size);
         isal_state->b_bytes_processed = history_size;
         isal_state->b_bytes_valid     = history_size;
-        buffered_size                 = 0;
     }
 
     return status;
