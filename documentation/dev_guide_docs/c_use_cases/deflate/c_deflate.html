@@ -415,8 +415,10 @@ DEFLATE (Deflate) lossless data compression file format
 as specified in <a class="reference external" href="https://www.rfc-editor.org/info/rfc1951">RFC 1951</a>.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Compression and decompression for the Deflate stream are supported
-with a history buffer no larger than 4 KB.</p>
+<p>In Intel QPL, compression is always done using a history buffer size of 4 KB.
+Decompression is supported for Deflate streams where the size of the
+history buffer is no more than 4 KB, otherwise <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_BAD_DIST_ERR" title="QPL_STS_BAD_DIST_ERR"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_ERR</span></code></a> code is
+returned.</p>
 </div>
 <p>For more details on various supported Deflate flavors, refer to
 <a class="reference internal" href="c_deflate_compression.html#compressed-data-format-reference-link"><span class="std std-ref">the Deflate Compression</span></a> section.

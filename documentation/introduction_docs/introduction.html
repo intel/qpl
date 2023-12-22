@@ -517,9 +517,14 @@ function used for database queries “on the fly”, avoiding use of memory
 bandwidth for uncompressed raw data transfer.</p>
 <p>Intel QPL supports decompression compatible with the Deflate compression
 standard described in RFC 1951. The uncompressed data may be written
-directly to memory or passed to the input of the filter function.
+directly to memory or passed to the input of the filter function.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>In Intel QPL, compression is always done using a history buffer size of 4 KB.
 Decompression is supported for Deflate streams where the size of the
-history buffer is no more than 4 KB.</p>
+history buffer is no more than 4 KB, otherwise <a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_BAD_DIST_ERR" title="QPL_STS_BAD_DIST_ERR"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_ERR</span></code></a> code is
+returned.</p>
+</div>
 <p>The library also supports Deflate compression, along with the
 calculation of arbitrary CRCs.</p>
 <p>The SQL filter function block takes one or two input streams, a primary

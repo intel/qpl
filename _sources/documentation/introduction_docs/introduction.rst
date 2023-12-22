@@ -106,8 +106,13 @@ bandwidth for uncompressed raw data transfer.
 Intel QPL supports decompression compatible with the Deflate compression
 standard described in RFC 1951. The uncompressed data may be written
 directly to memory or passed to the input of the filter function.
-Decompression is supported for Deflate streams where the size of the
-history buffer is no more than 4 KB.
+
+.. attention::
+
+   In Intel QPL, compression is always done using a history buffer size of 4 KB.
+   Decompression is supported for Deflate streams where the size of the
+   history buffer is no more than 4 KB, otherwise :c:macro:`QPL_STS_BAD_DIST_ERR` code is
+   returned.
 
 The library also supports Deflate compression, along with the
 calculation of arbitrary CRCs.
