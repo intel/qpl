@@ -109,12 +109,12 @@ protected:
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_with_page_fault, read, DeflateWithPageFaults) {
-    SKIP_TEST_FOR(qpl_path_software);
+    QPL_SKIP_TEST_FOR(qpl_path_software);
     RunTestDeflatePageFaults(READ_SRC_1_PAGE_FAULT);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_with_page_fault, write, DeflateWithPageFaults) {
-    SKIP_TEST_FOR(qpl_path_software);
+    QPL_SKIP_TEST_FOR(qpl_path_software);
     RunTestDeflatePageFaults(WRITE_PAGE_FAULT);
 }
 

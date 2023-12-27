@@ -9,6 +9,7 @@
 #include "tn_common.hpp"
 #include "random_generator.h"
 #include "huffman_table_unique.hpp"
+#include "util.hpp"
 
 namespace qpl::test
 {
@@ -143,9 +144,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_bl
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block_overflow) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "High level compression is not supported on hardware path.";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
     qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
@@ -190,9 +189,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_overflow) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "High level compression is not supported on hardware path.";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
     qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
@@ -238,9 +235,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_bloc
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_overflow) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "High level compression is not supported on hardware path.";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
     qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
 
@@ -265,9 +260,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_o
  * @note The source buffer size and data is hardcoded to simulate this edge case.
  */
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_slop) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "High level compression is not supported on hardware path.";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
     // This hardcoded source data and size will result in a compressed stream of 10 Bytes.
     // The destination buffer (14 Bytes) is not large enough to accomodate the compressed

@@ -50,7 +50,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, mask_errors) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, exceeded_limit_errors)
 {
-    SKIP_TEST_FOR(qpl_path_software) << "Software haven't limitation on drop of decompressed bytes";
+    // Software path doesn't have a limitation on drop of decompressed bytes
+    QPL_SKIP_TEST_FOR(qpl_path_software);
 
     check_double_source_stream_limits_validation(job_ptr, qpl_op_expand, OPERATION_FLAGS);
 }

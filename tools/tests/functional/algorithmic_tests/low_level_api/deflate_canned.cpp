@@ -7,11 +7,12 @@
 #include <array>
 #include <memory>
 #include <stdint.h>
+
 #include "operation_test.hpp"
 #include "source_provider.hpp"
 #include "ta_ll_common.hpp"
-
 #include "huffman_table_unique.hpp"
+#include "util.hpp"
 
 namespace qpl::test {
 template <class Iterator>
@@ -354,9 +355,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFixture) {
     auto path = GetExecutionPath();
 
-    if (qpl_path_t::qpl_path_hardware == path) {
-        GTEST_SKIP_("High level compression is not supported on hardware path");
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path");
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         for (uint32_t mini_block_size = qpl_mblk_size_512; mini_block_size < qpl_mblk_size_32k; mini_block_size++) {
@@ -481,9 +480,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
 
     auto path = GetExecutionPath();
 
-    if (qpl_path_t::qpl_path_hardware == path) {
-        GTEST_SKIP_("High level compression is not supported on hardware path");
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path");
 
     // Create and initialize compression table
     unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
@@ -807,9 +804,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
 // Test if the CRC is correct when reusing job structure
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture) {
     auto path = GetExecutionPath();
-    if (path == qpl_path_hardware) {
-        GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
-    }
+
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Deflate operation doesn't support high compression level on the hardware path");
 
     uint32_t job_size = 0u;
     auto status = qpl_get_job_size(path, &job_size);

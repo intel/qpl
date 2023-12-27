@@ -288,7 +288,7 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(crc64_with_page_fault, read, CRC64TestPageFault)
     {
-        SKIP_TEST_FOR(qpl_path_software);
+        QPL_SKIP_TEST_FOR(qpl_path_software);
 
         bool is_madv_pageout_available = (get_sys_info().kernel_version_numerical.size() >= 2U)
                                          ? ((get_sys_info().kernel_version_numerical[0] >= QPL_PF_TESTS_REQ_MAJOR) &&

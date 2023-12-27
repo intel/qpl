@@ -138,12 +138,12 @@ protected:
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_with_page_fault, read, InflateWithPageFaults) {
-    SKIP_TEST_FOR(qpl_path_software);
+    QPL_SKIP_TEST_FOR(qpl_path_software);
     RunTestInflatePageFaults(READ_SRC_1_PAGE_FAULT);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_with_page_fault, write, InflateWithPageFaults) {
-    SKIP_TEST_FOR(qpl_path_software);
+    QPL_SKIP_TEST_FOR(qpl_path_software);
     RunTestInflatePageFaults(WRITE_PAGE_FAULT);
 }
 

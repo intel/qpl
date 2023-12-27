@@ -297,14 +297,14 @@ namespace qpl::test
         return result_bit_length;
     }
 
-#define SKIP_TEST_FOR(path) \
+#define QPL_SKIP_TEST_FOR(path) \
 if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) \
 GTEST_SKIP()
 
-#define SKIP_TEST_CASE_FOR(path, message) \
-if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) { \
-    testing::AssertionSuccess() << "SKIPPED TEST CASE: " << GetTestCase() << message; \
-    return; }
+#define QPL_SKIP_TEST_FOR_VERBOSE(path, message) \
+if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) \
+GTEST_SKIP_(message)
+
 }
 
 #endif // QPL_TEST_UTIL_HPP

@@ -409,7 +409,7 @@ void decompress_with_chunks(std::vector<uint8_t> &compressed_source,
     qpl_fini_job(decompression_job_ptr);
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateless) {
     // HW dictionary compression is only enabled with single job, and HW compression only supports
     // default level. So, compression path could only be set to the given execution path (SW or HW)
     // for stateless default level tests. For other tests, compression path is hardcoded to SW.
@@ -488,7 +488,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -566,7 +566,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -643,7 +643,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -724,7 +724,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_default_stateful_compression_and_decompr
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateless) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -799,7 +799,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -876,7 +876,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -952,7 +952,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1031,7 +1031,7 @@ GTEST_TEST(ta_c_api_dictionary, dynamic_high_stateful_compression_and_decompress
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_default_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
     if (is_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -1107,7 +1107,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1183,7 +1183,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1259,7 +1259,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1338,7 +1338,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_default_stateful_compression_and_decompres
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_high_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateless) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1411,7 +1411,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1487,7 +1487,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1563,7 +1563,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1642,7 +1642,7 @@ GTEST_TEST(ta_c_api_dictionary, fixed_high_stateful_compression_and_decompressio
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
     if (is_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -1737,7 +1737,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1833,7 +1833,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -1929,7 +1929,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -2028,7 +2028,7 @@ GTEST_TEST(ta_c_api_dictionary, static_default_stateful_compression_and_decompre
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateless) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -2120,7 +2120,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -2216,7 +2216,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -2312,7 +2312,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_decompression) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompression) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression_and_decompression) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -2411,7 +2411,7 @@ GTEST_TEST(ta_c_api_dictionary, static_high_stateful_compression_and_decompressi
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
     if (is_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -2532,13 +2532,11 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateful) {
     auto compression_execution_path   = qpl_path_t::qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    if (decompression_execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("HW path dictionary decompression is not supported for canned mode");
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "HW path dictionary decompression is not supported for canned mode");
 
     uint32_t num_iterations = 0;
     sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
@@ -2702,13 +2700,11 @@ GTEST_TEST(ta_c_api_dictionary, canned_default_stateful) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateless) {
     auto compression_execution_path   = qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    if (decompression_execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("HW path dictionary decompression is not supported for canned mode");
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "HW path dictionary decompression is not supported for canned mode");
 
     uint32_t num_iterations = 0;
     sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
@@ -2849,13 +2845,11 @@ GTEST_TEST(ta_c_api_dictionary, canned_high_stateless) {
     }
 }
 
-GTEST_TEST(ta_c_api_dictionary, canned_high_stateful) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateful) {
     auto compression_execution_path   = qpl_path_software;
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    if (decompression_execution_path == qpl_path_hardware) {
-        GTEST_SKIP_("HW path dictionary decompression is not supported for canned mode");
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "HW path dictionary decompression is not supported for canned mode");
 
     uint32_t num_iterations = 0;
     sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;

@@ -13,7 +13,6 @@
 #include "../../../common/execution_wrapper.hpp"
 #include "util.hpp"
 #include "source_provider.hpp"
-
 #include "huffman_table_unique.hpp"
 
 namespace qpl::test {
@@ -268,27 +267,21 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, fixed_blocks_default_level, Defla
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     CompressDynamicMode(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     CompressStaticMode(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level_verify, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     bool omit_verification = false;
@@ -296,9 +289,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level_v
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level_verify, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     bool omit_verification = false;
@@ -306,9 +297,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level_ve
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_default_level_verify, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     bool omit_verification = false;
@@ -316,9 +305,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_default_leve
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_default_level_verify, DeflateTest) {
-    if (GetExecutionPath() == qpl_path_hardware) {
-        GTEST_SKIP() << "Resource management mistake when HW test (replaced by test deflate_high.simple_verify";
-    }
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     bool omit_verification = false;

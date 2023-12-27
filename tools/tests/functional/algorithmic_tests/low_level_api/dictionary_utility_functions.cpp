@@ -14,8 +14,8 @@ namespace qpl::test {
 
 // get_existing_dictionary_size() should match the size given by get_dictionary_size for any given dict
 // This creates a variety of dictionaries from the dataset and checks that the sizes match
-GTEST_TEST(ta_c_api_dictionary, get_existing_dictionary_size) {
-    
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, get_existing_dictionary_size) {
+
     hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
@@ -50,7 +50,7 @@ GTEST_TEST(ta_c_api_dictionary, get_existing_dictionary_size) {
 
 // A simple test to check that the set_dictionary_id and get_dictionary_id functions execute properly
 // Makes sure that the set function sets the same value that the get function returns
-GTEST_TEST(ta_c_api_dictionary, dictionary_id) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dictionary_id) {
 
     sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
     hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
