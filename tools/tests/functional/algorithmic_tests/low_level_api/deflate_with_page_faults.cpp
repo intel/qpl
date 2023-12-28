@@ -74,12 +74,7 @@ protected:
         job_ptr->available_out = dst_size;
         job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN;
 
-        bool is_madv_pageout_available = (get_sys_info().kernel_version_numerical.size() >= 2)
-                                         ? ((get_sys_info().kernel_version_numerical[0] >= QPL_PF_TESTS_REQ_MAJOR) &&
-                                            (get_sys_info().kernel_version_numerical[1] >= QPL_PF_TESTS_REQ_MINOR))
-                                         : false;
-
-        if (is_madv_pageout_available) {
+        if (is_madv_pageout_available()) {
             int err = 0;
 
             if (type == READ_SRC_1_PAGE_FAULT) {

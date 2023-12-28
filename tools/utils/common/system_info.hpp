@@ -183,6 +183,23 @@ static const extended_info_t& get_sys_info()
     return info;
 }
 
+// Required for version checking in PF tests
+// to ensure that MADV_PAGEOUT is available.
+#define QPL_PF_TESTS_REQ_MAJOR 5U
+#define QPL_PF_TESTS_REQ_MINOR 4U
+
+static inline bool is_madv_pageout_available() {
+    bool is_version_ge_5_4 = false;
+#if defined(__linux__)
+    is_version_ge_5_4 = (get_sys_info().kernel_version_numerical.size() >= 2U)
+                        ? ((get_sys_info().kernel_version_numerical[0] > QPL_PF_TESTS_REQ_MAJOR) ||
+                           ((get_sys_info().kernel_version_numerical[0] == QPL_PF_TESTS_REQ_MAJOR) &&
+                            (get_sys_info().kernel_version_numerical[1] >= QPL_PF_TESTS_REQ_MINOR)))
+                        : false;
+#endif
+    return is_version_ge_5_4;
+}
+
 } // namespace qpl::test
 
 #endif // QPL_TOOLS_UTILS_COMMON_SYSTEM_INFO_HPP_

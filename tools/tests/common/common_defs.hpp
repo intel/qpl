@@ -17,9 +17,4 @@ typedef enum
     WRITE_PAGE_FAULT
 } PageFaultType;
 
-// Required for version checking in PF tests
-// to ensure that MADV_PAGEOUT is available.
-#define QPL_PF_TESTS_REQ_MAJOR 5U
-#define QPL_PF_TESTS_REQ_MINOR 4U
-
 #endif // QPL_TESTS_COMMON_COMMON_DEFS_HPP_

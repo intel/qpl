@@ -290,12 +290,7 @@ namespace qpl::test
     {
         QPL_SKIP_TEST_FOR(qpl_path_software);
 
-        bool is_madv_pageout_available = (get_sys_info().kernel_version_numerical.size() >= 2U)
-                                         ? ((get_sys_info().kernel_version_numerical[0] >= QPL_PF_TESTS_REQ_MAJOR) &&
-                                            (get_sys_info().kernel_version_numerical[1] >= QPL_PF_TESTS_REQ_MINOR))
-                                         : false;
-
-        if (is_madv_pageout_available) {
+        if (is_madv_pageout_available()) {
             // swap out a single page of source buffer
             const auto psize = getpagesize();
             int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
