@@ -25,10 +25,6 @@ extern "C" {
 extern void isal_deflate_hash(struct isal_zstream *stream, uint8_t *dict, uint32_t dict_len);
 }
 
-static inline qplc_slow_deflate_body_t_ptr slow_deflate_body() {
-    return (qplc_slow_deflate_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
-}
-
 static inline qplc_setup_dictionary_t_ptr qplc_setup_dictionary() {
     return (qplc_setup_dictionary_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_setup_dictionary_table()[0]);
 }

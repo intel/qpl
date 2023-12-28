@@ -22,7 +22,6 @@
 namespace qpl::ml::compression {
 
 namespace zlib_flags {
-constexpr uint8_t check             = 0x1u | 0x2u | 0x4u | 0x8u | 0x10u;
 constexpr uint8_t dictionary        = 0x20u;
 constexpr uint8_t compression_level = 0x40u | 0x80u;
 }

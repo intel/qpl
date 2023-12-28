@@ -538,7 +538,7 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
         isal_inflate_state temporary_state = {nullptr, 0u, 0u, nullptr, 0u, 0u, 0, {{0u}, {0u}},
                                               {{0u}, {0u}}, (isal_block_state) 0, 0u, 0u, 0u, 0u, 0u,
-                                              0u, 0, 0, 0, 0, 0u, 0, 0, 0, 0, {0u}, {0u}, 0u, 0u, 0u};
+                                              {0u}, 0, 0, 0, 0, 0u, 0, 0, 0, 0, {0u}, {0u}, 0u, 0u, 0u};
 
         // Parse deflate header and load it into the temporary state
         auto status =

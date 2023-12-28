@@ -22,14 +22,14 @@ namespace qpl::ml::compression {
  *
  * This class is a wrapper over the isa-l's hufftables_icf structure.
  * Hufftable_icf consists of the two huffman tables:
- * 
+ *
  * Literals and length(match) table:
  *  - [0:285]   - Huffman Table
  *  - [286:512] - Additional space for the match codes extension (Method: expand_huffman_tables)
  * Offset table:
  *  - [0:29] - Huffman Table
  *  - [30]   - Additional space
- * 
+ *
  * Code is bit-reversed
  */
 class huffman_table_icf final {
@@ -42,7 +42,7 @@ class huffman_table_icf final {
                                         uint32_t end_of_block) noexcept -> uint64_t;
 public:
     huffman_table_icf() noexcept = default;
-    
+
     huffman_table_icf(hufftables_icf *huffman_table_ptr) noexcept;
 
     void init_isal_huffman_tables(hufftables_icf *huffman_table_ptr) noexcept;
@@ -54,7 +54,6 @@ private:
     hufftables_icf                               *huffman_table_      = nullptr;
     uint32_t                                      max_ll_code_index_  = 0;
     uint32_t                                      max_d_code_index_   = 0;
-    bool                                          provided_           = false;
 };
 
 void build_huffman_table_icf(huffman_table_icf &huffman_table, isal_mod_hist *histogram) noexcept;

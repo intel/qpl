@@ -21,8 +21,8 @@
 #include "libaccel_config.h"
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
-static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
-static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
+constexpr uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
+constexpr uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
 
 static inline bool own_search_device_name(const uint8_t *src_ptr,
                                           const uint32_t name,

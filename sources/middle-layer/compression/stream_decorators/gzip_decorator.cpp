@@ -34,7 +34,6 @@ constexpr uint32_t GZIP_HEADER_MIN_BYTE_SIZE = 10u;
 }
 
 namespace gzip_flags {
-constexpr uint8_t text           = 1u;
 constexpr uint8_t crc16          = 2u;
 constexpr uint8_t extra          = 4u;
 constexpr uint8_t name           = 8u;

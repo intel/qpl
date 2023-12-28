@@ -15,6 +15,11 @@
 #include <emmintrin.h>
 #endif
 
+/**
+ * Unused variables which might be used later - warning removal
+ */
+#define MAYBE_UNUSED(x) ((void)x)
+
 namespace qpl::ml {
 
 #ifdef QPL_EFFICIENT_WAIT
@@ -58,6 +63,8 @@ awaiter::~awaiter() noexcept {
         wait_until(start + period_, idle_state_);
     }
 #else
+    MAYBE_UNUSED(period_);
+    MAYBE_UNUSED(idle_state_);
     while (initial_value_ == *address_ptr_) {
         _mm_pause();
     }
