@@ -19,7 +19,6 @@ namespace qpl::ml::compression {
 template <execution_path_t path>
 class huffman_only_decompression_state;
 
-constexpr uint32_t huffman_only_be_buffer_size    = 4096;
 constexpr uint32_t huffman_only_lookup_table_size = 0xFFFF;
 
 template <>
@@ -40,9 +39,6 @@ public:
 
         lookup_table_ptr_ = allocator.allocate<uint8_t, qpl::ml::util::memory_block_t::not_aligned>(
                 huffman_only_lookup_table_size);
-
-        huffman_only_buffer_ptr_ = allocator.allocate<uint8_t, qpl::ml::util::memory_block_t::not_aligned>(
-                huffman_only_be_buffer_size);
 
         // Initialize internal state
         state_->current_source_ptr      = nullptr;
@@ -74,14 +70,11 @@ public:
 
     [[nodiscard]] inline auto get_lookup_table() noexcept -> uint8_t *;
 
-    [[nodiscard]] inline auto get_buffer() noexcept -> uint8_t *;
-
     [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
         size_t size = 0;
 
         size += sizeof(internal_state_fields_t);
         size += sizeof(uint8_t)*huffman_only_lookup_table_size;
-        size += sizeof(uint8_t)*huffman_only_be_buffer_size;
         size += sizeof(uint8_t)*4_kb; // for compress + verify
 
         return static_cast<uint32_t>(size);
@@ -92,7 +85,6 @@ public:
 private:
     internal_state_fields_t *state_;
     uint8_t                 *lookup_table_ptr_;
-    uint8_t                 *huffman_only_buffer_ptr_;
     endianness_t            endianness_ = endianness_t::little_endian;
 };
 
@@ -200,10 +192,6 @@ inline auto huffman_only_decompression_state<execution_path_t::software>::last_b
 
 [[nodiscard]] inline auto huffman_only_decompression_state<execution_path_t::software>::get_lookup_table() noexcept -> uint8_t * {
     return lookup_table_ptr_;
-}
-
-[[nodiscard]] inline auto huffman_only_decompression_state<execution_path_t::software>::get_buffer() noexcept -> uint8_t * {
-    return huffman_only_buffer_ptr_;
 }
 
 [[nodiscard]] inline auto huffman_only_decompression_state<execution_path_t::software>::get_fields() noexcept -> internal_state_fields_t & {

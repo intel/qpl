@@ -50,6 +50,26 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
         // @todo Is it need to set huffman_header off?
     }
 
+    result.completed_bytes_ = stream.isal_stream_ptr_->total_in;
+    result.output_bytes_    = stream.isal_stream_ptr_->total_out;
+    result.last_bit_offset  = stream.last_bits_offset_;
+
+    // output_bytes_ and last_bit_offset need to be changed for BE16 format:
+    // If output_bytes_ is odd, add 1 to it because the size of a compressed stream in BE16 format has to be
+    // even. And if last_bit_offset is 0, it needs to be adjusted to 8.
+    // If output_bytes_ is even, add 8 to last_bit_offset to represent the bits written in the last word,
+    // instead of last byte.
+    if (stream.endianness_ == big_endian) {
+        if (result.output_bytes_% 2 == 1) {
+            result.output_bytes_ = result.output_bytes_ + 1;
+            if (result.last_bit_offset == 0) {
+                result.last_bit_offset = 8;
+            }
+        } else if (result.last_bit_offset != 0) {
+            result.last_bit_offset = result.last_bit_offset + 8;
+        }
+    }
+
     if (result.status_code_ == status_list::ok &&
         stream.is_verification_enabled_ &&
         stream.compression_mode_ != fixed_mode) {
@@ -74,7 +94,7 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
         auto *destination_begin_ptr = stream.allocator_.allocate<uint8_t>(4_kb);
         auto *destination_end_ptr   = destination_begin_ptr + 4_kb;
 
-        verify_state.input(output_begin_ptr, stream.isal_stream_ptr_->next_out)
+        verify_state.input(output_begin_ptr, output_begin_ptr + result.output_bytes_)
                     .crc_seed(stream.crc_seed_)
                     .endianness(stream.endianness_)
                     .last_bits_offset(result.last_bit_offset)
@@ -83,26 +103,6 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
         result.status_code_ = verify_huffman_only<qpl::ml::execution_path_t::software>(verify_state,
                                                                                        decompression_table,
                                                                                        result.checksums_.crc32_);
-    }
-
-    result.completed_bytes_ = stream.isal_stream_ptr_->total_in;
-    result.output_bytes_    = stream.isal_stream_ptr_->total_out;
-    result.last_bit_offset  = stream.last_bits_offset_;
-
-    // output_bytes_ and last_bit_offset need to be changed for BE16 format:
-    // If output_bytes_ is odd, add 1 to it because the size of a compressed stream in BE16 format has to be
-    // even. And if last_bit_offset is 0, it needs to be adjusted to 8.
-    // If output_bytes_ is even, add 8 to last_bit_offset to represent the bits written in the last word,
-    // instead of last byte.
-    if (stream.endianness_ == big_endian) {
-        if (result.output_bytes_% 2 == 1) {
-            result.output_bytes_ = result.output_bytes_ + 1;
-            if (result.last_bit_offset == 0) {
-                result.last_bit_offset = 8;
-            }
-        } else {
-            result.last_bit_offset = result.last_bit_offset + 8;
-        }
     }
 
     return result;

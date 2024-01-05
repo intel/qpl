@@ -97,19 +97,19 @@ uint32_t perform_decompress(qpl_job *const job_ptr) noexcept {
         auto endianness = (job_ptr->flags & QPL_FLAG_HUFFMAN_BE) ? big_endian : little_endian;
 
         if constexpr (path == qpl::ml::execution_path_t::software) {
-            // available_in and ignore_end_bits were set based on BE16 format, update them for normal format:
-            // if ignore_end_bits is greater than 8, in the last 16-bit word, only the first byte
-            // is (partially) written and the second byte is empty. Therefore, subtract available_in by 1 and
-            // ignore_end_bits by 8.
-            if (endianness == big_endian && job_ptr->ignore_end_bits > 8) {
-                job_ptr->available_in -= 1;
-                job_ptr->ignore_end_bits -= 8;
-            }
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)
                     .crc_seed(job_ptr->crc)
                     .endianness(endianness);
-            state.last_bits_offset(static_cast<uint8_t>(qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
+
+           // For BE16, ignore_end_bits can range from 0-15, therefore last_bits_offset is calculated differently:
+           // i.e. for BE16, last_bits_offset = 16 - ignore_end_bits
+           // for normal format, last_bits_offset = 8 - ignore_end_bits
+           if (endianness == big_endian) {
+                state.last_bits_offset(static_cast<uint8_t>(2 * qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
+           } else {
+                state.last_bits_offset(static_cast<uint8_t>(qpl::ml::byte_bits_size - job_ptr->ignore_end_bits));
+           }
         } else {
             state.input(job_ptr->next_in_ptr, job_ptr->next_in_ptr + job_ptr->available_in)
                     .output(job_ptr->next_out_ptr, job_ptr->next_out_ptr + job_ptr->available_out)

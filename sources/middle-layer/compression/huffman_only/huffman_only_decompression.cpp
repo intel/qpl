@@ -73,7 +73,7 @@ static auto perform_huffman_only_decompression(
         uint32_t destination_length,
         const uint8_t *lookup_table_ptr,
         const std::array<huffman_code, huffman_only_number_of_literals> &huffman_table,
-        bool forse_flush_last_bits) noexcept -> decompression_operation_result_t {
+        bool is_big_endian) noexcept -> decompression_operation_result_t {
     // Main cycle
     uint32_t current_symbol_index = 0u;
 
@@ -90,28 +90,24 @@ static auto perform_huffman_only_decompression(
             break;
         }
 
-        // Decoding next symbol
-        const uint16_t next_bits = reader.peak_bits(huffman_code_bit_length);
+        // Decode the next symbol
+        // peek_bits will get the next bits without removing them from the bit buffer
+        reader.set_big_endian(is_big_endian);
+        const uint16_t next_bits = reader.peek_bits(huffman_code_bit_length);
 
-        if (forse_flush_last_bits || !reader.is_overflowed()) {
-            const uint8_t  symbol                     = lookup_table_ptr[next_bits];
-            const uint8_t  current_symbol_code_length = huffman_table[symbol].length;
+        const uint8_t  symbol                     = lookup_table_ptr[next_bits];
 
-            // Shifting bit buffer by code length
-            reader.shift_bits(current_symbol_code_length);
+        // Get the number of bits used to decode the symbol
+        const uint8_t  current_symbol_code_length = huffman_table[symbol].length;
 
-            // Writing symbol to output
-            destination_ptr[current_symbol_index++] = symbol;
+        // Remove the used bits from the bit buffer
+        reader.shift_bits(current_symbol_code_length);
 
-            if (forse_flush_last_bits) {
-                decode_next_symbol = !reader.is_overflowed() || 
-                                     (reader.get_buffer_bit_count() > 0);
-            } else {
-                decode_next_symbol = !reader.is_overflowed();
-            }
-        } else {
-            decode_next_symbol = !reader.is_overflowed();
-        }
+        // Writing symbol to output
+        destination_ptr[current_symbol_index++] = symbol;
+
+        decode_next_symbol = !reader.is_overflowed() ||
+                             (reader.get_buffer_bit_count() > 0);
     } while (decode_next_symbol);
 
     result.output_bytes_    = current_symbol_index;
@@ -143,81 +139,16 @@ auto decompress_huffman_only<execution_path_t::software>(
 
     decompression_operation_result_t result{};
 
-    if (decompression_state.get_endianness() == endianness_t::little_endian) {
-        reader.set_last_bits_offset(last_byte_valid_bits);
-        result = perform_huffman_only_decompression(reader,
-                                                    destination_ptr,
-                                                    available_out,
-                                                    decompression_state.get_lookup_table(),
-                                                    restored_huffman_table,
-                                                    true);
+    reader.set_last_bits_offset(last_byte_valid_bits);
+    bool is_big_endian = decompression_state.get_endianness() == endianness_t::big_endian;
+    result = perform_huffman_only_decompression(reader,
+                                                destination_ptr,
+                                                available_out,
+                                                decompression_state.get_lookup_table(),
+                                                restored_huffman_table,
+                                                is_big_endian);
 
-        result.completed_bytes_ = reader.get_total_bytes_read();
-    } else {
-        auto big_endian_buffer_ptr = reinterpret_cast<uint16_t *>(decompression_state.get_buffer());
-
-        core_sw::util::set_zeros(big_endian_buffer_ptr, huffman_only_be_buffer_size);
-
-        uint32_t total_bytes_read = 0u;
-        uint32_t source_size = static_cast<uint32_t>(std::distance(source_ptr, source_end_ptr));
-
-        auto current_source_ptr = reinterpret_cast<const uint16_t *>(source_ptr);
-
-        // Perform decompression while there are enough bytes in the source
-        // in 4k chunk sizes (which is the size of decompression_state huffman only buffer)
-        while (total_bytes_read < source_size) {
-            uint32_t source_bytes_available = source_size - total_bytes_read;
-
-            bool is_last_chunk = false;
-
-            // Check if this is the last chunk of the input data
-            uint32_t actual_temporary_buffer_size = huffman_only_be_buffer_size;
-            if (source_bytes_available <= huffman_only_be_buffer_size) {
-                actual_temporary_buffer_size = source_bytes_available;
-                is_last_chunk = true;
-            }
-
-            // Perform bit reversing
-            uint32_t current_buffer_index = 0;
-            for (; current_buffer_index < actual_temporary_buffer_size / 2; current_buffer_index++) {
-                big_endian_buffer_ptr[current_buffer_index] = reverse_bits<uint16_t>(*current_source_ptr);
-                current_source_ptr++;
-            }
-
-            // The last chunk can have odd byte length
-            if (is_last_chunk && actual_temporary_buffer_size % 2 == 1) {
-                // If so, read the last byte and perform bit reversing
-                uint16_t temporary_source = *current_source_ptr;
-                big_endian_buffer_ptr[current_buffer_index] = reverse_bits<uint16_t>(temporary_source);
-            }
-
-            if (is_last_chunk) {
-                reader.set_last_bits_offset(last_byte_valid_bits);
-            }
-
-            // Set reversed stream to the bit reader
-            reader.set_source(decompression_state.get_buffer(), decompression_state.get_buffer() + actual_temporary_buffer_size);
-
-            auto iteration_result = perform_huffman_only_decompression(reader,
-                                                                       destination_ptr,
-                                                                       available_out,
-                                                                       decompression_state.get_lookup_table(),
-                                                                       restored_huffman_table,
-                                                                       is_last_chunk);
-
-            destination_ptr += iteration_result.output_bytes_;
-            available_out   -= iteration_result.output_bytes_;
-            result.output_bytes_    += iteration_result.output_bytes_;
-
-            if (result.status_code_ != status_list::ok) {
-                break;
-            }
-
-            total_bytes_read += reader.get_total_bytes_read();
-        }
-
-        result.completed_bytes_ = total_bytes_read;
-    }
+    result.completed_bytes_ = reader.get_total_bytes_read();
 
     decompression_state.get_fields().crc_value = util::crc32_gzip(destination_begin_ptr,
                                                                   destination_begin_ptr + result.output_bytes_,

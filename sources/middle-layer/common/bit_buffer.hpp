@@ -22,6 +22,7 @@ public:
         bits_in_buffer_ = 0u;
         last_bits_offset_ = 0u;
         is_overflowed_ = false;
+        is_big_endian_ = false;
     }
 
     template<typename input_iterator>
@@ -31,11 +32,12 @@ public:
         current_source_ptr_ = source_begin;
         source_end_ptr_ = source_end;
         is_overflowed_ = false;
+        is_big_endian_ = false;
     }
 
     void load_buffer(uint8_t number_of_bits = 64) noexcept;
 
-    auto peak_bits(uint8_t number_of_bits) noexcept -> uint16_t;
+    auto peek_bits(uint8_t number_of_bits) noexcept -> uint16_t;
 
     void shift_bits(uint8_t nubmer_of_bits) noexcept;
 
@@ -49,6 +51,8 @@ public:
 
     auto is_source_end() noexcept -> bool;
 
+    void set_big_endian(bool is_big_endian) noexcept;
+
 private:
     const uint8_t *source_begin_ptr_;
     const uint8_t *current_source_ptr_;
@@ -59,6 +63,7 @@ private:
     uint8_t  bits_in_buffer_;
 
     bool is_overflowed_;
+    bool is_big_endian_;
 };
 }
 
