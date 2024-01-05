@@ -26,6 +26,14 @@ Canned Mode with Data
 .. literalinclude:: ../../../../examples/low-level-api/canned_mode_with_data_example.cpp
     :language: cpp
 
+
+Canned Mode with Dictionary
+===========================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/canned_mode_with_dictionary_example.cpp
+    :language: cpp
+
 Compression
 ===========
 
