@@ -18,24 +18,30 @@ extern crc32_ieee_by4  ;; Optimized for SLM
 extern crc32_ieee_02
 extern crc32_ieee_base
 
+%ifndef QPL_LIB
 extern crc16_t10dif_01
 extern crc16_t10dif_by4  ;; Optimized for SLM
 extern crc16_t10dif_02
+%endif ; %ifndef QPL_LIB
 extern crc16_t10dif_base
 
 extern crc32_gzip_refl_by8
 extern crc32_gzip_refl_by8_02
 extern crc32_gzip_refl_base
 
+%ifndef QPL_LIB
 extern crc16_t10dif_copy_by4
 extern crc16_t10dif_copy_by4_02
+%endif ; %ifndef QPL_LIB
 extern crc16_t10dif_copy_base
 
 %if (AS_FEATURE_LEVEL) >= 10
 extern crc32_gzip_refl_by16_10
 extern crc32_ieee_by16_10
 extern crc32_iscsi_by16_10
+%ifndef QPL_LIB
 extern crc16_t10dif_by16_10
+%endif ; %ifndef QPL_LIB
 %endif
 
 %include "multibinary.asm"
