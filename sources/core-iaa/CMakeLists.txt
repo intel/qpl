@@ -32,7 +32,7 @@ target_include_directories(core_iaa
 
 set_target_properties(core_iaa PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
-        $<$<C_COMPILER_ID:GNU>:C_STANDARD 17>
+        $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
         CXX_STANDARD 17)
 
 if (WIN32)
@@ -42,7 +42,7 @@ if (WIN32)
 endif ()
 
 target_compile_options(core_iaa
-        PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
+        PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
                                        $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
         PRIVATE $<$<C_COMPILER_ID:MSVC>:${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS};
                                         $<$<CONFIG:Release>:-O2>>)

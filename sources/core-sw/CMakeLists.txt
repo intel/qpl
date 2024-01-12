@@ -44,7 +44,7 @@ foreach(PLATFORM_ID IN LISTS PLATFORMS_LIST)
 
      set_target_properties(qplcore_${PLATFORM_ID} PROPERTIES
                            $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
-                           $<$<C_COMPILER_ID:GNU>:C_STANDARD 17>)
+                           $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>)
 
      if (WIN32)
      target_compile_options(qplcore_${PLATFORM_ID}
@@ -116,11 +116,15 @@ set_target_properties(qplcore_sw_dispatcher PROPERTIES CXX_STANDARD 17)
 target_compile_definitions(qplcore_sw_dispatcher PUBLIC -DQPL_LIB)
 
 target_compile_options(qplcore_sw_dispatcher
-        PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
-                                       ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS};
-                                       $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
-        PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU>:${QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>
+        PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
+                                             $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
+        PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS}>
+        PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU,Clang>:${QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>
         PRIVATE $<$<C_COMPILER_ID:MSVC>:${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS};
                                         ${QPL_WINDOWS_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS}
                                         $<$<CONFIG:Release>:-O2>>
         PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:${QPL_WINDOWS_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>)
+
+if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    target_link_options(qplcore_sw_dispatcher PRIVATE ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS})
+endif ()
