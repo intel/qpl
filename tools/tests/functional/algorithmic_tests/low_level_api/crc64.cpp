@@ -70,17 +70,6 @@ namespace qpl::test
         return os;
     }
 
-    /**
-     * @brief Return address aligned to `alignment` boundary.
-     *
-     * @warning It is user responsibility to ensure correct alignment and enough space
-     * in ptr_in buffer.
-    */
-    static void align_ptr(size_t alignment, void* ptr_in, void** aligned_ptr_out) {
-        std::uintptr_t mask = ~(std::uintptr_t)(alignment - 1U);
-        *aligned_ptr_out = (void *)(((std::uintptr_t)ptr_in + alignment - 1U) & mask);
-    }
-
     class CRC64Test : public ReferenceFixtureWithTestCases<CRC64TestCase>
     {
     protected:

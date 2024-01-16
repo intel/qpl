@@ -146,15 +146,21 @@ namespace qpl::test
         {
             current_test_case = GetTestCase();
 
+            // Generate and fill in source, destination and reference destination.
             SetBuffers();
 
+            // Set specific job parameters to current test case parameters.
             FillJob(job_ptr, current_test_case);
-
             FillJob(reference_job_ptr, current_test_case);
 
+            // (Re-)Initialize some of the parameters to 0 in between iterations.
+            job_ptr->total_in  = 0;
+            job_ptr->total_out = 0;
             job_ptr->crc = 0;
             job_ptr->xor_checksum = 0;
 
+            reference_job_ptr->total_in  = 0;
+            reference_job_ptr->total_out = 0;
             reference_job_ptr->crc = 0;
             reference_job_ptr->xor_checksum = 0;
         }
@@ -178,7 +184,7 @@ namespace qpl::test
             return result;
         }
 
-        virtual void SetBuffers()
+        void GenerateBuffers()
         {
             source_provider source_gen(current_test_case.number_of_elements,
                                        current_test_case.source_bit_width,
@@ -202,10 +208,11 @@ namespace qpl::test
 
             destination.resize(dest_size);
             reference_destination.resize(dest_size);
-            job_ptr->total_in  = 0;
-            job_ptr->total_out = 0;
-            reference_job_ptr->total_in  = 0;
-            reference_job_ptr->total_out = 0;
+        }
+
+        virtual void SetBuffers()
+        {
+            GenerateBuffers();
 
             job_ptr->available_in           = static_cast<uint32_t>(source.size());
             job_ptr->next_in_ptr            = source.data();
