@@ -33,7 +33,7 @@ static statistics_t measure_async(benchmark::State &state, const case_params_t &
     }
     else
     {
-        std::uint32_t numa    = get_current_numa();
+        std::uint32_t numa    = common_params.node_;
         std::uint32_t devices = get_number_of_devices_on_numa(numa);
         res.queue_size        = common_params.queue_size_;
         res.operations        = res.queue_size*devices;
@@ -46,7 +46,7 @@ static statistics_t measure_async(benchmark::State &state, const case_params_t &
     operations.resize(res.operations_per_thread);
     for (auto &operation: operations)
     {
-        operation.init(params, get_mem_cc(common_params.out_mem_), common_params.full_time_, cmd::FLAGS_node);
+        operation.init(params, common_params.node_, get_mem_cc(common_params.out_mem_), common_params.full_time_);
         operation.mem_control(common_params.in_mem_, mem_loc_mask_e::src);
     }
 

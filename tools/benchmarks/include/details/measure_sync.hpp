@@ -37,7 +37,7 @@ static statistics_t measure_sync(benchmark::State &state, const case_params_t &c
     operations.resize(res.queue_size);
     for (auto &operation: operations)
     {
-        operation.init(params, get_mem_cc(common_params.out_mem_), common_params.full_time_, cmd::FLAGS_node);
+        operation.init(params, common_params.node_, get_mem_cc(common_params.out_mem_), common_params.full_time_);
         operation.mem_control(common_params.in_mem_, mem_loc_mask_e::src);
     }
 

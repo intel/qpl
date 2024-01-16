@@ -30,7 +30,7 @@ public:
             // Encode stream
             ops::deflate_params_t comp_params(data, level, huffman, false, false, canned);
             ops::deflate_t<api, com_path> compression;
-            compression.init(comp_params);
+            compression.init(comp_params, common_params.node_);
             compression.async_submit();
             compression.async_wait();
 

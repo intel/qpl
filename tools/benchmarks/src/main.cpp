@@ -53,6 +53,7 @@ static bool init_hw()
     job->available_in = 4;
     job->op           = qpl_op_crc64;
     job->crc64_poly   = poly;
+    job->numa_id      = bench::cmd::FLAGS_node;
 
     status = qpl_submit_job(job);
     if(status != QPL_STS_OK)
@@ -223,24 +224,24 @@ BM_DEFINE_bool(canned_regen, false);
 static void print_help()
 {
     fprintf(stdout,
-            "Common arguments:\n"
-            "benchmark [--dataset=<path>]            - path to generic dataset\n"
-            "          [--block_size=<size>]         - process input data by blocks\n"
-            "          [--queue_size=<size>]         - amount of tasks for single device\n"
-            "          [--batch_size=<size>]         - amount of operations in a single batch\n"
-            "          [--threads=<num>]             - number of threads for asynchronous measurements\n"
-            "          [--node=<num>]                - force specific numa node for the task\n"
-            "          [--in_mem=<location>]         - input memory location: cache, llc (default), ram.\n"
-            "          [--out_mem=<location>]        - output memory location: cache_ram (default), ram\n"
-            "          [--full_time]                 - measure library specific task initialization and destruction\n"
-            "          [--no_hw]                     - run only software implementations\n"
+            "Common Flags:\n"
+            "benchmark [--dataset=<path>]            - Path to folder containing dataset.\n"
+            "          [--block_size=<size>]         - Input data is split by blocks of specified size and each block is processed separately.\n"
+            "                                          If not specified, benchmarks would iterate over multiple block_sizes, incl. processing the full file.\n"
+            "          [--queue_size=<size>]         - Number of tasks for a single device.\n"
+            "          [--batch_size=<size>]         - Number of operations in a single batch.\n"
+            "          [--threads=<num>]             - Number of threads for asynchronous execution.\n"
+            "          [--node=<num>]                - NUMA node for device selection.\n"
+            "                                          If not specified, devices with NUMA nodes matching the NUMA node of the calling process are selected.\n"
+            "          [--in_mem=<location>]         - Input memory type: cache, llc or ram. Set to llc by default. \n"
+            "          [--out_mem=<location>]        - Output memory type: cache_ram or ram. Set to cache_ram by default. \n"
+            "          [--full_time]                 - Include initialization and destruction into measured time. Off by default.\n"
+            "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n"
 
-            "\nCompression/decompression arguments:\n"
-            "benchmark [--canned_part=<num>]         - amount of data used for tables generation:\n"
-            "                                          0 - full file; (0-1) - portion of file. [1-N] - number of blocks\n"
-            "          [--canned_regen]              - regen tables for each part\n"
-
-            "\nDefault benchmark arguments:\n");
+            "\nCompression and Decompression Specific Flags (currently not in use):\n"
+            "benchmark [--canned_part=<num>]         - Amount of data used for tables generation:\n"
+            "                                          0 - full file, float (0-1) - portion of file, integer [1-N] - number of blocks.\n"
+            "          [--canned_regen]              - Regenerate tables for each part. Off by default.\n");
 }
 
 static void parse_local(int* argc, char** argv)

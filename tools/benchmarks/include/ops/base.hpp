@@ -29,7 +29,7 @@ public:
     // - Initialization of operation context (included in full_time)
     // - Initialization of operation arguments (included in full_time)
     template <typename ParamsT>
-    void init(const ParamsT &params, bool cache_control = true, bool full_time = false, std::int32_t numa_id = -1)
+    void init(const ParamsT &params, std::int32_t numa_id = -1, bool cache_control = true, bool full_time = false)
     {
         cache_control_ = cache_control;
         numa_id_       = numa_id;

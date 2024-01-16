@@ -42,7 +42,7 @@ public:
                 stream.buffer = operation.get_result().stream_;
                 ops::inflate_params_t dec_params(stream, data.buffer.size(), false, canned);
                 ops::inflate_t<api, path> decompression;
-                decompression.init(dec_params);
+                decompression.init(dec_params, common_params.node_);
                 decompression.async_submit();
                 decompression.async_wait();
 
