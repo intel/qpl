@@ -414,7 +414,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateless) {
     // default level. So, compression path could only be set to the given execution path (SW or HW)
     // for stateless default level tests. For other tests, compression path is hardcoded to SW.
     auto compression_execution_path = qpl_path_t::qpl_path_software;
-    if (is_dictionary_compress_supported()) {
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() != qpl_path_t::qpl_path_software &&
+        is_iaa_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -1033,7 +1034,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_compression
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
-    if (is_dictionary_compress_supported()) {
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() != qpl_path_t::qpl_path_software &&
+        is_iaa_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -1644,7 +1646,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_compression_a
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
-    if (is_dictionary_compress_supported()) {
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() != qpl_path_t::qpl_path_software &&
+        is_iaa_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -2413,7 +2416,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression_
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateless) {
     auto compression_execution_path = qpl_path_t::qpl_path_software;
-    if (is_dictionary_compress_supported()) {
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() != qpl_path_t::qpl_path_software &&
+        is_iaa_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     }
     auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();

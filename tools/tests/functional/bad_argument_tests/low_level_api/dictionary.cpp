@@ -27,7 +27,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, level_none) {
     }
 
     if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_hardware &&
-        !is_dictionary_compress_supported()) {
+        !is_iaa_dictionary_compress_supported()) {
         GTEST_SKIP() << "Dictionary is not supported in this generation of accelerator";
     }
 
@@ -87,7 +87,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, hw_multi_chunk) {
     }
 
     if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_hardware &&
-        !is_dictionary_compress_supported()) {
+        !is_iaa_dictionary_compress_supported()) {
         GTEST_SKIP() << "Dictionary is not supported in this generation of accelerator";
     }
 

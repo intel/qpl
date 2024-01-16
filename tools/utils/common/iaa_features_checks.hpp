@@ -50,7 +50,7 @@ inline bool are_iaa_gen_2_min_capabilities_present() {
  * since we do not expect to have devices with different generations
  * available on the same host.
 */
-inline bool is_dictionary_compress_supported() {
+inline bool is_iaa_dictionary_compress_supported() {
     bool is_dict_compress_supported = false;
 
 #if defined( __linux__ )
