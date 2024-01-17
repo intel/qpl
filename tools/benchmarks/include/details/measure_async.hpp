@@ -33,7 +33,7 @@ static statistics_t measure_async(benchmark::State &state, const case_params_t &
     }
     else
     {
-        std::uint32_t numa    = common_params.node_;
+        std::uint32_t numa    = (common_params.node_ == -1) ? get_current_numa() : common_params.node_;
         std::uint32_t devices = get_number_of_devices_on_numa(numa);
         res.queue_size        = common_params.queue_size_;
         res.operations        = res.queue_size*devices;
