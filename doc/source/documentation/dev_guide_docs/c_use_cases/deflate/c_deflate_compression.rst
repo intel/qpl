@@ -217,7 +217,9 @@ additional performance cost for verification, the step can be skipped
 with the :c:macro:`QPL_FLAG_OMIT_VERIFY` flag.
 
 .. attention::
-    Currently verification is not performed in case of ``Huffman only BE``.
+    Currently verification is not performed for Huffman-only compression
+    on the hardware path. For more information on Huffman-only, see
+    :ref:`huffman_only_reference_link`.
 
 .. warning::
     Currently compression verification on the software path only works with

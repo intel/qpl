@@ -45,17 +45,9 @@ protected:
         uint32_t seed       = GetSeed();
         uint32_t total_out_ptr[2];
 
-
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
             uint32_t status = QPL_STS_OK;
             source = dataset.second;
-
-            // TODO: resolve verification limitation:
-            // Huffman Only verification currently does not work if buffer is larger than 4KB
-            // therefore this workaround temporarily truncates the source buffer if verify is enabled
-            if (!omit_verification) {
-                source.resize(4096);
-            }
 
             destination.resize(source.size() * 2);
             std::fill(destination.begin(), destination.end(), 0u);
@@ -162,13 +154,6 @@ protected:
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
             uint32_t status = QPL_STS_OK;
             source = dataset.second;
-
-            // TODO: resolve verification limitation:
-            // Huffman Only verification currently does not work if buffer is larger than 4KB
-            // therefore this workaround temporarily truncates the source buffer if verify is enabled
-            if (!omit_verification) {
-                source.resize(4096);
-            }
 
             destination.resize(source.size() * 2);
             std::fill(destination.begin(), destination.end(), 0u);

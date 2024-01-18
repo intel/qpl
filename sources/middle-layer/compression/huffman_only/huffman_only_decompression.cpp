@@ -163,22 +163,56 @@ auto decompress_huffman_only<execution_path_t::software>(
     return result;
 }
 
+/*
+ * @brief Calculates CRC value while decompressing the compressed stream and compare with the reference CRC from compression
+ * as compression verification
+*/
 template <>
 auto verify_huffman_only<execution_path_t::software>(huffman_only_decompression_state<execution_path_t::software> &state,
                                                      decompression_huffman_table &decompression_table,
                                                      uint32_t required_crc) noexcept -> qpl_ml_status {
-    auto *destination_begin_ptr = state.get_fields().current_destination_ptr;
-    auto *destination_end_ptr   = destination_begin_ptr + state.get_fields().destination_available;
-    decompression_operation_result_t decompression_result {};
+    uint32_t crc_value = state.get_fields().crc_value;
 
+    // Restore huffman table and build the lookup table
+    std::array<huffman_code, huffman_only_number_of_literals> restored_huffman_table;
+    restore_huffman_table(*decompression_table.get_sw_decompression_table(), restored_huffman_table);
+    build_lookup_table(restored_huffman_table, state.get_lookup_table());
+
+    const uint8_t *lookup_table_ptr = state.get_lookup_table();
+
+    const auto *source_ptr = state.get_fields().current_source_ptr;
+    const auto *source_end_ptr = source_ptr + state.get_fields().source_available;
+    bit_reader reader(source_ptr, source_end_ptr);
+    const auto last_byte_valid_bits = state.get_fields().last_bits_offset;
+    reader.set_last_bits_offset(last_byte_valid_bits);
+
+    bool is_big_endian = state.get_endianness() == endianness_t::big_endian;
+    reader.set_big_endian(is_big_endian);
+
+    bool decode_next_symbol = true;
     do {
-        state.output(destination_begin_ptr, destination_end_ptr);
-        decompression_result = decompress_huffman_only<execution_path_t::software>(state, decompression_table);
-    } while ((decompression_result.status_code_ == status_list::ok ||
-              decompression_result.status_code_ == status_list::more_output_needed) &&
-             state.get_input_size() > 0);
+        // Decode the next symbol
+        const uint16_t next_bits = reader.peek_bits(huffman_code_bit_length);
+        const uint8_t  symbol    = lookup_table_ptr[next_bits];
 
-    if (required_crc != state.get_fields().crc_value) {
+        // Get the number of bits used to decode the symbol
+        const uint8_t  current_symbol_code_length = restored_huffman_table[symbol].length;
+
+        // Remove the used bits from the bit buffer
+        reader.shift_bits(current_symbol_code_length);
+
+        // Instead of writing symbol to output, find the CRC of the symbol and update the overall CRC
+        // @todo Add support for crc32 with iscsi polynomial, which should be used if QPL_FLAG_CRC32C is set
+        crc_value = ~crc_value;
+        crc_value = (crc_value >> 8) ^ qpl::ml::util::crc32_table_gzip_refl[(crc_value & 0x000000FF) ^ symbol];
+        crc_value = ~crc_value;
+
+        decode_next_symbol = !reader.is_overflowed() ||
+                             (reader.get_buffer_bit_count() > 0);
+    } while (decode_next_symbol);
+
+
+    if (required_crc != crc_value) {
         return status_list::verify_error;
     } else {
         return status_list::ok;

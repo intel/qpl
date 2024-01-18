@@ -91,14 +91,10 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t *begin,
             return result;
         }
 
-        auto *destination_begin_ptr = stream.allocator_.allocate<uint8_t>(4_kb);
-        auto *destination_end_ptr   = destination_begin_ptr + 4_kb;
-
         verify_state.input(output_begin_ptr, output_begin_ptr + result.output_bytes_)
                     .crc_seed(stream.crc_seed_)
                     .endianness(stream.endianness_)
-                    .last_bits_offset(result.last_bit_offset)
-                    .output(destination_begin_ptr, destination_end_ptr);
+                    .last_bits_offset(result.last_bit_offset);
 
         result.status_code_ = verify_huffman_only<qpl::ml::execution_path_t::software>(verify_state,
                                                                                        decompression_table,

@@ -75,7 +75,6 @@ public:
 
         size += sizeof(internal_state_fields_t);
         size += sizeof(uint8_t)*huffman_only_lookup_table_size;
-        size += sizeof(uint8_t)*4_kb; // for compress + verify
 
         return static_cast<uint32_t>(size);
     }
