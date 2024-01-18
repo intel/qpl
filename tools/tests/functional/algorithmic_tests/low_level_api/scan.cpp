@@ -428,9 +428,12 @@ namespace qpl::test
     public:
         void InitializeTestCases()
         {
-            std::vector<uint32_t> extra_lengths;
-            for (uint32_t i = 0U; i <= 7U; i++)
-                extra_lengths.push_back(i);
+            std::vector<uint32_t> lengths_multiplier;
+
+            // @todo Extend testing to generate several pages of input/output
+            // when logic on touching multiple Pages in case of PF is extended the library.
+            for (uint32_t i = 1U; i <= 1U; i++)
+                lengths_multiplier.push_back(i);
 
             // Following bit widths values are chosen for simplicity.
             // This way the resulting input buffer (next_in_ptr) would be exactly of length size.
@@ -438,14 +441,13 @@ namespace qpl::test
             uint32_t destination_bit_width = 1U;
 
             const uint32_t page_size = getpagesize();
-            for (uint32_t extra_length : extra_lengths)
+            for (uint32_t multiplier : lengths_multiplier)
             {
                 uint32_t max_input_value = (1ULL << source_bit_width) - 1;
 
                 AnalyticTestCase test_case;
-                // Ensure that the buffer would be at least page size long.
-                test_case.number_of_elements    = extra_length +
-                                                  page_size /*to ensure minimum allowed length*/;
+                // For using madvise and aligned_alloc, buffer size should be multiple of page_size.
+                test_case.number_of_elements    = multiplier * page_size;
                 test_case.source_bit_width      = source_bit_width;
                 test_case.destination_bit_width = destination_bit_width;
                 test_case.lower_bound           = max_input_value / 4;
