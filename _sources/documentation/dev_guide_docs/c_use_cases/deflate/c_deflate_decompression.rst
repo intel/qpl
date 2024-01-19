@@ -110,10 +110,6 @@ which follows RFC 3720. To compute the 16-bit XOR checksum, the data is
 treated as 16-bit words. If the data has an odd number of bytes,
 the final byte is zero-extended to 16 bits.
 
-
-
-
-
-
-
+.. warning::
+    The implementation of :c:macro:`QPL_FLAG_CRC32C` is in progress.
 

@@ -60,6 +60,10 @@ polynomial ``0x11edc6f41`` is used, which follows RFC 3720. To compute the
 16-bit XOR checksum, the data is treated as 16-bit words. If the data has an
 odd number of bytes, the final byte is zero-extended to 16 bits.
 
+.. warning::
+
+    The implementation of :c:macro:`QPL_FLAG_CRC32C` is in progress.
+
 For an operation that generates a stream of bytes, like decompression, the
 output stream always ends at a byte boundary. For an operation that generates a
 stream of bits, like scan, the stream is zero-padded to a byte boundary
