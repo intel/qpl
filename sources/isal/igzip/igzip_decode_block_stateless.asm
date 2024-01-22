@@ -757,7 +757,12 @@ invalid_look_back_history_underflow:
 invalid_dist_symbol_ %+ next_sym:
 	cmp	read_in_length, next_sym
 	jl	end_of_input
+%ifdef QPL_LIB
+    mov rax, QPL_AD_ERROR_CODE_BAD_D_CODE
+    jmp end
+%else
 	jmp	invalid_symbol
+%endif
 invalid_dist_symbol_ %+ next_sym3:
 	cmp	read_in_length, next_sym3
 	jl	end_of_input
