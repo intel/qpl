@@ -201,10 +201,13 @@ successful :c:macro:`QPL_STS_OK` status. If the stored blocks do not
 fit, the library returns the :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` status and
 the compression fails.
 
-To avoid this failure, users are suggested to use an output buffer with a size slightly
-larger than the size of the input buffer so that it can accommodate the
-additional headers for stored blocks. This suggestion does not apply to canned
-compression (see :ref:`deflate_compression_structure_canned_reference_link`).
+.. attention::
+    Currently, Intel QPL does not have an API to return maximum compressed size for a given source size.
+    To avoid getting :c:macro:`QPL_STS_MORE_OUTPUT_NEEDED` for incompressible source data, 
+    users are suggested to use an output buffer with a size slightly larger than the size of 
+    the input buffer so that it can accommodate the additional headers for stored blocks. 
+    This suggestion does not apply to canned compression 
+    (see :ref:`deflate_compression_structure_canned_reference_link`).
 
 Compression Verification
 ************************

@@ -603,10 +603,15 @@ the library writes them to the output buffer and returns the
 successful <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_OK" title="QPL_STS_OK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a> status. If the stored blocks do not
 fit, the library returns the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> status and
 the compression fails.</p>
-<p>To avoid this failure, users are suggested to use an output buffer with a size slightly
-larger than the size of the input buffer so that it can accommodate the
-additional headers for stored blocks. This suggestion does not apply to canned
-compression (see <a class="reference internal" href="#deflate-compression-structure-canned-reference-link"><span class="std std-ref">Canned</span></a>).</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Currently, Intel QPL does not have an API to return maximum compressed size for a given source size.
+To avoid getting <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED" title="QPL_STS_MORE_OUTPUT_NEEDED"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a> for incompressible source data,
+users are suggested to use an output buffer with a size slightly larger than the size of
+the input buffer so that it can accommodate the additional headers for stored blocks.
+This suggestion does not apply to canned compression
+(see <a class="reference internal" href="#deflate-compression-structure-canned-reference-link"><span class="std std-ref">Canned</span></a>).</p>
+</div>
 </section>
 <section id="compression-verification">
 <h2>Compression Verification<a class="headerlink" href="#compression-verification" title="Permalink to this heading">#</a></h2>
