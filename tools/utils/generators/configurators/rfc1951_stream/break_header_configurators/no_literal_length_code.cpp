@@ -19,13 +19,22 @@ GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate()
     pLiteralLengthCodesTable = new Gen32u[DEFAULT_LL_TABLE_LENGTH];
     pCodeLengthCodesTable    = new Gen32u[DEFAULT_CL_TABLE_LENGTH];
 
-    makeRandomLengthCodesTable(pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH, MAX_LL_CODE_BIT_LENGTH);
+    // Set default max LL code bit length to 14 bits (MAX_LL_CODE_BIT_LENGTH - 1u)
+    makeRandomLengthCodesTable(pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH, MAX_LL_CODE_BIT_LENGTH - 1u);
     makeRandomLengthCodesTable(pCodeLengthCodesTable, DEFAULT_CL_TABLE_LENGTH, MAX_CL_CODE_BIT_LENGTH);
+
+    numberMissedCodes = static_cast<Gen32u>(rand);
+
+    // Set the max LL code bit length to 15 bits for all missing codes so that all missing codes will end up
+    // at the end of the sorted list of all LL code lengths. This will make sure that the non-missing codes
+    // will have valid distance codes
+    for (Gen32u i = 0u; i < numberMissedCodes; i++)
+    {
+        pLiteralLengthCodesTable[i] = MAX_LL_CODE_BIT_LENGTH;
+    }
 
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
-
-    numberMissedCodes = static_cast<Gen32u>(rand);
 
     for (Gen32u i = 0u; i < numberMissedCodes; i++)
     {
