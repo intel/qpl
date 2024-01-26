@@ -54,8 +54,13 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
     hw_iaa_analytics_descriptor *const desc_ptr = &state_ptr->desc_ptr;
-    hw_iaa_aecs_analytic    *const aecs_ptr = GET_DCFG(state_ptr);
+    hw_iaa_aecs_analytic        *aecs_ptr       = GET_DCFG(state_ptr);
 
+    if (IS_RND_ACCESS_HDR(qpl_job_ptr->flags)) {
+        aecs_ptr = (hw_iaa_aecs_analytic *) ((uint8_t *) (state_ptr->dcfg) + HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
+    }
+
+    HW_IMMEDIATELY_RET_NULLPTR(aecs_ptr);
     last_job = (available_in > MAX_BUF_SIZE) ? 0u : last_job;
 
     // Descriptor buffers set
@@ -79,7 +84,6 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     const bool is_dictionary_mode = (qpl_job_ptr->flags & QPL_FLAG_FIRST ||
                                      !state_ptr->execution_history.first_job_has_been_submitted) &&
                                              qpl_job_ptr->dictionary != NULL;
-
     bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     if (state_ptr->execution_history.first_job_has_been_submitted) {
@@ -90,13 +94,6 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         // Decompress with dictionary
         if (is_dictionary_mode) {
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
-        }
-
-        // Decompress random header
-        if (qpl_job_ptr->ignore_start_bits != 0u) {
-            operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
-            core_sw::util::set_zeros((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
-            aecs_ptr->inflate_options.decompress_state = DEF_STATE_HDR;
         }
 
         // Decompress huffman only
@@ -131,13 +128,14 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
 
     }
 
-    // Set the input accum alignment if we're doing random access
-    if ((qpl_job_ptr->flags & QPL_FLAG_RND_ACCESS)
-        && (hw_iaa_aecs_decompress_is_empty_input_accumulator(&aecs_ptr->inflate_options))) {
-        aecs_ptr->inflate_options.idx_bit_offset = 7u & qpl_job_ptr->ignore_start_bits;
-    }
 
     if (0u != qpl_job_ptr->ignore_start_bits) {
+        if (IS_RND_ACCESS_HDR(qpl_job_ptr->flags)) {
+            operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
+            core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
+            aecs_ptr->inflate_options.idx_bit_offset = 7u & qpl_job_ptr->ignore_start_bits;
+            aecs_ptr->inflate_options.decompress_state = DEF_STATE_HDR;
+        }
         auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
                                                                    desc_ptr->src1_ptr,
                                                                    qpl_job_ptr->available_in,
@@ -149,10 +147,12 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         desc_ptr->src1_ptr  = ++qpl_job_ptr->next_in_ptr;
         desc_ptr->src1_size = --qpl_job_ptr->available_in;
     }
-
     hw_iaa_aecs_decompress_state_set_aecs_format(&aecs_ptr->inflate_options, is_aecs_format2_expected);
 
     // AECS Write policy
+    if (IS_RND_ACCESS_HDR(qpl_job_ptr->flags)) {
+        operation_flags     |= ADOF_AECS_SEL;
+    }
     if (IS_RND_ACCESS_BODY(qpl_job_ptr->flags)) {
         decompression_flags |= ADDF_FLUSH_OUTPUT;
         hw_iaa_aecs_decompress_set_crc_seed(aecs_ptr, qpl_job_ptr->crc);

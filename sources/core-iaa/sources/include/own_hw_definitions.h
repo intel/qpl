@@ -113,6 +113,13 @@ extern "C" {
 #define IS_RND_ACCESS_BODY(flag) \
     (((flag) & (QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST)) == QPL_FLAG_RND_ACCESS)
 
+/**
+ * Random Access Header is FLAG_RND_ACCESS and FLAG_FIRST
+ */
+#define IS_RND_ACCESS_HDR(flag) \
+    (((flag) & (QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST)) == (QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST))
+
+
 #ifdef __GNUC__
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
 #else

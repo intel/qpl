@@ -400,7 +400,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
                                QPL_STS_OPERATION_ERR)
             return hw_submit_analytic_task(qpl_job_ptr);
 
-        case qpl_op_decompress:
+        case qpl_op_decompress: {
             if (qpl_job_ptr->dictionary != NULL && qpl_job_ptr->flags & QPL_FLAG_CANNED_MODE) {
                 // dictionary with canned mode
                 // TODO: remove once it's supported
@@ -416,9 +416,16 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
                 break; // Workaround for header reading
             }
 
+            uint32_t crc = qpl_job_ptr->crc;
             job::reset<qpl_op_decompress>(qpl_job_ptr);
+
+            if (flags & QPL_FLAG_RND_ACCESS){
+                own_hw_state_reset(state_ptr);
+                qpl_job_ptr->crc = crc;
+            }
             state_ptr->aecs_size = HW_AECS_FILTER_AND_DECOMPRESS_WA_HB;
             return hw_submit_task(qpl_job_ptr);
+        }
         case qpl_op_compress:
             if (flags & QPL_FLAG_FIRST) {
                 job::reset<qpl_op_compress>(qpl_job_ptr);
@@ -483,9 +490,10 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     uint32_t source_size = qpl_job_ptr->available_in;
 
     qpl_buffer *const accumulator_ptr = &state_ptr->accumulation_buffer;
-    bool is_last_job = flags & QPL_FLAG_LAST;
+    bool is_last_job      = flags & QPL_FLAG_LAST;
+    bool is_indexing_mode = flags & QPL_FLAG_RND_ACCESS;
 
-    if ((!is_last_job)
+    if ((!is_last_job && !is_indexing_mode)
         && own_qpl_buffer_touch(accumulator_ptr, source_size)) {
         own_qpl_buffer_fill(accumulator_ptr, source_ptr, source_size);
         hw_iaa_completion_record_init_trivial_completion(&state_ptr->comp_ptr, source_size);
