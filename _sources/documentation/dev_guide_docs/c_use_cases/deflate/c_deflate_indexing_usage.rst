@@ -171,12 +171,6 @@ After the job completes, the returned CRC value (in job crc) should
 match the CRC value from the end of the mini-block, in this example 10.
 If it does not match, then the mini-block is not decompressed properly.
 
-.. note::
-
-    The state of decompression with mini-blocks is not saved from job
-    to job. Namely the :c:member:`qpl_job.total_out` will not store the
-    cumulative number of bytes written, but only that job's particular
-    mini-block's number of bytes written.
 
 Single Block Usage
 ==================
