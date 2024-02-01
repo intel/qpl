@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Creating and Using Indices &#8212; Intel® QPL v1.3.1 Documentation</title>
+    <title>Creating and Using Indices &#8212; Intel® QPL v1.4.0 Documentation</title>
   
   
   
@@ -130,7 +130,7 @@
   
   
   
-    <p class="title logo__title">Intel® QPL v1.3.1 Documentation</p>
+    <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -552,6 +552,13 @@ the start of the mini-block. In the previous example, that is from index 1.
 After the job completes, the returned CRC value (in job crc) should
 match the CRC value from the end of the mini-block, in this example 10.
 If it does not match, then the mini-block is not decompressed properly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The state of decompression with mini-blocks is not saved from job
+to job. Namely the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.total_out" title="qpl_job.total_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.total_out</span></code></a> will not store the
+cumulative number of bytes written, but only that job’s particular
+mini-block’s number of bytes written.</p>
+</div>
 </section>
 </section>
 <section id="single-block-usage">
