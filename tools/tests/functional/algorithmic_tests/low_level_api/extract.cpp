@@ -3,19 +3,36 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
-
 #include <vector>
 #include <string>
 #include <numeric>
+#include <cstdlib> //aligned_alloc, free
+#include <memory> // unique_ptr
+
 #include "gtest/gtest.h"
+
 #include "qpl/qpl.h"
-#include "../../../common/analytic_fixture.hpp"
+
+// common
+#include "analytic_fixture.hpp"
 #include "util.hpp"
 #include "source_provider.hpp"
-#include "qpl_api_ref.h"
 #include "ta_ll_common.hpp"
-#include "format_generator.hpp"
 #include "check_result.hpp"
+#include "system_info.hpp" // is_madv_pageout_available()
+#include "common_defs.hpp" // PageFaultType
+
+// ref
+#include "qpl_api_ref.h"
+
+// generator
+#include "format_generator.hpp"
+
+#if defined(__linux__)
+#include <sys/mman.h>
+#include <unistd.h>
+#include <errno.h>
+#endif
 
 namespace qpl::test
 {
@@ -231,10 +248,10 @@ namespace qpl::test
         test_case_counter++;
     }
 
-    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(parquet_extract, bitwidth_mismatch_non_octa_group) 
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(parquet_extract, bitwidth_mismatch_non_octa_group)
     {
         /*
-            This tests the case where input and output bit-widths do not match 
+            This tests the case where input and output bit-widths do not match
             while ending in the middle of a literal octa-group
             for extract operation on parquet format
         */
@@ -242,14 +259,14 @@ namespace qpl::test
         uint32_t    size = 0;
 
         auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-        
+
         status = qpl_get_job_size(execution_path, &size);
         ASSERT_EQ(QPL_STS_OK, status);
 
         auto job_buffer = std::make_unique<uint8_t[]>(size);
         auto job        = reinterpret_cast<qpl_job *>(job_buffer.get());
 
-        
+
         status = qpl_init_job(execution_path, job);
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -262,7 +279,7 @@ namespace qpl::test
         // Reference vector is a an ascending vector of values between [0 .. 15]
         std::vector<uint8_t> reference_vector(parquet_num_values);
         std::iota(reference_vector.begin(), reference_vector.end(), 0);
-        
+
         // Parquet size is 1/2 of number of values (8-bit width to 4-bit width) + 2 (1 byte for bit width, and 1 for format/count)
         const uint8_t parquet_size = (parquet_num_values / 2) + 2;
         std::vector<uint8_t> source(parquet_size, 0);
@@ -280,14 +297,14 @@ namespace qpl::test
                 source[2 + i / 2] |= (reference_vector[i] << 4);
             }
         }
-        
+
         // Arbitrarily picked value (must be 8 < values < 16)
         const uint8_t values_to_extract = 10u;
 
         // Testing all potential output bit widths
         std::vector<qpl_out_format> output_bit_widths = {qpl_ow_8, qpl_ow_16, qpl_ow_32};
 
-        // Output vector is of size 40 to fit {10 (items) * 4 (bytes per 32-bit value)} 
+        // Output vector is of size 40 to fit {10 (items) * 4 (bytes per 32-bit value)}
         std::vector<uint8_t> destination(values_to_extract * 4);
 
         for (auto &output_bit_width: output_bit_widths) {
@@ -295,7 +312,7 @@ namespace qpl::test
             job->op                 = qpl_op_extract;
             job->src1_bit_width     = input_bit_width;
             job->out_bit_width      = output_bit_width;
-            // Start extracting 
+            // Start extracting
             job->param_low          = 0;
             job->param_high         = values_to_extract - 1;
             job->num_input_elements = values_to_extract;
@@ -308,7 +325,7 @@ namespace qpl::test
 
             job->mini_block_size    = qpl_mblk_size_none;
             job->statistics_mode    = qpl_compression_mode;
-            
+
             status = qpl_execute_job(job);
             ASSERT_EQ(QPL_STS_OK, status);
 
@@ -328,4 +345,156 @@ namespace qpl::test
         status = qpl_fini_job(job);
         ASSERT_EQ(QPL_STS_OK, status);
     }
+
+#if defined(__linux__)
+#ifdef MADV_PAGEOUT
+
+    class ExtractTestPageFault : public ExtractTest
+    {
+    public:
+        void InitializeTestCases()
+        {
+            std::vector<uint32_t> lengths_multiplier;
+            // @todo Extend testing to generate several pages of input/output
+            // when logic on touching multiple Pages in case of PF is extended the library.
+            for (uint32_t i = 1U; i <= 1U; i++)
+                lengths_multiplier.push_back(i);
+
+            // Following bit widths values are chosen for simplicity.
+            // This way the resulting input buffer (next_in_ptr) would be exactly of length size.
+            uint32_t source_bit_width      = 8U;
+            uint32_t destination_bit_width = 1U;
+
+            const uint32_t page_size = getpagesize();
+            for (uint32_t multiplier : lengths_multiplier)
+            {
+                AnalyticTestCase test_case;
+
+                test_case.operation             = qpl_op_extract;
+                // For using madvise and aligned_alloc, buffer size should be multiple of page_size.
+                test_case.number_of_elements    = multiplier * page_size;
+                test_case.source_bit_width      = source_bit_width;
+                test_case.destination_bit_width = destination_bit_width;
+                test_case.lower_bound           = test_case.number_of_elements  / 4u;
+                test_case.upper_bound           = (test_case.number_of_elements / 4u) * 3u;
+                test_case.parser                = qpl_p_le_packed_array;
+
+                AddNewTestCase(test_case);
+            }
+        }
+
+        void SetUp() override
+        {
+            AnalyticFixture::SetUp();
+            InitializeTestCases();
+        }
+
+        void SetBuffers() override
+        {
+            GenerateBuffers();
+
+            // Set reference job buffers
+            reference_job_ptr->available_in = static_cast<uint32_t>(source.size());
+            reference_job_ptr->next_in_ptr  = source.data();
+
+            reference_job_ptr->available_out = static_cast<uint32_t>(reference_destination.size());
+            reference_job_ptr->next_out_ptr  = reference_destination.data();
+
+            // Align and set job buffers
+            // Ensure, we initialize to default values,
+            // so that in the case of failed allocation below, library exits right away.
+            job_ptr->next_in_ptr   = nullptr;
+            job_ptr->next_out_ptr  = nullptr;
+            job_ptr->available_in  = 0U;
+            job_ptr->available_out = 0U;
+
+            const uint32_t psize = getpagesize();
+
+            uint8_t *aligned_src_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, source.size()));
+            uint8_t *aligned_dst_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, destination.size()));
+
+            if (aligned_src_buffer == nullptr || aligned_dst_buffer == nullptr) {
+                std::free(aligned_src_buffer);
+                std::free(aligned_dst_buffer);
+
+                return;
+            }
+
+            std::copy(source.begin(), source.end(), aligned_src_buffer);
+            std::copy(destination.begin(), destination.end(), aligned_dst_buffer);
+
+            aligned_src = std::unique_ptr<uint8_t[], void(*)(void*)>(aligned_src_buffer,
+                                                                     std::free);
+
+            aligned_dst = std::unique_ptr<uint8_t[], void(*)(void*)>(aligned_dst_buffer,
+                                                                     std::free);
+
+            job_ptr->next_in_ptr  = aligned_src.get();
+            job_ptr->available_in = static_cast<uint32_t>(source.size());
+
+            job_ptr->next_out_ptr  = aligned_dst.get();
+            job_ptr->available_out = static_cast<uint32_t>(destination.size());
+        }
+
+        void RunTestExtractPageFaults(PageFaultType type) {
+            if (is_madv_pageout_available()) {
+                const uint32_t psize = getpagesize();
+
+                if (type == READ_SRC_1_PAGE_FAULT) {
+                    // Check that we at least have a single page of data
+                    // to avoid swapping out the memory that we don't own.
+                    ASSERT_GE(job_ptr->available_in, psize);
+
+                    int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
+                    if (err) {
+                        int errsv = errno;
+                        ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
+                    }
+                }
+                else if (type == WRITE_PAGE_FAULT) {
+                    // Check that we at least have a single page of data
+                    // to avoid swapping out the memory that we don't own.
+                    ASSERT_GE(job_ptr->available_out, psize);
+
+                    int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
+                    if (err) {
+                        int errsv = errno;
+                        ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
+                    }
+                }
+                else { // not supported
+                    return;
+                }
+
+                ASSERT_EQ(QPL_STS_OK, run_job_api(job_ptr));
+                ASSERT_EQ(QPL_STS_OK, ref_extract(reference_job_ptr));
+
+                // Copy results back to destination to ensure correct postprocessing.
+                std::copy(aligned_dst.get(), aligned_dst.get()+job_ptr->total_out, destination.data());
+
+                EXPECT_TRUE(CompareTotalInOutWithReference());
+                EXPECT_TRUE(compare_checksum_fields(job_ptr, reference_job_ptr));
+                EXPECT_TRUE(CompareVectors(destination, reference_destination));
+            }
+        }
+
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
+    };
+
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract_with_page_fault_read, analytic_only, ExtractTestPageFault)
+    {
+        QPL_SKIP_TEST_FOR(qpl_path_software);
+        RunTestExtractPageFaults(READ_SRC_1_PAGE_FAULT);
+    }
+
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract_with_page_fault_write, analytic_only, ExtractTestPageFault)
+    {
+        QPL_SKIP_TEST_FOR(qpl_path_software);
+        RunTestExtractPageFaults(WRITE_PAGE_FAULT);
+    }
+
+#endif // #ifdef MADV_PAGEOUT
+#endif // #if defined(__linux__)
+
 }

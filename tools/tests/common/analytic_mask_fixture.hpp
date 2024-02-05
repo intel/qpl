@@ -14,7 +14,7 @@ namespace qpl::test
     class AnalyticMaskFixture : public AnalyticFixture
     {
     protected:
-        void SetBuffers() override
+        void GenerateBuffers()
         {
             source_provider source_gen(current_test_case.number_of_elements,
                                        current_test_case.source_bit_width,
@@ -37,6 +37,11 @@ namespace qpl::test
 
             destination.resize(destination_size);
             reference_destination.resize(destination_size);
+        }
+
+        void SetBuffers() override
+        {
+            GenerateBuffers();
 
             job_ptr->available_in             = static_cast<uint32_t>(source.size());
             job_ptr->next_in_ptr              = source.data();
