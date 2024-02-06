@@ -211,7 +211,7 @@ typedef enum {
     QPL_STS_INTL_W_TRANSLATION_PF       = QPL_OPERATION_STATUS(154u), /**< Internal Status Code */
 
 /* ====== Initialization Statuses ====== */
-    QPL_STS_INIT_HW_NOT_SUPPORTED             = QPL_INIT_ERROR(0u), /**< Hardware path is not supported */
+    QPL_STS_INIT_HW_NOT_SUPPORTED             = QPL_INIT_ERROR(0u), /**< Executing using qpl_path_hardware is not supported, check library System Requirements */
     QPL_STS_INIT_LIBACCEL_NOT_FOUND           = QPL_INIT_ERROR(1u), /**< libaccel is not found or not compatible */
     QPL_STS_INIT_LIBACCEL_ERROR               = QPL_INIT_ERROR(2u), /**< libaccel internal error */
     QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE    = QPL_INIT_ERROR(3u), /**< Supported and enabled work queues are not found (May be due to lack of privileges e.g. lack of sudo on linux)*/

@@ -138,6 +138,14 @@ auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint3
     return OC_GET_OP_SUPPORTED(op_configs_[wq_idx], operation);
 }
 
+/**
+ * @brief Function to query device and check its properties.
+ * Returns HW_ACCELERATOR_STATUS_OK upon success and HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE for invalid device.
+ *
+ * @note Special cases are IAA generation 2.0, where IAACAP is expected.
+ * Error code HW_ACCELERATOR_LIBACCEL_NOT_FOUND is returned if libaccel doesn't have API for reading IAACAP
+ * and error code HW_ACCELERATOR_SUPPORT_ERR is returned if IAACAP couldn't be read.
+*/
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);
@@ -180,8 +188,19 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     if (get_iaa_cap_status) {
         // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
         DIAGA("%5s: IAACAP: Failed to read IAACAP, HW gen 2 features will not be used\n", name_ptr);
-        if (version_major_ > 1u) {
-            return HW_ACCELERATOR_LIBACCEL_NOT_FOUND;
+
+        if (version_major_ >= 2u) {
+            // If function for reading IAACAP couldn't be loaded (accfg_device_get_iaa_cap returns positive 1 error code),
+            // then exit with HW_ACCELERATOR_LIBACCEL_NOT_FOUND.
+            // This case means that the libaccel used doesn't have required API.
+            if (get_iaa_cap_status == 1) {
+                return HW_ACCELERATOR_LIBACCEL_NOT_FOUND;
+            }
+            // If IAACAP couldn't be read and libaccel returns negative error code, then exit with HW_ACCELERATOR_SUPPORT_ERR.
+            // This case might mean that the kernel version is too old (IAACAP register was not exposed yet).
+            else {
+                return HW_ACCELERATOR_SUPPORT_ERR;
+            }
         }
     }
 

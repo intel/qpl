@@ -46,8 +46,15 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
     auto device_it    = devices_.begin();
 
     while (nullptr != dev_tmp_ptr) {
-        if (HW_ACCELERATOR_STATUS_OK == device_it->initialize_new_device(dev_tmp_ptr)) {
+        hw_accelerator_status status = device_it->initialize_new_device(dev_tmp_ptr);
+
+        if (HW_ACCELERATOR_STATUS_OK == status) {
             device_it++;
+        }
+        // Special treatment for the cases when libacce-config is old/not available or IAACAP couldn't be read.
+        // Since it doesn't make sense to proceed for these cases.
+        else if (status == HW_ACCELERATOR_LIBACCEL_NOT_FOUND || status == HW_ACCELERATOR_SUPPORT_ERR) {
+            return status;
         }
 
         // Retrieve the "next" device in the system based on given device
