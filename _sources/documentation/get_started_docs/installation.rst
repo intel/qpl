@@ -42,18 +42,18 @@ Execution using Hardware Path available only on Linux* OS.
 
 Additionally, the operating system must meet the following requirements:
 
-- Linux kernel version 5.18 or later. Public versions of Linux
-  kernels can be found here: https://www.kernel.org.
+- Linux kernel version 5.18 or later is required for using the first generation of Intel® In-Memory Analytics Accelerator (Intel® IAA).
+- Linux kernel version 6.3 or later is required for using the second generation of Intel® IAA.
 - Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
+  For details on setup, please refer to "Intel® In-Memory Analytics Accelerator (Intel® IAA) User Guide".
 
 .. _accelerator_configuration_reference_link:
 
 Accelerator Configuration
 *************************
 
-An Intel® In-Memory Analytics Accelerator (Intel® IAA) device can be
-configured with the ``libaccel-config`` library, which can be found at
-https://github.com/intel/idxd-config.
+Intel® IAA device can be configured with the ``libaccel-config`` library,
+which can be found at https://github.com/intel/idxd-config.
 
 Intel® QPL provides a way to configure Intel® IAA through calling
 either of the following commands based on whether you are setting up

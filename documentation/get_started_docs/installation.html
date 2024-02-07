@@ -466,17 +466,17 @@ the best available implementation.</p>
 <p>Execution using Hardware Path available only on Linux* OS.</p>
 <p>Additionally, the operating system must meet the following requirements:</p>
 <ul class="simple">
-<li><p>Linux kernel version 5.18 or later. Public versions of Linux
-kernels can be found here: <a class="reference external" href="https://www.kernel.org">https://www.kernel.org</a>.</p></li>
-<li><p>Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.</p></li>
+<li><p>Linux kernel version 5.18 or later is required for using the first generation of Intel® In-Memory Analytics Accelerator (Intel® IAA).</p></li>
+<li><p>Linux kernel version 6.3 or later is required for using the second generation of Intel® IAA.</p></li>
+<li><p>Virtualization technology for directed I/O (VT-d) is enabled through the BIOS menu.
+For details on setup, please refer to “Intel® In-Memory Analytics Accelerator (Intel® IAA) User Guide”.</p></li>
 </ul>
 </section>
 </section>
 <section id="accelerator-configuration">
 <span id="accelerator-configuration-reference-link"></span><h2>Accelerator Configuration<a class="headerlink" href="#accelerator-configuration" title="Permalink to this heading">#</a></h2>
-<p>An Intel® In-Memory Analytics Accelerator (Intel® IAA) device can be
-configured with the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library, which can be found at
-<a class="github reference external" href="https://github.com/intel/idxd-config">intel/idxd-config</a>.</p>
+<p>Intel® IAA device can be configured with the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library,
+which can be found at <a class="github reference external" href="https://github.com/intel/idxd-config">intel/idxd-config</a>.</p>
 <p>Intel® QPL provides a way to configure Intel® IAA through calling
 either of the following commands based on whether you are setting up
 via the Intel® QPL source or from the Intel® QPL installed directory:</p>
