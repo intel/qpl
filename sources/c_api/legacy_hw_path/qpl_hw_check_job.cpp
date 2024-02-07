@@ -216,8 +216,8 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
     OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr)))
 
-    // Fix for QPL_FLAG_HUFFMAN_BE in IAA 1.0.
-    // The workaround: When writing to the AECS compress Huffman table, if using IAA 1.0 and the job is a LAST job,
+    // Fix for QPL_FLAG_HUFFMAN_BE in Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0.
+    // The workaround: When writing to the AECS compress Huffman table, if using Intel® IAA generation 1.0 and the job is a LAST job,
     // and the job specifies Big-Endian-16 mode: set the Huffman code for LL[256] to be 8 bits of 00.
     // Also, set the compression flag for append EOB at end.
     // When such a job completes (i.e. one modified as above), then the output size should have

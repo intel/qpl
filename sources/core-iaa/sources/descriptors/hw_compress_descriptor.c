@@ -246,8 +246,8 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs, (hw_descriptor *const descri
     if (is_final) {
         this_ptr->compression_flags |= ADCF_FLUSH_OUTPUT;
 
-        // Fix for QPL_FLAG_HUFFMAN_BE in IAA 1.0.
-        // The workaround: When writing to the AECS compress Huffman table, if using IAA 1.0 and the job is a LAST job,
+        // Fix for QPL_FLAG_HUFFMAN_BE in Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0.
+        // The workaround: When writing to the AECS compress Huffman table, if using Intel® IAA 1.0 and the job is a LAST job,
         // and the job specifies Big-Endian-16 mode: set the Huffman code for LL[256] to be 8 bits of 00.
         // Also, set the compression flag for append EOB at end.
         if ((this_ptr->compression_flags & ADCF_COMP_BE) && is_gen1) {

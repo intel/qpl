@@ -32,7 +32,7 @@ extern "C" {
  * @warning The structure address must be 64-byte aligned.
  *
  * @note There are no fields for CRC completion record and you should calculate them on your own using byte offsets listed in
- * Intel IAA specification.
+ * Intel® IAA specification.
  */
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     hw_operation_status status;      /**< Descriptor execution result */

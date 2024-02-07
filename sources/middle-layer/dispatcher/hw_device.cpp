@@ -142,7 +142,8 @@ auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint3
  * @brief Function to query device and check its properties.
  * Returns HW_ACCELERATOR_STATUS_OK upon success and HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE for invalid device.
  *
- * @note Special cases are IAA generation 2.0, where IAACAP is expected.
+ * @note Special cases are Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 2.0,
+ * where IAACAP is expected.
  * Error code HW_ACCELERATOR_LIBACCEL_NOT_FOUND is returned if libaccel doesn't have API for reading IAACAP
  * and error code HW_ACCELERATOR_SUPPORT_ERR is returned if IAACAP couldn't be read.
 */

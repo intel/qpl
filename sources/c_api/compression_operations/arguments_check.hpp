@@ -33,8 +33,8 @@ auto inline bad_arguments_check(const qpl_job *const job_ptr) -> uint32_t {
             return QPL_STS_INVALID_PARAM_ERR;
         }
 
-        // IAA 1.0 limitation: Huffman only decompression with BE16 format cannot work
-        // if ignore_end_bits is greater than 7
+        // Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0 limitation,
+        // Huffman only decompression with BE16 format cannot work if ignore_end_bits is greater than 7
         if (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware) {
             // Check availability of the ignore end bits extension bit
             if (job_ptr->ignore_end_bits > 7u && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
