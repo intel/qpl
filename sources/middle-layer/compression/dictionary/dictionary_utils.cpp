@@ -65,7 +65,7 @@ static inline uint8_t calc_meta(uint16_t data) {
 
 /** @brief Initializes hash table for HW dictionary */
 static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
-    uint32_t raw_dict_size, ptrs_per_entry;
+    uint32_t raw_dict_size, ptrs_per_entry, raw_dict_offset;
     uint32_t data32;
     uint16_t data16;
     uint8_t  meta, *ddata, *hw_hash_table_ptr;
@@ -81,6 +81,7 @@ static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
     ptrs_per_entry = (dictionary.hw_dict_level < hardware_dictionary_level::LEVEL_3) ? 2U : 4U;
     ddata = get_dictionary_data(dictionary);
     hw_hash_table_ptr = get_dictionary_hw_hash_table(dictionary);
+    raw_dict_offset = dictionary.aecs_raw_dictionary_offset;
 
     // 3 bytes in raw dictionary data generate one hash update.
     // So if raw dictionary is less than 3 bytes, we don't generate hash entries
@@ -97,7 +98,7 @@ static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
             meta = 0U;
         hash_val = calc_hash(data32);
         entry = hash_tbl[hash_val];
-        entry = (entry << 16) | (i << 4) | meta;
+        entry = (entry << 16) | ((i + raw_dict_offset) << 4) | meta;
         hash_tbl[hash_val] = entry;
     }
 
