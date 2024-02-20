@@ -4,17 +4,18 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+// ml
 #include "compression/deflate/histogram.hpp"
 #include "util/descriptor_processing.hpp"
-#include "simple_memory_ops.hpp"
 
-#include "deflate_hash_table.h"
-
-#include "../../../c_api/compression_operations/bit_writer.h"
-#include "../../../c_api/compression_operations/own_deflate_job.h"
+// c_api
+#include "compression_operations/bit_writer.h"
+#include "compression_operations/own_deflate_job.h"
 
 // core-sw
+#include "deflate_hash_table.h"
 #include "dispatcher.hpp"
+#include "simple_memory_ops.hpp"
 
 namespace qpl::ml::compression {
 

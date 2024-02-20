@@ -74,7 +74,6 @@ set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
 # Setting external and internal interfaces for ISA-L library
 target_include_directories(isal
                            PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-                           PRIVATE ../include
                            PUBLIC igzip)
 
 set_target_properties(isal PROPERTIES
