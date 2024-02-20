@@ -8,9 +8,12 @@
 #include <array>
 
 #include "compression_huffman_table.hpp"
-#include "../../../common/operation_test.hpp"
 #include "ta_ll_common.hpp"
-#include "../../../common/execution_wrapper.hpp"
+
+// tests_common
+#include "execution_wrapper.hpp"
+#include "operation_test.hpp"
+
 #include "util.hpp"
 #include "source_provider.hpp"
 #include "huffman_table_unique.hpp"

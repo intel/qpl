@@ -8,7 +8,10 @@
 #include "util.hpp"
 #include "source_provider.hpp"
 #include "prle_generator.hpp"
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+
 #include "qpl_api_ref.h"
 #include "ta_ll_common.hpp"
 

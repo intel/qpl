@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "../../../common/operation_test.hpp"
-#include "../../../common/analytic_fixture.hpp"
+// tests_common
+#include "operation_test.hpp"
+#include "analytic_fixture.hpp"
+
 #include "ta_ll_common.hpp"
 #include "ref_min_max_sum.h"
 

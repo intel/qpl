@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 #include "qpl_test_environment.hpp"
 #include "random_generator.h"
-#include "../t_common.hpp"
+#include "t_common.hpp"
 
 #define QPL_TEST_MAX_8U      0xffu
 #define QPL_TEST_MAX_16U     0xffffu

@@ -9,7 +9,7 @@
 #include "gtest/gtest.h"
 #include "qpl_test_environment.hpp"
 #include "random_generator.h"
-#include "../t_common.hpp"
+#include "t_common.hpp"
 #include "util.hpp"
 
 #define QPL_TEST_STS_OK                     QPLC_STS_OK

@@ -13,7 +13,9 @@
 #if defined(__linux__)
 #include <sys/types.h>
 #include <unistd.h>
-#include "../common/execution_wrapper.hpp"
+
+// tests_common
+#include "execution_wrapper.hpp"
 #endif
 
 namespace qpl::test {

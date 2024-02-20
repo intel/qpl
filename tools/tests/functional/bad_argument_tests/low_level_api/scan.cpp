@@ -5,8 +5,11 @@
  ******************************************************************************/
 
 #include "gtest/gtest.h"
+
 #include "tb_ll_common.hpp"
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
 
 namespace qpl::test {
 

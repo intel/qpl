@@ -9,9 +9,12 @@
  *
  */
 
-#include "qpl/c_api/index_table.h"
-#include "../../../common/operation_test.hpp"
 #include "tb_ll_common.hpp"
+
+#include "qpl/c_api/index_table.h"
+
+// tests_common
+#include "operation_test.hpp"
 
 namespace qpl::test {
 

@@ -10,7 +10,7 @@
  */
 
 #include "job.hpp"
-#include "../t_common.hpp"
+#include "t_common.hpp"
 
 namespace qpl::test {
 

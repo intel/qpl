@@ -12,7 +12,10 @@
 #include "qpl/qpl.h"
 #include "gtest/gtest.h"
 #include "ta_ll_common.hpp"
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+
 #include "util.hpp"
 #include "compression_huffman_table.hpp"
 #include "check_result.hpp"

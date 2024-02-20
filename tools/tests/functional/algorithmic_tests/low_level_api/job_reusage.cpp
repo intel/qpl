@@ -8,8 +8,11 @@
 #include <array>
 
 #include "compression_huffman_table.hpp"
-#include "../../../common/operation_test.hpp"
-#include "../../../common/test_cases.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+#include "test_cases.hpp"
+
 #include "ta_ll_common.hpp"
 #include "random_generator.h"
 #include "source_provider.hpp"
@@ -46,14 +49,14 @@ protected:
         // Compression by chunks
 
         qpl::test::random chunk_size(min_chunk_size, file_size, GetSeed());
-        
+
         job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
         job_ptr->next_in_ptr   = source.data();
         job_ptr->available_out = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_out_ptr  = compressed_source.data();
         job_ptr->level         = level;
         job_ptr->op            = qpl_op_compress;
-        
+
 
         auto next_in_chunk = static_cast<uint32_t>(chunk_size);
 

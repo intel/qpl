@@ -6,7 +6,10 @@
 
 #include <algorithm>
 #include <array>
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
 #include "iaa_features_checks.hpp"

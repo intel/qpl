@@ -11,9 +11,12 @@
 
 #include <algorithm>
 
-#include "../../../common/operation_test.hpp"
 #include "tb_ll_common.hpp"
 
+// tests_common
+#include "operation_test.hpp"
+
+// c_api
 #include "qpl/c_api/huffman_table.h"
 
 namespace qpl::test {

@@ -10,8 +10,11 @@
  */
 
 #include <map>
-#include "../../../common/operation_test.hpp"
-#include "../../../common/test_cases.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+#include "test_cases.hpp"
+
 #include "ta_ll_common.hpp"
 #include "source_provider.hpp"
 

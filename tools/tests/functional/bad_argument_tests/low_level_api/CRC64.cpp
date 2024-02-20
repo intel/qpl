@@ -4,16 +4,20 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-/* 
+/*
  *@file
  *@brief Bad Args tests for CRC64 function
- * 
+ *
  */
 
 #include "gtest/gtest.h"
+
 #include "qpl/qpl.h"
+
 #include "tb_ll_common.hpp"
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
 
 #include <array>
 

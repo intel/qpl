@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "../../../common/test_cases.hpp"
-#include "../../../common/operation_test.hpp"
+// tests_common
+#include "test_cases.hpp"
+#include "operation_test.hpp"
 
 #include <memory>
 #include "ta_ll_common.hpp"

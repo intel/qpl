@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../cmd_decl.hpp"
+#include "cmd_decl.hpp"
 
 #ifdef __linux__
 #include <time.h>

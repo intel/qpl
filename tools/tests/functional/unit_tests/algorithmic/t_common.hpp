@@ -8,7 +8,9 @@
 #define QPL_TESTS_FUNCTIONAL_UNIT_TESTS_API_COMMON_H_
 
 #include "gtest/gtest.h"
-#include "../../common/test_name_format.hpp"
+
+// tests_common
+#include "test_name_format.hpp"
 
 #define QPL_UNIT_API_ALGORITHMIC_TEST(entity, test) \
     TEST(QPL_UNIT_SUITE_NAME(ta, entity), test)

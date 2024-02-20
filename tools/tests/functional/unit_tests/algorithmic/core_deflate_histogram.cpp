@@ -11,7 +11,7 @@
 #include "gtest/gtest.h"
 #include "qpl_test_environment.hpp"
 #include "random_generator.h"
-#include "../t_common.hpp"
+#include "t_common.hpp"
 
 #include "deflate_hash_table.h"
 #include "deflate_defs.h"

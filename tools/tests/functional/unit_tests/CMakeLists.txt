@@ -9,8 +9,7 @@
 
 enable_language(CXX)
 
-file(GLOB SOURCES algorithmic/*.cpp
-                  bad_argument/*.cpp)
+file(GLOB SOURCES algorithmic/*.cpp)
 
 add_library(unit_tests OBJECT ${SOURCES} )
 

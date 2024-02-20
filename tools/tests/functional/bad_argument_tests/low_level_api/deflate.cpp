@@ -13,9 +13,15 @@
 #include <array>
 
 #include "gtest/gtest.h"
+
 #include "qpl/qpl.h"
+
 #include "tb_ll_common.hpp"
-#include "../../../common/operation_test.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+
+// tool_common
 #include "util.hpp"
 
 namespace qpl::test {

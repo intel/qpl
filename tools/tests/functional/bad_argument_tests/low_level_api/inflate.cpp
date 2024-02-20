@@ -10,12 +10,16 @@
  *
  */
 
-#include "gtest/gtest.h"
-#include "qpl/qpl.h"
-#include "tb_ll_common.hpp"
-#include "../../../common/operation_test.hpp"
-
 #include <array>
+
+#include "gtest/gtest.h"
+
+#include "qpl/qpl.h"
+
+#include "tb_ll_common.hpp"
+
+// tests_common
+#include "operation_test.hpp"
 
 namespace qpl::test {
 

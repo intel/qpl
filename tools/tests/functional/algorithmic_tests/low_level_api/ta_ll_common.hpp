@@ -7,10 +7,10 @@
 #ifndef QPL_TESTS_FUNCTIONAL_ALGORITHMIC_TESTS_LOW_LEVEL_API_COMMON_H_
 #define QPL_TESTS_FUNCTIONAL_ALGORITHMIC_TESTS_LOW_LEVEL_API_COMMON_H_
 
-#include "../../../common/test_cases.hpp"
-#include "../../../common/test_name_format.hpp"
-
-#include "../../../common/execution_wrapper.hpp"
+// tests_common
+#include "test_cases.hpp"
+#include "test_name_format.hpp"
+#include "execution_wrapper.hpp"
 
 #define QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(operation, test) \
     TEST(ta##_c_api_##operation, test)

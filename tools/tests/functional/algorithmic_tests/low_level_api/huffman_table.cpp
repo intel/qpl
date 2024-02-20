@@ -13,13 +13,20 @@
 #include <array>
 #include <algorithm>
 
-#include "../../../common/operation_test.hpp"
-#include "../../../utils/common/compare_huffman_table.hpp"
 #include "ta_ll_common.hpp"
-#include "random_generator.h"
 
+// c_api
 #include "qpl/c_api/huffman_table.h"
 #include "qpl/c_api/serialization.h"
+
+// tests_common
+#include "operation_test.hpp"
+
+// tool_common
+#include "compare_huffman_table.hpp"
+
+// tool_generator
+#include "random_generator.h"
 
 #define SKIP_TC_TEST(expr, message) if (expr) { std::cout << "skipped test case: " << message << std::endl; return; }
 
