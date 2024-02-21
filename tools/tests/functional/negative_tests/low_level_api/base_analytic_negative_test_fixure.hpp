@@ -8,8 +8,10 @@
 #define QPL_TESTS_NEGATIVE_TESTS_BASE_ANALYTIC_NEGATIVE_TEST_FIXTURE_HPP_
 
 #include "tn_common.hpp"
-#include "../../../common/analytic_fixture.hpp"
-#include "../../../common/job_helper.hpp"
+
+// tests_common
+#include "analytic_fixture.hpp"
+#include "job_helper.hpp"
 
 namespace qpl::test {
 

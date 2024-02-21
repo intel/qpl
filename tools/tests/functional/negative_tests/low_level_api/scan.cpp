@@ -5,9 +5,12 @@
  ******************************************************************************/
 
 #include "tn_common.hpp"
-#include "../../../common/operation_test.hpp"
+
 #include "qpl_api_ref.h"
-#include "../../../common/execution_wrapper.hpp"
+
+// tests_common
+#include "execution_wrapper.hpp"
+#include "operation_test.hpp"
 
 namespace qpl::test {
     /*

@@ -9,9 +9,11 @@
 
 #include "qpl/qpl.h"
 #include <stdexcept>
-#include "../common/operation_test.hpp"
-#include "../common/execution_wrapper.hpp"
-#include "../common/test_cases.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+#include "execution_wrapper.hpp"
+#include "test_cases.hpp"
 
 namespace qpl::test {
     class BaseCRCTestFixture : public testing::Test {
