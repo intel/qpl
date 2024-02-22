@@ -157,7 +157,7 @@ public:
         stream_.destination_current_ptr_ = stream_.data();
 
         if constexpr(path == execution_path_t::software || path == execution_path_t::auto_detect) {
-            auto pack_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
+            auto &pack_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
             stream_.capacity_ = (std::distance(stream_.begin(), stream_.end()) * byte_bits_size)
                                 / stream_.actual_bit_width_;
 
