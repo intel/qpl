@@ -6,8 +6,10 @@
 
 #include <cstring>
 #include "qpl/c_api/huffman_table.h" // qpl_huffman_table_t
-#include "../../../sources/middle-layer/compression/huffman_table/huffman_table.hpp" // huffman_table_t
-#include "../../../sources/middle-layer/util/checkers.hpp" // bad_argument
+
+// middle-layer
+#include "compression/huffman_table/huffman_table.hpp" // huffman_table_t
+#include "util/checkers.hpp" // bad_argument
 
 namespace qpl::test
 {
