@@ -19,7 +19,8 @@
 
 #endif
 
-#include "hw_accelerator_api.h"
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
 
 extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_context *const accel_context_ptr) {

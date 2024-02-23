@@ -11,8 +11,12 @@
 
 #include "array"
 #include "gtest/gtest.h"
-#include "hw_accelerator_api.h"
+
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
+
+// core-iaa
 #include "hw_status.h"
 
 #define QPL_INIT_ALGORITHMIC_TEST(test) TEST(ta_init, test) /**< Algorithmic tests register */

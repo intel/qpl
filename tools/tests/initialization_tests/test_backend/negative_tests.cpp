@@ -9,8 +9,12 @@
  *  Tests
  */
 
-#include "hw_accelerator_api.h"
 #include "gtest/gtest.h"
+
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
+
+// core-iaa
 #include "hw_status.h"
 
 /**

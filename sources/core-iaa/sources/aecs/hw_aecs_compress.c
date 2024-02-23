@@ -9,6 +9,8 @@
 #include "own_hw_definitions.h"
 #include "hw_aecs_api.h"
 #include "own_compress.h"
+
+// c-api
 #include "own_checkers.h"
 
 // core-sw

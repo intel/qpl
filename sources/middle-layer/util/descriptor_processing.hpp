@@ -11,7 +11,9 @@
 #include <emmintrin.h>
 
 #include "hw_definitions.h"
-#include "hw_accelerator_api.h"
+
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 #include "util/hw_status_converting.hpp"
 #include "util/completion_record.hpp"
 #include "util/awaiter.hpp"

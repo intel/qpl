@@ -16,7 +16,8 @@
 // c_api
 #include "job.hpp"
 
-// ML
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 #include "compression/stream_decorators/gzip_decorator.hpp"
 #include "compression/dictionary/dictionary_defs.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
@@ -35,7 +36,6 @@
 #include "hw_descriptors_api.h"
 #include "own_defs.h"
 #include "hardware_defs.h"
-#include "hw_accelerator_api.h"
 
 // legacy_hw_path
 #include "hardware_state.h"

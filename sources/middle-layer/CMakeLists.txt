@@ -10,23 +10,19 @@
 #   - Huffman Table object implementation and (de)compression flow (compression/)
 #   - allocators (common/)
 #   - etc.
-# - logic related to submission to the accelerator (dispatcher/, util/)
+# - logic related to submission to the accelerator (accelerator/, dispatcher/, util/)
 
 enable_language(CXX)
 
-file(GLOB MIDDLE_LAYER_SRC
-        analytics/*.cpp
-        c_wrapper/*.cpp
-        checksum/*.cpp
-        common/*.cpp
-        compression/*.cpp
-        compression/*/*.cpp
-        compression/*/*/*.cpp
-        dispatcher/*.cpp
-        other/*.cpp
-        util/*.cpp
-        inflate/*.cpp
-        ../core-iaa/sources/accelerator/*.cpp) # todo
+file(GLOB MIDDLE_LAYER_SRC accelerator/*.cpp
+                           analytics/*.cpp
+                           common/*.cpp
+                           compression/*.cpp
+                           compression/*/*.cpp
+                           compression/*/*/*.cpp
+                           dispatcher/*.cpp
+                           other/*.cpp
+                           util/*.cpp)
 
 add_library(middle_layer_lib OBJECT
         ${MIDDLE_LAYER_SRC})

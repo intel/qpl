@@ -7,7 +7,8 @@
 #ifndef HW_PATH_ML_HW_API_H_
 #define HW_PATH_ML_HW_API_H_
 
-#include "hw_accelerator_api.h"
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -24,10 +24,12 @@
 #include "hardware_state.h"
 #include "hw_iaa_flags.h"
 #include "hardware_defs.h"
-#include "hw_accelerator_api.h"
 #include "own_ml_submit_operation_api.hpp"
 #include "util/checkers.hpp"
 #include "common/defs.hpp"
+
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 
 // core-iaa/include
 #include "hw_completion_record_api.h"

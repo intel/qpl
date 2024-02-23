@@ -4,16 +4,19 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-project(core_iaa C CXX)
+# Build system for core-iaa layer, that includes:
+# - accel-config loading mechanism (driver_loader/)
+# - logic for filling structures (AECS, descriptor) required for offloading operations to accelerator (aecs/, descriptors/)
+
+cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+
+project(core_iaa C)
 
 # Find Kernels Sources
 file(GLOB HW_PATH_SRC sources/aecs/*.c
-                      sources/aecs/*.cpp
                       sources/driver_loader/*.c
-                      sources/driver_loader/*.cpp
                       sources/descriptors/*.c
-                      sources/descriptors/*.cpp
-                      sources/bit_rev.c)
+                      sources/*.c)
 
 option(BLOCK_ON_FAULT "Use `Block on Fault` flag for descriptor" ON)
 
@@ -26,20 +29,13 @@ set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
 target_include_directories(core_iaa
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources/include>
-        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include>  # status.h in own_checkers.h
-        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/sources/c_api> # own_checkers.h
+        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include>       # for qpl_status and own_checkers.h
+        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/sources/c_api> # for qpl_status and own_checkers.h
         PRIVATE $<TARGET_PROPERTY:qplcore_sw_dispatcher,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set_target_properties(core_iaa PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
-        $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
-        CXX_STANDARD 17)
-
-if (WIN32)
-    modify_standard_language_flag(LANGUAGE_NAME "CXX"
-            FLAG_NAME "/GR"
-            NEW_FLAG_VALUE "-")
-endif ()
+        $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>)
 
 target_compile_options(core_iaa
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};

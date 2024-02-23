@@ -11,8 +11,12 @@
 
 #include "array"
 #include "gtest/gtest.h"
-#include "hw_accelerator_api.h"
+
+// middle-layer
+#include "accelerator/hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
+
+// core-iaa
 #include "hw_status.h"
 
 #define QPL_INIT_BAD_ARGUMENT_TEST(test) TEST(tb_init, test) /**< Bad argument tests register */
