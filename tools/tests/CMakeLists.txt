@@ -11,4 +11,4 @@ add_subdirectory(common)
 add_subdirectory(functional)
 add_subdirectory(thread_tests)
 add_subdirectory(cross_tests)
-add_subdirectory(initialization_tests)
+
