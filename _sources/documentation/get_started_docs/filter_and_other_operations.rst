@@ -33,27 +33,19 @@ Extract
 .. literalinclude:: ../../../../examples/low-level-api/extract_example.cpp
     :language: cpp
 
-Scan
-====
+Scan for Elements Equal to Specific Value
+=========================================
 
 
-.. literalinclude:: ../../../../examples/low-level-api/scan_example.cpp
+.. literalinclude:: ../../../../examples/low-level-api/scan_for_specific_value_example.cpp
     :language: cpp
 
 
-Scan for Unique Value
-=====================
+Scan for Elements in Specific Range
+===================================
 
 
-.. literalinclude:: ../../../../examples/low-level-api/scan_for_unique_value_example.cpp
-    :language: cpp
-
-
-Scan Range
-==========
-
-
-.. literalinclude:: ../../../../examples/low-level-api/scan_range_example.cpp
+.. literalinclude:: ../../../../examples/low-level-api/scan_for_elements_in_range_example.cpp
     :language: cpp
 
 

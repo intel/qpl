@@ -408,7 +408,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-tests">Functional Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-tests">Initialization Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
@@ -432,7 +431,6 @@ are classified into:</p>
 <ul class="simple">
 <li><p>Functional tests</p></li>
 <li><p>Cross tests</p></li>
-<li><p>Initialization tests</p></li>
 <li><p>Fuzz tests</p></li>
 <li><p>Thread tests</p></li>
 </ul>
@@ -502,41 +500,6 @@ To run cross tests, execute the following command:</p>
 <p class="admonition-title">Note</p>
 <p>Running cross tests requires first configuring Intel IAA.
 See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
-</div>
-</section>
-<section id="initialization-tests">
-<h2>Initialization Tests<a class="headerlink" href="#initialization-tests" title="Permalink to this heading">#</a></h2>
-<p>Initialization tests validate library initialization code for
-the correctness of the hardware path. Initialization tests consist of:</p>
-<ul class="simple">
-<li><p>Python frontend that setup different accelerator configurations before testing</p></li>
-<li><p>C++ GoogleTest based backend that runs specific test cases to perform actual testing</p></li>
-</ul>
-<p>To run initialization tests, execute the following commands:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;qpl_library&gt;/tools/tests/initialization_tests/test_frontend
-python<span class="w"> </span>init_tests.py<span class="w"> </span>--test_path<span class="o">=</span>&lt;install_dir&gt;/bin/
-</pre></div>
-</div>
-<p>To see the full list of other available test options, execute the
-following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>init_tests.py<span class="w"> </span>--help
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li><p>Running initialization tests requires first configuring Intel IAA.
-See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p></li>
-<li><p>To see a detailed initialization log, the library must be built with the
-<code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INIT=ON</span></code> CMake option.</p></li>
-<li><p>Initialization tests can be used to validate the existing
-accelerator configuration. To validate configuration correctness,
-execute the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/init_tests<span class="w"> </span>--gtest_filter<span class="o">=</span>*try_init*
-</pre></div>
-</div>
-</li>
-</ul>
 </div>
 </section>
 <section id="fuzz-tests">
@@ -624,7 +587,6 @@ is set to synchronous.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-tests">Functional Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialization-tests">Initialization Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
