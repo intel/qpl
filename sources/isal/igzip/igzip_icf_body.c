@@ -8,7 +8,6 @@
 #include "huffman.h"
 #include "encode_df.h"
 #include "igzip_level_buf_structs.h"
-#include "stdio.h"
 
 extern uint64_t gen_icf_map_lh1(struct isal_zstream *, struct deflate_icf *, uint32_t);
 extern void set_long_icf_fg(uint8_t *, uint64_t, uint64_t, struct deflate_icf *);
@@ -102,10 +101,6 @@ uint64_t gen_icf_map_h1_base(struct isal_zstream *stream,
 		matches_icf_lookup->dist_extra = 0;
 
 		hash = compute_hash(load_u32(next_in)) & hash_mask;
-
-		if (((uint64_t)(next_in - file_start)) >= UINT16_MAX) {
-			printf("AKHUNG!!\n");
-		}
 
 		hash_table[hash] = (uint64_t) (next_in - file_start);
 
