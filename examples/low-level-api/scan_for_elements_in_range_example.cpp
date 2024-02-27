@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-//* [QPL_LOW_LEVEL_SCAN_FOR_UNIQUE_EXAMPLE] */
+//* [QPL_LOW_LEVEL_SCAN_FOR_ELEMENTS_IN_RANGE_EXAMPLE] */
 
 #include <iostream>
 #include <vector>
@@ -14,9 +14,12 @@
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
 
-constexpr const uint32_t source_size     = 250;
-constexpr const uint32_t input_bit_width = 8;
-constexpr const uint32_t boundary        = 48;
+constexpr const uint32_t source_size         = 1000;
+constexpr const uint32_t input_vector_width  = 8;
+constexpr const uint32_t output_vector_width = 32;
+constexpr const uint32_t lower_boundary      = 48;
+constexpr const uint32_t upper_boundary      = 58;
+constexpr const uint32_t byte_bit_length     = 8;
 
 /**
  * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`
@@ -44,11 +47,12 @@ auto main(int argc, char** argv) -> int {
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 0);
-    uint32_t             destination;
+    std::vector<uint8_t> destination(source_size * 4, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
     qpl_status status;
-    uint32_t   size = 0;
+    uint32_t   size     = 0;
+    const auto *indices = reinterpret_cast<const uint32_t *>(destination.data());
 
     // Filling source containers
     std::iota(std::begin(source), std::end(source), 0);
@@ -71,20 +75,24 @@ auto main(int argc, char** argv) -> int {
 
     // Performing an operation
     job->next_in_ptr        = source.data();
-    job->available_in       = source_size;
-    job->next_out_ptr       = (uint8_t *) &destination;
-    job->available_out      = sizeof(destination);
-    job->op                 = qpl_op_scan_eq;
-    job->src1_bit_width     = input_bit_width;
-    job->num_input_elements = source_size;
+    job->available_in       = static_cast<uint32_t>(source.size());
+    job->next_out_ptr       = destination.data();
+    job->available_out      = static_cast<uint32_t>(destination.size());
+    job->op                 = qpl_op_scan_range;
+    job->src1_bit_width     = input_vector_width;
+    job->num_input_elements = static_cast<uint32_t>(source.size());
     job->out_bit_width      = qpl_ow_32;
-    job->param_low          = boundary;
+    job->param_low          = lower_boundary;
+    job->param_high         = upper_boundary;
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
-        std::cout << "An error " << status << " acquired during performing scan.\n";
+        std::cout << "An error " << status << " acquired during performing scan range.\n";
         return 1;
     }
+
+    const auto indices_size_in_bytes    = job->total_out;
+    const auto indices_size_in_elements = indices_size_in_bytes * byte_bit_length / output_vector_width;
 
     // Freeing resources
     status = qpl_fini_job(job);
@@ -94,14 +102,18 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Compare with reference
-    if (source[destination] != boundary) {
-        std::cout << "Scan was done incorrectly.\n";
-        return 1;
+    for (uint32_t i = 0; i < indices_size_in_elements; i++) {
+        const auto element = source[indices[i]];
+
+        if (element < lower_boundary || element > upper_boundary) {
+            std::cout << "Scan range was done incorrectly.\n";
+            return 1;
+        }
     }
 
-    std::cout << "Scan was performed successfully." << std::endl;
+    std::cout << "Scan range was performed successfully." << std::endl;
 
     return 0;
 }
 
-//* [QPL_LOW_LEVEL_SCAN_FOR_UNIQUE_EXAMPLE] */
+//* [QPL_LOW_LEVEL_SCAN_FOR_ELEMENTS_IN_RANGE_EXAMPLE] */

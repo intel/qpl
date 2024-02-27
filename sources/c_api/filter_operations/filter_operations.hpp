@@ -115,14 +115,11 @@ namespace qpl {
  *    - @ref QPL_STS_OPERATION_ERR
  *    - @ref QPL_STS_OUTPUT_OVERFLOW_ERR
  *
- * Example of main usage:
- * @snippet low-level-api/scan_example.cpp QPL_LOW_LEVEL_SCAN_EXAMPLE
- *
  * Example of scanning for unique value:
- * @snippet low-level-api/scan_for_unique_value_example.cpp QPL_LOW_LEVEL_SCAN_FOR_UNIQUE_EXAMPLE
+ * @snippet low-level-api/scan_for_specific_value_example.cpp QPL_LOW_LEVEL_SCAN_FOR_SPECIFIC_VALUE_EXAMPLE
  *
  * Example of scanning with range:
- * @snippet low-level-api/scan_range_example.cpp QPL_LOW_LEVEL_SCAN_RANGE_EXAMPLE
+ * @snippet low-level-api/scan_for_elements_in_range_example.cpp QPL_LOW_LEVEL_SCAN_FOR_ELEMENTS_IN_RANGE_EXAMPLE
  *
  */
 uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_size);

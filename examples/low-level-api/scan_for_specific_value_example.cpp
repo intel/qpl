@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-//* [QPL_LOW_LEVEL_SCAN_EXAMPLE] */
+//* [QPL_LOW_LEVEL_SCAN_FOR_SPECIFIC_VALUE_EXAMPLE] */
 
 #include <iostream>
 #include <vector>
@@ -14,9 +14,11 @@
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
 
-constexpr const uint32_t source_size     = 1000;
-constexpr const uint32_t input_bit_width = 8;
-constexpr const uint32_t boundary        = 48;
+constexpr const uint32_t source_size         = 1000;
+constexpr const uint32_t input_bit_width     = 8;
+constexpr const uint32_t output_vector_width = 32;
+constexpr const uint32_t value_to_find       = 48;
+constexpr const uint32_t byte_bit_length     = 8;
 
 /**
  * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`
@@ -79,7 +81,7 @@ auto main(int argc, char** argv) -> int {
     job->src1_bit_width     = input_bit_width;
     job->num_input_elements = source_size;
     job->out_bit_width      = qpl_ow_32;
-    job->param_low          = boundary;
+    job->param_low          = value_to_find;
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {
@@ -87,7 +89,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    const auto indices_byte_size = job->total_out;
+    const auto indices_size_in_bytes    = job->total_out;
+    const auto indices_size_in_elements = indices_size_in_bytes * byte_bit_length / output_vector_width;
 
     // Freeing resources
     status = qpl_fini_job(job);
@@ -97,8 +100,8 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Compare with reference
-    for (uint32_t i = 0; i < (indices_byte_size / 4); i++) {
-        if (source[indices[i]] != boundary) {
+    for (uint32_t i = 0; i < indices_size_in_elements; i++) {
+        if (source[indices[i]] != value_to_find) {
             std::cout << "Scan was done incorrectly.\n";
             return 1;
         }
@@ -109,4 +112,4 @@ auto main(int argc, char** argv) -> int {
     return 0;
 }
 
-//* [QPL_LOW_LEVEL_SCAN_EXAMPLE] */
+//* [QPL_LOW_LEVEL_SCAN_FOR_SPECIFIC_VALUE_EXAMPLE] */
