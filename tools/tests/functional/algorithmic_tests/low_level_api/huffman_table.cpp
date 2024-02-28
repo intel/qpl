@@ -24,11 +24,10 @@
 
 // tool_common
 #include "compare_huffman_table.hpp"
+#include "util.hpp"
 
 // tool_generator
 #include "random_generator.h"
-
-#define SKIP_TC_TEST(expr, message) if (expr) { std::cout << "skipped test case: " << message << std::endl; return; }
 
 namespace qpl::test {
 
@@ -428,14 +427,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, Huffma
 
     // in this test: m_c_huffman_table is compression or combined
     //               m_d_huffman_table is decompression or combined
-    SKIP_TC_TEST(test_case.d_type == decompression_table_type,
+    QPL_SKIP_TC_TEST(test_case.d_type == decompression_table_type,
                  "initialization from histogram is not supported for decompression table type currently");
 
-    SKIP_TC_TEST((test_case.c_type == combined_table_type || test_case.d_type == combined_table_type) &&
+    QPL_SKIP_TC_TEST((test_case.c_type == combined_table_type || test_case.d_type == combined_table_type) &&
                  test_case.algorithm == compression_algorithm_huffman_only,
                  "initialization from histogram is not supported for combined table type currently with huffman only");
 
-    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+    QPL_SKIP_TC_TEST((test_case.options.format != serialization_raw),
                  "serialization only supports raw format");
 
     switch (test_case.algorithm) {
@@ -476,13 +475,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_histogram, Huffma
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, DISABLED_init_with_triplet, HuffmanTableAlgorithmicTest) {
     auto test_case = GetTestCase();
 
-    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_deflate,
+    QPL_SKIP_TC_TEST(test_case.algorithm == compression_algorithm_deflate,
                   "initialization with triplets is not supported for deflate table");
 
-    SKIP_TC_TEST(test_case.algorithm == compression_algorithm_canned,
+    QPL_SKIP_TC_TEST(test_case.algorithm == compression_algorithm_canned,
                  "initialization with triplets is not supported for canned mode");
 
-    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+    QPL_SKIP_TC_TEST((test_case.options.format != serialization_raw),
                  "serialization only supports raw format");
 
     switch (test_case.algorithm) {
@@ -524,15 +523,15 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
     auto test_case = GetTestCase();
 
     // in this test we first initialize m_c_huffman_table from a histogram and then m_d_huffman_table from it
-    SKIP_TC_TEST(test_case.c_type == combined_table_type && test_case.algorithm == compression_algorithm_huffman_only,
+    QPL_SKIP_TC_TEST(test_case.c_type == combined_table_type && test_case.algorithm == compression_algorithm_huffman_only,
                  "initialization of huffman only combined table type with histogram is not supported currently");
 
     // in this test: m_c_huffman_table is compression or combined
     //               m_d_huffman_table is decompression or combined
-    SKIP_TC_TEST(test_case.d_type == combined_table_type,
+    QPL_SKIP_TC_TEST(test_case.d_type == combined_table_type,
                  "initialization of combined table type from other table is not supported currently");
 
-    SKIP_TC_TEST((test_case.options.format != serialization_raw),
+    QPL_SKIP_TC_TEST((test_case.options.format != serialization_raw),
                  "serialization only supports raw format");
 
     switch (test_case.algorithm) {
@@ -574,7 +573,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(huffman_table, init_with_other, HuffmanTab
     }
     // in this test: m_c_huffman_table is compression or combined
     //               m_d_huffman_table is decompression or combined
-    SKIP_TC_TEST(test_case.d_type == decompression_table_type,
+    QPL_SKIP_TC_TEST(test_case.d_type == decompression_table_type,
                  "initialization of compression table type from decompression is not supported currently");
 
     switch (test_case.algorithm) {

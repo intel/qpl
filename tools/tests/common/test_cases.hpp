@@ -236,15 +236,15 @@ namespace qpl::test
             {                                                                                                               \
                 SetUpBeforeIteration();                                                                                     \
                 RunSingleIteration();                                                                                       \
-                if (HasFailure())                                                                                           \
-                {                                                                                                           \
+                if (HasFailure()) {                                                                                         \
                     std::cout << "The test case is: " << GetTestCase() << "\n";                                             \
                     std::cout << "Test case id: " << i << "\n";                                                             \
                     std::cout << "To reproduce the fail, run this test with"                                                \
                               << " flag --testid=" << i << "\n";                                                            \
                     break;                                                                                                  \
-                } else                                                                                                      \
-                {                                                                                                           \
+                } else if (IsSkipped()) {                                                                                   \
+                    break;                                                                                                  \
+                } else {                                                                                                    \
                     SwitchToNextCase();                                                                                     \
                 }                                                                                                           \
             }                                                                                                               \

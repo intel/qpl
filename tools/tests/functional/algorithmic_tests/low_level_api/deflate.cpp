@@ -338,8 +338,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
     qpl_init_job(path, decompr_job);
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        std::cout << dataset.first << std::endl;
-
         for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = dataset.second;
             std::vector<uint8_t>  destination(source.size(), 0);
@@ -359,7 +357,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
             compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
 
             auto status = run_job_api(compr_job);
-            ASSERT_EQ(status, QPL_STS_OK);
+            ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << dataset.first;
 
             // Decompress
             decompr_job->next_in_ptr   = destination.data();
@@ -370,7 +368,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
             decompr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
 
             status = run_job_api(decompr_job);
-            ASSERT_EQ(status, QPL_STS_OK);
+            ASSERT_EQ(status, QPL_STS_OK) << "Decompression failed with status: " << status << " source: " << dataset.first;
 
             // Check
             ASSERT_TRUE(std::equal(source.begin(), source.end(), reference.begin()));
@@ -427,8 +425,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     qpl_init_job(path, decompr_job);
 
     for (auto &data: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        std::cout << data.first << std::endl;
-
         for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = data.second;
             std::vector<uint8_t>  destination(source.size() * 2, 0);

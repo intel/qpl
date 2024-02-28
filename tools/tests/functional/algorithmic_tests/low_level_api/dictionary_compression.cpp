@@ -441,7 +441,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateless) {
         }
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-            std::cout << "Current file name: " << dataset.first << "\n";
             std::vector<uint8_t> source = dataset.second;
 
             std::vector<uint8_t> compressed_destination(source.size() * 2);
@@ -467,7 +466,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateless) {
                                                    hw_compr_level,
                                                    source.data(),
                                                    dictionary_length);
-                ASSERT_EQ(QPL_STS_OK, status);
+                ASSERT_EQ(QPL_STS_OK, status) << "Dictionary build failed for source: " << dataset.first;
 
                 compress_with_chunks<compression_mode::dynamic_compression>(source,
                                                                             compressed_destination,
@@ -483,7 +482,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateless) {
                                        dictionary_ptr,
                                        decompression_execution_path);
 
-                ASSERT_TRUE(CompareVectors(decompressed_destination, source));
+                ASSERT_TRUE(CompareVectors(decompressed_destination, source)) << "Compressed and decompressed vectors mismatched for source: " << dataset.first;
             }
         }
     }
