@@ -40,7 +40,7 @@ auto main(int argc, char** argv) -> int {
     if (parse_ret != 0) {
         return 1;
     }
-    
+
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size * 2, 4);
@@ -68,7 +68,7 @@ auto main(int argc, char** argv) -> int {
 
     // Dictionary initialization
     std::unique_ptr<uint8_t[]> dictionary_buffer;
-    qpl_dictionary             *dictionary_ptr;
+    qpl_dictionary             *dictionary_ptr        = nullptr;
     std::size_t                dictionary_buffer_size = 0;
     sw_compression_level       sw_compr_level         = sw_compression_level::SW_NONE;
     hw_compression_level       hw_compr_level         = hw_compression_level::HW_NONE;
@@ -82,7 +82,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Huffman table initialization
-    qpl_huffman_table_t huffman_table;
+    qpl_huffman_table_t huffman_table = nullptr;
 
     status = qpl_deflate_huffman_table_create(combined_table_type,
                                               execution_path,
@@ -201,7 +201,7 @@ auto main(int argc, char** argv) -> int {
         std::cout << "An error " << status << " acquired during destroying Huffman table.\n";
         return 1;
     }
-    
+
     status = qpl_fini_job(job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job finalization.\n";

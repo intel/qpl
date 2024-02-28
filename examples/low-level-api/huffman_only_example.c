@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
     }
 
     // Allocating the compression Huffman Table object for Huffman-only
-    qpl_huffman_table_t c_huffman_table;
+    qpl_huffman_table_t c_huffman_table = NULL;
 
     // The next line is a workaround for DEFAULT_ALLOCATOR_C macros.
     // This macros works only with C++ code.
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
     // The code below checks if a compression operation works correctly
 
     // Allocating the decompression Huffman Table object for Huffman-only
-    qpl_huffman_table_t d_huffman_table;
+    qpl_huffman_table_t d_huffman_table = NULL;
     status = qpl_huffman_only_table_create(decompression_table_type,
                                            execution_path,
                                            default_allocator_c,

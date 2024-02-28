@@ -45,7 +45,7 @@ auto main(int argc, char** argv) -> int {
     qpl_status status = QPL_STS_OK;
 
     // Memory allocation for Huffman table
-    qpl_huffman_table_t huffman_table;
+    qpl_huffman_table_t huffman_table = nullptr;
 
     status = qpl_deflate_huffman_table_create(combined_table_type,
                                               execution_path,
@@ -78,7 +78,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    size_t serialized_size;
+    size_t serialized_size = 0U;
 
     // Getting size of a buffer to store serialized table and allocating memory for it
     status = qpl_huffman_table_get_serialized_size(huffman_table,
@@ -105,7 +105,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Deserialization of a table
-    qpl_huffman_table_t other_huffman_table;
+    qpl_huffman_table_t other_huffman_table = nullptr;
     status = qpl_huffman_table_deserialize(buffer,
                                            serialized_size,
                                            DEFAULT_ALLOCATOR_C,

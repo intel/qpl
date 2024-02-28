@@ -76,7 +76,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Allocate Huffman table object (c_huffman_table).
-    qpl_huffman_table_t c_huffman_table;
+    qpl_huffman_table_t c_huffman_table = nullptr;
     status = qpl_deflate_huffman_table_create(compression_table_type,
                                               execution_path,
                                               DEFAULT_ALLOCATOR_C,

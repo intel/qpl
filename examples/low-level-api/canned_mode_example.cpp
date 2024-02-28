@@ -65,7 +65,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Huffman table initialization
-    qpl_huffman_table_t huffman_table;
+    qpl_huffman_table_t huffman_table = nullptr;
 
     status = qpl_deflate_huffman_table_create(combined_table_type,
                                               execution_path,

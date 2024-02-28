@@ -65,7 +65,7 @@ auto main(int argc, char** argv) -> int {
 
     // Dictionary initialization
     std::unique_ptr<uint8_t[]> dictionary_buffer;
-    qpl_dictionary             *dictionary_ptr;
+    qpl_dictionary             *dictionary_ptr        = nullptr;
     std::size_t                dictionary_buffer_size = 0;
     sw_compression_level       sw_compr_level         = sw_compression_level::SW_NONE;
     hw_compression_level       hw_compr_level         = hw_compression_level::HW_NONE;
