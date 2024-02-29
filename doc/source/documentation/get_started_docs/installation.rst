@@ -301,8 +301,8 @@ To build the offline version of the documentation, the following tools must be i
 
 - `Doxygen <https://www.doxygen.nl/index.html>`__ 1.8.17 or higher (e.g., with ``apt install doxygen``)
 - `Python <https://www.python.org/>`__ 3.8.5 or higher (e.g., with ``apt install python3.X``)
-- `Sphinx <https://www.sphinx-doc.org/en/master/>`__ 6.2.1 or higher (e.g., with ``pip3 install sphinx``)
-- `sphinx_book_theme <https://executablebooks.org/en/latest/>`__ 1.0.1 or higher (e.g., with ``pip3 install sphinx-book-theme``)
+- `Sphinx <https://www.sphinx-doc.org/en/master/>`__ 7.2.6 or higher (e.g., with ``pip3 install sphinx``)
+- `sphinx_book_theme <https://executablebooks.org/en/latest/>`__ 1.1.2 or higher (e.g., with ``pip3 install sphinx-book-theme``)
 - `Breathe <https://breathe.readthedocs.io/en/latest/>`__ 4.35.0 or higher (e.g., with ``pip3 install breathe``)
 
 .. attention::
