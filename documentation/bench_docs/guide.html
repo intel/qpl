@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Benchmarks Framework Guide &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/bench_docs/guide';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -428,7 +438,7 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="benchmarks-framework-guide">
-<span id="library-benchmarking-reference-link"></span><h1>Benchmarks Framework Guide<a class="headerlink" href="#benchmarks-framework-guide" title="Permalink to this heading">#</a></h1>
+<span id="library-benchmarking-reference-link"></span><h1>Benchmarks Framework Guide<a class="headerlink" href="#benchmarks-framework-guide" title="Link to this heading">#</a></h1>
 <p>Goal of the benchmarks is to provide performance guidance on various use case scenarios
 of the Intel® Query Processing Library (Intel® QPL).
 To cover these cases the benchmarks provide several performance metrics and modes of operation.</p>
@@ -444,7 +454,7 @@ CRC32-C (ICSCI), CRC-16-T10-DIF, and CRC-16-CCITT.</p></li>
 </ul>
 </div>
 <section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h2>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
 <p>Benchmark are based on the Google benchmark library and built as a part of Intel QPL.
 Refer to <a class="reference internal" href="../get_started_docs/installation.html#building-library-build-reference-link"><span class="std std-ref">Installation page</span></a>
 for details on how to build the library and resolve all prerequisites.</p>
@@ -469,7 +479,7 @@ or add <code class="docutils literal notranslate"><span class="pre">--node=&lt;n
 </pre></div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Output to terminal:</span><a class="headerlink" href="#id1" title="Permalink to this code">#</a></div>
+<div class="code-block-caption"><span class="caption-text">Output to terminal:</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Benchmark<span class="w">                                                                                                                          </span>Time<span class="w">             </span>CPU<span class="w">   </span>Iterations<span class="w"> </span>UserCounters...
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -484,7 +494,7 @@ deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/da
 </div>
 </section>
 <section id="key-terms">
-<h2>Key Terms<a class="headerlink" href="#key-terms" title="Permalink to this heading">#</a></h2>
+<h2>Key Terms<a class="headerlink" href="#key-terms" title="Link to this heading">#</a></h2>
 <ul>
 <li><p><strong>API</strong>: Currently, only Low-Level C API is supported. Case naming: <code class="docutils literal notranslate"><span class="pre">api:c</span></code>.</p></li>
 <li><p><strong>Path</strong>: Represents execution path for the library. Case naming: <code class="docutils literal notranslate"><span class="pre">path:iaa</span></code> for executing on accelerator, <code class="docutils literal notranslate"><span class="pre">path:cpu</span></code> for running on CPU.</p></li>
@@ -507,7 +517,7 @@ for big workloads even one thread may reach capacity.</p>
 </ul>
 </section>
 <section id="using-the-benchmarks-framework">
-<h2>Using the Benchmarks Framework<a class="headerlink" href="#using-the-benchmarks-framework" title="Permalink to this heading">#</a></h2>
+<h2>Using the Benchmarks Framework<a class="headerlink" href="#using-the-benchmarks-framework" title="Link to this heading">#</a></h2>
 <p>Intel QPL benchmark framework is based on Google benchmark library,
 run <code class="docutils literal notranslate"><span class="pre">./qpl_benchmarks</span> <span class="pre">--help</span></code> to get a full list of supported commands and input arguments with detailed description.</p>
 <div class="admonition attention">
@@ -524,7 +534,7 @@ one of the following phrases at the end: <code class="docutils literal notransla
 <code class="docutils literal notranslate"><span class="pre">crc64</span></code>.</p>
 <p>For example, to run CRC benchmarks on only crc64, the following filter would work: <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;crc.*:c/.*:cpu.*:sync.*crc64&quot;</span></code>.</p>
 <section id="executing-on-hardware-path">
-<h3>Executing on Hardware Path<a class="headerlink" href="#executing-on-hardware-path" title="Permalink to this heading">#</a></h3>
+<h3>Executing on Hardware Path<a class="headerlink" href="#executing-on-hardware-path" title="Link to this heading">#</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
@@ -548,7 +558,7 @@ Refer to <a class="reference internal" href="../introduction_docs/introduction.h
 </div>
 </section>
 <section id="latency-tests">
-<h3>Latency Tests<a class="headerlink" href="#latency-tests" title="Permalink to this heading">#</a></h3>
+<h3>Latency Tests<a class="headerlink" href="#latency-tests" title="Link to this heading">#</a></h3>
 <p>For reporting or tracking latency metric, use <code class="docutils literal notranslate"><span class="pre">sync</span></code> mode, 1 Intel IAA instance, and a single thread.</p>
 <p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_sizes:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span><span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span><span class="w"> </span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span>
@@ -559,7 +569,7 @@ Refer to <a class="reference internal" href="../introduction_docs/introduction.h
 </div>
 </section>
 <section id="throughput-tests">
-<h3>Throughput Tests<a class="headerlink" href="#throughput-tests" title="Permalink to this heading">#</a></h3>
+<h3>Throughput Tests<a class="headerlink" href="#throughput-tests" title="Link to this heading">#</a></h3>
 <p>For reporting or tracking throughput metric, use <code class="docutils literal notranslate"><span class="pre">async</span></code> mode, 1 to 4 Intel IAA devices, and multiple threads.</p>
 <p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_size and <code class="docutils literal notranslate"><span class="pre">queue_size=128</span></code>:</p>
 <div class="admonition note">

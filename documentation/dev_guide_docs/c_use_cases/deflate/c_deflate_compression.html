@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Deflate Compression &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_compression';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -436,9 +446,9 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="deflate-compression">
-<h1>Deflate Compression<a class="headerlink" href="#deflate-compression" title="Permalink to this heading">#</a></h1>
+<h1>Deflate Compression<a class="headerlink" href="#deflate-compression" title="Link to this heading">#</a></h1>
 <section id="supported-compressed-data-formats">
-<span id="compressed-data-format-reference-link"></span><h2>Supported Compressed Data Formats<a class="headerlink" href="#supported-compressed-data-formats" title="Permalink to this heading">#</a></h2>
+<span id="compressed-data-format-reference-link"></span><h2>Supported Compressed Data Formats<a class="headerlink" href="#supported-compressed-data-formats" title="Link to this heading">#</a></h2>
 <p>The Deflate standard organizes the compressed data into a series of
 “blocks”. Each block is defined by one of the three types:</p>
 <ul class="simple">
@@ -470,7 +480,7 @@ and a faster decompression speed (since the same Huffman table does not need to
 be parsed multiple times).</p>
 </section>
 <section id="job-structure-settings">
-<h2>Job Structure Settings<a class="headerlink" href="#job-structure-settings" title="Permalink to this heading">#</a></h2>
+<h2>Job Structure Settings<a class="headerlink" href="#job-structure-settings" title="Link to this heading">#</a></h2>
 <p>This section introduces the basic settings of the job structure for Deflate compression jobs
 using different available modes.
 In the code snippets below, it is assumed that a single job is used, for
@@ -483,7 +493,7 @@ For example, it is not supported to start a sequence of jobs using <strong>Dynam
 and then switch to <strong>Static Compression</strong> halfway through the sequence.</p>
 </div>
 <section id="fixed-blocks">
-<h3>Fixed Blocks<a class="headerlink" href="#fixed-blocks" title="Permalink to this heading">#</a></h3>
+<h3>Fixed Blocks<a class="headerlink" href="#fixed-blocks" title="Link to this heading">#</a></h3>
 <p>The job structure for fixed compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
@@ -497,7 +507,7 @@ and then switch to <strong>Static Compression</strong> halfway through the seque
 </div>
 </section>
 <section id="dynamic-blocks">
-<h3>Dynamic Blocks<a class="headerlink" href="#dynamic-blocks" title="Permalink to this heading">#</a></h3>
+<h3>Dynamic Blocks<a class="headerlink" href="#dynamic-blocks" title="Link to this heading">#</a></h3>
 <p>The job structure for dynamic compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
@@ -511,7 +521,7 @@ and then switch to <strong>Static Compression</strong> halfway through the seque
 </div>
 </section>
 <section id="static-blocks-and-canned-mode">
-<h3>Static Blocks and Canned Mode<a class="headerlink" href="#static-blocks-and-canned-mode" title="Permalink to this heading">#</a></h3>
+<h3>Static Blocks and Canned Mode<a class="headerlink" href="#static-blocks-and-canned-mode" title="Link to this heading">#</a></h3>
 <p>The job structure for static compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
@@ -557,9 +567,9 @@ the flags <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_comm
 </section>
 </section>
 <section id="structure-of-compressed-data">
-<h2>Structure of Compressed Data<a class="headerlink" href="#structure-of-compressed-data" title="Permalink to this heading">#</a></h2>
+<h2>Structure of Compressed Data<a class="headerlink" href="#structure-of-compressed-data" title="Link to this heading">#</a></h2>
 <section id="deflate-compression-structure-fixed-reference-link">
-<span id="id1"></span><h3>Fixed Blocks<a class="headerlink" href="#deflate-compression-structure-fixed-reference-link" title="Permalink to this heading">#</a></h3>
+<span id="id1"></span><h3>Fixed Blocks<a class="headerlink" href="#deflate-compression-structure-fixed-reference-link" title="Link to this heading">#</a></h3>
 <p>If a single job is used, compressible data will result in one large
 fixed block, while incompressible data could lead to multiple
 stored blocks.</p>
@@ -572,21 +582,21 @@ at the end. Note that there will be at most one fixed block between
 stored blocks.</p>
 </section>
 <section id="id2">
-<h3>Dynamic Blocks<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<h3>Dynamic Blocks<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>On the <code class="docutils literal notranslate"><span class="pre">hardware_path</span></code>, the data from one job will be compressed as a single
 dynamic block when the data is compressible, or as multiple stored blocks
 when the data is incompressible. The data from one job may be compressed
 as multiple dynamic blocks on the software path.</p>
 </section>
 <section id="static-blocks">
-<h3>Static Blocks<a class="headerlink" href="#static-blocks" title="Permalink to this heading">#</a></h3>
+<h3>Static Blocks<a class="headerlink" href="#static-blocks" title="Link to this heading">#</a></h3>
 <p>The structure of compressed data using static compression is similar to
 what was described in <a class="reference internal" href="#deflate-compression-structure-fixed-reference-link"><span class="std std-ref">Fixed Blocks</span></a>,
 except that there can be multiple static blocks between stored blocks
 due to the change of a Huffman table using <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a>.</p>
 </section>
 <section id="canned">
-<span id="deflate-compression-structure-canned-reference-link"></span><h3>Canned<a class="headerlink" href="#canned" title="Permalink to this heading">#</a></h3>
+<span id="deflate-compression-structure-canned-reference-link"></span><h3>Canned<a class="headerlink" href="#canned" title="Link to this heading">#</a></h3>
 <p>Canned compression only writes the body of one static block to the output
 buffer. If the input data is incompressible, even when the size of the
 output buffer is enough for a stored block, the library returns the
@@ -594,7 +604,7 @@ output buffer is enough for a stored block, the library returns the
 </section>
 </section>
 <section id="compression-output-overflow">
-<h2>Compression Output Overflow<a class="headerlink" href="#compression-output-overflow" title="Permalink to this heading">#</a></h2>
+<h2>Compression Output Overflow<a class="headerlink" href="#compression-output-overflow" title="Link to this heading">#</a></h2>
 <p>If the compressed output does not fit into the output buffer (e.g., a bad Huffman table
 is provided by the application, causing data to expand in a static compression),
 the library attempts to copy the input data into the output stream as a series
@@ -614,7 +624,7 @@ This suggestion does not apply to canned compression
 </div>
 </section>
 <section id="compression-verification">
-<h2>Compression Verification<a class="headerlink" href="#compression-verification" title="Permalink to this heading">#</a></h2>
+<h2>Compression Verification<a class="headerlink" href="#compression-verification" title="Link to this heading">#</a></h2>
 <p>By default, the library will verify the correctness of the generated
 compressed bit stream. The library decompresses the resulting bit
 stream, and then checks that the CRC of the decompressed data matches

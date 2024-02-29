@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Compressing with a Dictionary &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_dictionary';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -424,7 +434,7 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="compressing-with-a-dictionary">
-<h1>Compressing with a Dictionary<a class="headerlink" href="#compressing-with-a-dictionary" title="Permalink to this heading">#</a></h1>
+<h1>Compressing with a Dictionary<a class="headerlink" href="#compressing-with-a-dictionary" title="Link to this heading">#</a></h1>
 <p id="compressing-with-dictionary-reference-link">Intel® Query Processing Library (Intel® QPL) supports compression with
 preset dictionary by implementing several auxiliary functions that work
 with <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The dictionary itself is just a block of text
@@ -435,7 +445,7 @@ compression, a given bit of data to be compressed can be matched against a
 location before the start of the buffer. The dictionary can be used to improve
 the compression ratio of small buffers.</p>
 <section id="building-dictionary">
-<span id="building-dictionary-reference-link"></span><h2>Building Dictionary<a class="headerlink" href="#building-dictionary" title="Permalink to this heading">#</a></h2>
+<span id="building-dictionary-reference-link"></span><h2>Building Dictionary<a class="headerlink" href="#building-dictionary" title="Link to this heading">#</a></h2>
 <p>First, you need to allocate the buffer for <code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_dictionary</span></code>. The size
 of that buffer can be obtained by the <code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_dictionary_size()</span></code>
 function.</p>
@@ -504,7 +514,7 @@ bytes) of the <code class="xref c c-struct docutils literal notranslate"><span c
 </ul>
 </section>
 <section id="compressing-with-dictionary">
-<h2>Compressing with Dictionary<a class="headerlink" href="#compressing-with-dictionary" title="Permalink to this heading">#</a></h2>
+<h2>Compressing with Dictionary<a class="headerlink" href="#compressing-with-dictionary" title="Link to this heading">#</a></h2>
 <p>Compression with dictionary is supported only on certain generations of
 Intel® In-Memory Analytics Accelerator (Intel® IAA). The <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_NOT_SUPPORTED_MODE_ERR" title="QPL_STS_NOT_SUPPORTED_MODE_ERR"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_MODE_ERR</span></code></a>
 error will be returned if the operation is not supported. The software path can be
@@ -542,7 +552,7 @@ The job should be marked with <a class="reference internal" href="../../../dev_r
 </div>
 </section>
 <section id="decompressing-with-dictionary">
-<h2>Decompressing with Dictionary<a class="headerlink" href="#decompressing-with-dictionary" title="Permalink to this heading">#</a></h2>
+<h2>Decompressing with Dictionary<a class="headerlink" href="#decompressing-with-dictionary" title="Link to this heading">#</a></h2>
 <p>To decompress the stream previously compressed with the dictionary, the
 same dictionary should be specified for the first decompression job:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
@@ -560,7 +570,7 @@ path can be used as an alternative.</p>
 </div>
 </section>
 <section id="mixing-software-path-and-hardware-path-with-dictionary">
-<h2>Mixing Software Path and Hardware Path with Dictionary<a class="headerlink" href="#mixing-software-path-and-hardware-path-with-dictionary" title="Permalink to this heading">#</a></h2>
+<h2>Mixing Software Path and Hardware Path with Dictionary<a class="headerlink" href="#mixing-software-path-and-hardware-path-with-dictionary" title="Link to this heading">#</a></h2>
 <p>To make sure that the dictionary data used for compression and decompression matches when compression
 and decompression take different paths, the user must provide a raw dictionary with a size equal to
 the maximum size of the raw dictionary

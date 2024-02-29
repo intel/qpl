@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Job APIs &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_ref_docs/c_ref/c_job_apis';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -422,12 +432,12 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="job-apis">
-<h1>Job APIs<a class="headerlink" href="#job-apis" title="Permalink to this heading">#</a></h1>
+<h1>Job APIs<a class="headerlink" href="#job-apis" title="Link to this heading">#</a></h1>
 <section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_get_job_size">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_get_job_size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">job_size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_get_job_size" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga77607946ef0ab91c29c541a1af5b881e"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_get_job_size</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">job_size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_get_job_size" title="Link to this definition">#</a><br /></dt>
 <dd><p>Calculates the amount of memory, in bytes, required for the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -452,7 +462,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_init_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_init_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_init_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gabbcbe27bde8c75ede9cfed18fae03d35"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_init_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">qpl_path</span></span>, <a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_init_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Initializes the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and ensures proper alignment of internal structures. This API should be called only once, after a new <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> object is allocated. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -482,7 +492,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_submit_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gae3d32f515d4b91f945545619cc3e13a2"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_submit_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_submit_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gae3d32f515d4b91f945545619cc3e13a2"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_submit_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_submit_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Parses the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and forms the corresponding processing functions pipeline. In case of software solution, it is an alias for execute_job. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -498,7 +508,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_check_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga057a6ab9db453fcadaa794c06380e2af"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_check_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_check_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga057a6ab9db453fcadaa794c06380e2af"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_check_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_check_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Checks the status of <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> processing. (can be queried periodically to check the status of the qpl_submit_job) </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -514,7 +524,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_wait_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gaa41f6d8269232031a2bfd6b5ac942153"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_wait_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_wait_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1gaa41f6d8269232031a2bfd6b5ac942153"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_wait_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_wait_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Waits for the end of <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> processing. (waits until the job is completed) </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -530,7 +540,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_execute_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga22d5ed0082440c9a99f1b46974bbc830"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_execute_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_execute_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga22d5ed0082440c9a99f1b46974bbc830"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_execute_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_execute_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Parses the <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> structure and forms the corresponding processing functions pipeline. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -546,7 +556,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_fini_job">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga26cd84450e8eba60f98c1996d60c2191"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_fini_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_fini_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga26cd84450e8eba60f98c1996d60c2191"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_fini_job</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_job" title="qpl_job"><span class="n"><span class="pre">qpl_job</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">qpl_job_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_fini_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Completes <a class="reference internal" href="#de/daa/structqpl__job"><span class="std std-ref">qpl_job</span></a> lifecycle: disconnects from the internal library context, frees internal resources. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -562,250 +572,250 @@ document.write(`
 
 </section>
 <section id="structures">
-<h2>Structures<a class="headerlink" href="#structures" title="Permalink to this heading">#</a></h2>
+<h2>Structures<a class="headerlink" href="#structures" title="Link to this heading">#</a></h2>
 <dl class="c struct">
 <dt class="sig sig-object c" id="c.qpl_job">
-<span class="target" id="de/daa/structqpl__job"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_job</span></span></span><a class="headerlink" href="#c.qpl_job" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_job</span></span></span><a class="headerlink" href="#c.qpl_job" title="Link to this definition">#</a><br /></dt>
 <dd><p>Defines the general Intel QPL JOB API structure to perform task configuration. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.next_in_ptr">
-<span class="target" id="de/daa/structqpl__job_1acccd963e49f98db68e48166c64656ac0"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_in_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_in_ptr" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1acccd963e49f98db68e48166c64656ac0"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_in_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_in_ptr" title="Link to this definition">#</a><br /></dt>
 <dd><p>Next input byte </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.available_in">
-<span class="target" id="de/daa/structqpl__job_1af8b0236b823ac2f10e4b034679d1fb35"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_in</span></span></span><a class="headerlink" href="#c.qpl_job.available_in" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1af8b0236b823ac2f10e4b034679d1fb35"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_in</span></span></span><a class="headerlink" href="#c.qpl_job.available_in" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of bytes available at next_in_ptr </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.total_in">
-<span class="target" id="de/daa/structqpl__job_1a481367ee6542203e88806807e26e0f46"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_in</span></span></span><a class="headerlink" href="#c.qpl_job.total_in" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a481367ee6542203e88806807e26e0f46"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_in</span></span></span><a class="headerlink" href="#c.qpl_job.total_in" title="Link to this definition">#</a><br /></dt>
 <dd><p>Total number of bytes read so far </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.next_out_ptr">
-<span class="target" id="de/daa/structqpl__job_1a22380beadaec60601fd0e22c7651517d"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_out_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_out_ptr" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a22380beadaec60601fd0e22c7651517d"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_out_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_out_ptr" title="Link to this definition">#</a><br /></dt>
 <dd><p>Next output byte </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.available_out">
-<span class="target" id="de/daa/structqpl__job_1aa29aa915b74d0e367c53754b4921d1d5"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_out</span></span></span><a class="headerlink" href="#c.qpl_job.available_out" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1aa29aa915b74d0e367c53754b4921d1d5"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_out</span></span></span><a class="headerlink" href="#c.qpl_job.available_out" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of bytes available at next_out_ptr </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.total_out">
-<span class="target" id="de/daa/structqpl__job_1aaa53511cac21b186b34d303cd7dd242b"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_out</span></span></span><a class="headerlink" href="#c.qpl_job.total_out" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1aaa53511cac21b186b34d303cd7dd242b"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_out</span></span></span><a class="headerlink" href="#c.qpl_job.total_out" title="Link to this definition">#</a><br /></dt>
 <dd><p>Total number of bytes written so far </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.op">
-<span class="target" id="de/daa/structqpl__job_1a972ff5e5925eaac76020d70425f4b61b"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_operation" title="qpl_operation"><span class="n"><span class="pre">qpl_operation</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">op</span></span></span><a class="headerlink" href="#c.qpl_job.op" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a972ff5e5925eaac76020d70425f4b61b"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_operation" title="qpl_operation"><span class="n"><span class="pre">qpl_operation</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">op</span></span></span><a class="headerlink" href="#c.qpl_job.op" title="Link to this definition">#</a><br /></dt>
 <dd><p>Intel QPL operation </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.flags">
-<span class="target" id="de/daa/structqpl__job_1a773b39d480759f67926cb18ae2219281"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.qpl_job.flags" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a773b39d480759f67926cb18ae2219281"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.qpl_job.flags" title="Link to this definition">#</a><br /></dt>
 <dd><p>Auxiliary operation flags - see below </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.crc">
-<span class="target" id="de/daa/structqpl__job_1a85b7a7f21b6108b69872839e2509cd67"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc</span></span></span><a class="headerlink" href="#c.qpl_job.crc" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a85b7a7f21b6108b69872839e2509cd67"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc</span></span></span><a class="headerlink" href="#c.qpl_job.crc" title="Link to this definition">#</a><br /></dt>
 <dd><p>CRC - Input and Output </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.xor_checksum">
-<span class="target" id="de/daa/structqpl__job_1abf1a7eb5af218947b34ec1c2091e5816"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xor_checksum</span></span></span><a class="headerlink" href="#c.qpl_job.xor_checksum" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1abf1a7eb5af218947b34ec1c2091e5816"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xor_checksum</span></span></span><a class="headerlink" href="#c.qpl_job.xor_checksum" title="Link to this definition">#</a><br /></dt>
 <dd><p>Simple XOR check sum </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.last_bit_offset">
-<span class="target" id="de/daa/structqpl__job_1abcd5fb5f81981dd4f81037f2aaadb914"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_bit_offset</span></span></span><a class="headerlink" href="#c.qpl_job.last_bit_offset" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1abcd5fb5f81981dd4f81037f2aaadb914"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_bit_offset</span></span></span><a class="headerlink" href="#c.qpl_job.last_bit_offset" title="Link to this definition">#</a><br /></dt>
 <dd><p>Actual bits in the last written byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.level">
-<span class="target" id="de/daa/structqpl__job_1a20bf178bd61509e81d2d18015ff5541d"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_compression_levels" title="qpl_compression_levels"><span class="n"><span class="pre">qpl_compression_levels</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">level</span></span></span><a class="headerlink" href="#c.qpl_job.level" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a20bf178bd61509e81d2d18015ff5541d"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_compression_levels" title="qpl_compression_levels"><span class="n"><span class="pre">qpl_compression_levels</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">level</span></span></span><a class="headerlink" href="#c.qpl_job.level" title="Link to this definition">#</a><br /></dt>
 <dd><p>Compression level - default or high </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.statistics_mode">
-<span class="target" id="de/daa/structqpl__job_1a769b355b730a6c6954a3cdc0005280ad"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_statistics_mode" title="qpl_statistics_mode"><span class="n"><span class="pre">qpl_statistics_mode</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">statistics_mode</span></span></span><a class="headerlink" href="#c.qpl_job.statistics_mode" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a769b355b730a6c6954a3cdc0005280ad"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_statistics_mode" title="qpl_statistics_mode"><span class="n"><span class="pre">qpl_statistics_mode</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">statistics_mode</span></span></span><a class="headerlink" href="#c.qpl_job.statistics_mode" title="Link to this definition">#</a><br /></dt>
 <dd><p>Represents mode in which deflate should be performed </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.huffman_table">
-<span class="target" id="de/daa/structqpl__job_1a1533cd7e28ad0ff1d7f948071c2a7ef0"></span><a class="reference internal" href="c_huffman_table_apis.html#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">huffman_table</span></span></span><a class="headerlink" href="#c.qpl_job.huffman_table" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a1533cd7e28ad0ff1d7f948071c2a7ef0"></span><a class="reference internal" href="c_huffman_table_apis.html#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">huffman_table</span></span></span><a class="headerlink" href="#c.qpl_job.huffman_table" title="Link to this definition">#</a><br /></dt>
 <dd><p>Huffman table for compression </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.dictionary">
-<span class="target" id="de/daa/structqpl__job_1ae776bc99c3d241f1f19ae9517c091eb7"></span><span class="n"><span class="pre">qpl_dictionary</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">dictionary</span></span></span><a class="headerlink" href="#c.qpl_job.dictionary" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1ae776bc99c3d241f1f19ae9517c091eb7"></span><span class="n"><span class="pre">qpl_dictionary</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">dictionary</span></span></span><a class="headerlink" href="#c.qpl_job.dictionary" title="Link to this definition">#</a><br /></dt>
 <dd><p>The dictionary used for compression / decompression </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.mini_block_size">
-<span class="target" id="de/daa/structqpl__job_1ada827f2bab0fcae2563c8a2ab73e60e1"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_mini_block_size" title="qpl_mini_block_size"><span class="n"><span class="pre">qpl_mini_block_size</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mini_block_size</span></span></span><a class="headerlink" href="#c.qpl_job.mini_block_size" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1ada827f2bab0fcae2563c8a2ab73e60e1"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_mini_block_size" title="qpl_mini_block_size"><span class="n"><span class="pre">qpl_mini_block_size</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mini_block_size</span></span></span><a class="headerlink" href="#c.qpl_job.mini_block_size" title="Link to this definition">#</a><br /></dt>
 <dd><p>Index block (mini-block) size </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.idx_array">
-<span class="target" id="de/daa/structqpl__job_1ae916f9d9697379c96eb46aa0f0f15edc"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">idx_array</span></span></span><a class="headerlink" href="#c.qpl_job.idx_array" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1ae916f9d9697379c96eb46aa0f0f15edc"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">idx_array</span></span></span><a class="headerlink" href="#c.qpl_job.idx_array" title="Link to this definition">#</a><br /></dt>
 <dd><p>Index array address </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.idx_max_size">
-<span class="target" id="de/daa/structqpl__job_1a75391931bea1bdf90abbc0e8056646ca"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_max_size</span></span></span><a class="headerlink" href="#c.qpl_job.idx_max_size" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a75391931bea1bdf90abbc0e8056646ca"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_max_size</span></span></span><a class="headerlink" href="#c.qpl_job.idx_max_size" title="Link to this definition">#</a><br /></dt>
 <dd><p>Size of index array </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.idx_num_written">
-<span class="target" id="de/daa/structqpl__job_1a91c4891632450cbbe3ddb3b300c1f9de"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_num_written</span></span></span><a class="headerlink" href="#c.qpl_job.idx_num_written" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a91c4891632450cbbe3ddb3b300c1f9de"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">idx_num_written</span></span></span><a class="headerlink" href="#c.qpl_job.idx_num_written" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of generated indexes </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.decomp_end_processing">
-<span class="target" id="de/daa/structqpl__job_1a7c4e45480d66a8b955446ace0f4f74f7"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">decomp_end_processing</span></span></span><a class="headerlink" href="#c.qpl_job.decomp_end_processing" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a7c4e45480d66a8b955446ace0f4f74f7"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">decomp_end_processing</span></span></span><a class="headerlink" href="#c.qpl_job.decomp_end_processing" title="Link to this definition">#</a><br /></dt>
 <dd><p>Value is qpl_decomp_end_proc </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.ignore_start_bits">
-<span class="target" id="de/daa/structqpl__job_1a4d4996fd40f4e8752fb4994e33e47393"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_start_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_start_bits" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a4d4996fd40f4e8752fb4994e33e47393"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_start_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_start_bits" title="Link to this definition">#</a><br /></dt>
 <dd><p>0-7 (or 0-15 for BE16 format) - a number of bits to skip at the start of the 1st byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.ignore_end_bits">
-<span class="target" id="de/daa/structqpl__job_1a2d3ed143796e72cb00f1b83155043ae5"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_end_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_end_bits" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a2d3ed143796e72cb00f1b83155043ae5"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_end_bits</span></span></span><a class="headerlink" href="#c.qpl_job.ignore_end_bits" title="Link to this definition">#</a><br /></dt>
 <dd><p>0-7 (or 0-15 for BE16 format) - a number of bits to skip at the end of the last byte (or word for BE16 format) </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.crc64_poly">
-<span class="target" id="de/daa/structqpl__job_1a0d5679542c1d738bfab30f7864feea09"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64_poly</span></span></span><a class="headerlink" href="#c.qpl_job.crc64_poly" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a0d5679542c1d738bfab30f7864feea09"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64_poly</span></span></span><a class="headerlink" href="#c.qpl_job.crc64_poly" title="Link to this definition">#</a><br /></dt>
 <dd><p>Polynomial used for the crc64 operation </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.crc64">
-<span class="target" id="de/daa/structqpl__job_1a85195c44389a7458207ed266f51862de"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64</span></span></span><a class="headerlink" href="#c.qpl_job.crc64" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a85195c44389a7458207ed266f51862de"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">crc64</span></span></span><a class="headerlink" href="#c.qpl_job.crc64" title="Link to this definition">#</a><br /></dt>
 <dd><p>Initial and final CRC value for the crc64 operation </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.next_src2_ptr">
-<span class="target" id="de/daa/structqpl__job_1a1f7f49e65df45769bb5fb26e239c07eb"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_src2_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_src2_ptr" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a1f7f49e65df45769bb5fb26e239c07eb"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">next_src2_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.next_src2_ptr" title="Link to this definition">#</a><br /></dt>
 <dd><p>Pointer to source-2 data. Updated value is returned </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.available_src2">
-<span class="target" id="de/daa/structqpl__job_1a04c9dbf68a0ae20158905a5facafaa99"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_src2</span></span></span><a class="headerlink" href="#c.qpl_job.available_src2" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a04c9dbf68a0ae20158905a5facafaa99"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">available_src2</span></span></span><a class="headerlink" href="#c.qpl_job.available_src2" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of valid bytes of source-2 data </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.src1_bit_width">
-<span class="target" id="de/daa/structqpl__job_1a4e4bcd7c8f6b287a0c75afdce9b0094c"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src1_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src1_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a4e4bcd7c8f6b287a0c75afdce9b0094c"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src1_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src1_bit_width" title="Link to this definition">#</a><br /></dt>
 <dd><p>Source-1 bit width for Analytics. Valid values are 1-32 </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.src2_bit_width">
-<span class="target" id="de/daa/structqpl__job_1a4a7226132740b2c0270e16b20bb49389"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src2_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src2_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a4a7226132740b2c0270e16b20bb49389"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">src2_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.src2_bit_width" title="Link to this definition">#</a><br /></dt>
 <dd><p>Source-2 bit width for Analytics. Valid values are 1-32 </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.num_input_elements">
-<span class="target" id="de/daa/structqpl__job_1a79e444a03163e9ee2b715604d495429e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_input_elements</span></span></span><a class="headerlink" href="#c.qpl_job.num_input_elements" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a79e444a03163e9ee2b715604d495429e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">num_input_elements</span></span></span><a class="headerlink" href="#c.qpl_job.num_input_elements" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of input elements for Analytics </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.out_bit_width">
-<span class="target" id="de/daa/structqpl__job_1a4e2bbc8973ec8d85f77584912bb5511f"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_out_format" title="qpl_out_format"><span class="n"><span class="pre">qpl_out_format</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">out_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.out_bit_width" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a4e2bbc8973ec8d85f77584912bb5511f"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_out_format" title="qpl_out_format"><span class="n"><span class="pre">qpl_out_format</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">out_bit_width</span></span></span><a class="headerlink" href="#c.qpl_job.out_bit_width" title="Link to this definition">#</a><br /></dt>
 <dd><p>Output bit width enumeration. Valid values are nominal, 8-, 16-, or 32-bits </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.param_low">
-<span class="target" id="de/daa/structqpl__job_1a51d61f73c8614a2172ae22f620ba995a"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_low</span></span></span><a class="headerlink" href="#c.qpl_job.param_low" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a51d61f73c8614a2172ae22f620ba995a"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_low</span></span></span><a class="headerlink" href="#c.qpl_job.param_low" title="Link to this definition">#</a><br /></dt>
 <dd><p>Low parameter for operations extract or scan </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.param_high">
-<span class="target" id="de/daa/structqpl__job_1aad5ed181b5446b683a0bedbff07ad7cd"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_high</span></span></span><a class="headerlink" href="#c.qpl_job.param_high" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1aad5ed181b5446b683a0bedbff07ad7cd"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">param_high</span></span></span><a class="headerlink" href="#c.qpl_job.param_high" title="Link to this definition">#</a><br /></dt>
 <dd><p>High parameter for operations extract or scan </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.drop_initial_bytes">
-<span class="target" id="de/daa/structqpl__job_1aed94df4b8f6320c5a6b035b2e05d9595"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drop_initial_bytes</span></span></span><a class="headerlink" href="#c.qpl_job.drop_initial_bytes" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1aed94df4b8f6320c5a6b035b2e05d9595"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">drop_initial_bytes</span></span></span><a class="headerlink" href="#c.qpl_job.drop_initial_bytes" title="Link to this definition">#</a><br /></dt>
 <dd><p>Number of initial bytes to be dropped at the start of the Analytics portion of the pipeline </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.initial_output_index">
-<span class="target" id="de/daa/structqpl__job_1abab80084db3420c397c671f04ac3c26e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_output_index</span></span></span><a class="headerlink" href="#c.qpl_job.initial_output_index" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1abab80084db3420c397c671f04ac3c26e"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_output_index</span></span></span><a class="headerlink" href="#c.qpl_job.initial_output_index" title="Link to this definition">#</a><br /></dt>
 <dd><p>The index of initial output element from Analytics. This affects modified bit-vector output and the bit-vector aggregate values </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.parser">
-<span class="target" id="de/daa/structqpl__job_1aba262bb6aef37e8a605b6b57390d0ba0"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_parser" title="qpl_parser"><span class="n"><span class="pre">qpl_parser</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parser</span></span></span><a class="headerlink" href="#c.qpl_job.parser" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1aba262bb6aef37e8a605b6b57390d0ba0"></span><a class="reference internal" href="c_common_definitions.html#c.qpl_parser" title="qpl_parser"><span class="n"><span class="pre">qpl_parser</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parser</span></span></span><a class="headerlink" href="#c.qpl_job.parser" title="Link to this definition">#</a><br /></dt>
 <dd><p>Enumeration of what parser to use to parse Analytics source-1 data </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.first_index_min_value">
-<span class="target" id="de/daa/structqpl__job_1a60288f05cb318ce280e37d4f3522c3c3"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">first_index_min_value</span></span></span><a class="headerlink" href="#c.qpl_job.first_index_min_value" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a60288f05cb318ce280e37d4f3522c3c3"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">first_index_min_value</span></span></span><a class="headerlink" href="#c.qpl_job.first_index_min_value" title="Link to this definition">#</a><br /></dt>
 <dd><p>Output aggregate value - index of the first min value </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.last_index_max_value">
-<span class="target" id="de/daa/structqpl__job_1a4b04acbfb0e8753725b6072e0fa2ca96"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_index_max_value</span></span></span><a class="headerlink" href="#c.qpl_job.last_index_max_value" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a4b04acbfb0e8753725b6072e0fa2ca96"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">last_index_max_value</span></span></span><a class="headerlink" href="#c.qpl_job.last_index_max_value" title="Link to this definition">#</a><br /></dt>
 <dd><p>Output aggregate value - index of the last max value </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.sum_value">
-<span class="target" id="de/daa/structqpl__job_1a53869854a327e3fafda195bad81c35eb"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_value</span></span></span><a class="headerlink" href="#c.qpl_job.sum_value" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a53869854a327e3fafda195bad81c35eb"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sum_value</span></span></span><a class="headerlink" href="#c.qpl_job.sum_value" title="Link to this definition">#</a><br /></dt>
 <dd><p>Output aggregate value - sum of all values </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.numa_id">
-<span class="target" id="de/daa/structqpl__job_1ad19f296ffa203f7933686f92a0345bad"></span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numa_id</span></span></span><a class="headerlink" href="#c.qpl_job.numa_id" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1ad19f296ffa203f7933686f92a0345bad"></span><span class="n"><span class="pre">int32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numa_id</span></span></span><a class="headerlink" href="#c.qpl_job.numa_id" title="Link to this definition">#</a><br /></dt>
 <dd><p>ID of the NUMA. Set it to -1 for auto detecting </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_job.data_ptr">
-<span class="target" id="de/daa/structqpl__job_1a81371cf931166e1f3eb1c39c4fe262bc"></span><span class="n"><span class="pre">qpl_data</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.data_ptr" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/daa/structqpl__job_1a81371cf931166e1f3eb1c39c4fe262bc"></span><span class="n"><span class="pre">qpl_data</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_ptr</span></span></span><a class="headerlink" href="#c.qpl_job.data_ptr" title="Link to this definition">#</a><br /></dt>
 <dd><p>Internal memory buffers &amp; structures for all Intel QPL operations </p>
 </dd></dl>
 

@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Installation &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/get_started_docs/installation';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -438,14 +448,14 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
 <p>Intel® Query Processing Library (Intel® QPL) currently doesn’t provide a
 binary distribution and can be built only from the sources.</p>
 <section id="system-requirements">
-<span id="system-requirements-reference-link"></span><h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">#</a></h2>
+<span id="system-requirements-reference-link"></span><h2>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading">#</a></h2>
 <p>Intel® QPL supports only the Intel 64 platform.</p>
 <section id="software-path-requirements">
-<h3>Software Path Requirements<a class="headerlink" href="#software-path-requirements" title="Permalink to this heading">#</a></h3>
+<h3>Software Path Requirements<a class="headerlink" href="#software-path-requirements" title="Link to this heading">#</a></h3>
 <p>The execution using Software Path does not imply any specific requirements on a system
 besides resolving <a class="reference internal" href="#building-library-prerequisites-reference-link"><span class="std std-ref">Build Prerequisites</span></a>.
 Intel® QPL relies on a run-time kernels dispatcher and CPUID check to choose
@@ -462,7 +472,7 @@ the best available implementation.</p>
 </div>
 </section>
 <section id="hardware-path-requirements">
-<span id="system-requirements-hw-path-reference-link"></span><h3>Hardware Path Requirements<a class="headerlink" href="#hardware-path-requirements" title="Permalink to this heading">#</a></h3>
+<span id="system-requirements-hw-path-reference-link"></span><h3>Hardware Path Requirements<a class="headerlink" href="#hardware-path-requirements" title="Link to this heading">#</a></h3>
 <p>Execution using Hardware Path available only on Linux* OS.</p>
 <p>Additionally, the operating system must meet the following requirements:</p>
 <ul class="simple">
@@ -474,7 +484,7 @@ For details on setup, please refer to “Intel® In-Memory Analytics Accelerator
 </section>
 </section>
 <section id="accelerator-configuration">
-<span id="accelerator-configuration-reference-link"></span><h2>Accelerator Configuration<a class="headerlink" href="#accelerator-configuration" title="Permalink to this heading">#</a></h2>
+<span id="accelerator-configuration-reference-link"></span><h2>Accelerator Configuration<a class="headerlink" href="#accelerator-configuration" title="Link to this heading">#</a></h2>
 <p>Intel® IAA device can be configured with the <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library,
 which can be found at <a class="github reference external" href="https://github.com/intel/idxd-config">intel/idxd-config</a>.</p>
 <p>Intel® QPL provides a way to configure Intel® IAA through calling
@@ -509,9 +519,9 @@ su<span class="w"> </span>iax
 </div>
 </section>
 <section id="building-the-library">
-<span id="building-library-reference-link"></span><h2>Building the Library<a class="headerlink" href="#building-the-library" title="Permalink to this heading">#</a></h2>
+<span id="building-library-reference-link"></span><h2>Building the Library<a class="headerlink" href="#building-the-library" title="Link to this heading">#</a></h2>
 <section id="prerequisites">
-<span id="building-library-prerequisites-reference-link"></span><h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h3>
+<span id="building-library-prerequisites-reference-link"></span><h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
 <p>Before building Intel® QPL, install and set up the following tools:</p>
 <p><strong>Linux* OS:</strong></p>
 <ul class="simple">
@@ -552,7 +562,7 @@ under different conditions.</p>
 </ul>
 </section>
 <section id="available-build-options">
-<span id="building-library-build-options-reference-link"></span><h3>Available Build Options<a class="headerlink" href="#available-build-options" title="Permalink to this heading">#</a></h3>
+<span id="building-library-build-options-reference-link"></span><h3>Available Build Options<a class="headerlink" href="#available-build-options" title="Link to this heading">#</a></h3>
 <p>Intel QPL supports the following build options:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=[ON|OFF]</span></code> - Enables memory sanitizing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
@@ -599,7 +609,7 @@ of <code class="docutils literal notranslate"><span class="pre">libaccel-config<
 </div>
 </section>
 <section id="build-steps">
-<span id="building-library-build-reference-link"></span><h3>Build Steps<a class="headerlink" href="#build-steps" title="Permalink to this heading">#</a></h3>
+<span id="building-library-build-reference-link"></span><h3>Build Steps<a class="headerlink" href="#build-steps" title="Link to this heading">#</a></h3>
 <p>To build Intel QPL (by default it includes building examples, tests
 and benchmarks framework as well), complete the following steps:</p>
 <ol class="arabic">
@@ -644,7 +654,7 @@ cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </
 </ol>
 </section>
 <section id="installed-package-structure">
-<h3>Installed Package Structure<a class="headerlink" href="#installed-package-structure" title="Permalink to this heading">#</a></h3>
+<h3>Installed Package Structure<a class="headerlink" href="#installed-package-structure" title="Link to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌── bin
 ├── include
 │   └── qpl
@@ -675,15 +685,15 @@ target_link_libraries<span class="o">(</span>app_name<span class="w"> </span>QPL
 </section>
 </section>
 <section id="building-the-documentation">
-<h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this heading">#</a></h2>
+<h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Link to this heading">#</a></h2>
 <section id="id1">
-<h3>Prerequisites<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Prerequisites<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>To build the offline version of the documentation, the following tools must be installed:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.doxygen.nl/index.html">Doxygen</a> 1.8.17 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">doxygen</span></code>)</p></li>
 <li><p><a class="reference external" href="https://www.python.org/">Python</a> 3.8.5 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python3.X</span></code>)</p></li>
-<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> 6.2.1 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx</span></code>)</p></li>
-<li><p><a class="reference external" href="https://executablebooks.org/en/latest/">sphinx_book_theme</a> 1.0.1 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx-book-theme</span></code>)</p></li>
+<li><p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a> 7.2.6 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx</span></code>)</p></li>
+<li><p><a class="reference external" href="https://executablebooks.org/en/latest/">sphinx_book_theme</a> 1.1.2 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">sphinx-book-theme</span></code>)</p></li>
 <li><p><a class="reference external" href="https://breathe.readthedocs.io/en/latest/">Breathe</a> 4.35.0 or higher (e.g., with <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">breathe</span></code>)</p></li>
 </ul>
 <div class="admonition attention">
@@ -695,7 +705,7 @@ target_link_libraries<span class="o">(</span>app_name<span class="w"> </span>QPL
 </div>
 </section>
 <section id="id2">
-<h3>Build Steps<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<h3>Build Steps<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>To generate the full offline documentation from sources,
 use the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>/bin/bash<span class="w"> </span>&lt;qpl_library&gt;/doc/_get_docs.sh

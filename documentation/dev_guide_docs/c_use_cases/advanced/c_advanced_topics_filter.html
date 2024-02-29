@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Advanced Filter Features &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/advanced/c_advanced_topics_filter';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -424,11 +434,11 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="advanced-filter-features">
-<h1>Advanced Filter Features<a class="headerlink" href="#advanced-filter-features" title="Permalink to this heading">#</a></h1>
+<h1>Advanced Filter Features<a class="headerlink" href="#advanced-filter-features" title="Link to this heading">#</a></h1>
 <p>The library implements a number of “advanced” features that augment or
 modify the normal behavior of filter operations.</p>
 <section id="omit-checksums-and-aggregates-calculation">
-<h2>Omit Checksums and Aggregates Calculation<a class="headerlink" href="#omit-checksums-and-aggregates-calculation" title="Permalink to this heading">#</a></h2>
+<h2>Omit Checksums and Aggregates Calculation<a class="headerlink" href="#omit-checksums-and-aggregates-calculation" title="Link to this heading">#</a></h2>
 <p>If the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_CHECKSUMS" title="QPL_FLAG_OMIT_CHECKSUMS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></code></a> is specified, then CRC/XOR
 checksums are not calculated during filtering on software path.
 <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_AGGREGATES" title="QPL_FLAG_OMIT_AGGREGATES"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></code></a> has the same effect but omits aggregates
@@ -438,7 +448,7 @@ optimizations. See the <a class="reference internal" href="../filter_ops/c_opera
 section for more information.</p>
 </section>
 <section id="invert-output">
-<h2>Invert Output<a class="headerlink" href="#invert-output" title="Permalink to this heading">#</a></h2>
+<h2>Invert Output<a class="headerlink" href="#invert-output" title="Link to this heading">#</a></h2>
 <p>Filter operation with the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_INV_OUT" title="QPL_FLAG_INV_OUT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a> specified will result in
 inverse output in case of a bit-vector-like output. Omitting this flag
 will not produce inverse output.</p>
@@ -447,7 +457,7 @@ will not produce inverse output.</p>
 <code class="docutils literal notranslate"><span class="pre">SCAN_RANGE</span></code>.</p>
 </section>
 <section id="initial-output-index">
-<h2>Initial Output Index<a class="headerlink" href="#initial-output-index" title="Permalink to this heading">#</a></h2>
+<h2>Initial Output Index<a class="headerlink" href="#initial-output-index" title="Link to this heading">#</a></h2>
 <p>When using output modification with a bit-vector output, the indices of
 the 1-bits are written to the output. By default, the index of the first
 bit is 0. By setting the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.initial_output_index" title="qpl_job.initial_output_index"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.initial_output_index</span></code></a> field
@@ -472,7 +482,7 @@ that <code class="docutils literal notranslate"><span class="pre">initial_output
 </div>
 </section>
 <section id="drop-initial-bytes">
-<h2>Drop Initial Bytes<a class="headerlink" href="#drop-initial-bytes" title="Permalink to this heading">#</a></h2>
+<h2>Drop Initial Bytes<a class="headerlink" href="#drop-initial-bytes" title="Link to this heading">#</a></h2>
 <p>In some cases, the filter input data may be compressed, and the
 uncompressed data might contain some sort of header before the columnar
 data begins. Assuming that this header is an integral number of bytes

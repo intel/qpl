@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Huffman Table Objects &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/c_use_huffman_tables';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -430,7 +440,7 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="huffman-table-objects">
-<span id="huffman-tables-api-label"></span><h1>Huffman Table Objects<a class="headerlink" href="#huffman-table-objects" title="Permalink to this heading">#</a></h1>
+<span id="huffman-tables-api-label"></span><h1>Huffman Table Objects<a class="headerlink" href="#huffman-table-objects" title="Link to this heading">#</a></h1>
 <p>This page provides general descriptions of the APIs available for
 managing a Huffman table object.</p>
 <p>The library supports two types of Huffman table: <em>Deflate</em> and <em>Huffman only</em>.
@@ -444,7 +454,7 @@ destroy are provided.</p>
 <p>Additionally, serialization and deserialization functionalities
 are available in order to save state between calls.</p>
 <section id="creating-huffman-table">
-<h2>Creating Huffman Table<a class="headerlink" href="#creating-huffman-table" title="Permalink to this heading">#</a></h2>
+<h2>Creating Huffman Table<a class="headerlink" href="#creating-huffman-table" title="Link to this heading">#</a></h2>
 <p>A Huffman table object can be created as compression, decompression,
 or combined table, using the value of the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_huffman_table_type_e</span></code></a> enum.</p>
 <p>Users are also required to provide information about execution path
@@ -467,13 +477,13 @@ required for internal structures.</p>
 <p>And similarly for <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_only_table_create" title="qpl_huffman_only_table_create"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_only_table_create()</span></code></a>.</p>
 </section>
 <section id="initializing-huffman-tables">
-<h2>Initializing Huffman Tables<a class="headerlink" href="#initializing-huffman-tables" title="Permalink to this heading">#</a></h2>
+<h2>Initializing Huffman Tables<a class="headerlink" href="#initializing-huffman-tables" title="Link to this heading">#</a></h2>
 <p>Next step is to properly initialize the created table.
 There are several ways that this could be done:
 initialization with triplets, histogram deflate statistics, or from another table.
 Refer to the sections below for implementation and support details.</p>
 <section id="huffman-triplets">
-<h3>Huffman Triplets<a class="headerlink" href="#huffman-triplets" title="Permalink to this heading">#</a></h3>
+<h3>Huffman Triplets<a class="headerlink" href="#huffman-triplets" title="Link to this heading">#</a></h3>
 <p>An array of the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_triplet" title="qpl_huffman_triplet"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_huffman_triplet</span></code></a> objects is considered as a
 “generic format” Huffman table. <em>Huffman only</em> table could be initialized
 using the array of triplets. For this the user would need to provide
@@ -499,7 +509,7 @@ a pointer to the array and its size together with a pre-allocated Huffman table 
 </div>
 </section>
 <section id="deflate-tokens-histogram">
-<h3>Deflate Tokens Histogram<a class="headerlink" href="#deflate-tokens-histogram" title="Permalink to this heading">#</a></h3>
+<h3>Deflate Tokens Histogram<a class="headerlink" href="#deflate-tokens-histogram" title="Link to this heading">#</a></h3>
 <p>A <em>Deflate</em> Huffman table could be built from a deflate tokens histogram
 that is defined by the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_histogram" title="qpl_histogram"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_histogram</span></code></a> structure.
 Histogram structure could be filled using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_gather_deflate_statistics" title="qpl_gather_deflate_statistics"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_gather_deflate_statistics()</span></code></a> function.
@@ -523,7 +533,7 @@ and pre-allocated table.</p>
 </div>
 </section>
 <section id="initialization-from-other-huffman-table">
-<h3>Initialization from Other Huffman Table<a class="headerlink" href="#initialization-from-other-huffman-table" title="Permalink to this heading">#</a></h3>
+<h3>Initialization from Other Huffman Table<a class="headerlink" href="#initialization-from-other-huffman-table" title="Link to this heading">#</a></h3>
 <p>Another way to build a table is to use the function
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_init_with_other" title="qpl_huffman_table_init_with_other"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_init_with_other()</span></code></a> to initialize one table with the values from another,
 which is also capable of converting a compression table into a decompression representation.</p>
@@ -545,12 +555,12 @@ which is also capable of converting a compression table into a decompression rep
 </section>
 </section>
 <section id="destroying-huffman-tables">
-<h2>Destroying Huffman Tables<a class="headerlink" href="#destroying-huffman-tables" title="Permalink to this heading">#</a></h2>
+<h2>Destroying Huffman Tables<a class="headerlink" href="#destroying-huffman-tables" title="Link to this heading">#</a></h2>
 <p>In order to destroy a Huffman table object, <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_destroy" title="qpl_huffman_table_destroy"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_destroy()</span></code></a> should
 be called, that would free up memory for all internal structures as well.</p>
 </section>
 <section id="serializing-and-deserializing-huffman-tables">
-<h2>Serializing and Deserializing Huffman Tables<a class="headerlink" href="#serializing-and-deserializing-huffman-tables" title="Permalink to this heading">#</a></h2>
+<h2>Serializing and Deserializing Huffman Tables<a class="headerlink" href="#serializing-and-deserializing-huffman-tables" title="Link to this heading">#</a></h2>
 <blockquote>
 <div><p><strong>Note:</strong> Serialization is only supported for <cite>serialization_raw</cite> format.</p>
 </div></blockquote>
@@ -600,7 +610,7 @@ by deserialize function via <a class="reference internal" href="../../dev_ref_do
 </div>
 </section>
 <section id="service-routines">
-<h2>Service Routines<a class="headerlink" href="#service-routines" title="Permalink to this heading">#</a></h2>
+<h2>Service Routines<a class="headerlink" href="#service-routines" title="Link to this heading">#</a></h2>
 <p>A function <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_get_type" title="qpl_huffman_table_get_type"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_huffman_table_get_type()</span></code></a> is available for inquiring a type
 of previously created Huffman table according to the values of <a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_huffman_table_type_e</span></code></a>.</p>
 </section>

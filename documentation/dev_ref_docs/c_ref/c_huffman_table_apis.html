@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Huffman Table APIs &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_ref_docs/c_ref/c_huffman_table_apis';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -429,14 +439,14 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="huffman-table-apis">
-<h1>Huffman Table APIs<a class="headerlink" href="#huffman-table-apis" title="Permalink to this heading">#</a></h1>
+<h1>Huffman Table APIs<a class="headerlink" href="#huffman-table-apis" title="Link to this heading">#</a></h1>
 <section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h2>
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
 <section id="creation-and-destruction-of-huffman-table">
-<h3>Creation and Destruction of Huffman table<a class="headerlink" href="#creation-and-destruction-of-huffman-table" title="Permalink to this heading">#</a></h3>
+<h3>Creation and Destruction of Huffman table<a class="headerlink" href="#creation-and-destruction-of-huffman-table" title="Link to this heading">#</a></h3>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_deflate_huffman_table_create">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaa16c63a9fae0a94caa3a1d39948ef40c"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_deflate_huffman_table_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_deflate_huffman_table_create" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaa16c63a9fae0a94caa3a1d39948ef40c"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_deflate_huffman_table_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_deflate_huffman_table_create" title="Link to this definition">#</a><br /></dt>
 <dd><p>Creates a <a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> object for deflate. Allocate and markup of internal structures. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -455,7 +465,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_only_table_create">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga0b75828b34cbf1dabbe364b85cc4cb0b"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_only_table_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_only_table_create" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga0b75828b34cbf1dabbe364b85cc4cb0b"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_only_table_create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="n"><span class="pre">type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_only_table_create" title="Link to this definition">#</a><br /></dt>
 <dd><p>Creates a <a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> object for Huffman Only. Allocate and markup of internal structures. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -474,7 +484,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_destroy">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga2493028882f1e6671822b81f1cd1e7af"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_destroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_destroy" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga2493028882f1e6671822b81f1cd1e7af"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_destroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_destroy" title="Link to this definition">#</a><br /></dt>
 <dd><p>Destroy an <a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> object. Deallocates internal structures. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -490,10 +500,10 @@ document.write(`
 
 </section>
 <section id="initialization-of-huffman-table">
-<h3>Initialization of Huffman table<a class="headerlink" href="#initialization-of-huffman-table" title="Permalink to this heading">#</a></h3>
+<h3>Initialization of Huffman table<a class="headerlink" href="#initialization-of-huffman-table" title="Link to this heading">#</a></h3>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_init_with_triplets">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaf4c755129c7ac67a568773c176cace25"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_triplets</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_triplet" title="qpl_huffman_triplet"><span class="n"><span class="pre">qpl_huffman_triplet</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">triplet_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">triplet_count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_triplets" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaf4c755129c7ac67a568773c176cace25"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_triplets</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_triplet" title="qpl_huffman_triplet"><span class="n"><span class="pre">qpl_huffman_triplet</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">triplet_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">triplet_count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_triplets" title="Link to this definition">#</a><br /></dt>
 <dd><p>Initializes huffman table with provided triplets. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -511,7 +521,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_gather_deflate_statistics">
-<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga18de4228f954100b93a36b6a2ed7ae75"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_gather_deflate_statistics</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">source_length</span></span>, <a class="reference internal" href="#c.qpl_histogram" title="qpl_histogram"><span class="n"><span class="pre">qpl_histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">histogram_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_compression_levels" title="qpl_compression_levels"><span class="n"><span class="pre">qpl_compression_levels</span></span></a><span class="w"> </span><span class="n"><span class="pre">level</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_gather_deflate_statistics" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d3/d2a/group___j_o_b___a_p_i___f_u_n_c_t_i_o_n_s_1ga18de4228f954100b93a36b6a2ed7ae75"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_gather_deflate_statistics</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">source_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">source_length</span></span>, <a class="reference internal" href="#c.qpl_histogram" title="qpl_histogram"><span class="n"><span class="pre">qpl_histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">histogram_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_compression_levels" title="qpl_compression_levels"><span class="n"><span class="pre">qpl_compression_levels</span></span></a><span class="w"> </span><span class="n"><span class="pre">level</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="c_common_definitions.html#c.qpl_path_t" title="qpl_path_t"><span class="n"><span class="pre">qpl_path_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_gather_deflate_statistics" title="Link to this definition">#</a><br /></dt>
 <dd><p>Gathers deflate statistics (literals/lengths and offsets histogram) </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -531,7 +541,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_init_with_histogram">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga8986da52812bb4085bdd54b30a241d39"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_histogram</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_histogram" title="qpl_histogram"><span class="n"><span class="pre">qpl_histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">histogram_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_histogram" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga8986da52812bb4085bdd54b30a241d39"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_histogram</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_histogram" title="qpl_histogram"><span class="n"><span class="pre">qpl_histogram</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">histogram_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_histogram" title="Link to this definition">#</a><br /></dt>
 <dd><p>Initializes huffman table with provided histogram. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -548,7 +558,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_init_with_other">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gabffef050b78bd53faacf317a6d0b352e"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_other</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_other" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gabffef050b78bd53faacf317a6d0b352e"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_init_with_other</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">other</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_init_with_other" title="Link to this definition">#</a><br /></dt>
 <dd><p>Initializes huffman table with information from another table. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -565,10 +575,10 @@ document.write(`
 
 </section>
 <section id="serialization-apis">
-<h3>Serialization APIs<a class="headerlink" href="#serialization-apis" title="Permalink to this heading">#</a></h3>
+<h3>Serialization APIs<a class="headerlink" href="#serialization-apis" title="Link to this heading">#</a></h3>
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_get_serialized_size">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga9553c21486f2eaeaac2c324cc11fd3c9"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_get_serialized_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_get_serialized_size" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga9553c21486f2eaeaac2c324cc11fd3c9"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_get_serialized_size</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_get_serialized_size" title="Link to this definition">#</a><br /></dt>
 <dd><p>API to get size of the table to be serialized. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -590,7 +600,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_serialize">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga6fc9b8d82e74201a54901b0f48ff8187"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_serialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_serialize" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga6fc9b8d82e74201a54901b0f48ff8187"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_serialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.serialization_options_t" title="serialization_options_t"><span class="n"><span class="pre">serialization_options_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">options</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_serialize" title="Link to this definition">#</a><br /></dt>
 <dd><p>Serializes qpl_huffman_table_t object. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -613,7 +623,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_deserialize">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga2a9ea5e802bd68a296727b1031339d7b"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_deserialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_size</span></span>, <a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_deserialize" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga2a9ea5e802bd68a296727b1031339d7b"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_deserialize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_ptr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">dump_buffer_size</span></span>, <a class="reference internal" href="c_common_definitions.html#c.allocator_t" title="allocator_t"><span class="n"><span class="pre">allocator_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">allocator</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">table_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_deserialize" title="Link to this definition">#</a><br /></dt>
 <dd><p>Deserializes previously serialized huffman table. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -632,7 +642,7 @@ document.write(`
 
 <dl class="c function">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_get_type">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga99ffa93a2c2265f55a4e87b5670376ec"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_get_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">type_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_get_type" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga99ffa93a2c2265f55a4e87b5670376ec"></span><a class="reference internal" href="c_status_codes.html#c.qpl_status" title="qpl_status"><span class="n"><span class="pre">qpl_status</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_get_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_huffman_table_t" title="qpl_huffman_table_t"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">table</span></span>, <a class="reference internal" href="#c.qpl_huffman_table_type_e" title="qpl_huffman_table_type_e"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">type_ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_huffman_table_get_type" title="Link to this definition">#</a><br /></dt>
 <dd><p>Returns type of <a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a>. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -650,36 +660,36 @@ document.write(`
 </section>
 </section>
 <section id="types">
-<h2>Types<a class="headerlink" href="#types" title="Permalink to this heading">#</a></h2>
+<h2>Types<a class="headerlink" href="#types" title="Link to this heading">#</a></h2>
 <dl class="c type">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_t">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">qpl_huffman_table</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_t" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="n"><span class="pre">qpl_huffman_table</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_t</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Special data type that is an opaque pointer to unified compression/decompression table. </p>
 </dd></dl>
 
 </section>
 <section id="enums">
-<h2>Enums<a class="headerlink" href="#enums" title="Permalink to this heading">#</a></h2>
+<h2>Enums<a class="headerlink" href="#enums" title="Link to this heading">#</a></h2>
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_type_e">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga575bfaa17d1d265467ea7763d51f9b36"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1ga575bfaa17d1d265467ea7763d51f9b36"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_table_type_e</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e" title="Link to this definition">#</a><br /></dt>
 <dd><p>Type used to specify whether Huffman table would store compression, decompression or both tables internally. </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_type_e.combined_table_type">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36a525ee9aae01b6a5de2e9952663c4cb56"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">combined_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.combined_table_type" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36a525ee9aae01b6a5de2e9952663c4cb56"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">combined_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.combined_table_type" title="Link to this definition">#</a><br /></dt>
 <dd><p><a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> contains both tables </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_type_e.compression_table_type">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36aa68ad4352f91573d61fbcbef0186c639"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compression_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.compression_table_type" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36aa68ad4352f91573d61fbcbef0186c639"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compression_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.compression_table_type" title="Link to this definition">#</a><br /></dt>
 <dd><p><a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> contains compression table only </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_huffman_table_type_e.decompression_table_type">
-<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36abc7f0ef9448938982919df9da55e3d81"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">decompression_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.decompression_table_type" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gga575bfaa17d1d265467ea7763d51f9b36abc7f0ef9448938982919df9da55e3d81"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">decompression_table_type</span></span></span><a class="headerlink" href="#c.qpl_huffman_table_type_e.decompression_table_type" title="Link to this definition">#</a><br /></dt>
 <dd><p><a class="reference internal" href="#de/db8/group___h_u_f_f_m_a_n___t_a_b_l_e___a_p_i_1gaefe68b3eee506ada3949a991efae819d"><span class="std std-ref">qpl_huffman_table_t</span></a> contains decompression table only </p>
 </dd></dl>
 
@@ -687,18 +697,18 @@ document.write(`
 
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_serialization_format_e">
-<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1ga851a678e49eee598adc795cd37b96b5e"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_serialization_format_e</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1ga851a678e49eee598adc795cd37b96b5e"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_serialization_format_e</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e" title="Link to this definition">#</a><br /></dt>
 <dd><p>Describes how to perform serialization </p>
 <p><em>Values:</em></p>
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_serialization_format_e.serialization_compact">
-<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1gga851a678e49eee598adc795cd37b96b5eafc593ed34a901710b2fe50c182872196"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_compact</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e.serialization_compact" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1gga851a678e49eee598adc795cd37b96b5eafc593ed34a901710b2fe50c182872196"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_compact</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e.serialization_compact" title="Link to this definition">#</a><br /></dt>
 <dd><p>More compact representation, useful for saving up memory on the disk </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_serialization_format_e.serialization_raw">
-<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1gga851a678e49eee598adc795cd37b96b5ea5435457eb8833d18360fce1f41c63d71"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_raw</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e.serialization_raw" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1gga851a678e49eee598adc795cd37b96b5ea5435457eb8833d18360fce1f41c63d71"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_raw</span></span></span><a class="headerlink" href="#c.qpl_serialization_format_e.serialization_raw" title="Link to this definition">#</a><br /></dt>
 <dd><p>Faster but more straightforward implementation, use to save speed of serialization/deserialization in case high load </p>
 </dd></dl>
 
@@ -706,28 +716,28 @@ document.write(`
 
 </section>
 <section id="structures">
-<h2>Structures<a class="headerlink" href="#structures" title="Permalink to this heading">#</a></h2>
+<h2>Structures<a class="headerlink" href="#structures" title="Link to this heading">#</a></h2>
 <dl class="c struct">
 <dt class="sig sig-object c" id="c.qpl_huffman_triplet">
-<span class="target" id="d2/d5f/structqpl__huffman__triplet"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_triplet</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d2/d5f/structqpl__huffman__triplet"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_huffman_triplet</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet" title="Link to this definition">#</a><br /></dt>
 <dd><p>Structure for intermediate representation of Huffman token. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_huffman_triplet.value">
-<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a638e4503e0ae6ce655b7ad2e17e8f0ad"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.value" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a638e4503e0ae6ce655b7ad2e17e8f0ad"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.value" title="Link to this definition">#</a><br /></dt>
 <dd><p>Encoded value </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_huffman_triplet.code_length">
-<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a62f3d42af8ab403cc726019088cbda06"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">code_length</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.code_length" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a62f3d42af8ab403cc726019088cbda06"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">code_length</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.code_length" title="Link to this definition">#</a><br /></dt>
 <dd><p>Length of Huffman code for given value </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_huffman_triplet.code">
-<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a70008c0b7822b172472813e6730ea565"></span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">code</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.code" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="d2/d5f/structqpl__huffman__triplet_1a70008c0b7822b172472813e6730ea565"></span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">code</span></span></span><a class="headerlink" href="#c.qpl_huffman_triplet.code" title="Link to this definition">#</a><br /></dt>
 <dd><p>Huffman code for given value </p>
 </dd></dl>
 
@@ -736,31 +746,31 @@ document.write(`
 
 <dl class="c struct">
 <dt class="sig sig-object c" id="c.qpl_histogram">
-<span class="target" id="dd/de0/structqpl__histogram"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_histogram</span></span></span><a class="headerlink" href="#c.qpl_histogram" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="dd/de0/structqpl__histogram"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_histogram</span></span></span><a class="headerlink" href="#c.qpl_histogram" title="Link to this definition">#</a><br /></dt>
 <dd><p>Structure that represents histogram of literals, lengths and offsets symbols. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_histogram.literal_lengths">
-<span class="target" id="dd/de0/structqpl__histogram_1a77884a8711cab6395d781e44b44640b3"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">literal_lengths</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">QPL_LITERALS_MATCHES_TABLE_SIZE</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.literal_lengths" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="dd/de0/structqpl__histogram_1a77884a8711cab6395d781e44b44640b3"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">literal_lengths</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">QPL_LITERALS_MATCHES_TABLE_SIZE</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.literal_lengths" title="Link to this definition">#</a><br /></dt>
 <dd><p>Combined histogram for literals and match lengths tokens </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_histogram.reserved_literal_lengths">
-<span class="target" id="dd/de0/structqpl__histogram_1a88b9e7c99f471d753de3fe70050ba0c9"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reserved_literal_lengths</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2u</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.reserved_literal_lengths" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="dd/de0/structqpl__histogram_1a88b9e7c99f471d753de3fe70050ba0c9"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reserved_literal_lengths</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2u</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.reserved_literal_lengths" title="Link to this definition">#</a><br /></dt>
 <dd><p>Reserved match lengths tokens </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_histogram.distances">
-<span class="target" id="dd/de0/structqpl__histogram_1a8a18b381b376f2057e6cb55a1e1ad806"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">distances</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">QPL_DEFAULT_OFFSETS_NUMBER</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.distances" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="dd/de0/structqpl__histogram_1a8a18b381b376f2057e6cb55a1e1ad806"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">distances</span></span></span><span class="p"><span class="pre">[</span></span><span class="n"><span class="pre">QPL_DEFAULT_OFFSETS_NUMBER</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.distances" title="Link to this definition">#</a><br /></dt>
 <dd><p>Histogram for distance tokens </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.qpl_histogram.reserved_distances">
-<span class="target" id="dd/de0/structqpl__histogram_1ae185bde2a30143fc8d44ef8aedfb19f9"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reserved_distances</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2u</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.reserved_distances" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="dd/de0/structqpl__histogram_1ae185bde2a30143fc8d44ef8aedfb19f9"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reserved_distances</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">2u</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#c.qpl_histogram.reserved_distances" title="Link to this definition">#</a><br /></dt>
 <dd><p>Reserved distance tokens </p>
 </dd></dl>
 
@@ -769,19 +779,19 @@ document.write(`
 
 <dl class="c struct">
 <dt class="sig sig-object c" id="c.serialization_options_t">
-<span class="target" id="de/dfd/structserialization__options__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_options_t</span></span></span><a class="headerlink" href="#c.serialization_options_t" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/dfd/structserialization__options__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">serialization_options_t</span></span></span><a class="headerlink" href="#c.serialization_options_t" title="Link to this definition">#</a><br /></dt>
 <dd><p>Describes serialization options. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="c var">
 <dt class="sig sig-object c" id="c.serialization_options_t.format">
-<span class="target" id="de/dfd/structserialization__options__t_1a87a759352bcbc693c9d3b6b060838f1a"></span><a class="reference internal" href="#c.qpl_serialization_format_e" title="qpl_serialization_format_e"><span class="n"><span class="pre">qpl_serialization_format_e</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.serialization_options_t.format" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/dfd/structserialization__options__t_1a87a759352bcbc693c9d3b6b060838f1a"></span><a class="reference internal" href="#c.qpl_serialization_format_e" title="qpl_serialization_format_e"><span class="n"><span class="pre">qpl_serialization_format_e</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">format</span></span></span><a class="headerlink" href="#c.serialization_options_t.format" title="Link to this definition">#</a><br /></dt>
 <dd><p><a class="reference internal" href="#d0/d45/group___s_e_r_i_a_l_i_z_a_t_i_o_n___a_p_i_1ga851a678e49eee598adc795cd37b96b5e"><span class="std std-ref">qpl_serialization_format_e</span></a> of serialized object </p>
 </dd></dl>
 
 <dl class="c var">
 <dt class="sig sig-object c" id="c.serialization_options_t.flags">
-<span class="target" id="de/dfd/structserialization__options__t_1af5537b3f88453e3228dc9e72232cb51d"></span><span class="n"><span class="pre">serialization_flags_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.serialization_options_t.flags" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="de/dfd/structserialization__options__t_1af5537b3f88453e3228dc9e72232cb51d"></span><span class="n"><span class="pre">serialization_flags_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flags</span></span></span><a class="headerlink" href="#c.serialization_options_t.flags" title="Link to this definition">#</a><br /></dt>
 <dd><p>Advanced serialization options, placeholder for later </p>
 </dd></dl>
 

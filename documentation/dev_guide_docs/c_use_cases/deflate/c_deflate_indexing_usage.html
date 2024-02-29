@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Creating and Using Indices &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
-    <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -430,9 +440,9 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="creating-and-using-indices">
-<h1>Creating and Using Indices<a class="headerlink" href="#creating-and-using-indices" title="Permalink to this heading">#</a></h1>
+<h1>Creating and Using Indices<a class="headerlink" href="#creating-and-using-indices" title="Link to this heading">#</a></h1>
 <section id="computing-the-size-of-the-index-array">
-<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Permalink to this heading">#</a></h2>
+<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Link to this heading">#</a></h2>
 <p>The expected number of index values can be obtained from:</p>
 <p><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">num_index_values(uint32_t</span> <span class="pre">buf_size,</span> <span class="pre">uint32_t</span> <span class="pre">idx_size,</span> <span class="pre">uint32_t</span> <span class="pre">blk_size);</span></code></p>
 <p>where the arguments are the size of the uncompressed data, the size of
@@ -448,7 +458,7 @@ block and 11 mini-blocks present, so the total number of indices is
 1*2+11+1 = 14.</p>
 </section>
 <section id="creating-indices">
-<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Permalink to this heading">#</a></h2>
+<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Link to this heading">#</a></h2>
 <p>To generate indices, the application needs to allocate an array large
 enough to hold all of the index values. The application then defines the
 mini-block size using the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.mini_block_size" title="qpl_job.mini_block_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.mini_block_size</span></code></a> field,
@@ -495,7 +505,7 @@ processed (END - 1)),</p></li>
 </div>
 <p><strong>Note</strong> that ((END+7)/8) - (START/8) is not the same as ((END+7-START)/8).</p>
 <section id="multi-block-usage">
-<h3>Multi-Block Usage<a class="headerlink" href="#multi-block-usage" title="Permalink to this heading">#</a></h3>
+<h3>Multi-Block Usage<a class="headerlink" href="#multi-block-usage" title="Link to this heading">#</a></h3>
 <p>For multi-block case, there is a “block_size”, where all blocks but the
 last are exactly that size, and the last block is no larger than that
 size. The block_size is a multiple of the mini-block size.</p>
@@ -526,7 +536,7 @@ needs to be decompressed first. This is “M”:</p>
 <p><strong>Note</strong> that if the <em>mb_per_b</em> is a power of two, then this can be done
 as a SHIFT and an AND rather than using actual divides.</p>
 <section id="decompressing-the-block-header">
-<h4>Decompressing the Block Header<a class="headerlink" href="#decompressing-the-block-header" title="Permalink to this heading">#</a></h4>
+<h4>Decompressing the Block Header<a class="headerlink" href="#decompressing-the-block-header" title="Link to this heading">#</a></h4>
 <p>The index of the start of the block header is
 <code class="docutils literal notranslate"><span class="pre">(blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2))</span></code>. The index of the end is one greater
 than this.</p>
@@ -536,7 +546,7 @@ the low 32-bits of the two entries identified earlier. Those offsets are
 converted to job parameters as previously described.</p>
 </section>
 <section id="decompressing-the-mini-block">
-<h4>Decompressing the Mini-block<a class="headerlink" href="#decompressing-the-mini-block" title="Permalink to this heading">#</a></h4>
+<h4>Decompressing the Mini-block<a class="headerlink" href="#decompressing-the-mini-block" title="Link to this heading">#</a></h4>
 <p>The index of the start of the block header is
 <code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2)</span> <span class="pre">+</span> <span class="pre">mb_num)</span></code>, and the index of the end
 is one greater. That is, the start of the mini-block is found by adding
@@ -562,7 +572,7 @@ mini-block’s number of bytes written.</p>
 </section>
 </section>
 <section id="single-block-usage">
-<h3>Single Block Usage<a class="headerlink" href="#single-block-usage" title="Permalink to this heading">#</a></h3>
+<h3>Single Block Usage<a class="headerlink" href="#single-block-usage" title="Link to this heading">#</a></h3>
 <p>This scenario is similar to the Multi-block case, except that there is
 only one block, and the <em>mb_per_b</em> is not used.</p>
 <p>In this case, the header is always between indices 0 and 1, and the

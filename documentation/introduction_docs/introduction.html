@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Introduction &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/introduction_docs/introduction';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -133,7 +132,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="current nav bd-sidenav">
@@ -435,7 +445,7 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="introduction">
-<span id="introduction-reference-link"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<span id="introduction-reference-link"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
 <p>The Intel® Query Processing Library (Intel® QPL) can be used to improve
 performance of database, enterprise data, communications, and
 scientific/technical applications. Intel QPL provides interfaces for a
@@ -455,13 +465,13 @@ with:</p>
 <li><p>Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware</p></li>
 </ul>
 <section id="library-architecture-overview">
-<h2>Library Architecture Overview<a class="headerlink" href="#library-architecture-overview" title="Permalink to this heading">#</a></h2>
+<h2>Library Architecture Overview<a class="headerlink" href="#library-architecture-overview" title="Link to this heading">#</a></h2>
 <p>The diagram below includes both the architecture of Intel QPL and the external components that the library
 interacts with. The components in the diagram are numbered from 0 to 8, each with a short description.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../../_images/qpl_arch_diagram.png"><img alt="../../_images/qpl_arch_diagram.png" src="../../_images/qpl_arch_diagram.png" style="width: 715.0px; height: 481.5px;" /></a>
 <figcaption>
-<p><span class="caption-text">Architecture Diagram of Intel QPL</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+<p><span class="caption-text">Architecture Diagram of Intel QPL</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <ol class="arabic simple" start="0">
@@ -483,7 +493,7 @@ with Intel IAA hardware.</p></li>
 </ol>
 </section>
 <section id="library-functionality-overview">
-<h2>Library Functionality Overview<a class="headerlink" href="#library-functionality-overview" title="Permalink to this heading">#</a></h2>
+<h2>Library Functionality Overview<a class="headerlink" href="#library-functionality-overview" title="Link to this heading">#</a></h2>
 <p>Intel® Query Processing Library (Intel® QPL) consists of two main
 functional blocks: analytics and compression.</p>
 <p>The analytics part contains two sub-blocks: Decompress and Filter.
@@ -545,7 +555,7 @@ direct input to the filter function), the XOR checksum of this data, and
 several “aggregates” of the output data. The CRC, XOR checksum, and
 aggregates are written to the completion record.</p>
 <section id="intel-in-memory-analytics-accelerator-intel-iaa">
-<h3>Intel® In-Memory Analytics Accelerator (Intel® IAA)<a class="headerlink" href="#intel-in-memory-analytics-accelerator-intel-iaa" title="Permalink to this heading">#</a></h3>
+<h3>Intel® In-Memory Analytics Accelerator (Intel® IAA)<a class="headerlink" href="#intel-in-memory-analytics-accelerator-intel-iaa" title="Link to this heading">#</a></h3>
 <p>The Intel QPL library uses Intel IAA hardware that provides
 compression and decompression of very high throughput combined
 with analytic primitive functions. The primitive functions are
@@ -562,9 +572,9 @@ compressed stream for efficient random access.</p>
 </section>
 </section>
 <section id="library-features">
-<h2>Library Features<a class="headerlink" href="#library-features" title="Permalink to this heading">#</a></h2>
+<h2>Library Features<a class="headerlink" href="#library-features" title="Link to this heading">#</a></h2>
 <section id="operations">
-<h3>Operations<a class="headerlink" href="#operations" title="Permalink to this heading">#</a></h3>
+<h3>Operations<a class="headerlink" href="#operations" title="Link to this heading">#</a></h3>
 <p>Intel QPL supports:</p>
 <ul class="simple">
 <li><p>Deflate compression/decompression with the history size limited to 4 KB</p></li>
@@ -577,7 +587,7 @@ compressed stream for efficient random access.</p>
 </div>
 </section>
 <section id="execution-paths">
-<h3>Execution Paths<a class="headerlink" href="#execution-paths" title="Permalink to this heading">#</a></h3>
+<h3>Execution Paths<a class="headerlink" href="#execution-paths" title="Link to this heading">#</a></h3>
 <p>Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:</p>
 <ul class="simple">
@@ -593,7 +603,7 @@ library depending on internal heuristics (<code class="docutils literal notransl
 </div>
 </section>
 <section id="numa-support">
-<span id="library-numa-support-reference-link"></span><h3>NUMA Support<a class="headerlink" href="#numa-support" title="Permalink to this heading">#</a></h3>
+<span id="library-numa-support-reference-link"></span><h3>NUMA Support<a class="headerlink" href="#numa-support" title="Link to this heading">#</a></h3>
 <p>Intel QPL is NUMA aware and respects the NUMA node ID of the calling
 thread. If a user needs to use a device from a specific node, it can be
 done in two ways:</p>
@@ -607,7 +617,7 @@ devices will be selected only from this node.</p></li>
 boundary. Users are responsible for balancing workloads between different nodes.</p>
 </section>
 <section id="page-faults-handling">
-<h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Permalink to this heading">#</a></h3>
+<h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Link to this heading">#</a></h3>
 <p>If a page fault occurs during operations supported by Intel QPL on Intel IAA,
 no partial completion is available and the operation must be resubmitted to the device.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">on</span> <span class="pre">Fault</span></code> is set (that is, the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set to <code class="docutils literal notranslate"><span class="pre">1</span></code>
@@ -623,7 +633,7 @@ the operation is continued on the <code class="docutils literal notranslate"><sp
 <p>Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details on setting <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> and other attributes.</p>
 </section>
 <section id="work-queue-support">
-<span id="library-work-queue-support-reference-link"></span><h3>Work Queue Support<a class="headerlink" href="#work-queue-support" title="Permalink to this heading">#</a></h3>
+<span id="library-work-queue-support-reference-link"></span><h3>Work Queue Support<a class="headerlink" href="#work-queue-support" title="Link to this heading">#</a></h3>
 <p>Intel IAA 2.0 supports the ability to configure which operations are supported using
 the OPCFG register.</p>
 <p>As of Intel QPL 1.3.0 or higher with <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> library version 4.0
@@ -637,7 +647,7 @@ would arise as work queues would allow all available operations.</p>
 </section>
 </section>
 <section id="library-limitations">
-<span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Permalink to this heading">#</a></h2>
+<span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Library does not work with Dedicated Work Queues on the accelerator, but uses Shared Work Queues only.</p></li>
 <li><p>Library does not have APIs for the hardware path configuration.</p></li>
@@ -647,7 +657,7 @@ would arise as work queues would allow all available operations.</p>
 </ul>
 </section>
 <section id="library-apis">
-<h2>Library APIs<a class="headerlink" href="#library-apis" title="Permalink to this heading">#</a></h2>
+<h2>Library APIs<a class="headerlink" href="#library-apis" title="Link to this heading">#</a></h2>
 <p>Intel QPL provides Low-Level C API, that represents a state-based interface.
 The base idea is to allocate a single state and configure one with different ways
 to perform necessary operation. All memory allocations are happening on user side

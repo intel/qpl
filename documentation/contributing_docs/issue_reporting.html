@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Issue Reporting &#8212; Intel® QPL v1.4.0 Documentation</title>
   
@@ -29,18 +28,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/documentation_options.js?v=c95d5861"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/contributing_docs/issue_reporting';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -132,7 +131,18 @@
     <p class="title logo__title">Intel® QPL v1.4.0 Documentation</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -427,12 +437,12 @@ document.write(`
   <blockquote>
 <div></div></blockquote>
 <section id="issue-reporting">
-<h1>Issue Reporting<a class="headerlink" href="#issue-reporting" title="Permalink to this heading">#</a></h1>
+<h1>Issue Reporting<a class="headerlink" href="#issue-reporting" title="Link to this heading">#</a></h1>
 <p>The Intel® Query Processing Library (Intel® QPL) library has several
 execution paths and various modes and operations, thus specific issue
 description is important to help detect and solve problems faster.</p>
 <section id="steps-to-report-an-issue">
-<h2>Steps to Report an Issue<a class="headerlink" href="#steps-to-report-an-issue" title="Permalink to this heading">#</a></h2>
+<h2>Steps to Report an Issue<a class="headerlink" href="#steps-to-report-an-issue" title="Link to this heading">#</a></h2>
 <p>If the library behavior is different from expected, follow the steps below to
 determine if it is a real and new issue and how to submit it:</p>
 <ol class="arabic simple">
@@ -450,7 +460,7 @@ Information about already known issues can be found in:</p>
 </ol>
 </section>
 <section id="issue-classification">
-<span id="issue-classification-link"></span><h2>Issue Classification<a class="headerlink" href="#issue-classification" title="Permalink to this heading">#</a></h2>
+<span id="issue-classification-link"></span><h2>Issue Classification<a class="headerlink" href="#issue-classification" title="Link to this heading">#</a></h2>
 <p>Issues can be classified based on when they occur:</p>
 <ul class="simple">
 <li><p>Configuration step</p></li>
@@ -460,7 +470,7 @@ Information about already known issues can be found in:</p>
 </ul>
 <p>These classes are described in the following sections.</p>
 <section id="configuration-step-issue">
-<h3>Configuration Step Issue<a class="headerlink" href="#configuration-step-issue" title="Permalink to this heading">#</a></h3>
+<h3>Configuration Step Issue<a class="headerlink" href="#configuration-step-issue" title="Link to this heading">#</a></h3>
 <p>Intel QPL library hardware path requires Intel® In-Memory Analytics Accelerator devices
 to be configured properly before application execution. Problems occurred during
 accelerator configuration can affect the correctness of Intel QPL library.
@@ -469,7 +479,7 @@ To avoid these problems, follow instructions of <code class="docutils literal no
 reported to <code class="docutils literal notranslate"><span class="pre">idxd-config</span></code> team (<a class="github reference external" href="https://github.com/intel/idxd-config">intel/idxd-config</a>).</p>
 </section>
 <section id="build-step-issue">
-<h3>Build Step Issue<a class="headerlink" href="#build-step-issue" title="Permalink to this heading">#</a></h3>
+<h3>Build Step Issue<a class="headerlink" href="#build-step-issue" title="Link to this heading">#</a></h3>
 <p>Intel QPL library can be built using the provided CMake scripts in several ways:</p>
 <ul class="simple">
 <li><p>The default build without any additional parameters or options</p></li>
@@ -489,7 +499,7 @@ reported to <code class="docutils literal notranslate"><span class="pre">idxd-co
 </ul>
 </section>
 <section id="initialization-step-issue">
-<h3>Initialization Step Issue<a class="headerlink" href="#initialization-step-issue" title="Permalink to this heading">#</a></h3>
+<h3>Initialization Step Issue<a class="headerlink" href="#initialization-step-issue" title="Link to this heading">#</a></h3>
 <p>Intel QPL library has 2 different status code groups. The first group
 helps to detect initialization issues. This issue can be caused by:</p>
 <ul class="simple">
@@ -522,7 +532,7 @@ by reason listed in the <a class="reference internal" href="../introduction_docs
 </ul>
 </section>
 <section id="operation-execution-step-issue">
-<h3>Operation Execution Step Issue<a class="headerlink" href="#operation-execution-step-issue" title="Permalink to this heading">#</a></h3>
+<h3>Operation Execution Step Issue<a class="headerlink" href="#operation-execution-step-issue" title="Link to this heading">#</a></h3>
 <p>This class of issues can be resolved by the Intel QPL team.</p>
 <p><strong>Make sure that your issue report contains the following information:</strong></p>
 <ul class="simple">
