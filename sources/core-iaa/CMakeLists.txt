@@ -18,8 +18,6 @@ file(GLOB HW_PATH_SRC sources/aecs/*.c
                       sources/descriptors/*.c
                       sources/*.c)
 
-option(BLOCK_ON_FAULT "Use `Block on Fault` flag for descriptor" ON)
-
 # Create library
 add_library(core_iaa OBJECT ${HW_PATH_SRC})
 
@@ -46,6 +44,5 @@ target_compile_options(core_iaa
 target_compile_features(core_iaa PRIVATE c_std_11)
 
 target_compile_definitions(core_iaa PRIVATE QPL_BADARG_CHECK
-        PRIVATE $<$<BOOL:${BLOCK_ON_FAULT}>: BLOCK_ON_FAULT_ENABLED>
         PRIVATE $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>
         PRIVATE $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG>)
