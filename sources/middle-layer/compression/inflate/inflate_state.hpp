@@ -346,7 +346,7 @@ inline auto inflate_state<execution_path_t::software>::decompress_table(decompre
 }
 
 inline auto inflate_state<execution_path_t::software>::dictionary(qpl_dictionary &dictionary) noexcept -> inflate_state & {
-    auto status = isal_inflate_set_dict(inflate_state_,
+    auto status = qpl_isal_inflate_set_dict(inflate_state_,
                                         get_dictionary_data(dictionary),
                                         static_cast<uint32_t>(dictionary.raw_dictionary_size));
 

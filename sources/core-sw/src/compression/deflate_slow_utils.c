@@ -135,7 +135,7 @@ uint32_t update_missed_literals(uint8_t *current_ptr,
 
     while (current_ptr < upper_bound_ptr) {
         // Variables
-        const uint32_t hash_value = crc32_gzip_refl(0u,
+        const uint32_t hash_value = qpl_crc32_gzip_refl(0u,
                                                     current_ptr,
                                                     OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
 
@@ -229,7 +229,7 @@ OWN_QPLC_FUN(void, setup_dictionary, (uint8_t * dictionary_ptr,
         // Variables
 
         uint32_t hash_value = 0u;
-        hash_value = crc32_gzip_refl(0u,
+        hash_value = qpl_crc32_gzip_refl(0u,
                                      current_ptr,
                                      OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
         // Updating hash table

@@ -792,7 +792,7 @@ static const uint64_t crc64_jones_norm_table[256] = {
 	0xb972e5c276c2d83dULL, 0x14e137f7e20bed94ULL
 };
 
-uint64_t crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -804,7 +804,7 @@ uint64_t crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint64_t crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -816,7 +816,7 @@ uint64_t crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint64_t crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -828,7 +828,7 @@ uint64_t crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint64_t crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -840,7 +840,7 @@ uint64_t crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint64_t crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -852,7 +852,7 @@ uint64_t crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint64_t crc64_jones_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
+uint64_t qpl_crc64_jones_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
 	uint64_t i, crc = ~seed;
 
@@ -870,20 +870,20 @@ struct slver {
 	unsigned char core;
 };
 
-struct slver crc64_ecma_refl_base_slver_0000001c;
-struct slver crc64_ecma_refl_base_slver = { 0x001c, 0x00, 0x00 };
+struct slver qpl_crc64_ecma_refl_base_slver_0000001c;
+struct slver qpl_crc64_ecma_refl_base_slver = { 0x001c, 0x00, 0x00 };
 
-struct slver crc64_ecma_norm_base_slver_00000019;
-struct slver crc64_ecma_norm_base_slver = { 0x0019, 0x00, 0x00 };
+struct slver qpl_crc64_ecma_norm_base_slver_00000019;
+struct slver qpl_crc64_ecma_norm_base_slver = { 0x0019, 0x00, 0x00 };
 
-struct slver crc64_iso_refl_base_slver_00000022;
-struct slver crc64_iso_refl_base_slver = { 0x0022, 0x00, 0x00 };
+struct slver qpl_crc64_iso_refl_base_slver_00000022;
+struct slver qpl_crc64_iso_refl_base_slver = { 0x0022, 0x00, 0x00 };
 
-struct slver crc64_iso_norm_base_slver_0000001f;
-struct slver crc64_iso_norm_base_slver = { 0x001f, 0x00, 0x00 };
+struct slver qpl_crc64_iso_norm_base_slver_0000001f;
+struct slver qpl_crc64_iso_norm_base_slver = { 0x001f, 0x00, 0x00 };
 
-struct slver crc64_jones_refl_base_slver_00000028;
-struct slver crc64_jones_refl_base_slver = { 0x0028, 0x00, 0x00 };
+struct slver qpl_crc64_jones_refl_base_slver_00000028;
+struct slver qpl_crc64_jones_refl_base_slver = { 0x0028, 0x00, 0x00 };
 
-struct slver crc64_jones_norm_base_slver_00000025;
-struct slver crc64_jones_norm_base_slver = { 0x0025, 0x00, 0x00 };
+struct slver qpl_crc64_jones_norm_base_slver_00000025;
+struct slver qpl_crc64_jones_norm_base_slver = { 0x0025, 0x00, 0x00 };

@@ -19,11 +19,11 @@
  *
  * - No Flush: The default method where no special flush is performed.
  *
- * - Sync flush: whereby isal_deflate() finishes the current deflate block at
+ * - Sync flush: whereby qpl_isal_deflate() finishes the current deflate block at
  *   the end of each input buffer. The deflate block is byte aligned by
  *   appending an empty stored block.
  *
- * - Full flush: whereby isal_deflate() finishes and aligns the deflate block as
+ * - Full flush: whereby qpl_isal_deflate() finishes and aligns the deflate block as
  *   in sync flush but also ensures that subsequent block's history does not
  *   look back beyond this point and new blocks are fully independent.
  *
@@ -605,7 +605,7 @@ struct inflate_state {
  * @param length: The length of start_stream.
  * @param histogram: The returned histogram of lit/len/dist symbols.
  */
-void isal_update_histogram(uint8_t * in_stream, int length, struct isal_huff_histogram * histogram);
+void qpl_isal_update_histogram(uint8_t * in_stream, int length, struct isal_huff_histogram * histogram);
 
 
 /**
@@ -618,12 +618,12 @@ void isal_update_histogram(uint8_t * in_stream, int length, struct isal_huff_his
  *        repeat lengths and lookback distances
  * @returns Returns a non zero value if an invalid huffman code was created.
  */
-int isal_create_hufftables(struct isal_hufftables * hufftables,
+int qpl_isal_create_hufftables(struct isal_hufftables * hufftables,
 			struct isal_huff_histogram * histogram);
 
 /**
  * @brief Creates a custom huffman code for the given histograms like
- * isal_create_hufftables() except literals with 0 frequency in the histogram
+ * qpl_isal_create_hufftables() except literals with 0 frequency in the histogram
  * are not assigned a code
  *
  * @param hufftables: the output structure containing the huffman code
@@ -631,7 +631,7 @@ int isal_create_hufftables(struct isal_hufftables * hufftables,
  *        repeat lengths and lookback distances
  * @returns Returns a non zero value if an invalid huffman code was created.
  */
-int isal_create_hufftables_subset(struct isal_hufftables * hufftables,
+int qpl_isal_create_hufftables_subset(struct isal_hufftables * hufftables,
 				struct isal_huff_histogram * histogram);
 
 #if defined(QPL_LIB)
@@ -646,7 +646,7 @@ int isal_create_hufftables_subset(struct isal_hufftables * hufftables,
  * @param histogram: histogram containing frequency of literal symbols
  * @returns Ret
  */
-int isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
+int qpl_isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
                                          struct isal_huff_histogram *histogram);
 #endif
 
@@ -656,18 +656,18 @@ int isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
  * @param stream Structure holding state information on the compression streams.
  * @returns none
  */
-void isal_deflate_init(struct isal_zstream *stream);
+void qpl_isal_deflate_init(struct isal_zstream *stream);
 
 /**
  * @brief Reinitialize compression stream data structure. Performs the same
- * action as isal_deflate_init, but does not change user supplied input such as
+ * action as qpl_isal_deflate_init, but does not change user supplied input such as
  * the level, flush type, compression wrapper (like gzip), hufftables, and
  * end_of_stream_flag.
  *
  * @param stream Structure holding state information on the compression streams.
  * @returns none
  */
-void isal_deflate_reset(struct isal_zstream *stream);
+void qpl_isal_deflate_reset(struct isal_zstream *stream);
 
 
 /**
@@ -675,7 +675,7 @@ void isal_deflate_reset(struct isal_zstream *stream);
  *
  * @param gz_hdr: Gzip header to initialize.
  */
-void isal_gzip_header_init(struct isal_gzip_header *gz_hdr);
+void qpl_isal_gzip_header_init(struct isal_gzip_header *gz_hdr);
 
 /**
  * @brief Write gzip header to output stream
@@ -692,7 +692,7 @@ void isal_gzip_header_init(struct isal_gzip_header *gz_hdr);
  * the minimum size required to successfully write the gzip header to the output
  * buffer.
  */
-uint32_t isal_write_gzip_header(struct isal_zstream * stream, struct isal_gzip_header *gz_hdr);
+uint32_t qpl_isal_write_gzip_header(struct isal_zstream * stream, struct isal_gzip_header *gz_hdr);
 
 /**
  * @brief Write zlib header to output stream
@@ -709,7 +709,7 @@ uint32_t isal_write_gzip_header(struct isal_zstream * stream, struct isal_gzip_h
  * the minimum size required to successfully write the zlib header to the output
  * buffer.
  */
-uint32_t isal_write_zlib_header(struct isal_zstream * stream, struct isal_zlib_header *z_hdr);
+uint32_t qpl_isal_write_zlib_header(struct isal_zstream * stream, struct isal_zlib_header *z_hdr);
 
 /**
  * @brief Set stream to use a new Huffman code
@@ -720,7 +720,7 @@ uint32_t isal_write_zlib_header(struct isal_zstream * stream, struct isal_zlib_h
  * code. If type has value IGZIP_HUFFTABLE_STATIC, the stream is set to use the
  * deflate standard static Huffman code, or if type has value
  * IGZIP_HUFFTABLE_CUSTOM, the stream is set to sue the isal_hufftables
- * structure input to isal_deflate_set_hufftables.
+ * structure input to qpl_isal_deflate_set_hufftables.
  *
  * @param stream: Structure holding state information on the compression stream.
  * @param hufftables: new huffman code to use if type is set to
@@ -731,7 +731,7 @@ uint32_t isal_write_zlib_header(struct isal_zstream * stream, struct isal_zlib_h
  * due to the stream being in a state where changing the huffman code is not
  * allowed or an invalid input is provided.
  */
-int isal_deflate_set_hufftables(struct isal_zstream *stream,
+int qpl_isal_deflate_set_hufftables(struct isal_zstream *stream,
 				struct isal_hufftables *hufftables, int type);
 
 /**
@@ -740,14 +740,14 @@ int isal_deflate_set_hufftables(struct isal_zstream *stream,
  * @param stream Structure holding state information on the compression streams.
  * @returns none
  */
-void isal_deflate_stateless_init(struct isal_zstream *stream);
+void qpl_isal_deflate_stateless_init(struct isal_zstream *stream);
 
 
 /**
  * @brief Set compression dictionary to use
  *
- * This function is to be called after isal_deflate_init, or after completing a
- * SYNC_FLUSH or FULL_FLUSH and before the next call do isal_deflate. If the
+ * This function is to be called after qpl_isal_deflate_init, or after completing a
+ * SYNC_FLUSH or FULL_FLUSH and before the next call do qpl_isal_deflate. If the
  * dictionary is longer than IGZIP_HIST_SIZE, only the last IGZIP_HIST_SIZE
  * bytes will be used.
  *
@@ -757,7 +757,7 @@ void isal_deflate_stateless_init(struct isal_zstream *stream);
  * @returns COMP_OK,
  *          ISAL_INVALID_STATE (dictionary could not be set)
  */
-int isal_deflate_set_dict(struct isal_zstream *stream, uint8_t *dict, uint32_t dict_len);
+int qpl_isal_deflate_set_dict(struct isal_zstream *stream, uint8_t *dict, uint32_t dict_len);
 
 /** @brief Structure for holding processed dictionary information */
 
@@ -774,8 +774,8 @@ struct isal_dict {
  * @brief Process dictionary to reuse later
  *
  * Processes a dictionary so that the generated output can be reused to reset a
- * new deflate stream more quickly than isal_deflate_set_dict() alone. This
- * function is paired with isal_deflate_reset_dict() when using the same
+ * new deflate stream more quickly than qpl_isal_deflate_set_dict() alone. This
+ * function is paired with qpl_isal_deflate_reset_dict() when using the same
  * dictionary on multiple deflate objects. The stream.level must be set prior to
  * calling this function to process the dictionary correctly. If the dictionary
  * is longer than IGZIP_HIST_SIZE, only the last IGZIP_HIST_SIZE bytes will be
@@ -788,19 +788,19 @@ struct isal_dict {
  * @returns COMP_OK,
  *          ISAL_INVALID_STATE (dictionary could not be processed)
  */
-int isal_deflate_process_dict(struct isal_zstream *stream, struct isal_dict *dict_str,
+int qpl_isal_deflate_process_dict(struct isal_zstream *stream, struct isal_dict *dict_str,
 			uint8_t *dict, uint32_t dict_len);
 
 /**
  * @brief Reset compression dictionary to use
  *
- * Similar to isal_deflate_set_dict() but on pre-processed dictionary
- * data. Pairing with isal_deflate_process_dict() can reduce the processing time
+ * Similar to qpl_isal_deflate_set_dict() but on pre-processed dictionary
+ * data. Pairing with qpl_isal_deflate_process_dict() can reduce the processing time
  * on subsequent compression with dictionary especially on small files.
  *
- * Like isal_deflate_set_dict(), this function is to be called after
- * isal_deflate_init, or after completing a SYNC_FLUSH or FULL_FLUSH and before
- * the next call do isal_deflate. Changing compression level between dictionary
+ * Like qpl_isal_deflate_set_dict(), this function is to be called after
+ * qpl_isal_deflate_init, or after completing a SYNC_FLUSH or FULL_FLUSH and before
+ * the next call do qpl_isal_deflate. Changing compression level between dictionary
  * process and reset will cause return of ISAL_INVALID_STATE.
  *
  * @param stream Structure holding state information on the compression streams.
@@ -808,23 +808,23 @@ int isal_deflate_process_dict(struct isal_zstream *stream, struct isal_dict *dic
  * @returns COMP_OK,
  *          ISAL_INVALID_STATE or other (dictionary could not be reset)
  */
-int isal_deflate_reset_dict(struct isal_zstream *stream, struct isal_dict *dict_str);
+int qpl_isal_deflate_reset_dict(struct isal_zstream *stream, struct isal_dict *dict_str);
 
 
 /**
  * @brief Fast data (deflate) compression for storage applications.
  *
- * The call to isal_deflate() will take data from the input buffer (updating
+ * The call to qpl_isal_deflate() will take data from the input buffer (updating
  * next_in, avail_in and write a compressed stream to the output buffer
  * (updating next_out and avail_out). The function returns when either the input
  * buffer is empty or the output buffer is full.
  *
- * On entry to isal_deflate(), next_in points to an input buffer and avail_in
+ * On entry to qpl_isal_deflate(), next_in points to an input buffer and avail_in
  * indicates the length of that buffer. Similarly next_out points to an empty
  * output buffer and avail_out indicates the size of that buffer.
  *
  * The fields total_in and total_out start at 0 and are updated by
- * isal_deflate(). These reflect the total number of bytes read or written so far.
+ * qpl_isal_deflate(). These reflect the total number of bytes read or written so far.
  *
  * When the last input buffer is passed in, signaled by setting the
  * end_of_stream, the routine will complete compression at the end of the input
@@ -852,7 +852,7 @@ int isal_deflate_reset_dict(struct isal_zstream *stream, struct isal_dict *dict_
  * between flush types is supported.
  *
  * If a compression dictionary is required, the dictionary can be set calling
- * isal_deflate_set_dictionary before calling isal_deflate.
+ * qpl_isal_deflate_set_dictionary before calling qpl_isal_deflate.
  *
  * If the gzip_flag is set to IGZIP_GZIP, a generic gzip header and the gzip
  * trailer are written around the deflate compressed data. If gzip_flag is set
@@ -865,19 +865,19 @@ int isal_deflate_reset_dict(struct isal_zstream *stream, struct isal_dict *dict_
  *         ISAL_INVALID_LEVEL (if an invalid compression level is selected),
  *         ISAL_INVALID_LEVEL_BUF (if the level buffer is not large enough).
  */
-int isal_deflate(struct isal_zstream *stream);
+int qpl_isal_deflate(struct isal_zstream *stream);
 
 
 /**
  * @brief Fast data (deflate) stateless compression for storage applications.
  *
  * Stateless (one shot) compression routine with a similar interface to
- * isal_deflate() but operates on entire input buffer at one time. Parameter
+ * qpl_isal_deflate() but operates on entire input buffer at one time. Parameter
  * avail_out must be large enough to fit the entire compressed output. Max
  * expansion is limited to the input size plus the header size of a stored/raw
  * block.
  *
- * When the compression level is set to 1, unlike in isal_deflate(), level_buf
+ * When the compression level is set to 1, unlike in qpl_isal_deflate(), level_buf
  * may be optionally set depending on what what performance is desired.
  *
  * For stateless the flush types NO_FLUSH and FULL_FLUSH are supported.
@@ -895,7 +895,7 @@ int isal_deflate(struct isal_zstream *stream);
  *         ISAL_INVALID_LEVEL_BUF (if the level buffer is not large enough),
  *         STATELESS_OVERFLOW (if output buffer will not fit output).
  */
-int isal_deflate_stateless(struct isal_zstream *stream);
+int qpl_isal_deflate_stateless(struct isal_zstream *stream);
 
 
 /******************************************************************************/
@@ -907,7 +907,7 @@ int isal_deflate_stateless(struct isal_zstream *stream);
  * @param state Structure holding state information on the compression streams.
  * @returns none
  */
-void isal_inflate_init(struct inflate_state *state);
+void qpl_isal_inflate_init(struct inflate_state *state);
 
 /**
  * @brief Reinitialize decompression state data structure
@@ -915,12 +915,12 @@ void isal_inflate_init(struct inflate_state *state);
  * @param state Structure holding state information on the compression streams.
  * @returns none
  */
-void isal_inflate_reset(struct inflate_state *state);
+void qpl_isal_inflate_reset(struct inflate_state *state);
 
 /**
  * @brief Set decompression dictionary to use
  *
- * This function is to be called after isal_inflate_init. If the dictionary is
+ * This function is to be called after qpl_isal_inflate_init. If the dictionary is
  * longer than IGZIP_HIST_SIZE, only the last IGZIP_HIST_SIZE bytes will be
  * used.
  *
@@ -930,7 +930,7 @@ void isal_inflate_reset(struct inflate_state *state);
  * @returns COMP_OK,
  *          ISAL_INVALID_STATE (dictionary could not be set)
  */
-int isal_inflate_set_dict(struct inflate_state *state, uint8_t *dict, uint32_t dict_len);
+int qpl_isal_inflate_set_dict(struct inflate_state *state, uint8_t *dict, uint32_t dict_len);
 
 /**
  * @brief Read and return gzip header information
@@ -953,7 +953,7 @@ int isal_inflate_set_dict(struct inflate_state *state, uint8_t *dict, uint32_t d
  *          ISAL_UNSUPPORTED_METHOD (deflate is not the compression method),
  *          ISAL_INCORRECT_CHECKSUM (gzip header checksum was incorrect)
  */
-int isal_read_gzip_header (struct inflate_state *state, struct isal_gzip_header *gz_hdr);
+int qpl_isal_read_gzip_header (struct inflate_state *state, struct isal_gzip_header *gz_hdr);
 
 /**
  * @brief Read and return zlib header information
@@ -968,19 +968,19 @@ int isal_read_gzip_header (struct inflate_state *state, struct isal_gzip_header 
  *          ISAL_UNSUPPORTED_METHOD (deflate is not the compression method),
  *          ISAL_INCORRECT_CHECKSUM (zlib header checksum was incorrect)
  */
-int isal_read_zlib_header (struct inflate_state *state, struct isal_zlib_header *zlib_hdr);
+int qpl_isal_read_zlib_header (struct inflate_state *state, struct isal_zlib_header *zlib_hdr);
 
 /**
  * @brief Fast data (deflate) decompression for storage applications.
  *
- * On entry to isal_inflate(), next_in points to an input buffer and avail_in
+ * On entry to qpl_isal_inflate(), next_in points to an input buffer and avail_in
  * indicates the length of that buffer. Similarly next_out points to an empty
  * output buffer and avail_out indicates the size of that buffer.
  *
- * The field total_out starts at 0 and is updated by isal_inflate(). This
+ * The field total_out starts at 0 and is updated by qpl_isal_inflate(). This
  * reflects the total number of bytes written so far.
  *
- * The call to isal_inflate() will take data from the input buffer (updating
+ * The call to qpl_isal_inflate() will take data from the input buffer (updating
  * next_in, avail_in and write a decompressed stream to the output buffer
  * (updating next_out and avail_out). The function returns when the input buffer
  * is empty, the output buffer is full, invalid data is found, or in the case of
@@ -1002,7 +1002,7 @@ int isal_read_zlib_header (struct inflate_state *state, struct isal_zlib_header 
  * are the log base 2 size of the matching window and 0 is the default with
  * maximum history size.
  *
- * If a dictionary is required, a call to isal_inflate_set_dict will set the
+ * If a dictionary is required, a call to qpl_isal_inflate_set_dict will set the
  * dictionary.
  *
  * @param  state Structure holding state information on the compression streams.
@@ -1016,13 +1016,13 @@ int isal_read_zlib_header (struct inflate_state *state, struct isal_zlib_header 
  *         ISAL_INCORRECT_CHECKSUM.
  */
 
-int isal_inflate(struct inflate_state *state);
+int qpl_isal_inflate(struct inflate_state *state);
 
 /**
  * @brief Fast data (deflate) stateless decompression for storage applications.
  *
  * Stateless (one shot) decompression routine with a similar interface to
- * isal_inflate() but operates on entire input buffer at one time. Parameter
+ * qpl_isal_inflate() but operates on entire input buffer at one time. Parameter
  * avail_out must be large enough to fit the entire decompressed
  * output. Dictionaries are not supported.
  *
@@ -1038,7 +1038,7 @@ int isal_inflate(struct inflate_state *state);
  *         ISAL_UNSUPPORTED_METHOD,
  *         ISAL_INCORRECT_CHECKSUM.
  */
-int isal_inflate_stateless(struct inflate_state *state);
+int qpl_isal_inflate_stateless(struct inflate_state *state);
 
 /******************************************************************************/
 /* Other functions */
@@ -1055,13 +1055,13 @@ int isal_inflate_stateless(struct inflate_state *state);
  *
  * @returns 32-bit Adler-32 checksum
  */
-uint32_t isal_adler32(uint32_t init, const unsigned char *buf, uint64_t len);
+uint32_t qpl_isal_adler32(uint32_t init, const unsigned char *buf, uint64_t len);
 
 #ifdef QPL_LIB
-int read_header(struct inflate_state *state);
-int decode_huffman_code_block_stateless(struct inflate_state *s, uint8_t *out);
-int decode_huffman_code_block_stateless_base(struct inflate_state* s, uint8_t* out);
-int check_gzip_checksum(struct inflate_state *state);
+int qpl_read_header(struct inflate_state *state);
+int qpl_decode_huffman_code_block_stateless(struct inflate_state *s, uint8_t *out);
+int qpl_decode_huffman_code_block_stateless_base(struct inflate_state* s, uint8_t* out);
+int qpl_check_gzip_checksum(struct inflate_state *state);
 #endif
 
 #ifdef __cplusplus

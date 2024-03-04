@@ -104,8 +104,8 @@ default rel
 default rel
 section .text
 
-mk_global adler32_avx2_4, function
-func(adler32_avx2_4)
+mk_global qpl_adler32_avx2_4, function
+func(qpl_adler32_avx2_4)
 	FUNC_SAVE
 
 	vmovdqa	yshuf0, [SHUF0]

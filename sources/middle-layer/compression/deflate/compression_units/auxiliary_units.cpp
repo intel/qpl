@@ -22,7 +22,7 @@
 #include "compression/deflate/implementations/deflate_implementation.hpp"
 
 extern "C" {
-extern void isal_deflate_hash(struct isal_zstream *stream, uint8_t *dict, uint32_t dict_len);
+extern void qpl_isal_deflate_hash(struct isal_zstream *stream, uint8_t *dict, uint32_t dict_len);
 }
 
 static inline qplc_setup_dictionary_t_ptr qplc_setup_dictionary() {
@@ -300,7 +300,7 @@ void update_hash(deflate_state<execution_path_t::software> &stream, uint8_t *dic
     if (stream.compression_level() == high_level) {
         qplc_setup_dictionary()(dictionary_ptr, dictionary_size, stream.hash_table());
     } else {
-        isal_deflate_hash(stream.isal_stream_ptr_, dictionary_ptr, dictionary_size);
+        qpl_isal_deflate_hash(stream.isal_stream_ptr_, dictionary_ptr, dictionary_size);
     }
 }
 

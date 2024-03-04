@@ -16,8 +16,8 @@
 #endif
 
 extern "C" {
-    extern void build_heap(uint64_t * heap, uint64_t heap_size);
-    extern uint32_t build_huff_tree(struct heap_tree *heap, uint64_t heap_size, uint64_t node_index);
+    extern void qpl_build_heap(uint64_t * heap, uint64_t heap_size);
+    extern uint32_t qpl_build_huff_tree(struct heap_tree *heap, uint64_t heap_size, uint64_t node_index);
 }
 
 
@@ -211,7 +211,7 @@ auto init_heap32(heap_tree *heap_space,
         }
     }
 
-    build_heap(heap_space->heap, heap_size);
+    qpl_build_heap(heap_space->heap, heap_size);
 
     return heap_size;
 }
@@ -244,7 +244,7 @@ static inline auto init_heap64(heap_tree *heap_space, uint64_t *histogram, uint6
         }
     }
 
-    build_heap(heap_space->heap, heap_size);
+    qpl_build_heap(heap_space->heap, heap_size);
 
     return heap_size;
 }
@@ -286,7 +286,7 @@ void generate_huffman_codes(heap_tree *heap_space,
     uint32_t node_index  = 0;
     uint32_t end_node  = 0;
 
-    root_node = build_huff_tree(heap_space, heap_size, root_node);
+    root_node = qpl_build_huff_tree(heap_space, heap_size, root_node);
     end_node  = fix_code_lens(heap_space, root_node, bl_count, max_code_len);
 
     memset(codes, 0, codes_count * sizeof(*codes));

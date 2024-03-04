@@ -189,7 +189,7 @@ auto write_huffman_table_icf(BitBuf2 *bit_buffer,
 }
 
 void prepare_histogram(isal_mod_hist *histogram) noexcept {
-    flatten_ll(histogram->ll_hist);
+    qpl_flatten_ll(histogram->ll_hist);
 
     // make sure EOB is present
     if (histogram->ll_hist[end_of_block_code_index] == 0) {

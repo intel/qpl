@@ -448,8 +448,8 @@ stack_size		equ	4 * 8 + 8 * 8
 default rel
 section .text
 
-global decode_huffman_code_block_stateless_ %+ ARCH
-decode_huffman_code_block_stateless_ %+ ARCH %+ :
+global qpl_decode_huffman_code_block_stateless_ %+ ARCH
+qpl_decode_huffman_code_block_stateless_ %+ ARCH %+ :
 	endbranch
 
 	FUNC_SAVE

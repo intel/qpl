@@ -6,7 +6,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Function API:
-;       UINT32 crc32_gzip_refl_by16_10(
+;       UINT32 qpl_crc32_gzip_refl_by16_10(
 ;               UINT32 init_crc, //initial CRC value, 32 bits
 ;               const unsigned char *buf, //buffer pointer to calculate CRC on
 ;               UINT64 len //buffer length in bytes (64-bit data)
@@ -22,7 +22,7 @@
 ;
 ;
 ;       sample yasm command line:
-;       yasm -f x64 -f elf64 -X gnu -g dwarf2 crc32_gzip_refl_by8
+;       yasm -f x64 -f elf64 -X gnu -g dwarf2 qpl_crc32_gzip_refl_by8
 ;
 ;       As explained here:
 ;       http://docs.oracle.com/javase/7/docs/api/java/util/zip/package-summary.html
@@ -33,7 +33,7 @@
 %include "reg_sizes.asm"
 
 %ifndef FUNCTION_NAME
-%define FUNCTION_NAME crc32_gzip_refl_by16_10
+%define FUNCTION_NAME qpl_crc32_gzip_refl_by16_10
 %endif
 
 %if (AS_FEATURE_LEVEL) >= 10

@@ -150,9 +150,9 @@ private:
 
             // initialization of internal isal stream buffers
             if (stream_.is_first_chunk()) {
-                isal_deflate_init(stream_.isal_stream_ptr_);
+                qpl_isal_deflate_init(stream_.isal_stream_ptr_);
             } else {
-                isal_deflate_reset(stream_.isal_stream_ptr_);
+                qpl_isal_deflate_reset(stream_.isal_stream_ptr_);
             }
 
             stream_.bit_buffer_ptr = reinterpret_cast<BitBuf2 *>(bit_buffer_ptr);

@@ -174,12 +174,12 @@ auto huffman_only_create_huffman_table(huffman_only_state<execution_path_t::soft
 
         // Manually creating histogram since no need for dist histogram in huffman only compression
         // ISAL routine fills in dist histogram which results in unoptimal compression for huffman only
-        
+
         for (uint32_t i = 0; i < stream.isal_stream_ptr_->avail_in; i++) {
             histogram->lit_len_histogram[stream.isal_stream_ptr_->next_in[i]]++;
         }
-        
-        isal_create_hufftables(stream.isal_stream_ptr_->hufftables, histogram);
+
+        qpl_isal_create_hufftables(stream.isal_stream_ptr_->hufftables, histogram);
     }
 
     state = compression_state_t::compression_body;

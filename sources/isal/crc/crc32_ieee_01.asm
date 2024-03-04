@@ -5,7 +5,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;       Function API:
-;       UINT32 crc32_ieee_01(
+;       UINT32 qpl_crc32_ieee_01(
 ;               UINT32 init_crc, //initial CRC value, 32 bits
 ;               const unsigned char *buf, //buffer pointer to calculate CRC on
 ;               UINT64 len //buffer length in bytes (64-bit data)
@@ -49,8 +49,8 @@ section .text
         %define VARIABLE_OFFSET 16*2+8
 %endif
 align 16
-mk_global 	crc32_ieee_01, function
-crc32_ieee_01:
+mk_global 	qpl_crc32_ieee_01, function
+qpl_crc32_ieee_01:
 	endbranch
 
 	not	arg1_low32      ;~init_crc
@@ -629,4 +629,4 @@ dq 0x8786858483828100, 0x8f8e8d8c8b8a8988
 dq 0x0706050403020100, 0x000e0d0c0b0a0908
 
 ;;;       func        core, ver, snum
-slversion crc32_ieee_01, 01,   06,  0011
+slversion qpl_crc32_ieee_01, 01,   06,  0011

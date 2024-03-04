@@ -15,19 +15,19 @@ namespace qpl::ml::compression::isal_kernels {
     static auto inline isal_to_qpl_status(isal_status status) noexcept -> qpl_ml_status;
 
     auto read_deflate_header(isal_inflate_state &inflate_state) noexcept -> qpl_ml_status {
-        auto status = read_header(&inflate_state);
+        auto status = qpl_read_header(&inflate_state);
 
         return isal_to_qpl_status(status);
     }
 
     auto decode_huffman_code_block(isal_inflate_state &inflate_state, uint8_t *start_out_ptr) noexcept -> qpl_ml_status {
-        auto status = decode_huffman_code_block_stateless(&inflate_state, start_out_ptr);
+        auto status = qpl_decode_huffman_code_block_stateless(&inflate_state, start_out_ptr);
 
         return isal_to_qpl_status(status);
     }
 
     auto check_gzip_checksum(isal_inflate_state &inflate_state) noexcept -> qpl_ml_status {
-        auto status = check_gzip_checksum(&inflate_state);
+        auto status = qpl_check_gzip_checksum(&inflate_state);
 
         // There are two statuses are possible:
         if (status == ISAL_INCORRECT_CHECKSUM) {

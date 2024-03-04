@@ -123,8 +123,8 @@
 default rel
 section .text
 
-global set_long_icf_fg_06
-func(set_long_icf_fg_06)
+global qpl_set_long_icf_fg_06
+func(qpl_set_long_icf_fg_06)
 	endbranch
 	FUNC_SAVE
 

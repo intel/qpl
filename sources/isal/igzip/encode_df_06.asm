@@ -165,8 +165,8 @@ stack_size		equ	gpr_save_mem_size + xmm_save_mem_size + bitbuf_mem_size
 default rel
 section .text
 
-global encode_deflate_icf_ %+ ARCH
-encode_deflate_icf_ %+ ARCH:
+global qpl_encode_deflate_icf_ %+ ARCH
+qpl_encode_deflate_icf_ %+ ARCH:
 	endbranch
 	FUNC_SAVE
 

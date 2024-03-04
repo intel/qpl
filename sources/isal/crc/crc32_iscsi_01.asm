@@ -21,14 +21,14 @@ default rel
 % error ; needed because '%error' actually generates only a warning
 %endif
 
-;;; unsigned int crc32_iscsi_01(unsigned char * buffer, int len, unsigned int crc_init);
+;;; unsigned int qpl_crc32_iscsi_01(unsigned char * buffer, int len, unsigned int crc_init);
 ;;;
 ;;;        *buf = rcx
 ;;;         len = rdx
 ;;;    crc_init = r8
 
-mk_global  crc32_iscsi_01, function
-crc32_iscsi_01:
+mk_global  qpl_crc32_iscsi_01, function
+qpl_crc32_iscsi_01:
 	endbranch
 
 %ifidn __OUTPUT_FORMAT__, elf64
@@ -565,5 +565,5 @@ K_table:
 	dq 0x1a0f717c4, 0x0170076fa
 
 ;;;       func            core, ver, snum
-slversion crc32_iscsi_01, 01,   04,  0015
+slversion qpl_crc32_iscsi_01, 01,   04,  0015
 

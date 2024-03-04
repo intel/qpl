@@ -21,7 +21,7 @@
 #include "encode_df.h"
 #include "bitbuf2.h"
 
-struct deflate_icf *encode_deflate_icf_base(struct deflate_icf *next_in,
+struct deflate_icf *qpl_encode_deflate_icf_base(struct deflate_icf *next_in,
 					    struct deflate_icf *end_in, struct BitBuf2 *bb,
 					    struct hufftables_icf *hufftables)
 {

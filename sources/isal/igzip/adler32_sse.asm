@@ -85,8 +85,8 @@ default rel
 default rel
 section .text
 
-mk_global adler32_sse, function
-func(adler32_sse)
+mk_global qpl_adler32_sse, function
+func(qpl_adler32_sse)
 	FUNC_SAVE
 
 	mov	data, arg2

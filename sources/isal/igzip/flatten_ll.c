@@ -10,7 +10,7 @@
 
 #include "flatten_ll.h"
 
-void flatten_ll(uint32_t * ll_hist)
+void qpl_flatten_ll(uint32_t * ll_hist)
 {
 	uint32_t i, j;
 	uint32_t *s = ll_hist, x, *p;

@@ -242,7 +242,7 @@ static const uint32_t crc32_table_gzip_refl[256] = {
 	0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-uint16_t crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
+uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 {
 	uint64_t i;
 	uint16_t crc = seed;
@@ -253,7 +253,7 @@ uint16_t crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 	return crc;
 }
 
-uint16_t crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uint64_t len)
+uint16_t qpl_crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uint64_t len)
 {
 	uint64_t i;
 	uint16_t crc = seed;
@@ -266,7 +266,7 @@ uint16_t crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uin
 	return crc;
 }
 
-unsigned int crc32_iscsi_base(unsigned char *buffer, int len, unsigned int crc_init)
+unsigned int qpl_crc32_iscsi_base(unsigned char *buffer, int len, unsigned int crc_init)
 {
 	unsigned int crc;
 	unsigned char *p_buf;
@@ -281,7 +281,7 @@ unsigned int crc32_iscsi_base(unsigned char *buffer, int len, unsigned int crc_i
 	return crc;
 }
 
-uint32_t crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
+uint32_t qpl_crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
 {
 	unsigned int crc = ~seed;
 
@@ -293,7 +293,7 @@ uint32_t crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
 	return ~crc;
 }
 
-uint32_t crc32_gzip_refl_base(uint32_t seed, uint8_t * buf, uint64_t len)
+uint32_t qpl_crc32_gzip_refl_base(uint32_t seed, uint8_t * buf, uint64_t len)
 {
 	unsigned int crc;
 	unsigned char *p_buf;
@@ -315,14 +315,14 @@ struct slver {
 	unsigned char core;
 };
 
-struct slver crc32_iscsi_base_slver_0001011d;
-struct slver crc32_iscsi_base_slver = { 0x011d, 0x02, 0x00 };
+struct slver qpl_crc32_iscsi_base_slver_0001011d;
+struct slver qpl_crc32_iscsi_base_slver = { 0x011d, 0x02, 0x00 };
 
-struct slver crc16_t10dif_base_slver_0001011e;
-struct slver crc16_t10dif_base_slver = { 0x011e, 0x02, 0x00 };
+struct slver qpl_crc16_t10dif_base_slver_0001011e;
+struct slver qpl_crc16_t10dif_base_slver = { 0x011e, 0x02, 0x00 };
 
-struct slver crc32_ieee_base_slver_0001011f;
-struct slver crc32_ieee_base_slver = { 0x011f, 0x02, 0x00 };
+struct slver qpl_crc32_ieee_base_slver_0001011f;
+struct slver qpl_crc32_ieee_base_slver = { 0x011f, 0x02, 0x00 };
 
-struct slver crc32_gzip_refl_base_slver_0000002b;
-struct slver crc32_gzip_refl_base_slver = { 0x002b, 0x00, 0x00 };
+struct slver qpl_crc32_gzip_refl_base_slver_0000002b;
+struct slver qpl_crc32_gzip_refl_base_slver = { 0x002b, 0x00, 0x00 };

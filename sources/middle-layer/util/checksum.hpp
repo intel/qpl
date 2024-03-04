@@ -124,7 +124,7 @@ inline uint32_t crc32_gzip(const input_iterator_t source_begin,
 
     auto length = static_cast<uint32_t>(std::distance(source_begin, source_end));
 
-    return crc32_gzip_refl(seed,
+    return qpl_crc32_gzip_refl(seed,
                            reinterpret_cast<const uint8_t *>(&*source_begin),
                            length * sizeof(typename std::iterator_traits<input_iterator_t>::value_type));
 }
@@ -145,7 +145,7 @@ inline uint32_t crc32_iscsi_inv(const input_iterator_t source_begin,
 
     auto length = static_cast<uint32_t>(std::distance(source_begin, source_end));
 
-    return ~crc32_iscsi(reinterpret_cast<const uint8_t *>(&*source_begin),
+    return ~qpl_crc32_iscsi(reinterpret_cast<const uint8_t *>(&*source_begin),
                         length * sizeof(typename std::iterator_traits<input_iterator_t>::value_type),
                         ~seed);
 }

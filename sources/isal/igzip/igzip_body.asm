@@ -116,10 +116,10 @@ stack_size          equ 4*8 + 8*8 + 4*16 + 8
 default rel
 section .text
 
-; void isal_deflate_body ( isal_zstream *stream )
+; void qpl_isal_deflate_body ( isal_zstream *stream )
 ; arg 1: rcx: addr of stream
-global isal_deflate_body_ %+ ARCH
-isal_deflate_body_ %+ ARCH %+ :
+global qpl_isal_deflate_body_ %+ ARCH
+qpl_isal_deflate_body_ %+ ARCH %+ :
 	endbranch
 %ifidn __OUTPUT_FORMAT__, elf64
 	mov	rcx, rdi

@@ -96,7 +96,7 @@ void deflate_state_builder<execution_path_t::software>::init() noexcept {
 }
 
 auto deflate_state_builder<execution_path_t::software>::dictionary(qpl_dictionary &dictionary) noexcept -> common_type & {
-    isal_deflate_set_dict(stream_.isal_stream_ptr_,
+    qpl_isal_deflate_set_dict(stream_.isal_stream_ptr_,
                           get_dictionary_data(dictionary),
                           static_cast<uint32_t>(dictionary.raw_dictionary_size));
     stream_.isal_stream_ptr_->internal_state.max_dist = static_cast<uint32_t>(dictionary.raw_dictionary_size);

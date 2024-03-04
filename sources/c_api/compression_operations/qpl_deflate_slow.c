@@ -23,7 +23,7 @@
 #include "own_deflate_job.h"
 #include "qplc_compression_consts.h"
 
-#define OWN_CRC32(buf, len, init_crc, ...) ((0, ##__VA_ARGS__) ? crc32_iscsi(buf, len, init_crc) : crc32_gzip_refl(init_crc, buf, len))
+#define OWN_CRC32(buf, len, init_crc, ...) ((0, ##__VA_ARGS__) ? qpl_crc32_iscsi(buf, len, init_crc) : qpl_crc32_gzip_refl(init_crc, buf, len))
 
 /* ------ Internal functions API ------ */
 

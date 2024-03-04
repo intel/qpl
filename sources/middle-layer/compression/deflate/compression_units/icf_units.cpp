@@ -18,8 +18,8 @@
 #include "bitbuf2.h"
 
 extern "C" {
-extern void isal_deflate_icf_body_lvl3(struct isal_zstream *);
-extern void isal_deflate_icf_finish_lvl3(struct isal_zstream *);
+extern void qpl_isal_deflate_icf_body_lvl3(struct isal_zstream *);
+extern void qpl_isal_deflate_icf_finish_lvl3(struct isal_zstream *);
 }
 
 static inline qplc_slow_deflate_icf_body_t_ptr qplc_slow_deflate_icf_body() {
@@ -190,7 +190,7 @@ auto flush_icf_block(deflate_state<execution_path_t::software> &stream, compress
 
     stream.reset_bit_buffer();
 
-    deflate_icf *icf_buf_encoded_next = encode_deflate_icf(level_buffer->icf_buf_start + isal_state->count,
+    deflate_icf *icf_buf_encoded_next = qpl_encode_deflate_icf(level_buffer->icf_buf_start + isal_state->count,
                                                            level_buffer->icf_buf_next,
                                                            bit_buffer,
                                                            stream.huffman_table_icf_.get_isal_huffman_tables());
@@ -241,7 +241,7 @@ auto deflate_icf_finish(deflate_state<execution_path_t::software> &stream, compr
 
     isal_state->state = ZSTATE_FLUSH_READ_BUFFER;
 
-    isal_deflate_icf_finish_lvl3(stream.isal_stream_ptr_);
+    qpl_isal_deflate_icf_finish_lvl3(stream.isal_stream_ptr_);
 
     if (isal_state->state == ZSTATE_CREATE_HDR) {
         state = compression_state_t::create_icf_header;
@@ -257,7 +257,7 @@ auto deflate_icf_body(deflate_state<execution_path_t::software> &stream, compres
 
     isal_state->state = ZSTATE_BODY;
 
-    isal_deflate_icf_body_lvl3(stream.isal_stream_ptr_);
+    qpl_isal_deflate_icf_body_lvl3(stream.isal_stream_ptr_);
 
     if (isal_state->state == ZSTATE_CREATE_HDR) {
         state = compression_state_t::create_icf_header;

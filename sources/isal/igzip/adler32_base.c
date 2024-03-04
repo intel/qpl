@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "igzip_checksums.h"
 
-uint32_t adler32_base(uint32_t adler32, uint8_t * start, uint32_t length)
+uint32_t qpl_adler32_base(uint32_t adler32, uint8_t * start, uint32_t length)
 {
 	uint8_t *end, *next = start;
 	uint64_t A, B;

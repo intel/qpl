@@ -586,14 +586,14 @@ struct slver {
 struct slver isal_update_histogram_slver_00010085;
 struct slver isal_update_histogram_slver = { 0x0085, 0x01, 0x00 };
 
-struct slver isal_create_hufftables_slver_00010086;
-struct slver isal_create_hufftables_slver = { 0x0086, 0x01, 0x00 };
+struct slver qpl_isal_create_hufftables_slver_00010086;
+struct slver qpl_isal_create_hufftables_slver = { 0x0086, 0x01, 0x00 };
 
-struct slver isal_create_hufftables_subset_slver_00010087;
-struct slver isal_create_hufftables_subset_slver = { 0x0087, 0x01, 0x00 };
+struct slver qpl_isal_create_hufftables_subset_slver_00010087;
+struct slver qpl_isal_create_hufftables_subset_slver = { 0x0087, 0x01, 0x00 };
 
-extern uint32_t build_huff_tree(struct heap_tree *heap, uint64_t heap_size, uint64_t node_ptr);
-extern void build_heap(uint64_t * heap, uint64_t heap_size);
+extern uint32_t qpl_build_huff_tree(struct heap_tree *heap, uint64_t heap_size, uint64_t node_ptr);
+extern void qpl_build_heap(uint64_t * heap, uint64_t heap_size);
 
 static uint32_t convert_dist_to_dist_sym(uint32_t dist);
 static uint32_t convert_length_to_len_sym(uint32_t length);
@@ -640,7 +640,7 @@ static inline uint16_t bit_reverse(uint16_t code, uint32_t length)
 	return (code >> (16 - length));
 }
 
-void isal_update_histogram_base(uint8_t * start_stream, int length,
+void qpl_isal_update_histogram_base(uint8_t * start_stream, int length,
 				struct isal_huff_histogram *histogram)
 {
 	uint32_t literal = 0, hash;
@@ -771,7 +771,7 @@ static inline uint32_t init_heap32(struct heap_tree *heap_space, uint32_t * hist
 		}
 	}
 
-	build_heap(heap_space->heap, heap_size);
+	qpl_build_heap(heap_space->heap, heap_size);
 
 	return heap_size;
 }
@@ -805,7 +805,7 @@ static inline uint32_t init_heap64(struct heap_tree *heap_space, uint64_t * hist
 		}
 	}
 
-	build_heap(heap_space->heap, heap_size);
+	qpl_build_heap(heap_space->heap, heap_size);
 
 	return heap_size;
 }
@@ -843,7 +843,7 @@ static inline uint32_t init_heap64_semi_complete(struct heap_tree *heap_space,
 		}
 	}
 
-	build_heap(heap_space->heap, heap_size);
+	qpl_build_heap(heap_space->heap, heap_size);
 
 	return heap_size;
 }
@@ -859,7 +859,7 @@ static inline uint32_t init_heap64_complete(struct heap_tree *heap_space, uint64
 	for (i = 0; i < hist_size; i++)
 		heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
 
-	build_heap(heap_space->heap, heap_size);
+	qpl_build_heap(heap_space->heap, heap_size);
 
 	return heap_size;
 }
@@ -939,7 +939,7 @@ gen_huff_code_lens(struct heap_tree *heap_space, uint32_t heap_size, uint32_t * 
 	uint32_t root_node = HEAP_TREE_NODE_START, node_ptr;
 	uint32_t end_node;
 
-	root_node = build_huff_tree(heap_space, heap_size, root_node);
+	root_node = qpl_build_huff_tree(heap_space, heap_size, root_node);
 
 	end_node = fix_code_lens(heap_space, root_node, bl_count, max_code_len);
 
@@ -1366,7 +1366,7 @@ static int are_hufftables_useable(struct huff_code *lit_len_hufftable,
 	return (max_code_len > MAX_BITBUF_BIT_WRITE);
 }
 
-int isal_create_hufftables(struct isal_hufftables *hufftables,
+int qpl_isal_create_hufftables(struct isal_hufftables *hufftables,
 			   struct isal_huff_histogram *histogram)
 {
 	struct huff_code lit_huff_table[LIT_LEN], dist_huff_table[DIST_LEN];
@@ -1469,7 +1469,7 @@ int isal_create_hufftables(struct isal_hufftables *hufftables,
 	return 0;
 }
 
-int isal_create_hufftables_subset(struct isal_hufftables *hufftables,
+int qpl_isal_create_hufftables_subset(struct isal_hufftables *hufftables,
 				  struct isal_huff_histogram *histogram)
 {
 	struct huff_code lit_huff_table[LIT_LEN], dist_huff_table[DIST_LEN];
@@ -1593,7 +1593,7 @@ static void expand_hufftables_icf(struct hufftables_icf *hufftables)
 }
 
 #if defined(QPL_LIB)
-int isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
+int qpl_isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
                                          struct isal_huff_histogram *histogram) {
     struct huff_code lit_huff_table[QPL_HUFFMAN_ONLY_TOKENS_COUNT];
 	struct heap_tree heap_space;
@@ -1619,7 +1619,7 @@ int isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
 #endif
 
 uint64_t
-create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
+qpl_create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
 		      struct isal_mod_hist *hist, uint32_t end_of_block)
 {
 	uint32_t bl_count[MAX_DEFLATE_CODE_LEN + 1];
@@ -1644,7 +1644,7 @@ create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
 
 	memcpy(&bb_tmp, bb, sizeof(struct BitBuf2));
 
-	flatten_ll(hist->ll_hist);
+	qpl_flatten_ll(hist->ll_hist);
 
 	// make sure EOB is present
 	if (ll_hist[256] == 0)

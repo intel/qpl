@@ -141,8 +141,8 @@
 default rel
 section .text
 
-global gen_icf_map_lh1_06
-func(gen_icf_map_lh1_06)
+global qpl_gen_icf_map_lh1_06
+func(qpl_gen_icf_map_lh1_06)
 	endbranch
 	FUNC_SAVE
 

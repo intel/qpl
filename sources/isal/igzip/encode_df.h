@@ -35,7 +35,7 @@ struct deflate_icf {
 	uint32_t dist_extra:ICF_CODE_LEN - DIST_LIT_BIT_COUNT - ICF_DIST_OFFSET;
 };
 
-struct deflate_icf *encode_deflate_icf(struct deflate_icf *next_in, struct deflate_icf *end_in,
+struct deflate_icf *qpl_encode_deflate_icf(struct deflate_icf *next_in, struct deflate_icf *end_in,
 			               struct BitBuf2 *bb, struct hufftables_icf * hufftables);
 #ifdef __cplusplus
 }

@@ -148,7 +148,7 @@ struct hufftables_icf {
  * with the set hufftable
  */
 uint64_t
-create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf * hufftables,
+qpl_create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf * hufftables,
                   struct isal_mod_hist *hist, uint32_t end_of_block);
 #ifdef QPL_LIB
 #ifdef __cplusplus

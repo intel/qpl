@@ -9,11 +9,11 @@
 #include "encode_df.h"
 #include "igzip_level_buf_structs.h"
 
-extern uint64_t gen_icf_map_lh1(struct isal_zstream *, struct deflate_icf *, uint32_t);
-extern void set_long_icf_fg(uint8_t *, uint64_t, uint64_t, struct deflate_icf *);
-extern void isal_deflate_icf_body_lvl1(struct isal_zstream *);
-extern void isal_deflate_icf_body_lvl2(struct isal_zstream *);
-extern void isal_deflate_icf_body_lvl3(struct isal_zstream *);
+extern uint64_t qpl_gen_icf_map_lh1(struct isal_zstream *, struct deflate_icf *, uint32_t);
+extern void qpl_set_long_icf_fg(uint8_t *, uint64_t, uint64_t, struct deflate_icf *);
+extern void qpl_isal_deflate_icf_body_lvl1(struct isal_zstream *);
+extern void qpl_isal_deflate_icf_body_lvl2(struct isal_zstream *);
+extern void qpl_isal_deflate_icf_body_lvl3(struct isal_zstream *);
 /*
 *************************************************************
  * Helper functions
@@ -30,7 +30,7 @@ static inline void write_deflate_icf(struct deflate_icf *icf, uint32_t lit_len,
 		  | (extra_bits << (LIT_LEN_BIT_COUNT + DIST_LIT_BIT_COUNT)));
 }
 
-void set_long_icf_fg_base(uint8_t * next_in, uint64_t processed, uint64_t input_size,
+void qpl_set_long_icf_fg_base(uint8_t * next_in, uint64_t processed, uint64_t input_size,
 			  struct deflate_icf *match_lookup)
 {
 	uint8_t *end_processed = next_in + processed;
@@ -77,7 +77,7 @@ void set_long_icf_fg_base(uint8_t * next_in, uint64_t processed, uint64_t input_
  * Methods for generating one pass match lookup table
  ************************************************************
 */
-uint64_t gen_icf_map_h1_base(struct isal_zstream *stream,
+uint64_t qpl_gen_icf_map_h1_base(struct isal_zstream *stream,
 			     struct deflate_icf *matches_icf_lookup, uint64_t input_size)
 {
 
@@ -239,7 +239,7 @@ static inline void icf_body_next_state(struct isal_zstream *stream)
 		state->state = ZSTATE_FLUSH_READ_BUFFER;
 }
 
-void icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
+void qpl_icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
 {
 	struct deflate_icf *matches_icf, *matches_next_icf, *matches_end_icf;
 	struct deflate_icf *matches_icf_lookup;
@@ -260,9 +260,9 @@ void icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
 		if (input_size <= ISAL_LOOK_AHEAD)
 			break;
 
-		processed = gen_icf_map_h1_base(stream, matches_icf_lookup, input_size);
+		processed = qpl_gen_icf_map_h1_base(stream, matches_icf_lookup, input_size);
 
-		set_long_icf_fg_base(stream->next_in, processed, input_size, matches_icf_lookup);
+		qpl_set_long_icf_fg_base(stream->next_in, processed, input_size, matches_icf_lookup);
 
 		stream->next_in += processed;
 		stream->avail_in -= processed;
@@ -278,7 +278,7 @@ void icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
 	icf_body_next_state(stream);
 }
 
-void icf_body_lazyhash1_fillgreedy_greedy(struct isal_zstream *stream)
+void qpl_icf_body_lazyhash1_fillgreedy_greedy(struct isal_zstream *stream)
 {
 	struct deflate_icf *matches_icf, *matches_next_icf, *matches_end_icf;
 	struct deflate_icf *matches_icf_lookup;
@@ -299,9 +299,9 @@ void icf_body_lazyhash1_fillgreedy_greedy(struct isal_zstream *stream)
 		if (input_size <= ISAL_LOOK_AHEAD)
 			break;
 
-		processed = gen_icf_map_lh1(stream, matches_icf_lookup, input_size);
+		processed = qpl_gen_icf_map_lh1(stream, matches_icf_lookup, input_size);
 
-		set_long_icf_fg(stream->next_in, processed, input_size, matches_icf_lookup);
+		qpl_set_long_icf_fg(stream->next_in, processed, input_size, matches_icf_lookup);
 
 		stream->next_in += processed;
 		stream->avail_in -= processed;
@@ -317,17 +317,17 @@ void icf_body_lazyhash1_fillgreedy_greedy(struct isal_zstream *stream)
 	icf_body_next_state(stream);
 }
 
-void isal_deflate_icf_body(struct isal_zstream *stream)
+void qpl_isal_deflate_icf_body(struct isal_zstream *stream)
 {
 	switch (stream->level) {
 	case 3:
-		isal_deflate_icf_body_lvl3(stream);
+		qpl_isal_deflate_icf_body_lvl3(stream);
 		break;
 	case 2:
-		isal_deflate_icf_body_lvl2(stream);
+		qpl_isal_deflate_icf_body_lvl2(stream);
 		break;
 	case 1:
 	default:
-		isal_deflate_icf_body_lvl1(stream);
+		qpl_isal_deflate_icf_body_lvl1(stream);
 	}
 }

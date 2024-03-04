@@ -493,14 +493,14 @@ static inline auto build_compression_table(const uint32_t *literals_lengths_hist
             details::fill_histogram_literals_only(literals_lengths_histogram_ptr, &histogram);
 
             // Main pipeline here, use ISAL to create huffman tables
-            isal_create_hufftables_literals_only(compression_table.get_isal_compression_table(), &histogram);
+            qpl_isal_create_hufftables_literals_only(compression_table.get_isal_compression_table(), &histogram);
             compression_table.set_deflate_header_bit_size(0);
         } else {
             // Fill isal histogram from the given one
             details::fill_histogram(literals_lengths_histogram_ptr, distances_histogram_ptr, &histogram);
 
             // Main pipeline here, use ISAL to create huffman tables
-            isal_create_hufftables(compression_table.get_isal_compression_table(), &histogram);
+            qpl_isal_create_hufftables(compression_table.get_isal_compression_table(), &histogram);
 
         }
         // Store huffman codes if required

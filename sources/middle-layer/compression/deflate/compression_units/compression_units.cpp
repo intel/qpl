@@ -26,8 +26,8 @@ static inline qplc_slow_deflate_body_t_ptr qplc_slow_deflate_body() {
 }
 
 extern "C" {
-extern void isal_deflate_body(struct isal_zstream *stream);
-extern void isal_deflate_finish(struct isal_zstream *stream);
+extern void qpl_isal_deflate_body(struct isal_zstream *stream);
+extern void qpl_isal_deflate_finish(struct isal_zstream *stream);
 }
 namespace qpl::ml::compression {
 
@@ -177,7 +177,7 @@ auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compre
 auto deflate_body(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
     stream.reset_bit_buffer();
 
-    isal_deflate_body(stream.isal_stream_ptr_);
+    qpl_isal_deflate_body(stream.isal_stream_ptr_);
 
     if (is_full(&stream.isal_stream_ptr_->internal_state.bitbuf)) {
         return status_list::more_output_needed;
@@ -201,7 +201,7 @@ auto deflate_body(deflate_state<execution_path_t::software> &stream, compression
 
 auto deflate_finish(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
     stream.reset_bit_buffer();
-    isal_deflate_finish(stream.isal_stream_ptr_);
+    qpl_isal_deflate_finish(stream.isal_stream_ptr_);
 
     auto status = status_list::ok;
 
@@ -346,8 +346,8 @@ auto build_huffman_table(deflate_state<execution_path_t::software> &stream, comp
 
     isal_huff_histogram *histogram = reinterpret_cast<isal_huff_histogram *>(isal_state->buffer);
 
-    isal_update_histogram(stream.isal_stream_ptr_->next_in, stream.isal_stream_ptr_->avail_in, histogram);
-    isal_create_hufftables(stream.isal_stream_ptr_->hufftables, histogram);
+    qpl_isal_update_histogram(stream.isal_stream_ptr_->next_in, stream.isal_stream_ptr_->avail_in, histogram);
+    qpl_isal_create_hufftables(stream.isal_stream_ptr_->hufftables, histogram);
 
     state = compression_state_t::start_new_block;
 

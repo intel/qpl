@@ -5,7 +5,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 ;       Function API:
-;       UINT32 crc32_ieee_by4(
+;       UINT32 qpl_crc32_ieee_by4(
 ;               UINT32 init_crc, //initial CRC value, 32 bits
 ;               const unsigned char *buf, //buffer pointer to calculate CRC on
 ;               UINT64 len //buffer length in bytes (64-bit data)
@@ -51,8 +51,8 @@ section .text
 %endif
 
 align 16
-mk_global 	crc32_ieee_by4, function
-crc32_ieee_by4:
+mk_global 	qpl_crc32_ieee_by4, function
+qpl_crc32_ieee_by4:
 	endbranch
 
 	not arg1_low32
@@ -540,4 +540,4 @@ pshufb_shf_table:
 SHUF_MASK	dq 0x08090A0B0C0D0E0F, 0x0001020304050607
 
 ;;;       func             core, ver, snum
-slversion crc32_ieee_by4, 05,   02,  0017
+slversion qpl_crc32_ieee_by4, 05,   02,  0017

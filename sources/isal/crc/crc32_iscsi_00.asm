@@ -123,15 +123,15 @@ default rel
 
 ;;; ISCSI CRC 32 Implementation with crc32 Instruction
 
-;;; unsigned int crc32_iscsi_00(unsigned char * buffer, int len, unsigned int crc_init);
+;;; unsigned int qpl_crc32_iscsi_00(unsigned char * buffer, int len, unsigned int crc_init);
 ;;;
 ;;;        *buf = rcx
 ;;;         len = rdx
 ;;;    crc_init = r8
 ;;;
 
-mk_global  crc32_iscsi_00, function
-crc32_iscsi_00:
+mk_global  qpl_crc32_iscsi_00, function
+qpl_crc32_iscsi_00:
 	endbranch
 
 %ifidn __OUTPUT_FORMAT__, elf64
@@ -645,5 +645,5 @@ DD 0x2f2aa980,0xf24c623b,0x900b4807,0x4d6d83bc
 DD 0x54851c7f,0x89e3d7c4,0xeba4fdf8,0x36c23643
 
 ;;;       func            core, ver, snum
-slversion crc32_iscsi_00, 00,   04,  0014
+slversion qpl_crc32_iscsi_00, 00,   04,  0014
 

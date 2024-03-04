@@ -126,7 +126,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t *begin,
                                                histogram.distances);
 
         // Update ISA-L isal_histogram and create huffman table from it
-        isal_update_histogram(const_cast<uint8_t *>(begin),
+        qpl_isal_update_histogram(const_cast<uint8_t *>(begin),
                               static_cast<int>(std::distance(begin, end)),
                               &isal_histogram_v);
 

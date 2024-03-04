@@ -35,8 +35,8 @@
 default rel
 section .text
 
-	global build_huff_tree
-build_huff_tree:
+	global qpl_build_huff_tree
+qpl_build_huff_tree:
 	endbranch
 %ifidn __OUTPUT_FORMAT__, win64
 	push	rsi
@@ -84,8 +84,8 @@ build_huff_tree:
 	ret
 
 align 32
-	global	build_heap
-build_heap:
+	global	qpl_build_heap
+qpl_build_heap:
 	endbranch
 %ifidn __OUTPUT_FORMAT__, win64
 	push	rsi

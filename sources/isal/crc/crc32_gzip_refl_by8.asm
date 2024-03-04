@@ -6,7 +6,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Function API:
-;       UINT32 crc32_gzip_refl_by8(
+;       UINT32 qpl_crc32_gzip_refl_by8(
 ;               UINT32 init_crc, //initial CRC value, 32 bits
 ;               const unsigned char *buf, //buffer pointer to calculate CRC on
 ;               UINT64 len //buffer length in bytes (64-bit data)
@@ -22,7 +22,7 @@
 ;
 ;
 ;       sample yasm command line:
-;       yasm -f x64 -f elf64 -X gnu -g dwarf2 crc32_gzip_refl_by8
+;       yasm -f x64 -f elf64 -X gnu -g dwarf2 qpl_crc32_gzip_refl_by8
 ;
 ;       As explained here:
 ;       http://docs.oracle.com/javase/7/docs/api/java/util/zip/package-summary.html
@@ -63,8 +63,8 @@ section .text
 %endif
 
 align 16
-mk_global  crc32_gzip_refl_by8, function
-crc32_gzip_refl_by8:
+mk_global  qpl_crc32_gzip_refl_by8, function
+qpl_crc32_gzip_refl_by8:
 	endbranch
 
         ; unsigned long c = crc ^ 0xffffffffL;
@@ -599,4 +599,4 @@ dq 0x8786858483828100, 0x8f8e8d8c8b8a8988
 dq 0x0706050403020100, 0x000e0d0c0b0a0908
 
 ;;;       func        core, ver, snum
-slversion crc32_gzip_refl_by8, 01,   00,  002c
+slversion qpl_crc32_gzip_refl_by8, 01,   00,  002c

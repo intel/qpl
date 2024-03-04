@@ -230,9 +230,9 @@ _hash_offset	equ	(_dist_offset + 8 * DIST_LEN)
 default rel
 section .text
 
-; void isal_update_histogram
-global isal_update_histogram_ %+ ARCH
-isal_update_histogram_ %+ ARCH %+ :
+; void qpl_isal_update_histogram
+global qpl_isal_update_histogram_ %+ ARCH
+qpl_isal_update_histogram_ %+ ARCH %+ :
 	endbranch
 	FUNC_SAVE
 

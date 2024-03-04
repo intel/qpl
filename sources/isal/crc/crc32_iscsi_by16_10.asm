@@ -6,7 +6,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       Function API:
-;       UINT32 crc32_iscsi_by16_10(
+;       UINT32 qpl_crc32_iscsi_by16_10(
 ;               UINT32 init_crc, //initial CRC value, 32 bits
 ;               const unsigned char *buf, //buffer pointer to calculate CRC on
 ;               UINT64 len //buffer length in bytes (64-bit data)
@@ -25,7 +25,7 @@
 %include "reg_sizes.asm"
 
 %ifndef FUNCTION_NAME
-%define FUNCTION_NAME crc32_iscsi_by16_10
+%define FUNCTION_NAME qpl_crc32_iscsi_by16_10
 %endif
 
 %if (AS_FEATURE_LEVEL) >= 10

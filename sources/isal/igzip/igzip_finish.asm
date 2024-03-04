@@ -67,10 +67,10 @@ stack_size		equ 8
 default rel
 section .text
 
-; void isal_deflate_finish ( isal_zstream *stream )
+; void qpl_isal_deflate_finish ( isal_zstream *stream )
 ; arg 1: rcx: addr of stream
-global isal_deflate_finish_01
-isal_deflate_finish_01:
+global qpl_isal_deflate_finish_01
+qpl_isal_deflate_finish_01:
 	endbranch
 	PUSH_ALL	rbx, rsi, rdi, rbp, r12, r13, r14, r15
 	sub	rsp, stack_size

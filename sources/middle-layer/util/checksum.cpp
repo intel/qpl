@@ -29,7 +29,7 @@ auto adler32(const uint8_t *const begin, uint32_t size, uint32_t seed) noexcept 
     auto new_adler32 = seed & least_significant_16_bits;
 
     new_adler32 = (new_adler32 == adler32_mod - 1) ? 0 : new_adler32 + 1;
-    old_adler32 = isal_adler32((old_adler32 & most_significant_16_bits) | new_adler32, begin, size);
+    old_adler32 = qpl_isal_adler32((old_adler32 & most_significant_16_bits) | new_adler32, begin, size);
     new_adler32 = (old_adler32 & least_significant_16_bits);
     new_adler32 = (new_adler32 == 0) ? adler32_mod - 1 : new_adler32 - 1;
 

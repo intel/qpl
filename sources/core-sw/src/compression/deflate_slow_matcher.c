@@ -38,7 +38,7 @@ static inline deflate_match_t get_best_match(const deflate_hash_table_t *const h
                                              const uint8_t *const upper_bound_ptr) {
     // Variables
     const uint32_t
-            hash_value = crc32_gzip_refl(0, string_ptr, OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
+            hash_value = qpl_crc32_gzip_refl(0, string_ptr, OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
 
     uint32_t index                      = hash_table_ptr->hash_table_ptr[hash_value];
     uint8_t  *current_match_ptr         = (uint8_t *) (lower_bound_ptr + index);

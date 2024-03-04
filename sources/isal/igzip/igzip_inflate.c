@@ -29,7 +29,7 @@
 # define bswap_32(x) _byteswap_ulong(x)
 #endif
 
-extern int decode_huffman_code_block_stateless(struct inflate_state *, uint8_t * start_out);
+extern int qpl_decode_huffman_code_block_stateless(struct inflate_state *, uint8_t * start_out);
 extern struct isal_hufftables hufftables_default;	/* For known header detection */
 
 #define LARGE_SHORT_SYM_LEN 25
@@ -126,20 +126,20 @@ struct slver {
 };
 
 /* Version info */
-struct slver isal_inflate_init_slver_00010088;
-struct slver isal_inflate_init_slver = { 0x0088, 0x01, 0x00 };
+struct slver qpl_isal_inflate_init_slver_00010088;
+struct slver qpl_isal_inflate_init_slver = { 0x0088, 0x01, 0x00 };
 
-struct slver isal_inflate_reset_slver_0001008f;
-struct slver isal_inflate_reset_slver = { 0x008f, 0x01, 0x00 };
+struct slver qpl_isal_inflate_reset_slver_0001008f;
+struct slver qpl_isal_inflate_reset_slver = { 0x008f, 0x01, 0x00 };
 
-struct slver isal_inflate_stateless_slver_00010089;
-struct slver isal_inflate_stateless_slver = { 0x0089, 0x01, 0x00 };
+struct slver qpl_isal_inflate_stateless_slver_00010089;
+struct slver qpl_isal_inflate_stateless_slver = { 0x0089, 0x01, 0x00 };
 
-struct slver isal_inflate_slver_0001008a;
-struct slver isal_inflate_slver = { 0x008a, 0x01, 0x00 };
+struct slver qpl_isal_inflate_slver_0001008a;
+struct slver qpl_isal_inflate_slver = { 0x008a, 0x01, 0x00 };
 
-struct slver isal_inflate_set_dict_slver_0001008d;
-struct slver isal_inflate_set_dict_slver = { 0x008d, 0x01, 0x00 };
+struct slver qpl_isal_inflate_set_dict_slver_0001008d;
+struct slver qpl_isal_inflate_set_dict_slver = { 0x008d, 0x01, 0x00 };
 
 /*Performs a copy of length repeat_length data starting at dest -
  * lookback_distance into dest. This copy copies data previously copied when the
@@ -158,12 +158,12 @@ static void update_checksum(struct inflate_state *state, uint8_t * start_in, uin
 	case ISAL_GZIP:
 	case ISAL_GZIP_NO_HDR:
 	case ISAL_GZIP_NO_HDR_VER:
-		state->crc = crc32_gzip_refl(state->crc, start_in, length);
+		state->crc = qpl_crc32_gzip_refl(state->crc, start_in, length);
 		break;
 	case ISAL_ZLIB:
 	case ISAL_ZLIB_NO_HDR:
 	case ISAL_ZLIB_NO_HDR_VER:
-		state->crc = isal_adler32_bam1(state->crc, start_in, length);
+		state->crc = qpl_isal_adler32_bam1(state->crc, start_in, length);
 		break;
 	}
 }
@@ -1573,9 +1573,9 @@ static inline int setup_dynamic_header(struct inflate_state *state)
 /* Reads in the header pointed to by in_stream and sets up state to reflect that
  * header information*/
 #ifndef QPL_LIB
-static int read_header(struct inflate_state *state)
+static int qpl_read_header(struct inflate_state *state)
 #else
-int read_header(struct inflate_state *state)
+int qpl_read_header(struct inflate_state *state)
 #endif
 {
 	uint8_t bytes;
@@ -1640,7 +1640,7 @@ int read_header(struct inflate_state *state)
 
 /* Reads in the header pointed to by in_stream and sets up state to reflect that
  * header information*/
-static int read_header_stateful(struct inflate_state *state)
+static int qpl_read_header_stateful(struct inflate_state *state)
 {
 	uint64_t read_in_start = state->read_in;
 	int32_t read_in_length_start = state->read_in_length;
@@ -1652,7 +1652,7 @@ static int read_header_stateful(struct inflate_state *state)
 	int bytes_read;
 
 	if (block_state_start == ISAL_BLOCK_HDR) {
-		/* Setup so read_header decodes data in tmp_in_buffer */
+		/* Setup so qpl_read_header decodes data in tmp_in_buffer */
 		copy_size = ISAL_DEF_MAX_HDR_SIZE - state->tmp_in_size;
 		if (copy_size > state->avail_in)
 			copy_size = state->avail_in;
@@ -1662,7 +1662,7 @@ static int read_header_stateful(struct inflate_state *state)
 		state->avail_in = state->tmp_in_size + copy_size;
 	}
 
-	ret = read_header(state);
+	ret = qpl_read_header(state);
 
 #if defined(QPL_LIB)
     if (ret < QPL_HW_BASE_CODE)
@@ -1765,7 +1765,7 @@ static inline int decode_literal_block(struct inflate_state *state)
 }
 
 /* Decodes the next block if it was encoded using a huffman code */
-int decode_huffman_code_block_stateless_base(struct inflate_state *state, uint8_t * start_out)
+int qpl_decode_huffman_code_block_stateless_base(struct inflate_state *state, uint8_t * start_out)
 {
 	uint16_t next_lit;
 	uint8_t next_dist;
@@ -1968,7 +1968,7 @@ int decode_huffman_code_block_stateless_base(struct inflate_state *state, uint8_
 	return 0;
 }
 
-void isal_inflate_init(struct inflate_state *state)
+void qpl_isal_inflate_init(struct inflate_state *state)
 {
 
 	state->read_in = 0;
@@ -1998,7 +1998,7 @@ void isal_inflate_init(struct inflate_state *state)
 #endif
 }
 
-void isal_inflate_reset(struct inflate_state *state)
+void qpl_isal_inflate_reset(struct inflate_state *state)
 {
 	state->read_in = 0;
 	state->read_in_length = 0;
@@ -2113,9 +2113,9 @@ static inline uint32_t string_header_copy(struct inflate_state *state,
 }
 
 #ifndef QPL_LIB
-static int check_gzip_checksum(struct inflate_state *state)
+static int qpl_check_gzip_checksum(struct inflate_state *state)
 #else
-int check_gzip_checksum(struct inflate_state *state)
+int qpl_check_gzip_checksum(struct inflate_state *state)
 #endif
 {
 	uint64_t trailer, crc, total_out;
@@ -2214,7 +2214,7 @@ static int check_zlib_checksum(struct inflate_state *state)
 		return ISAL_DECOMP_OK;
 }
 
-int isal_read_gzip_header(struct inflate_state *state, struct isal_gzip_header *gz_hdr)
+int qpl_isal_read_gzip_header(struct inflate_state *state, struct isal_gzip_header *gz_hdr)
 {
 	int cm, flags = gz_hdr->flags, id1, id2;
 	uint16_t xlen = gz_hdr->extra_len;
@@ -2311,7 +2311,7 @@ int isal_read_gzip_header(struct inflate_state *state, struct isal_gzip_header *
 		}
 
 		if (flags & HCRC_FLAG) {
-			hcrc = crc32_gzip_refl(hcrc, start_in, state->next_in - start_in);
+			hcrc = qpl_crc32_gzip_refl(hcrc, start_in, state->next_in - start_in);
 			gz_hdr->hcrc = hcrc;
 
 	case ISAL_GZIP_HCRC:
@@ -2331,12 +2331,12 @@ int isal_read_gzip_header(struct inflate_state *state, struct isal_gzip_header *
 	}
 
 	if (flags & HCRC_FLAG)
-		gz_hdr->hcrc = crc32_gzip_refl(hcrc, start_in, state->next_in - start_in);
+		gz_hdr->hcrc = qpl_crc32_gzip_refl(hcrc, start_in, state->next_in - start_in);
 
 	return ret;
 }
 
-int isal_read_zlib_header(struct inflate_state *state, struct isal_zlib_header *zlib_hdr)
+int qpl_isal_read_zlib_header(struct inflate_state *state, struct isal_zlib_header *zlib_hdr)
 {
 	int cmf, method, flags;
 	uint32_t block_state = state->block_state;
@@ -2382,7 +2382,7 @@ int isal_read_zlib_header(struct inflate_state *state, struct isal_zlib_header *
 	return ret;
 }
 
-int isal_inflate_set_dict(struct inflate_state *state, uint8_t * dict, uint32_t dict_len)
+int qpl_isal_inflate_set_dict(struct inflate_state *state, uint8_t * dict, uint32_t dict_len)
 {
 
 	if (state->block_state != ISAL_BLOCK_NEW_HDR
@@ -2402,7 +2402,7 @@ int isal_inflate_set_dict(struct inflate_state *state, uint8_t * dict, uint32_t 
 	return COMP_OK;
 }
 
-int isal_inflate_stateless(struct inflate_state *state)
+int qpl_isal_inflate_stateless(struct inflate_state *state)
 {
 	uint32_t ret = 0;
 	uint8_t *start_out = state->next_out;
@@ -2419,13 +2419,13 @@ int isal_inflate_stateless(struct inflate_state *state)
 
 	if (state->crc_flag == IGZIP_GZIP) {
 		struct isal_gzip_header gz_hdr;
-		isal_gzip_header_init(&gz_hdr);
-		ret = isal_read_gzip_header(state, &gz_hdr);
+		qpl_isal_gzip_header_init(&gz_hdr);
+		ret = qpl_isal_read_gzip_header(state, &gz_hdr);
 		if (ret)
 			return ret;
 	} else if (state->crc_flag == IGZIP_ZLIB) {
 		struct isal_zlib_header z_hdr = { 0 };
-		ret = isal_read_zlib_header(state, &z_hdr);
+		ret = qpl_isal_read_zlib_header(state, &z_hdr);
 		if (ret)
 			return ret;
 		if (z_hdr.dict_flag)
@@ -2435,7 +2435,7 @@ int isal_inflate_stateless(struct inflate_state *state)
 
 	while (state->block_state != ISAL_BLOCK_FINISH) {
 		if (state->block_state == ISAL_BLOCK_NEW_HDR) {
-			ret = read_header(state);
+			ret = qpl_read_header(state);
 
 			if (ret)
 				break;
@@ -2444,7 +2444,7 @@ int isal_inflate_stateless(struct inflate_state *state)
 		if (state->block_state == ISAL_BLOCK_TYPE0)
 			ret = decode_literal_block(state);
 		else
-			ret = decode_huffman_code_block_stateless(state, start_out);
+			ret = qpl_decode_huffman_code_block_stateless(state, start_out);
 
 		if (ret)
 			break;
@@ -2473,7 +2473,7 @@ int isal_inflate_stateless(struct inflate_state *state)
 
 		case ISAL_GZIP:
 		case ISAL_GZIP_NO_HDR_VER:
-			ret = check_gzip_checksum(state);
+			ret = qpl_check_gzip_checksum(state);
 			break;
 		}
 	}
@@ -2481,7 +2481,7 @@ int isal_inflate_stateless(struct inflate_state *state)
 	return ret;
 }
 
-int isal_inflate(struct inflate_state *state)
+int qpl_isal_inflate(struct inflate_state *state)
 {
 
 	uint8_t *start_out = state->next_out;
@@ -2495,15 +2495,15 @@ int isal_inflate(struct inflate_state *state)
 
 	if (!state->wrapper_flag && state->crc_flag == IGZIP_GZIP) {
 		struct isal_gzip_header gz_hdr;
-		isal_gzip_header_init(&gz_hdr);
-		ret = isal_read_gzip_header(state, &gz_hdr);
+		qpl_isal_gzip_header_init(&gz_hdr);
+		ret = qpl_isal_read_gzip_header(state, &gz_hdr);
 		if (ret < 0)
 			return ret;
 		else if (ret > 0)
 			return ISAL_DECOMP_OK;
 	} else if (!state->wrapper_flag && state->crc_flag == IGZIP_ZLIB) {
 		struct isal_zlib_header z_hdr = { 0 };
-		ret = isal_read_zlib_header(state, &z_hdr);
+		ret = qpl_isal_read_zlib_header(state, &z_hdr);
 		if (ret < 0)
 			return ret;
 		else if (ret > 0)
@@ -2521,7 +2521,7 @@ int isal_inflate(struct inflate_state *state)
 			break;
 		case ISAL_GZIP:
 		case ISAL_GZIP_NO_HDR_VER:
-			ret = check_gzip_checksum(state);
+			ret = qpl_check_gzip_checksum(state);
 			break;
 		}
 
@@ -2545,7 +2545,7 @@ int isal_inflate(struct inflate_state *state)
 			while (state->block_state != ISAL_BLOCK_INPUT_DONE) {
 				if (state->block_state == ISAL_BLOCK_NEW_HDR
 				    || state->block_state == ISAL_BLOCK_HDR) {
-					ret = read_header_stateful(state);
+					ret = qpl_read_header_stateful(state);
 
 #if defined(QPL_LIB)
                     if (ret < QPL_HW_BASE_CODE)
@@ -2566,12 +2566,12 @@ int isal_inflate(struct inflate_state *state)
                     if(0 == state->mini_block_size)
                     {
 #endif
-					ret = decode_huffman_code_block_stateless(state, tmp);
+					ret = qpl_decode_huffman_code_block_stateless(state, tmp);
 #if defined(QPL_LIB)
                     }
                     else
                     {
-                        ret = decode_huffman_code_block_stateless_base(state, tmp);
+                        ret = qpl_decode_huffman_code_block_stateless_base(state, tmp);
                     }
 #endif
 				}
@@ -2660,7 +2660,7 @@ int isal_inflate(struct inflate_state *state)
 #endif
 				if (state->block_state == ISAL_BLOCK_NEW_HDR
 				    || state->block_state == ISAL_BLOCK_HDR) {
-					ret = read_header_stateful(state);
+					ret = qpl_read_header_stateful(state);
 					if (ret)
 						break;
 				}
@@ -2669,7 +2669,7 @@ int isal_inflate(struct inflate_state *state)
 					ret = decode_literal_block(state);
 				else
 					ret =
-					    decode_huffman_code_block_stateless(state,
+					    qpl_decode_huffman_code_block_stateless(state,
 										start_out);
 				if (ret)
 					break;
@@ -2765,7 +2765,7 @@ int isal_inflate(struct inflate_state *state)
 
 			case ISAL_GZIP:
 			case ISAL_GZIP_NO_HDR_VER:
-				ret = check_gzip_checksum(state);
+				ret = qpl_check_gzip_checksum(state);
 				break;
 			}
 		}
