@@ -13,7 +13,7 @@
 #include <fstream>
 
 #include "qpl/qpl.h"
-#include "hw_dispatcher/hw_status.h"
+#include "test_hw_status.h"
 
 #define HIGH_BIT_MASK 0x80
 #define BYTE_BIT_LENGTH 8u

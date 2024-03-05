@@ -9,3 +9,4 @@
 
 add_subdirectory(common)
 add_subdirectory(generators)
+add_subdirectory(hw_dispatcher)

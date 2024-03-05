@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_TOOLS_UTILS_COMMON_HW_STATUS_H_
-#define QPL_TOOLS_UTILS_COMMON_HW_STATUS_H_
+#ifndef QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_STATUS_H_
+#define QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_STATUS_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief Enumerates the hardware accelerator statuses
@@ -20,4 +24,8 @@ typedef enum {
     QPL_TEST_HW_ACCELERATOR_WQ_IS_BUSY                   = 6u, /**< Work queue is busy with task processing */
 } qpl_test_hw_accelerator_status;
 
-#endif //QPL_TOOLS_UTILS_COMMON_HW_STATUS_H_
+#ifdef __cplusplus
+}
+#endif
+
+#endif //QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_STATUS_H_

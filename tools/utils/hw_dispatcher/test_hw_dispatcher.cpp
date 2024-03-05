@@ -8,7 +8,7 @@
  * HW dispatcher APIs for tests
  */
 
-#include "hw_dispatcher/hw_dispatcher.hpp"
+#include "test_hw_dispatcher.hpp"
 
 namespace qpl::test
 {
@@ -77,7 +77,7 @@ hw_dispatcher::~hw_dispatcher() noexcept {
 }
 
 // starting from C++11 standard,
-// it is guarantued that the following would be thread-safe
+// it is guaranteed that the following would be thread-safe
 // and created only once
 // (case: static variables with block scope)
 auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher & {
@@ -99,8 +99,16 @@ auto hw_dispatcher::begin() const noexcept -> device_container_t::const_iterator
     return devices_.cbegin();
 }
 
+auto hw_dispatcher::end() const noexcept -> device_container_t::const_iterator {
+    return devices_.cbegin() + device_count_;
+}
+
 auto hw_dispatcher::device(size_t idx) const noexcept -> const hw_device & {
     return devices_[idx % device_count_];
+}
+
+auto hw_dispatcher::device_count() const noexcept -> size_t {
+    return device_count_;
 }
 
 void hw_dispatcher::hw_context::set_driver_context_ptr(accfg_ctx *driver_context_ptr) noexcept {

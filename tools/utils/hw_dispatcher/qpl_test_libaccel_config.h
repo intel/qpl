@@ -6,8 +6,8 @@
 /*
  * Accel-config APIs for tests
  */
-#ifndef QPL_TOOLS_UTILS_COMMON_LIBACCFG_H_
-#define QPL_TOOLS_UTILS_COMMON_LIBACCFG_H_
+#ifndef QPL_TOOLS_UTILS_HW_DISPATCHER_QPL_TEST_LIBACCEL_CONFIG_H_
+#define QPL_TOOLS_UTILS_HW_DISPATCHER_QPL_TEST_LIBACCEL_CONFIG_H_
 
 #include <stdint.h>
 
@@ -39,8 +39,9 @@ const char *accfg_device_get_devname(struct accfg_device *device);
 enum accfg_device_state accfg_device_get_state(struct accfg_device *device);
 unsigned int accfg_device_get_version(struct accfg_device *device);
 int accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap);
+int accfg_device_get_numa_node(struct accfg_device *device);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
-#endif //QPL_TOOLS_UTILS_COMMON_LIBACCFG_H_
+#endif //QPL_TOOLS_UTILS_HW_DISPATCHER_QPL_TEST_LIBACCEL_CONFIG_H_

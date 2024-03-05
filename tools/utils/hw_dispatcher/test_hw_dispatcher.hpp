@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_TOOLS_UTILS_COMMON_HW_DISPATCHER_HPP_
-#define QPL_TOOLS_UTILS_COMMON_HW_DISPATCHER_HPP_
+#ifndef QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DISPATCHER_HPP_
+#define QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DISPATCHER_HPP_
 
 #include <array>
 #include <stddef.h>
 
-#include "hw_dispatcher/hw_status.h"
-#include "hw_dispatcher/hw_device.hpp"
+#include "test_hw_status.h"
+#include "test_hw_device.hpp"
 
 #if defined(__linux__ )
-#include "hw_dispatcher/hw_configuration_driver.h"
+#include "test_hw_configuration_driver.h"
 #endif //__linux__
 
 namespace qpl::test
@@ -51,7 +51,11 @@ public:
 
     [[nodiscard]] auto begin() const noexcept -> device_container_t::const_iterator;
 
+    [[nodiscard]] auto end() const noexcept -> device_container_t::const_iterator;
+
     [[nodiscard]] auto device(size_t idx) const noexcept -> const hw_device &;
+
+    [[nodiscard]] auto device_count() const noexcept -> size_t;
 
 #endif //__linux__
 
@@ -77,4 +81,4 @@ private:
 };
 
 }
-#endif //QPL_TOOLS_UTILS_COMMON_HW_DISPATCHER_HPP_
+#endif //QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DISPATCHER_HPP_

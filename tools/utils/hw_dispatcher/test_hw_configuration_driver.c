@@ -9,7 +9,7 @@
  */
 
 #if defined( __linux__ )
-#include "hw_dispatcher/hw_configuration_driver.h"
+#include "test_hw_configuration_driver.h"
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
 #include <fcntl.h>
@@ -32,6 +32,7 @@ static qpl_test_desc_t qpl_test_functions_table[] = {
         {NULL, "accfg_unref"},
         {NULL, "accfg_device_get_version"},
         {NULL, "accfg_device_get_iaa_cap"},
+        {NULL, "accfg_device_get_numa_node"},
 
         // Terminate list/init
         {NULL, NULL}
@@ -109,6 +110,10 @@ unsigned int qpl_test_accfg_device_get_version(accfg_dev *device) {
 int qpl_test_accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap) {
     if (qpl_test_functions_table[7].function == NULL) return 1;
     return ((accfg_device_get_iaa_cap_ptr) qpl_test_functions_table[7].function) (device, iaa_cap);
+}
+
+int qpl_test_accfg_device_get_numa_node(accfg_dev *device) {
+    return ((accfg_device_get_numa_node_ptr) qpl_test_functions_table[8].function)(device);
 }
 
 /* ------ Internal functions implementation ------ */
@@ -192,5 +197,10 @@ unsigned int qpl_test_accfg_device_get_version(accfg_dev *device) {
 int qpl_test_accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap) {
     return accfg_device_get_iaa_cap(device, iaa_cap);
 }
+
+int qpl_test_accfg_device_get_numa_node(accfg_dev *device) {
+    return accfg_device_get_numa_node(device);
+}
+
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 #endif //__linux__

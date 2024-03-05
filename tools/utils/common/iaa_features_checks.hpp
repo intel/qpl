@@ -7,7 +7,7 @@
 #ifndef QPL_TOOLS_UTILS_COMMON_IAA_FEATURES_CHECKS_HPP_
 #define QPL_TOOLS_UTILS_COMMON_IAA_FEATURES_CHECKS_HPP_
 
-#include "hw_dispatcher/hw_dispatcher.hpp"
+#include "test_hw_dispatcher.hpp"
 
 namespace qpl::test {
 

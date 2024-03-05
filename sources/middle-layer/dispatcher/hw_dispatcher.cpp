@@ -95,7 +95,7 @@ hw_dispatcher::~hw_dispatcher() noexcept {
 }
 
 // starting from C++11 standard,
-// it is guarantued that the following would be thread-safe
+// it is guaranteed that the following would be thread-safe
 // and created only once
 // (case: static variables with block scope)
 auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher & {

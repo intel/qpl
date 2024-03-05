@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_TOOLS_UTILS_COMMON_HW_CONFIGURATION_DRIVER_H_
-#define QPL_TOOLS_UTILS_COMMON_HW_CONFIGURATION_DRIVER_H_
+#ifndef QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_CONFIGURATION_DRIVER_H_
+#define QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_CONFIGURATION_DRIVER_H_
 
 #if defined( __linux__ )
-#include "hw_dispatcher/qpl_test_libaccel_config.h"
+#include "qpl_test_libaccel_config.h"
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
 
 #include "stdbool.h"
-#include "hw_dispatcher/hw_status.h"
+#include "test_hw_status.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,6 +72,8 @@ typedef unsigned int            (*accfg_device_get_version_ptr)(accfg_dev *devic
 
 typedef int                     (*accfg_device_get_iaa_cap_ptr)(accfg_dev *device, uint64_t *iaa_cap);
 
+typedef int                     (*accfg_device_get_numa_node_ptr)(accfg_dev *device);
+
 #else  //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
 #ifdef __cplusplus
 extern "C" {
@@ -83,7 +85,7 @@ typedef struct accfg_device accfg_dev;
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG=ON
 
 /**
- * accel-config APIs with QPL wrappers
+ * accel-config APIs with Intel® Query Processing Library (Intel® QPL) wrappers
  */
 int32_t qpl_test_accfg_new(accfg_ctx **ctx);
 
@@ -101,10 +103,12 @@ unsigned int qpl_test_accfg_device_get_version(accfg_dev *device);
 
 int qpl_test_accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap);
 
+int qpl_test_accfg_device_get_numa_node(accfg_dev *device);
+
 #ifdef __cplusplus
 }
 #endif
 
 
 #endif //__linux__
-#endif //QPL_TOOLS_UTILS_COMMON_HW_CONFIGURATION_DRIVER_H_
+#endif //QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_CONFIGURATION_DRIVER_H_

@@ -11,8 +11,8 @@
 
 #include "cmd_decl.hpp"
 
-// ml
-#include "dispatcher/hw_dispatcher.hpp"
+// tool_hw_dispatcher
+#include "test_hw_dispatcher.hpp"
 
 #if defined( __linux__ )
 #include <sys/utsname.h>
@@ -75,7 +75,7 @@ static bool init_hw()
 
 std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept
 {
-    auto &disp = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static auto &disp = qpl::test::hw_dispatcher::get_instance();
     int counter = 0;
     for(auto &device : disp)
     {
@@ -116,7 +116,7 @@ static inline accel_info_t& get_accels_info() noexcept
 {
     static accel_info_t info;
 
-    auto &disp = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static auto &disp = qpl::test::hw_dispatcher::get_instance();
 
     for(auto &device : disp) {
         if (info.devices_per_numa.find(device.numa_id()) == info.devices_per_numa.end())

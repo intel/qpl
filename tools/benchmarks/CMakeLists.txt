@@ -20,14 +20,18 @@ add_executable(qpl_benchmarks
 )
 
 target_link_libraries(qpl_benchmarks
-    PUBLIC qpl middle_layer_lib benchmark stdc++fs)
+    PRIVATE qpl
+    PRIVATE tool_hw_dispatcher
+    PRIVATE benchmark
+    "$<$<PLATFORM_ID:Linux>:stdc++fs>"
+    "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
 
 get_target_property(GBENCH_SOURCE_DIR benchmark SOURCE_DIR)
 
 target_include_directories(qpl_benchmarks
     PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>
     PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/include
-    PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>
+    PRIVATE $<TARGET_PROPERTY:tool_hw_dispatcher,INTERFACE_INCLUDE_DIRECTORIES>
     PRIVATE ${GBENCH_SOURCE_DIR})
 
 target_compile_options(qpl_benchmarks PUBLIC -Wall)

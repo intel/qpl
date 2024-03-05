@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#ifndef QPL_TOOLS_UTILS_COMMON_HW_DEVICE_HPP_
-#define QPL_TOOLS_UTILS_COMMON_HW_DEVICE_HPP_
+#ifndef QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DEVICE_HPP_
+#define QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DEVICE_HPP_
 
-#include "hw_dispatcher/hw_status.h"
 #include <stddef.h>
 
 #if defined( __linux__ )
 
-#include "hw_dispatcher/hw_configuration_driver.h"
+#include "test_hw_status.h"
+#include "test_hw_configuration_driver.h"
 
 namespace qpl::test {
 /**< Name used to search for devices */
@@ -44,13 +44,16 @@ public:
 
     [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;
 
+    [[nodiscard]] auto numa_id() const noexcept -> uint64_t;
+
 private:
     uint64_t           iaa_cap_register_ = 0u;    /**< IAACAP register content */
     uint32_t           version_major_    = 0u;    /**< Major version of discovered device */
     uint32_t           version_minor_    = 0u;    /**< Minor version of discovered device */
+    uint64_t           numa_node_id_     = 0u;    /**< NUMA node id of the device */
 };
 
 }
 
 #endif //__linux__
-#endif //QPL_TOOLS_UTILS_COMMON_HW_DEVICE_HPP_
+#endif //QPL_TOOLS_UTILS_HW_DISPATCHER_TEST_HW_DEVICE_HPP_

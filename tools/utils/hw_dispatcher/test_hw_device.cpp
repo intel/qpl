@@ -10,18 +10,18 @@
 
 #if defined( __linux__ )
 
-#include "hw_dispatcher/hw_device.hpp"
+#include "test_hw_device.hpp"
 
 static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
 static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
 
 
 /**
- * @brief Function to check if the device is an Intel IAA device.
+ * @brief Function to check if the device is an Intel® In-Memory Analytics Accelerator (Intel® IAA) device.
  *
  * @param src_ptr Name of current device
- * @param name IAA device name (in lower case)
- * @param name_size Last symbol index of IAA device name
+ * @param name Intel IAA device name (in lower case)
+ * @param name_size Last symbol index of Intel IAA device name
  * @return bool Indicates if there is a match with the specified name
 */
 static inline bool own_search_device_name(const uint8_t *src_ptr,
@@ -51,6 +51,10 @@ auto hw_device::get_dict_compress_support() const noexcept -> bool {
     return QPL_TEST_IC_DICT_COMP(iaa_cap_register_);
 }
 
+auto hw_device::numa_id() const noexcept -> uint64_t {
+    return numa_node_id_;
+}
+
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> qpl_test_hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);
@@ -78,6 +82,8 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     }
 
     iaa_cap_register_ = iaa_cap;
+
+    numa_node_id_     = qpl_test_accfg_device_get_numa_node(device_ptr);
 
     return QPL_TEST_HW_ACCELERATOR_STATUS_OK;
 }
