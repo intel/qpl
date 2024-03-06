@@ -42,7 +42,6 @@
 
 #include "qplc_api.h"
 #include "dispatcher.hpp"
-#include "check_result.hpp"
 
 static inline qplc_unpack_bits_t_ptr qplc_unpack_bits(uint32_t index) {
     static const auto &table = qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();

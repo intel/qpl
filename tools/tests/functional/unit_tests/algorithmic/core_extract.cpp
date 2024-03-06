@@ -9,7 +9,6 @@
 
 #include "qpl_test_environment.hpp"
 #include "t_common.hpp"
-#include "check_result.hpp"
 #include "random_generator.h"
 
 #include "qplc_api.h"

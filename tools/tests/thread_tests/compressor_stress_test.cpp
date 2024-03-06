@@ -19,9 +19,6 @@
 
 #include "qpl/qpl.h"
 
-// common
-#include "check_result.hpp"
-
 // utils
 #include "system_info.hpp"
 

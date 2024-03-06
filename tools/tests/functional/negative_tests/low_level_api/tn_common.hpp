@@ -8,8 +8,10 @@
 #define QPL_TESTS_FUNCTIONAL_NEGATIVE_TESTS_LOW_LEVEL_API_COMMON_H_
 
 #include "gtest/gtest.h"
-#include "test_name_format.hpp"
+
+// tests_common
 #include "execution_wrapper.hpp"
+#include "check_result.hpp"
 
 #define QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(test_suite_name, test_fixture, test_name) \
     GTEST_TEST_(tn_c_api_##test_suite_name, test_name, test_fixture, testing::internal::GetTypeId<JobFixture>()) \

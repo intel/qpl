@@ -19,7 +19,6 @@
 #include "util.hpp"
 #include "source_provider.hpp"
 #include "ta_ll_common.hpp"
-#include "check_result.hpp"
 #include "system_info.hpp" // is_madv_pageout_available()
 #include "common_defs.hpp" // PageFaultType
 

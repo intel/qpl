@@ -11,6 +11,7 @@
 #include "test_cases.hpp"
 #include "test_name_format.hpp"
 #include "execution_wrapper.hpp"
+#include "check_result.hpp"
 
 #define QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(operation, test) \
     TEST(ta##_c_api_##operation, test)

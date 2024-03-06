@@ -17,6 +17,17 @@
 #include "gtest/gtest.h"
 #include "qpl/c_api/job.h"
 
+/*
+* @brief Function to compare two vectors
+*
+* @param[in] first                         - First vector to compare
+* @param[in] second                        - Second vector to compare
+* @param[in] number_of_elements_to_compare - Only this number of elements will be compare, default value 0 means compare all vector elements
+* @param[in] fail_message                  - Message that should provide user with some information about what
+* @return
+* - AssertionSuccess - success
+* - AssertionFailure - failure
+*/
 template<typename DataType>
 testing::AssertionResult CompareVectors(const std::vector<DataType> &first,
                                         const std::vector<DataType> &second,

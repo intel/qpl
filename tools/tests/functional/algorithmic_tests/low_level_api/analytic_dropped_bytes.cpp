@@ -18,7 +18,6 @@
 
 #include "qpl_api_ref.h"
 #include "random_generator.h"
-#include "check_result.hpp"
 
 namespace qpl::test {
 

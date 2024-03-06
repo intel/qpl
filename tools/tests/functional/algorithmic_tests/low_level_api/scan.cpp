@@ -15,7 +15,6 @@
 
 // common
 #include "analytic_fixture.hpp"
-#include "check_result.hpp"
 #include "ta_ll_common.hpp"
 #include "util.hpp"
 #include "system_info.hpp"

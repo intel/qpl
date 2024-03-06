@@ -14,7 +14,6 @@
 
 #include "source_provider.hpp"
 #include "util.hpp"
-#include "check_result.hpp"
 
 /* This test validates the library's asynchronous behavior
    It generates a set number of jobs to submit (currently 7),

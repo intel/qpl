@@ -11,6 +11,7 @@
 
 // tests_common
 #include "test_name_format.hpp"
+#include "check_result.hpp"
 
 #define QPL_UNIT_API_ALGORITHMIC_TEST(entity, test) \
     TEST(QPL_UNIT_SUITE_NAME(ta, entity), test)

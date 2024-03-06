@@ -18,7 +18,6 @@
 
 #include "util.hpp"
 #include "compression_huffman_table.hpp"
-#include "check_result.hpp"
 #include "source_provider.hpp"
 
 #include "huffman_table_unique.hpp"

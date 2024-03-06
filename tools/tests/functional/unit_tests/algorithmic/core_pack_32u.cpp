@@ -9,7 +9,6 @@
 #include "qpl_test_environment.hpp"
 #include "random_generator.h"
 #include "t_common.hpp"
-#include "check_result.hpp"
 
 #define OWN_BYTE_WIDTH    8u                          /**< Byte width in bits */
 #define OWN_DWORD_WIDTH   32u                         /**< Dword width in bits */

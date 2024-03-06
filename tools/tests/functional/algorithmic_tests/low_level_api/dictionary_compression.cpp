@@ -11,7 +11,6 @@
 #include "source_provider.hpp"
 #include "qpl_test_environment.hpp"
 #include "util.hpp"
-#include "check_result.hpp"
 #include "random_generator.h"
 #include "huffman_table_unique.hpp"
 #include "iaa_features_checks.hpp"
