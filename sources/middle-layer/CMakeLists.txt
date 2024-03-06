@@ -47,7 +47,7 @@ target_compile_options(middle_layer_lib
         PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,MSVC>:${QPL_WINDOWS_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>)
 
 if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
-    target_link_options(qplcore_sw_dispatcher PRIVATE ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS})
+    target_link_options(middle_layer_lib PRIVATE ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS})
 endif ()
 
 target_compile_definitions(middle_layer_lib
