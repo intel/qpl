@@ -4,9 +4,15 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "operation_test.hpp"
-#include "compression_huffman_table.hpp"
 #include "tn_common.hpp"
+
+// tests_common
+#include "operation_test.hpp"
+
+// tool_common
+#include "compression_huffman_table.hpp"
+
+// tool_generator
 #include "random_generator.h"
 
 namespace qpl::test {

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <algorithm>
 #include "tn_common.hpp"
 
 namespace qpl::test

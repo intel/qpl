@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include "tn_common.hpp"
+
+// tests_common
 #include "operation_test.hpp"
+#include "execution_wrapper.hpp"
+
+// tool_generator
 #include "gendefs.hpp"
 #include "igenerator.h"
-#include "tn_common.hpp"
-#include "execution_wrapper.hpp"
 
 namespace qpl::test
 {
