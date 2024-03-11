@@ -555,7 +555,7 @@ static void qpl_isal_deflate_pass(struct isal_zstream* stream)
 	uint8_t* start_in = stream->next_in;
 #if defined(QPL_LIB)
 	if ((state->state == ZSTATE_NEW_HDR || state->state == ZSTATE_HDR) &&
-		stream->huffman_only_flag == 0u)
+		stream->huffman_only_flag == 0U)
 	{
 #else
 	if (state->state == ZSTATE_NEW_HDR || state->state == ZSTATE_HDR) {
@@ -572,7 +572,7 @@ static void qpl_isal_deflate_pass(struct isal_zstream* stream)
 #endif
 	}
 #ifdef QPL_LIB
-	if (1u == stream->huffman_only_flag)
+	if (1U == stream->huffman_only_flag)
 	{
 
 		if (state->state == ZSTATE_BODY)

@@ -17,8 +17,8 @@ static inline void check_destination_overflow_prefetch(qpl_job *const job_ptr, q
     std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
     std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
 
-    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, 16u, INPUT_FORMAT);
-    set_output_stream(job_ptr, destination.data(), 1u, OUTPUT_BIT_WIDTH);
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, 16U, INPUT_FORMAT);
+    set_output_stream(job_ptr, destination.data(), 1U, OUTPUT_BIT_WIDTH);
     set_operation_properties(job_ptr, DROP_INITIAL_BYTES, flags, operation);
 
     EXPECT_EQ(run_job_api(job_ptr), QPL_STS_DST_IS_SHORT_ERR) << "Fail on: output size error";

@@ -184,9 +184,9 @@ qpl_status ref_convert_to_32u_prle(const uint8_t *const source_ptr,
             }
 
             rle_val.u_byte[0] = current_ptr[0];
-            rle_val.u_byte[1] = (8u < source_bit_width) ? current_ptr[1] : 0;
-            rle_val.u_byte[2] = (16u < source_bit_width) ? current_ptr[2] : 0;
-            rle_val.u_byte[3] = (24u < source_bit_width) ? current_ptr[3] : 0;
+            rle_val.u_byte[1] = (8U < source_bit_width) ? current_ptr[1] : 0;
+            rle_val.u_byte[2] = (16U < source_bit_width) ? current_ptr[2] : 0;
+            rle_val.u_byte[3] = (24U < source_bit_width) ? current_ptr[3] : 0;
 
             (*available_bytes_ptr) -= value_size;
             current_ptr += value_size;

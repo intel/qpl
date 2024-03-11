@@ -17,14 +17,14 @@ static void restore_huffman_table(
         const qplc_huffman_table_flat_format &huffman_table,
         std::array<huffman_code, huffman_only_number_of_literals> &result_huffman_table) noexcept {
     // Main cycle
-    for (uint32_t current_code_length = 1u; current_code_length < 16u; current_code_length++) {
+    for (uint32_t current_code_length = 1U; current_code_length < 16U; current_code_length++) {
         // Getting number of codes, first code, index of first literal and symbol with Huffman code length "i"
         const uint16_t number_of_codes   = huffman_table.number_of_codes[current_code_length - 1];
         const uint16_t first_code        = huffman_table.first_codes[current_code_length - 1];
-        const uint16_t first_table_index = huffman_table.first_table_indexes[current_code_length - 1u];
+        const uint16_t first_table_index = huffman_table.first_table_indexes[current_code_length - 1U];
         uint8_t        symbol            = huffman_table.index_to_char[first_table_index];
 
-        if (0u == number_of_codes) {
+        if (0U == number_of_codes) {
             // We have no reason to continue this iteration
             continue;
         }
@@ -34,7 +34,7 @@ static void restore_huffman_table(
         result_huffman_table[symbol].length = current_code_length;
 
         // Generate other codes and lengths
-        for (uint32_t code_number = 1u; code_number < number_of_codes; code_number++) {
+        for (uint32_t code_number = 1U; code_number < number_of_codes; code_number++) {
             symbol = huffman_table.index_to_char[first_table_index + code_number];
 
             result_huffman_table[symbol].code   = first_code + code_number;
@@ -47,19 +47,19 @@ static void build_lookup_table(
         const std::array<huffman_code, huffman_only_number_of_literals> &huffman_table,
         uint8_t *lookup_table_ptr) noexcept {
     // Main cycle
-    for (uint16_t symbol = 0u; symbol < huffman_table.size(); symbol++) {
+    for (uint16_t symbol = 0U; symbol < huffman_table.size(); symbol++) {
         const uint8_t  code_length             = huffman_table[symbol].length;
-        const uint8_t  offset                  = 16u - code_length;
+        const uint8_t  offset                  = 16U - code_length;
         const uint16_t code                    = reverse_bits(huffman_table[symbol].code, code_length);
-        const uint16_t low_lookup_table_index  = 0u;
+        const uint16_t low_lookup_table_index  = 0U;
         const uint16_t high_lookup_table_index = util::build_mask<uint16_t>(offset);
 
-        if (0u == code_length) {
+        if (0U == code_length) {
             continue;
         }
 
         // Filling lookup table
-        for (uint32_t i = low_lookup_table_index; i < high_lookup_table_index + 1u; i++) {
+        for (uint32_t i = low_lookup_table_index; i < high_lookup_table_index + 1U; i++) {
             const uint16_t symbol_position = (i << code_length) | code;
 
             lookup_table_ptr[symbol_position] = (uint8_t) symbol;
@@ -75,7 +75,7 @@ static auto perform_huffman_only_decompression(
         const std::array<huffman_code, huffman_only_number_of_literals> &huffman_table,
         bool is_big_endian) noexcept -> decompression_operation_result_t {
     // Main cycle
-    uint32_t current_symbol_index = 0u;
+    uint32_t current_symbol_index = 0U;
 
     decompression_operation_result_t result{};
     bool decode_next_symbol = true;

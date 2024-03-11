@@ -180,7 +180,7 @@ namespace qpl::test
 
     auto source_provider::generate_prle_stream() -> std::vector<uint8_t>
     {
-        const uint32_t minimal_vector_size = 100u;
+        const uint32_t minimal_vector_size = 100U;
         uint32_t       initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 1);
         initial_vector_size = (initial_vector_size < minimal_vector_size) ? minimal_vector_size : initial_vector_size;
         std::vector<uint8_t> result_vector(
@@ -220,7 +220,7 @@ namespace qpl::test
 
                 for (uint32_t i = 0; i < count; i++) // generate parquet group to result vector
                 {
-                    uint32_t number_of_attempts = 0u;
+                    uint32_t number_of_attempts = 0U;
 
                     try
                     {
@@ -234,7 +234,7 @@ namespace qpl::test
                             std::cerr << e.what() << '\n';
                             break;
                         }
-                        result_vector.insert(result_vector.end(), result_vector.size(), 0u);
+                        result_vector.insert(result_vector.end(), result_vector.size(), 0U);
                         store_parquet_group(source_it, result_vector.end(), count, octa_group);
                     }
 
@@ -336,7 +336,7 @@ namespace qpl::test
                         }
                     }
 
-                    uint32_t number_of_attempts = 0u;
+                    uint32_t number_of_attempts = 0U;
 
                     try
                     {
@@ -350,7 +350,7 @@ namespace qpl::test
                             std::cerr << e.what() << '\n';
                             break;
                         }
-                        result_vector.insert(result_vector.end(), result_vector.size(), 0u);
+                        result_vector.insert(result_vector.end(), result_vector.size(), 0U);
                         store_parquet_group(source_it, result_vector.end(), count, octa_group);
                     }
 
@@ -387,7 +387,7 @@ namespace qpl::test
 
     auto generate_mask(uint32_t number_of_elements) -> std::vector<uint8_t> {
         source_provider mask_generator(number_of_elements,
-                                       1u,
+                                       1U,
                                        util::TestEnvironment::GetInstance().GetSeed(),
                                        qpl_p_le_packed_array);
 
@@ -396,7 +396,7 @@ namespace qpl::test
 
     auto source_provider::get_counter_source_expand_rle(uint16_t prologue) -> std::vector<uint8_t>
     {
-        if (!(m_bit_width == 8u || m_bit_width == 16u || m_bit_width == 32u))
+        if (!(m_bit_width == 8U || m_bit_width == 16U || m_bit_width == 32U))
         {
             throw std::exception();
         }
@@ -413,7 +413,7 @@ namespace qpl::test
             qpl::test::random     num_generator(1, max_value, m_seed);
             std::vector<uint32_t> temporary_source_vector(m_number_of_elements, 0);
 
-            if (m_bit_width == 32u)
+            if (m_bit_width == 32U)
             {
                 for (auto it = temporary_source_vector.begin() + 1; it < temporary_source_vector.end(); it++)
                 {
@@ -430,7 +430,7 @@ namespace qpl::test
                               });
             }
 
-            if (m_bit_width == 32u)
+            if (m_bit_width == 32U)
             {
                 m_count_number_expand_rle = temporary_source_vector.back();
             }

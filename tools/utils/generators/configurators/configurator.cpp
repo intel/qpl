@@ -31,7 +31,7 @@ void gz_generator::TestConfigurator::writeRandomBlock()
 
 void gz_generator::TestConfigurator::writeRandomHuffmanBlock(uint32_t minElementsCount)
 {
-    const uint32_t maxElementsCount = 100u;
+    const uint32_t maxElementsCount = 100U;
 
     declareRandomHuffmanBlock();
     m_randomTokenCount.set_range(minElementsCount,
@@ -43,7 +43,7 @@ void gz_generator::TestConfigurator::writeRandomHuffmanBlock(uint32_t minElement
 
 void gz_generator::TestConfigurator::writeRandomStoredBlock()
 {
-    m_randomTokenCount.set_range(1000u, 2000u);
+    m_randomTokenCount.set_range(1000U, 2000U);
     TestConfigurator::declareStoredBlock();
     writeRandomLiteralSequence(static_cast<Gen32u>(m_randomTokenCount));
 }
@@ -65,7 +65,7 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
         (symbols < sequenceLength) && (encodedLiteralsCountLimit > numberLiteralsEncoded );
          symbols++)
     {
-        if ((static_cast<float>(m_random) < 0.7f)
+        if ((static_cast<float>(m_random) < 0.7F)
             || (numberLiteralsEncoded < MIN_MATCH)
             || ((encodedLiteralsCountLimit - numberLiteralsEncoded) < MIN_MATCH))
         {
@@ -78,7 +78,7 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
             uint32_t match;
             uint32_t max_available_match = GEN_MIN(encodedLiteralsCountLimit - numberLiteralsEncoded, MAX_MATCH);
 
-            m_randomOffset.set_range(1u, GEN_MIN(numberLiteralsEncoded, MAX_OFFSET));
+            m_randomOffset.set_range(1U, GEN_MIN(numberLiteralsEncoded, MAX_OFFSET));
             m_randomMatch.set_range(MIN_MATCH, GEN_MIN(numberLiteralsEncoded, max_available_match));
             offset = static_cast<uint32_t>(m_randomOffset);
             match  = static_cast<uint32_t>(m_randomMatch);
@@ -103,9 +103,9 @@ Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengt
 
     while ((lengthCount + num_max) < lengthTableSize)
     {
-        rand.set_range(0u, lengthCount - 1u);
+        rand.set_range(0U, lengthCount - 1U);
         Gen8u i = static_cast<Gen32u>(rand);
-        len = pLengthCodeTable[i] + 1u;
+        len = pLengthCodeTable[i] + 1U;
         if (len < maxLengthCodeValue)
         {
             pLengthCodeTable[i] = len;
@@ -114,7 +114,7 @@ Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengt
         else
         {
             pLengthCodeTable[i] = pLengthCodeTable[--lengthCount];
-            num_max += 2u;
+            num_max += 2U;
         }
     }
 

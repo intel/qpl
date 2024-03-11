@@ -83,26 +83,26 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
                       (uint32_t) destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
-    job_ptr->ignore_end_bits       = 8u;
-    job_ptr->ignore_start_bits     = 0u;
+    job_ptr->ignore_end_bits       = 8U;
+    job_ptr->ignore_start_bits     = 0U;
     job_ptr->decomp_end_processing = qpl_stop_and_check_for_bfinal_eob;
 
     ASSERT_EQ(QPL_STS_INVALID_PARAM_ERR, run_job_api(job_ptr)) << "ignore_end_bits more than 7 bits";
 
-    job_ptr->ignore_end_bits       = 0u;
-    job_ptr->ignore_start_bits     = 8u;
+    job_ptr->ignore_end_bits       = 0U;
+    job_ptr->ignore_start_bits     = 8U;
     job_ptr->decomp_end_processing = qpl_stop_and_check_for_bfinal_eob;
 
     ASSERT_EQ(QPL_STS_INVALID_PARAM_ERR, run_job_api(job_ptr)) << "ignore_start_bits more than 7 bits";
 
-    job_ptr->ignore_end_bits       = 0u;
-    job_ptr->ignore_start_bits     = 0u;
-    job_ptr->decomp_end_processing = 9u;
+    job_ptr->ignore_end_bits       = 0U;
+    job_ptr->ignore_start_bits     = 0U;
+    job_ptr->decomp_end_processing = 9U;
 
     ASSERT_EQ(QPL_STS_INVALID_DECOMP_END_PROC_ERR, run_job_api(job_ptr)) << "Incorrect DecompressEndProcessing ";
 
-    job_ptr->ignore_end_bits       = 0u;
-    job_ptr->ignore_start_bits     = 0u;
+    job_ptr->ignore_end_bits       = 0U;
+    job_ptr->ignore_start_bits     = 0U;
     job_ptr->decomp_end_processing = OWN_RESERVED_INFLATE_MANIPULATOR;
 
     ASSERT_EQ(QPL_STS_INVALID_DECOMP_END_PROC_ERR, run_job_api(job_ptr)) << "Incorrect DecompressEndProcessing ";
@@ -120,8 +120,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
                          NOT_APPLICABLE_PARAMETER,
                          NOT_APPLICABLE_PARAMETER,
                          static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
-        job_ptr->ignore_end_bits       = 0u;
-        job_ptr->ignore_start_bits     = 0u;
+        job_ptr->ignore_end_bits       = 0U;
+        job_ptr->ignore_start_bits     = 0U;
         job_ptr->decomp_end_processing = qpl_stop_and_check_for_bfinal_eob;
 
         ASSERT_EQ(QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR, run_job_api(job_ptr)) << "Odd input stream size for BE16 ";

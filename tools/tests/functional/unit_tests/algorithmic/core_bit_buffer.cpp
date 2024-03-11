@@ -17,20 +17,20 @@ namespace qpl::test {
 
     using randomizer = qpl::test::random;
 
-    constexpr uint32_t TEST_BUFFER_SIZE = 1u * 1024u;
-    constexpr uint32_t MIN_BIT_LENGTH   = 1u;
-    constexpr uint32_t MAX_BIT_LENGTH   = 64u;
+    constexpr uint32_t TEST_BUFFER_SIZE = 1U * 1024U;
+    constexpr uint32_t MIN_BIT_LENGTH   = 1U;
+    constexpr uint32_t MAX_BIT_LENGTH   = 64U;
 
     QPL_UNIT_API_ALGORITHMIC_TEST(bit_writer_t, written_size) {
         std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
-        uint64_t stream_bit_length = 0u;
+        uint64_t stream_bit_length = 0U;
         uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
 
         bit_writer_t bit_writer = {};
         bit_writer_init(&bit_writer);
         bit_writer_set_buffer(&bit_writer, destination.data(), TEST_BUFFER_SIZE);
 
-        randomizer         random_value(0u, static_cast<double>(UINT64_MAX), seed );
+        randomizer         random_value(0U, static_cast<double>(UINT64_MAX), seed );
         randomizer         random_bit_length(MIN_BIT_LENGTH, MAX_BIT_LENGTH, seed);
         constexpr uint32_t record_count = TEST_BUFFER_SIZE / MAX_BIT_LENGTH;
 

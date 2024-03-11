@@ -44,7 +44,7 @@ namespace qpl::test
 
         void InitializeTestCases() override
         {
-            for (uint32_t length = 1000u; length < 1005u; length++)
+            for (uint32_t length = 1000U; length < 1005U; length++)
             {
                 for (uint32_t output_format = 0; output_format < 2; output_format++)
                 {
@@ -52,7 +52,7 @@ namespace qpl::test
                     {
                         const uint32_t max_output_value = (1ULL << out_bit_width) - 1;
 
-                        if (out_bit_width != 1u && max_output_value < length)
+                        if (out_bit_width != 1U && max_output_value < length)
                         {
                             continue;
                         }
@@ -63,7 +63,7 @@ namespace qpl::test
                             AnalyticTestCase test_case;
                             test_case.number_of_elements    = length;
                             test_case.source_bit_width      = input_bit_width;
-                            test_case.flags                 = (1u == output_format) ? QPL_FLAG_OUT_BE : 0u;
+                            test_case.flags                 = (1U == output_format) ? QPL_FLAG_OUT_BE : 0U;
                             test_case.destination_bit_width = out_bit_width;
                             test_case.lower_bound           = (qpl_ow_nom == out_bit_width)
                                                               ? 1

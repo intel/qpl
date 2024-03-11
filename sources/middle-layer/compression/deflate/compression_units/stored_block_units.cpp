@@ -13,10 +13,10 @@
 
 namespace qpl::ml::compression {
 
-constexpr uint32_t OWN_MAX_BIT_INDEX                  = 7u;
-constexpr uint32_t OWN_DEFLATE_HEADER_MARKER_BIT_SIZE = 3u;
-constexpr uint32_t OWN_FINAL_STORED_BLOCK             = 1u;
-constexpr uint32_t OWN_STORED_BLOCK                   = 0u;
+constexpr uint32_t OWN_MAX_BIT_INDEX                  = 7U;
+constexpr uint32_t OWN_DEFLATE_HEADER_MARKER_BIT_SIZE = 3U;
+constexpr uint32_t OWN_FINAL_STORED_BLOCK             = 1U;
+constexpr uint32_t OWN_STORED_BLOCK                   = 0U;
 
 typedef struct {
     uint16_t length;
@@ -31,7 +31,7 @@ static auto write_stored_block(uint8_t *source_ptr,
                                bool is_final = false) noexcept -> uint32_t {
     // Write deflate header
     uint16_t header              = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
-    uint16_t header_mask         = ~static_cast<uint16_t>(0u) - ((1 << start_bit_offset) - 1);
+    uint16_t header_mask         = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
     uint8_t  *current_output_ptr = output_begin_ptr;
     uint32_t output_size         = output_max_size;
 
@@ -74,7 +74,7 @@ auto write_stored_blocks(uint8_t *source_ptr,
     auto *output_begin_ptr = output_ptr;
     auto last_chunk_size = source_size % stored_block_max_length;
 
-    for (uint32_t chunk = 0u; chunk < chunks_count; chunk++) {
+    for (uint32_t chunk = 0U; chunk < chunks_count; chunk++) {
         auto is_last = (!last_chunk_size && chunk == chunks_count - 1) ? is_final : false;
         auto written_bytes = write_stored_block(source_ptr,
                                                 stored_block_max_length,
@@ -86,7 +86,7 @@ auto write_stored_blocks(uint8_t *source_ptr,
         source_ptr      += stored_block_max_length;
         output_ptr      += written_bytes;
         output_max_size -= written_bytes;
-        start_bit_offset = 0u;
+        start_bit_offset = 0U;
     }
 
     if (last_chunk_size) {
@@ -232,10 +232,10 @@ auto write_stored_block_header(deflate_state<execution_path_t::software> &stream
 auto calculate_size_needed(uint32_t input_data_size, uint32_t bit_size) noexcept -> uint32_t {
     uint32_t size = util::bit_to_byte(bit_size);
 
-    if (0u == input_data_size) {
+    if (0U == input_data_size) {
         size += stored_block_header_length;
     } else {
-        uint32_t stored_blocks_count = (input_data_size + stored_block_max_length - 1u) / stored_block_max_length;
+        uint32_t stored_blocks_count = (input_data_size + stored_block_max_length - 1U) / stored_block_max_length;
         size += input_data_size + stored_blocks_count * stored_block_header_length;
     }
 
@@ -243,7 +243,7 @@ auto calculate_size_needed(uint32_t input_data_size, uint32_t bit_size) noexcept
 }
 
 auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexcept -> compression_operation_result_t {
-    constexpr uint32_t IAA_ACCUMULATOR_CAPACITY = 256u + 64u;
+    constexpr uint32_t IAA_ACCUMULATOR_CAPACITY = 256U + 64U;
 
     compression_operation_result_t result;
 
@@ -299,7 +299,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
                                          input_size,
                                          output_ptr,
                                          output_size,
-                                         actual_bits_in_aecs & 7u,
+                                         actual_bits_in_aecs & 7U,
                                          state.is_last_chunk());
 
     // Calculate checksums
@@ -318,7 +318,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
 
     xor_checksum = util::xor_checksum(input_ptr, input_ptr + input_size, xor_checksum);
 
-    hw_iaa_aecs_compress *actual_aecs_out = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index ^ 1u, state.meta_data_->aecs_size);
+    hw_iaa_aecs_compress *actual_aecs_out = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index ^ 1U, state.meta_data_->aecs_size);
     if (!actual_aecs_out) {
         result.status_code_ = status_list::internal_error;
         return result;
@@ -331,7 +331,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
     result.checksums_.xor_   = xor_checksum;
     result.completed_bytes_  = input_size;
     result.output_bytes_     = bytes_written;
-    result.last_bit_offset   = 0u;
+    result.last_bit_offset   = 0U;
 
     result.status_code_ = status_list::ok;
 
@@ -349,11 +349,11 @@ auto recover_and_write_stored_blocks(deflate_state<execution_path_t::software> &
 
     stream.isal_stream_ptr_->next_out  -= stream.isal_stream_ptr_->total_out;
     stream.isal_stream_ptr_->avail_out += stream.isal_stream_ptr_->total_out;
-    stream.isal_stream_ptr_->total_out = 0u;
+    stream.isal_stream_ptr_->total_out = 0U;
 
     stream.isal_stream_ptr_->next_in  -= stream.isal_stream_ptr_->total_in;
     stream.isal_stream_ptr_->avail_in += stream.isal_stream_ptr_->total_in;
-    stream.isal_stream_ptr_->total_in = 0u;
+    stream.isal_stream_ptr_->total_in = 0U;
 
     if (stream.isal_stream_ptr_->avail_out < get_stored_blocks_size(stream.isal_stream_ptr_->avail_in)) {
         return status_list::more_output_needed;
@@ -363,7 +363,7 @@ auto recover_and_write_stored_blocks(deflate_state<execution_path_t::software> &
                                       stream.isal_stream_ptr_->avail_in,
                                       stream.isal_stream_ptr_->next_out,
                                       stream.isal_stream_ptr_->avail_out,
-                                      0u,
+                                      0U,
                                       stream.is_last_chunk());
 
     stream.isal_stream_ptr_->next_out  += result;
@@ -372,7 +372,7 @@ auto recover_and_write_stored_blocks(deflate_state<execution_path_t::software> &
 
     stream.isal_stream_ptr_->next_in  += stream.isal_stream_ptr_->avail_in;
     stream.isal_stream_ptr_->total_in += stream.isal_stream_ptr_->avail_in;
-    stream.isal_stream_ptr_->avail_in = 0u;
+    stream.isal_stream_ptr_->avail_in = 0U;
 
     state = compression_state_t::finish_compression_process;
 

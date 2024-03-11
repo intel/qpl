@@ -8,7 +8,7 @@
 
 GenStatus gz_generator::ManyDistanceCodesConfiguratorVersion2::generate()
 {
-    Gen32u  extraCodesCount = 1u + static_cast<Gen32u>(m_random);
+    Gen32u  extraCodesCount = 1U + static_cast<Gen32u>(m_random);
     Gen32u  total_codes = DEFAULT_D_TABLE_LENGTH + extraCodesCount;
 
     std::vector<Gen32u> distanceLengthCodesTable(total_codes, 0);
@@ -20,9 +20,9 @@ GenStatus gz_generator::ManyDistanceCodesConfiguratorVersion2::generate()
 
     TestConfigurator::declareVectorToken(D_ENCODED_VECTOR, distanceLengthCodesTable.data(), total_codes);
 
-    TestConfigurator::declareLiteral(1u);
-    TestConfigurator::declareLiteral(1u);
-    TestConfigurator::declareLiteral(1u);
+    TestConfigurator::declareLiteral(1U);
+    TestConfigurator::declareLiteral(1U);
+    TestConfigurator::declareLiteral(1U);
 
     TestConfigurator::writeRandomBlock();
     TestConfigurator::declareFinishBlock();

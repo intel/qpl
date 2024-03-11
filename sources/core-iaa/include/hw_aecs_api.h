@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /** @brief AECS size for operation: Filter. */
-#define HW_AECS_FILTER                         0x20u
+#define HW_AECS_FILTER                         0x20U
 
 /**
  * @brief AECS size for Decompress operation,
@@ -43,19 +43,19 @@ extern "C" {
 #define HW_AECS_FILTER_AND_DECOMPRESS_WA_HB    0x4E0
 
 /** @brief AECS size for operation: Decompress. */
-#define HW_AECS_FILTER_AND_DECOMPRESS          0x1500u
+#define HW_AECS_FILTER_AND_DECOMPRESS          0x1500U
 
 /** @brief Max size of dictionary in Compress AECS. */
-#define HW_AECS_MAX_DICTIONARY_SIZE            0x3000u
+#define HW_AECS_MAX_DICTIONARY_SIZE            0x3000U
 
 /** @brief AECS size for operation: Compress (with Huffman Table). */
-#define HW_AECS_COMPRESS_WITH_HT               0x620u
+#define HW_AECS_COMPRESS_WITH_HT               0x620U
 
 /** @brief AECS size for operation: Compress (with Huffman Table and largest possible dictionary). */
 #define HW_AECS_COMPRESS_WITH_HT_AND_DICT      (HW_AECS_COMPRESS_WITH_HT + HW_AECS_MAX_DICTIONARY_SIZE)
 
 /** @brief Size of hw_iaa_aecs_decompress structure */
-#define HW_AECS_DECOMPRESS_STATE               0x1458u
+#define HW_AECS_DECOMPRESS_STATE               0x1458U
 
 typedef void                              hw_iaa_aecs;                 /**< Common AECS type */
 typedef void                              hw_iaa_huffman_codes;        /**< Forward declaration */
@@ -79,22 +79,22 @@ typedef enum {
      * @brief Toggle AECS R/W policy. Default one read from the first AECS and write to the second AECS.
      * If no write then this policy mustn't be used.
      */
-    hw_aecs_toggle_rw          = 0x001u,
-    hw_aecs_access_read        = 0x010u,  /**< Enable reading of the AECS by operation */
-    hw_aecs_access_write       = 0x100u,  /**< Enable writing to the AECS by operation */
-    hw_aecs_access_maybe_write = 0x200u,  /**< Enable writing to the AECS only in case of output buffer overflow */
+    hw_aecs_toggle_rw          = 0x001U,
+    hw_aecs_access_read        = 0x010U,  /**< Enable reading of the AECS by operation */
+    hw_aecs_access_write       = 0x100U,  /**< Enable writing to the AECS by operation */
+    hw_aecs_access_maybe_write = 0x200U,  /**< Enable writing to the AECS only in case of output buffer overflow */
 } hw_iaa_aecs_access_policy;
 
 /**
 * @brief @todo add description
 */
 typedef enum {
-    hw_aecs_at_ll_token_non_final_block     = 0x0u,  /**< @todo add description */
-    hw_aecs_at_ll_token_final_block         = 0x4u,  /**< @todo add description */
-    hw_aecs_at_stored_block_non_final_block = 0x2u,  /**< @todo add description */
-    hw_aecs_at_stored_block_final_block     = 0x6u,  /**< @todo add description */
-    hw_aecs_at_start_block_header           = 0x1u,  /**< @todo add description */
-    hw_aecs_processing_terminated_with_eob  = 0x8u   /**< @todo add description */
+    hw_aecs_at_ll_token_non_final_block     = 0x0U,  /**< @todo add description */
+    hw_aecs_at_ll_token_final_block         = 0x4U,  /**< @todo add description */
+    hw_aecs_at_stored_block_non_final_block = 0x2U,  /**< @todo add description */
+    hw_aecs_at_stored_block_final_block     = 0x6U,  /**< @todo add description */
+    hw_aecs_at_start_block_header           = 0x1U,  /**< @todo add description */
+    hw_aecs_processing_terminated_with_eob  = 0x8U   /**< @todo add description */
 } hw_iaa_aecs_decompress_state;
 
 /**
@@ -323,7 +323,7 @@ HW_PATH_IAA_AECS_API(void, compress_store_huffman_only_huffman_table, (const hw_
  */
 static inline
 HW_PATH_IAA_AECS_API(void, compress_clean_accumulator, (hw_iaa_aecs_compress *const aecs_ptr)) {
-    aecs_ptr->num_output_accum_bits = 0u;
+    aecs_ptr->num_output_accum_bits = 0U;
 }
 
 /**
@@ -507,8 +507,8 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
  */
 static inline
 HW_PATH_IAA_AECS_API(void, decompress_clean_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr)) {
-    aecs_ptr->input_accum[0]      = 0u;
-    aecs_ptr->input_accum_size[0] = 0u;
+    aecs_ptr->input_accum[0]      = 0U;
+    aecs_ptr->input_accum_size[0] = 0U;
 }
 
 
@@ -521,7 +521,7 @@ HW_PATH_IAA_AECS_API(void, decompress_clean_input_accumulator, (hw_iaa_aecs_deco
  */
 static inline
 HW_PATH_IAA_AECS_API(bool, decompress_is_empty_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr)) {
-    return 0u == aecs_ptr->input_accum_size[0];
+    return 0U == aecs_ptr->input_accum_size[0];
 }
 
 /**
@@ -613,11 +613,11 @@ static inline
 HW_PATH_IAA_AECS_API(void, decompress_state_set_aecs_format, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                               bool is_aecs_format2_expected)) {
         if (is_aecs_format2_expected) {
-            aecs_ptr->output_acc_bits_valid |= 0x1u;
+            aecs_ptr->output_acc_bits_valid |= 0x1U;
             aecs_ptr->aecs_format |= 1;
         }
         else {
-            aecs_ptr->output_acc_bits_valid &= ~(0x1u);
+            aecs_ptr->output_acc_bits_valid &= ~(0x1U);
             aecs_ptr->aecs_format &= ~1;
         }
 }

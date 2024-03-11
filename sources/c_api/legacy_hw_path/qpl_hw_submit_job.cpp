@@ -39,12 +39,12 @@
 #include "own_checkers.h"
 
 typedef enum {
-    hw_scan_operator_eq = 0u,
-    hw_scan_operator_ne = 1u,
-    hw_scan_operator_lt = 2u,
-    hw_scan_operator_le = 3u,
-    hw_scan_operator_gt = 4u,
-    hw_scan_operator_ge = 5u,
+    hw_scan_operator_eq = 0U,
+    hw_scan_operator_ne = 1U,
+    hw_scan_operator_lt = 2U,
+    hw_scan_operator_le = 3U,
+    hw_scan_operator_gt = 4U,
+    hw_scan_operator_ge = 5U,
 } hw_scan_operator_e;
 
 typedef struct {
@@ -56,7 +56,7 @@ static inline hw_scan_range_t own_get_scan_one_value_range(hw_scan_operator_e sc
                                                            uint32_t low_limit,
                                                            uint32_t source_bit_width) {
     hw_scan_range_t range;
-    auto range_mask    = static_cast<uint32_t>((1ULL << source_bit_width) - 1u);
+    auto range_mask    = static_cast<uint32_t>((1ULL << source_bit_width) - 1U);
     uint32_t param_low = low_limit & range_mask;
 
     switch (scan_operator) {
@@ -67,26 +67,26 @@ static inline hw_scan_range_t own_get_scan_one_value_range(hw_scan_operator_e sc
             break;
 
         case hw_scan_operator_lt:
-            if (0u == param_low) {
-                range.low  = 1u;
-                range.high = 0u;
+            if (0U == param_low) {
+                range.low  = 1U;
+                range.high = 0U;
             } else {
-                range.low  = 0u;
-                range.high = param_low - 1u;
+                range.low  = 0U;
+                range.high = param_low - 1U;
             }
             break;
 
         case hw_scan_operator_le:
-            range.low  = 0u;
+            range.low  = 0U;
             range.high = param_low;
             break;
 
         case hw_scan_operator_gt:
             if (param_low == range_mask) {
-                range.low  = 1u;
-                range.high = 0u;
+                range.low  = 1U;
+                range.high = 0U;
             } else {
-                range.low  = param_low + 1u;
+                range.low  = param_low + 1U;
                 range.high = UINT32_MAX;
             }
             break;
@@ -107,8 +107,8 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
     hw_iaa_aecs_analytic *const filter_config_ptr = state_ptr->dcfg;
 
     // Reset Output Job fields
-    job_ptr->total_in  = 0u;
-    job_ptr->total_out = 0u;
+    job_ptr->total_in  = 0U;
+    job_ptr->total_out = 0U;
 
     hw_iaa_descriptor_reset(descriptor_ptr);
 
@@ -186,7 +186,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
 
         case qpl_op_scan_range:
         case qpl_op_scan_not_range: {
-            auto range_mask = static_cast<uint32_t>((1ULL << job_ptr->src1_bit_width) - 1u);
+            auto range_mask = static_cast<uint32_t>((1ULL << job_ptr->src1_bit_width) - 1U);
 
             hw_iaa_descriptor_analytic_set_scan_operation(descriptor_ptr,
                                                           job_ptr->param_low & range_mask,
@@ -355,14 +355,14 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
 }
 
 static inline void own_hw_state_reset(qpl_hw_state *const state_ptr) {
-    state_ptr->config_valid                                   = 0u;
+    state_ptr->config_valid                                   = 0U;
     state_ptr->execution_history.first_job_has_been_submitted = false;
-    state_ptr->accumulation_buffer.actual_bytes               = 0u;
-    state_ptr->aecs_hw_read_offset                            = 0u;
-    state_ptr->verify_aecs_hw_read_offset                     = 0u;
+    state_ptr->accumulation_buffer.actual_bytes               = 0U;
+    state_ptr->aecs_hw_read_offset                            = 0U;
+    state_ptr->verify_aecs_hw_read_offset                     = 0U;
 }
 
-#define STOP_CHECK_RULE_COUNT 7u
+#define STOP_CHECK_RULE_COUNT 7U
 
 extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     QPL_BAD_OP_RET(qpl_job_ptr->op);
@@ -379,7 +379,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     switch (qpl_job_ptr->op) {
         case qpl_op_extract:
             if (qpl_job_ptr->param_low > qpl_job_ptr->param_high) {
-                hw_iaa_completion_record_init_trivial_completion(&state_ptr->comp_ptr, 0u);
+                hw_iaa_completion_record_init_trivial_completion(&state_ptr->comp_ptr, 0U);
 
                 return QPL_STS_OK;
             }
@@ -479,11 +479,11 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
             job::update_input_stream(qpl_job_ptr, header.byte_size);
         }
 
-        desc_ptr->filter_flags          = 0u;
+        desc_ptr->filter_flags          = 0U;
         desc_ptr->completion_record_ptr = (uint8_t *) &state_ptr->comp_ptr;
 
-        state_ptr->dcfg[0].filtering_options.crc          = 0u;
-        state_ptr->dcfg[0].filtering_options.xor_checksum = 0u;
+        state_ptr->dcfg[0].filtering_options.crc          = 0U;
+        state_ptr->dcfg[0].filtering_options.xor_checksum = 0U;
     }
 
     uint8_t *source_ptr  = qpl_job_ptr->next_in_ptr;
@@ -529,7 +529,7 @@ extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor 
 
     hw_iaa_aecs_decompress_set_crc_seed(aecs_ptr, crc_seed);
 
-    if (0u != ignore_start_bit) {
+    if (0U != ignore_start_bit) {
         aecs_ptr->inflate_options.idx_bit_offset = OWN_MAX_BIT_IDX & ignore_start_bit;
         auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
                                                                    (*data_ptr),

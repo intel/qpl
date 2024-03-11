@@ -16,14 +16,14 @@
 // core-sw
 #include "simple_memory_ops_c_bind.h"
 
-#define OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT 32u
-#define OWN_MAX_BIT_IDX                        7u
+#define OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT 32U
+#define OWN_MAX_BIT_IDX                        7U
 
 static_assert(sizeof(hw_iaa_aecs_analytic) == HW_AECS_FILTER_AND_DECOMPRESS, "hw_aecs_analytic size is not correct");
 static_assert(sizeof(hw_iaa_aecs_decompress) == HW_AECS_DECOMPRESS_STATE, "hw_iaa_aecs_decompress size is not correct");
 
-#define OWN_STATUS_OK 0u
-#define OWN_STATUS_ERROR 1u
+#define OWN_STATUS_OK 0U
+#define OWN_STATUS_ERROR 1U
 
 /**
  * @brief Helper for packing Huffman table with AECS Format-1
@@ -33,21 +33,21 @@ static_assert(sizeof(hw_iaa_aecs_decompress) == HW_AECS_DECOMPRESS_STATE, "hw_ia
  *
  */
 static inline void pack_table(uint32_t out[5], const uint16_t in[15]) {
-    out[0] = ((uint32_t) (in[0] & ((1u << 2u) - 1u)));           // mask = 00000000000000000000000000000011
-    out[0] |= ((uint32_t) (in[1] & ((1u << 3u) - 1u))) << 2u;    // mask = 00000000000000000000000000011100
-    out[0] |= ((uint32_t) (in[2] & ((1u << 4u) - 1u))) << 5u;    // mask = 00000000000000000000000111100000
-    out[0] |= ((uint32_t) (in[3] & ((1u << 5u) - 1u))) << 9u;    // mask = 00000000000000000011111000000000
-    out[0] |= ((uint32_t) (in[4] & ((1u << 6u) - 1u))) << 14u;   // mask = 00000000000011111100000000000000
-    out[0] |= ((uint32_t) (in[5] & ((1u << 7u) - 1u))) << 20u;   // mask = 00000111111100000000000000000000
-    out[1] = ((uint32_t) (in[6] & ((1u << 8u) - 1u)));           // mask = 00000000000000000000000011111111
-    out[1] |= ((uint32_t) (in[7] & ((1u << 9u) - 1u))) << 8u;    // mask = 00000000000000011111111100000000
-    out[1] |= ((uint32_t) (in[8] & ((1u << 10u) - 1u))) << 17u;  // mask = 00000111111111100000000000000000
-    out[2] = ((uint32_t) (in[9] & ((1u << 11u) - 1u)));          // mask = 00000000000000000000011111111111
-    out[2] |= ((uint32_t) (in[10] & ((1u << 12u) - 1u))) << 11u; // mask = 00000000011111111111100000000000
-    out[3] = ((uint32_t) (in[11] & ((1u << 13u) - 1u)));         // mask = 00000000000000000001111111111111
-    out[3] |= ((uint32_t) (in[12] & ((1u << 14u) - 1u))) << 13u; // mask = 00000111111111111110000000000000
-    out[4] = ((uint32_t) (in[13] & ((1u << 15u) - 1u)));         // mask = 00000000000000000111111111111111
-    out[4] |= ((uint32_t) (in[14] & ((1u << 16u) - 1u))) << 15u; // mask = 01111111111111111000000000000000
+    out[0] = ((uint32_t) (in[0] & ((1U << 2U) - 1U)));           // mask = 00000000000000000000000000000011
+    out[0] |= ((uint32_t) (in[1] & ((1U << 3U) - 1U))) << 2U;    // mask = 00000000000000000000000000011100
+    out[0] |= ((uint32_t) (in[2] & ((1U << 4U) - 1U))) << 5U;    // mask = 00000000000000000000000111100000
+    out[0] |= ((uint32_t) (in[3] & ((1U << 5U) - 1U))) << 9U;    // mask = 00000000000000000011111000000000
+    out[0] |= ((uint32_t) (in[4] & ((1U << 6U) - 1U))) << 14U;   // mask = 00000000000011111100000000000000
+    out[0] |= ((uint32_t) (in[5] & ((1U << 7U) - 1U))) << 20U;   // mask = 00000111111100000000000000000000
+    out[1] = ((uint32_t) (in[6] & ((1U << 8U) - 1U)));           // mask = 00000000000000000000000011111111
+    out[1] |= ((uint32_t) (in[7] & ((1U << 9U) - 1U))) << 8U;    // mask = 00000000000000011111111100000000
+    out[1] |= ((uint32_t) (in[8] & ((1U << 10U) - 1U))) << 17U;  // mask = 00000111111111100000000000000000
+    out[2] = ((uint32_t) (in[9] & ((1U << 11U) - 1U)));          // mask = 00000000000000000000011111111111
+    out[2] |= ((uint32_t) (in[10] & ((1U << 12U) - 1U))) << 11U; // mask = 00000000011111111111100000000000
+    out[3] = ((uint32_t) (in[11] & ((1U << 13U) - 1U)));         // mask = 00000000000000000001111111111111
+    out[3] |= ((uint32_t) (in[12] & ((1U << 14U) - 1U))) << 13U; // mask = 00000111111111111110000000000000
+    out[4] = ((uint32_t) (in[13] & ((1U << 15U) - 1U)));         // mask = 00000000000000000111111111111111
+    out[4] |= ((uint32_t) (in[14] & ((1U << 16U) - 1U))) << 15U; // mask = 01111111111111111000000000000000
 }
 
 /**
@@ -307,11 +307,11 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
 
     call_c_set_zeros_uint8_t((uint8_t *) aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
-    aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[1] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFu;
-    aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFu;
+    aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[1] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFU;
+    aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFU;
 
     pack_table(aecs_ptr->lit_len_num_codes, huffman_table_ptr->number_of_codes);
     pack_table(aecs_ptr->lit_len_first_code, huffman_table_ptr->first_codes);
@@ -324,7 +324,7 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
     */
     if (huffman_table_ptr->format_stored == ht_with_mapping_table) {
         pack_table(aecs_ptr->lit_len_first_tbl_idx, huffman_table_ptr->first_table_indexes);
-        call_c_copy_uint8_t((uint8_t *) huffman_table_ptr->index_to_char, (uint8_t *) aecs_ptr->lit_len_sym, 256u);
+        call_c_copy_uint8_t((uint8_t *) huffman_table_ptr->index_to_char, (uint8_t *) aecs_ptr->lit_len_sym, 256U);
     }
     else {
         pack_cam(aecs_ptr->ll_mapping_cam_1, aecs_ptr->ll_mapping_cam_2, huffman_table_ptr->lit_cam);
@@ -381,14 +381,14 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
     aecs_ptr->decompress_state = DEF_STATE_LL_TOKEN;
 
     // Initialization
-    num_codes[0] = 0u;
-    for (idx = 1u; idx <= 15u; idx++) {
-        num_codes[idx] = first_code[idx] = next_code[idx] = 0u;
+    num_codes[0] = 0U;
+    for (idx = 1U; idx <= 15U; idx++) {
+        num_codes[idx] = first_code[idx] = next_code[idx] = 0U;
     }
 
     if (is_aecs_format2_expected) {
-        for (idx = 1u; idx <= 15u; idx++) {
-            cam_offset[idx] = 0u;
+        for (idx = 1U; idx <= 15U; idx++) {
+            cam_offset[idx] = 0U;
         }
 
         call_c_set_zeros_uint8_t((uint8_t *) lit_cam, sizeof(lit_cam));
@@ -396,25 +396,25 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
 
     // Iterate through all 256 codes
     // and fill in common parts as well as Mapping CAM
-    for (idx = 0u; idx < 256u; idx++) {
+    for (idx = 0U; idx < 256U; idx++) {
         code = ll_huffman_table[idx];
-        len  = code >> 15u;
-        if (0u == len) {
+        len  = code >> 15U;
+        if (0U == len) {
             continue;
         }
-        if (15u < len) {
-            return 2u;
+        if (15U < len) {
+            return 2U;
         }
-        code &= 0x7FFFu;
-        if (0u == num_codes[len]) {
+        code &= 0x7FFFU;
+        if (0U == num_codes[len]) {
             // First Time a certain length code is met
-            num_codes[len]  = 1u;
+            num_codes[len]  = 1U;
             first_code[len] = code;
-            next_code[len]  = code + 1u;
+            next_code[len]  = code + 1U;
         } else {
             num_codes[len]++;
             if (code != next_code[len]) {
-                return 1u;
+                return 1U;
             }
             next_code[len]++;
         }
@@ -430,29 +430,29 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
         pack_cam(aecs_ptr->ll_mapping_cam_1, aecs_ptr->ll_mapping_cam_2, lit_cam);
     }
     else { // Compute and pack First Table Indices and Mapping Table
-        first_tbl_idx[0] = 0u;
-        for (idx = 0u; idx < 15u; idx++) {
+        first_tbl_idx[0] = 0U;
+        for (idx = 0U; idx < 15U; idx++) {
             first_tbl_idx[idx + 1] = first_tbl_idx[idx] + num_codes[idx];
         }
-        pack_table(aecs_ptr->lit_len_first_tbl_idx, first_tbl_idx + 1u);
+        pack_table(aecs_ptr->lit_len_first_tbl_idx, first_tbl_idx + 1U);
 
         lit_len_sym = aecs_ptr->lit_len_sym;
-        for (idx    = 0u; idx < 256u; idx++) {
-            len = ll_huffman_table[idx] >> 15u;
-            if (len != 0u) {
+        for (idx    = 0U; idx < 256U; idx++) {
+            len = ll_huffman_table[idx] >> 15U;
+            if (len != 0U) {
                 lit_len_sym[first_tbl_idx[len]++] = idx;
             }
         }
     }
 
     // Pack common parts
-    pack_table(aecs_ptr->lit_len_num_codes, num_codes + 1u);
-    pack_table(aecs_ptr->lit_len_first_code, first_code + 1u);
-    aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[1] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFu;
-    aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFu;
-    aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFu;
+    pack_table(aecs_ptr->lit_len_num_codes, num_codes + 1U);
+    pack_table(aecs_ptr->lit_len_first_code, first_code + 1U);
+    aecs_ptr->lit_len_first_len_code[0] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[1] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[2] = 0x007FFFFFU;
+    aecs_ptr->lit_len_first_len_code[3] = 0x07FFFFFFU;
+    aecs_ptr->lit_len_first_len_code[4] = 0x7FFFFFFFU;
 
     return 0;
 }
@@ -475,27 +475,27 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
                                                                   const uint8_t ignore_start_bits,
                                                                   const uint8_t ignore_end_bits)){
     uint32_t i;
-    for (i = 0u; i < OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT - 1u; i++) {
-        if (0u == aecs_ptr->input_accum_size[i]) {
+    for (i = 0U; i < OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT - 1U; i++) {
+        if (0U == aecs_ptr->input_accum_size[i]) {
             break;
         }
     }
 
-    HW_IMMEDIATELY_RET((0u != aecs_ptr->input_accum_size[i]), OWN_STATUS_ERROR)
+    HW_IMMEDIATELY_RET((0U != aecs_ptr->input_accum_size[i]), OWN_STATUS_ERROR)
 
-    if (1u < source_size) {
+    if (1U < source_size) {
         aecs_ptr->input_accum[i]      = (*source_ptr) >> (ignore_start_bits & OWN_MAX_BIT_IDX);
-        aecs_ptr->input_accum_size[i] = 8u - (ignore_start_bits & 7u);
+        aecs_ptr->input_accum_size[i] = 8U - (ignore_start_bits & 7U);
     } else {
         HW_IMMEDIATELY_RET((1 > source_size), OWN_STATUS_ERROR)
 
         aecs_ptr->input_accum[i]      = (*source_ptr) >> (ignore_start_bits & OWN_MAX_BIT_IDX);
         aecs_ptr->input_accum_size[i] = OWN_MAX_BIT_IDX
-                                               & (0u
+                                               & (0U
                                                    - (int32_t) ignore_start_bits
                                                    - (int32_t) ignore_end_bits
                                                 );
-        aecs_ptr->input_accum[i] &= (1u << aecs_ptr->input_accum_size[i]) - 1u;
+        aecs_ptr->input_accum[i] &= (1U << aecs_ptr->input_accum_size[i]) - 1U;
     }
 
     return OWN_STATUS_OK;

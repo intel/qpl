@@ -41,10 +41,10 @@ namespace qpl::test
     public:
         void InitializeTestCases()
         {
-            std::vector<uint32_t> bit_widths(32u, 0u);
-            std::iota(bit_widths.begin(), bit_widths.end(), 1u);
+            std::vector<uint32_t> bit_widths(32U, 0U);
+            std::iota(bit_widths.begin(), bit_widths.end(), 1U);
             auto number_of_elements = format_generator::generate_length_sequence();
-            std::vector<uint64_t> output_format_flags = {0u, QPL_FLAG_OUT_BE};
+            std::vector<uint64_t> output_format_flags = {0U, QPL_FLAG_OUT_BE};
 
             uint32_t test_cases_counter = 0;
 
@@ -52,11 +52,11 @@ namespace qpl::test
             {
                 for (auto source_bit_width : bit_widths)
                 {
-                    for (auto destination_bit_width : {1u, 8u, 16u, 32u})
+                    for (auto destination_bit_width : {1U, 8U, 16U, 32U})
                     {
-                        if (destination_bit_width != 1u)
+                        if (destination_bit_width != 1U)
                         {
-                            if ((1ull << destination_bit_width) <= length_in_elements)
+                            if ((1ULL << destination_bit_width) <= length_in_elements)
                             {
                                 continue;
                             } else if (source_bit_width > destination_bit_width)
@@ -74,8 +74,8 @@ namespace qpl::test
                                 test_case.number_of_elements = length_in_elements;
                                 test_case.source_bit_width = source_bit_width;
                                 test_case.destination_bit_width = destination_bit_width;
-                                test_case.lower_bound = length_in_elements / 4u;
-                                test_case.upper_bound = (length_in_elements / 4u) * 3u;
+                                test_case.lower_bound = length_in_elements / 4U;
+                                test_case.upper_bound = (length_in_elements / 4U) * 3U;
                                 test_case.parser = parser;
                                 test_case.flags = output_flag;
 
@@ -102,7 +102,7 @@ namespace qpl::test
     {
         static uint32_t test_case_counter = 0;
 
-        if (0u == test_case_counter % 5000u)
+        if (0U == test_case_counter % 5000U)
         {
             std::cout << " Running test case number " << test_case_counter << std::endl;
         }
@@ -126,7 +126,7 @@ namespace qpl::test
     {
         static uint32_t test_case_counter = 0;
 
-        if (0u == test_case_counter % 5000u)
+        if (0U == test_case_counter % 5000U)
         {
             std::cout << " Running test case number " << test_case_counter << std::endl;
         }
@@ -138,7 +138,7 @@ namespace qpl::test
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
 
         if (GetExecutionPath() == qpl_path_software && current_test_case.parser == qpl_p_parquet_rle) {
-            job_ptr->src1_bit_width = 0u;
+            job_ptr->src1_bit_width = 0U;
         }
 
         auto status = run_job_api(job_ptr);
@@ -155,7 +155,7 @@ namespace qpl::test
     {
         static uint32_t test_case_counter = 0;
 
-        if (0u == test_case_counter % 5000u)
+        if (0U == test_case_counter % 5000U)
         {
             std::cout << " Running test case number " << test_case_counter << std::endl;
         }
@@ -164,7 +164,7 @@ namespace qpl::test
         ASSERT_NO_THROW(compressed_source = GetCompressedSource(true));
 
         if (GetExecutionPath() == qpl_path_software && current_test_case.parser == qpl_p_parquet_rle) {
-            job_ptr->src1_bit_width = 0u;
+            job_ptr->src1_bit_width = 0U;
         }
 
         auto saved_in_ptr = compressed_source.data();
@@ -173,20 +173,20 @@ namespace qpl::test
 
         auto header_index = index_table.findHeaderBlockIndex(0);
         auto header_index_start  = index_table[header_index];
-        auto header_index_finish = index_table[header_index + 1u];
+        auto header_index_finish = index_table[header_index + 1U];
 
         auto bit_start = header_index_start.bit_offset;
         auto bit_end   = header_index_finish.bit_offset;
 
-        uint8_t *start = saved_in_ptr + bit_start / 8u;
+        uint8_t *start = saved_in_ptr + bit_start / 8U;
 
         // Decompress header for random access
         job_ptr->op    = qpl_op_decompress;
         job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_RND_ACCESS;
 
-        job_ptr->ignore_start_bits = bit_start & 7u;
-        job_ptr->ignore_end_bits   = 7u & (0u - bit_end);
-        job_ptr->available_in      = ((bit_end + 7u) / 8u) - (bit_start / 8u);
+        job_ptr->ignore_start_bits = bit_start & 7U;
+        job_ptr->ignore_end_bits   = 7U & (0U - bit_end);
+        job_ptr->available_in      = ((bit_end + 7U) / 8U) - (bit_start / 8U);
         job_ptr->next_in_ptr       = start;
 
         auto status = run_job_api(job_ptr);
@@ -196,12 +196,12 @@ namespace qpl::test
         auto mini_block_index = index_table.findMiniBlockIndex(0);
 
         bit_start = index_table[mini_block_index].bit_offset;
-        bit_end   = index_table[mini_block_index + 1u].bit_offset;
+        bit_end   = index_table[mini_block_index + 1U].bit_offset;
 
-        job_ptr->next_in_ptr       = saved_in_ptr + bit_start / 8u;
-        job_ptr->ignore_start_bits = bit_start & 7u;
-        job_ptr->ignore_end_bits   = 7u & (0u - bit_end);
-        job_ptr->available_in      = ((bit_end + 7u) / 8u) - (bit_start / 8u);
+        job_ptr->next_in_ptr       = saved_in_ptr + bit_start / 8U;
+        job_ptr->ignore_start_bits = bit_start & 7U;
+        job_ptr->ignore_end_bits   = 7U & (0U - bit_end);
+        job_ptr->available_in      = ((bit_end + 7U) / 8U) - (bit_start / 8U);
         job_ptr->crc               = index_table[mini_block_index].crc;
 
         job_ptr->op    = saved_op;
@@ -222,11 +222,11 @@ namespace qpl::test
         static uint32_t test_case_counter = 0;
 
         // Skip nominal and extended output
-        if ((1u == current_test_case.destination_bit_width) || (1u != current_test_case.source_bit_width)) {
+        if ((1U == current_test_case.destination_bit_width) || (1U != current_test_case.source_bit_width)) {
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1llu << current_test_case.destination_bit_width) - 1u);
+        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }
@@ -271,10 +271,10 @@ namespace qpl::test
         ASSERT_EQ(QPL_STS_OK, status);
 
         // testing only the 4-bit input width, only case creatable without creating new testing features (parquet creation)
-        const uint8_t input_bit_width = 4u;
+        const uint8_t input_bit_width = 4U;
 
         // parquet_num_values must be 16 (divisible by 8, > 8, and (parquet_num_values - 1) fits in 4-bit)
-        const uint8_t parquet_num_values = 16u;
+        const uint8_t parquet_num_values = 16U;
 
         // Reference vector is a an ascending vector of values between [0 .. 15]
         std::vector<uint8_t> reference_vector(parquet_num_values);
@@ -286,7 +286,7 @@ namespace qpl::test
         // first byte of parquet is input_bit_width
         source[0] = input_bit_width;
         // second byte of parquet is (count << 1) | [format {0 for rle, 1 for literals}]
-        source[1] = (2u << 1) | 1;
+        source[1] = (2U << 1) | 1;
 
         // Packing 8-bit numbers into 4-bit width literals
         for (int i = 0; i < reference_vector.size(); i++) {
@@ -299,7 +299,7 @@ namespace qpl::test
         }
 
         // Arbitrarily picked value (must be 8 < values < 16)
-        const uint8_t values_to_extract = 10u;
+        const uint8_t values_to_extract = 10U;
 
         // Testing all potential output bit widths
         std::vector<qpl_out_format> output_bit_widths = {qpl_ow_8, qpl_ow_16, qpl_ow_32};
@@ -375,8 +375,8 @@ namespace qpl::test
                 test_case.number_of_elements    = multiplier * page_size;
                 test_case.source_bit_width      = source_bit_width;
                 test_case.destination_bit_width = destination_bit_width;
-                test_case.lower_bound           = test_case.number_of_elements  / 4u;
-                test_case.upper_bound           = (test_case.number_of_elements / 4u) * 3u;
+                test_case.lower_bound           = test_case.number_of_elements  / 4U;
+                test_case.upper_bound           = (test_case.number_of_elements / 4U) * 3U;
                 test_case.parser                = qpl_p_le_packed_array;
 
                 AddNewTestCase(test_case);

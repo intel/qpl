@@ -36,7 +36,7 @@ using huffman_table_t = ml::compression::decompression_huffman_table;
 template <>
 void inline job::update<operation_result_t>(qpl_job *job_ptr, operation_result_t &result) noexcept {
     job::update_input_stream(job_ptr, result.completed_bytes_);
-    job::update_output_stream(job_ptr, result.output_bytes_, 0u);
+    job::update_output_stream(job_ptr, result.output_bytes_, 0U);
     job::update_checksums(job_ptr, result.checksums_.crc32_, result.checksums_.xor_);
 }
 

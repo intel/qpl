@@ -24,8 +24,8 @@ extern "C" {
  * is stored in Huffman Table of qplc_huffman_table_flat_format type.
 */
 typedef enum {
-    ht_with_mapping_table = 0u,
-    ht_with_mapping_cam   = 1u,
+    ht_with_mapping_table = 0U,
+    ht_with_mapping_cam   = 1U,
 } huffman_table_aecs_format;
 
 /**

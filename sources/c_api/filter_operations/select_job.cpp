@@ -83,7 +83,7 @@ uint32_t perform_select(qpl_job *job_ptr,
             // Configure buffers
             limited_buffer_t unpack_buffer(unpack_buffer_ptr, unpack_buffer_ptr + unpack_buffer_size, input_stream.bit_width());
             limited_buffer_t set_buffer(mask_buffer_ptr, mask_buffer_ptr + mask_buffer_size, byte_bits_size);
-            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1u);
+            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1U);
 
             result = call_select<execution_path_t::hardware>(input_stream,
                                                              mask_stream,
@@ -129,7 +129,7 @@ uint32_t perform_select(qpl_job *job_ptr,
             // Configure buffers
             limited_buffer_t unpack_buffer(unpack_buffer_ptr, unpack_buffer_ptr + unpack_buffer_size, input_stream.bit_width());
             limited_buffer_t set_buffer(mask_buffer_ptr, mask_buffer_ptr + mask_buffer_size, byte_bits_size);
-            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1u);
+            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1U);
 
             result = call_select<execution_path_t::auto_detect>(input_stream,
                                                                 mask_stream,
@@ -175,7 +175,7 @@ uint32_t perform_select(qpl_job *job_ptr,
             // Configure buffers
             limited_buffer_t unpack_buffer(unpack_buffer_ptr, unpack_buffer_ptr + unpack_buffer_size, input_stream.bit_width());
             limited_buffer_t set_buffer(mask_buffer_ptr, mask_buffer_ptr + mask_buffer_size, byte_bits_size);
-            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1u);
+            limited_buffer_t output_buffer(output_buffer_ptr, output_buffer_ptr + output_buffer_size, 1U);
 
             result = call_select<execution_path_t::software>(input_stream,
                                                              mask_stream,

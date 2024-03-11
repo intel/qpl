@@ -163,7 +163,7 @@ static uint32_t test_source(const uint8_t* source, const uint8_t* destination, u
 
 }
 
-constexpr uint32_t TEST_BUFFER_SIZE = 4096u;
+constexpr uint32_t TEST_BUFFER_SIZE = 4096U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -171,7 +171,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_deflate_slow_icf, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     uint8_t                 *current_ptr = (uint8_t*)source.data();
     uint8_t                 *lower_bound_ptr = (uint8_t*)source.data();

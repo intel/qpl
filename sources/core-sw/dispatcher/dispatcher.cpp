@@ -144,15 +144,15 @@ auto detect_platform() -> arch_t {
 }
 
 auto get_unpack_index(const uint32_t flag_be, const uint32_t bit_width) -> uint32_t {
-    uint32_t input_be_shift = (flag_be) ? 32u : 0u;
+    uint32_t input_be_shift = (flag_be) ? 32U : 0U;
     // Unpack function table contains 64 entries - starts from 1-32 bit-width for le_format, then 1-32 for BE input
-    uint32_t unpack_index   = input_be_shift + bit_width - 1u;
+    uint32_t unpack_index   = input_be_shift + bit_width - 1U;
 
     return unpack_index;
 }
 
 auto get_pack_index(const uint32_t flag_be, const uint32_t out_bit_width, const uint32_t flag_nominal) -> uint32_t {
-    uint32_t output_be_shift = (flag_be) ? 4u : 0u;
+    uint32_t output_be_shift = (flag_be) ? 4U : 0U;
     // Pack function table for nominal bit-vector output contains 8 entries - starts from 0-3 qpl_out_format for le_format,
     // then 4-7 for BE output
     uint32_t pack_index      = (flag_nominal) ? out_bit_width + output_be_shift : output_be_shift;
@@ -174,7 +174,7 @@ auto get_scan_index(const uint32_t bit_width, const uint32_t scan_flavor_index) 
     // Scan function table contains 3 entries for each scan sub-operation - for 8u, 16u & 32u unpacked data;
     uint32_t data_type_index = BITS_2_DATA_TYPE_INDEX(bit_width);
     // Shift scan function index to the corresponding scan sub op: EQ, NE,LT, le_format, GT, GE, RANGE, NOT_RANGE
-    uint32_t scan_index      = data_type_index + scan_flavor_index * 3u;
+    uint32_t scan_index      = data_type_index + scan_flavor_index * 3U;
 
     return scan_index;
 }
@@ -210,41 +210,41 @@ auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t {
 auto get_pack_bits_index(const uint32_t flag_be,
                          const uint32_t src_bit_width,
                          const uint32_t out_bit_width) -> uint32_t {
-    uint32_t pack_array_index = src_bit_width - 1u;
-    uint32_t input_be_shift   = (flag_be) ? 35 : 0u; // 35
+    uint32_t pack_array_index = src_bit_width - 1U;
+    uint32_t input_be_shift   = (flag_be) ? 35 : 0U; // 35
     // Unpack function table contains 70 (2 * 35) entries - starts from 1-32 bit-width
     // for le_format + 8u16u|8u32u|16u32u cases, then the same for BE input
     if (out_bit_width) {
         // Apply output modification for nominal array output
-        if (8u >= src_bit_width) {
+        if (8U >= src_bit_width) {
             switch (out_bit_width) {
-                case 1u: {
-                    pack_array_index = 7u; /**< 8u->8u */
+                case 1U: {
+                    pack_array_index = 7U; /**< 8u->8u */
                     break;
                 }
-                case 2u: {
-                    pack_array_index = 32u; /**< 8u->16u */
+                case 2U: {
+                    pack_array_index = 32U; /**< 8u->16u */
                     break;
                 }
-                case 3u: {
-                    pack_array_index = 33u; /**< 8u->32u */
+                case 3U: {
+                    pack_array_index = 33U; /**< 8u->32u */
                     break;
                 }
                 default: {
                     break;
                 }
             }
-        } else if (16u >= src_bit_width) {
+        } else if (16U >= src_bit_width) {
             switch (out_bit_width) {
-                case 1u: {
+                case 1U: {
                     break;
                 }
-                case 2u: {
-                    pack_array_index = 15u; /**< 16u->16u */
+                case 2U: {
+                    pack_array_index = 15U; /**< 16u->16u */
                     break;
                 }
-                case 3u: {
-                    pack_array_index = 34u; /**< 16u->32u */
+                case 3U: {
+                    pack_array_index = 34U; /**< 16u->32u */
                     break;
                 }
                 default: {
@@ -252,7 +252,7 @@ auto get_pack_bits_index(const uint32_t flag_be,
                 }
             }
         } else {    /**< 32u >= src_bit_width */
-            pack_array_index = 31u; /**< 32u->32u */
+            pack_array_index = 31U; /**< 32u->32u */
         }
     }
     // No output modification for nominal array output
@@ -263,7 +263,7 @@ auto get_pack_bits_index(const uint32_t flag_be,
 
 auto get_aggregates_index(const uint32_t src_bit_width) -> uint32_t {
     uint32_t aggregates_index = BITS_2_DATA_TYPE_INDEX(src_bit_width);
-    aggregates_index = (1u == src_bit_width) ? 0u : aggregates_index + 1u;
+    aggregates_index = (1U == src_bit_width) ? 0U : aggregates_index + 1U;
 
     return aggregates_index;
 }

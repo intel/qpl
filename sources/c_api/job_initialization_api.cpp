@@ -166,7 +166,7 @@ QPL_INLINE uint32_t own_get_job_size_compress(qpl_path_t UNREFERENCED_PARAMETER(
  * @note Holds allocations required for performin various analytics operations.
  */
 QPL_INLINE uint32_t own_get_job_size_analytics(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
-    uint32_t size = 0u;
+    uint32_t size = 0U;
 
     size += QPL_ALIGNED_SIZE(sizeof(own_analytics_state_t), QPL_DEFAULT_ALIGNMENT);
     size += QPL_ALIGNED_SIZE(OWN_INFLATE_BUF_SIZE, QPL_DEFAULT_ALIGNMENT);
@@ -190,7 +190,7 @@ QPL_INLINE uint32_t own_get_job_size_analytics(qpl_path_t UNREFERENCED_PARAMETER
 uint32_t own_get_job_size_middle_layer_buffer(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
     using namespace qpl;
 
-    uint32_t size = 0u;
+    uint32_t size = 0U;
 
     if (qpl_path_software == qpl_path || qpl_path_auto == qpl_path) {
         uint32_t deflate_size      = 0;
@@ -230,8 +230,8 @@ QPL_INLINE void own_init_decompress(qpl_job* UNREFERENCED_PARAMETER(qpl_job_ptr)
 QPL_INLINE void own_init_compress(qpl_job *qpl_job_ptr) {
     auto *data_ptr = (own_compression_state_t *) qpl_job_ptr->data_ptr.compress_state_ptr;
 
-    data_ptr->middle_layer_compression_style = 0u;
-    data_ptr->adler32 = 0u;
+    data_ptr->middle_layer_compression_style = 0U;
+    data_ptr->adler32 = 0U;
 }
 
 QPL_INLINE void own_init_analytics(qpl_job *qpl_job_ptr) {

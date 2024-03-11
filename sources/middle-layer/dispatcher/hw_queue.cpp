@@ -50,7 +50,7 @@ auto hw_queue::operator=(hw_queue &&other) noexcept -> hw_queue & {
 hw_queue::~hw_queue() noexcept {
     // Freeing resources
     if (portal_ptr_ != nullptr) {
-        munmap(portal_ptr_, 0x1000u);
+        munmap(portal_ptr_, 0x1000U);
 
         portal_ptr_ = nullptr;
     }
@@ -69,7 +69,7 @@ auto hw_queue::get_portal_ptr() const noexcept -> void * {
 }
 
 auto hw_queue::enqueue_descriptor(void *desc_ptr) const noexcept -> qpl_status {
-    uint8_t retry = 0u;
+    uint8_t retry = 0U;
 
     void *current_place_ptr = get_portal_ptr();
     asm volatile("sfence\t\n"
@@ -110,7 +110,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
         return HW_ACCELERATOR_LIBACCEL_ERROR;
     }
 
-    auto *region_ptr = mmap(nullptr, 0x1000u, PROT_WRITE, MAP_SHARED | MAP_POPULATE, fd, 0);
+    auto *region_ptr = mmap(nullptr, 0x1000U, PROT_WRITE, MAP_SHARED | MAP_POPULATE, fd, 0);
     close(fd);
     if(MAP_FAILED == region_ptr)
     {

@@ -15,7 +15,7 @@
 #include "deflate_histogram.h"
 #include "own_qplc_defs.h"
 
-#define OWN_BUILD_MASK(number_of_bits) ((1u << (number_of_bits)) - 1u) /**< Builds bit mask for given number of bits */
+#define OWN_BUILD_MASK(number_of_bits) ((1U << (number_of_bits)) - 1U) /**< Builds bit mask for given number of bits */
 
 /* ------ Internal functions implementation ------ */
 
@@ -73,7 +73,7 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
         return 26 + (offset - 1) / 8192;
     } else {
         // ~0 is an invalid distance code
-        return ~0u;
+        return ~0U;
     }
 }
 
@@ -87,16 +87,16 @@ OWN_QPLC_FUN(void, deflate_histogram_reset, (deflate_histogram_t *const histogra
     // TODO make the logic of an assignment dependent on compression level
 
     // Simple assignment
-    histogram_ptr->table.hash_mask  = OWN_BUILD_MASK(12u);
-    histogram_ptr->table.attempts   = 4096u;
-    histogram_ptr->table.good_match = 32u;
-    histogram_ptr->table.nice_match = 258u;
-    histogram_ptr->table.lazy_match = 258u;
+    histogram_ptr->table.hash_mask  = OWN_BUILD_MASK(12U);
+    histogram_ptr->table.attempts   = 4096U;
+    histogram_ptr->table.good_match = 32U;
+    histogram_ptr->table.nice_match = 258U;
+    histogram_ptr->table.lazy_match = 258U;
 
     CALL_CORE_FUN(deflate_hash_table_reset(&histogram_ptr->table));
 
     // Setting end of block
-    histogram_ptr->literals_matches[256u] = 1u;
+    histogram_ptr->literals_matches[256U] = 1U;
 }
 
 
@@ -111,11 +111,11 @@ void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, co
 void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogram_ptr,
                                       uint32_t *literal_length_histogram_ptr,
                                       uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         literal_length_histogram_ptr[i] = deflate_histogram_ptr->literals_matches[i];
     }
 
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         offsets_histogram_ptr[i] = deflate_histogram_ptr->offsets[i];
     }
 }
@@ -123,11 +123,11 @@ void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogr
 void deflate_histogram_set_statistics(deflate_histogram_t *deflate_histogram_ptr,
                                       const uint32_t *literal_length_histogram_ptr,
                                       const uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         deflate_histogram_ptr->literals_matches[i] = literal_length_histogram_ptr[i];
     }
 
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         deflate_histogram_ptr->offsets[i] = offsets_histogram_ptr[i];
     }
 }

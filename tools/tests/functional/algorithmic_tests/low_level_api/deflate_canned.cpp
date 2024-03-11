@@ -46,10 +46,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
         source = dataset.second;
 
         destination.resize(source.size() * 2);
-        std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+        std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
         const uint32_t file_size = (uint32_t) source.size();
-        ASSERT_NE(0u, file_size) << "Couldn't open file: "
+        ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
         // Create and initialize compression table
@@ -60,7 +60,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         // Init job for a file
-        uint32_t job_size = 0u;
+        uint32_t job_size = 0U;
         qpl_status status = qpl_get_job_size(path, &job_size);
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -138,10 +138,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
             source = dataset.second;
 
             destination.resize(source.size() * 2);
-            std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+            std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
             const uint32_t file_size = (uint32_t) source.size();
-            ASSERT_NE(0u, file_size) << "Couldn't open file: "
+            ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                      << dataset.first;
 
             std::vector<uint64_t> indices_array(source.size());
@@ -154,7 +154,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             // Init job for a file
-            uint32_t job_size = 0u;
+            uint32_t job_size = 0U;
             qpl_status status = qpl_get_job_size(path, &job_size);
             ASSERT_EQ(QPL_STS_OK, status);
 
@@ -235,7 +235,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, default_level, Job
                 decompression_job_ptr->flags &= ~QPL_FLAG_FIRST;
 
                 // Check for crc correctness
-                uint32_t required_crc = static_cast<uint32_t>(indices_array[i + 1] >> 32u);
+                uint32_t required_crc = static_cast<uint32_t>(indices_array[i + 1] >> 32U);
                 ASSERT_EQ(decompression_job_ptr->crc, required_crc);
             }
 
@@ -263,10 +263,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
         source = dataset.second;
 
         destination.resize(source.size() * 2);
-        std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+        std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
         const uint32_t file_size = (uint32_t) source.size();
-        ASSERT_NE(0u, file_size) << "Couldn't open file: "
+        ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
         // Create and initialize compression table
@@ -277,7 +277,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         // Init job for a file
-        uint32_t job_size = 0u;
+        uint32_t job_size = 0U;
         qpl_status status = qpl_get_job_size(path, &job_size);
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -362,10 +362,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
             source = dataset.second;
 
             destination.resize(source.size() * 2);
-            std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+            std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
             const uint32_t file_size = (uint32_t) source.size();
-            ASSERT_NE(0u, file_size) << "Couldn't open file: "
+            ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                      << dataset.first;
 
             std::vector<uint64_t> indices_array(source.size());
@@ -378,7 +378,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             // Init job for a file
-            uint32_t job_size = 0u;
+            uint32_t job_size = 0U;
             qpl_status status = qpl_get_job_size(path, &job_size);
             ASSERT_EQ(QPL_STS_OK, status);
 
@@ -457,7 +457,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
                 decompression_job_ptr->flags &= ~QPL_FLAG_FIRST;
 
                 // Check for crc correctness
-                uint32_t required_crc = static_cast<uint32_t>(indices_array[i + 1] >> 32u);
+                uint32_t required_crc = static_cast<uint32_t>(indices_array[i + 1] >> 32U);
                 ASSERT_EQ(decompression_job_ptr->crc, required_crc);
             }
 
@@ -474,7 +474,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned_indexing, high_level, JobFix
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixture) {
     uint32_t              required_output_size = 0;
-    uint32_t              job_size             = 0u;
+    uint32_t              job_size             = 0U;
     std::vector<uint32_t> file_sizes;
     std::vector<uint32_t> compressed_file_sizes;
 
@@ -500,7 +500,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
     }
 
     destination.resize(required_output_size * 2);
-    std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+    std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
     // Init job for a file
     qpl_status status = qpl_get_job_size(path, &job_size);
@@ -595,7 +595,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobFixture) {
     uint32_t              required_output_size = 0;
-    uint32_t              job_size             = 0u;
+    uint32_t              job_size             = 0U;
     std::vector<uint32_t> file_sizes;
     std::vector<uint32_t> compressed_file_sizes;
 
@@ -617,7 +617,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
     }
 
     destination.resize(required_output_size * 2);
-    std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+    std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
     // Init job for a file
     qpl_status status = qpl_get_job_size(path, &job_size);
@@ -714,7 +714,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixture) {
     auto path = GetExecutionPath();
 
-    uint32_t job_size = 0u;
+    uint32_t job_size = 0U;
     auto status = qpl_get_job_size(path, &job_size);
     ASSERT_EQ(QPL_STS_OK, status);
 
@@ -722,10 +722,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
         source = dataset.second;
 
         destination.resize(source.size() * 2);
-        std::vector<uint8_t> reference(destination.size(), 0u);
+        std::vector<uint8_t> reference(destination.size(), 0U);
 
         const uint32_t file_size = (uint32_t) source.size();
-        ASSERT_NE(0u, file_size) << "Couldn't open file: "
+        ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
         // Create and initialize compression table
@@ -807,7 +807,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
 
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Deflate operation doesn't support high compression level on the hardware path");
 
-    uint32_t job_size = 0u;
+    uint32_t job_size = 0U;
     auto status = qpl_get_job_size(path, &job_size);
     ASSERT_EQ(QPL_STS_OK, status);
 
@@ -815,10 +815,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
         source = dataset.second;
 
         destination.resize(source.size() * 2);
-        std::vector<uint8_t> reference(destination.size(), 0u);
+        std::vector<uint8_t> reference(destination.size(), 0U);
 
         const uint32_t file_size = (uint32_t) source.size();
-        ASSERT_NE(0u, file_size) << "Couldn't open file: "
+        ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
         // Create and initialize compression table

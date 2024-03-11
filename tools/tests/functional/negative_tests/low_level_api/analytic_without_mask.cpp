@@ -16,12 +16,12 @@ namespace qpl::test {
         void SetUpDefaultCase() override {
             job_ptr->op = operation;
             job_ptr->num_input_elements = 4096;
-            job_ptr->src1_bit_width = 8u;
+            job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = parser;
             job_ptr->flags = 0;
-            job_ptr->param_low = 0u;
-            job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
+            job_ptr->param_low = 0U;
+            job_ptr->param_high = (1U << job_ptr->src1_bit_width) - 1U;
         }
 
         void SetUp() override
@@ -36,12 +36,12 @@ namespace qpl::test {
         void SetUpDefaultCase() override {
             job_ptr->op = operation;
             job_ptr->num_input_elements = 4096;
-            job_ptr->src1_bit_width = 8u;
+            job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = qpl_p_parquet_rle;
             job_ptr->flags = 0;
-            job_ptr->param_low = 0u;
-            job_ptr->param_high = (1u << job_ptr->src1_bit_width) - 1u;
+            job_ptr->param_low = 0U;
+            job_ptr->param_high = (1U << job_ptr->src1_bit_width) - 1U;
         }
 
         void SetUp() override
@@ -50,8 +50,8 @@ namespace qpl::test {
         }
 
         testing::AssertionResult ValidatePRLEBitwidthError() {
-            job_ptr->src1_bit_width = 0u;
-            source[0] = 103u; // Set incorrect 1st byte (incorrect bit width)
+            job_ptr->src1_bit_width = 0U;
+            source[0] = 103U; // Set incorrect 1st byte (incorrect bit width)
             CompressSource();
 
             return RunStatusTest(QPL_STS_BIT_WIDTH_ERR); /* Invalid bit width */

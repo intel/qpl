@@ -29,7 +29,7 @@ qpl_status fill_compression_table(qpl_huffman_table_t table) {
         get_deflate_header_ptr(table_ptr)[i] = deflate_header[i];
     }
 
-    set_deflate_header_bits_size(table_ptr, 1002u);
+    set_deflate_header_bits_size(table_ptr, 1002U);
 
     auto isal_table = reinterpret_cast<isal_hufftables *>(get_isal_compression_huffman_table_ptr(table_ptr));
 

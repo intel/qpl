@@ -43,7 +43,7 @@ protected:
 
         const uint32_t min_chunk_size = chunked ? 1024 : file_size;
 
-        compressed_source.resize(source.size() * 2u, 0);
+        compressed_source.resize(source.size() * 2U, 0);
         decompressed_source.resize(source.size(), 0);
 
         // Compression by chunks
@@ -62,7 +62,7 @@ protected:
 
         while (job_ptr->total_in < file_size || (job_ptr->flags & QPL_FLAG_FIRST))
         {
-            auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0u : job_ptr->total_in;
+            auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0U : job_ptr->total_in;
             if ((bytes_processed + next_in_chunk) >= file_size)
             {
                 next_in_chunk = file_size - bytes_processed;
@@ -91,7 +91,7 @@ protected:
 
         while (job_ptr->total_in < compressed_source.size() || (job_ptr->flags & QPL_FLAG_FIRST))
         {
-            auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0u : job_ptr->total_in;
+            auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0U : job_ptr->total_in;
             if ((bytes_processed + next_in_chunk) >= compressed_source.size())
             {
                 next_in_chunk = static_cast<uint32_t>(compressed_source.size()) - bytes_processed;

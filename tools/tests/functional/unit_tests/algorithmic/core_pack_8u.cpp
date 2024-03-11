@@ -26,7 +26,7 @@ void static ref_qplc_pack_8u1u(const uint8_t* src_ptr, uint32_t num_elements, ui
 {
     for (uint32_t indx = 0; indx < num_elements; indx++) {
         *dst_ptr |= *src_ptr++ << start_bit++;
-        start_bit &= 7u;
+        start_bit &= 7U;
         if (start_bit == 0)
             dst_ptr++;
     }
@@ -41,7 +41,7 @@ void static ref_qplc_pack_8unu(const uint8_t* src_ptr, uint32_t num_elements, ui
         start_bit += nbits;
         if (start_bit >= 8) {
             dst_ptr++;
-            start_bit &= 7u;
+            start_bit &= 7U;
             if (start_bit != 0) {
                 *dst_ptr = data_in >> (nbits - start_bit);
             }
@@ -50,27 +50,27 @@ void static ref_qplc_pack_8unu(const uint8_t* src_ptr, uint32_t num_elements, ui
 }
 
 void static ref_qplc_pack_8u2u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 2u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 2U);
 }
 
 void static ref_qplc_pack_8u3u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 3u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 3U);
 }
 
 void static ref_qplc_pack_8u4u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 4u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 4U);
 }
 
 void static ref_qplc_pack_8u5u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 5u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 5U);
 }
 
 void static ref_qplc_pack_8u6u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 6u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 6U);
 }
 
 void static ref_qplc_pack_8u7u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 7u);
+    ref_qplc_pack_8unu(src_ptr, num_elements, dst_ptr, start_bit, 7U);
 }
 
 static qplc_pack_8u_type ref_qplc_pack_8u_tabl[7] =
@@ -86,12 +86,12 @@ static qplc_pack_8u_type ref_qplc_pack_8u_tabl[7] =
 
 
 static void fill_src_buffer_8u(uint8_t* src, uint8_t* dst, size_t length, uint32_t nbits) {
-    uint8_t mask = (1u << nbits) - 1u;
+    uint8_t mask = (1U << nbits) - 1U;
     for (uint32_t indx = 0; indx < length; indx++)
         dst[indx] = src[indx] & mask;
 }
 
-constexpr uint32_t TEST_BUFFER_SIZE = 64u;
+constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -101,7 +101,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     std::generate(buffer.begin(), buffer.end(), [&random_value](){return static_cast<uint8_t>(random_value);});
 

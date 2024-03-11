@@ -33,8 +33,8 @@ namespace qpl::test
             auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
 
             source = dataset[GetTestCase()];
-            compressed_source.resize(source.size() * 3, 0u);
-            destination.resize(source.size(), 0u);
+            compressed_source.resize(source.size() * 3, 0U);
+            destination.resize(source.size(), 0U);
 
             auto status = qpl_init_job(GetExecutionPath(), deflate_job_ptr);
             ASSERT_EQ(QPL_STS_OK, status);
@@ -55,13 +55,13 @@ namespace qpl::test
         testing::AssertionResult EndOfBlockStreamManipulationTest(qpl_compression_levels level)
         {
             auto source_size = static_cast<uint32_t>(source.size());
-            qpl::test::random random(0u, 0u, GetSeed());
+            qpl::test::random random(0U, 0U, GetSeed());
 
-            random.set_range(1u, 5000u);
+            random.set_range(1U, 5000U);
             auto block_size = static_cast<uint32_t>(random);
 
             uint32_t expected_block_count = source_size / block_size;
-            expected_block_count += (0u == source_size % block_size) ? 0 : 1;
+            expected_block_count += (0U == source_size % block_size) ? 0 : 1;
 
             auto deflate_status = DeflateStreamByBlocks(source,
                                                         compressed_source,
@@ -89,7 +89,7 @@ namespace qpl::test
             EXPECT_TRUE(CompareVectors(source, destination, block_size));
 
             // Reset total out field before the next test
-            job_ptr->total_out = 0u;
+            job_ptr->total_out = 0U;
 
             // Try final EOB
             job_ptr->next_in_ptr              = compressed_source.data();

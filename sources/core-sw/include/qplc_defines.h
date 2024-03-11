@@ -55,18 +55,18 @@ extern "C" {
 
 #define CALL_CORE_FUN(name) CORE_FUN_NAME(ARCH, name)
 
-#define OWN_BYTE_BIT_MASK 7u                    /**< Mask for max bit index in a byte */
-#define OWN_BITS_2_BYTE(x) (((x) + 7u) >> 3u)   /**< Convert a number of bits to a number of bytes */
-#define OWN_BITS_2_BYTE_TRUNCATE(x) ((x) >> 3u) /**< Convert a number of bits to a number of bytes with truncation */
+#define OWN_BYTE_BIT_MASK 7U                    /**< Mask for max bit index in a byte */
+#define OWN_BITS_2_BYTE(x) (((x) + 7U) >> 3U)   /**< Convert a number of bits to a number of bytes */
+#define OWN_BITS_2_BYTE_TRUNCATE(x) ((x) >> 3U) /**< Convert a number of bits to a number of bytes with truncation */
 
 /**
  * @brief Re-definition of Intel QPL status type for internal core needs
  */
 typedef enum {
-    QPLC_STS_OK                      = 0u,
-    QPLC_STS_OUTPUT_OVERFLOW_ERR     = 221u,
-    QPLC_STS_DST_IS_SHORT_ERR        = 225u,
-    QPLC_STS_SRC_IS_SHORT_ERR        = 232u,
+    QPLC_STS_OK                      = 0U,
+    QPLC_STS_OUTPUT_OVERFLOW_ERR     = 221U,
+    QPLC_STS_DST_IS_SHORT_ERR        = 225U,
+    QPLC_STS_SRC_IS_SHORT_ERR        = 232U,
     QPLC_STS_INVALID_ZERO_DECOMP_HDR = 234,
 } qplc_status_t;
 

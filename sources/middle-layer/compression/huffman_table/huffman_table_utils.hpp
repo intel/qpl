@@ -27,22 +27,22 @@
 /**
  * Flag which indicates whenever hardware representation of compression/decompression table should be used
  */
-#define QPL_HW_REPRESENTATION            0x01u
+#define QPL_HW_REPRESENTATION            0x01U
 
 /**
  * Flag which indicates whenever deflate header should be used
  */
-#define QPL_DEFLATE_REPRESENTATION       0x04u
+#define QPL_DEFLATE_REPRESENTATION       0x04U
 
 /**
  * Flag which indicates whenever software representation of compression/decompression table should be used
  */
-#define QPL_SW_REPRESENTATION            0x08u
+#define QPL_SW_REPRESENTATION            0x08U
 
 /**
  * Flag which indicates whenever huffman only representation of compression/decompression table should be used
  */
-#define QPL_HUFFMAN_ONLY_REPRESENTATION  0x10u
+#define QPL_HUFFMAN_ONLY_REPRESENTATION  0x10U
 
 /**
  * Combine software and hardware representation flags to build both compression tables for auto_path
@@ -160,13 +160,13 @@ template<class table_t>
 auto huffman_table_init(table_t &table,
                         const qpl_triplet *const triplets_ptr,
                         const std::size_t triplets_count,
-                        const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
+                        const uint32_t representation_flags = 0U) noexcept -> qpl_ml_status;
 
 template<class table_t>
 auto huffman_table_init(table_t &table,
                         const uint32_t *literals_lengths_histogram_ptr,
                         const uint32_t *distances_histogram_ptr,
-                        const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
+                        const uint32_t representation_flags = 0U) noexcept -> qpl_ml_status;
 
 template<class table_t>
 auto huffman_table_init_with_stream(table_t &table,
@@ -176,7 +176,7 @@ auto huffman_table_init_with_stream(table_t &table,
 template<class first_table_t, class second_table_t>
 auto huffman_table_convert(const first_table_t &first_table,
                            second_table_t &second_table,
-                           const uint32_t representation_flags = 0u) noexcept -> qpl_ml_status;
+                           const uint32_t representation_flags = 0U) noexcept -> qpl_ml_status;
 
 template<class table_t>
 auto huffman_table_write_to_stream(const table_t &table,

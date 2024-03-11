@@ -23,10 +23,10 @@ void bit_reader::load_buffer(uint8_t number_of_bits) noexcept {
         bits_in_buffer_ = 64;
     } else {
         // Try to load 16 bits for BE or 8 bits for LE
-        uint8_t load_bit_size  = is_big_endian_ ? 16u : 8u;
-        uint8_t load_byte_size = is_big_endian_ ? 2u : 1u;
+        uint8_t load_bit_size  = is_big_endian_ ? 16U : 8U;
+        uint8_t load_byte_size = is_big_endian_ ? 2U : 1U;
 
-        while (bits_in_buffer_ <= (64u - load_bit_size) && number_of_bits > 0) {
+        while (bits_in_buffer_ <= (64U - load_bit_size) && number_of_bits > 0) {
             if (static_cast<uint32_t>(source_end_ptr_ - current_source_ptr_) <= 0) {
                 is_overflowed_ = true;
                 return;
@@ -75,7 +75,7 @@ auto bit_reader::peek_bits(uint8_t number_of_bits) noexcept -> uint16_t {
         load_buffer(bits_still_needed);
     }
 
-    uint16_t result = 0u;
+    uint16_t result = 0U;
 
     auto mask = util::build_mask<uint16_t>(number_of_bits);
 

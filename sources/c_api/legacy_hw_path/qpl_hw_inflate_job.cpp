@@ -41,8 +41,8 @@
 #include "hardware_state.h"
 #include "own_ml_submit_operation_api.hpp"
 
-#define DEF_STATE_HDR           1u /**< @todo // looking at block header */
-#define DEF_STATE_LL_TOKEN      0u /**< @todo // looking at block header */
+#define DEF_STATE_HDR           1U /**< @todo // looking at block header */
+#define DEF_STATE_LL_TOKEN      0U /**< @todo // looking at block header */
 
 extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
                                                uint32_t last_job,
@@ -61,7 +61,7 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     }
 
     HW_IMMEDIATELY_RET_NULLPTR(aecs_ptr);
-    last_job = (available_in > MAX_BUF_SIZE) ? 0u : last_job;
+    last_job = (available_in > MAX_BUF_SIZE) ? 0U : last_job;
 
     // Descriptor buffers set
     desc_ptr->src1_ptr     = next_in_ptr;
@@ -70,15 +70,15 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     desc_ptr->max_dst_size = std::min(qpl_job_ptr->available_out, MAX_BUF_SIZE);
 
     uint32_t operation_flags = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS)
-                               | ((qpl_job_ptr->flags & QPL_FLAG_CRC32C) ? ADOF_CRC32C : 0u);
+                               | ((qpl_job_ptr->flags & QPL_FLAG_CRC32C) ? ADOF_CRC32C : 0U);
 
     uint16_t decompression_flags = ADDF_ENABLE_DECOMP
-                                   | ((qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) ? ADDF_DECOMP_BE : 0u)
+                                   | ((qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) ? ADDF_DECOMP_BE : 0U)
                                    | ADDF_IGNORE_END_BITS(qpl_job_ptr->ignore_end_bits & OWN_MAX_BIT_IDX);
 
     // Check availability of the ignore end bits extension bit
     if (qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
-        decompression_flags |= (qpl_job_ptr->ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+        decompression_flags |= (qpl_job_ptr->ignore_end_bits > 7U ? ADDF_IGNORE_END_BITS_EXT : 0U);
     }
 
     const bool is_dictionary_mode = (qpl_job_ptr->flags & QPL_FLAG_FIRST ||
@@ -129,11 +129,11 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     }
 
 
-    if (0u != qpl_job_ptr->ignore_start_bits) {
+    if (0U != qpl_job_ptr->ignore_start_bits) {
         if (IS_RND_ACCESS_HDR(qpl_job_ptr->flags)) {
             operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
             core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
-            aecs_ptr->inflate_options.idx_bit_offset = 7u & qpl_job_ptr->ignore_start_bits;
+            aecs_ptr->inflate_options.idx_bit_offset = 7U & qpl_job_ptr->ignore_start_bits;
             aecs_ptr->inflate_options.decompress_state = DEF_STATE_HDR;
         }
         auto status = hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
@@ -166,7 +166,7 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         }
     }
 
-    if (state_ptr->aecs_hw_read_offset != 0u) {
+    if (state_ptr->aecs_hw_read_offset != 0U) {
         operation_flags |= ADOF_AECS_SEL;
     }
 
@@ -224,7 +224,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     desc_ptr->src1_size = (uint32_t) (qpl_job_ptr->next_out_ptr - state_ptr->execution_history.saved_next_out_ptr);
 
     desc_ptr->src2_ptr  = NULL;
-    desc_ptr->src2_size = 0u;
+    desc_ptr->src2_size = 0U;
 
     uint32_t op_flags            = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS);
     uint32_t decompression_flags = ADDF_ENABLE_DECOMP
@@ -232,7 +232,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                                    | ADDF_SEL_BFINAL_EOB
                                    | ADDF_SUPPRESS_OUTPUT
                                    | ADDF_ENABLE_IDXING(qpl_job_ptr->mini_block_size)
-                                   | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0u);
+                                   | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0U);
 
     bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
@@ -247,9 +247,9 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                 desc_ptr->src2_ptr  = (uint8_t *) &state_ptr->dcfg[0];
                 desc_ptr->src2_size = sizeof(hw_iaa_aecs_analytic);
             } else {
-                *qpl_job_ptr->idx_array = 0u;
+                *qpl_job_ptr->idx_array = 0U;
             }
-            qpl_job_ptr->idx_num_written = 1u;
+            qpl_job_ptr->idx_num_written = 1U;
         }
 
         if (is_huffman_only) {
@@ -270,7 +270,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     }
 
     if (is_last_job) {
-        decompression_flags |= (!is_huffman_only) ? ADDF_CHECK_FOR_EOB | ADDF_STOP_ON_EOB | ADDF_SEL_BFINAL_EOB : 0u;
+        decompression_flags |= (!is_huffman_only) ? ADDF_CHECK_FOR_EOB | ADDF_STOP_ON_EOB | ADDF_SEL_BFINAL_EOB : 0U;
         decompression_flags |= ADDF_FLUSH_OUTPUT;
     } else {
         op_flags |= ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS);
@@ -285,21 +285,21 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
         desc_ptr->max_dst_size = (qpl_job_ptr->idx_max_size - qpl_job_ptr->idx_num_written) * sizeof(uint64_t);
     } else {
         desc_ptr->dst_ptr      = qpl_job_ptr->next_out_ptr; // should not be used
-        desc_ptr->max_dst_size = (0u == desc_ptr->src1_size) ?
-                                 1u : 0u;  // Hardware does not support src1_size and dstSize both 0
+        desc_ptr->max_dst_size = (0U == desc_ptr->src1_size) ?
+                                 1U : 0U;  // Hardware does not support src1_size and dstSize both 0
     }
 
     // Not needed, but make sure crc is being written:
-    comp_ptr->crc    = 0u;
-    comp_ptr->status = 0u;
+    comp_ptr->crc    = 0U;
+    comp_ptr->status = 0U;
 
     // Set operation flags
-    op_flags |= (QPL_FLAG_CRC32C & qpl_job_ptr->flags) ? ADOF_CRC32C : 0u;
-    op_flags |= (state_ptr->verify_aecs_hw_read_offset) ? ADOF_AECS_SEL : 0u;
+    op_flags |= (QPL_FLAG_CRC32C & qpl_job_ptr->flags) ? ADOF_CRC32C : 0U;
+    op_flags |= (state_ptr->verify_aecs_hw_read_offset) ? ADOF_AECS_SEL : 0U;
 
     desc_ptr->op_code_op_flags = op_flags;
     desc_ptr->decomp_flags     = decompression_flags;
-    desc_ptr->filter_flags     = 0u;
+    desc_ptr->filter_flags     = 0U;
 
     // Fix for QPL_FLAG_HUFFMAN_BE in Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0.
     // This affects the verify operation when NO_HDRS is specified. The issue is that there is no EOB token,
@@ -312,15 +312,15 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     if (((qpl_job_ptr->flags & (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS)) ==
          (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS))) {
         if (qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) {
-            uint8_t ignore_end_bits = 16u - comp_ptr->output_bits;
+            uint8_t ignore_end_bits = 16U - comp_ptr->output_bits;
             desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(ignore_end_bits & OWN_MAX_BIT_IDX);
 
             // Check availability of the ignore end bits extension bit
             if (qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
-                desc_ptr->decomp_flags |= (ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+                desc_ptr->decomp_flags |= (ignore_end_bits > 7U ? ADDF_IGNORE_END_BITS_EXT : 0U);
             }
         } else {
-            desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(8u - comp_ptr->output_bits);
+            desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(8U - comp_ptr->output_bits);
         }
     }
 

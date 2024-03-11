@@ -23,7 +23,7 @@ protected:
     void SetUp() override {
         JobFixture::SetUp();
 
-        uint32_t job_size = 0u;
+        uint32_t job_size = 0U;
         auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -53,8 +53,8 @@ protected:
             source = dataset.second;
 
             destination.resize(source.size() * 2);
-            std::fill(destination.begin(), destination.end(), 0u);
-            std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+            std::fill(destination.begin(), destination.end(), 0U);
+            std::vector<uint8_t> reference_buffer(destination.size(), 0U);
             const uint32_t file_size = (uint32_t) source.size();
 
             // Create the compression table
@@ -159,8 +159,8 @@ protected:
             source = dataset.second;
 
             destination.resize(source.size() * 2);
-            std::fill(destination.begin(), destination.end(), 0u);
-            std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+            std::fill(destination.begin(), destination.end(), 0U);
+            std::vector<uint8_t> reference_buffer(destination.size(), 0U);
             const uint32_t file_size = (uint32_t) source.size();
 
             // Create the compression table
@@ -341,7 +341,7 @@ protected:
         std::vector<uint8_t> source(source_size);
         std::vector<uint8_t> destination(destination_size);
 
-        std::fill(source.begin(), source.end(), 5u);
+        std::fill(source.begin(), source.end(), 5U);
 
         qpl_status status;
 

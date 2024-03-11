@@ -22,14 +22,14 @@
 namespace qpl::ml::compression {
 
 enum class huffman_table_type_e : uint8_t {
-    combined      = 0u,
-    compression   = 1u,
-    decompression = 2u,
+    combined      = 0U,
+    compression   = 1U,
+    decompression = 2U,
 };
 
 enum class table_version_e : uint8_t {
-    v_beta = 0u,
-    v_1_2_0 = 1u,
+    v_beta = 0U,
+    v_1_2_0 = 1U,
 };
 
 constexpr auto LAST_VERSION = table_version_e::v_1_2_0;

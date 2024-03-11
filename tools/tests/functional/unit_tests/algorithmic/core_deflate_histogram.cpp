@@ -19,7 +19,7 @@
 
 namespace qpl::test {
 
-    constexpr uint8_t RFC1951_OFFSET_TABLE_SIZE = 30u;
+    constexpr uint8_t RFC1951_OFFSET_TABLE_SIZE = 30U;
     /**
      * @brief Represents offset table described in https://tools.ietf.org/html/rfc1951
      */
@@ -36,14 +36,14 @@ namespace qpl::test {
      */
     QPL_UNIT_API_ALGORITHMIC_TEST(deflate_histogramm, offset_index_calculation) {
         // Variables
-        qpl::test::random   random_offset(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+        qpl::test::random   random_offset(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
         deflate_histogram_t histogram;
         deflate_match_t     match = {};
 
         // Reset histogram table
         std::fill(reinterpret_cast<uint8_t*>(&histogram),
                   reinterpret_cast<uint8_t*>(&histogram) + sizeof(histogram),
-                  0u);
+                  0U);
 
         // Fill histogram with offsets
         for (auto & borders : offset_correspondence_table) {
@@ -58,7 +58,7 @@ namespace qpl::test {
         auto offset_table = histogram.offsets;
 
         for (uint32_t i = 0; i < RFC1951_OFFSET_TABLE_SIZE; i++) {
-            EXPECT_EQ(offset_table[i], 1u) << "Incorrect statistic for " << i << "offset group";
+            EXPECT_EQ(offset_table[i], 1U) << "Incorrect statistic for " << i << "offset group";
         }
     }
 }

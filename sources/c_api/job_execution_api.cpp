@@ -123,7 +123,7 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
         }
         case qpl_op_extract: {
             if (qpl_job_ptr->param_low > qpl_job_ptr->param_high) {
-                qpl_job_ptr->first_index_min_value = 0u;
+                qpl_job_ptr->first_index_min_value = 0U;
 
                 return QPL_STS_OK;
             }

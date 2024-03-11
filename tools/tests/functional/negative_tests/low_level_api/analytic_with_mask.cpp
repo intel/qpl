@@ -16,15 +16,15 @@ namespace qpl::test {
         void SetUpDefaultCase() override {
             job_ptr->op = operation;
             job_ptr->num_input_elements = 4096;
-            job_ptr->src1_bit_width = 8u;
+            job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = parser;
             job_ptr->flags = 0;
             job_ptr->src2_bit_width = 1;
 
             second_input_elements = job_ptr->num_input_elements;
-            job_ptr->param_low    = 0u;
-            job_ptr->param_high   = job_ptr->num_input_elements / 2u;
+            job_ptr->param_low    = 0U;
+            job_ptr->param_high   = job_ptr->num_input_elements / 2U;
         }
 
         void PrepareMask() {
@@ -54,15 +54,15 @@ namespace qpl::test {
         void SetUpDefaultCase() override {
             job_ptr->op = operation;
             job_ptr->num_input_elements = 4096;
-            job_ptr->src1_bit_width = 8u;
+            job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = qpl_p_parquet_rle;
             job_ptr->flags = 0;
             job_ptr->src2_bit_width = 1;
 
             second_input_elements = job_ptr->num_input_elements;
-            job_ptr->param_low    = 0u;
-            job_ptr->param_high   = job_ptr->num_input_elements / 2u;
+            job_ptr->param_low    = 0U;
+            job_ptr->param_high   = job_ptr->num_input_elements / 2U;
         }
 
         void PrepareMask() {
@@ -82,8 +82,8 @@ namespace qpl::test {
         }
 
         testing::AssertionResult ValidatePRLEBitwidthError() {
-            job_ptr->src1_bit_width = 0u;
-            source[0] = 103u; // Set incorrect 1st byte (incorrect bit width)
+            job_ptr->src1_bit_width = 0U;
+            source[0] = 103U; // Set incorrect 1st byte (incorrect bit width)
             CompressSource();
 
             return RunStatusTest(QPL_STS_BIT_WIDTH_ERR); /* Invalid bit width */
@@ -114,10 +114,10 @@ namespace qpl::test {
         void SetUpDefaultCase() override {
             job_ptr->op = qpl_op_expand;
             if constexpr (qpl_ow_8 == out_format) {
-                job_ptr->num_input_elements = 257u;
+                job_ptr->num_input_elements = 257U;
             }
             else if constexpr (qpl_ow_16 == out_format) {
-                job_ptr->num_input_elements = 65537u;
+                job_ptr->num_input_elements = 65537U;
             }
             else {
                 return;

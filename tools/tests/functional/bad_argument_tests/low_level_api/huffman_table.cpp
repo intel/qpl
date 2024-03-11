@@ -97,21 +97,21 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deflate_table_init) {
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
-    histogram.reserved_distances[0] = 1u;
+    histogram.reserved_distances[0] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_distances[0] = 0u;
+    histogram.reserved_distances[0] = 0U;
 
-    histogram.reserved_distances[1] = 1u;
+    histogram.reserved_distances[1] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_distances[1] = 0u;
+    histogram.reserved_distances[1] = 0U;
 
-    histogram.reserved_literal_lengths[0] = 1u;
+    histogram.reserved_literal_lengths[0] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_literal_lengths[0] = 0u;
+    histogram.reserved_literal_lengths[0] = 0U;
 
-    histogram.reserved_literal_lengths[1] = 1u;
+    histogram.reserved_literal_lengths[1] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_literal_lengths[1] = 0u;
+    histogram.reserved_literal_lengths[1] = 0U;
 
     ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
@@ -132,21 +132,21 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, huffman_only_table_init) {
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_init_with_histogram(table, nullptr));
 
-    histogram.reserved_distances[0] = 1u;
+    histogram.reserved_distances[0] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_distances[0] = 0u;
+    histogram.reserved_distances[0] = 0U;
 
-    histogram.reserved_distances[1] = 1u;
+    histogram.reserved_distances[1] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_distances[1] = 0u;
+    histogram.reserved_distances[1] = 0U;
 
-    histogram.reserved_literal_lengths[0] = 1u;
+    histogram.reserved_literal_lengths[0] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_literal_lengths[0] = 0u;
+    histogram.reserved_literal_lengths[0] = 0U;
 
-    histogram.reserved_literal_lengths[1] = 1u;
+    histogram.reserved_literal_lengths[1] = 1U;
     EXPECT_EQ(QPL_STS_INVALID_PARAM_ERR, qpl_huffman_table_init_with_histogram(table, &histogram));
-    histogram.reserved_literal_lengths[1] = 0u;
+    histogram.reserved_literal_lengths[1] = 0U;
 
     ASSERT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }

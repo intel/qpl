@@ -541,8 +541,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_compress
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::dynamic_compression>(source,
@@ -626,7 +626,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_decompre
                                                                             qpl_compression_levels::qpl_default_level,
                                                                             compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -696,8 +696,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_default_stateful_compress
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::dynamic_compression>(source,
@@ -851,8 +851,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_compression
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::dynamic_compression>(source,
@@ -935,7 +935,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_decompressi
                                                                             qpl_compression_levels::qpl_high_level,
                                                                             compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -1003,8 +1003,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dynamic_high_stateful_compression
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::dynamic_compression>(source,
@@ -1159,8 +1159,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_compressio
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::fixed_compression>(source,
@@ -1243,7 +1243,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_decompress
                                                                           qpl_compression_levels::qpl_default_level,
                                                                           compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -1311,8 +1311,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_default_stateful_compressio
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::fixed_compression>(source,
@@ -1463,8 +1463,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_compression) 
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::fixed_compression>(source,
@@ -1547,7 +1547,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_decompression
                                                                           qpl_compression_levels::qpl_high_level,
                                                                           compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -1615,8 +1615,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, fixed_high_stateful_compression_a
                                                    dictionary_length);
                 ASSERT_EQ(QPL_STS_OK, status);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::fixed_compression>(source,
@@ -1810,8 +1810,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compressi
                                                                &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::static_compression>(source,
@@ -1914,7 +1914,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_decompres
                                                                            qpl_compression_levels::qpl_default_level,
                                                                            compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -2002,8 +2002,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compressi
                                                                &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::static_compression>(source,
@@ -2193,8 +2193,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression)
                                                                &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::static_compression>(source,
@@ -2297,7 +2297,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_decompressio
                                                                            qpl_compression_levels::qpl_high_level,
                                                                            compression_execution_path);
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
                 random.set_range(compressed_destination.size() / 10, compressed_destination.size() / 5);
                 const auto decompression_chunk_size = static_cast<uint32_t>(random);
 
@@ -2385,8 +2385,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression_
                                                                &deflate_histogram);
                 ASSERT_EQ(status, QPL_STS_OK) << "Table build failed";
 
-                qpl::test::random random(0u, 0u, util::TestEnvironment::GetInstance().GetSeed());
-                random.set_range(1000u, 10000u);
+                qpl::test::random random(0U, 0U, util::TestEnvironment::GetInstance().GetSeed());
+                random.set_range(1000U, 10000U);
                 const auto compression_chunk_size = static_cast<uint32_t>(random);
 
                 compress_with_chunks<compression_mode::static_compression>(source,
@@ -2654,9 +2654,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateful) {
                 compression_job_ptr->dictionary    = dictionary_ptr;
                 compression_job_ptr->huffman_table = c_table.get();
 
-                qpl::test::random random(0u, 0u, seed);
+                qpl::test::random random(0U, 0U, seed);
 
-                random.set_range(1000u, 10000u);
+                random.set_range(1000U, 10000U);
                 const auto chunk_size         = static_cast<uint32_t>(random);
                 uint32_t   current_chunk_size = chunk_size;
 
@@ -2968,9 +2968,9 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateful) {
                 compression_job_ptr->level         = qpl_compression_levels::qpl_high_level;
                 compression_job_ptr->huffman_table = c_table.get();
 
-                qpl::test::random random(0u, 0u, seed);
+                qpl::test::random random(0U, 0U, seed);
 
-                random.set_range(1000u, 10000u);
+                random.set_range(1000U, 10000U);
                 const auto chunk_size         = static_cast<uint32_t>(random);
                 uint32_t   current_chunk_size = chunk_size;
 

@@ -29,19 +29,19 @@
 #endif
 
 OWN_QPLC_FUN(void, qplc_set_8u, (uint8_t value, uint8_t * dst_ptr, uint32_t length)) {
-    for (uint32_t i = 0u; i < length; i++) {
+    for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
 
 OWN_QPLC_FUN(void, qplc_set_16u, (uint16_t value, uint16_t * dst_ptr, uint32_t length)) {
-    for (uint32_t i = 0u; i < length; i++) {
+    for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
 
 OWN_QPLC_FUN(void, qplc_set_32u, (uint32_t value, uint32_t * dst_ptr, uint32_t length)) {
-    for (uint32_t i = 0u; i < length; i++) {
+    for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
@@ -56,18 +56,18 @@ OWN_QPLC_FUN(void, qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint
     uint32_t length_64u = length / sizeof(uint64_t);
     uint32_t tail_start = length_64u * sizeof(uint64_t);
 
-    while (length_64u > 3u) {
+    while (length_64u > 3U) {
         dst_64u_ptr[0] = src_64u_ptr[0];
         dst_64u_ptr[1] = src_64u_ptr[1];
         dst_64u_ptr[2] = src_64u_ptr[2];
         dst_64u_ptr[3] = src_64u_ptr[3];
 
-        dst_64u_ptr += 4u;
-        src_64u_ptr += 4u;
-        length_64u -= 4u;
+        dst_64u_ptr += 4U;
+        src_64u_ptr += 4U;
+        length_64u -= 4U;
     }
 
-    for (uint32_t i = 0u; i < length_64u; ++i) {
+    for (uint32_t i = 0U; i < length_64u; ++i) {
         dst_64u_ptr[i] = src_64u_ptr[i];
     }
 
@@ -101,10 +101,10 @@ OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
 
     // todo: create pragma macros: unroll WIN/LIN
     while (length_64u >= 4) {
-        data_64u_ptr[0] = 0u;
-        data_64u_ptr[1] = 0u;
-        data_64u_ptr[2] = 0u;
-        data_64u_ptr[3] = 0u;
+        data_64u_ptr[0] = 0U;
+        data_64u_ptr[1] = 0U;
+        data_64u_ptr[2] = 0U;
+        data_64u_ptr[3] = 0U;
 
         length_64u -= 4;
         data_64u_ptr += 4;
@@ -112,7 +112,7 @@ OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
 
     // todo: Use masks
     for (uint32_t i = 0; i < length_64u; i++) {
-        *data_64u_ptr++ = 0u;
+        *data_64u_ptr++ = 0U;
     }
 
     uint32_t remaining_bytes = length % sizeof(uint64_t);
@@ -120,15 +120,15 @@ OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
     dst_ptr = (uint8_t*)data_64u_ptr;
 
     while (remaining_bytes >= 2) {
-        dst_ptr[0] = 0u;
-        dst_ptr[1] = 0u;
+        dst_ptr[0] = 0U;
+        dst_ptr[1] = 0U;
 
-        remaining_bytes -= 2u;
+        remaining_bytes -= 2U;
         dst_ptr += 2;
     }
 
     if (remaining_bytes) {
-        *dst_ptr = 0u;
+        *dst_ptr = 0U;
     }
 #endif
 }
@@ -138,11 +138,11 @@ OWN_QPLC_FUN(void, qplc_move_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint
     CALL_OPT_FUNCTION(k0_qplc_move_8u)(src_ptr,dst_ptr, length);
 #else
     if (OWN_QPLC_UINT_PTR(src_ptr) < OWN_QPLC_UINT_PTR(dst_ptr)) {
-        for (uint32_t i = 0u; i < length; i++) {
-            dst_ptr[length - 1u - i] = src_ptr[length - 1u - i];
+        for (uint32_t i = 0U; i < length; i++) {
+            dst_ptr[length - 1U - i] = src_ptr[length - 1U - i];
         }
     } else {
-        for (uint32_t i = 0u; i < length; i++) {
+        for (uint32_t i = 0U; i < length; i++) {
             dst_ptr[i] = src_ptr[i];
         }
     }

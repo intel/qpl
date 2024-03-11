@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-#define OWN_HIGH_HASH_TABLE_SIZE 4096u
+#define OWN_HIGH_HASH_TABLE_SIZE 4096U
 
 /* ------ Internal types ------ */
 

@@ -148,8 +148,8 @@ qpl::test::random_base::operator uint32_t()
    uint32_t uVal;
    if (val >= (double) UINT32_MAX) {
       uVal = UINT32_MAX;
-   } else if (val < (double) 0u) {
-      uVal = 0u;
+   } else if (val < (double) 0U) {
+      uVal = 0U;
    } else if (val >= (double) INT32_MAX) {
       val += (double) INT32_MIN;
       uVal = (uint32_t) val;
@@ -187,8 +187,8 @@ qpl::test::random_base::operator uint64_t()
    uint64_t uVal;
    if (val >= (double) UINT64_MAX) {
       uVal = UINT64_MAX;
-   } else if (val < (double) 0u) {
-      uVal = 0u;
+   } else if (val < (double) 0U) {
+      uVal = 0U;
    } else if (val >= (double) INT64_MAX) {
       val += (double) INT64_MIN;
       uVal = (uint64_t) val;

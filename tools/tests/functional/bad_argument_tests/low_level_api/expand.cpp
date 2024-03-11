@@ -13,7 +13,7 @@ namespace qpl::test {
 
 void check_less_elements_in_mask_than_required(qpl_job *job_ptr, uint64_t flags) {
     constexpr uint32_t source_length = 5;
-    constexpr uint32_t element_bit_width = 8u;
+    constexpr uint32_t element_bit_width = 8U;
     std::vector<uint8_t> source = { 1, 2, 3, 4, 5};
     constexpr uint32_t mask_length = 1;
     std::vector<uint8_t> mask = { 0b10010111 };

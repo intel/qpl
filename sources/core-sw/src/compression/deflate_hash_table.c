@@ -18,8 +18,8 @@
 /**
  * Values of uninitialized index in hash table
  */
-#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFu
-#define OWN_UNINITIALIZED_INDEX_32u 0x80000000u
+#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFU
+#define OWN_UNINITIALIZED_INDEX_32u 0x80000000U
 
 /**
  * Size of hash table that is used during match searching
@@ -33,7 +33,7 @@ OWN_QPLC_FUN(void, deflate_hash_table_reset,(deflate_hash_table_t *const hash_ta
                                 OWN_HIGH_HASH_TABLE_SIZE);
 
     CALL_CORE_FUN(qplc_zero_8u)((uint8_t *) hash_table_ptr->hash_story_ptr,
-                                OWN_HIGH_HASH_TABLE_SIZE * 4u);
+                                OWN_HIGH_HASH_TABLE_SIZE * 4U);
 }
 
 #if PLATFORM < K0

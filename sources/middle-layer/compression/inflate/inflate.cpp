@@ -236,12 +236,12 @@ auto own_inflate_random(inflate_state<execution_path_t::software> &decompression
     const auto     eob_mask        = util::build_mask<uint32_t>(eob_code_length);
     const uint32_t eob_code        = inflate_state_ptr->eob_code_and_len & eob_mask;
 
-    uint64_t tail_bytes = 0u;
-    uint32_t bit_count  = 0u;
+    uint64_t tail_bytes = 0U;
+    uint32_t bit_count  = 0U;
 
-    if (inflate_state_ptr->avail_in > 0u) {
-        tail_bytes = inflate_state_ptr->next_in[inflate_state_ptr->avail_in - 1u] &
-                     ((1u << (byte_bits_size - decompression_state.access_properties_.ignore_end_bits)) - 1u);
+    if (inflate_state_ptr->avail_in > 0U) {
+        tail_bytes = inflate_state_ptr->next_in[inflate_state_ptr->avail_in - 1U] &
+                     ((1U << (byte_bits_size - decompression_state.access_properties_.ignore_end_bits)) - 1U);
 
         // Avoiding the decoding of the last byte
         inflate_state_ptr->avail_in--;
@@ -252,7 +252,7 @@ auto own_inflate_random(inflate_state<execution_path_t::software> &decompression
         tail_bytes = eob_code;
     }
 
-    inflate_state_ptr->total_out   = 0u;
+    inflate_state_ptr->total_out   = 0U;
     inflate_state_ptr->block_state = ISAL_BLOCK_CODED; // todo: Incorrect behavior in case if block is actually stored, fix
 
     // Decompress mini block body
@@ -390,7 +390,7 @@ static auto inline is_inflate_complete(end_processing_condition_t end_condition,
 
         case ISAL_BLOCK_FINISH:
         case ISAL_BLOCK_INPUT_DONE:
-            if (inflate_state.avail_in > 0u &&
+            if (inflate_state.avail_in > 0U &&
                 (end_condition == dont_stop_or_check ||
                  end_condition == check_for_any_eob
                 )) {
@@ -424,7 +424,7 @@ static auto try_to_setup_decoding_into_internal_buffer(isal_inflate_state &infla
                                       inflate_state.tmp_out_valid;
 
             if ((int32_t) inflate_state.avail_out < 0) {
-                inflate_state.avail_out = 0u;
+                inflate_state.avail_out = 0U;
             }
         } else {
             is_state_decoding_into_internal_buffer = false;
@@ -437,21 +437,21 @@ static auto try_to_setup_decoding_into_internal_buffer(isal_inflate_state &infla
 static void handle_internal_buffers_overflow(isal_inflate_state &inflate_state) noexcept {
     auto     *current_out_ptr = &inflate_state.tmp_out_buffer[inflate_state.tmp_out_valid];
 
-    if (0u != inflate_state.write_overflow_len) {
+    if (0U != inflate_state.write_overflow_len) {
         *(uint32_t *) current_out_ptr = inflate_state.write_overflow_lits;
         inflate_state.tmp_out_valid += inflate_state.write_overflow_len;
         inflate_state.total_out += inflate_state.write_overflow_len;
         current_out_ptr += inflate_state.write_overflow_len;
 
-        inflate_state.write_overflow_len  = 0u;
-        inflate_state.write_overflow_lits = 0u;
+        inflate_state.write_overflow_len  = 0U;
+        inflate_state.write_overflow_lits = 0U;
     }
 
-    if (0u != inflate_state.copy_overflow_length) {
+    if (0U != inflate_state.copy_overflow_length) {
         auto lookback_ptr = (&inflate_state.tmp_out_buffer[inflate_state.tmp_out_valid]) -
                             inflate_state.copy_overflow_distance;
 
-        for (int32_t i = 0u; i < inflate_state.copy_overflow_length; i++) {
+        for (int32_t i = 0U; i < inflate_state.copy_overflow_length; i++) {
             *current_out_ptr = *lookback_ptr;
             current_out_ptr++;
             lookback_ptr++;

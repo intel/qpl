@@ -19,8 +19,8 @@
 namespace qpl::test {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, get_index_table_size) {
-    const uint32_t mini_block_count = 1u;
-    const uint32_t mini_blocks_per_block = 1u;
+    const uint32_t mini_block_count = 1U;
+    const uint32_t mini_blocks_per_block = 1U;
     size_t size;
     size_t *size_ptr = &size;
 
@@ -34,13 +34,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, get_index_table_size) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, set_mini_block_location) {
-    const uint32_t start_bit = 1u;
-    const uint32_t last_bit = 1u;
+    const uint32_t start_bit = 1U;
+    const uint32_t last_bit = 1U;
 
-    uint32_t first_bit_offset = 1u;
-    uint32_t last_bit_offset = 1u;
-    uint32_t compressed_size = 1u;
-    uint8_t source = 1u;
+    uint32_t first_bit_offset = 1U;
+    uint32_t last_bit_offset = 1U;
+    uint32_t compressed_size = 1U;
+    uint8_t source = 1U;
 
     uint8_t *source_ptr = &source;
     uint8_t **source_pptr = &source_ptr;
@@ -91,8 +91,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, set_mini_block_location) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, find_header_block_index) {
-    const uint32_t mini_block_number = 1u;
-    uint32_t block_index = 1u;
+    const uint32_t mini_block_number = 1U;
+    uint32_t block_index = 1U;
     uint32_t *block_index_ptr = &block_index;
     qpl_index_table table;
     table.mini_blocks_per_block = 0;
@@ -115,8 +115,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, find_header_block_index) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, find_mini_block_index) {
-    const uint32_t mini_block_number = 1u;
-    uint32_t block_index = 1u;
+    const uint32_t mini_block_number = 1U;
+    uint32_t block_index = 1U;
     uint32_t *block_index_ptr = &block_index;
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;

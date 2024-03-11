@@ -16,8 +16,8 @@ namespace qpl::test {
 
 using namespace qpl::job;
 
-constexpr auto incorrect_operation = static_cast<qpl_operation>(0xFFFFu);
-constexpr auto no_flags = 0u;
+constexpr auto incorrect_operation = static_cast<qpl_operation>(0xFFFFU);
+constexpr auto no_flags = 0U;
 
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
     qpl_job job;
@@ -168,7 +168,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, multi_job_support) {
     job.op = qpl_op_compress;
 
     // Single job checks
-    job.flags = 0u;
+    job.flags = 0U;
     EXPECT_FALSE(is_single_job(&job));
 
     job.flags = QPL_FLAG_FIRST;
@@ -181,7 +181,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, multi_job_support) {
     EXPECT_TRUE(is_single_job(&job));
 
     // Multi job checks
-    job.flags = 0u;
+    job.flags = 0U;
     EXPECT_TRUE(is_multi_job(&job));
 
     job.flags = QPL_FLAG_FIRST;

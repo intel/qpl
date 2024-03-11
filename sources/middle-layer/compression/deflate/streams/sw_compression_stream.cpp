@@ -51,11 +51,11 @@ void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
         if (isal_stream_ptr_->total_in == 0) {
             deflate_hash_table_reset(&hash_table_);
 
-            hash_table_.hash_mask  = util::build_mask<uint32_t, 12u>();
-            hash_table_.attempts   = 4096u;
-            hash_table_.good_match = 32u;
-            hash_table_.nice_match = 258u;
-            hash_table_.lazy_match = 258u;
+            hash_table_.hash_mask  = util::build_mask<uint32_t, 12U>();
+            hash_table_.attempts   = 4096U;
+            hash_table_.good_match = 32U;
+            hash_table_.nice_match = 258U;
+            hash_table_.lazy_match = 258U;
         }
     } else {
         auto isal_state   = &isal_stream_ptr_->internal_state;

@@ -14,7 +14,7 @@ auto output_stream_t<bit_stream>::perform_pack(const uint8_t *buffer_ptr,
                                                const bool is_start_bit_used) noexcept -> uint32_t {
     uint32_t status = status_list::ok;
 
-    if (1u == actual_bit_width_) {
+    if (1U == actual_bit_width_) {
         if (elements_count > capacity_) {
             return static_cast<uint32_t>(status_list::destination_is_short_error);
         }
@@ -22,10 +22,10 @@ auto output_stream_t<bit_stream>::perform_pack(const uint8_t *buffer_ptr,
         status = pack_index_kernel(buffer_ptr,
                                    elements_count,
                                    &destination_current_ptr_,
-                                   ((is_start_bit_used) ? start_bit_ : 0u),
+                                   ((is_start_bit_used) ? start_bit_ : 0U),
                                    &current_output_index_);
 
-        start_bit_ = (start_bit_ + elements_count) & 7u;
+        start_bit_ = (start_bit_ + elements_count) & 7U;
     } else {
         // Pack array of indices, destination overflow
         status = pack_index_kernel(buffer_ptr,
@@ -48,7 +48,7 @@ uint32_t output_stream_t<array_stream>::perform_pack(const uint8_t *buffer_ptr,
     uint32_t status = status_list::ok;
 
     if (bit_width_format_ == output_bit_width_format_t::same_as_input ||
-        input_buffer_bit_width_ > 1u) {
+        input_buffer_bit_width_ > 1U) {
         if (elements_count > capacity_) {
             return static_cast<uint32_t>(status_list::destination_is_short_error);
         }

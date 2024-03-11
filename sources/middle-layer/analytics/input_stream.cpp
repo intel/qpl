@@ -91,7 +91,7 @@ auto input_stream_t::unpack<analytic_pipeline::prle>(limited_buffer_t &output_bu
 template <>
 auto input_stream_t::unpack<analytic_pipeline::inflate>(limited_buffer_t &output_buffer,
                                                         size_t required_elements) noexcept -> unpack_result_t {
-    auto elements_to_decompress = (required_elements >> 3u) << 3u;
+    auto elements_to_decompress = (required_elements >> 3U) << 3U;
     auto bytes_to_decompress    = (elements_to_decompress * bit_width_) / byte_bits_size;
 
     if (elements_to_decompress <= current_number_of_elements_) {

@@ -940,7 +940,7 @@ static int header_matches_pregen(struct inflate_state *state)
 
 	/* Check if stashed read_in_bytes match header */
 	hdr = &(hufftables_default.deflate_hdr[0]);
-	bits_read_mask = (1ull << state->read_in_length) - 1;
+	bits_read_mask = (1ULL << state->read_in_length) - 1;
 	hdr_stash = (load_u64(hdr) >> bits_read_prior) & bits_read_mask;
 	in_stash = state->read_in & bits_read_mask;
 
@@ -1058,7 +1058,7 @@ static inline int setup_static_header(struct inflate_state *state)
 				    dist_count, max_dist);
 #endif
 #if defined(QPL_LIB)
-    state->eob_code_and_len = (7u << 16) | 0x800;
+    state->eob_code_and_len = (7U << 16) | 0x800;
 #endif
 	state->block_state = ISAL_BLOCK_CODED;
 
@@ -1236,7 +1236,7 @@ static inline int is_correct_huffman_tree(uint16_t *bit_length_count_table, uint
     uint32_t accum = 1;
     for (uint32_t code_bit_length = 1; code_bit_length <= bit_length_count_table_size; code_bit_length++)
     {
-        accum = (accum << 1u) - bit_length_count_table[code_bit_length];
+        accum = (accum << 1U) - bit_length_count_table[code_bit_length];
         if (accum & QPL_32U_SIGN_BIT_MASK)
             return 0;
     }
@@ -1510,11 +1510,11 @@ static inline int setup_dynamic_header(struct inflate_state *state)
 	}
 
 #ifdef QPL_LIB
-    if (hdist + 1u != distanceCounter)
+    if (hdist + 1U != distanceCounter)
     {
         return QPL_AD_ERROR_CODE_WRONG_NUM_DIST_CODES;
     }
-#else 
+#else
     if (hdist + 1u != distanceCounter)
     {
         return ISAL_INVALID_BLOCK;

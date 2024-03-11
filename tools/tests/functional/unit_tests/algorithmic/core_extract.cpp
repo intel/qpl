@@ -47,14 +47,14 @@ static uint32_t ref_qplc_extract_8u(const uint8_t* src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_ptr += start;
     for (uint32_t idx = 0; idx < (stop - start); idx++) {
@@ -78,14 +78,14 @@ static uint32_t ref_qplc_extract_16u(const uint8_t* src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_16u_ptr += start;
     for (uint32_t idx = 0; idx < (stop - start); idx++) {
@@ -109,14 +109,14 @@ static uint32_t ref_qplc_extract_32u(const uint8_t* src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_32u_ptr += start;
     for (uint32_t idx = 0; idx < (stop - start); idx++) {
@@ -160,7 +160,7 @@ constexpr uint32_t fun_indx_extract_8u = 0;
 constexpr uint32_t fun_indx_extract_16u = 1;
 constexpr uint32_t fun_indx_extract_32u = 2;
 
-constexpr uint32_t TEST_BUFFER_SIZE = 64u;
+constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -170,9 +170,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -204,9 +204,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT16_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
@@ -237,9 +237,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT32_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
@@ -269,9 +269,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0; index < length; index++) {
@@ -300,9 +300,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT16_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0; index < length; index++) {
@@ -331,9 +331,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT32_MAX), seed);
-    uint32_t    low_value = 21u;
-    uint32_t    high_value = 42u;
+    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
+    uint32_t    low_value = 21U;
+    uint32_t    high_value = 42U;
 
     for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0; index < length; index++) {

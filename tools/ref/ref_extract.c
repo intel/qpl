@@ -217,7 +217,7 @@ REF_INLINE qpl_status own_extract_prle(qpl_job *const qpl_job_ptr) {
     // Due to the fact that the variable is unsigned,
     // we must add an additional check for uint underflow
     if (number_of_elements < first_index) {
-        destination_length = 0u;
+        destination_length = 0U;
     } else {
         destination_length = QPL_MIN(last_index - first_index + 1, number_of_elements - first_index);
     }

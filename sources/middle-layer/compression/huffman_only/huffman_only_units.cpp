@@ -190,7 +190,7 @@ auto huffman_only_create_huffman_table(huffman_only_state<execution_path_t::soft
 auto convert_output_to_big_endian(huffman_only_state<execution_path_t::software> &stream,
                                   compression_state_t &UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
     // Setting new pointer to treat stream as uint16_t
-    const uint32_t actual_length = stream.isal_stream_ptr_->total_out >> 1u;
+    const uint32_t actual_length = stream.isal_stream_ptr_->total_out >> 1U;
     auto           *array_ptr    = reinterpret_cast<uint16_t *>(stream.isal_stream_ptr_->next_out -
                                                                 stream.isal_stream_ptr_->total_out);
 

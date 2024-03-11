@@ -22,14 +22,14 @@
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
 constexpr uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
-constexpr uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
+constexpr uint32_t accelerator_name_length = sizeof(accelerator_name) - 2U; /**< Last symbol index */
 
 static inline bool own_search_device_name(const uint8_t *src_ptr,
                                           const uint32_t name,
                                           const uint32_t name_size) noexcept {
     const uint8_t null_terminator = '\0';
 
-    for (size_t symbol_idx = 0u; null_terminator != src_ptr[symbol_idx + name_size]; symbol_idx++) {
+    for (size_t symbol_idx = 0U; null_terminator != src_ptr[symbol_idx + name_size]; symbol_idx++) {
         const auto *candidate_ptr = reinterpret_cast<const uint32_t *>(src_ptr + symbol_idx);
 
         // Convert the first 3 bytes to lower case and make the 4th 0xff
@@ -63,7 +63,7 @@ auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelera
 
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
-    for (uint64_t try_count = 0u; try_count < queue_count_; ++try_count) {
+    for (uint64_t try_count = 0U; try_count < queue_count_; ++try_count) {
         hw_iaa_descriptor_set_block_on_fault((hw_descriptor *) desc_ptr, working_queues_[wq_idx].get_block_on_fault());
         // If OPCFG functionality exists, check OPCFG register before submitting, otherwise try submission
         if ( !op_cfg_enabled_ || get_operation_supported_on_wq(wq_idx, operation)){
@@ -153,7 +153,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     const auto *name_ptr            = reinterpret_cast<const uint8_t *>(accfg_device_get_devname(device_ptr));
     const bool  is_iaa_device       = own_search_device_name(name_ptr, IAA_DEVICE, accelerator_name_length);
 
-    version_major_ = accfg_device_get_version(device_ptr)>>8u;
+    version_major_ = accfg_device_get_version(device_ptr)>>8U;
     version_minor_ = accfg_device_get_version(device_ptr)&0xFF;
 
     DIAG("%5s: ", name_ptr);
@@ -184,13 +184,13 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     DIAG("%5s: GENCAP: maximum set size:                    %d\n",          name_ptr, get_max_set_size());
 
     // Retrieve IAACAP if available
-    uint64_t iaa_cap = 0u;
+    uint64_t iaa_cap = 0U;
     int32_t get_iaa_cap_status = accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
     if (get_iaa_cap_status) {
         // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
         DIAGA("%5s: IAACAP: Failed to read IAACAP, HW gen 2 features will not be used\n", name_ptr);
 
-        if (version_major_ >= 2u) {
+        if (version_major_ >= 2U) {
             // If function for reading IAACAP couldn't be loaded (accfg_device_get_iaa_cap returns positive 1 error code),
             // then exit with HW_ACCELERATOR_LIBACCEL_NOT_FOUND.
             // This case means that the libaccel used doesn't have required API.

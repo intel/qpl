@@ -149,18 +149,18 @@ namespace gz_generator
         }
 
         if (b_final)
-            buffer->write(3u, 3u);
+            buffer->write(3U, 3U);
         else
-            buffer->write(2u, 3u);
+            buffer->write(2U, 3U);
     }
 
     void
     huffman_c::wr_invalid_block(BitBuffer &bb, bool b_final)
     {
         if (b_final)
-            bb.write(7u, 3u);
+            bb.write(7U, 3U);
         else
-            bb.write(6u, 3u);
+            bb.write(6U, 3U);
     }
 
     void
@@ -252,7 +252,7 @@ namespace gz_generator
             // write SB header
             if (b_final && (lcount == count))
             {
-                bb.write(1u, 3u);
+                bb.write(1U, 3U);
             }
             else
             {

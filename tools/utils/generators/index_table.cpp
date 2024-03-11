@@ -16,7 +16,7 @@ uint32_t IndexTable::findHeaderBlockIndex(uint32_t miniBlockNumber)
 {
     if (miniBlockNumber >= m_miniBlockCount) throw std::invalid_argument("No such mini block in the table");
 
-    uint32_t blockNumber = 0u;
+    uint32_t blockNumber = 0U;
     // █|▒|▒|▒|▒|◙|█|▒|▒|▒|▒|◙|█|▒|▒|▒|◙ - indices[0:16]
     // █ - block header
     // ▒ - mini block
@@ -24,15 +24,15 @@ uint32_t IndexTable::findHeaderBlockIndex(uint32_t miniBlockNumber)
     // -> current_block_header_index = previous mini block count + previous count of EOB + HEADER_BLOCK
 
     blockNumber = getBlockNumber(miniBlockNumber);
-    return blockNumber * (m_miniBlocksPerBlock + 2u);
+    return blockNumber * (m_miniBlocksPerBlock + 2U);
 }
 
 uint32_t IndexTable::findMiniBlockIndex(uint32_t miniBlockNumber)
 {
     if (miniBlockNumber >= m_miniBlockCount) throw std::invalid_argument("No such mini block in the table");
 
-    uint32_t currentHeaderIndex = 0u;
-    uint32_t miniBlockNumberInBlock = 0u;
+    uint32_t currentHeaderIndex = 0U;
+    uint32_t miniBlockNumberInBlock = 0U;
 
     // █|▒|▒|▒|▒|◙|█|▒|▒|▒|▒|◙|█|▒|▒|▒|◙ - indices[0:16]
     // █ - block header
@@ -42,7 +42,7 @@ uint32_t IndexTable::findMiniBlockIndex(uint32_t miniBlockNumber)
 
     currentHeaderIndex = findHeaderBlockIndex(miniBlockNumber);
     miniBlockNumberInBlock = miniBlockNumber - getBlockNumber(miniBlockNumber) * m_miniBlocksPerBlock;
-    return currentHeaderIndex + 1u + miniBlockNumberInBlock;
+    return currentHeaderIndex + 1U + miniBlockNumberInBlock;
 }
 
 /* ------ Access to elements ------ */
@@ -57,8 +57,8 @@ void IndexTable::reset(uint32_t miniBlockCount, uint32_t miniBlocksPerBlock)
 {
     m_miniBlocksPerBlock = miniBlocksPerBlock;
     m_miniBlockCount = miniBlockCount;
-    m_blockCount = (m_miniBlockCount + m_miniBlocksPerBlock - 1u) / m_miniBlocksPerBlock;
-    m_indices.resize(m_blockCount * 2u + m_miniBlockCount + 1u);
+    m_blockCount = (m_miniBlockCount + m_miniBlocksPerBlock - 1U) / m_miniBlocksPerBlock;
+    m_indices.resize(m_blockCount * 2U + m_miniBlockCount + 1U);
     std::fill(m_indices.begin(), m_indices.end(), Index{0,0});
 }
 

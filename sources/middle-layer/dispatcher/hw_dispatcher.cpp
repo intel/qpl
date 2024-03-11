@@ -38,7 +38,7 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 
     DIAG("creating context\n");
     int32_t context_creation_status = accfg_new(&ctx_ptr);
-    QPL_HWSTS_RET(0u != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
+    QPL_HWSTS_RET(0U != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
 
     // Retrieve first device in the system given the passed in context
     DIAG("enumerating devices\n");

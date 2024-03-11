@@ -42,7 +42,7 @@ auto compress_stream(stream_t stream) -> std::vector<uint8_t> {
         throw std::runtime_error("Couldn't init compression job\n");
     }
 
-    const uint32_t MINIMAL_DESTINATION_SIZE = 100u;
+    const uint32_t MINIMAL_DESTINATION_SIZE = 100U;
     uint32_t       destination_size         = static_cast<uint32_t>(stream.size()) * 2;
     destination_size = (destination_size < MINIMAL_DESTINATION_SIZE) ? MINIMAL_DESTINATION_SIZE
                                                                      : destination_size;

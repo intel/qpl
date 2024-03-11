@@ -9,10 +9,10 @@
 
 #define OWN_5_BIT_MASK          0x1fu /**< Mask for 5-bit integer */
 
-#define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x)  (((x) & 0x1Fu) << 7u)   /**< @todo */
-#define OWN_FILTER_FLAGS_SET_SOURCE_2_BE            (1u << 12u)             /**< @todo */
-#define OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(x)       (((x) & 0x1Fu) << 17u)  /**< @todo */
-#define OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(x)      (((x) & 0x1Fu) << 22u)  /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x)  (((x) & 0x1FU) << 7U)   /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_2_BE            (1U << 12U)             /**< @todo */
+#define OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(x)       (((x) & 0x1FU) << 17U)  /**< @todo */
+#define OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(x)      (((x) & 0x1FU) << 22U)  /**< @todo */
 
 static inline void own_hw_descriptor_single_source_filter_set_second_source(hw_descriptor *const descriptor_ptr,
                                                                             hw_iaa_aecs_analytic *const filter_config_ptr) {
@@ -62,8 +62,8 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_extract_operation, (hw_descriptor 
     filter_config_ptr->filtering_options.filter_low     = first_element_index;
     filter_config_ptr->filtering_options.filter_high    = last_element_index;
 
-    filter_config_ptr->filtering_options.crc          = 0u;
-    filter_config_ptr->filtering_options.xor_checksum = 0u;
+    filter_config_ptr->filtering_options.crc          = 0U;
+    filter_config_ptr->filtering_options.xor_checksum = 0U;
 
     own_hw_descriptor_single_source_filter_set_second_source((hw_descriptor *) this_ptr, filter_config_ptr);
 }
@@ -75,7 +75,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_select_operation, (hw_descriptor *
     own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
     this_ptr->op_code_op_flags |= ADOF_OPCODE(QPL_OPCODE_SELECT);
 
-    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(0u);
+    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(0U);
 
     own_hw_descriptor_double_source_filter_set_second_source((hw_descriptor *) this_ptr, mask_ptr, mask_size, is_mask_big_endian);
 }
@@ -87,7 +87,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_expand_operation, (hw_descriptor *
     own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
     this_ptr->op_code_op_flags |= ADOF_OPCODE(QPL_OPCODE_EXPAND);
 
-    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(0u);
+    this_ptr->filter_flags |= OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(0U);
 
     own_hw_descriptor_double_source_filter_set_second_source((hw_descriptor *) this_ptr,
                                                              mask_ptr,

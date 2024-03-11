@@ -119,7 +119,7 @@ int qpl_test_accfg_device_get_numa_node(accfg_dev *device) {
 /* ------ Internal functions implementation ------ */
 
 bool qpl_test_own_load_configuration_functions(void *driver_instance_ptr) {
-    uint32_t i = 0u;
+    uint32_t i = 0U;
 
     while (qpl_test_functions_table[i].function_name) {
         qpl_test_functions_table[i].function = (qpl_test_library_function) dlsym(driver_instance_ptr, qpl_test_functions_table[i].function_name);

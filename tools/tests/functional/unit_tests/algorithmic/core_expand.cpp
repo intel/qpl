@@ -46,9 +46,9 @@ static void fill_buffer_32u(uint8_t* src, uint8_t* dst, uint32_t length) {
 static uint32_t ref_qplc_expand_8u(const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr,
     uint32_t* length_2_ptr, uint8_t* dst_ptr)
 {
-    uint32_t expanded = 0u;
+    uint32_t expanded = 0U;
     uint32_t idx;
-    for (idx = 0u; idx < *length_2_ptr; idx++) {
+    for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
             if (expanded >= length_1) {
                 break;
@@ -56,7 +56,7 @@ static uint32_t ref_qplc_expand_8u(const uint8_t* src1_ptr, uint32_t length_1, c
             dst_ptr[idx] = src1_ptr[expanded++];
         }
         else {
-            dst_ptr[idx] = 0u;
+            dst_ptr[idx] = 0U;
         }
     }
     *length_2_ptr -= idx;
@@ -68,10 +68,10 @@ static uint32_t ref_qplc_expand_16u(const uint8_t* src1_ptr, uint32_t length_1, 
 {
     uint16_t* src_16u_ptr = (uint16_t*)src1_ptr;
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
-    uint32_t expanded = 0u;
+    uint32_t expanded = 0U;
     uint32_t idx;
 
-    for (idx = 0u; idx < *length_2_ptr; idx++) {
+    for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
             if (expanded >= length_1) {
                 break;
@@ -79,7 +79,7 @@ static uint32_t ref_qplc_expand_16u(const uint8_t* src1_ptr, uint32_t length_1, 
             dst_16u_ptr[idx] = src_16u_ptr[expanded++];
         }
         else {
-            dst_16u_ptr[idx] = 0u;
+            dst_16u_ptr[idx] = 0U;
         }
     }
     *length_2_ptr -= idx;
@@ -91,10 +91,10 @@ static uint32_t ref_qplc_expand_32u(const uint8_t* src1_ptr, uint32_t length_1, 
 {
     uint32_t* src_32u_ptr = (uint32_t*)src1_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
-    uint32_t expanded = 0u;
+    uint32_t expanded = 0U;
     uint32_t idx;
 
-    for (idx = 0u; idx < *length_2_ptr; idx++) {
+    for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
             if (expanded >= length_1) {
                 break;
@@ -102,7 +102,7 @@ static uint32_t ref_qplc_expand_32u(const uint8_t* src1_ptr, uint32_t length_1, 
             dst_32u_ptr[idx] = src_32u_ptr[expanded++];
         }
         else {
-            dst_32u_ptr[idx] = 0u;
+            dst_32u_ptr[idx] = 0U;
         }
     }
     *length_2_ptr -= idx;
@@ -113,7 +113,7 @@ constexpr uint32_t fun_indx_expand_8u = 0;
 constexpr uint32_t fun_indx_expand_16u = 1;
 constexpr uint32_t fun_indx_expand_32u = 2;
 
-constexpr uint32_t TEST_BUFFER_SIZE = 64u;
+constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -125,7 +125,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -134,7 +134,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
             p_source_8u[indx] = static_cast<uint8_t>(random_value);
         }
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_buffer_mask[indx] = 1u & static_cast<uint8_t>(random_value);
+            p_buffer_mask[indx] = 1U & static_cast<uint8_t>(random_value);
         }
     }
 
@@ -159,7 +159,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 16; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -201,7 +201,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -224,7 +224,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 1u;
+            p_buffer_mask[indx] = 1U;
         }
     }
 
@@ -254,7 +254,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT16_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
@@ -263,7 +263,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
             p_source_16u[indx] = static_cast<uint16_t>(random_value);
         }
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_buffer_mask[indx] = (uint8_t)(1u & static_cast<uint16_t>(random_value));
+            p_buffer_mask[indx] = (uint8_t)(1U & static_cast<uint16_t>(random_value));
         }
     }
 
@@ -288,7 +288,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 16; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -330,7 +330,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -353,7 +353,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 1u;
+            p_buffer_mask[indx] = 1U;
         }
     }
 
@@ -382,7 +382,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT32_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
@@ -391,7 +391,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
             p_source_32u[indx] = static_cast<uint16_t>(random_value);
         }
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_buffer_mask[indx] = (uint8_t)(1u & static_cast<uint32_t>(random_value));
+            p_buffer_mask[indx] = (uint8_t)(1U & static_cast<uint32_t>(random_value));
         }
     }
 
@@ -416,7 +416,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 16; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -458,7 +458,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 0u;
+            p_buffer_mask[indx] = 0U;
         }
     }
 
@@ -481,7 +481,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
     {
         uint8_t* p_buffer_mask = (uint8_t*)mask.data();
         for (uint32_t indx = 0; indx < 32; indx++) {
-            p_buffer_mask[indx] = 1u;
+            p_buffer_mask[indx] = 1U;
         }
     }
 

@@ -9,13 +9,13 @@
 #include "own_analytic_descriptor.h"
 #include "own_compress.h"
 
-#define MAX_BIT_IDX           7u    /**< Maximal index of a bit in the byte */
-#define STOP_CHECK_RULE_COUNT 7u    /**< Count of actual stop-check rules */
+#define MAX_BIT_IDX           7U    /**< Maximal index of a bit in the byte */
+#define STOP_CHECK_RULE_COUNT 7U    /**< Count of actual stop-check rules */
 #define STOP_CHECK_RULE_MASK  0x07  /**< Indexing mask */
 
-static const uint32_t hw_iaa_stop_check_rules[STOP_CHECK_RULE_COUNT + 1u] = {
+static const uint32_t hw_iaa_stop_check_rules[STOP_CHECK_RULE_COUNT + 1U] = {
         ADDF_STOP_ON_EOB | ADDF_CHECK_FOR_EOB | ADDF_SEL_BFINAL_EOB,    //qpl_stop_and_check_for_bfinal_eob = 0,
-        0u,                                                             //qpl_dont_stop_or_check = 1,
+        0U,                                                             //qpl_dont_stop_or_check = 1,
         ADDF_STOP_ON_EOB | ADDF_CHECK_FOR_EOB,                          //qpl_stop_and_check_for_any_eob
         ADDF_STOP_ON_EOB,                                               //qpl_stop_on_any_eob = 3,
         ADDF_STOP_ON_EOB | ADDF_SEL_BFINAL_EOB,                         //qpl_stop_on_bfinal_eob = 4,
@@ -34,9 +34,9 @@ HW_PATH_IAA_API(void, descriptor_inflate_set_aecs, (hw_descriptor *const descrip
     uint32_t write_flag = (access_policy & hw_aecs_access_write) ?
                           ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS) :
                           (access_policy & hw_aecs_access_maybe_write) ?
-                          ADOF_WRITE_SRC2(AD_WRSRC2_MAYBE) : 0u;
+                          ADOF_WRITE_SRC2(AD_WRSRC2_MAYBE) : 0U;
 
-    uint32_t toggle_aecs_flag = (access_policy & hw_aecs_toggle_rw) ? ADOF_AECS_SEL : 0u;
+    uint32_t toggle_aecs_flag = (access_policy & hw_aecs_toggle_rw) ? ADOF_AECS_SEL : 0U;
 
     this_ptr->op_code_op_flags |= read_flag | write_flag | toggle_aecs_flag;
 
@@ -56,10 +56,10 @@ HW_PATH_IAA_API(void, descriptor_init_inflate, (hw_descriptor *const descriptor_
                                                 const hw_iaa_aecs_access_policy access_policy)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
 
-    this_ptr->trusted_fields   = 0u;
+    this_ptr->trusted_fields   = 0U;
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS);
     this_ptr->decomp_flags     = ADDF_ENABLE_DECOMP;
-    this_ptr->filter_flags     = 0u;
+    this_ptr->filter_flags     = 0U;
 
     hw_iaa_descriptor_inflate_set_aecs(descriptor_ptr, aecs_ptr, aecs_size, access_policy);
 }
@@ -70,10 +70,10 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_header, (hw_descriptor *const desc
                                                        const hw_iaa_aecs_access_policy access_policy)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
 
-    this_ptr->trusted_fields = 0u;
+    this_ptr->trusted_fields = 0U;
 
     uint32_t read_flag  = (access_policy & hw_aecs_access_read) ? ADOF_READ_SRC2(AD_RDSRC2_AECS) : 0;
-    uint32_t toggle_aecs_flag = (access_policy & hw_aecs_toggle_rw) ? ADOF_AECS_SEL : 0u;
+    uint32_t toggle_aecs_flag = (access_policy & hw_aecs_toggle_rw) ? ADOF_AECS_SEL : 0U;
 
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS) |
                                  ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS)  | read_flag | toggle_aecs_flag;
@@ -101,7 +101,7 @@ HW_PATH_IAA_API(void, descriptor_init_inflate_body, (hw_descriptor *const descri
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
     hw_iaa_aecs_analytic *this_aecs_ptr = (hw_iaa_aecs_analytic *) aecs_ptr;
 
-    this_ptr->trusted_fields   = 0u;
+    this_ptr->trusted_fields   = 0U;
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS) | ADOF_READ_SRC2(AD_RDSRC2_AECS);
 
     this_ptr->decomp_flags = ADDF_ENABLE_DECOMP
@@ -122,15 +122,15 @@ HW_PATH_IAA_API(void, descriptor_init_huffman_only_decompress, (hw_descriptor *c
                                                                 const bool is_gen1)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
 
-    this_ptr->trusted_fields   = 0u;
+    this_ptr->trusted_fields   = 0U;
     this_ptr->op_code_op_flags = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS) | ADOF_READ_SRC2(AD_RDSRC2_AECS);
     this_ptr->decomp_flags = ADDF_ENABLE_DECOMP
                             | ADDF_FLUSH_OUTPUT
-                            | (huffman_be ? ADDF_DECOMP_BE : 0u)
+                            | (huffman_be ? ADDF_DECOMP_BE : 0U)
                             | ADDF_IGNORE_END_BITS(MAX_BIT_IDX & ignore_end_bits);
 
     if (!is_gen1) {
-        this_ptr->decomp_flags |= (ignore_end_bits > 7u ? ADDF_IGNORE_END_BITS_EXT : 0u);
+        this_ptr->decomp_flags |= (ignore_end_bits > 7U ? ADDF_IGNORE_END_BITS_EXT : 0U);
     }
 
     this_ptr->src2_ptr  = (uint8_t *) aecs_ptr;
@@ -156,11 +156,11 @@ HW_PATH_IAA_API(void, descriptor_init_compress_verification, (hw_descriptor * de
 
     this_ptr->op_code_op_flags     = ADOF_OPCODE(QPL_OPCODE_DECOMPRESS);
     this_ptr->decompression_flags  = ADDF_ENABLE_DECOMP | ADDF_STOP_ON_EOB | ADDF_SEL_BFINAL_EOB | ADDF_SUPPRESS_OUTPUT;
-    this_ptr->filter_flags         = 0u;
+    this_ptr->filter_flags         = 0U;
     this_ptr->second_source_ptr    = NULL;
-    this_ptr->second_source_size   = 0u;
+    this_ptr->second_source_size   = 0U;
     this_ptr->destination_ptr      = (uint8_t *) this_ptr;
-    this_ptr->max_destination_size = 1u;
+    this_ptr->max_destination_size = 1U;
 }
 
 HW_PATH_IAA_API(void, descriptor_compress_verification_write_initial_index, (hw_descriptor *const descriptor_ptr,

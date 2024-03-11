@@ -82,7 +82,7 @@ public:
 
         rem = rem ^ byte;
 
-        for (uint32_t i = 0; i < 8u; i++) {
+        for (uint32_t i = 0; i < 8U; i++) {
             rem = (rem & 0x1ULL) ? (rem >> 1) ^ polynomial : (rem >> 1);
         }
 
@@ -221,7 +221,7 @@ public:
         job_ptr->mini_block_size = current_test_case.mini_block_size;
 
         uint32_t required_indexes = NumberOfIndexValues(job_ptr->available_in,
-                                                        (1u << (job_ptr->mini_block_size + 8u)),
+                                                        (1U << (job_ptr->mini_block_size + 8U)),
                                                         (current_test_case.chunk_size == 0)
                                                         ? job_ptr->available_in
                                                         : current_test_case.chunk_size);
@@ -260,7 +260,7 @@ public:
         uint32_t mini_block_size = qpl_mblk_size_512;
 
         // All multiple blocks test cases
-        for (uint32_t chunk_size : {512u, 1024u, 1024u * 32u}) {
+        for (uint32_t chunk_size : {512U, 1024U, 1024U * 32U}) {
             for (uint32_t compression_mode = MULT_BUF_FIXED;
                  compression_mode <= MULT_BUF_DYNAMIC; compression_mode++) {
                 for (uint32_t gzip_mode = 0; gzip_mode < 2; gzip_mode++) {
@@ -288,7 +288,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
 
     uint32_t bytes_remain          = input_size;
     uint32_t chunk_size            = 0;
-    uint32_t mini_block_size_bytes = (1u << (job_ptr->mini_block_size + 8u));
+    uint32_t mini_block_size_bytes = (1U << (job_ptr->mini_block_size + 8U));
 
     job_ptr->next_in_ptr = source.data();
     job_ptr->available_in = input_size;

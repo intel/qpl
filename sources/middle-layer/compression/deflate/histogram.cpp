@@ -35,7 +35,7 @@ void histogram_join_another(qpl_histogram &first_histogram_ptr,
 static inline void isal_histogram_set_statistics(isal_histogram *isal_histogram_ptr,
                                                  const uint32_t *literal_length_histogram_ptr,
                                                  const uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         isal_histogram_ptr->lit_len_histogram[i] = literal_length_histogram_ptr[i];
     }
 
@@ -47,11 +47,11 @@ static inline void isal_histogram_set_statistics(isal_histogram *isal_histogram_
 static inline void isal_histogram_get_statistics(const isal_histogram *isal_histogram_ptr,
                                                  uint32_t *literal_length_histogram_ptr,
                                                  uint32_t *offsets_histogram_ptr) {
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         literal_length_histogram_ptr[i] = (uint32_t) isal_histogram_ptr->lit_len_histogram[i];
     }
 
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         offsets_histogram_ptr[i] = (uint32_t) isal_histogram_ptr->dist_histogram[i];
     }
 }
@@ -90,7 +90,7 @@ auto update_histogram<execution_path_t::hardware>(const uint8_t *begin,
                                                reinterpret_cast<hw_iaa_histogram *>(&hw_histogram));
 
     hw_iaa_descriptor_set_completion_record(&descriptor, &completion_record);
-    completion_record.status = 0u;
+    completion_record.status = 0U;
 
     auto status = util::process_descriptor<qpl_ml_status,
                                            util::execution_mode_t::sync>(&descriptor, &completion_record);
@@ -120,7 +120,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t *begin,
             (core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[1]));
 
     if (qpl_default_level == level) {
-        isal_histogram isal_histogram_v = {{0u}, {0u}, {0u}};
+        isal_histogram isal_histogram_v = {{0U}, {0U}, {0U}};
         details::isal_histogram_set_statistics(&isal_histogram_v,
                                                histogram.literal_lengths,
                                                histogram.distances);
@@ -139,7 +139,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t *begin,
 
         deflate_histogram_t deflate_histogram_ptr = {};
 
-        uint8_t temporary_buffer[1u];
+        uint8_t temporary_buffer[1U];
 
         uint32_t hash_table[OWN_HIGH_HASH_TABLE_SIZE];
         uint32_t hash_history_table[OWN_HIGH_HASH_TABLE_SIZE];
@@ -158,7 +158,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t *begin,
                                    begin,
                                    static_cast<uint32_t>(std::distance(begin, end)),
                                    temporary_buffer,
-                                   1u,
+                                   1U,
                                    initial_status,
                                    qpl_gathering_mode);
 

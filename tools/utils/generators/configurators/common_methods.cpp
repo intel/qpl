@@ -11,33 +11,33 @@ Gen8u gz_generator::CommonMethods::bsr_32(Gen32u number)
 {
     Gen8u bitsCount = 0;
 
-    if (number >= (1u << 16u))
+    if (number >= (1U << 16U))
     {
-        number >>= 16u;
+        number >>= 16U;
         bitsCount = 16;
     }
 
-    if (number >= (1u << 8u))
+    if (number >= (1U << 8U))
     {
-        number >>= 8u;
+        number >>= 8U;
         bitsCount += 8;
     }
 
-    if (number >= (1u << 4u))
+    if (number >= (1U << 4U))
     {
-        number >>= 4u;
+        number >>= 4U;
         bitsCount += 4;
     }
 
-    if (number >= (1u << 2u))
+    if (number >= (1U << 2U))
     {
-        number >>= 2u;
+        number >>= 2U;
         bitsCount += 2;
     }
 
-    if (number >= (1u << 1u))
+    if (number >= (1U << 1U))
     {
-        number >>= 1u;
+        number >>= 1U;
         bitsCount += 1;
     }
 
@@ -50,9 +50,9 @@ void gz_generator::CommonMethods::shuffle_32u(Gen32u *vector_ptr, Gen32u vectorL
     Gen32u *pVectorEnd = vector_ptr + vectorLength;
     Gen32u tmp = 0;
 
-    if (vectorLength > 1u)
+    if (vectorLength > 1U)
     {
-        qpl::test::random rand(0u, vectorLength - 1u, seed);
+        qpl::test::random rand(0U, vectorLength - 1U, seed);
         while (current_ptr < pVectorEnd)
         {
             Gen32u i = static_cast<Gen32u>(rand);
@@ -95,7 +95,7 @@ Gen32u gz_generator::CommonMethods::code2Match(Gen32u code, Gen32u seed)
 
     numberExtraBits = extraBitCountTable[code];
     length = distanceTable[code];
-    random.set_range(0, (1u << numberExtraBits));
+    random.set_range(0, (1U << numberExtraBits));
     extra_bits = static_cast<Gen32u> (random);
     length += extra_bits;
 

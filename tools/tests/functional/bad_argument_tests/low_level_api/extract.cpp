@@ -34,16 +34,16 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(extract, param_low_greater_param_high)
     job_ptr->next_out_ptr = destination.data();
     job_ptr->available_out = DESTINATION_ARRAY_SIZE;
 
-    job_ptr->first_index_min_value = 0u;
-    job_ptr->last_index_max_value  = 0u;
-    job_ptr->last_bit_offset       = 0u;
-    job_ptr->sum_value             = 0u;
-    job_ptr->crc                   = 0u;
+    job_ptr->first_index_min_value = 0U;
+    job_ptr->last_index_max_value  = 0U;
+    job_ptr->last_bit_offset       = 0U;
+    job_ptr->sum_value             = 0U;
+    job_ptr->crc                   = 0U;
 
     job_ptr->num_input_elements = SOURCE_ARRAY_SIZE;
-    job_ptr->src1_bit_width     = 8u;
-    job_ptr->param_low          = SOURCE_ARRAY_SIZE / 2u;
-    job_ptr->param_high         = SOURCE_ARRAY_SIZE / 4u;
+    job_ptr->src1_bit_width     = 8U;
+    job_ptr->param_low          = SOURCE_ARRAY_SIZE / 2U;
+    job_ptr->param_high         = SOURCE_ARRAY_SIZE / 4U;
     job_ptr->parser             = qpl_p_le_packed_array;
     job_ptr->out_bit_width      = qpl_ow_nom;
 
@@ -58,11 +58,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(extract, param_low_greater_param_high)
     ASSERT_EQ(job_ptr->next_out_ptr, destination.data());
     ASSERT_EQ(job_ptr->available_out, DESTINATION_ARRAY_SIZE);
 
-    ASSERT_EQ(job_ptr->first_index_min_value, 0u);
-    ASSERT_EQ(job_ptr->last_index_max_value, 0u);
-    ASSERT_EQ(job_ptr->last_bit_offset, 0u);
-    ASSERT_EQ(job_ptr->sum_value, 0u);
-    ASSERT_EQ(job_ptr->crc, 0u);
+    ASSERT_EQ(job_ptr->first_index_min_value, 0U);
+    ASSERT_EQ(job_ptr->last_index_max_value, 0U);
+    ASSERT_EQ(job_ptr->last_bit_offset, 0U);
+    ASSERT_EQ(job_ptr->sum_value, 0U);
+    ASSERT_EQ(job_ptr->crc, 0U);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(extract, incorrect_initial_output_index) {

@@ -39,13 +39,13 @@ extern "C" {
 /**
  * @todo
  */
-#define IAA_DEVICE ((uint32_t)(((uint32_t)0xFF << 24u) | \
-                   ((uint32_t)('x') << 16u) | ((uint32_t)('a') << 8u) | (uint32_t)('i')))
-#define MAX_NUM_DEV 100u        /**< @todo */
-#define MAX_NUM_WQ  100u        /**< @todo */
+#define IAA_DEVICE ((uint32_t)(((uint32_t)0xFF << 24U) | \
+                   ((uint32_t)('x') << 16U) | ((uint32_t)('a') << 8U) | (uint32_t)('i')))
+#define MAX_NUM_DEV 100U        /**< @todo */
+#define MAX_NUM_WQ  100U        /**< @todo */
 #define CHAR_MSK    0xFF202020  /**< @todo */
 
-#define OWN_PAGE_MASK             0x0FFFllu     /**< Defines page mask for portal incrementing */
+#define OWN_PAGE_MASK             0x0FFFLLU     /**< Defines page mask for portal incrementing */
 
 /* ====== Macros ====== */
 /**
@@ -62,12 +62,12 @@ extern "C" {
 #define GC_DST_READBACK(GENCAP)             (((GENCAP)>>8) &0x01)       /**< GENCAP bit 8      - destination readback support              */
 #define GC_DRAIN_READBACK(GENCAP)           (((GENCAP)>>9) &0x01)       /**< GENCAP bit 9      - drain descriptor readback address support */
 #define GC_MAX_TRANSFER_SIZE(GENCAP)  (1 << (((GENCAP)>>16)&0x1F))      /**< GENCAP 20-16 bits - maximum supported transfer size           */
-#define GC_INTERRUPT_STORAGE(GENCAP)       ((((GENCAP)>>25)&0x3F)*256u) /**< GENCAP 30-25 bits - interrupt message storage size            */
+#define GC_INTERRUPT_STORAGE(GENCAP)       ((((GENCAP)>>25)&0x3F)*256U) /**< GENCAP 30-25 bits - interrupt message storage size            */
 #define GC_CONF_SUPPORT(GENCAP)             (((GENCAP)>>31)&0x01)       /**< GENCAP bit 31     - configuration support                     */
 #define GC_DECOMP_SUPPORT(GENCAP)           (((GENCAP)>>40)&0x01)       /**< GENCAP bit 40     - decompression support                     */
 #define GC_IDX_SUPPORT(GENCAP)              (((GENCAP)>>41)&0x01)       /**< GENCAP bit 41     - indexing support                          */
-#define GC_MAX_DECOMP_SET_SIZE(GENCAP)     ((((GENCAP)>>42)&0x1F) + 1u) /**< GENCAP 46-42 bits - maximum decompression set size            */
-#define GC_MAX_SET_SIZE(GENCAP)            ((((GENCAP)>>47)&0x1F) + 1u) /**< GENCAP 51-47 bits - maximum set size                          */
+#define GC_MAX_DECOMP_SET_SIZE(GENCAP)     ((((GENCAP)>>42)&0x1F) + 1U) /**< GENCAP 46-42 bits - maximum decompression set size            */
+#define GC_MAX_SET_SIZE(GENCAP)            ((((GENCAP)>>47)&0x1F) + 1U) /**< GENCAP 51-47 bits - maximum set size                          */
 
 /** @} */
 

@@ -111,7 +111,7 @@ namespace qpl::test
             CRC64TestCase current_test_case = GetTestCase();
 
             source_provider source_generator(current_test_case.length,
-                                             8u,
+                                             8U,
                                              GetSeed());
 
             ASSERT_NO_THROW(source = source_generator.get_source());
@@ -127,9 +127,9 @@ namespace qpl::test
 
         void InitializeTestCases() override
         {
-            for (uint32_t length = 1u; length < 7u; length++)
+            for (uint32_t length = 1U; length < 7U; length++)
             {
-                for (uint32_t poly_shift : {0u, 32u, 48u})
+                for (uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -147,9 +147,9 @@ namespace qpl::test
                 }
             }
 
-            for (uint32_t length = 8u; length < 63u; length++)
+            for (uint32_t length = 8U; length < 63U; length++)
             {
-                for (uint32_t poly_shift : {0u, 32u, 48u})
+                for (uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -167,9 +167,9 @@ namespace qpl::test
                 }
             }
 
-            for (uint32_t length = 128u; length < 192u; length++)
+            for (uint32_t length = 128U; length < 192U; length++)
             {
-                for (uint32_t poly_shift : {0u, 32u, 48u})
+                for (uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -187,9 +187,9 @@ namespace qpl::test
                 }
             }
 
-            for (uint32_t length = 1000u; length < 2000u; length+= 101)
+            for (uint32_t length = 1000U; length < 2000U; length+= 101)
             {
-                for (uint32_t poly_shift : {0u, 32u, 48u})
+                for (uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {

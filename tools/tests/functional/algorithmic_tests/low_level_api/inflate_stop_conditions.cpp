@@ -80,13 +80,13 @@ namespace qpl::test {
         destination.resize(compressed_source.size() * 2);
 
         auto source_size = static_cast<uint32_t>(source.size());
-        qpl::test::random random(0u, 0u, GetSeed());
+        qpl::test::random random(0U, 0U, GetSeed());
 
-        random.set_range(1u, 5000u);
+        random.set_range(1U, 5000U);
         auto block_size = static_cast<uint32_t>(random);
 
         uint32_t expected_block_count = source_size / block_size;
-        expected_block_count += (0u == source_size % block_size) ? 0 : 1;
+        expected_block_count += (0U == source_size % block_size) ? 0 : 1;
 
         // Get stream compressed with severals deflate blocks
         // Which means we have multiple eob symbols here
@@ -120,13 +120,13 @@ namespace qpl::test {
         destination.resize(compressed_source.size() * 2);
 
         auto source_size = static_cast<uint32_t>(source.size());
-        qpl::test::random random(0u, 0u, GetSeed());
+        qpl::test::random random(0U, 0U, GetSeed());
 
-        random.set_range(1u, 5000u);
+        random.set_range(1U, 5000U);
         auto block_size = static_cast<uint32_t>(random);
 
         uint32_t expected_block_count = source_size / block_size;
-        expected_block_count += (0u == source_size % block_size) ? 0 : 1;
+        expected_block_count += (0U == source_size % block_size) ? 0 : 1;
 
         // Get stream compressed with severals deflate blocks
         // Which means we have multiple eob symbols here

@@ -29,8 +29,8 @@ static uint32_t ref_qplc_pack_index_8u(const uint8_t* src_ptr, uint32_t num_elem
     uint8_t*    dst_ptr = (uint8_t*)*pp_dst;
     uint8_t*    end_ptr = dst_ptr + dst_length;
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (UINT8_MAX < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;
@@ -58,8 +58,8 @@ static uint32_t ref_qplc_pack_index_8u16u(const uint8_t* src_ptr, uint32_t num_e
     uint16_t*   dst_ptr = (uint16_t*)*pp_dst;
     uint16_t*   end_ptr = dst_ptr + (dst_length >> 1);
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (UINT16_MAX < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;
@@ -86,8 +86,8 @@ static uint32_t ref_qplc_pack_index_8u32u(const uint8_t* src_ptr, uint32_t num_e
     uint32_t*   dst_ptr = (uint32_t*)*pp_dst;
     uint32_t*   end_ptr = dst_ptr + (dst_length >> 2);
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (UINT32_MAX < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;
@@ -107,7 +107,7 @@ static uint32_t ref_qplc_pack_index_8u32u(const uint8_t* src_ptr, uint32_t num_e
 }
 
 
-constexpr uint32_t TEST_BUFFER_SIZE = 128u;
+constexpr uint32_t TEST_BUFFER_SIZE = 128U;
 constexpr uint32_t fun_indx_pack_idx_8u     = 1;
 constexpr uint32_t fun_indx_pack_idx_8u16u  = 2;
 constexpr uint32_t fun_indx_pack_idx_8u32u  = 3;
@@ -119,7 +119,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -153,8 +153,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u, base) {
                 reference.fill(0);
                 uint8_t* p_dst_16u = destination.data();
                 uint8_t* p_ref_dst_16u = reference.data();
-                uint32_t index = UINT8_MAX - 32u;
-                uint32_t ref_index = UINT8_MAX - 32u;
+                uint32_t index = UINT8_MAX - 32U;
+                uint32_t ref_index = UINT8_MAX - 32U;
                 uint32_t status;
                 uint32_t ref_status;
                 status = (uint32_t)qplc_pack_vector(fun_indx_pack_idx_8u)(source.data(), length,
@@ -177,7 +177,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -212,8 +212,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u16u, base) {
             reference.fill(0);
             uint8_t* p_dst_8u = destination.data();
             uint8_t* p_ref_dst_8u = reference.data();
-            uint32_t index = UINT16_MAX - 32u;
-            uint32_t ref_index = UINT16_MAX - 32u;
+            uint32_t index = UINT16_MAX - 32U;
+            uint32_t ref_index = UINT16_MAX - 32U;
             uint32_t status;
             uint32_t ref_status;
 
@@ -233,7 +233,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -266,8 +266,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_idx_8u32u, base) {
                 reference.fill(0);
                 uint8_t* p_dst_8u = destination.data();
                 uint8_t* p_ref_dst_8u = reference.data();
-                uint32_t index = UINT32_MAX - 32u;
-                uint32_t ref_index = UINT32_MAX - 32u;
+                uint32_t index = UINT32_MAX - 32U;
+                uint32_t ref_index = UINT32_MAX - 32U;
                 uint32_t status;
                 uint32_t ref_status;
 

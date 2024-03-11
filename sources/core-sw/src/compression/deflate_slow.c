@@ -94,11 +94,11 @@ static inline void _compute_offset_code(const struct isal_hufftables* huffman_ta
         uint32_t length;
         uint32_t code;
 
-        offset -= 1u;
+        offset -= 1U;
         significant_bits = own_count_significant_bits(offset);
 
-        number_of_extra_bits = significant_bits - 2u;
-        extra_bits = offset & ((1u << number_of_extra_bits) - 1u);
+        number_of_extra_bits = significant_bits - 2U;
+        extra_bits = offset & ((1U << number_of_extra_bits) - 1U);
         //extra_bits = _bzhi_u32(offset, number_of_extra_bits);
         offset >>= number_of_extra_bits;
         symbol = offset + 2 * number_of_extra_bits;
@@ -118,11 +118,11 @@ static void _get_offset_code(const struct isal_hufftables* const huffman_table_p
     uint64_t* const code_ptr,
     uint32_t* const code_length_ptr) {
 
-    if (offset <= IGZIP_DIST_TABLE_SIZE && offset > 0u) {
+    if (offset <= IGZIP_DIST_TABLE_SIZE && offset > 0U) {
         const uint64_t offset_info = huffman_table_ptr->dist_table[offset - 1];
 
-        *code_ptr = offset_info >> 5u;
-        *code_length_ptr = offset_info & 0x1Fu;
+        *code_ptr = offset_info >> 5U;
+        *code_length_ptr = offset_info & 0x1FU;
     }
     else {
         _compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
@@ -343,7 +343,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                     uint64_t code;
                     uint32_t code_length;
                     if ((prev_bound >= bound) && (prev_bound > (CMP_MATCH_LENGTH - 1))) {
-                        const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3u];
+                        const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3U];
                         uint64_t code_match;
                         uint32_t code_match_length;
                         uint64_t code_offset;
@@ -368,8 +368,8 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                             }
                         }
 
-                        code_match = match_length_info >> 5u;
-                        code_match_length = match_length_info & 0x1Fu;
+                        code_match = match_length_info >> 5U;
+                        code_match_length = match_length_info & 0x1FU;
                         _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
                         // Combining two codes
                         code_match |= code_offset << code_match_length;
@@ -440,7 +440,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                         uint64_t code;
                         uint32_t code_length;
                         if ((prev_bound >= bound) && (prev_bound > (CMP_MATCH_LENGTH - 1))) {
-                            const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3u];
+                            const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3U];
                             uint64_t code_match;
                             uint32_t code_match_length;
                             uint64_t code_offset;
@@ -465,8 +465,8 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                                     p_hash_table[hash_key] = k;
                                 }
                             }
-                            code_match = match_length_info >> 5u;
-                            code_match_length = match_length_info & 0x1Fu;
+                            code_match = match_length_info >> 5U;
+                            code_match_length = match_length_info & 0x1FU;
                             _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
                             // Combining two codes
                             code_match |= code_offset << code_match_length;
@@ -489,7 +489,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                 uint64_t code;
                 uint32_t code_length;
                 if (prev_bound > (CMP_MATCH_LENGTH - 1)) {
-                    const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3u];
+                    const uint64_t match_length_info = huffman_tables_ptr->len_table[prev_bound - 3U];
                     uint64_t code_match;
                     uint32_t code_match_length;
                     uint64_t code_offset;
@@ -501,8 +501,8 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                         p_hash_story[k & win_mask] = p_hash_table[hash_key];
                         p_hash_table[hash_key] = k;
                     }
-                    code_match = match_length_info >> 5u;
-                    code_match_length = match_length_info & 0x1Fu;
+                    code_match = match_length_info >> 5U;
+                    code_match_length = match_length_info & 0x1FU;
                     _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
                     // Combining two codes
                     code_match |= code_offset << code_match_length;

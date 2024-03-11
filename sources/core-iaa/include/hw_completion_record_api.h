@@ -24,7 +24,7 @@
 extern "C" {
 #endif
 
-#define TRIVIAL_COMPLETE  0xFFu  /**< Status to emulate successful operation execution */
+#define TRIVIAL_COMPLETE  0xFFU  /**< Status to emulate successful operation execution */
 
 /**
  * @brief Describes the structure (in memory) that the device writes when an operation is completed or error encountered.
@@ -58,7 +58,7 @@ HW_PATH_BYTE_PACKED_STRUCTURE_END
 /**
  * @warning Assert to ensure @ref hw_iaa_completion_record size is kept unchanged.
 */
-static_assert(sizeof(hw_iaa_completion_record) == 0x40u, "hw_iaa_completion_record size is not correct");
+static_assert(sizeof(hw_iaa_completion_record) == 0x40U, "hw_iaa_completion_record size is not correct");
 
 /**
  * @brief Set Completion record as fictional completed.
@@ -69,9 +69,9 @@ static_assert(sizeof(hw_iaa_completion_record) == 0x40u, "hw_iaa_completion_reco
 static inline void hw_iaa_completion_record_init_trivial_completion(hw_iaa_completion_record *const completion_record_ptr,
                                                                     const uint32_t bytes_processed) {
     completion_record_ptr->status          = TRIVIAL_COMPLETE;
-    completion_record_ptr->error_code      = 0u;
+    completion_record_ptr->error_code      = 0U;
     completion_record_ptr->bytes_completed = bytes_processed;
-    completion_record_ptr->output_size     = 0u;
+    completion_record_ptr->output_size     = 0U;
 }
 
 /**

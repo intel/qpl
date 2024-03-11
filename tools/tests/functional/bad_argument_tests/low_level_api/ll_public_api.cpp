@@ -14,8 +14,8 @@
 
 namespace qpl::test {
 
-constexpr uint32_t dictionary_test_size = 10u;
-constexpr uint32_t dictionary_id_test   = 1u;
+constexpr uint32_t dictionary_test_size = 10U;
+constexpr uint32_t dictionary_id_test   = 1U;
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_job_size, test) {
     qpl_status status;
@@ -141,7 +141,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_finalize, test) {
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
     qpl_status             status;
     uint8_t                source;
-    uint32_t               source_length = 1u;
+    uint32_t               source_length = 1U;
     qpl_histogram          deflate_histogram{};
     qpl_path_t             path          = qpl_path_software;
     qpl_compression_levels level         = qpl_default_level;

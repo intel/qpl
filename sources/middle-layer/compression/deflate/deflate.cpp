@@ -273,7 +273,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             }
 
             // Invert the AECS toggle for compress because src2 is written as AECS
-            state.meta_data_->aecs_index ^= 1u;
+            state.meta_data_->aecs_index ^= 1U;
             actual_aecs = state.meta_data_->aecs_index;
 
         } else if (!is_hw_header_gen_supported) {
@@ -410,7 +410,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
                 // Write initial index if indexing is enabled
                 hw_iaa_descriptor_compress_verification_write_initial_index(state.verify_descriptor_,
                                                                             state.aecs_verify_,
-                                                                            0u,
+                                                                            0U,
                                                                             initial_bit_offset);
                 result.indexes_written_ += 1;
             } else {
@@ -452,12 +452,12 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         result.indexes_written_ += verify_result.indexes_written_;
 
         // Invert AECS toggle for verify
-        state.meta_data_->verify_aecs_index ^= 1u;
+        state.meta_data_->verify_aecs_index ^= 1U;
     }
 
     if (result.status_code_ == status_list::ok) {
         // Invert AECS toggle for compression
-        state.meta_data_->aecs_index ^= 1u;
+        state.meta_data_->aecs_index ^= 1U;
 
         result.completed_bytes_ = source_size;
     }

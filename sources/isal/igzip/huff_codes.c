@@ -1578,7 +1578,7 @@ static void expand_hufftables_icf(struct hufftables_icf *hufftables)
 		for (k = 0; k < 4; k++) {
 			len = orig[i].length;
 			code = orig[i++].code;
-			for (j = 0; j < (1u << eb); j++) {
+			for (j = 0; j < (1U << eb); j++) {
 				p_code->code_and_extra = code | (j << len);
 				p_code->length = len + eb;
 				p_code++;

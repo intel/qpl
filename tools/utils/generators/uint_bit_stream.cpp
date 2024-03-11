@@ -18,7 +18,7 @@ namespace qpl::test {
 
 namespace details {
 
-constexpr uint32_t BYTE_BIT_LENGTH  = 8u;
+constexpr uint32_t BYTE_BIT_LENGTH  = 8U;
 constexpr uint32_t BIT_BUF_LEN      = (sizeof(uint64_t) * BYTE_BIT_LENGTH);
 constexpr uint32_t BIT_BUF_LEN_HALF = (BIT_BUF_LEN >> 1);
 
@@ -48,14 +48,14 @@ auto format_generator::push_back_uint_vector(std::vector<uint8_t> &vector,
     uint32_t vector_size      = static_cast<uint32_t>(vector.size());
 
     uint64_t mask           = (1ULL << bit_vector_element_width) - 1;
-    uint64_t buffer         = 0u;
-    uint32_t bits_in_buffer = 0u;
+    uint64_t buffer         = 0U;
+    uint32_t bits_in_buffer = 0U;
 
     // Prepare vector
-    vector.resize(vector_size + values_vector.size() * 4u);
+    vector.resize(vector_size + values_vector.size() * 4U);
 
     auto vector_it = vector.begin() + vector_size;
-    std::fill(vector_it, vector.end(), 0u);
+    std::fill(vector_it, vector.end(), 0U);
 
     for (auto source_it = values_vector.begin(); source_it < values_vector.end(); source_it++) {
         auto value_to_load = static_cast<uint64_t>(*source_it & mask);
@@ -155,10 +155,10 @@ auto format_generator::generate_uint_bit_sequence(uint32_t length,
                                                   uint32_t prologue_bytes) -> std::vector<uint8_t> {
     std::vector<uint8_t> vector(prologue_bytes);
 
-    uint64_t max_input_value = (1ULL << bit_width) - 1u;
+    uint64_t max_input_value = (1ULL << bit_width) - 1U;
     qpl::test::random num_generator(0, static_cast<double>(max_input_value), seed);
 
-    std::vector<uint32_t> values_vector(length, 0u);
+    std::vector<uint32_t> values_vector(length, 0U);
     std::generate(values_vector.begin(), values_vector.end(),
                   [&num_generator]() {
                       return static_cast<uint32_t>(num_generator);

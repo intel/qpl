@@ -170,7 +170,7 @@ int accfg_wq_get_op_config(accfg_wq *wq, struct accfg_op_config *op_cfg) {
 /* ------ Internal functions implementation ------ */
 
 bool own_load_configuration_functions(void *driver_instance_ptr) {
-    uint32_t i = 0u;
+    uint32_t i = 0U;
 
     DIAG("loading functions table:\n");
     while (functions_table[i].function_name) {

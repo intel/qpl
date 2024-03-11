@@ -59,7 +59,7 @@ extern "C" {
 #define OWN_ALIGNED_ARRAY(array_declaration, alignment) array_declaration __attribute__((aligned(alignment)))
 #endif
 
-#define OWN_ALIGNED_64_ARRAY(array_declaration) OWN_ALIGNED_ARRAY(array_declaration, 64u)
+#define OWN_ALIGNED_64_ARRAY(array_declaration) OWN_ALIGNED_ARRAY(array_declaration, 64U)
 
 #define QPL_MAX(a, b) (((a) > (b)) ? (a) : (b))    /**< Simple minimal value idiom */
 #define QPL_MIN(a, b) (((a) < (b)) ? (a) : (b))    /**< Simple maximal value idiom */
@@ -71,30 +71,30 @@ extern "C" {
 #define QPL_ONE_64U       (1ULL)
 #define OWN_MAX_16U       0xFFFF                      /**< Max value for uint16_t */
 #define OWN_MAX_32U       0xFFFFFFFF                  /**< Max value for uint32_t */
-#define OWN_1_BIT_MASK    1u                          /**< Mask for 1-bit integer */
-#define OWN_2_BIT_MASK    3u                          /**< Mask for 2-bit integer */
-#define OWN_3_BIT_MASK    7u                          /**< Mask for 3-bit integer */
-#define OWN_4_BIT_MASK    0xfu                        /**< Mask for 4-bit integer */
-#define OWN_5_BIT_MASK    0x1fu                       /**< Mask for 5-bit integer */
-#define OWN_6_BIT_MASK    0x3fu                       /**< Mask for 6-bit integer */
-#define OWN_7_BIT_MASK    0x7fu                       /**< Mask for 7-bit integer */
-#define OWN_HIGH_BIT_MASK 0x80u                       /**< Mask for most significant bit in a byte */
-#define OWN_LOW_BIT_MASK  1u                          /**< Mask for least significant bit in a byte */
-#define OWN_BYTE_WIDTH    8u                          /**< Byte width in bits */
-#define OWN_WORD_WIDTH    16u                         /**< Word width in bits */
-#define OWN_3_BYTE_WIDTH  24u                         /**< 3-byte width in bits */
-#define OWN_DWORD_WIDTH   32u                         /**< Dword width in bits */
-#define OWN_6_BYTE_WIDTH  48u                         /**< 6-byte width in bits */
-#define OWN_7_BYTE_WIDTH  56u                         /**< 7-byte width in bits */
-#define OWN_QWORD_WIDTH   64u                         /**< Qword width in bits */
-#define OWN_BIT_MASK(x) ((QPL_ONE_64U << (x)) - 1u)   /**< Bit mask below bit position */
-#define OWN_PARQUET_WIDTH 8u                          /**< Parquet size in elements (PRLE format) */
-#define OWN_LITERAL_OCTA_GROUP 1u                     /**< PRLE format description */
-#define OWN_VARINT_BYTE_1(x) (((x) & OWN_7_BIT_MASK) << 6u)   /**< 1st byte extraction for varint format */
-#define OWN_VARINT_BYTE_2(x) (((x) & OWN_7_BIT_MASK) << 13u)  /**< 2nd byte extraction for varint format */
-#define OWN_VARINT_BYTE_3(x) (((x) & OWN_7_BIT_MASK) << 20u)  /**< 3rd byte extraction for varint format */
-#define OWN_VARINT_BYTE_4(x) (((x) & OWN_5_BIT_MASK) << 27u)  /**< 4th byte extraction for varint format */
-#define OWN_PRLE_COUNT(x) (((x) & OWN_7_BIT_MASK) >> 1u)      /**< PRLE count field extraction */
+#define OWN_1_BIT_MASK    1U                          /**< Mask for 1-bit integer */
+#define OWN_2_BIT_MASK    3U                          /**< Mask for 2-bit integer */
+#define OWN_3_BIT_MASK    7U                          /**< Mask for 3-bit integer */
+#define OWN_4_BIT_MASK    0xFU                        /**< Mask for 4-bit integer */
+#define OWN_5_BIT_MASK    0x1FU                       /**< Mask for 5-bit integer */
+#define OWN_6_BIT_MASK    0x3FU                       /**< Mask for 6-bit integer */
+#define OWN_7_BIT_MASK    0x7FU                       /**< Mask for 7-bit integer */
+#define OWN_HIGH_BIT_MASK 0x80U                       /**< Mask for most significant bit in a byte */
+#define OWN_LOW_BIT_MASK  1U                          /**< Mask for least significant bit in a byte */
+#define OWN_BYTE_WIDTH    8U                          /**< Byte width in bits */
+#define OWN_WORD_WIDTH    16U                         /**< Word width in bits */
+#define OWN_3_BYTE_WIDTH  24U                         /**< 3-byte width in bits */
+#define OWN_DWORD_WIDTH   32U                         /**< Dword width in bits */
+#define OWN_6_BYTE_WIDTH  48U                         /**< 6-byte width in bits */
+#define OWN_7_BYTE_WIDTH  56U                         /**< 7-byte width in bits */
+#define OWN_QWORD_WIDTH   64U                         /**< Qword width in bits */
+#define OWN_BIT_MASK(x) ((QPL_ONE_64U << (x)) - 1U)   /**< Bit mask below bit position */
+#define OWN_PARQUET_WIDTH 8U                          /**< Parquet size in elements (PRLE format) */
+#define OWN_LITERAL_OCTA_GROUP 1U                     /**< PRLE format description */
+#define OWN_VARINT_BYTE_1(x) (((x) & OWN_7_BIT_MASK) << 6U)   /**< 1st byte extraction for varint format */
+#define OWN_VARINT_BYTE_2(x) (((x) & OWN_7_BIT_MASK) << 13U)  /**< 2nd byte extraction for varint format */
+#define OWN_VARINT_BYTE_3(x) (((x) & OWN_7_BIT_MASK) << 20U)  /**< 3rd byte extraction for varint format */
+#define OWN_VARINT_BYTE_4(x) (((x) & OWN_5_BIT_MASK) << 27U)  /**< 4th byte extraction for varint format */
+#define OWN_PRLE_COUNT(x) (((x) & OWN_7_BIT_MASK) >> 1U)      /**< PRLE count field extraction */
 #define OWN_MAX(a, b) (((a) > (b)) ? (a) : (b))               /**< Maximum from 2 values */
 #define OWN_MIN(a, b) (((a) < (b)) ? (a) : (b))               /**< Minimum from 2 values */
 #ifndef UNREFERENCED_PARAMETER
@@ -106,18 +106,18 @@ extern "C" {
 #endif
 
 /**
- * Convert a number of bits to index in {8u, 16u, 32u}
+ * Convert a number of bits to index in {8U, 16U, 32U}
  */
 #define OWN_BITS_2_DATA_TYPE_INDEX(x) \
-                            (QPL_MIN((((x) - 1u) >> 3u), 2u))
-#define OWN_BITS_2_WORD(x) (((x) + 15u) >> 4u)           /**< Convert a number of bits to a number of words */
-#define OWN_BITS_2_DWORD(x) (((x) + 31u) >> 5u)          /**< Convert a number of bits to a number of double words */
+                            (QPL_MIN((((x) - 1U) >> 3U), 2U))
+#define OWN_BITS_2_WORD(x) (((x) + 15U) >> 4U)           /**< Convert a number of bits to a number of words */
+#define OWN_BITS_2_DWORD(x) (((x) + 31U) >> 5U)          /**< Convert a number of bits to a number of double words */
 
 /**
  * Checks if input bit width corresponds to standard data type
  */
-#define OWN_STANDARD_TYPE(x, y) (((x) == 8u) || ((((x) == 16u)\
-                                    || ((x) == 32u)) && (y)))
+#define OWN_STANDARD_TYPE(x, y) (((x) == 8U) || ((((x) == 16U)\
+                                    || ((x) == 32U)) && (y)))
 #define OWN_CONDITION_BREAK(x) if ((x)) {break;}              /**< Break loop if condition is met */
 
 /**
@@ -200,7 +200,7 @@ OWN_QPLC_INLINE(uint64_t, OWN_QPLC_UINT_PTR, (const void *ptr)) {
     return dd.cardinal;
 }
 
-#define OWN_QPLC_PACK_BE_INDEX_SHIFT 35u
+#define OWN_QPLC_PACK_BE_INDEX_SHIFT 35U
 
 /**
  * @brief Helper for calculating input bit width from pack index.
@@ -211,9 +211,9 @@ OWN_QPLC_INLINE(uint64_t, OWN_QPLC_UINT_PTR, (const void *ptr)) {
  *      - bit_width;
  */
 OWN_QPLC_INLINE(uint32_t, own_get_bit_width_from_index, (uint32_t pack_index)) {
-    uint32_t bit_width = pack_index + 1u;
-    bit_width = (33u == bit_width) ? OWN_WORD_WIDTH : bit_width;
-    bit_width = (33u < bit_width) ? OWN_DWORD_WIDTH : bit_width;
+    uint32_t bit_width = pack_index + 1U;
+    bit_width = (33U == bit_width) ? OWN_WORD_WIDTH : bit_width;
+    bit_width = (33U < bit_width) ? OWN_DWORD_WIDTH : bit_width;
     return bit_width;
 }
 

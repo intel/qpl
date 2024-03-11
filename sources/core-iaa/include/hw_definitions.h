@@ -62,7 +62,7 @@ extern "C" {
 #define HW_PATH_GENERAL_API(type, name, arg) type HW_STDCALL hw_##name arg
 #endif
 
-#define HW_PATH_STRUCTURES_REQUIRED_ALIGN 64u  /**< @todo */
+#define HW_PATH_STRUCTURES_REQUIRED_ALIGN 64U  /**< @todo */
 
 /* ################# HARDWARE PATH MACROS ################# */
 
@@ -109,7 +109,7 @@ extern "C" {
 
 /* ################# DESCRIPTOR  ################# */
 
-#define HW_PATH_DESCRIPTOR_SIZE  (64u)  /**< Hardware descriptor byte size */
+#define HW_PATH_DESCRIPTOR_SIZE  (64U)  /**< Hardware descriptor byte size */
 
 /**
  * @brief Defines a common type of the hardware descriptor
@@ -122,7 +122,7 @@ HW_PATH_BYTE_PACKED_STRUCTURE_END
 
 /* ################# COMPLETION RECORD  ################# */
 
-#define HW_PATH_COMPLETION_RECORD_SIZE  (64u) /**< Hardware completion record byte size */
+#define HW_PATH_COMPLETION_RECORD_SIZE  (64U) /**< Hardware completion record byte size */
 
 /**
  * @brief Defines an abstract type of the Hardware completion record
@@ -130,7 +130,7 @@ HW_PATH_BYTE_PACKED_STRUCTURE_END
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint8_t status;                                         /**< Completion status field */
     uint8_t error;                                          /**< Completion error field */
-    uint8_t bytes[HW_PATH_COMPLETION_RECORD_SIZE - 2u];     /**< Allocated memory for others fields */
+    uint8_t bytes[HW_PATH_COMPLETION_RECORD_SIZE - 2U];     /**< Allocated memory for others fields */
 } hw_completion_record;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 

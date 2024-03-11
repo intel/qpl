@@ -372,7 +372,7 @@ namespace qpl::test
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1llu << current_test_case.destination_bit_width) - 1U);
+        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }
@@ -399,7 +399,7 @@ namespace qpl::test
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1llu << current_test_case.destination_bit_width) - 1U);
+        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }

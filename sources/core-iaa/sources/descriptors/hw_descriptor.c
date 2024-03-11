@@ -15,8 +15,8 @@ HW_PATH_IAA_API(void, descriptor_reset, (hw_descriptor *const descriptor_ptr)) {
 
 HW_PATH_IAA_API(void, descriptor_set_completion_record, (hw_descriptor *const descriptor_ptr,
                                                          HW_PATH_VOLATILE hw_completion_record *const completion_record)) {
-    const uint32_t FLAG_REQ_COMP   = 0x08u;
-    const uint32_t FLAG_COMP_VALID = 0x04u;
+    const uint32_t FLAG_REQ_COMP   = 0x08U;
+    const uint32_t FLAG_COMP_VALID = 0x04U;
 
     own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor *) descriptor_ptr;
 

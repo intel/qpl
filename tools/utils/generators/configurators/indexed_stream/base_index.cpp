@@ -11,11 +11,11 @@ GenStatus gz_generator::ConfiguratorDecompressIndex::generate()
     // Variables
     Gen32u miniBlockCount           = m_pIndexTable->getMiniBlockCount();
     Gen32u miniBlocksPerBlock       = m_pIndexTable->getMiniBlocksPerBlock();
-    Gen32u blockCount               = (miniBlockCount + miniBlocksPerBlock - 1u) / miniBlocksPerBlock;
+    Gen32u blockCount               = (miniBlockCount + miniBlocksPerBlock - 1U) / miniBlocksPerBlock;
     Gen32u remainingMiniBlockCount  = miniBlockCount % miniBlocksPerBlock;
 
     // Generate deflate blocks
-    for(Gen32u block = 0u; block < blockCount; block++)
+    for(Gen32u block = 0U; block < blockCount; block++)
     {
         Gen32u currentMiniBlockCount = 0;
 
@@ -43,7 +43,7 @@ GenStatus gz_generator::ConfiguratorDecompressIndex::generate()
 void gz_generator::ConfiguratorDecompressIndex::generateMiniBlock(Gen32u mini_block_size)
 {
     // Variables
-    Gen32u currentLength = 0u;  // Current symbols has been encoded in the stream
+    Gen32u currentLength = 0U;  // Current symbols has been encoded in the stream
 
     // Generate mini-block of significant size
     while (currentLength < mini_block_size)
@@ -59,13 +59,13 @@ void gz_generator::ConfiguratorDecompressIndex::generateMiniBlock(Gen32u mini_bl
         else
         {
             // Variables
-            Gen32u offset    = 0u;                            // Offset for current reference token
-            Gen32u match     = 0u;                            // Match for current reference token
+            Gen32u offset    = 0U;                            // Offset for current reference token
+            Gen32u match     = 0U;                            // Match for current reference token
             Gen32u maxOffset = currentLength;                 // Offset high limit
             Gen32u maxMatch  = mini_block_size - currentLength; // Match high limit
 
             // Calculate the current match  (Use big matches in the middle of mini-block)
-            if ((32u >= maxMatch) && (0.1f > static_cast<float>(m_random)))
+            if ((32U >= maxMatch) && (0.1F > static_cast<float>(m_random)))
             {
                 // Calculate current match low limit
                 Gen32u minMatch = GEN_MAX(MIN_MATCH, maxMatch - MIN_MATCH);
@@ -78,7 +78,7 @@ void gz_generator::ConfiguratorDecompressIndex::generateMiniBlock(Gen32u mini_bl
             {
                 // Calculate current match high limit
                 maxMatch = GEN_MIN(MAX_MATCH, maxMatch);
-                maxMatch = (0.75f > static_cast<float>(m_randomMatch)) ? GEN_MIN(32u, maxMatch): maxMatch;
+                maxMatch = (0.75F > static_cast<float>(m_randomMatch)) ? GEN_MIN(32U, maxMatch): maxMatch;
                 
                 // Set match range and get current one
                 m_randomMatch.set_range(MIN_MATCH, maxMatch);
@@ -86,7 +86,7 @@ void gz_generator::ConfiguratorDecompressIndex::generateMiniBlock(Gen32u mini_bl
             }
 
             // Calculate the current offset
-            if ((maxOffset <= MAX_OFFSET) && (0.10f > static_cast<float>(m_randomMatch)))
+            if ((maxOffset <= MAX_OFFSET) && (0.10F > static_cast<float>(m_randomMatch)))
             {
                 // Calculate current offset low limit
                 Gen32u minOffset = GEN_MAX(OWN_GEN_MIN_OFFSET, maxOffset - MIN_MATCH);

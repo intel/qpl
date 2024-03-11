@@ -35,7 +35,7 @@ static inline void own_deflate_job_update_missed_literals(own_deflate_job *const
         // Variables
         const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr,
                                               QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
-                                              0u) & job_ptr->histogram_ptr->table.hash_mask;
+                                              0U) & job_ptr->histogram_ptr->table.hash_mask;
 
         // Updating hash table
         own_deflate_hash_table_update(&job_ptr->histogram_ptr->table,
@@ -43,7 +43,7 @@ static inline void own_deflate_job_update_missed_literals(own_deflate_job *const
                                       hash_value);
 
         // End of iteration
-        own_deflate_job_switch_to_next(job_ptr, 1u);
+        own_deflate_job_switch_to_next(job_ptr, 1U);
     }
 }
 
@@ -81,7 +81,7 @@ void own_deflate_job_perform(own_deflate_job *const job_ptr,
         if (longest_match.length >= QPLC_DEFLATE_MINIMAL_MATCH_LENGTH) {
             matches_handler(job_ptr, longest_match, literals_handler);
         } else {
-            literals_handler(job_ptr, job_ptr->current_ptr + 1u, false);
+            literals_handler(job_ptr, job_ptr->current_ptr + 1U, false);
         }
     }
 
@@ -104,7 +104,7 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
             const uint32_t bytes_for_hash = QPL_MIN(QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
                                                     (uint32_t) (upper_bound_ptr - job_ptr->current_ptr));
 
-            const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr, bytes_for_hash, 0u) &
+            const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr, bytes_for_hash, 0U) &
                                         job_ptr->histogram_ptr->table.hash_mask;
 
             // Updating histogram
@@ -116,14 +116,14 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
                                           hash_value);
 
             // End of iteration
-            own_deflate_job_switch_to_next(job_ptr, 1u);
+            own_deflate_job_switch_to_next(job_ptr, 1U);
         }
     } else {
         while (job_ptr->current_ptr < upper_bound_ptr) {
             // Variables
             const uint32_t hash_value = OWN_CRC32(job_ptr->current_ptr,
                                                   QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION,
-                                                  0u) & job_ptr->histogram_ptr->table.hash_mask;
+                                                  0U) & job_ptr->histogram_ptr->table.hash_mask;
 
             // Updating histogram
             job_ptr->histogram_ptr->literals_matches[*job_ptr->current_ptr]++;
@@ -134,7 +134,7 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
                                           hash_value);
 
             // End of iteration
-            own_deflate_job_switch_to_next(job_ptr, 1u);
+            own_deflate_job_switch_to_next(job_ptr, 1U);
         }
     }
 }

@@ -71,7 +71,7 @@ public:
         std::generate(source.begin(), source.end(), [&value](){return static_cast<uint8_t>(value);});
 
         destination.resize(source.size());
-        m_compressed_data.resize(source.size() * 2u);
+        m_compressed_data.resize(source.size() * 2U);
     }
 
     void InitializeTestCases() override {
@@ -156,7 +156,7 @@ protected:
 private:
     std::vector<uint8_t> m_compressed_data{};
     uint32_t             m_last_bit_offset{};
-    std::array<qpl_huffman_triplet, 256u> m_triplets{};
+    std::array<qpl_huffman_triplet, 256U> m_triplets{};
 };
 
 template <compression_algorithm_e algorithm>

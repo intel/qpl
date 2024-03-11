@@ -9,7 +9,7 @@
 #include "own_hw_definitions.h"
 #include "own_analytic_descriptor.h"
 
-#define OWN_MAX_BIT_IDX 7u /**< @todo */
+#define OWN_MAX_BIT_IDX 7U /**< @todo */
 
 HW_PATH_IAA_API(void, descriptor_analytic_enable_decompress, (hw_descriptor *const descriptor_ptr,
                                                               bool is_big_endian_compressed_stream,
@@ -19,5 +19,5 @@ HW_PATH_IAA_API(void, descriptor_analytic_enable_decompress, (hw_descriptor *con
     this_ptr->decompression_flags |= ADDF_ENABLE_DECOMP
                                      | ADDF_FLUSH_OUTPUT
                                      | ADDF_IGNORE_END_BITS(ignore_last_bits & OWN_MAX_BIT_IDX)
-                                     | (is_big_endian_compressed_stream ? ADDF_DECOMP_BE : 0u);
+                                     | (is_big_endian_compressed_stream ? ADDF_DECOMP_BE : 0U);
 }

@@ -64,11 +64,11 @@ qpl_status ref_zero_decompress_32u(qpl_job *const qpl_job_ptr) {
             }
         }
 
-        last_destination_index = elem_ind - 1u;
+        last_destination_index = elem_ind - 1U;
     }
 
-    uint32_t total_bytes_read    = (last_source_index + 1u) * sizeof(*src);
-    uint32_t total_bytes_written = (last_destination_index + 1u) * sizeof(*src);
+    uint32_t total_bytes_read    = (last_source_index + 1U) * sizeof(*src);
+    uint32_t total_bytes_written = (last_destination_index + 1U) * sizeof(*src);
 
     qpl_job_ptr->available_in -= total_bytes_read;
     qpl_job_ptr->next_in_ptr  += total_bytes_read;

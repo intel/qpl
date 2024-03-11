@@ -9,52 +9,52 @@
 GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
 {
     Gen32u* pDistanceLengthCodesTable       = nullptr;
-    Gen32u  realCodesCount                  = 0u;
-    Gen32u  repeatingCodesCount             = 0u;
-    Gen32u  valueToRepeat                   = 0u;
+    Gen32u  realCodesCount                  = 0U;
+    Gen32u  repeatingCodesCount             = 0U;
+    Gen32u  valueToRepeat                   = 0U;
     Gen32u  distanceLengthCodesTableSize    = DEFAULT_D_TABLE_LENGTH;
     Gen32u  testParameter;
 
-    qpl::test::random random(0u, 0u, m_seed);
+    qpl::test::random random(0U, 0U, m_seed);
 
     pDistanceLengthCodesTable = new Gen32u[distanceLengthCodesTableSize];
-    TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, distanceLengthCodesTableSize, 14u);
+    TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, distanceLengthCodesTableSize, 14U);
 
-    random.set_range(1u, 25u);
+    random.set_range(1U, 25U);
     realCodesCount = static_cast<Gen32u>(random);
-    random.set_range(3u, 30u - realCodesCount);
+    random.set_range(3U, 30U - realCodesCount);
     repeatingCodesCount = static_cast<Gen32u>(random);
 
-    if (3u != repeatingCodesCount)
+    if (3U != repeatingCodesCount)
     {
-        valueToRepeat = 15u * static_cast<Gen32u>(m_random);
+        valueToRepeat = 15U * static_cast<Gen32u>(m_random);
     }
 
-    for (Gen32u repeatedCode = 0u ; repeatedCode < repeatingCodesCount; repeatedCode++)
+    for (Gen32u repeatedCode = 0U ; repeatedCode < repeatingCodesCount; repeatedCode++)
     {
         Gen32u distanceTableIndex = (realCodesCount - 1) + repeatedCode;
         pDistanceLengthCodesTable[distanceTableIndex] = valueToRepeat;
     }
 
-    distanceLengthCodesTableSize = realCodesCount + repeatingCodesCount - 1u;
+    distanceLengthCodesTableSize = realCodesCount + repeatingCodesCount - 1U;
 
-    if (0u == valueToRepeat)
+    if (0U == valueToRepeat)
     {
-        random.set_range(1u, repeatingCodesCount - 1u);
+        random.set_range(1U, repeatingCodesCount - 1U);
         testParameter = static_cast<Gen32u>(random);
     }
     else
     {
         do
         {
-            random.set_range(1u, repeatingCodesCount - 2u);
+            random.set_range(1U, repeatingCodesCount - 2U);
             testParameter = static_cast<Gen32u>(random);
         } while(ManyDistanceCodesConfigurator::breakInRun(repeatingCodesCount, repeatingCodesCount - testParameter));
     }
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(D_ENCODED_VECTOR, pDistanceLengthCodesTable, distanceLengthCodesTableSize);
     TestConfigurator::declareVectorToken(D_VECTOR, pDistanceLengthCodesTable, distanceLengthCodesTableSize);
-    TestConfigurator::declareTestToken(2u, testParameter);
+    TestConfigurator::declareTestToken(2U, testParameter);
 
     TestConfigurator::writeRandomBlock();
     TestConfigurator::declareFinishBlock();

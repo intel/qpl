@@ -154,7 +154,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
                     break;
                 }
                 default: {
-                    scan_result.output_bytes_ = 0u;
+                    scan_result.output_bytes_ = 0U;
                     scan_result.status_code_  = QPL_STS_OPERATION_ERR;
                     break;
                 }
@@ -267,7 +267,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
                     break;
                 }
                 default: {
-                    scan_result.output_bytes_ = 0u;
+                    scan_result.output_bytes_ = 0U;
                     scan_result.status_code_  = QPL_STS_OPERATION_ERR;
                     break;
                 }

@@ -24,10 +24,10 @@
 
 namespace qpl::test {
 
-constexpr uint32_t small_input_data_size    = 256u;
-constexpr uint32_t large_input_data_size    = 150000u;
-constexpr uint32_t stored_block_header_size = 5u;
-constexpr uint32_t max_stored_block_size    = 0xFFFFu;
+constexpr uint32_t small_input_data_size    = 256U;
+constexpr uint32_t large_input_data_size    = 150000U;
+constexpr uint32_t stored_block_header_size = 5U;
+constexpr uint32_t max_stored_block_size    = 0xFFFFU;
 
 class StoredBlockTest : public JobFixture {
 public:
@@ -46,7 +46,7 @@ public:
         std::vector<uint8_t> destination(expected_size);
 
         source_provider source_gen(input_size,
-                                   8u,
+                                   8U,
                                    GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
@@ -96,7 +96,7 @@ public:
         std::vector<uint8_t> destination(expected_size);
 
         source_provider source_gen(input_size,
-                                   8u,
+                                   8U,
                                    GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
@@ -145,7 +145,7 @@ public:
         std::vector<uint8_t> source;
         std::vector<uint8_t> destination(expected_size);
 
-        source_provider source_gen(input_size, 8u, GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
         // Create and initialize compression table
@@ -207,7 +207,7 @@ public:
         std::vector<uint8_t> source;
         std::vector<uint8_t> destination(expected_size);
 
-        source_provider source_gen(input_size, 8u, GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
         // Create and initialize compression table
@@ -239,9 +239,9 @@ public:
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
 
         std::vector<uint8_t> source;
-        std::vector<uint8_t> destination(expected_size - 1u - (number_of_stored_blocks - 1) * max_stored_block_size);
+        std::vector<uint8_t> destination(expected_size - 1U - (number_of_stored_blocks - 1) * max_stored_block_size);
 
-        source_provider source_gen(input_size, 8u, GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 
         // Create and initialize compression table
@@ -274,10 +274,10 @@ public:
         constexpr uint32_t expected_size           = input_size + stored_block_header_size * number_of_stored_blocks;
 
         std::vector<uint8_t> source;
-        std::vector<uint8_t> destination(expected_size - 1u - (number_of_stored_blocks - 1) * max_stored_block_size);
+        std::vector<uint8_t> destination(expected_size - 1U - (number_of_stored_blocks - 1) * max_stored_block_size);
 
         source_provider source_gen(input_size,
-                                   8u,
+                                   8U,
                                    GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source());
 

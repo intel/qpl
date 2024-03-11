@@ -116,7 +116,7 @@ auto call_expand<execution_path_t::software>(input_stream_t &input_stream,
                                              int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     // Get required aggregates kernel
     auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
-    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1u);
+    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1U);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                 &aggregates_empty_callback :
                                 aggregates_table[aggregates_index];
@@ -177,9 +177,9 @@ auto call_expand<execution_path_t::software>(input_stream_t &input_stream,
     operation_result.checksums_.xor_   = input_stream.xor_checksum();
     operation_result.output_bytes_     = output_stream.bytes_written();
 
-    operation_result.last_bit_offset_ = (1u == output_stream.bit_width())
+    operation_result.last_bit_offset_ = (1U == output_stream.bit_width())
                                         ? input_stream.elements_left() & max_bit_index
-                                        : 0u;
+                                        : 0U;
 
     return operation_result;
 }

@@ -29,7 +29,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
     int32_t numa_id = (device_numa_id == -1) ? qpl::ml::util::get_numa_id()
                                              : device_numa_id;
 
-    for (uint64_t try_count = 0u; try_count < device_count; ++try_count) {
+    for (uint64_t try_count = 0U; try_count < device_count; ++try_count) {
         const auto &device = dispatcher.device(device_idx);
         device_idx = (device_idx+1) % device_count;
 

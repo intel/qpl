@@ -9,22 +9,22 @@
 void gz_generator::InflateMiniBlockBufferOverflowConfigurator::generateMiniBlockSequence(Gen32u miniBlockCount)
 {
     // Variables
-    Gen32u offset              = 0u;
-    Gen32u match               = 0u;
-    Gen32u startSequenceLength = 0u;
-    Gen32u minimalLastMatch    = 0u;
+    Gen32u offset              = 0U;
+    Gen32u match               = 0U;
+    Gen32u startSequenceLength = 0U;
+    Gen32u minimalLastMatch    = 0U;
 
-    qpl::test::random randomMatch(0u, 0u, m_seed);
+    qpl::test::random randomMatch(0U, 0U, m_seed);
 
     // Generate mini-blocks, which are spanned via match
-    for (Gen32u mini_block = 0; mini_block < miniBlockCount - 1u; mini_block++)
+    for (Gen32u mini_block = 0; mini_block < miniBlockCount - 1U; mini_block++)
     {
         // Define min length of last match
-        randomMatch.set_range(MIN_MATCH, MAX_MATCH - 1u);
+        randomMatch.set_range(MIN_MATCH, MAX_MATCH - 1U);
         minimalLastMatch    = static_cast<Gen32u>(randomMatch);
 
         // Define sequence length before last match
-        startSequenceLength = m_miniBlockSize - (minimalLastMatch - 1u);
+        startSequenceLength = m_miniBlockSize - (minimalLastMatch - 1U);
 
         // Define last match
         randomMatch.set_range(minimalLastMatch, MAX_MATCH);

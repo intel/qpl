@@ -22,8 +22,8 @@ extern "C" {
 #endif
 #endif
 
-#define IMMEDIATELY_COMPLETE     0xFFFFu                      /**< @todo */
-#define MAX_BUF_SIZE             (1024u * 1024 * 1024u)       /**< @todo */
+#define IMMEDIATELY_COMPLETE     0xFFFFU                      /**< @todo */
+#define MAX_BUF_SIZE             (1024U * 1024 * 1024U)       /**< @todo */
 
 /* ------ Operations ------ */
 /**
@@ -34,25 +34,25 @@ extern "C" {
  */
 
 // the following aids opcode parsing
-#define QPL_OPCODE_Z_MASK       0xF8u    /**< @todo  either DECOMP or COMP */
-#define QPL_OPCODE_Z            0x48u    /**< @todo */
-#define QPL_OPCODE_Z_MASK2      0xFCu    /**< @todo One or the other */
+#define QPL_OPCODE_Z_MASK       0xF8U    /**< @todo  either DECOMP or COMP */
+#define QPL_OPCODE_Z            0x48U    /**< @todo */
+#define QPL_OPCODE_Z_MASK2      0xFCU    /**< @todo One or the other */
 
 // Read Src2 values
-#define AD_RDSRC2_UNUSED        0u  /**< @todo */
-#define AD_RDSRC2_AECS          1u  /**< @todo */
-#define AD_RDSRC2_FF_INPUT      2u  /**< @todo */
+#define AD_RDSRC2_UNUSED        0U  /**< @todo */
+#define AD_RDSRC2_AECS          1U  /**< @todo */
+#define AD_RDSRC2_FF_INPUT      2U  /**< @todo */
 
 // Write Src2 values
-#define AD_WRSRC2_NEVER         0u  /**< @todo */
-#define AD_WRSRC2_ALWAYS        1u  /**< @todo */
-#define AD_WRSRC2_MAYBE         2u  /**< @todo */
+#define AD_WRSRC2_NEVER         0U  /**< @todo */
+#define AD_WRSRC2_ALWAYS        1U  /**< @todo */
+#define AD_WRSRC2_MAYBE         2U  /**< @todo */
 
 // End Process values
-#define AD_APPEND_NOTHING       0u  /**< @todo */
-#define AD_APPEND_EOB           1u  /**< @todo */
-#define AD_APPEND_EOB_SB        2u  /**< Append EOB and non-b_final Store Block */
-#define AD_APPEND_EOB_FINAL_SB  3u  /**< Append EOB and b_final Store Block */
+#define AD_APPEND_NOTHING       0U  /**< @todo */
+#define AD_APPEND_EOB           1U  /**< @todo */
+#define AD_APPEND_EOB_SB        2U  /**< Append EOB and non-b_final Store Block */
+#define AD_APPEND_EOB_FINAL_SB  3U  /**< Append EOB and b_final Store Block */
 /** @} */
 
 /* ------ Setters ------ */
@@ -63,45 +63,45 @@ extern "C" {
  * @{
  */
 // opcode_opflags fields
-#define ADOF_READ_SRC2(x)       (((x) & 3u) << 16u)     /**< @todo */
-#define ADOF_WRITE_SRC2(x)      (((x) & 3u) << 18u)     /**< @todo */
-#define ADOF_CRC32C             (1u << 21u)             /**< @todo */
-#define ADOF_AECS_SEL           (1u << 22u)             /**< @todo */
-#define ADOF_OPCODE(x)          (((x) & 0xFFu) << 24u)  /**< @todo */
-#define ADOF_GET_OPCODE(x)      (((x) >> 24u) & 0xFFu)  /**< @todo */
+#define ADOF_READ_SRC2(x)       (((x) & 3U) << 16U)     /**< @todo */
+#define ADOF_WRITE_SRC2(x)      (((x) & 3U) << 18U)     /**< @todo */
+#define ADOF_CRC32C             (1U << 21U)             /**< @todo */
+#define ADOF_AECS_SEL           (1U << 22U)             /**< @todo */
+#define ADOF_OPCODE(x)          (((x) & 0xFFU) << 24U)  /**< @todo */
+#define ADOF_GET_OPCODE(x)      (((x) >> 24U) & 0xFFU)  /**< @todo */
 
 // decompression flags
-#define ADDF_ENABLE_DECOMP       (1u << 0u)              /**< @todo */
-#define ADDF_FLUSH_OUTPUT        (1u << 1u)              /**< @todo */
-#define ADDF_STOP_ON_EOB         (1u << 2u)              /**< @todo */
-#define ADDF_CHECK_FOR_EOB       (1u << 3u)              /**< @todo */
-#define ADDF_SEL_BFINAL_EOB      (1u << 4u)              /**< @todo */
-#define ADDF_DECOMP_BE           (1u << 5u)              /**< @todo */
-#define ADDF_IGNORE_END_BITS(x)  (((x) & 7u) << 6u)      /**< This 3-bit flag represents the number of bits
+#define ADDF_ENABLE_DECOMP       (1U << 0U)              /**< @todo */
+#define ADDF_FLUSH_OUTPUT        (1U << 1U)              /**< @todo */
+#define ADDF_STOP_ON_EOB         (1U << 2U)              /**< @todo */
+#define ADDF_CHECK_FOR_EOB       (1U << 3U)              /**< @todo */
+#define ADDF_SEL_BFINAL_EOB      (1U << 4U)              /**< @todo */
+#define ADDF_DECOMP_BE           (1U << 5U)              /**< @todo */
+#define ADDF_IGNORE_END_BITS(x)  (((x) & 7U) << 6U)      /**< This 3-bit flag represents the number of bits
                                                               to ignore at the end of the compressed input stream.
                                                               Sometimes, a 4th bit may be supported (see below) */
-#define ADDF_IGNORE_END_BITS_EXT (1u << 14u)             /**< The 4th high-order bit for Ignore End Bits */
-#define ADDF_SUPPRESS_OUTPUT     (1u << 9u)              /**< @todo */
-#define ADDF_ENABLE_IDXING(x)    (((x) & 7u) << 10u)     /**< @todo */
+#define ADDF_IGNORE_END_BITS_EXT (1U << 14U)             /**< The 4th high-order bit for Ignore End Bits */
+#define ADDF_SUPPRESS_OUTPUT     (1U << 9U)              /**< @todo */
+#define ADDF_ENABLE_IDXING(x)    (((x) & 7U) << 10U)     /**< @todo */
 
 // compression flags
-#define ADCF_STATS_MODE         (1u << 0u)                    /**< @todo */
-#define ADCF_FLUSH_OUTPUT       (1u << 1u)                    /**< @todo */
-#define ADCF_END_PROC(x)        (((x) & 3u) << 2u)            /**< @todo */
-#define ADCF_GEN_LITS           (1u << 4u)                    /**< @todo */
-#define ADCF_COMP_BE            (1u << 5u)                    /**< @todo */
-#define ADCF_ENABLE_IDXING(x)   (((uint32_t)(x) & 7u) << 6u)  /**< @todo */
-#define ADCF_ENABLE_HDR_GEN(x)  (((uint32_t)(x) & 7u) << 12u) /**< Enable Header Generation */
-#define ADCF_WRITE_AECS_HT      (1u << 1u)                    /**< Write AECS Huffman Tables */
-#define ADCF_LOAD_DICT(x)       (((uint32_t)(x) & 3u) << 10u) /**< Load dictionary */
+#define ADCF_STATS_MODE         (1U << 0U)                    /**< @todo */
+#define ADCF_FLUSH_OUTPUT       (1U << 1U)                    /**< @todo */
+#define ADCF_END_PROC(x)        (((x) & 3U) << 2U)            /**< @todo */
+#define ADCF_GEN_LITS           (1U << 4U)                    /**< @todo */
+#define ADCF_COMP_BE            (1U << 5U)                    /**< @todo */
+#define ADCF_ENABLE_IDXING(x)   (((uint32_t)(x) & 7U) << 6U)  /**< @todo */
+#define ADCF_ENABLE_HDR_GEN(x)  (((uint32_t)(x) & 7U) << 12U) /**< Enable Header Generation */
+#define ADCF_WRITE_AECS_HT      (1U << 1U)                    /**< Write AECS Huffman Tables */
+#define ADCF_LOAD_DICT(x)       (((uint32_t)(x) & 3U) << 10U) /**< Load dictionary */
 
 // crc64 flags
-#define ADC64F_INVCRC           (1u << 14u)             /**< @todo */
-#define ADC64F_BE               (1u << 15u)             /**< @todo */
+#define ADC64F_INVCRC           (1U << 14U)             /**< @todo */
+#define ADC64F_BE               (1U << 15U)             /**< @todo */
 
 // filter flags
-#define ADFF_OUT_BE             (1u << 15u)             /**< @todo */
-#define ADFF_INV_OUTPUT         (1u << 16u)             /**< @todo */
+#define ADFF_OUT_BE             (1U << 15U)             /**< @todo */
+#define ADFF_INV_OUTPUT         (1U << 16U)             /**< @todo */
 /** @} */
 
 

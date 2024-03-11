@@ -58,11 +58,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, base) {
     ASSERT_EQ(QPL_STS_NULL_PTR_ERR, run_job_api(job_ptr));
     job_ptr->next_out_ptr = destination.data();
 
-    job_ptr->available_in = 0u;
+    job_ptr->available_in = 0U;
     ASSERT_EQ(QPL_STS_SIZE_ERR, run_job_api(job_ptr));
     job_ptr->available_in = SOURCE_ARRAY_SIZE;
 
-    job_ptr->available_out = 0u;
+    job_ptr->available_out = 0U;
     ASSERT_EQ(QPL_STS_SIZE_ERR, run_job_api(job_ptr));
 }
 

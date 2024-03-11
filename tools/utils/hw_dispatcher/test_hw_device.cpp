@@ -13,7 +13,7 @@
 #include "test_hw_device.hpp"
 
 static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
-static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2u; /**< Last symbol index */
+static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2U; /**< Last symbol index */
 
 
 /**
@@ -29,7 +29,7 @@ static inline bool own_search_device_name(const uint8_t *src_ptr,
                                           const uint32_t name_size) noexcept {
     const uint8_t null_terminator = '\0';
 
-    for (size_t symbol_idx = 0u; null_terminator != src_ptr[symbol_idx + name_size]; symbol_idx++) {
+    for (size_t symbol_idx = 0U; null_terminator != src_ptr[symbol_idx + name_size]; symbol_idx++) {
         const auto *candidate_ptr = reinterpret_cast<const uint32_t *>(src_ptr + symbol_idx);
 
         // Convert the first 3 bytes to lower case and make the 4th 0xff
@@ -61,7 +61,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     const auto *name_ptr            = reinterpret_cast<const uint8_t *>(qpl_test_accfg_device_get_devname(device_ptr));
     const bool  is_iaa_device       = own_search_device_name(name_ptr, QPL_TEST_IAA_DEVICE, accelerator_name_length);
 
-    version_major_ = qpl_test_accfg_device_get_version(device_ptr)>>8u;
+    version_major_ = qpl_test_accfg_device_get_version(device_ptr)>>8U;
     version_minor_ = qpl_test_accfg_device_get_version(device_ptr)&0xFF;
 
     if (!is_iaa_device) {
@@ -72,11 +72,11 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     }
 
     // Retrieve IAACAP if available
-    uint64_t iaa_cap = 0u;
+    uint64_t iaa_cap = 0U;
     int32_t get_iaa_cap_status = qpl_test_accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
     if (get_iaa_cap_status) {
         // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
-        if (version_major_ > 1u) {
+        if (version_major_ > 1U) {
             return QPL_TEST_HW_ACCELERATOR_LIBACCEL_NOT_FOUND;
         }
     }

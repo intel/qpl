@@ -89,7 +89,7 @@ protected:
         std::vector<uint64_t> indexes;
 
         indexes.resize(source.size());
-        std::fill(indexes.begin(), indexes.end(), 0u);
+        std::fill(indexes.begin(), indexes.end(), 0U);
         job_ptr->idx_array    = (uint64_t *) indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
@@ -132,7 +132,7 @@ protected:
         std::vector<uint64_t> indexes;
 
         indexes.resize(source.size());
-        std::fill(indexes.begin(), indexes.end(), 0u);
+        std::fill(indexes.begin(), indexes.end(), 0U);
         job_ptr->idx_array    = (uint64_t *) indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
@@ -161,7 +161,7 @@ protected:
         std::vector<uint64_t> indexes;
 
         indexes.resize(source.size());
-        std::fill(indexes.begin(), indexes.end(), 0u);
+        std::fill(indexes.begin(), indexes.end(), 0U);
         job_ptr->idx_array    = (uint64_t *) indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
@@ -217,7 +217,7 @@ private:
             return testing::AssertionFailure() << "Given buffer is empty";
         }
 
-        if ((((buffer)[0] & 2u) != 0u) || (((buffer)[0] & 4u) != 4u)) {
+        if ((((buffer)[0] & 2U) != 0U) || (((buffer)[0] & 4U) != 4U)) {
             return testing::AssertionFailure() << "Produced block is not dynamic";
         }
 

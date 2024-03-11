@@ -31,7 +31,7 @@ OWN_QPLC_FUN(qplc_status_t, qplc_pack_bits_nu, (const uint8_t *src_ptr,
         uint8_t **pp_dst,
         uint32_t start_bit,
         uint32_t *pack_bits_index_ptr)) {
-    uint8_t  *dst_ptr  = (0u != start_bit) ? *pp_dst - 1u : *pp_dst;
+    uint8_t  *dst_ptr  = (0U != start_bit) ? *pp_dst - 1U : *pp_dst;
     uint32_t bit_width = own_get_bit_width_from_index(*pack_bits_index_ptr);
 
     (*qplc_pack_bits_array[*pack_bits_index_ptr])(src_ptr, num_elements, dst_ptr, start_bit);
@@ -52,8 +52,8 @@ OWN_QPLC_FUN(qplc_status_t, qplc_pack_index_8u, (const uint8_t *src_ptr,
     uint8_t       *dst_ptr = (uint8_t *) *pp_dst;
     uint8_t       *end_ptr = dst_ptr + dst_length;
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (UINT8_MAX < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;
@@ -88,8 +88,8 @@ OWN_QPLC_FUN(qplc_status_t, qplc_pack_index_8u16u, (const uint8_t *src_ptr,
     uint16_t      *dst_ptr = (uint16_t *) *pp_dst;
     uint16_t      *end_ptr = dst_ptr + (dst_length >> 1);
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (OWN_MAX_16U < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;
@@ -123,8 +123,8 @@ OWN_QPLC_FUN(qplc_status_t, qplc_pack_index_8u32u, (const uint8_t *src_ptr,
     uint32_t* dst_ptr = (uint32_t*)*pp_dst;
     uint32_t* end_ptr = dst_ptr + (dst_length >> 2);
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
-        if (0u < src_ptr[i]) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
+        if (0U < src_ptr[i]) {
             if (OWN_MAX_32U < index) {
                 status = QPLC_STS_OUTPUT_OVERFLOW_ERR;
                 break;

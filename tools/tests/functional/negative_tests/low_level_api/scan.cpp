@@ -27,7 +27,7 @@ namespace qpl::test {
         reference_destination.resize(100);
 
         for (auto &source_elem: source) {
-            source_elem = (1ull << 8) - 1;
+            source_elem = (1ULL << 8) - 1;
         }
 
         job_ptr->available_in = static_cast<uint32_t>(source.size());
@@ -45,8 +45,8 @@ namespace qpl::test {
         job_ptr->op           = qpl_op_scan_eq;
         reference_job_ptr->op = qpl_op_scan_eq;
 
-        job_ptr->param_low           = (1ull << 9) - 1;
-        reference_job_ptr->param_low = (1ull << 9) - 1;
+        job_ptr->param_low           = (1ULL << 9) - 1;
+        reference_job_ptr->param_low = (1ULL << 9) - 1;
 
         job_ptr->num_input_elements           = 100;
         reference_job_ptr->num_input_elements = 100;
@@ -64,7 +64,7 @@ namespace qpl::test {
         EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
 
         for (uint32_t i = 0; i < job_ptr->total_out - 1; i++) {
-            uint32_t expected_elem = (1ull << 8) - 1;
+            uint32_t expected_elem = (1ULL << 8) - 1;
             EXPECT_EQ(destination[i], expected_elem);
         }
     }
@@ -82,7 +82,7 @@ namespace qpl::test {
         reference_destination.resize(100);
 
         for (auto &source_elem: source) {
-            source_elem = (1ull << 8) - 1;
+            source_elem = (1ULL << 8) - 1;
         }
 
         job_ptr->available_in = static_cast<uint32_t>(source.size());
@@ -100,8 +100,8 @@ namespace qpl::test {
         job_ptr->op           = qpl_op_scan_eq;
         reference_job_ptr->op = qpl_op_scan_eq;
 
-        job_ptr->param_low           = (1ull << 9);
-        reference_job_ptr->param_low = (1ull << 9);
+        job_ptr->param_low           = (1ULL << 9);
+        reference_job_ptr->param_low = (1ULL << 9);
 
         job_ptr->num_input_elements           = 100;
         reference_job_ptr->num_input_elements = 100;

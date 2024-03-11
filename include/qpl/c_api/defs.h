@@ -51,12 +51,12 @@ extern "C" {
 /**
  * Marker for the last enumerator of qpl_decomp_end_proc
  */
-#define OWN_LAST_INFLATE_MANIPULATOR 8u
+#define OWN_LAST_INFLATE_MANIPULATOR 8U
 
 /**
  * Reserved enumerator of qpl_decomp_end_proc - hardware does not support this code
  */
-#define OWN_RESERVED_INFLATE_MANIPULATOR 7u
+#define OWN_RESERVED_INFLATE_MANIPULATOR 7U
 
 /**
  * Reserved enumerator for the compression level of the dictionary
@@ -75,116 +75,116 @@ extern "C" {
 /**
  * The start of a new overall task (Filter @ref qpl_operation implies flags FIRST and LAST)
  */
-#define QPL_FLAG_FIRST 0x0001u
+#define QPL_FLAG_FIRST 0x0001U
 
 /**
  * The end of an overall task (Filter @ref qpl_operation implies flags FIRST and LAST)
  */
-#define QPL_FLAG_LAST 0x0002u
+#define QPL_FLAG_LAST 0x0002U
 
 /**
  * Polynomial 0x11edc6f41 is used, which is the one used by iSCSI
  */
-#define QPL_FLAG_CRC32C 0x0004u
+#define QPL_FLAG_CRC32C 0x0004U
 
 /**
  * Check and skip GZIP header/trailer
  */
-#define QPL_FLAG_GZIP_MODE 0x0008u
+#define QPL_FLAG_GZIP_MODE 0x0008U
 
 /**
  * Huffman tokens are in Big Endian format (both compress and decompress)
  */
-#define QPL_FLAG_HUFFMAN_BE 0x0010u
+#define QPL_FLAG_HUFFMAN_BE 0x0010U
 
 /**
  * Decompress: Parse only Huffman Tokens; Compress: Write no headers or EOBs
  */
-#define QPL_FLAG_NO_HDRS 0x0020u
+#define QPL_FLAG_NO_HDRS 0x0020U
 
 /* Inflate (decompress) flags */
 /**
  * The data from the input buffer is decompressed and then sent to the filter unit
  */
-#define QPL_FLAG_DECOMPRESS_ENABLE 0x0040u
+#define QPL_FLAG_DECOMPRESS_ENABLE 0x0040U
 
 /**
  * Source-2 is viewed as a Big-Endian packed array
  */
-#define QPL_FLAG_SRC2_BE 0x0080u
+#define QPL_FLAG_SRC2_BE 0x0080U
 
 /**
  * Destination is stored as a Big-Endian packed array
  */
-#define QPL_FLAG_OUT_BE 0x0100u
+#define QPL_FLAG_OUT_BE 0x0100U
 
 /**
  * One or several mini-blocks are decompressed only
  */
-#define QPL_FLAG_RND_ACCESS 0x0200u
+#define QPL_FLAG_RND_ACCESS 0x0200U
 
 /**
  * All processed data should be written to output, otherwise, only complete qwords
  */
-#define QPL_FLAG_DECOMP_FLUSH_ALWAYS 0x0800u
+#define QPL_FLAG_DECOMP_FLUSH_ALWAYS 0x0800U
 
 /* Deflate (compress) flags */
 /**
  * Implied by QPL_FLAG_FIRST, should be used in the middle of the stream to specify a different Huffman table
  */
-#define QPL_FLAG_START_NEW_BLOCK 0x1000u
+#define QPL_FLAG_START_NEW_BLOCK 0x1000U
 
 /**
  * The data will be compressed as a single dynamic DEFLATE block; requires 2 passes
  */
-#define QPL_FLAG_DYNAMIC_HUFFMAN 0x2000u
+#define QPL_FLAG_DYNAMIC_HUFFMAN 0x2000U
 
 /**
  * Turn off verification to improve performance
  */
-#define QPL_FLAG_OMIT_VERIFY 0x4000u
+#define QPL_FLAG_OMIT_VERIFY 0x4000U
 
 /**
  * Compression only: generate only literals
  */
-#define QPL_FLAG_GEN_LITERALS 0x8000u
+#define QPL_FLAG_GEN_LITERALS 0x8000U
 
 /**
  * Flag to enable canned compression and decompression
  */
-#define QPL_FLAG_CANNED_MODE 0x00400000u
+#define QPL_FLAG_CANNED_MODE 0x00400000U
 
 /* CRC64 flags */
 /**
  * The data should be viewed as Big-Endian
  */
-#define QPL_FLAG_CRC64_BE 0x00010000u
+#define QPL_FLAG_CRC64_BE 0x00010000U
 
 /**
  * Bitwise inversion of the initial and the final CRC
  */
-#define QPL_FLAG_CRC64_INV 0x00020000u
+#define QPL_FLAG_CRC64_INV 0x00020000U
 
 /**
  * Bitwise inversion of the output bit-vector for a filtering operation
  */
-#define QPL_FLAG_INV_OUT 0x00040000u
+#define QPL_FLAG_INV_OUT 0x00040000U
 
 /**
  * Check and skip ZLIB header/trailer
  */
-#define QPL_FLAG_ZLIB_MODE 0x00080000u
+#define QPL_FLAG_ZLIB_MODE 0x00080000U
 
 /* Data Integrity & Aggregates flags */
 /**
  * Filtering only: don't calculate CRC and XOR checksums
  */
-#define QPL_FLAG_OMIT_CHECKSUMS 0x00100000u
+#define QPL_FLAG_OMIT_CHECKSUMS 0x00100000U
 
 /**
  * Filtering only: don't calculate aggregates values
  */
-#define QPL_FLAG_OMIT_AGGREGATES 0x00200000u
+#define QPL_FLAG_OMIT_AGGREGATES 0x00200000U
 
 /** @} */
 
@@ -193,101 +193,101 @@ extern "C" {
  * @brief Enum of the executing paths
  */
 typedef enum {
-    qpl_path_auto = 0x00000000u,       /**< Enable auto-detection of the equipment for executing */
-    qpl_path_hardware = 0x00000001u,   /**< Enable execution by hardware path */
-    qpl_path_software = 0x00000002u    /**< Enable execution by software path (Run on CPU) */
+    qpl_path_auto = 0x00000000U,       /**< Enable auto-detection of the equipment for executing */
+    qpl_path_hardware = 0x00000001U,   /**< Enable execution by hardware path */
+    qpl_path_software = 0x00000002U    /**< Enable execution by software path (Run on CPU) */
 } qpl_path_t;
 
 /**
  * @brief Enum of all output formats
  */
 typedef enum {
-    qpl_ow_nom = 0u,    /**< Output stream in its nominal format without modification*/
-    qpl_ow_8   = 1u,    /**< Output 8-bit stream  */
-    qpl_ow_16  = 2u,    /**< Output 16-bit stream */
-    qpl_ow_32  = 3u     /**< Output 32-bit stream */
+    qpl_ow_nom = 0U,    /**< Output stream in its nominal format without modification*/
+    qpl_ow_8   = 1U,    /**< Output 8-bit stream  */
+    qpl_ow_16  = 2U,    /**< Output 16-bit stream */
+    qpl_ow_32  = 3U     /**< Output 32-bit stream */
 } qpl_out_format;
 
 /**
  * @brief Enum of all supported parser types
  */
 typedef enum {
-    qpl_p_le_packed_array = 0u,    /**< Input vector is written in the Little-Endian format */
-    qpl_p_be_packed_array = 1u,    /**< Input vector is written in the Big-Endian format    */
-    qpl_p_parquet_rle     = 2u     /**< input vector is written in the Parquet RLE format   */
+    qpl_p_le_packed_array = 0U,    /**< Input vector is written in the Little-Endian format */
+    qpl_p_be_packed_array = 1U,    /**< Input vector is written in the Big-Endian format    */
+    qpl_p_parquet_rle     = 2U     /**< input vector is written in the Parquet RLE format   */
 } qpl_parser;
 
 /**
  * @brief Enum of all supported operations
  */
 typedef enum {
-    qpl_op_decompress = 0x00u,    /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
-    qpl_op_compress   = 0x01u,    /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
+    qpl_op_decompress = 0x00U,    /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
+    qpl_op_compress   = 0x01U,    /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
 
-    qpl_op_crc64      = 0x05u,    /**< Performs @ref CRC_OPERATION */
+    qpl_op_crc64      = 0x05U,    /**< Performs @ref CRC_OPERATION */
 
     // start filter operations
     /**
      * Affiliation to boolean histogram filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_extract        = 0x11u,  /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_select         = 0x12u,  /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_expand         = 0x15u,  /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_extract        = 0x11U,  /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_select         = 0x12U,  /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_expand         = 0x15U,  /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
 
     // start filter scan operations
     /**
      * Compare "equal" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_eq = 0x20u,
+    qpl_op_scan_eq = 0x20U,
 
     /**
      * Compare "not-equal" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_ne = 0x21u,
+    qpl_op_scan_ne = 0x21U,
 
     /**
      * Compare "less" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_lt = 0x22u,
+    qpl_op_scan_lt = 0x22U,
 
     /**
      * Compare "less-or-equal" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_le = 0x23u,
+    qpl_op_scan_le = 0x23U,
 
     /**
      * Compare "greater" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_gt = 0x24u,
+    qpl_op_scan_gt = 0x24U,
 
     /**
      * Compare "greater-or-equal" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_ge = 0x25u,
+    qpl_op_scan_ge = 0x25U,
 
     /**
      * Compare "in-range" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_range = 0x26u,
+    qpl_op_scan_range = 0x26U,
 
     /**
      * Compare "not-in-range" filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_scan_not_range = 0x27u
+    qpl_op_scan_not_range = 0x27U
 } qpl_operation;
 
 /**
  * @brief Enumerates mini-blocks sizes for the @ref qpl_op_compress and @ref qpl_op_decompress operations.
  */
 typedef enum {
-    qpl_mblk_size_none = 0u,    /**< Disable indexing for the deflate stream */
-    qpl_mblk_size_512  = 1u,    /**< Put index into the deflate stream each 512   bytes */
-    qpl_mblk_size_1k   = 2u,    /**< Put index into the deflate stream each 1024  bytes */
-    qpl_mblk_size_2k   = 3u,    /**< Put index into the deflate stream each 2048  bytes */
-    qpl_mblk_size_4k   = 4u,    /**< Put index into the deflate stream each 4096  bytes */
-    qpl_mblk_size_8k   = 5u,    /**< Put index into the deflate stream each 8192  bytes */
-    qpl_mblk_size_16k  = 6u,    /**< Put index into the deflate stream each 16384 bytes */
-    qpl_mblk_size_32k  = 7u     /**< Put index into the deflate stream each 32768 bytes */
+    qpl_mblk_size_none = 0U,    /**< Disable indexing for the deflate stream */
+    qpl_mblk_size_512  = 1U,    /**< Put index into the deflate stream each 512   bytes */
+    qpl_mblk_size_1k   = 2U,    /**< Put index into the deflate stream each 1024  bytes */
+    qpl_mblk_size_2k   = 3U,    /**< Put index into the deflate stream each 2048  bytes */
+    qpl_mblk_size_4k   = 4U,    /**< Put index into the deflate stream each 4096  bytes */
+    qpl_mblk_size_8k   = 5U,    /**< Put index into the deflate stream each 8192  bytes */
+    qpl_mblk_size_16k  = 6U,    /**< Put index into the deflate stream each 16384 bytes */
+    qpl_mblk_size_32k  = 7U     /**< Put index into the deflate stream each 32768 bytes */
 } qpl_mini_block_size;
 
 /**
@@ -326,7 +326,7 @@ typedef enum {
  *
  */
 typedef enum {
-    qpl_stop_and_check_for_bfinal_eob = 0u,    /**< Stop condition: b_final EOB; Check condition: b_final EOB */
+    qpl_stop_and_check_for_bfinal_eob = 0U,    /**< Stop condition: b_final EOB; Check condition: b_final EOB */
     qpl_dont_stop_or_check,                    /**< Stop condition: none;       Check condition: none */
     qpl_stop_and_check_for_any_eob,            /**< Stop condition: EOB;        Check condition: EOB */
     qpl_stop_on_any_eob,                       /**< Stop condition: EOB;        Check condition: none */
@@ -336,7 +336,7 @@ typedef enum {
     /**
      * Stop condition: none; Check condition: b_final EOB
      */
-    qpl_check_for_bfinal_eob = OWN_RESERVED_INFLATE_MANIPULATOR - 1u,
+    qpl_check_for_bfinal_eob = OWN_RESERVED_INFLATE_MANIPULATOR - 1U,
 
     /**
      * Stop condition: disabled; Check condition: not last block

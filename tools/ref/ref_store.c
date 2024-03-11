@@ -140,7 +140,7 @@ REF_INLINE qpl_status own_store_value_8(const uint32_t *const source_ptr,
                                         uint8_t *const destination_ptr,
                                         const uint8_t *const destination_end_ptr,
                                         uint32_t *element_index_ptr) {
-    REF_BAD_ARG_RET((8u < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
+    REF_BAD_ARG_RET((8U < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
 
     uint8_t *current_destination_ptr = destination_ptr;
 
@@ -193,7 +193,7 @@ REF_INLINE qpl_status own_store_value_16(const uint32_t *const source_ptr,
                                          const uint8_t *const destination_end_ptr,
                                          bool output_be,
                                          uint32_t *element_index_ptr) {
-    REF_BAD_ARG_RET((16u < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
+    REF_BAD_ARG_RET((16U < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
 
     uint16_t *current_destination_ptr = (uint16_t *) destination_ptr;
 
@@ -250,7 +250,7 @@ REF_INLINE qpl_status own_store_value_32(const uint32_t *const source_ptr,
                                          const uint8_t *const destination_end_ptr,
                                          bool output_be,
                                          uint32_t *element_index_ptr) {
-    REF_BAD_ARG_RET((32u < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
+    REF_BAD_ARG_RET((32U < source_bit_width), QPL_STS_OUTPUT_OVERFLOW_ERR);
 
     uint32_t *current_destination_ptr = (uint32_t *) destination_ptr;
 

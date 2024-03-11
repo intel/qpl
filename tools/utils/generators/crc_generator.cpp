@@ -18,10 +18,10 @@ namespace qpl::test {
         qpl::test::random poly_gen(0, UINT16_MAX, seed);
         uint64_t      result_poly;
         result_poly = (uint16_t) poly_gen;
-        result_poly = (result_poly << 16u) ^ (uint16_t) poly_gen;
-        result_poly = (result_poly << 16u) ^ (uint16_t) poly_gen;
-        result_poly = (result_poly << 16u) ^ (uint16_t) poly_gen;
-        result_poly |= 1u;
+        result_poly = (result_poly << 16U) ^ (uint16_t) poly_gen;
+        result_poly = (result_poly << 16U) ^ (uint16_t) poly_gen;
+        result_poly = (result_poly << 16U) ^ (uint16_t) poly_gen;
+        result_poly |= 1U;
         result_poly <<= poly_shift;
 
         return result_poly;

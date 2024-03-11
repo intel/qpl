@@ -22,24 +22,24 @@
 // 15:0  Left child / histogram idx
 namespace gz_generator
 {
-    constexpr uint32_t BYTE            = 8u;
-    constexpr uint32_t WORD            = 16u;
-    constexpr uint32_t DWORD           = 32u;
-    constexpr uint32_t QWORD           = 64u;
-    constexpr uint32_t MAX_HEAP        = 286u;
-    constexpr uint32_t DEPTH_MASK      = 0x7Fu;
-    constexpr uint32_t FREQ_SHIFT      = 32u;
-    constexpr uint32_t DEPTH_SHIFT     = 24u;
-    constexpr uint32_t MAX_CODE_LEN    = 15u;
-    constexpr uint32_t MAX_BL_CODE_LEN = 7u;
+    constexpr uint32_t BYTE            = 8U;
+    constexpr uint32_t WORD            = 16U;
+    constexpr uint32_t DWORD           = 32U;
+    constexpr uint32_t QWORD           = 64U;
+    constexpr uint32_t MAX_HEAP        = 286U;
+    constexpr uint32_t DEPTH_MASK      = 0x7FU;
+    constexpr uint32_t FREQ_SHIFT      = 32U;
+    constexpr uint32_t DEPTH_SHIFT     = 24U;
+    constexpr uint32_t MAX_CODE_LEN    = 15U;
+    constexpr uint32_t MAX_BL_CODE_LEN = 7U;
 
-    constexpr uint64_t FREQ_MASK_HI = 0xFFFFFFFF80000000u;
+    constexpr uint64_t FREQ_MASK_HI = 0xFFFFFFFF80000000U;
 
-    constexpr uint32_t HEAP_SIZE  = 3u * MAX_HEAP + 1u;
-    constexpr uint32_t NODE_START = HEAP_SIZE - 1u;
+    constexpr uint32_t HEAP_SIZE  = 3U * MAX_HEAP + 1U;
+    constexpr uint32_t NODE_START = HEAP_SIZE - 1U;
 
     constexpr uint32_t DEPTH_MASK_HI = DEPTH_MASK << DEPTH_SHIFT;
-    constexpr uint32_t DEPTH_1       = 1u << DEPTH_SHIFT;
+    constexpr uint32_t DEPTH_1       = 1U << DEPTH_SHIFT;
 
 
     static bool     testmode_4  = false;
@@ -69,7 +69,7 @@ namespace gz_generator
     // bit reverse low order LENGTH bits in code, and return result in low order bits
     uint32_t bit_reverse(uint32_t code, uint32_t length)
     {
-        code = (bit_rev_8[code & 0x00FFu] << BYTE) | (bit_rev_8[code >> BYTE]);
+        code = (bit_rev_8[code & 0x00FFU] << BYTE) | (bit_rev_8[code >> BYTE]);
         return (code >> (WORD - length));
     }
 // heap array has elements from 1...n
@@ -258,7 +258,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         for (i = node_ptr; i < j; i++)
         {
             h1 = heap[i];
-            codes[(uint32_t) h1] = (uint32_t) (h1 >> 32u);
+            codes[(uint32_t) h1] = (uint32_t) (h1 >> 32U);
         }
 
         //    for (i=0; i<hist_size; i++)
@@ -780,7 +780,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                 code   = orig[i++];
                 len    = code >> 24;
                 code += eb << 24;
-                for (j = 0; j < (1u << eb); j++)
+                for (j = 0; j < (1U << eb); j++)
                 {
                     *p_code++ = code | (j << len);
                 }

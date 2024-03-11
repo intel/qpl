@@ -11,7 +11,7 @@ namespace qpl::ml::compression {
 
 auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_status {
     uint32_t block_byte_size    = inflate_state.type0_block_len;
-    uint32_t bytes_already_read = inflate_state.read_in_length / 8u;
+    uint32_t bytes_already_read = inflate_state.read_in_length / 8U;
 
     /* If the block is uncompressed, perform a memcopy while
      * updating state data */

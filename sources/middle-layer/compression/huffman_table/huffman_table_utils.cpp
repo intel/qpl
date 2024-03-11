@@ -113,7 +113,7 @@ static inline void create_packed_match_lengths_table(uint32_t *const packed_tabl
 
     // Main cycle
     for (uint32_t i = 257; i < QPLC_DEFLATE_LL_TABLE_SIZE - 1; i++) {
-        for (uint16_t extra_bits = 0; extra_bits < (1u << extra_bits_count); extra_bits++) {
+        for (uint16_t extra_bits = 0; extra_bits < (1U << extra_bits_count); extra_bits++) {
             if (count > 254) {
                 break;
             }
@@ -144,7 +144,7 @@ static inline void create_packed_offset_table(uint32_t *const packed_table_ptr,
 
     // Main cycle
     for (uint32_t i = 0; i < QPLC_DEFLATE_OFFSETS_COUNT; i++) {
-        for (uint16_t extra_bits = 0; extra_bits < (1u << extra_bits_count); extra_bits++) {
+        for (uint16_t extra_bits = 0; extra_bits < (1U << extra_bits_count); extra_bits++) {
             if (count >= length) {
                 return;
             }
@@ -164,18 +164,18 @@ static inline void create_packed_offset_table(uint32_t *const packed_table_ptr,
 static inline void fill_histogram(const uint32_t *literals_lengths_histogram_ptr,
                                   const uint32_t *distances_histogram_ptr,
                                   isal_huff_histogram *histogram) {
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         histogram->lit_len_histogram[i] = static_cast<uint32_t>(literals_lengths_histogram_ptr[i]);
     }
 
-    for (uint32_t i = 0u; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
+    for (uint32_t i = 0U; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         histogram->dist_histogram[i] = static_cast<uint32_t>(distances_histogram_ptr[i]);
     }
 }
 
 static inline void fill_histogram_literals_only(const uint32_t *literals_lengths_histogram_ptr,
                                                 isal_huff_histogram *histogram) {
-    for (uint32_t i = 0u; i < QPLC_LITERALS_COUNT; i++) {
+    for (uint32_t i = 0U; i < QPLC_LITERALS_COUNT; i++) {
         histogram->lit_len_histogram[i] = static_cast<uint32_t>(literals_lengths_histogram_ptr[i]);
     }
 }
@@ -183,7 +183,7 @@ static inline void fill_histogram_literals_only(const uint32_t *literals_lengths
 static inline void store_isal_deflate_header(isal_hufftables *isal_huffman_table,
                                              compression_huffman_table &compression_table) noexcept {
     auto header_complete_byte_size = isal_huffman_table->deflate_hdr_count;
-    header_complete_byte_size += (0u == isal_huffman_table->deflate_hdr_extra_bits) ? 0u : 1u;
+    header_complete_byte_size += (0U == isal_huffman_table->deflate_hdr_extra_bits) ? 0U : 1U;
 
     // Use copy kernel to copy deflate header from isal huffman tables
     auto copy_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_memory_copy_table();
@@ -203,14 +203,14 @@ static inline void qpl_huffman_table_to_isal(const qpl_compression_huffman_table
     auto table_ptr = const_cast<qpl_compression_huffman_table *>(qpl_table_ptr);
 
     // Variables
-    const uint32_t qpl_code_mask     = (1u << QPLC_HUFFMAN_CODE_BIT_LENGTH) - 1u;
+    const uint32_t qpl_code_mask     = (1U << QPLC_HUFFMAN_CODE_BIT_LENGTH) - 1U;
     // First 15 bits [14:0]
     const uint32_t qpl_length_mask   = QPLC_HUFFMAN_CODE_LENGTH_MASK << QPLC_HUFFMAN_CODE_BIT_LENGTH; // Bits [18:15]
     uint32_t       header_byte_size  = 0;
     uint32_t       header_extra_bits = 0;
 
-    struct own_huffman_code literals_matches_table[QPLC_DEFLATE_LL_TABLE_SIZE] = {{0u, 0u, 0u}};
-    struct own_huffman_code offsets_huffman_table[QPLC_DEFLATE_D_TABLE_SIZE]   = {{0u, 0u, 0u}};
+    struct own_huffman_code literals_matches_table[QPLC_DEFLATE_LL_TABLE_SIZE] = {{0U, 0U, 0U}};
+    struct own_huffman_code offsets_huffman_table[QPLC_DEFLATE_D_TABLE_SIZE]   = {{0U, 0U, 0U}};
 
     // Memory initialization
     qpl::core_sw::util::set_zeros((uint8_t *) isal_table_ptr, sizeof(struct isal_hufftables));
@@ -219,7 +219,7 @@ static inline void qpl_huffman_table_to_isal(const qpl_compression_huffman_table
     for (uint32_t i = 0; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         const auto code   = static_cast<uint16_t>(get_literals_lengths_table_ptr(table_ptr)[i] & qpl_code_mask);
         const auto length = static_cast<uint8_t>((get_literals_lengths_table_ptr(table_ptr)[i] & qpl_length_mask)
-                >> 15u);
+                >> 15U);
 
         literals_matches_table[i].length = length;
         literals_matches_table[i].code   = endian == little_endian ? reverse_bits(code, length) : code;
@@ -228,7 +228,7 @@ static inline void qpl_huffman_table_to_isal(const qpl_compression_huffman_table
     // Copying offsets Huffman table
     for (uint32_t i = 0; i < QPLC_DEFLATE_D_TABLE_SIZE; i++) {
         const auto code   = static_cast<uint16_t>(get_offsets_table_ptr(table_ptr)[i] & qpl_code_mask);
-        const auto length = static_cast<uint8_t>((get_offsets_table_ptr(table_ptr)[i] & qpl_length_mask) >> 15u);
+        const auto length = static_cast<uint8_t>((get_offsets_table_ptr(table_ptr)[i] & qpl_length_mask) >> 15U);
 
         offsets_huffman_table[i].length = length;
         offsets_huffman_table[i].code   = endian == little_endian ? reverse_bits(code, length) : code;
@@ -261,7 +261,7 @@ static inline void qpl_huffman_table_to_isal(const qpl_compression_huffman_table
     }
 
     // Forcedly set final bit of header, ISA-L will reset it if current block not final
-    isal_table_ptr->deflate_hdr[0] |= 1u;
+    isal_table_ptr->deflate_hdr[0] |= 1U;
 }
 
 static inline auto initialize_inflate_state_from_deflate_header(uint8_t *deflate_header_data_ptr,
@@ -275,7 +275,7 @@ static inline auto initialize_inflate_state_from_deflate_header(uint8_t *deflate
     isal_state_ptr->next_in   = deflate_header_data_ptr;
     isal_state_ptr->avail_in  = deflate_header_byte_size;
     isal_state_ptr->next_out  = deflate_header_data_ptr; // No rewrites
-    isal_state_ptr->avail_out = 0u;
+    isal_state_ptr->avail_out = 0U;
 
     allocation_buffer_t buffer(reinterpret_cast<uint8_t *>(isal_state_ptr),
                                reinterpret_cast<uint8_t *>(isal_state_ptr) + sizeof(isal_inflate_state));
@@ -349,20 +349,20 @@ static inline auto triplets_code_values_comparator(const void *a, const void *b)
 static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplets_ptr,
                                                       size_t triplets_count,
                                                       qplc_huffman_table_flat_format *decompression_table_ptr) noexcept {
-    uint32_t empty_position = 0u;
+    uint32_t empty_position = 0U;
 
     // Calculate code lengths histogram
     std::for_each(triplets_ptr, triplets_ptr + triplets_count,
                 [decompression_table_ptr](const qpl_triplet &item) {
                     if (item.code_length != 0) {
-                        decompression_table_ptr->number_of_codes[item.code_length - 1u]++;
+                        decompression_table_ptr->number_of_codes[item.code_length - 1U]++;
                     }
                 });
 
-    for (uint32_t i = 1u; i <= 15u; i++) {
+    for (uint32_t i = 1U; i <= 15U; i++) {
         std::array<qpl_triplet, 256> filtered{};
 
-        if (decompression_table_ptr->number_of_codes[i - 1u] == 0) {
+        if (decompression_table_ptr->number_of_codes[i - 1U] == 0) {
             continue;
         }
 
@@ -378,12 +378,12 @@ static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplet
         size_t number_of_elements = std::distance(filtered.begin(), last_filtered);
         qsort(filtered.data(), number_of_elements, sizeof(qpl_triplet), triplets_code_values_comparator);
 
-        decompression_table_ptr->first_codes[i - 1u] = filtered[0].code;
+        decompression_table_ptr->first_codes[i - 1U] = filtered[0].code;
 
         // Filling in mapping table or CAM related structures
         if (decompression_table_ptr->format_stored == ht_with_mapping_table) {
 
-            decompression_table_ptr->first_table_indexes[i - 1u] = empty_position;
+            decompression_table_ptr->first_table_indexes[i - 1U] = empty_position;
 
             const uint32_t start_position = empty_position;
             while (empty_position < (start_position + number_of_elements)) {
@@ -404,9 +404,9 @@ static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplet
 
 static inline void convert_software_tables(qplc_huffman_table_default_format *compression_table_ptr,
                                            qplc_huffman_table_flat_format *decompression_table_ptr) noexcept {
-    std::array<qpl_triplet, 256u> triplets_array = {};
+    std::array<qpl_triplet, 256U> triplets_array = {};
 
-    for (uint32_t i = 0; i < 256u; i++) {
+    for (uint32_t i = 0; i < 256U; i++) {
         triplets_array[i].character   = i;
         triplets_array[i].code_length = qplc_huffman_table_get_ll_code_length(compression_table_ptr, i);
         triplets_array[i].code        = qplc_huffman_table_get_ll_code(compression_table_ptr, i);
@@ -418,32 +418,32 @@ static inline void convert_software_tables(qplc_huffman_table_default_format *co
 static inline void isal_compression_table_to_qpl(const isal_hufftables *isal_table_ptr,
                                                  qplc_huffman_table_default_format *qpl_table_ptr) noexcept {
     // Variables
-    const auto isal_match_lengths_mask = util::build_mask<uint16_t, 15u>();
+    const auto isal_match_lengths_mask = util::build_mask<uint16_t, 15U>();
 
     // Convert literals codes
     for (uint32_t i = 0; i < QPLC_DEFLATE_LITERALS_COUNT; i++) {
         const uint16_t code   = isal_table_ptr->lit_table[i];
         const uint8_t  length = isal_table_ptr->lit_table_sizes[i];
 
-        qpl_table_ptr->literals_matches[i] = reverse_bits(code, length) | (uint32_t) (length << 15u);
+        qpl_table_ptr->literals_matches[i] = reverse_bits(code, length) | (uint32_t) (length << 15U);
     }
 
     // Convert match lengths codes
     for (uint32_t i = 0; i < QPLC_DEFLATE_MATCHES_COUNT; i++) {
-        const uint16_t code   = isal_table_ptr->len_table[details::match_length_codes_bases[i]] >> 5u;
+        const uint16_t code   = isal_table_ptr->len_table[details::match_length_codes_bases[i]] >> 5U;
         uint8_t        length = isal_table_ptr->len_table[details::match_length_codes_bases[i]]
                                 & isal_match_lengths_mask;
 
         // Normally, (in all cases except for huffman only) ISAL assignes code for every match length token, but
         // this can be a huffman only table, without match lengths codes, so additionaly check if code length is more than zero
         // to prevent the overflow of code's length
-        if (0u != length) {
+        if (0U != length) {
             length -= details::match_lengths_extra_bits[i];
             qpl_table_ptr->literals_matches[i + QPLC_DEFLATE_LITERALS_COUNT] =
-                    reverse_bits(code, length) | (uint32_t) (length << 15u);
+                    reverse_bits(code, length) | (uint32_t) (length << 15U);
         } else {
             // Write zero otherwise
-            qpl_table_ptr->literals_matches[i + QPLC_DEFLATE_LITERALS_COUNT] = 0u;
+            qpl_table_ptr->literals_matches[i + QPLC_DEFLATE_LITERALS_COUNT] = 0U;
         }
     }
 
@@ -452,7 +452,7 @@ static inline void isal_compression_table_to_qpl(const isal_hufftables *isal_tab
         const uint16_t code   = isal_table_ptr->dcodes[i];
         const uint8_t  length = isal_table_ptr->dcodes_sizes[i];
 
-        qpl_table_ptr->offsets[i] = reverse_bits(code, length) | (uint32_t) (length << 15u);
+        qpl_table_ptr->offsets[i] = reverse_bits(code, length) | (uint32_t) (length << 15U);
     }
 }
 
@@ -469,7 +469,7 @@ static inline auto build_compression_table(const uint32_t *literals_lengths_hist
         compression_table.enable_sw_compression_table();
 
         auto increment_zeros = [](const uint32_t &n) {
-            const_cast<uint32_t &>(n) += (n == 0) ? 1u : 0u;
+            const_cast<uint32_t &>(n) += (n == 0) ? 1U : 0U;
         };
 
         std::for_each(literals_lengths_histogram_ptr,
@@ -484,9 +484,9 @@ static inline auto build_compression_table(const uint32_t *literals_lengths_hist
     if (compression_table.is_sw_compression_table_used() ||
         compression_table.is_deflate_header_used()) {
         // Create isal huffman table and histograms
-        isal_huff_histogram histogram = {{0u},
-                                         {0u},
-                                         {0u}};
+        isal_huff_histogram histogram = {{0U},
+                                         {0U},
+                                         {0U}};
 
         if (compression_table.is_huffman_only()) {
             // Copy literals (except for EOB symbol) histogram to ISAL histogram
@@ -536,9 +536,9 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
         decompression_table.set_deflate_header_bit_size(compression_table.get_deflate_header_bit_size());
 
-        isal_inflate_state temporary_state = {nullptr, 0u, 0u, nullptr, 0u, 0u, 0, {{0u}, {0u}},
-                                              {{0u}, {0u}}, (isal_block_state) 0, 0u, 0u, 0u, 0u, 0u,
-                                              {0u}, 0, 0, 0, 0, 0u, 0, 0, 0, 0, {0u}, {0u}, 0u, 0u, 0u};
+        isal_inflate_state temporary_state = {nullptr, 0U, 0U, nullptr, 0U, 0U, 0, {{0U}, {0U}},
+                                              {{0U}, {0U}}, (isal_block_state) 0, 0U, 0U, 0U, 0U, 0U,
+                                              {0U}, 0, 0, 0, 0, 0U, 0, 0, 0, 0, {0U}, {0U}, 0U, 0U, 0U};
 
         // Parse deflate header and load it into the temporary state
         auto status =
@@ -578,7 +578,7 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
         hw_descriptor HW_PATH_ALIGN_STRUCTURE descriptor;
         HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record;
 
-        std::fill(descriptor.data, descriptor.data + HW_PATH_DESCRIPTOR_SIZE, 0u);
+        std::fill(descriptor.data, descriptor.data + HW_PATH_DESCRIPTOR_SIZE, 0U);
 
         auto *const header_ptr = compression_table.get_deflate_header_data();
         const auto header_bit_size = compression_table.get_deflate_header_bit_size();
@@ -586,8 +586,8 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
         core_sw::util::set_zeros(aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
-        uint32_t input_bytes_count = (header_bit_size + 7u) >> 3u;
-        uint8_t  ignore_end_bits   = max_bit_index & (0u - header_bit_size);
+        uint32_t input_bytes_count = (header_bit_size + 7U) >> 3U;
+        uint8_t  ignore_end_bits   = max_bit_index & (0U - header_bit_size);
 
         hw_iaa_descriptor_set_input_buffer(&descriptor, header_ptr, input_bytes_count);
 

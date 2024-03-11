@@ -15,16 +15,16 @@
 #include "qpl_api_ref.h"
 #include "ta_ll_common.hpp"
 
-constexpr uint32_t rle_element_bit_width = 7u;
-constexpr uint32_t rle_element_value = 113u;
+constexpr uint32_t rle_element_bit_width = 7U;
+constexpr uint32_t rle_element_value = 113U;
 
-constexpr uint32_t rle_burst_counter_element_value = 3u;
-constexpr uint32_t rle_burst_counter_bit_width = 8u;
+constexpr uint32_t rle_burst_counter_element_value = 3U;
+constexpr uint32_t rle_burst_counter_bit_width = 8U;
 
-constexpr uint32_t extract_lower_index = 100u;
-constexpr uint32_t extract_upper_index = 1000u;
+constexpr uint32_t extract_lower_index = 100U;
+constexpr uint32_t extract_upper_index = 1000U;
 
-constexpr uint32_t rle_burst_src2_bit_width = 11u;
+constexpr uint32_t rle_burst_src2_bit_width = 11U;
 
 constexpr qpl_parser second_source_parser = qpl_p_le_packed_array;
 
@@ -133,14 +133,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, scan_large_single_rle_group, P
     rle_element_t rle_element;
     rle_element.bit_width = rle_element_bit_width;
     rle_element.element_value = rle_element_value;
-    rle_element.repeat_count = 4000u;
+    rle_element.repeat_count = 4000U;
 
     verify_operation_on_single_rle_group<ref_compare>(rle_element);
 
-    rle_element.repeat_count = 10000u;
+    rle_element.repeat_count = 10000U;
     verify_operation_on_single_rle_group<ref_compare>(rle_element);
 
-    rle_element.repeat_count = 30000u;
+    rle_element.repeat_count = 30000U;
     verify_operation_on_single_rle_group<ref_compare>(rle_element);
 }
 
@@ -158,14 +158,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, extract_large_single_rle_group
     rle_element_t rle_element;
     rle_element.bit_width = rle_element_bit_width;
     rle_element.element_value = rle_element_value;
-    rle_element.repeat_count = 4000u;
+    rle_element.repeat_count = 4000U;
 
     verify_operation_on_single_rle_group<ref_extract>(rle_element);
 
-    rle_element.repeat_count = 10000u;
+    rle_element.repeat_count = 10000U;
     verify_operation_on_single_rle_group<ref_extract>(rle_element);
 
-    rle_element.repeat_count = 30000u;
+    rle_element.repeat_count = 30000U;
     verify_operation_on_single_rle_group<ref_extract>(rle_element);
 }
 
@@ -173,19 +173,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, expand_large_single_rle_group,
     job_ptr->op = qpl_op_expand;
     reference_job_ptr->op = qpl_op_expand;
 
-    source_provider src2_generator(30000u,
-                                   1u,
+    source_provider src2_generator(30000U,
+                                   1U,
                                    GetSeed());
 
     auto source2 = src2_generator.get_source();
 
-    job_ptr->src2_bit_width = 1u;
-    reference_job_ptr->src2_bit_width = 1u;
+    job_ptr->src2_bit_width = 1U;
+    reference_job_ptr->src2_bit_width = 1U;
 
     rle_element_t rle_element;
     rle_element.bit_width = rle_element_bit_width;
     rle_element.element_value = rle_element_value;
-    rle_element.repeat_count = 4000u;
+    rle_element.repeat_count = 4000U;
 
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
@@ -193,14 +193,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, expand_large_single_rle_group,
     reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     verify_operation_on_single_rle_group<ref_expand>(rle_element);
 
-    rle_element.repeat_count = 10000u;
+    rle_element.repeat_count = 10000U;
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     reference_job_ptr->next_src2_ptr = source2.data();
     reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     verify_operation_on_single_rle_group<ref_expand>(rle_element);
 
-    rle_element.repeat_count = 30000u;
+    rle_element.repeat_count = 30000U;
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     reference_job_ptr->next_src2_ptr = source2.data();
@@ -212,19 +212,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, select_large_single_rle_group,
     job_ptr->op = qpl_op_select;
     reference_job_ptr->op = qpl_op_select;
 
-    source_provider src2_generator(30000u,
-                                   1u,
+    source_provider src2_generator(30000U,
+                                   1U,
                                    GetSeed());
 
     auto source2 = src2_generator.get_source();
 
-    job_ptr->src2_bit_width = 1u;
-    reference_job_ptr->src2_bit_width = 1u;
+    job_ptr->src2_bit_width = 1U;
+    reference_job_ptr->src2_bit_width = 1U;
 
     rle_element_t rle_element;
     rle_element.bit_width = rle_element_bit_width;
     rle_element.element_value = rle_element_value;
-    rle_element.repeat_count = 4000u;
+    rle_element.repeat_count = 4000U;
 
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
@@ -232,14 +232,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(prle_parser, select_large_single_rle_group,
     reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     verify_operation_on_single_rle_group<ref_select>(rle_element);
 
-    rle_element.repeat_count = 10000u;
+    rle_element.repeat_count = 10000U;
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     reference_job_ptr->next_src2_ptr = source2.data();
     reference_job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     verify_operation_on_single_rle_group<ref_select>(rle_element);
 
-    rle_element.repeat_count = 30000u;
+    rle_element.repeat_count = 30000U;
     job_ptr->next_src2_ptr = source2.data();
     job_ptr->available_src2 = bits_to_bytes(rle_element.repeat_count);
     reference_job_ptr->next_src2_ptr = source2.data();

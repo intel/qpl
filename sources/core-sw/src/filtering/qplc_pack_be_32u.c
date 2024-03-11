@@ -45,7 +45,7 @@ OWN_QPLC_INLINE(void, qplc_pack_be_32u_nu, (const uint8_t *src_ptr,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = qplc_swap_bytes_32u((uint32_t) (src >> OWN_DWORD_WIDTH));
             dst_32u_ptr++;
@@ -72,7 +72,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u17u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 17u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 17U, dst_ptr, start_bit);
 }
 
 // ********************** 18u ****************************** //
@@ -81,7 +81,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u18u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 18u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 18U, dst_ptr, start_bit);
 }
 
 // ********************** 19u ****************************** //
@@ -90,7 +90,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u19u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 19u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 19U, dst_ptr, start_bit);
 }
 
 // ********************** 20u ****************************** //
@@ -99,7 +99,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u20u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 20u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 20U, dst_ptr, start_bit);
 }
 
 // ********************** 21u ****************************** //
@@ -108,7 +108,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u21u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 21u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 21U, dst_ptr, start_bit);
 }
 
 // ********************** 22u ****************************** //
@@ -117,7 +117,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u22u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 22u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 22U, dst_ptr, start_bit);
 }
 
 // ********************** 23u ****************************** //
@@ -126,7 +126,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u23u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 23u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 23U, dst_ptr, start_bit);
 }
 
 // ********************** 24u ****************************** //
@@ -135,7 +135,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u24u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 24u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 24U, dst_ptr, start_bit);
 }
 
 // ********************** 25u ****************************** //
@@ -144,7 +144,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u25u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 25u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 25U, dst_ptr, start_bit);
 }
 
 // ********************** 26u ****************************** //
@@ -153,7 +153,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u26u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 26u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 26U, dst_ptr, start_bit);
 }
 
 // ********************** 27u ****************************** //
@@ -162,7 +162,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u27u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 27u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 27U, dst_ptr, start_bit);
 }
 
 // ********************** 28u ****************************** //
@@ -171,7 +171,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u28u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 28u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 28U, dst_ptr, start_bit);
 }
 
 // ********************** 29u ****************************** //
@@ -180,7 +180,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u29u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 29u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 29U, dst_ptr, start_bit);
 }
 
 // ********************** 30u ****************************** //
@@ -189,7 +189,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u30u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 30u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 30U, dst_ptr, start_bit);
 }
 
 // ********************** 31u ****************************** //
@@ -198,7 +198,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u31u, (const uint8_t *src_ptr,
         uint32_t num_elements,
         uint8_t *dst_ptr,
         uint32_t start_bit)) {
-    qplc_pack_be_32u_nu(src_ptr, num_elements, 31u, dst_ptr, start_bit);
+    qplc_pack_be_32u_nu(src_ptr, num_elements, 31U, dst_ptr, start_bit);
 }
 
 // ********************** 32u ****************************** //
@@ -210,7 +210,7 @@ OWN_QPLC_FUN(void, qplc_pack_be_32u32u, (const uint8_t *src_ptr,
     uint32_t *src32u_ptr = (uint32_t *) src_ptr;
     uint32_t *dst32u_ptr = (uint32_t *) dst_ptr;
 
-    for (uint32_t i = 0u; i < num_elements; i++) {
+    for (uint32_t i = 0U; i < num_elements; i++) {
         dst32u_ptr[i] = qplc_swap_bytes_32u(src32u_ptr[i]);
     }
 }

@@ -145,7 +145,7 @@ REF_INLINE qpl_status own_expand_rle_prle(qpl_job *const qpl_job_ptr) {
     uint32_t mask_bit_width = qpl_job_ptr->src2_bit_width;
 
     // Number of elements in the source vector
-    uint32_t number_of_elements = 0u;
+    uint32_t number_of_elements = 0U;
 
     // Number of bytes available in source_ptr
     uint32_t available_bytes = qpl_job_ptr->available_in;
@@ -155,7 +155,7 @@ REF_INLINE qpl_status own_expand_rle_prle(qpl_job *const qpl_job_ptr) {
 
     // Src2 input format - LE (0) or BE (>0)
     uint32_t   mask_be     = qpl_job_ptr->flags & QPL_FLAG_SRC2_BE;
-    qpl_parser mask_parser = (mask_be == 0u) ? qpl_p_le_packed_array : qpl_p_be_packed_array;
+    qpl_parser mask_parser = (mask_be == 0U) ? qpl_p_le_packed_array : qpl_p_be_packed_array;
 
     status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
 
@@ -181,7 +181,7 @@ REF_INLINE qpl_status own_expand_rle_prle(qpl_job *const qpl_job_ptr) {
 
     // Number of elements in the mask vector
     uint32_t number_of_elements_mask = (REF_MAX_BIT_WIDTH == source_bit_width)
-                                       ? number_of_elements - 1u
+                                       ? number_of_elements - 1U
                                        : number_of_elements;
 
     // Extracted mask elements from source_mask_ptr vector
@@ -240,10 +240,10 @@ REF_INLINE uint32_t own_get_count_expand_rle(const uint32_t *const extracted_sou
                                              uint32_t source_length,
                                              uint32_t initial_bit_width) {
     // Number of repetitions stored in source
-    uint32_t count_expand_rle = 0u;
+    uint32_t count_expand_rle = 0U;
 
-    if (32u != initial_bit_width) {
-        for (uint32_t i = 0u; i < source_length; i++) {
+    if (32U != initial_bit_width) {
+        for (uint32_t i = 0U; i < source_length; i++) {
             count_expand_rle += extracted_source_ptr[i];
         }
     } else {
@@ -266,7 +266,7 @@ REF_INLINE qpl_status own_prepare_job(qpl_job *const qpl_job_ptr) {
     REF_BAD_ARG_RET(((REF_8U_BITS != qpl_job_ptr->src1_bit_width)
                      && (REF_16U_BITS != qpl_job_ptr->src1_bit_width)
                      && (REF_MAX_BIT_WIDTH != qpl_job_ptr->src1_bit_width)), QPL_STS_BIT_WIDTH_ERR);
-    REF_BAD_ARG_RET(((1u > qpl_job_ptr->src2_bit_width) || (REF_MAX_BIT_WIDTH < qpl_job_ptr->src2_bit_width)),
+    REF_BAD_ARG_RET(((1U > qpl_job_ptr->src2_bit_width) || (REF_MAX_BIT_WIDTH < qpl_job_ptr->src2_bit_width)),
                     QPL_STS_BIT_WIDTH_ERR);
     // check that there is enough bits in src1 (counters)
     if (qpl_p_parquet_rle
@@ -278,8 +278,8 @@ REF_INLINE qpl_status own_prepare_job(qpl_job *const qpl_job_ptr) {
     // check that there is enough bits in src2 (elements)
     // for case when counters src1_bit_width is 32bit then src2 has 1 element less than qpl_job_ptr->num_input_elements
     REF_BAD_ARG_RET((((qpl_job_ptr->num_input_elements - ((OWN_BIT_SIZEOF(uint32_t) == qpl_job_ptr->src1_bit_width)
-                       ? 1u
-                       : 0u)) * qpl_job_ptr->src2_bit_width) > OWN_BYTE_BIT_LEN * qpl_job_ptr->available_src2
+                       ? 1U
+                       : 0U)) * qpl_job_ptr->src2_bit_width) > OWN_BYTE_BIT_LEN * qpl_job_ptr->available_src2
                     ), QPL_STS_SRC_IS_SHORT_ERR);
 
     REF_BAD_ARG_RET((qpl_ow_32 < qpl_job_ptr->out_bit_width), QPL_STS_OUT_FORMAT_ERR);
@@ -348,7 +348,7 @@ REF_INLINE qpl_status own_expand_rle_output_to_format(const uint32_t *const sour
     qpl_job_ptr->total_out    = output_bytes;
     qpl_job_ptr->next_in_ptr  = (uint8_t *) (source_ptr + qpl_job_ptr->available_in);
     qpl_job_ptr->next_out_ptr += output_bytes;
-    qpl_job_ptr->available_in = 0u;
+    qpl_job_ptr->available_in = 0U;
     qpl_job_ptr->available_out -= output_bytes;
 
     return QPL_STS_OK;
@@ -374,7 +374,7 @@ REF_INLINE qpl_status own_expand_rle_le_be(qpl_job *const qpl_job_ptr) {
     uint32_t number_of_elements = qpl_job_ptr->num_input_elements;
 
     // Number of elements in the mask vector
-    uint32_t number_of_elements_mask = (32u == source_bit_width) ? number_of_elements - 1u : number_of_elements;
+    uint32_t number_of_elements_mask = (32U == source_bit_width) ? number_of_elements - 1U : number_of_elements;
 
     // Number of bytes available in source_ptr
     uint32_t available_bytes = qpl_job_ptr->available_in;
@@ -384,7 +384,7 @@ REF_INLINE qpl_status own_expand_rle_le_be(qpl_job *const qpl_job_ptr) {
 
     // Src2 input format - LE (0) or BE (>0)
     uint32_t   mask_be     = qpl_job_ptr->flags & QPL_FLAG_SRC2_BE;
-    qpl_parser mask_parser = (0u == mask_be) ? qpl_p_le_packed_array : qpl_p_be_packed_array;
+    qpl_parser mask_parser = (0U == mask_be) ? qpl_p_le_packed_array : qpl_p_be_packed_array;
 
     // Bit length of number of elements
     uint64_t bit_length = (uint64_t) number_of_elements * (uint64_t) source_bit_width;
@@ -465,14 +465,14 @@ REF_INLINE qpl_status own_expand_rle(const uint32_t *const source_ptr,
                                      uint32_t *const destination_ptr,
                                      uint32_t number_of_output_elements,
                                      uint32_t initial_bit_width) {
-    uint32_t numberOfRepetitions = 0u;
-    uint32_t destinationIndex    = 0u;
-    uint32_t elementToRepeat     = 0u;
+    uint32_t numberOfRepetitions = 0U;
+    uint32_t destinationIndex    = 0U;
+    uint32_t elementToRepeat     = 0U;
 
-    for (uint32_t sourceIndex = 0u; sourceIndex < number_of_elements_mask; sourceIndex++) {
+    for (uint32_t sourceIndex = 0U; sourceIndex < number_of_elements_mask; sourceIndex++) {
         elementToRepeat = mask_ptr[sourceIndex];
 
-        if (32u != initial_bit_width) {
+        if (32U != initial_bit_width) {
             numberOfRepetitions = source_ptr[sourceIndex];
         } else {
             if (source_ptr[sourceIndex + 1] < source_ptr[sourceIndex]) {
@@ -486,7 +486,7 @@ REF_INLINE qpl_status own_expand_rle(const uint32_t *const source_ptr,
             return QPL_STS_INTL_INVALID_COUNT;
         }
 
-        for (uint32_t repetitionIndex = 0u; repetitionIndex < numberOfRepetitions; repetitionIndex++) {
+        for (uint32_t repetitionIndex = 0U; repetitionIndex < numberOfRepetitions; repetitionIndex++) {
             if (destinationIndex >= number_of_output_elements) {
                 return QPL_STS_INTL_INVALID_COUNT;
             }

@@ -10,22 +10,22 @@
 
 GenStatus gz_generator::CannedLargeLiteralLengthTableConfigurator::generate()
 {
-    Gen32u match      = 0u;
-    Gen32u offset     = 1u;
-    Gen32u literal    = 0u;
-    Gen32u hack_258   = 0u;
-    Gen32u matchIndex = 0u;
+    Gen32u match      = 0U;
+    Gen32u offset     = 1U;
+    Gen32u literal    = 0U;
+    Gen32u hack_258   = 0U;
+    Gen32u matchIndex = 0U;
 
-    std::vector <Gen32u> matches = {3u,   4u,   5u,   6u,   7u,
-                                    8u,   9u,   10u,  11u,  13u,
-                                    15u,  17u,  19u,  23u,  27u,
-                                    31u,  35u,  43u,  51u,  59u,
-                                    67u,  83u,  99u,  115u, 131u,
-                                    163u, 195u, 227u, 258u};
+    std::vector <Gen32u> matches = {3U,   4U,   5U,   6U,   7U,
+                                    8U,   9U,   10U,  11U,  13U,
+                                    15U,  17U,  19U,  23U,  27U,
+                                    31U,  35U,  43U,  51U,  59U,
+                                    67U,  83U,  99U,  115U, 131U,
+                                    163U, 195U, 227U, 258U};
 
-    for ( Gen32u currentReferenceCount = 26u; currentReferenceCount <= matches.size(); currentReferenceCount++)
+    for ( Gen32u currentReferenceCount = 26U; currentReferenceCount <= matches.size(); currentReferenceCount++)
     {
-        for ( Gen32u currentLiteralCount = 253u; currentLiteralCount <= LITERALS_HIGH_BORDER; currentLiteralCount++)
+        for ( Gen32u currentLiteralCount = 253U; currentLiteralCount <= LITERALS_HIGH_BORDER; currentLiteralCount++)
         {
             TestConfigurator::declareDynamicBlock();
 
@@ -33,14 +33,14 @@ GenStatus gz_generator::CannedLargeLiteralLengthTableConfigurator::generate()
             {
                 TestConfigurator::declareLiteral(literal);
                 literal++;
-                literal = RESET_ON_LIMIT(literal, LITERALS_HIGH_BORDER, 0u);
+                literal = RESET_ON_LIMIT(literal, LITERALS_HIGH_BORDER, 0U);
             }
 
             for (Gen32u i = 0; i < currentReferenceCount; i++)
             {
                 match = matches[matchIndex];
                 matchIndex++;
-                matchIndex = RESET_ON_LIMIT(matchIndex, matches.size(), 0u);
+                matchIndex = RESET_ON_LIMIT(matchIndex, matches.size(), 0U);
 
                 if (match == MAX_MATCH)
                 {
@@ -50,7 +50,7 @@ GenStatus gz_generator::CannedLargeLiteralLengthTableConfigurator::generate()
 
                 TestConfigurator::declareReference(match, offset);
                 offset++;
-                offset = RESET_ON_LIMIT(offset, 4u, 1u);
+                offset = RESET_ON_LIMIT(offset, 4U, 1U);
             }
         }
     }

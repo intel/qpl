@@ -28,7 +28,7 @@ auto hw_dispatcher::initialize_hw() noexcept -> qpl_test_hw_accelerator_status {
 
 
     int32_t context_creation_status = qpl_test_accfg_new(&ctx_ptr);
-    if (0u != context_creation_status) return QPL_TEST_HW_ACCELERATOR_LIBACCEL_ERROR;
+    if (0U != context_creation_status) return QPL_TEST_HW_ACCELERATOR_LIBACCEL_ERROR;
 
     // Retrieve first device in the system given the passed in context
     auto *dev_tmp_ptr = qpl_test_accfg_device_get_first(ctx_ptr);

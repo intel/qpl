@@ -30,13 +30,13 @@ void static ref_qplc_pack_32unu(const uint8_t* src_ptr, uint32_t num_elements, u
         int32_t  bits_in_buf = (int32_t)(nbits + start_bit);
         uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
         uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
-        uint64_t src = (uint64_t)(*dst_32u_ptr) & ((1u << start_bit) - 1);
+        uint64_t src = (uint64_t)(*dst_32u_ptr) & ((1U << start_bit) - 1);
 
         src |= ((uint64_t)(*src_32u_ptr)) << start_bit;
         src_32u_ptr++;
         num_elements--;
 
-        while (0u < num_elements) {
+        while (0U < num_elements) {
             if (OWN_DWORD_WIDTH <= bits_in_buf) {
                 *dst_32u_ptr = (uint32_t)(src);
                 dst_32u_ptr++;
@@ -60,7 +60,7 @@ void static ref_qplc_pack_32unu(const uint8_t* src_ptr, uint32_t num_elements, u
         // In case when there's only one element to pack
         // output buffer size can be less than 32 bits,
         // the following code performs packing byte by byte
-        uint64_t    mask = (uint64_t)((1u << nbits) - 1) << start_bit;
+        uint64_t    mask = (uint64_t)((1U << nbits) - 1) << start_bit;
         uint64_t    source = (uint64_t)(*(uint32_t*)src_ptr) << start_bit;
 
         while (mask) {
@@ -80,64 +80,64 @@ void static ref_qplc_pack_32unu(const uint8_t* src_ptr, uint32_t num_elements, u
 
 void static ref_qplc_pack_32u17u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)
 {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 17u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 17U);
 }
 
 void static ref_qplc_pack_32u18u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 18u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 18U);
 }
 
 void static ref_qplc_pack_32u19u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 19u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 19U);
 }
 
 void static ref_qplc_pack_32u20u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 20u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 20U);
 }
 
 void static ref_qplc_pack_32u21u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 21u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 21U);
 }
 
 void static ref_qplc_pack_32u22u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 22u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 22U);
 }
 
 void static ref_qplc_pack_32u23u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 23u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 23U);
 }
 
 void static ref_qplc_pack_32u24u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)
 {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 24u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 24U);
 }
 
 void static ref_qplc_pack_32u25u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 25u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 25U);
 }
 
 void static ref_qplc_pack_32u26u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 26u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 26U);
 }
 
 void static ref_qplc_pack_32u27u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 27u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 27U);
 }
 
 void static ref_qplc_pack_32u28u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 28u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 28U);
 }
 
 void static ref_qplc_pack_32u29u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 29u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 29U);
 }
 
 void static ref_qplc_pack_32u30u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 30u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 30U);
 }
 
 void static ref_qplc_pack_32u31u(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit) {
-    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 31u);
+    ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 31U);
 }
 
 static qplc_pack_32u_type ref_qplc_pack_32u_tabl[15] =
@@ -163,12 +163,12 @@ static qplc_pack_32u_type ref_qplc_pack_32u_tabl[15] =
 static void fill_src_buffer_32u(uint8_t* src, uint8_t* dst, size_t length, uint32_t nbits) {
     uint32_t *p_src_32u = (uint32_t*)src;
     uint32_t *p_dst_32u = (uint32_t*)dst;
-    uint32_t mask = (1u << nbits) - 1u;
+    uint32_t mask = (1U << nbits) - 1U;
     for (uint32_t indx = 0; indx < length; indx++)
         p_dst_32u[indx] = p_src_32u[indx] & mask;
 }
 
-constexpr uint32_t TEST_BUFFER_SIZE = 64u;
+constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -178,7 +178,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT32_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
     {
         uint32_t* p_buffer_32u = (uint32_t*)buffer.data();

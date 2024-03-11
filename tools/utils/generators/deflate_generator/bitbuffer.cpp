@@ -9,8 +9,8 @@
 gz_generator::BitBuffer::BitBuffer(std::vector<uint8_t> *data)
     : m_data(data)
 {
-    m_buffer = {0u,0u};
-    m_totalBitWritten = 0u;
+    m_buffer = {0U,0U};
+    m_totalBitWritten = 0U;
     m_bigEndian16 = false;
 }
 
@@ -25,24 +25,24 @@ void gz_generator::BitBuffer::write(uint64_t value, uint32_t bit_count)
     bitToProcess += bit_count;
 
     if (m_bigEndian16) {
-        while (bitToProcess >= 16u)
+        while (bitToProcess >= 16U)
         {
             uint16_t word;
             word = (uint16_t)(m_buffer.value);
             word = bitFlip(word);
             m_data->push_back((char)word);
-            m_data->push_back((char)(word >> 8u));
-            m_buffer.value >>= 16u;
-            bitToProcess -= 16u;
+            m_data->push_back((char)(word >> 8U));
+            m_buffer.value >>= 16U;
+            bitToProcess -= 16U;
         }
     }
     else
     {
-        while (bitToProcess >= 8u)
+        while (bitToProcess >= 8U)
         {
             m_data->push_back((char)(m_buffer.value));
-            m_buffer.value >>= 8u;
-            bitToProcess -= 8u;
+            m_buffer.value >>= 8U;
+            bitToProcess -= 8U;
         }
     }
     m_buffer.bit_length = bitToProcess;
@@ -55,13 +55,13 @@ void gz_generator::BitBuffer::flush(uint32_t pad)
 
     if (m_bigEndian16)
     {
-        code_length = (0u - m_buffer.bit_length) & 15u;
+        code_length = (0U - m_buffer.bit_length) & 15U;
     }
     else
     {
-        code_length = (0u - m_buffer.bit_length) & 7u;
+        code_length = (0U - m_buffer.bit_length) & 7U;
     }
-    code = pad & ((1u << code_length) - 1u);
+    code = pad & ((1U << code_length) - 1U);
 
     write(code, code_length);
 }
@@ -74,10 +74,10 @@ void gz_generator::BitBuffer::padToByte()
         throw std::exception();
     }
 
-    if (m_buffer.bit_length != 0u)
+    if (m_buffer.bit_length != 0U)
     {
-        assert(m_buffer.bit_length < 8u);
-        write(0u, 8u - m_buffer.bit_length);
+        assert(m_buffer.bit_length < 8U);
+        write(0U, 8U - m_buffer.bit_length);
     }
 }
 
@@ -88,10 +88,10 @@ uint32_t gz_generator::BitBuffer::getBitsWritten()
 
 uint16_t gz_generator::BitBuffer::bitFlip(uint16_t word)
 {
-    word = (word >> 8u) | (word << 8u);
-    word = ((word >> 4u) & 0x0F0Fu) | ((word << 4u) & 0xF0F0u);
-    word = ((word >> 2u) & 0x3333u) | ((word << 2u) & 0xCCCCu);
-    word = ((word >> 1u) & 0x5555) | ((word << 1u) & 0xAAAAu);
+    word = (word >> 8U) | (word << 8U);
+    word = ((word >> 4U) & 0x0F0FU) | ((word << 4U) & 0xF0F0U);
+    word = ((word >> 2U) & 0x3333U) | ((word << 2U) & 0xCCCCU);
+    word = ((word >> 1U) & 0x5555) | ((word << 1U) & 0xAAAAU);
     return word;
 }
 

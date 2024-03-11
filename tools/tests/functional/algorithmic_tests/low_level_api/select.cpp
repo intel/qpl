@@ -41,15 +41,15 @@ namespace qpl::test
 
             for (uint32_t length : lengths)
             {
-                for (uint32_t bit_width = 1; bit_width <= 32u; bit_width++)
+                for (uint32_t bit_width = 1; bit_width <= 32U; bit_width++)
                 {
                     for (uint32_t destination_bit_width : {1, 8, 16, 32})
                     {
                         const uint32_t max_output_value = (1ULL << destination_bit_width) - 1;
 
-                        if (destination_bit_width != 1u && max_output_value < length) {
+                        if (destination_bit_width != 1U && max_output_value < length) {
                             continue;
-                        } else if (destination_bit_width != 1u && bit_width > destination_bit_width) {
+                        } else if (destination_bit_width != 1U && bit_width > destination_bit_width) {
                             continue;
                         }
 
@@ -110,7 +110,7 @@ namespace qpl::test
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
 
         if (GetExecutionPath() == qpl_path_software && current_test_case.parser == qpl_p_parquet_rle) {
-            job_ptr->src1_bit_width = 0u;
+            job_ptr->src1_bit_width = 0U;
         }
 
         auto status = run_job_api(job_ptr);

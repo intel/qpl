@@ -33,12 +33,12 @@ OWN_QPLC_FUN(void, qplc_bit_aggregates_8u, (const uint8_t *src_ptr,
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_bit_aggregates_8u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr, index_ptr);
 #else
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         if (OWN_MAX_32U == *min_value_ptr) {
-            *min_value_ptr = (0u == src_ptr[idx]) ? *min_value_ptr : idx + *index_ptr;
+            *min_value_ptr = (0U == src_ptr[idx]) ? *min_value_ptr : idx + *index_ptr;
         }
-        *max_value_ptr = (0u == src_ptr[idx]) ? *max_value_ptr : idx + *index_ptr;
+        *max_value_ptr = (0U == src_ptr[idx]) ? *max_value_ptr : idx + *index_ptr;
     }
     *index_ptr += length;
 #endif
@@ -53,7 +53,7 @@ OWN_QPLC_FUN(void, qplc_aggregates_8u, (const uint8_t *src_ptr,
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_aggregates_8u)(src_ptr, length, min_value_ptr, max_value_ptr, sum_ptr);
 #else
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         *min_value_ptr = (src_ptr[idx] < *min_value_ptr) ? src_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_ptr[idx] > *max_value_ptr) ? src_ptr[idx] : *max_value_ptr;
@@ -72,7 +72,7 @@ OWN_QPLC_FUN(void, qplc_aggregates_16u, (const uint8_t *src_ptr,
 #else
     const uint16_t *src_16u_ptr = (uint16_t *) src_ptr;
 
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_16u_ptr[idx];
         *min_value_ptr = (src_16u_ptr[idx] < *min_value_ptr) ? src_16u_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_16u_ptr[idx] > *max_value_ptr) ? src_16u_ptr[idx] : *max_value_ptr;
@@ -91,7 +91,7 @@ OWN_QPLC_FUN(void, qplc_aggregates_32u, (const uint8_t *src_ptr,
 #else
     const uint32_t *src_32u_ptr = (uint32_t *) src_ptr;
 
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_32u_ptr[idx];
         *min_value_ptr = (src_32u_ptr[idx] < *min_value_ptr) ? src_32u_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_32u_ptr[idx] > *max_value_ptr) ? src_32u_ptr[idx] : *max_value_ptr;

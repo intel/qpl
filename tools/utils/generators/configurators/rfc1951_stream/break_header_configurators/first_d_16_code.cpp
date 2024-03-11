@@ -9,7 +9,7 @@
 GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
 {
     Gen32u* pDistanceLengthCodesTable = nullptr;
-    qpl::test::random rand (4u, 7u, m_seed);
+    qpl::test::random rand (4U, 7U, m_seed);
 
     Gen8u  repeatingCount = static_cast<Gen8u>(rand);
 
@@ -18,7 +18,7 @@ GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, DEFAULT_D_TABLE_LENGTH,
                                                  MAX_D_CODE_BIT_LENGTH);
 
-    for (Gen8u i = 1u; i < repeatingCount; i++)
+    for (Gen8u i = 1U; i < repeatingCount; i++)
     {
         pDistanceLengthCodesTable[i] = pDistanceLengthCodesTable[0];
     }
@@ -26,7 +26,7 @@ GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(D_VECTOR, pDistanceLengthCodesTable, DEFAULT_D_TABLE_LENGTH);
     TestConfigurator::declareVectorToken(D_ENCODED_VECTOR, pDistanceLengthCodesTable, DEFAULT_D_TABLE_LENGTH);
-    TestConfigurator::declareTestToken(4u, 1u);
+    TestConfigurator::declareTestToken(4U, 1U);
 
     TestConfigurator::writeRandomHuffmanBlock();
     TestConfigurator::declareFinishBlock();

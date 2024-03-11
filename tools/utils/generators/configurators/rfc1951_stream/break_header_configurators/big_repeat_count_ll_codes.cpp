@@ -9,37 +9,37 @@
 GenStatus gz_generator::BigRepeatCountLiteralLengthCodesConfigurator::generate()
 {
     Gen32u *pLiteralLengthCodesTable  = NULL;
-    Gen32u  code_length                = 0u;
-    Gen32u  repeatedCode              = 0u;
-    Gen32u  repeatingCount            = 0u;
-    Gen32u  maximumLiteralCode        = 0u;
-    Gen32u  writtenLiteralLengthCodes = 0u;
+    Gen32u  code_length                = 0U;
+    Gen32u  repeatedCode              = 0U;
+    Gen32u  repeatingCount            = 0U;
+    Gen32u  maximumLiteralCode        = 0U;
+    Gen32u  writtenLiteralLengthCodes = 0U;
 
-    qpl::test::random random(0u, 0u, m_seed);
+    qpl::test::random random(0U, 0U, m_seed);
 
-    if (0.25f > static_cast<float>(m_random))
+    if (0.25F > static_cast<float>(m_random))
     {
-        random.set_range(1u, 8u);
+        random.set_range(1U, 8U);
         code_length = static_cast<Gen32u>(random);
-        random.set_range(4u, 7u);
+        random.set_range(4U, 7U);
         repeatingCount = static_cast<Gen32u>(random);
-        maximumLiteralCode = 284u;
+        maximumLiteralCode = 284U;
     }
     else
     {
-        code_length = 0u;
-        random.set_range(3u, 138u);
+        code_length = 0U;
+        random.set_range(3U, 138U);
         repeatingCount = static_cast<Gen32u>(random);
-        maximumLiteralCode = 285u;
+        maximumLiteralCode = 285U;
     }
 
-    if (0.5f > static_cast<float>(m_random))
+    if (0.5F > static_cast<float>(m_random))
     {
-        random.set_range(DEFAULT_LL_TABLE_LENGTH + 1u - repeatingCount, maximumLiteralCode);
+        random.set_range(DEFAULT_LL_TABLE_LENGTH + 1U - repeatingCount, maximumLiteralCode);
     }
     else
     {
-        random.set_range(GEN_MAX(245, DEFAULT_LL_TABLE_LENGTH + 1u - repeatingCount), maximumLiteralCode);
+        random.set_range(GEN_MAX(245, DEFAULT_LL_TABLE_LENGTH + 1U - repeatingCount), maximumLiteralCode);
     }
 
     repeatedCode = static_cast<Gen32u>(random);
@@ -47,8 +47,8 @@ GenStatus gz_generator::BigRepeatCountLiteralLengthCodesConfigurator::generate()
     pLiteralLengthCodesTable = new Gen32u[repeatedCode + repeatingCount];
 
     {
-        Gen32u code = 0u;
-        random.set_range(9u, 15u);
+        Gen32u code = 0U;
+        random.set_range(9U, 15U);
         for (code = code; code < repeatedCode; code++)
         {
             pLiteralLengthCodesTable[code] = static_cast<Gen32u>(random);
@@ -62,7 +62,7 @@ GenStatus gz_generator::BigRepeatCountLiteralLengthCodesConfigurator::generate()
 
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_ENCODED_VECTOR, pLiteralLengthCodesTable, writtenLiteralLengthCodes);
-    TestConfigurator::declareLiteral(0u);
+    TestConfigurator::declareLiteral(0U);
 
     TestConfigurator::writeRandomBlock();
     TestConfigurator::declareFinishBlock();

@@ -38,7 +38,7 @@ static inline uint32_t count_significant_bits(uint32_t value) {
     // Main cycle
     while (value > 0) {
         significant_bits++;
-        value >>= 1u;
+        value >>= 1U;
     }
 
     return significant_bits;
@@ -56,12 +56,12 @@ static inline void compute_offset_code(const struct isal_hufftables *huffman_tab
     uint32_t length;
     uint32_t code;
 
-    offset -= 1u;
+    offset -= 1U;
     significant_bits = count_significant_bits(offset);
     // TODO: look into possibility of exiting early in case of significant_bits <= 1
 
-    number_of_extra_bits = significant_bits - 2u;
-    extra_bits           = offset & ((1u << (number_of_extra_bits % 32)) - 1u);
+    number_of_extra_bits = significant_bits - 2U;
+    extra_bits           = offset & ((1U << (number_of_extra_bits % 32)) - 1U);
     offset >>= number_of_extra_bits % 32;
     symbol               = offset + 2 * number_of_extra_bits;
 
@@ -109,7 +109,7 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
 #endif
     } else {
         // ~0 is an invalid distance code
-        return ~0u;
+        return ~0U;
     }
 }
 
@@ -135,7 +135,7 @@ uint32_t update_missed_literals(uint8_t *current_ptr,
 
     while (current_ptr < upper_bound_ptr) {
         // Variables
-        const uint32_t hash_value = qpl_crc32_gzip_refl(0u,
+        const uint32_t hash_value = qpl_crc32_gzip_refl(0U,
                                                     current_ptr,
                                                     OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
 
@@ -185,10 +185,10 @@ void get_match_length_code(const struct isal_hufftables *const huffman_table_ptr
                            const uint32_t match_length,
                            uint64_t *const code_ptr,
                            uint32_t *const code_length_ptr) {
-    const uint64_t match_length_info = huffman_table_ptr->len_table[match_length - 3u];
+    const uint64_t match_length_info = huffman_table_ptr->len_table[match_length - 3U];
 
-    *code_ptr        = match_length_info >> 5u;
-    *code_length_ptr = match_length_info & 0x1Fu;
+    *code_ptr        = match_length_info >> 5U;
+    *code_length_ptr = match_length_info & 0x1FU;
 }
 
 void get_offset_code(const struct isal_hufftables *const huffman_table_ptr,
@@ -198,8 +198,8 @@ void get_offset_code(const struct isal_hufftables *const huffman_table_ptr,
     if (offset <= IGZIP_DIST_TABLE_SIZE) {
         const uint64_t offset_info = huffman_table_ptr->dist_table[offset - 1];
 
-        *code_ptr        = offset_info >> 5u;
-        *code_length_ptr = offset_info & 0x1Fu;
+        *code_ptr        = offset_info >> 5U;
+        *code_length_ptr = offset_info & 0x1FU;
     } else {
         compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
     }
@@ -228,8 +228,8 @@ OWN_QPLC_FUN(void, setup_dictionary, (uint8_t * dictionary_ptr,
     for (uint32_t index = 0; index < dictionary_size; index++) {
         // Variables
 
-        uint32_t hash_value = 0u;
-        hash_value = qpl_crc32_gzip_refl(0u,
+        uint32_t hash_value = 0U;
+        hash_value = qpl_crc32_gzip_refl(0U,
                                      current_ptr,
                                      OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
         // Updating hash table

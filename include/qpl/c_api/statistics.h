@@ -25,9 +25,9 @@ extern "C" {
  * @{
  */
 
-#define QPL_LITERALS_MATCHES_TABLE_SIZE    286u  /**< Size of Huffman table with codes for literals and match lengths */
-#define QPL_DEFAULT_OFFSETS_NUMBER         30u   /**< Default number of possible offsets in a Huffman table */
-#define QPL_DEFAULT_LITERALS_NUMBER        257u  /**< Default number of literals in a Huffman table */
+#define QPL_LITERALS_MATCHES_TABLE_SIZE    286U  /**< Size of Huffman table with codes for literals and match lengths */
+#define QPL_DEFAULT_OFFSETS_NUMBER         30U   /**< Default number of possible offsets in a Huffman table */
+#define QPL_DEFAULT_LITERALS_NUMBER        257U  /**< Default number of literals in a Huffman table */
 
 /**
  * @brief Represents mode in which @ref qpl_op_compress operation should be performed
@@ -43,9 +43,9 @@ typedef enum {
  */
 typedef struct {
     uint32_t literal_lengths[QPL_LITERALS_MATCHES_TABLE_SIZE]; /**< Combined histogram for literals and match lengths tokens */
-    uint32_t reserved_literal_lengths[2u];                     /**< Reserved match lengths tokens */
+    uint32_t reserved_literal_lengths[2U];                     /**< Reserved match lengths tokens */
     uint32_t distances[QPL_DEFAULT_OFFSETS_NUMBER];            /**< Histogram for distance tokens */
-    uint32_t reserved_distances[2u];                           /**< Reserved distance tokens */
+    uint32_t reserved_distances[2U];                           /**< Reserved distance tokens */
 } qpl_histogram;
 
 /** @} */

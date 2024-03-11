@@ -7,10 +7,10 @@
 #include "hw_descriptors_api.h"
 #include "own_analytic_descriptor.h"
 
-#define OWN_FILTER_FLAGS_SET_SOURCE_1_PARSER(x)     (((x) & 3u) << 0u)            /**< @todo */
-#define OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(x)  (((x) & 0x1Fu) << 2u)         /**< @todo */
-#define OWN_FILTER_FLAGS_SET_OUT_BIT_WIDTH(x)       (((x) & 3u) << 13u)           /**< @todo */
-#define OWN_FILTER_FLAGS_GET_SOURCE_1_BIT_WIDTH(x)  ((((x) >> 2u) & 0x1Fu ) + 1)  /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_1_PARSER(x)     (((x) & 3U) << 0U)            /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(x)  (((x) & 0x1FU) << 2U)         /**< @todo */
+#define OWN_FILTER_FLAGS_SET_OUT_BIT_WIDTH(x)       (((x) & 3U) << 13U)           /**< @todo */
+#define OWN_FILTER_FLAGS_GET_SOURCE_1_BIT_WIDTH(x)  ((((x) >> 2U) & 0x1FU ) + 1)  /**< @todo */
 
 HW_PATH_IAA_API(uint32_t, descriptor_get_source1_bit_width, (const hw_descriptor *const descriptor_ptr)) {
     hw_iaa_analytics_descriptor *const this_ptr = (hw_iaa_analytics_descriptor *) descriptor_ptr;
@@ -26,8 +26,8 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_filter_input, (hw_descriptor *cons
     own_hw_analytic_descriptor *const this_ptr = (own_hw_analytic_descriptor*) descriptor_ptr;
 
     uint32_t input_bit_width_field = (input_format != hw_iaa_input_format_prle) ?
-                                     OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(input_bit_width - 1u) :
-                                     0u;
+                                     OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(input_bit_width - 1U) :
+                                     0U;
 
     uint32_t input_format_field    = OWN_FILTER_FLAGS_SET_SOURCE_1_PARSER(input_format);
 

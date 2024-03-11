@@ -13,10 +13,10 @@
 extern "C" {
 #endif
 
-#define OWN_BYTES_FOR_HASH_CALCULATION 4u     /**> Number of bytes that is used for hash calculation*/
-#define OWN_MINIMAL_MATCH_LENGTH 4u           /**> Minimal match length used during match search */
-#define OWN_MAXIMAL_OFFSET 4096u              /**> Maximal offset for match */
-#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFu   /**> Value of uninitialized index in hash table*/
+#define OWN_BYTES_FOR_HASH_CALCULATION 4U     /**> Number of bytes that is used for hash calculation*/
+#define OWN_MINIMAL_MATCH_LENGTH 4U           /**> Minimal match length used during match search */
+#define OWN_MAXIMAL_OFFSET 4096U              /**> Maximal offset for match */
+#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFU   /**> Value of uninitialized index in hash table*/
 #define LITERAL_DISTANCE_IN_ICF 30
 
 /**
@@ -69,4 +69,4 @@ struct deflate_icf_stream {
 }
 #endif
 
-#endif // QPLC_DEFLATE_DEFS_H_ 
+#endif // QPLC_DEFLATE_DEFS_H_

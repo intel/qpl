@@ -82,7 +82,7 @@ void deflate_state_builder<execution_path_t::software>::init() noexcept {
     stream_.isal_stream_ptr_->end_of_stream = stream_.is_last_chunk();
 
     stream_.isal_stream_ptr_->hist_bits = isal_history_size_boundary;
-    isal_state->mb_mask                 = (1u << (qpl_mblk_size_32k + 8u)) - 1;
+    isal_state->mb_mask                 = (1U << (qpl_mblk_size_32k + 8U)) - 1;
 
     isal_state->dist_mask = util::build_mask<uint32_t>(stream_.isal_stream_ptr_->hist_bits);
     isal_state->hash_mask = stream_.compression_mode_ == dynamic_mode ? LVL3_HASH_MASK : LVL1_HASH_MASK;

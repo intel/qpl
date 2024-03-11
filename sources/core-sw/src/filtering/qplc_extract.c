@@ -32,16 +32,16 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_8u_i, (uint8_t * src_dst_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
-    if (0u != start) {
+    if (0U != start) {
         src_ptr += start;
         CALL_CORE_FUN(qplc_move_8u)(src_ptr, dst_ptr, (stop - start));
     }
@@ -61,16 +61,16 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_16u_i, (uint8_t * src_dst_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
-    if (0u != start) {
+    if (0U != start) {
         src_ptr += start;
         CALL_CORE_FUN(qplc_move_16u)(src_ptr, dst_ptr, (stop - start));
     }
@@ -90,16 +90,16 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_32u_i, (uint8_t * src_dst_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
-    if (0u != start) {
+    if (0U != start) {
         src_ptr += start;
         CALL_CORE_FUN(qplc_move_32u)(src_ptr, dst_ptr, (stop - start));
     }
@@ -120,14 +120,14 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_8u, (const uint8_t *src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_ptr += start;
     CALL_CORE_FUN(qplc_move_8u)(src_ptr, dst_ptr, (stop - start));
@@ -148,14 +148,14 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_16u, (const uint8_t *src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_16u_ptr += start;
     CALL_CORE_FUN(qplc_move_16u)(src_16u_ptr, dst_16u_ptr, (stop - start));
@@ -176,14 +176,14 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_32u, (const uint8_t *src_ptr,
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
-        return 0u;
+        return 0U;
     }
     if (*index_ptr > high_value) {
-        return 0u;
+        return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0u;
-    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1u - *index_ptr) : length;
+    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    stop  = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_32u_ptr += start;
     CALL_CORE_FUN(qplc_move_32u)(src_32u_ptr, dst_32u_ptr, (stop - start));

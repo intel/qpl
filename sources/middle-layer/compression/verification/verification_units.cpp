@@ -13,8 +13,8 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
 
     auto &inflate_state = *state.get_state();
 
-    if (inflate_state.avail_in == 0u &&
-        inflate_state.read_in_length == 0u) {
+    if (inflate_state.avail_in == 0U &&
+        inflate_state.read_in_length == 0U) {
         result.status = parser_status_t::need_more_input;
         return result;
     }
@@ -44,7 +44,7 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
 
             parser_status = parser_status_t::need_more_input;
         } else if (ISAL_BLOCK_TYPE0 == inflate_state.block_state &&
-                   0u == inflate_state.type0_block_len) {
+                   0U == inflate_state.type0_block_len) {
             parser_status = parser_status_t::error;
         } else {
             parser_status = parser_status_t::ok;
@@ -79,8 +79,8 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
         return result;
     }
 
-    if (inflate_state.avail_in == 0u &&
-        inflate_state.read_in_length == 0u) {
+    if (inflate_state.avail_in == 0U &&
+        inflate_state.read_in_length == 0U) {
         result.status = parser_status_t::need_more_input;
         return result;
     }
@@ -102,7 +102,7 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
 
     const uint32_t bytes_read = static_cast<uint32_t>(std::distance(initial_next_in_ptr, inflate_state.next_in));
 
-    const uint32_t actual_bits_read = bytes_read * 8u +
+    const uint32_t actual_bits_read = bytes_read * 8U +
                                       initial_bits_in_buffer -
                                       inflate_state.read_in_length;
 

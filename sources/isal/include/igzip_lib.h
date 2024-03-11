@@ -213,13 +213,13 @@ enum isal_block_state {
 #if defined(QPL_LIB)
 /**
  * @briеf Defines type (lit/len or distance) of input code in dynamic header
- * 
+ *
  */
 typedef enum
 {
     llTable,
     dTable
-} OwnTableType; 
+} OwnTableType;
 
 enum inflate_end_proc
 {
@@ -259,10 +259,10 @@ enum inflate_end_proc
 #define ISAL_UNSUPPORTED_METHOD -5	/* Gzip/zlib wrapper specifies unsupported compress method */
 #define ISAL_INCORRECT_CHECKSUM -6 /* Incorrect checksum found */
 #if defined(QPL_LIB)
-#define QPL_MAX_CL_HUFFMAN_CODE_LEN             7u
-#define QPL_MAX_LL_D_HUFFMAN_CODE_LEN           15u
-#define QPL_32U_SIGN_BIT_MASK                   0x80000000u
-#define QPL_HUFFMAN_ONLY_TOKENS_COUNT           256u /* All literals except for EOB symbol */
+#define QPL_MAX_CL_HUFFMAN_CODE_LEN             7U
+#define QPL_MAX_LL_D_HUFFMAN_CODE_LEN           15U
+#define QPL_32U_SIGN_BIT_MASK                   0x80000000U
+#define QPL_HUFFMAN_ONLY_TOKENS_COUNT           256U /* All literals except for EOB symbol */
 #define QPL_HW_BASE_CODE                        -200 /* Emulated HW error base */
 #define QPL_AD_ERROR_CODE_BIGHDR                (QPL_HW_BASE_CODE - 1)
 #define QPL_AD_ERROR_CODE_UNDEF_CL_CODE         (QPL_HW_BASE_CODE - 2)
@@ -581,7 +581,7 @@ struct inflate_state {
 
     /**
     * The following flag prohibits creating multisymbol fields in lookup table during
-    * preparation of the dynamic header. Therefore, at the decompression stage 
+    * preparation of the dynamic header. Therefore, at the decompression stage
     * all deflate tokens will be read one-by-one.
     *
     * This is temporary WORKAROUND for indexing (which is currently used during verification stage),

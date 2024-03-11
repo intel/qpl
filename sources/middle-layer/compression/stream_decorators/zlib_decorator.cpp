@@ -22,15 +22,15 @@
 namespace qpl::ml::compression {
 
 namespace zlib_flags {
-constexpr uint8_t dictionary        = 0x20u;
-constexpr uint8_t compression_level = 0x40u | 0x80u;
+constexpr uint8_t dictionary        = 0x20U;
+constexpr uint8_t compression_level = 0x40U | 0x80U;
 }
 
 namespace zlib_fields {
-constexpr uint8_t  CM_ZLIB_DEFAULT_VALUE   = 8u;
-constexpr uint32_t ZLIB_MIN_HEADER_SIZE    = 2u;
-constexpr uint32_t ZLIB_INFO_OFFSET        = 4u;
-constexpr uint32_t ZLIB_DICTIONARY_ID_SIZE = 4u;
+constexpr uint8_t  CM_ZLIB_DEFAULT_VALUE   = 8U;
+constexpr uint32_t ZLIB_MIN_HEADER_SIZE    = 2U;
+constexpr uint32_t ZLIB_INFO_OFFSET        = 4U;
+constexpr uint32_t ZLIB_DICTIONARY_ID_SIZE = 4U;
 }
 
 struct wrapper_result_t {
@@ -79,7 +79,7 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
         stream_ptr += zlib_fields::ZLIB_DICTIONARY_ID_SIZE;
         header.byte_size += zlib_fields::ZLIB_DICTIONARY_ID_SIZE;
     } else {
-        header.dictionary_id = 0u;
+        header.dictionary_id = 0U;
     }
 
     header.compression_level = (flags & zlib_flags::compression_level);
@@ -235,7 +235,7 @@ auto zlib_decorator::wrap(F function,
 
     auto data_ptr      = state.next_out();
     auto data_size     = state.avail_out();
-    auto wrapper_bytes = 0u;
+    auto wrapper_bytes = 0U;
 
     if (state.is_first_chunk()) {
         auto wrapper_result = own_write_header(data_ptr, data_size);

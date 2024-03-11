@@ -204,8 +204,8 @@ public:
 
         reference_text = dataset[current_test_case.file_name];
 
-        sw_destination.resize(reference_text.size() * 2u);
-        hw_destination.resize(reference_text.size() * 2u);
+        sw_destination.resize(reference_text.size() * 2U);
+        hw_destination.resize(reference_text.size() * 2U);
     }
 };
 

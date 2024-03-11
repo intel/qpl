@@ -12,7 +12,7 @@ GenStatus gz_generator::FirstLiteralLengthCode16Configurator::generate()
 {
     Gen32u* pLiteralLengthCodesTable = nullptr;
 
-    qpl::test::random rand (4u, 7u, m_seed);
+    qpl::test::random rand (4U, 7U, m_seed);
 
     Gen8u  repeatingCount = static_cast<Gen8u>(rand);
 
@@ -21,15 +21,15 @@ GenStatus gz_generator::FirstLiteralLengthCode16Configurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH,
                                                  MAX_LL_CODE_BIT_LENGTH);
 
-    for (Gen8u i = 1u; i < repeatingCount; i++)
+    for (Gen8u i = 1U; i < repeatingCount; i++)
     {
-        pLiteralLengthCodesTable[i] = pLiteralLengthCodesTable[0u];
+        pLiteralLengthCodesTable[i] = pLiteralLengthCodesTable[0U];
     }
 
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
     TestConfigurator::declareVectorToken(LL_ENCODED_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
-    TestConfigurator::declareTestToken(4u, 0u);
+    TestConfigurator::declareTestToken(4U, 0U);
 
     TestConfigurator::writeRandomHuffmanBlock();
     TestConfigurator::declareFinishBlock();

@@ -47,7 +47,7 @@ static inline auto extract(input_stream_t &input_stream,
                                                param_low,
                                                param_high);
 
-        if (0u != extracted_elements) {
+        if (0U != extracted_elements) {
             aggregates_callback(buffer.data(),
                                 extracted_elements,
                                 &aggregates.min_value_,
@@ -161,7 +161,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
                                       &aggregates_empty_callback :
                                       aggregates_table[aggregates_index];
 
-    if ((input_bit_width == 8u || input_bit_width == 16u || input_bit_width == 32u) &&
+    if ((input_bit_width == 8U || input_bit_width == 16U || input_bit_width == 32U) &&
         input_stream.stream_format() == stream_format_t::le_format &&
         !input_stream.is_compressed()) {
         auto     extract_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_table();
@@ -218,10 +218,10 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
 
     input_stream.calculate_checksums();
 
-    if (1u == output_stream.bit_width()) {
-        operation_result.last_bit_offset_ = ((param_high - param_low + 1u) * input_bit_width & max_bit_index);
+    if (1U == output_stream.bit_width()) {
+        operation_result.last_bit_offset_ = ((param_high - param_low + 1U) * input_bit_width & max_bit_index);
     } else {
-        operation_result.last_bit_offset_ = 0u;
+        operation_result.last_bit_offset_ = 0U;
     }
 
     operation_result.status_code_      = status_code;

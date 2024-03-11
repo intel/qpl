@@ -29,7 +29,7 @@ static inline qplc_unpack_bits_t_ptr qplc_unpack_bits(uint32_t index) {
 static void fill_src_buffer_16u(uint8_t* src, uint8_t* dst, uint32_t length, uint32_t nbits) {
     uint16_t* p_src_16u = (uint16_t*)src;
     uint16_t* p_dst_16u = (uint16_t*)dst;
-    uint16_t mask = (1u << nbits) - 1u;
+    uint16_t mask = (1U << nbits) - 1U;
     for (uint32_t indx = 0; indx < length; indx++) {
         p_dst_16u[indx] = p_src_16u[indx] & mask;
     }
@@ -43,7 +43,7 @@ static void fill_reference_buffer_16u(uint8_t* src, uint8_t* dst, uint32_t lengt
     }
 }
 
-constexpr uint32_t TEST_BUFFER_SIZE = 64u;
+constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
@@ -54,7 +54,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint16_t)> reference{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT16_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {
         uint16_t* p_buffer_16u = (uint16_t*)buffer.data();

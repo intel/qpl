@@ -27,18 +27,18 @@ constexpr size_t gzip_trailer_size = 8;
 }
 
 namespace gzip_fields {
-constexpr uint8_t  ID1_RFC_VALUE             = 31u;
-constexpr uint8_t  ID2_RFC_VALUE             = 139u;
-constexpr uint8_t  CM_RFC_VALUE              = 8u;
-constexpr uint32_t GZIP_HEADER_MIN_BYTE_SIZE = 10u;
+constexpr uint8_t  ID1_RFC_VALUE             = 31U;
+constexpr uint8_t  ID2_RFC_VALUE             = 139U;
+constexpr uint8_t  CM_RFC_VALUE              = 8U;
+constexpr uint32_t GZIP_HEADER_MIN_BYTE_SIZE = 10U;
 }
 
 namespace gzip_flags {
-constexpr uint8_t crc16          = 2u;
-constexpr uint8_t extra          = 4u;
-constexpr uint8_t name           = 8u;
+constexpr uint8_t crc16          = 2U;
+constexpr uint8_t extra          = 4U;
+constexpr uint8_t name           = 8U;
 constexpr uint8_t comment        = 0x10;
-constexpr uint8_t reserverd_bits = 0x20u | 0x40u | 0x80u;
+constexpr uint8_t reserverd_bits = 0x20U | 0x40U | 0x80U;
 }
 
 struct wrapper_result_t {
@@ -61,7 +61,7 @@ static inline auto seek_until_zero(const uint8_t **begin_ptr, const uint8_t *end
         } else {
             (*current_ptr)++;
         }
-    } while ((**current_ptr) != 0u);
+    } while ((**current_ptr) != 0U);
 
     return status_list::ok;
 }
@@ -159,7 +159,7 @@ auto gzip_decorator::read_header(const uint8_t *stream_ptr,
 
     header.flags = flags;
 
-    uint32_t gzip_extra_bytes = 0u;
+    uint32_t gzip_extra_bytes = 0U;
 
     auto status = parse_gzip_flags(current_stream_ptr, stream_end_ptr, flags, gzip_extra_bytes);
 
@@ -281,7 +281,7 @@ static inline auto write_gzip_trailer(uint8_t *destination_ptr,
         return result;
     }
 
-    auto gzip_trailer = static_cast<uint64_t>(length) << 32u | crc;
+    auto gzip_trailer = static_cast<uint64_t>(length) << 32U | crc;
     auto data_ptr = reinterpret_cast<uint8_t *>(&gzip_trailer);
 
     core_sw::util::copy(data_ptr, data_ptr + gzip_sizes::gzip_trailer_size, destination_ptr);
@@ -303,7 +303,7 @@ auto gzip_decorator::wrap(F function,
 
     auto data_ptr      = state.next_out();
     auto data_size     = state.avail_out();
-    auto wrapper_bytes = 0u;
+    auto wrapper_bytes = 0U;
 
     if (state.is_first_chunk()) {
         auto wrapper_result = write_gzip_header(data_ptr, data_size);

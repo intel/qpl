@@ -34,8 +34,8 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::create(huffman_
     m_allocator.allocator   = allocator.allocator;
     m_allocator.deallocator = allocator.deallocator;
 
-    auto   allocated_size             = 0u;
-    size_t decompression_table_offset = 0u;
+    auto   allocated_size             = 0U;
+    size_t decompression_table_offset = 0U;
 
     switch (type) {
         case huffman_table_type_e::compression:
@@ -55,7 +55,7 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::create(huffman_
     auto buffer = table_allocator.allocator(allocated_size);
     if (!buffer) return status_list::nullptr_error;
 
-    memset(buffer, 0u, allocated_size);
+    memset(buffer, 0U, allocated_size);
 
     m_tables_buffer = std::unique_ptr<uint8_t[], void(*)(void*)>(reinterpret_cast<uint8_t*>(buffer),
                                                                  table_allocator.deallocator);
@@ -92,8 +92,8 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::create(huf
     m_allocator.allocator   = allocator.allocator;
     m_allocator.deallocator = allocator.deallocator;
 
-    auto   allocated_size             = 0u;
-    size_t decompression_table_offset = 0u;
+    auto   allocated_size             = 0U;
+    size_t decompression_table_offset = 0U;
 
     switch (type) {
         case huffman_table_type_e::compression:
@@ -111,7 +111,7 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::create(huf
     auto buffer = table_allocator.allocator(allocated_size);
     if (!buffer) return status_list::nullptr_error;
 
-    memset(buffer, 0u, allocated_size);
+    memset(buffer, 0U, allocated_size);
 
     m_tables_buffer = std::unique_ptr<uint8_t[], void(*)(void*)>(reinterpret_cast<uint8_t*>(buffer),
                                                                  table_allocator.deallocator);
@@ -233,15 +233,15 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::init(const huff
 template<>
 qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::init(const huffman_table_t<compression_algorithm_e::huffman_only> &other) noexcept {
     if (m_meta.type == huffman_table_type_e::decompression) {
-        constexpr auto     QPL_HUFFMAN_CODE_BIT_LENGTH = 15u;
-        constexpr uint16_t code_mask                   = (1u << QPL_HUFFMAN_CODE_BIT_LENGTH) - 1u;
+        constexpr auto     QPL_HUFFMAN_CODE_BIT_LENGTH = 15U;
+        constexpr uint16_t code_mask                   = (1U << QPL_HUFFMAN_CODE_BIT_LENGTH) - 1U;
 
         std::array<qpl::ml::compression::qpl_triplet, 256> triplets_tmp{};
 
         auto literals_matches_table_ptr = reinterpret_cast<uint32_t *>(other.m_c_huffman_table);
 
         // Prepare triplets
-        for (uint16_t i = 0u; i < 256u; i++) {
+        for (uint16_t i = 0U; i < 256U; i++) {
             triplets_tmp[i].code        = literals_matches_table_ptr[i] & code_mask;
             triplets_tmp[i].code_length = literals_matches_table_ptr[i] >> QPL_HUFFMAN_CODE_BIT_LENGTH;
             triplets_tmp[i].character   = static_cast<uint8_t>(i);

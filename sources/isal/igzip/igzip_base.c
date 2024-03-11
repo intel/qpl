@@ -244,7 +244,7 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
 #if defined(QPL_LIB)
     if (!is_full(&state->bitbuf) &&
         stream->flush != QPL_PARTIAL_FLUSH &&
-        stream->huffman_only_flag != 2u)
+        stream->huffman_only_flag != 2U)
     {
 #else
     if (!is_full(&state->bitbuf)) {

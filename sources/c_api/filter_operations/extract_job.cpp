@@ -17,7 +17,7 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
     OWN_QPL_CHECK_STATUS(job::validate_operation<qpl_op_extract>(job_ptr))
 
     if (job_ptr->param_low > job_ptr->param_high) {
-        job::update_input_stream(job_ptr, 0u);
+        job::update_input_stream(job_ptr, 0U);
 
         return status_list::ok;
     }

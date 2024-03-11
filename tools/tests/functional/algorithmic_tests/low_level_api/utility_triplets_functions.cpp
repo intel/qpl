@@ -17,7 +17,7 @@
 #include "huffman_table_unique.hpp"
 
 namespace qpl::test {
-constexpr uint32_t offsets_table_size = 30u;
+constexpr uint32_t offsets_table_size = 30U;
 
 typedef struct qpl_compression_huffman_table qpl_compression_huffman_table;
 
@@ -28,7 +28,7 @@ protected:
     void SetUp() override {
         JobFixture::SetUp();
 
-        uint32_t job_size = 0u;
+        uint32_t job_size = 0U;
         auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
         ASSERT_EQ(QPL_STS_OK, status);
 
@@ -48,7 +48,7 @@ protected:
     static std::vector<qpl_huffman_triplet> create_triplets_from_table(qpl_huffman_table_t compression_table_ptr) {
         std::vector<qpl_huffman_triplet> result_triplets(256);
 
-        constexpr uint32_t huffman_code_bit_length = 15u;
+        constexpr uint32_t huffman_code_bit_length = 15U;
 
         auto *literals_matches_table_ptr =
                      reinterpret_cast<uint32_t *>(own_huffman_table_get_compression_table(compression_table_ptr));
@@ -59,9 +59,9 @@ protected:
             return result_triplets;
         }
 
-        const uint16_t qpl_code_mask = (1u << huffman_code_bit_length) - 1u;
+        const uint16_t qpl_code_mask = (1U << huffman_code_bit_length) - 1U;
 
-        for (uint16_t i = 0u; i < 256u; i++) {
+        for (uint16_t i = 0U; i < 256U; i++) {
             result_triplets[i].code        = literals_matches_table_ptr[i] & qpl_code_mask;
             result_triplets[i].code_length = literals_matches_table_ptr[i] >> huffman_code_bit_length;
             result_triplets[i].value       = i;
@@ -113,13 +113,13 @@ protected:
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
-        std::fill(destination.begin(), destination.end(), 0u);
+        std::fill(destination.begin(), destination.end(), 0U);
 
         // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decompressed size;
         // This also should be mentioned in the manual: decompression can generate up to 7 extra
         // bytes from the last byte padding bits.
-        reference_buffer.resize(max_length + 7u);
-        std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
+        reference_buffer.resize(max_length + 7U);
+        std::fill(reference_buffer.begin(), reference_buffer.end(), 0U);
 
         build_compression_table(c_table.get(),
                                 source_for_compression_table.begin(),
@@ -187,7 +187,7 @@ protected:
 
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_in  = job_ptr->total_out;
-        decompression_job_ptr->available_out = max_length + 7u;
+        decompression_job_ptr->available_out = max_length + 7U;
         decompression_job_ptr->huffman_table = d_table.get();
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
@@ -253,13 +253,13 @@ protected:
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
-        std::fill(destination.begin(), destination.end(), 0u);
+        std::fill(destination.begin(), destination.end(), 0U);
 
         // Workaround for "no headers" issue (+7) - usually a customer doesn't know the decompressed size;
         // This also should be mentioned in the manual: decompression can generate up to 7 extra
         // bytes from the last byte padding bits.
-        reference_buffer.resize(max_length + 7u);
-        std::fill(reference_buffer.begin(), reference_buffer.end(), 0u);
+        reference_buffer.resize(max_length + 7U);
+        std::fill(reference_buffer.begin(), reference_buffer.end(), 0U);
 
         build_compression_table(c_table.get(),
                                 source_for_compression_table.begin(),
@@ -330,7 +330,7 @@ protected:
 
         decompression_job_ptr->next_out_ptr  = reference_buffer.data();
         decompression_job_ptr->available_in  = job_ptr->total_out;
-        decompression_job_ptr->available_out = max_length + 7u;
+        decompression_job_ptr->available_out = max_length + 7U;
         decompression_job_ptr->huffman_table = d_table.get();
         decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | flag_be;
         decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;

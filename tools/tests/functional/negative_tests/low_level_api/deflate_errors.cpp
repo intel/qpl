@@ -132,7 +132,7 @@ qpl_status compress_create_indices<compression_mode::fixed_compression>(std::vec
 
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_block_overflow) {
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);
@@ -152,7 +152,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_bl
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block_overflow) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);
@@ -167,7 +167,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_block_overflow) {
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);
@@ -197,7 +197,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_overflow) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);
@@ -222,7 +222,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_block_overflow) {
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);
@@ -243,7 +243,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_bloc
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_overflow) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
-    qpl::test::random random_number(0u, UINT8_MAX, GetSeed());
+    qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
     source.resize(source_size);
     destination.resize(destination_size);

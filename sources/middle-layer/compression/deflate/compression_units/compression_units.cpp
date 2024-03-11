@@ -241,8 +241,8 @@ auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
     stream.write_mini_block_index();
 
     // Write End Of Block
-    uint64_t literal_code        = 0u;
-    uint32_t literal_code_length = 0u;
+    uint64_t literal_code        = 0U;
+    uint32_t literal_code_length = 0U;
 
     get_literal_code(stream.isal_stream_ptr_->hufftables,
                      end_of_block_code_index,

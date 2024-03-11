@@ -16,7 +16,7 @@ static inline uint32_t compare_strings(const uint8_t *const first_ptr,
                                        const uint8_t *const second_ptr,
                                        const uint8_t *const upper_bound_ptr) {
     // Variables
-    uint32_t match_length = 0u;
+    uint32_t match_length = 0U;
 
     // Main cycle
     if (first_ptr >= second_ptr) {
@@ -25,7 +25,7 @@ static inline uint32_t compare_strings(const uint8_t *const first_ptr,
 
     while ((first_ptr[match_length] == second_ptr[match_length]) &&
            (second_ptr + match_length < upper_bound_ptr) &&
-           match_length <= 257u) {
+           match_length <= 257U) {
         match_length++;
     }
 
@@ -42,8 +42,8 @@ static inline deflate_match_t get_best_match(const deflate_hash_table_t *const h
 
     uint32_t index                      = hash_table_ptr->hash_table_ptr[hash_value];
     uint8_t  *current_match_ptr         = (uint8_t *) (lower_bound_ptr + index);
-    uint32_t match_length               = 0u;
-    uint32_t attempt_number             = 0u;
+    uint32_t match_length               = 0U;
+    uint32_t attempt_number             = 0U;
 #ifdef SCORE_FUNCTION
     uint32_t match_score                = 0u;
 #endif
@@ -79,7 +79,7 @@ static inline deflate_match_t get_best_match(const deflate_hash_table_t *const h
          * If new match length is longer than good match parameter
          * we have to decrease the depth of the search in 4 times
          */
-        current_number_of_attempts >>= 2u;
+        current_number_of_attempts >>= 2U;
     }
 
     index = hash_table_ptr->hash_story_ptr[index & hash_table_ptr->hash_mask];
@@ -109,7 +109,7 @@ static inline deflate_match_t get_best_match(const deflate_hash_table_t *const h
 #endif
             best_match.offset = (uint32_t) (string_ptr - current_match_ptr);
 
-            if (best_match.length >= 258u) {
+            if (best_match.length >= 258U) {
                 break;
             }
         }
@@ -127,7 +127,7 @@ deflate_match_t get_lazy_best_match(const deflate_hash_table_t *const hash_table
                                     const uint8_t *const string_ptr,
                                     const uint8_t *const upper_bound_ptr) {
     // Variables
-    const uint8_t *current_ptr = string_ptr + 1u;
+    const uint8_t *current_ptr = string_ptr + 1U;
 
     // Getting initial matches for "lazy matching" logic from Zlib
     deflate_match_t longest_match      = get_best_match(hash_table_ptr, lower_bound_ptr, string_ptr, upper_bound_ptr);

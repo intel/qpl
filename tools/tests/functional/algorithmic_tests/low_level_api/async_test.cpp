@@ -24,8 +24,8 @@
 namespace qpl::test {
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compression_decompression) {
-    constexpr uint32_t source_size      = 111261u;
-    constexpr uint32_t number_of_copies = 7u;
+    constexpr uint32_t source_size      = 111261U;
+    constexpr uint32_t number_of_copies = 7U;
 
     auto &dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
     auto path     = util::TestEnvironment::GetInstance().GetExecutionPath();

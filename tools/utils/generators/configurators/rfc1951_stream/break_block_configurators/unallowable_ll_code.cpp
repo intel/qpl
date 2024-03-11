@@ -19,14 +19,14 @@ GenStatus gz_generator::UnallowableLiteralLengthCodeConfigurator::generate()
 
     TestConfigurator::declareFixedBlock();
 
-    if (0.9f > static_cast<float>(m_random))
+    if (0.9F > static_cast<float>(m_random))
     {
         literalsEncoded = TestConfigurator::writeRandomReferenceSequence(static_cast<Gen32u>(m_randomTokenCount));
     }
     TestConfigurator::declareLiteral(static_cast<Gen32u>(randomUndefinedLiteral));
     literalsEncoded += 1;
 
-    if (0.9f > static_cast<float>(m_random))
+    if (0.9F > static_cast<float>(m_random))
     {
         TestConfigurator::writeRandomReferenceSequence(static_cast<Gen32u>(m_randomTokenCount), literalsEncoded);
     }

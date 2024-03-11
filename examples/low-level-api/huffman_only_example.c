@@ -24,7 +24,7 @@
  *
  * The C-based example demonstrates data compression/decompression using 2 separate jobs with Huffman-only encoding.
  */
-#define source_size 1000u
+#define source_size 1000U
 
 int main(int argc, char** argv) {
     printf("Intel(R) Query Processing Library version is %s.\n", qpl_get_library_version());

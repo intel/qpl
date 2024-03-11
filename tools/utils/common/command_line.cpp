@@ -43,7 +43,7 @@ CommandLine::CommandLine(char **arguments_pptr, int arguments_count) {
 }
 
 CommandLine::argument_t CommandLine::convertType(const std::string &parsed_argument) {
-    int iValue = 0u;
+    int iValue = 0U;
 
     auto result = std::from_chars(parsed_argument.c_str(),
                                   parsed_argument.c_str() + parsed_argument.length(),

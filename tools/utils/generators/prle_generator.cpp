@@ -137,7 +137,7 @@ auto create_parquet_group(parquet_element_t parquet_element) -> std::vector<uint
 
     uint32_t expected_result_size = get_prle_header_size_bytes(parquet_element.repeat_count) + sizeof(uint32_t) * 8;
 
-    std::vector<uint8_t> result_vector(expected_result_size, 0u);
+    std::vector<uint8_t> result_vector(expected_result_size, 0U);
 
     auto source_it = result_vector.begin();
     auto source_end_it = result_vector.end();

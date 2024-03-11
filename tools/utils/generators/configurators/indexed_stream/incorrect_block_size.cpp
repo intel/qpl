@@ -15,12 +15,12 @@ GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
     Gen32s delta = 0;
     qpl::test::random randomDelta(-8, 8, m_seed);
 
-    while ((delta = static_cast<Gen32s>(randomDelta)) == 0u);
+    while ((delta = static_cast<Gen32s>(randomDelta)) == 0U);
 
     // Generate first block
     TestConfigurator::declareDynamicBlock();
 
-    for (Gen32u mini_block = 0; miniBlockCount < miniBlocksPerBlock - 1u; mini_block++)
+    for (Gen32u mini_block = 0; miniBlockCount < miniBlocksPerBlock - 1U; mini_block++)
     {
         ConfiguratorDecompressIndex::generateMiniBlock(mini_block_size);
     }
@@ -40,7 +40,7 @@ GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
     // Generate second block
     TestConfigurator::declareRandomBlock();
 
-    TestConfigurator::writeRandomLiteralSequence(100u);
+    TestConfigurator::writeRandomLiteralSequence(100U);
 
     ConfiguratorDecompressIndex::getIndex();
 

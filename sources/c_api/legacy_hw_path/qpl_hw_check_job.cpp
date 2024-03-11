@@ -37,7 +37,7 @@
 
 namespace qpl::ml {
 
-#define AECS_WRITTEN(p) ((((p)->op_code_op_flags >> 18u) & 3u) == AD_WRSRC2_ALWAYS)
+#define AECS_WRITTEN(p) ((((p)->op_code_op_flags >> 18U) & 3U) == AD_WRSRC2_ALWAYS)
 
 qpl_status set_state_to_complete_and_wrap(qpl_job *const job_ptr,
                                           qpl_hw_state *state_ptr,
@@ -96,7 +96,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     if (!cfg_in_ptr) {
         return QPL_STS_LIBRARY_INTERNAL_ERR;
     }
-    hw_iaa_aecs_compress *const cfg_out_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset ^ 1u, state_ptr->aecs_size);
+    hw_iaa_aecs_compress *const cfg_out_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset ^ 1U, state_ptr->aecs_size);
     if (!cfg_out_ptr) {
         return QPL_STS_LIBRARY_INTERNAL_ERR;
     }
@@ -107,10 +107,10 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         qpl_job_ptr->idx_num_written += comp_ptr->output_size / sizeof(uint64_t);
 
         // Invert AECS toggle for compression
-        state_ptr->aecs_hw_read_offset ^= 1u;
+        state_ptr->aecs_hw_read_offset ^= 1U;
 
         // Invert AECS toggle for verify
-        state_ptr->verify_aecs_hw_read_offset ^= 1u;
+        state_ptr->verify_aecs_hw_read_offset ^= 1U;
 
         return (is_final_block && (comp_ptr->crc != state_ptr->execution_history.compress_crc))
         ? QPL_STS_INTL_VERIFY_ERR
@@ -122,9 +122,9 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         HW_IMMEDIATELY_RET((qpl_job_ptr->flags & (QPL_FLAG_NO_HDRS)), QPL_STS_DST_IS_SHORT_ERR);
 
         if (qpl_job_ptr->mini_block_size) {
-            HW_IMMEDIATELY_RET((64u * 1024u <= qpl_job_ptr->available_in), QPL_STS_INDEX_GENERATION_ERR)
+            HW_IMMEDIATELY_RET((64U * 1024U <= qpl_job_ptr->available_in), QPL_STS_INDEX_GENERATION_ERR)
             HW_IMMEDIATELY_RET((((qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_LAST)) != (QPL_FLAG_FIRST | QPL_FLAG_LAST))
-            && (0u == (qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_DYNAMIC_HUFFMAN)))),
+            && (0U == (qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_DYNAMIC_HUFFMAN)))),
                                QPL_STS_INDEX_GENERATION_ERR)
         }
 
@@ -148,14 +148,14 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
         uint8_t *output_ptr        = qpl_job_ptr->next_out_ptr;
         const uint32_t output_size = qpl_job_ptr->available_out;
-        uint32_t bytes_written     = 0u;
+        uint32_t bytes_written     = 0U;
 
         // Flush AECS buffers
-        HW_IMMEDIATELY_RET((256u + 64u <= bits_to_flush), QPL_STS_LIBRARY_INTERNAL_ERR);
+        HW_IMMEDIATELY_RET((256U + 64U <= bits_to_flush), QPL_STS_LIBRARY_INTERNAL_ERR);
 
         if (bits_to_flush) {
             hw_iaa_aecs_compress_accumulator_flush(cfg_in_ptr, &output_ptr, bits_to_flush);
-            bytes_written += bits_to_flush / 8u;
+            bytes_written += bits_to_flush / 8U;
         }
         else {
             cfg_in_ptr->num_output_accum_bits = 0U;
@@ -165,7 +165,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
                                                               input_data_size,
                                                               output_ptr,
                                                               output_size,
-                                                              bits_to_flush & 7u,
+                                                              bits_to_flush & 7U,
                                                               is_final_block);
 
         // Calculate checksums and update their values in job ptr
@@ -232,7 +232,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
             if (comp_ptr->output_bits != 0) {
                 comp_ptr->output_bits += 8;
             }
-            comp_ptr->output_size &= ~1u;
+            comp_ptr->output_size &= ~1U;
         } else {
             // even output size
             if (comp_ptr->output_bits == 0) {
@@ -245,9 +245,9 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     // 5: 2-pass header gen without Deflate header
     // 6: 2-pass header gen with Deflate header
     // 7: 2-pass header gen with bFinal Deflate header
-    bool hw_2_pass_header_gen = ADCF_ENABLE_HDR_GEN(5u) == (ADCF_ENABLE_HDR_GEN(5u) & desc_ptr->decomp_flags) ||
-                                ADCF_ENABLE_HDR_GEN(6u) == (ADCF_ENABLE_HDR_GEN(6u) & desc_ptr->decomp_flags) ||
-                                ADCF_ENABLE_HDR_GEN(7u) == (ADCF_ENABLE_HDR_GEN(7u) & desc_ptr->decomp_flags);
+    bool hw_2_pass_header_gen = ADCF_ENABLE_HDR_GEN(5U) == (ADCF_ENABLE_HDR_GEN(5U) & desc_ptr->decomp_flags) ||
+                                ADCF_ENABLE_HDR_GEN(6U) == (ADCF_ENABLE_HDR_GEN(6U) & desc_ptr->decomp_flags) ||
+                                ADCF_ENABLE_HDR_GEN(7U) == (ADCF_ENABLE_HDR_GEN(7U) & desc_ptr->decomp_flags);
 
     // Resubmit deflate task for dynamic deflate (statistics generated in first pass)
     // or 2-pass header generation (Huffman table generated in first pass).
@@ -279,7 +279,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
                                                                                       (hw_completion_record *) &state_ptr->comp_ptr,
                                                                                        qpl_job_ptr->numa_id);
 
-        HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
+        HW_IMMEDIATELY_RET(0U != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 
         return QPL_STS_BEING_PROCESSED;
     }
@@ -317,7 +317,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     }
 
     //  Invert AECS toggle for compression
-    state_ptr->aecs_hw_read_offset ^= 1u;
+    state_ptr->aecs_hw_read_offset ^= 1U;
 
     return QPL_STS_OK;
 }
@@ -376,7 +376,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
                                                                                           (hw_completion_record *) &state_ptr->comp_ptr,
                                                                                           qpl_job_ptr->numa_id);
 
-            HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
+            HW_IMMEDIATELY_RET(0U != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 
             // Set the flag to ensure we attempt only single resubmission.
             state_ptr->is_page_fault_processed = true;
@@ -422,18 +422,18 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
         return static_cast<qpl_status>(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<const hw_completion_record *>(comp_ptr)));
     }
 
-    HW_IMMEDIATELY_RET((0u != comp_ptr->error_code), ml::status_list::hardware_error_base + comp_ptr->error_code);
+    HW_IMMEDIATELY_RET((0U != comp_ptr->error_code), ml::status_list::hardware_error_base + comp_ptr->error_code);
 
     if ((IS_RND_ACCESS_BODY(qpl_job_ptr->flags)) && (0 != qpl_job_ptr->ignore_start_bits)) {
         hw_iaa_aecs_decompress_clean_input_accumulator(&cfg_ptr->inflate_options);
     }
 
     if (!(IS_RND_ACCESS_BODY(qpl_job_ptr->flags))) {
-        uint32_t wrSrc2 = (desc_ptr->op_code_op_flags >> 18u) & 3u;
+        uint32_t wrSrc2 = (desc_ptr->op_code_op_flags >> 18U) & 3U;
         state_ptr->config_valid = ((AD_WRSRC2_ALWAYS == wrSrc2) || ((AD_WRSRC2_MAYBE == wrSrc2) &&
                                                                     (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status)))
-                                  ? 1u
-                                  : 0u;
+                                  ? 1U
+                                  : 0U;
         FLIP_AECS_OFFSET(state_ptr);
     }
 
@@ -443,7 +443,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
         job::update_checksums(qpl_job_ptr, comp_ptr->crc, comp_ptr->xor_checksum);
     } else {
         // CRC64 Operations
-        job::update_crc(qpl_job_ptr, ((uint64_t)comp_ptr->sum_agg << 32u)
+        job::update_crc(qpl_job_ptr, ((uint64_t)comp_ptr->sum_agg << 32U)
                                     | (uint64_t)comp_ptr->max_last_agg);
     }
 
@@ -460,20 +460,20 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     } else if (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status) {
         size = comp_ptr->bytes_completed;
     } else {
-        size = 0u;
+        size = 0U;
     }
 
-    if (0u != state_ptr->accumulation_buffer.actual_bytes) {
+    if (0U != state_ptr->accumulation_buffer.actual_bytes) {
         HW_IMMEDIATELY_RET((size > state_ptr->accumulation_buffer.actual_bytes),
                            QPL_STS_LIBRARY_INTERNAL_ERR);
 
         state_ptr->accumulation_buffer.actual_bytes -= size;
 
-        HW_IMMEDIATELY_RET(((0u != state_ptr->accumulation_buffer.actual_bytes)
+        HW_IMMEDIATELY_RET(((0U != state_ptr->accumulation_buffer.actual_bytes)
                             && (AD_STATUS_OUTPUT_OVERFLOW != comp_ptr->status)),
                            QPL_STS_LIBRARY_INTERNAL_ERR);
 
-        if (0u != state_ptr->accumulation_buffer.actual_bytes) {
+        if (0U != state_ptr->accumulation_buffer.actual_bytes) {
             core_sw::util::move(state_ptr->accumulation_buffer.data + size,
                                 state_ptr->accumulation_buffer.data + size + state_ptr->accumulation_buffer.actual_bytes,
                                 state_ptr->accumulation_buffer.data);
@@ -484,18 +484,18 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
 
     // Handle output overflow
     if (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status) {
-        if (0u == comp_ptr->output_size) {
+        if (0U == comp_ptr->output_size) {
             // No progress was made
             return QPL_STS_DST_IS_SHORT_ERR;
         }
-        if (0u == available_out) {
+        if (0U == available_out) {
             return QPL_STS_MORE_OUTPUT_NEEDED;
         }
         // The application gave us a large output buffer, but we could only use 2MB of it,
         // which filled up, so we need to use more of it in a new qpl_job_ptr.
     }
 
-    if (0u != qpl_job_ptr->available_in) {
+    if (0U != qpl_job_ptr->available_in) {
         // This should only happen if buffer > 2GB, or if buffering
         qpl_status status = hw_submit_decompress_job(qpl_job_ptr,
                                                      qpl_job_ptr->flags & QPL_FLAG_LAST,

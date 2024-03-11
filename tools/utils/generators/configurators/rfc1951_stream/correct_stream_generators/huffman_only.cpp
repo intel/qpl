@@ -9,7 +9,7 @@
 
 GenStatus gz_generator::HuffmanOnlyNoErrorConfigurator::generate()
 {
-    std::vector<Gen32u> pCodeLengthsTable(LITERALS_HIGH_BORDER + 1u);
+    std::vector<Gen32u> pCodeLengthsTable(LITERALS_HIGH_BORDER + 1U);
     std::vector<Gen32u> pLiteralSequence;
 
 
@@ -44,21 +44,21 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::declareRawBlock()
 std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::generateLiteralSequences(
         std::vector<Gen32u> &pCodeLengthsTable)
 {
-    Gen32u  literalCount = 0u;
+    Gen32u  literalCount = 0U;
     std::vector<Gen32u> pLiteralSequence;
 
-    m_randomTokenCount.set_range(128u, 512u);
+    m_randomTokenCount.set_range(128U, 512U);
     literalCount = static_cast<Gen32u>(m_randomTokenCount);
 
     while (pLiteralSequence.size() < literalCount) {
-        if (pLiteralSequence.size() < 4u || (0.8f > static_cast<float>(m_random))) {
+        if (pLiteralSequence.size() < 4U || (0.8F > static_cast<float>(m_random))) {
             pLiteralSequence.push_back(static_cast<Gen32u>(m_randomLiteralCode));
         } else {
             Gen32u match;
             Gen32u offset;
 
-            m_randomOffset.set_range(1u, GEN_MIN(MAX_OFFSET, (uint32_t) pLiteralSequence.size()));
-            m_randomMatch.set_range(4u, 7u);
+            m_randomOffset.set_range(1U, GEN_MIN(MAX_OFFSET, (uint32_t) pLiteralSequence.size()));
+            m_randomMatch.set_range(4U, 7U);
             offset = static_cast<Gen32u>(m_randomOffset);
             match = static_cast<Gen32u>(m_randomMatch);
 
@@ -69,9 +69,9 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::generateLitera
     }
 
     {
-        Gen32u streamBitLength  = 0u;
-        Gen32u minLength        = 0u;
-        Gen32u literal          = 0u;
+        Gen32u streamBitLength  = 0U;
+        Gen32u minLength        = 0U;
+        Gen32u literal          = 0U;
 
         streamBitLength = HuffmanOnlyNoErrorConfigurator::calculateStreamBitLength(pLiteralSequence,
                                                                                    pCodeLengthsTable);
@@ -79,15 +79,15 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::generateLitera
 
         minLength = *std::min_element(pCodeLengthsTable.begin(), pCodeLengthsTable.end());
 
-        if (0u != streamBitLength)
+        if (0U != streamBitLength)
         {
-            while( 16u >= streamBitLength + minLength)
+            while( 16U >= streamBitLength + minLength)
             {
                 literal = static_cast<Gen32u>(m_randomLiteralCode);
                 pLiteralSequence.push_back(literal);
                 streamBitLength = (streamBitLength + pCodeLengthsTable[literal]) & 0xFF;
 
-                if ( 0u == streamBitLength)
+                if ( 0U == streamBitLength)
                 {
                     break;
                 }
@@ -118,11 +118,11 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::declareAllLiterals(std::vecto
 
 std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffmanCodes(std::vector<Gen32u> &pLiteralLengthsTable)
 {
-    Gen32u maxCodeLength    = 0u;
+    Gen32u maxCodeLength    = 0U;
 
-    std::vector<Gen32u> pBitLengthCountTable(MAX_LL_CODE_BIT_LENGTH + 1u);
+    std::vector<Gen32u> pBitLengthCountTable(MAX_LL_CODE_BIT_LENGTH + 1U);
     std::fill(pBitLengthCountTable.begin(), pBitLengthCountTable.end(), 0);
-    std::vector<Gen32u> next_code(MAX_LL_CODE_BIT_LENGTH + 1u);
+    std::vector<Gen32u> next_code(MAX_LL_CODE_BIT_LENGTH + 1U);
     std::fill(next_code.begin(), next_code.end(), 0);
     std::vector<Gen32u> huffmanCodes;
 
@@ -146,9 +146,9 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffman
     {
         Gen32u literalLength = pLiteralLengthsTable[i];
 
-        if ( 0u == literalLength)
+        if ( 0U == literalLength)
         {
-            huffmanCodes.push_back(0u);
+            huffmanCodes.push_back(0U);
         }
         else
         {
@@ -189,12 +189,12 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
                                                                            std::vector<Gen32u> &pHuffmanCodes)
 {
     // Variables
-    Gen32u emptyPosition = 0u;
-    Gen32u startPosition = 0u;
-    Gen32u bitWidthIndex = 0u;
+    Gen32u emptyPosition = 0U;
+    Gen32u startPosition = 0U;
+    Gen32u bitWidthIndex = 0U;
 
-    std::vector<GzHuffmanTriplet> tmpTriplets(256u);
-    std::memset(&m_huffmanTable, 0u, sizeof(GenDecompressionHuffmanTable));
+    std::vector<GzHuffmanTriplet> tmpTriplets(256U);
+    std::memset(&m_huffmanTable, 0U, sizeof(GenDecompressionHuffmanTable));
 
     // Set format_stored
     if (_is_aecs_format2_expected) {
@@ -205,7 +205,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
     }
 
     // Prepare triplets
-    for (Gen16u i = 0u; i < 256u; i++)
+    for (Gen16u i = 0U; i < 256U; i++)
     {
         tmpTriplets[i].code  = pHuffmanCodes[i];
         tmpTriplets[i].len   = pLiteralLengthCodesTable[i];
@@ -215,13 +215,13 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
     // Calculate code lengths histogram
     std::for_each(tmpTriplets.begin(), tmpTriplets.end(), [&](const GzHuffmanTriplet &item)
     {
-        m_huffmanTable.number_of_codes[item.len - 1u]++;
+        m_huffmanTable.number_of_codes[item.len - 1U]++;
     });
 
     // Calculate first codes
-    for (Gen32u i = 1u; i <= 15u; i++)
+    for (Gen32u i = 1U; i <= 15U; i++)
     {
-        if (m_huffmanTable.number_of_codes[i - 1u] == 0u)
+        if (m_huffmanTable.number_of_codes[i - 1U] == 0U)
         {
             continue;
         }
@@ -243,7 +243,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
             return a.code < b.code;
         });
 
-        m_huffmanTable.first_codes[i - 1u] = filtered[0u].code;
+        m_huffmanTable.first_codes[i - 1U] = filtered[0U].code;
 
         if (_is_aecs_format2_expected) {
             bitWidthIndex = 0;
@@ -253,7 +253,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
             }
         }
         else {
-            m_huffmanTable.first_table_indexes[i - 1u] = emptyPosition;
+            m_huffmanTable.first_table_indexes[i - 1U] = emptyPosition;
 
             // Writing in sorted order
             startPosition = emptyPosition;

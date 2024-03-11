@@ -138,8 +138,8 @@ static qpl_status perform_fixed_compression(qpl_job *job_ptr,
 */
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different_styles) {
     const uint32_t    maximum_length = 4096;
-    qpl::test::random random_style(0, 2u, GetSeed());
-    qpl::test::random random_bit_of_pie(2u, 8u, GetSeed());
+    qpl::test::random random_style(0, 2U, GetSeed());
+    qpl::test::random random_bit_of_pie(2U, 8U, GetSeed());
     qpl::test::random random_element_generator(0, 1, GetSeed());
 
     source.resize(maximum_length);

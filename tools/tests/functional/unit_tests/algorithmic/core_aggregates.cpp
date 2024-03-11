@@ -27,12 +27,12 @@ static void ref_qplc_bit_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
     uint32_t* sum_ptr, uint32_t* index_ptr) {
 
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         if (QPL_TEST_MAX_32U == *min_value_ptr) {
-            *min_value_ptr = (0u == src_ptr[idx]) ? *min_value_ptr : idx + *index_ptr;
+            *min_value_ptr = (0U == src_ptr[idx]) ? *min_value_ptr : idx + *index_ptr;
         }
-        *max_value_ptr = (0u == src_ptr[idx]) ? *max_value_ptr : idx + *index_ptr;
+        *max_value_ptr = (0U == src_ptr[idx]) ? *max_value_ptr : idx + *index_ptr;
     }
     *index_ptr += length;
 }
@@ -40,7 +40,7 @@ static void ref_qplc_bit_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
 static void ref_qplc_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
     uint32_t* sum_ptr, uint32_t* index_ptr) {
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         *min_value_ptr = (src_ptr[idx] < *min_value_ptr) ? src_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_ptr[idx] > *max_value_ptr) ? src_ptr[idx] : *max_value_ptr;
@@ -51,7 +51,7 @@ static void ref_qplc_aggregates_16u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
     uint32_t* sum_ptr, uint32_t* index_ptr) {
     const uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_16u_ptr[idx];
         *min_value_ptr = (src_16u_ptr[idx] < *min_value_ptr) ? src_16u_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_16u_ptr[idx] > *max_value_ptr) ? src_16u_ptr[idx] : *max_value_ptr;
@@ -62,7 +62,7 @@ static void ref_qplc_aggregates_32u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
     uint32_t* sum_ptr, uint32_t* index_ptr) {
     const uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
-    for (uint32_t idx = 0u; idx < length; idx++) {
+    for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_32u_ptr[idx];
         *min_value_ptr = (src_32u_ptr[idx] < *min_value_ptr) ? src_32u_ptr[idx] : *min_value_ptr;
         *max_value_ptr = (src_32u_ptr[idx] > *max_value_ptr) ? src_32u_ptr[idx] : *max_value_ptr;
@@ -75,14 +75,14 @@ constexpr uint32_t fun_indx_aggregates_8u = 1;
 constexpr uint32_t fun_indx_aggregates_16u = 2;
 constexpr uint32_t fun_indx_aggregates_32u = 3;
 
-constexpr uint32_t TEST_BUFFER_SIZE = 128u;
+constexpr uint32_t TEST_BUFFER_SIZE = 128U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
     uint32_t    min_value_ptr;
     uint32_t    max_value_ptr;
     uint32_t    sum_ptr;
@@ -95,7 +95,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_8u[indx] = 1u & static_cast<uint8_t>(random_value);
+            p_source_8u[indx] = 1U & static_cast<uint8_t>(random_value);
         }
     }
 
@@ -182,7 +182,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT8_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
     uint32_t    min_value_ptr;
     uint32_t    max_value_ptr;
     uint32_t    sum_ptr;
@@ -318,7 +318,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT16_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
     uint32_t    min_value_ptr;
     uint32_t    max_value_ptr;
     uint32_t    sum_ptr;
@@ -454,7 +454,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0u, static_cast<double>(UINT32_MAX), seed);
+    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
     uint32_t    min_value_ptr;
     uint32_t    max_value_ptr;
     uint32_t    sum_ptr;
@@ -467,7 +467,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
         for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_32u[indx] = 0x1ffffu & static_cast<uint32_t>(random_value);
+            p_source_32u[indx] = 0x1ffffU & static_cast<uint32_t>(random_value);
         }
     }
 

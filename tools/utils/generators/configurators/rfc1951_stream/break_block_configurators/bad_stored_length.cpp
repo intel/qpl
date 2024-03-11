@@ -13,29 +13,29 @@ GenStatus gz_generator::BadStoredLengthConfigurator::generate()
 
     TestConfigurator::declareStoredBlock();
 
-    if (static_cast<float>(m_random) < 0.67f)
+    if (static_cast<float>(m_random) < 0.67F)
     {
-        m_randomTokenCount.set_range(0u, 32u);
+        m_randomTokenCount.set_range(0U, 32U);
     }
     else
     {
-        m_randomTokenCount.set_range(0u, 0xFFFF);
+        m_randomTokenCount.set_range(0U, 0xFFFF);
     }
 
     TestConfigurator::writeRandomLiteralSequence((Gen32u)m_randomTokenCount);
 
-    if (static_cast<float>(m_random) < 0.5f)
+    if (static_cast<float>(m_random) < 0.5F)
     {
-        randomTestGroup.set_range(0u, 15u);
-        testGroup = 1u << static_cast<Gen32u>(randomTestGroup);
+        randomTestGroup.set_range(0U, 15U);
+        testGroup = 1U << static_cast<Gen32u>(randomTestGroup);
     }
     else
     {
-        randomTestGroup.set_range(0u, 0xFFFF);
+        randomTestGroup.set_range(0U, 0xFFFF);
         testGroup = static_cast<Gen32u>(randomTestGroup);
     }
 
-    TestConfigurator::declareTestToken(8u, testGroup);
+    TestConfigurator::declareTestToken(8U, testGroup);
 
     TestConfigurator::writeRandomHuffmanBlock();
     TestConfigurator::declareFinishBlock();

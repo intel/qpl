@@ -57,7 +57,7 @@ void huffman_table_icf::expand_huffman_tables() noexcept {
         for (uint32_t k = 0; k < 4; k++) {
             len  = length_codes[i].length;
             code = length_codes[i++].code;
-            for (uint32_t j = 0; j < (1u << eb); j++) {
+            for (uint32_t j = 0; j < (1U << eb); j++) {
                 p_code->code_and_extra = code | (j << len);
                 p_code->length         = len + eb;
                 p_code++;

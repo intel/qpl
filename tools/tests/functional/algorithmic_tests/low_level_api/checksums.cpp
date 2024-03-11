@@ -13,8 +13,8 @@
 namespace qpl::test
 {
     struct AggregatesTestCase {
-        uint32_t   element_count     = 0u;
-        uint8_t    element_bit_width = 0u;
+        uint32_t   element_count     = 0U;
+        uint8_t    element_bit_width = 0U;
         qpl_parser parser            = qpl_p_le_packed_array;
     };
 
@@ -46,8 +46,8 @@ namespace qpl::test
             job_ptr->op                 = qpl_op_scan_eq;
             job_ptr->src1_bit_width     = test_case.element_bit_width;
             job_ptr->out_bit_width      = qpl_ow_nom;
-            job_ptr->param_low          = 0u;
-            job_ptr->param_high         = 0u;
+            job_ptr->param_low          = 0U;
+            job_ptr->param_high         = 0U;
             job_ptr->num_input_elements = test_case.element_count;
             job_ptr->parser             = test_case.parser;
 
@@ -60,11 +60,11 @@ namespace qpl::test
     private:
         void InitializeTestCases() override
         {
-            for (uint32_t length = 500u; length < 1000u; length++)
+            for (uint32_t length = 500U; length < 1000U; length++)
             {
                 AggregatesTestCase test_case;
                 test_case.element_count     = length;
-                test_case.element_bit_width = 8u;
+                test_case.element_bit_width = 8U;
 
                 AddNewTestCase(test_case);
             }
@@ -88,7 +88,7 @@ namespace qpl::test
         uint32_t reference_crc = ref_crc32(source.data(),
                                            static_cast<uint32_t>(source.size()),
                                            polynomial,
-                                           0u);
+                                           0U);
 
         EXPECT_EQ(reference_crc, library_crc);
     }
@@ -105,7 +105,7 @@ namespace qpl::test
         uint32_t reference_crc = ref_crc32(source.data(),
                                            static_cast<uint32_t>(source.size()),
                                            polynomial,
-                                           0u);
+                                           0U);
 
         EXPECT_EQ(reference_crc, library_crc);
     }

@@ -46,10 +46,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
         source = dataset.second;
 
         destination.resize(source.size() * 2);
-        std::vector<uint8_t> reference_buffer(destination.size(), 0u);
+        std::vector<uint8_t> reference_buffer(destination.size(), 0U);
 
         const uint32_t file_size = (uint32_t) source.size();
-        ASSERT_NE(0u, file_size) << "Couldn't open file: "
+        ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
         uint32_t size = 0;

@@ -11,7 +11,7 @@ GenStatus gz_generator::OversubscribedLiteralLengthsTreeConfigurator::generate()
 //    Gen32u* pLiteralLengthsTable = nullptr;
     Gen32u  literalLength;
 
-    qpl::test::random randomLiteralLength(0u, DEFAULT_LL_TABLE_LENGTH - 1u, m_seed);
+    qpl::test::random randomLiteralLength(0U, DEFAULT_LL_TABLE_LENGTH - 1U, m_seed);
 
     std::vector<Gen32u> literalLengthsTable(DEFAULT_LL_TABLE_LENGTH, 0);
 
@@ -25,7 +25,7 @@ GenStatus gz_generator::OversubscribedLiteralLengthsTreeConfigurator::generate()
     do {
         literalLength = static_cast<Gen32u>(randomLiteralLength);
     }
-    while (literalLengthsTable[literalLength] == 1u);
+    while (literalLengthsTable[literalLength] == 1U);
     literalLengthsTable[literalLength]--;
 
     TestConfigurator::declareVectorToken(LL_ENCODED_VECTOR, literalLengthsTable.data(), DEFAULT_LL_TABLE_LENGTH);

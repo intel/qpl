@@ -120,7 +120,7 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
                 if (result.last_bit_offset != 0) {
                     result.last_bit_offset += 8;
                 }
-                result.output_bytes_ &= ~1u;
+                result.output_bytes_ &= ~1U;
             } else {
                 // even output size
                 if (result.last_bit_offset == 0) {

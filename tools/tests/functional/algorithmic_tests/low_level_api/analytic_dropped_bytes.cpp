@@ -26,7 +26,7 @@ struct InputStreamMeta {
     uint32_t   elements_count = 0;
     uint32_t   bit_width      = 0;
     bool       is_compressed  = false;
-    uint32_t   prologue       = 0u;
+    uint32_t   prologue       = 0U;
 };
 
 static std::ostream &operator<<(std::ostream &os, const InputStreamMeta &test_case) {
@@ -50,15 +50,15 @@ protected:
         qpl::test::random random(10, 1000, GetSeed());
 
         stream_meta.elements_count = static_cast<uint32_t>(random);
-        random.set_range(1u, UINT16_MAX);
+        random.set_range(1U, UINT16_MAX);
         stream_meta.prologue      = 0;//static_cast<uint32_t>(random);
-        random.set_range(1u, 32u);
+        random.set_range(1U, 32U);
         stream_meta.bit_width     = static_cast<uint32_t>(random);
         stream_meta.is_compressed = false;
         stream_meta.parser        = qpl_p_le_packed_array;
         AddNewTestCase(stream_meta);
 
-        random.set_range(1u, bits_to_bytes(stream_meta.elements_count * stream_meta.bit_width));
+        random.set_range(1U, bits_to_bytes(stream_meta.elements_count * stream_meta.bit_width));
         stream_meta.prologue      = static_cast<uint32_t>(random);
         stream_meta.is_compressed = true;
         AddNewTestCase(stream_meta);
@@ -76,7 +76,7 @@ protected:
         job_ptr->src1_bit_width     = input_stream_meta.bit_width;
         job_ptr->parser             = input_stream_meta.parser;
         job_ptr->drop_initial_bytes = input_stream_meta.prologue;
-        job_ptr->flags              = (input_stream_meta.is_compressed) ? QPL_FLAG_DECOMPRESS_ENABLE : 0u;
+        job_ptr->flags              = (input_stream_meta.is_compressed) ? QPL_FLAG_DECOMPRESS_ENABLE : 0U;
 
         job_ptr->out_bit_width      = qpl_ow_nom;
         job_ptr->crc                = 0;
@@ -155,8 +155,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
     job_ptr->op            = qpl_op_extract;
     job_ptr->next_out_ptr  = destination.data();
     job_ptr->available_out = static_cast<uint32_t>(destination.size());
-    job_ptr->param_low     = static_cast<uint32_t>(input_stream.elements_count() / 4u);
-    job_ptr->param_high    = static_cast<uint32_t>(input_stream.elements_count() / 4u * 3u);
+    job_ptr->param_low     = static_cast<uint32_t>(input_stream.elements_count() / 4U);
+    job_ptr->param_high    = static_cast<uint32_t>(input_stream.elements_count() / 4U * 3U);
 
     if (stream_meta.is_compressed) {
         auto compressed_input = util::compress_stream(input_stream);
@@ -175,8 +175,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
     reference_job_ptr->available_in  = static_cast<uint32_t>(input_stream.size());
     reference_job_ptr->next_out_ptr  = reference_destination.data();
     reference_job_ptr->available_out = static_cast<uint32_t>(reference_destination.size());
-    reference_job_ptr->param_low     = static_cast<uint32_t>(input_stream.elements_count() / 4u);
-    reference_job_ptr->param_high    = static_cast<uint32_t>(input_stream.elements_count() / 4u * 3u);
+    reference_job_ptr->param_low     = static_cast<uint32_t>(input_stream.elements_count() / 4U);
+    reference_job_ptr->param_high    = static_cast<uint32_t>(input_stream.elements_count() / 4U * 3U);
 
     auto reference_status = ref_extract(reference_job_ptr);
 
@@ -188,8 +188,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
 }
 
 static inline auto correct_bit_width(uint32_t bit_width, bool is_compressed) noexcept -> uint32_t {
-    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH = 15u;
-    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED = 8u;
+    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH = 15U;
+    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED = 8U;
 
     auto max_acceptable_bit_width = (is_compressed) ?
                                     SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED :
