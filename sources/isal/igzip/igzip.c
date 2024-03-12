@@ -1181,6 +1181,7 @@ void qpl_isal_gzip_header_init(struct isal_gzip_header* gz_hdr)
 	gz_hdr->comment = NULL;
 	gz_hdr->comment_buf_len = 0;
 	gz_hdr->hcrc = 0;
+	gz_hdr->flags = 0;
 };
 
 uint32_t qpl_isal_write_gzip_header(struct isal_zstream* stream, struct isal_gzip_header* gz_hdr)
