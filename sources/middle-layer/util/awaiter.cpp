@@ -18,7 +18,7 @@
 /**
  * Unused variables which might be used later - warning removal
  */
-#define MAYBE_UNUSED(x) ((void)x)
+#define MAYBE_UNUSED(x) ((void)(x))
 
 namespace qpl::ml {
 

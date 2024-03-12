@@ -13,7 +13,7 @@
 #include "unaligned.h"
 
 /* Avoid getting warnings on unused variables which might be used later */
-#define MAYBE_UNUSED(x) ((void)x)
+#define MAYBE_UNUSED(x) ((void)(x))
 
 static inline void write_deflate_icf(struct deflate_icf *icf, uint32_t lit_len,
 				     uint32_t lit_dist, uint32_t extra_bits)

@@ -14,7 +14,7 @@
 #include "bit_writer.h"
 #include "own_defs.h"
 
-#define _mm_stream_si64x(dst, src) *((uint64_t *)dst) = src
+#define _mm_stream_si64x(dst, src) *((uint64_t *)(dst)) = src
 
 /* ------ Internal functions implementation ------ */
 
