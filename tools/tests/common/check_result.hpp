@@ -12,9 +12,11 @@
 #ifndef QPL_TESTS_TESTS_COMMON_CHECK_RESULT_HPP_
 #define QPL_TESTS_TESTS_COMMON_CHECK_RESULT_HPP_
 
-#include "inttypes.h"
-#include "vector"
+#include <inttypes.h>
+#include <vector>
+
 #include "gtest/gtest.h"
+
 #include "qpl/c_api/job.h"
 
 /*

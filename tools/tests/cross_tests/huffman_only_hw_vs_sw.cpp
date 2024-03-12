@@ -6,13 +6,12 @@
 
 #include "base_cross_test_fixture.hpp"
 #include "huffman_only_test_cases.hpp"
+
+// tool_common
 #include "compression_huffman_table.hpp"
 #include "iaa_features_checks.hpp"
 
 namespace qpl::test {
-
-typedef struct qpl_compression_huffman_table qpl_compression_huffman_table;
-extern "C" qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl_huffman_table_t table);
 
 class SimpleHuffmanOnlyCompressDecompressFixture : public BaseCrossTestFixture,
                                                    public TestCases<SimpleHuffmanOnlyTestCase> {

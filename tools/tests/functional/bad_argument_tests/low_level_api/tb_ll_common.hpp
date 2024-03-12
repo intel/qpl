@@ -10,11 +10,15 @@
 #include <memory>
 #include <array>
 
-#include "qpl/qpl.h"
-
 #include "gtest/gtest.h"
+
+#include "qpl/qpl.h"
 #include "qpl_test_environment.hpp"
+
+// tool_generator
 #include "random_generator.h"
+
+// tests_common
 #include "test_name_format.hpp"
 #include "execution_wrapper.hpp"
 

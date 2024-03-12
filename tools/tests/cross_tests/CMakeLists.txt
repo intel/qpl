@@ -15,9 +15,6 @@ add_executable(cross_tests ${SOURCES})
 
 get_target_property(QPL_SOURCE_DIR qpl SOURCE_DIR)
 
-target_include_directories(cross_tests
-        PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>) #todo remove dependency
-
 target_link_libraries(cross_tests
         PRIVATE tests_common
         PRIVATE tool_generator

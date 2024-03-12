@@ -12,9 +12,12 @@
 #ifndef QPL_TESTS_COMMON_TEST_SOURCES_HPP_
 #define QPL_TESTS_COMMON_TEST_SOURCES_HPP_
 
-#include "stdexcept"
+#include <stdexcept>
+#include <vector>
+
 #include "qpl/qpl.h"
-#include "vector"
+
+// tool_generator
 #include "format_generator.hpp"
 
 namespace qpl::test {

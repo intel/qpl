@@ -9,17 +9,16 @@
 
 enable_language(CXX)
 
-file(GLOB SOURCES *.cpp )
+file(GLOB SOURCES *.cpp)
 
 add_library(tests_common STATIC ${SOURCES})
 set_target_properties(tests_common PROPERTIES CXX_STANDARD 17)
 
 target_include_directories(tests_common
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        PUBLIC $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>    #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>                #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>   #todo remove dependency
-        PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES>)           #todo remove dependency
+        PUBLIC $<TARGET_PROPERTY:tool_common,INTERFACE_INCLUDE_DIRECTORIES>
+        PUBLIC $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>
+        PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>)
 
 target_link_libraries(tests_common
         PUBLIC gtest

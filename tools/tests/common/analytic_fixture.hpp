@@ -13,9 +13,15 @@
 #define QPL_TEST_ANALYTICS_FIXTURE_HPP
 
 #include <stdexcept>
+
+// tests_common
 #include "operation_test.hpp"
 #include "test_cases.hpp"
+
+// tool_generator
 #include "index_table.hpp"
+
+// tool_common
 #include "util.hpp"
 #include "source_provider.hpp"
 

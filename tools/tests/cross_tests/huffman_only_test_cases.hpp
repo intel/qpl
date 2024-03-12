@@ -7,6 +7,7 @@
 #ifndef QPL_HUFFMAN_ONLY_TEST_CASES_HPP_
 #define QPL_HUFFMAN_ONLY_TEST_CASES_HPP_
 
+// tool_common
 #include "util.hpp"
 #include "source_provider.hpp"
 

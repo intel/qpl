@@ -12,9 +12,15 @@
  */
 
 #include "gtest/gtest.h"
+
 #include "qpl/qpl.h"
+
 #include "tb_ll_common.hpp"
+
+// tests_common
 #include "operation_test.hpp"
+
+// tool_common
 #include "iaa_features_checks.hpp"
 
 namespace qpl::test {

@@ -6,6 +6,8 @@
 
 #include "base_cross_test_fixture.hpp"
 #include "canned_test_cases.hpp"
+
+// tool_common
 #include "compression_huffman_table.hpp"
 
 namespace qpl::test {

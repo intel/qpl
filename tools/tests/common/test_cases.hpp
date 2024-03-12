@@ -9,8 +9,11 @@
 
 #include <vector>
 #include <type_traits>
-#include "operation_test.hpp"
+
 #include "gtest/gtest.h"
+
+// tests_common
+#include "operation_test.hpp"
 
 namespace qpl::test
 {

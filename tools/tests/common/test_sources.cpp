@@ -11,12 +11,17 @@
 
 
 #include <cassert>
-#include "cstddef"
+#include <cstddef>
 
+// tests_common
 #include "test_sources.hpp"
 
 #include "qpl_test_environment.hpp"
+
+// tool_generator
 #include "format_generator.hpp"
+
+// tool_common
 #include "source_provider.hpp"
 
 namespace qpl::test {
