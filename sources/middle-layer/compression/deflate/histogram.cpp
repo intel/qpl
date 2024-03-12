@@ -8,7 +8,7 @@
 #include "compression/deflate/histogram.hpp"
 #include "util/descriptor_processing.hpp"
 
-// c_api
+// qpl_c_api
 #include "compression_operations/bit_writer.h"
 #include "compression_operations/own_deflate_job.h"
 

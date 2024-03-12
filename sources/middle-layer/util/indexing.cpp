@@ -5,6 +5,8 @@
  ******************************************************************************/
 
 #include "qpl/qpl.h"
+
+// qpl_c_api
 #include "own_defs.h"
 
 qpl_status qpl_get_index_table_size(uint32_t mini_block_count,

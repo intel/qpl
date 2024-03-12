@@ -27,8 +27,7 @@ set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
 target_include_directories(core_iaa
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/sources/include>
-        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include>       # for qpl_status and own_checkers.h
-        PRIVATE $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/sources/c_api> # for qpl_status and own_checkers.h
+        PRIVATE $<TARGET_PROPERTY:qpl_c_api,INTERFACE_INCLUDE_DIRECTORIES> # for own_checkers.h
         PRIVATE $<TARGET_PROPERTY:qplcore_sw_dispatcher,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set_target_properties(core_iaa PROPERTIES

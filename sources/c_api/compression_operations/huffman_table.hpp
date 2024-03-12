@@ -13,6 +13,8 @@
 #define QPL_STATISTICS__HPP_
 
 #include "qpl/c_api/huffman_table.h"
+
+// ml
 #include "compression/huffman_table/huffman_table.hpp"
 
 template<qpl::ml::compression::compression_algorithm_e algorithm>

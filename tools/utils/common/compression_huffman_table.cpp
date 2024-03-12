@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+// tool_common
 #include "compression_huffman_table.hpp"
-#include "../../../sources/c_api/compression_operations/huffman_table.hpp"
+
+// qpl_c_api
+#include "compression_operations/huffman_table.hpp"
 
 extern "C" qpl_compression_huffman_table* own_huffman_table_get_compression_table(const qpl_huffman_table_t table);
 

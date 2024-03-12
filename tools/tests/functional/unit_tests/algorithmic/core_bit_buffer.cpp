@@ -11,6 +11,7 @@
 #include "random_generator.h"
 #include "t_common.hpp"
 
+// qpl_c_api
 #include "compression_operations/bit_writer.h"
 
 namespace qpl::test {

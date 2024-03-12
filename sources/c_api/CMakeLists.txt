@@ -4,28 +4,39 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-# Intel® Query Processing Library (Intel® QPL)
-# Build system
+# Build system for c_api layer, that includes:
+# - entry points for job API, e.g., initialization, destroy, serialization, etc.
+# - entry points for Huffman Table-related API
+# - some legacy logic for hardware_path (todo: refactor and remove)
+# - perform_<foo> functions that are the layer between API and middle-layer
+
+cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
 
 enable_language(C CXX)
 
-file(GLOB_RECURSE QPL_C_API_SRC *.c *.cpp)
+file(GLOB QPL_C_API_SRC
+        compression_operations/*.c
+        compression_operations/*.cpp
+        filter_operations/*.cpp
+        legacy_hw_path/*.c
+        legacy_hw_path/*.cpp
+        other_operations/*.cpp
+        serialization/*.cpp
+        *.cpp)
 
-get_property(LIB_DEPS GLOBAL PROPERTY QPL_LIB_DEPS)
+add_library(qpl_c_api OBJECT ${QPL_C_API_SRC})
 
-add_library(qpl STATIC ${QPL_C_API_SRC} ${LIB_DEPS})
-
-target_include_directories(qpl
-        PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>
+target_include_directories(qpl_c_api
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>
         PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>)
 
-set_target_properties(qpl PROPERTIES
+set_target_properties(qpl_c_api PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
         $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
         CXX_STANDARD 17)
 
-target_compile_options(qpl
+target_compile_options(qpl_c_api
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
                                              $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
         PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS}>
@@ -38,28 +49,15 @@ target_compile_options(qpl
 # GCC allows for linking options to be passed as compile option, where Clang does not
 # Passing these linking options here
 if (CMAKE_C_COMPILER_ID STREQUAL "Clang")
-    target_link_options(qpl PRIVATE ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS})
+    target_link_options(qpl_c_api PRIVATE ${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS})
 endif ()
 
-target_compile_definitions(qpl
-        PUBLIC -DQPL_LIB
-        PUBLIC -DQPL_BADARG_CHECK
-        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>
-        PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG>
-        PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>)
+target_compile_definitions(qpl_c_api
+        PUBLIC -DQPL_BADARG_CHECK # own_checkers.h
+        PUBLIC -DQPL_LIB          # needed for ml
+        PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG> # needed for ml
+        PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>                                         # needed for ml
+        PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>)
 
-if (DYNAMIC_LOADING_LIBACCEL_CONFIG)
-    target_link_libraries(qpl PRIVATE ${CMAKE_DL_LIBS})
-else()
-    target_link_libraries(qpl PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
-endif()
-
-install(TARGETS qpl
-        EXPORT ${PROJECT_NAME}Targets
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-install(DIRECTORY ${QPL_PROJECT_DIR}/include/qpl/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qpl
-        FILES_MATCHING PATTERN "*.h")
+set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
+             $<TARGET_OBJECTS:qpl_c_api>)

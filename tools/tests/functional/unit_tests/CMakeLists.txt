@@ -17,11 +17,10 @@ get_target_property(QPL_SOURCE_DIR qpl SOURCE_DIR)
 set_target_properties(unit_tests PROPERTIES CXX_STANDARD 17)
 
 target_include_directories(unit_tests
-        PRIVATE ${QPL_PROJECT_DIR}/sources/c_api
-        PRIVATE ${QPL_PROJECT_DIR}/high-level-api/util
         PRIVATE $<TARGET_PROPERTY:tests_common,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:tool_generator,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:core_iaa,INTERFACE_INCLUDE_DIRECTORIES> #todo remove dependency
+        PRIVATE $<TARGET_PROPERTY:qpl_c_api,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:qplcore_sw_dispatcher,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:middle_layer_lib,INTERFACE_INCLUDE_DIRECTORIES>)
 

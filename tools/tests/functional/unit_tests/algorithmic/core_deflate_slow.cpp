@@ -6,23 +6,27 @@
 #include <array>
 
 #include "gtest/gtest.h"
+
+#include "qpl/c_api/defs.h"
 #include "qpl_test_environment.hpp"
-#include "random_generator.h"
 #include "t_common.hpp"
 
-#include "qplc_deflate_utils.h"
-#include "own_qplc_defs.h"
+// tool_generator
+#include "random_generator.h"
 
+// qpl_c_api
 #include "own_defs.h"
+
+// core_sw
+#include "deflate_defs.h"
 #include "deflate_hash_table.h"
 #include "deflate_histogram.h"
-#include "qpl/c_api/defs.h"
-#include "qplc_checksum.h"
-
 #include "deflate_slow_utils.h"
 #include "deflate_slow_matcher.h"
-#include "deflate_defs.h"
 #include "dispatcher.hpp"
+#include "own_qplc_defs.h"
+#include "qplc_deflate_utils.h"
+#include "qplc_checksum.h"
 
 constexpr uint32_t D_SIZE_HASH_TABLE  = 4096;
 constexpr uint32_t D_SIZE_HASH_STORE  = 4096;
