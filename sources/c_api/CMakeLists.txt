@@ -54,9 +54,9 @@ endif ()
 
 target_compile_definitions(qpl_c_api
         PUBLIC -DQPL_BADARG_CHECK # own_checkers.h
-        PUBLIC -DQPL_LIB          # needed for ml
-        PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG> # needed for ml
-        PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>                                         # needed for ml
+        PUBLIC -DQPL_LIB          # needed for middle_layer_lib
+        PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG> # needed for middle_layer_lib
+        PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>                                         # needed for middle_layer_lib
         PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>)
 
 set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS
