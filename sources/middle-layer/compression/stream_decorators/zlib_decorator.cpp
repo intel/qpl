@@ -68,7 +68,7 @@ auto zlib_decorator::read_header(const uint8_t *stream_ptr,
 
     header.flags = flags;
 
-    header.dictionary_flag = (flags & zlib_flags::dictionary) ? true : false;
+    header.dictionary_flag = (flags & zlib_flags::dictionary) != 0;
 
     if (header.dictionary_flag) {
         if (stream_ptr + zlib_fields::ZLIB_DICTIONARY_ID_SIZE <= stream_end_ptr) {

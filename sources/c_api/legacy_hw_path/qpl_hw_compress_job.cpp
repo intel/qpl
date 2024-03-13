@@ -235,7 +235,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         return QPL_STS_OK;
     } else {
         bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
-        bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) ? true : false;
+        bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
 
         if (flags & QPL_FLAG_START_NEW_BLOCK) {
             if (state_ptr->execution_history.execution_step != qpl_task_execution_step_header_inserting) {
@@ -381,7 +381,7 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
                                                             hw_iaa_completion_record *comp_ptr) {
     using namespace qpl::ml::compression;
     uint32_t flags = qpl_job_ptr->flags;
-    bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) ? true : false;
+    bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
     bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
 
     // Check if header generation is supported in hardware
@@ -469,8 +469,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
     qpl_hw_state            *const state_ptr      = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
     hw_iaa_analytics_descriptor *const descriptor_ptr = &state_ptr->desc_ptr;
     uint32_t flags = job_ptr->flags;
-    bool is_final_block  = (flags & QPL_FLAG_LAST) ? true : false;
-    bool is_first_block  = (flags & QPL_FLAG_FIRST) ? true : false;
+    bool is_final_block  = (flags & QPL_FLAG_LAST) != 0;
+    bool is_first_block  = (flags & QPL_FLAG_FIRST) != 0;
     qpl_dictionary *dictionary = job_ptr->dictionary;
 
     // Check if dictionary compression is supported in hardware

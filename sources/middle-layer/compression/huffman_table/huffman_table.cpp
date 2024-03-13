@@ -618,11 +618,7 @@ uint8_t *huffman_table_t<compression_algorithm_e::huffman_only>::get_deflate_hea
 template <compression_algorithm_e algorithm>
 template <execution_path_t execution_path>
 bool huffman_table_t<algorithm>::is_representation_used() const noexcept {
-    if (execution_path == this->m_meta.path) {
-        return true;
-    } else {
-        return false;
-    }
+    return static_cast<bool>(execution_path == this->m_meta.path);
 }
 
 template
@@ -640,7 +636,7 @@ bool huffman_table_t<compression_algorithm_e::huffman_only>::is_representation_u
 template <compression_algorithm_e algorithm>
 bool huffman_table_t<algorithm>::is_deflate_representation_used() const noexcept {
     auto d_table = reinterpret_cast<qpl_decompression_huffman_table*>(m_d_huffman_table);
-    return d_table->representation_mask & QPL_DEFLATE_REPRESENTATION ? true : false;
+    return (d_table->representation_mask & QPL_DEFLATE_REPRESENTATION) != 0;
 }
 
 template <compression_algorithm_e algorithm>

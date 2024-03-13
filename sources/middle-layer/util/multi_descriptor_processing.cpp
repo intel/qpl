@@ -84,7 +84,7 @@ auto is_operation_splittable(const input_stream_t &input_stream,
         return false;
     }
 
-    if (input_stream.is_compressed() == true || input_stream.stream_format() == stream_format_t::prle_format) {
+    if (input_stream.is_compressed() || input_stream.stream_format() == stream_format_t::prle_format) {
         return false;
     }
 
@@ -92,7 +92,7 @@ auto is_operation_splittable(const input_stream_t &input_stream,
         return false;
     }
 
-    if (input_stream.are_aggregates_disabled() == false || input_stream.is_checksum_disabled() == false) {
+    if (!input_stream.are_aggregates_disabled() || !input_stream.is_checksum_disabled()) {
         return false;
     }
 

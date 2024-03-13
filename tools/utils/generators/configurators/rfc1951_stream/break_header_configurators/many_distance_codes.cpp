@@ -84,5 +84,5 @@ bool gz_generator::ManyDistanceCodesConfigurator::breakInRun(Gen32u a, Gen32u b)
         a -= 6;
         b -= 6;
     }
-    return (b == 0) ? true : false;
+    return b == 0;
 }

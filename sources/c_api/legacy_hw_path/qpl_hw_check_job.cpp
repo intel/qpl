@@ -351,7 +351,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     // check that the Fault Address is available, touch the memory and resubmit descriptor again.
     if ((AD_STATUS_READ_PAGE_FAULT == comp_ptr->status ||
          AD_STATUS_WRITE_PAGE_FAULT == comp_ptr->status) &&
-         state_ptr->is_page_fault_processed != true) {
+         !state_ptr->is_page_fault_processed) {
 
         DIAG("Page Fault happened with completion record status equals %d, Fault Address is %p\n",
              (int)comp_ptr->status, (void *)comp_ptr->fault_address);

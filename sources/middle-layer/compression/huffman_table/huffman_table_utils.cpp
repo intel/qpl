@@ -686,15 +686,15 @@ uint8_t *get_deflate_header_buffer(qpl_decompression_huffman_table *const decomp
 }
 
 bool is_sw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr) {
-    return decompression_table_ptr->representation_mask & QPL_SW_REPRESENTATION ? true : false;
+    return (decompression_table_ptr->representation_mask & QPL_SW_REPRESENTATION) != 0;
 }
 
 bool is_hw_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr) {
-    return decompression_table_ptr->representation_mask & QPL_HW_REPRESENTATION ? true : false;
+    return (decompression_table_ptr->representation_mask & QPL_HW_REPRESENTATION) != 0;
 }
 
 bool is_deflate_representation_used(qpl_decompression_huffman_table *const decompression_table_ptr) {
-    return decompression_table_ptr->representation_mask & QPL_DEFLATE_REPRESENTATION ? true : false;
+    return (decompression_table_ptr->representation_mask & QPL_DEFLATE_REPRESENTATION) != 0;
 }
 
 uint8_t *get_lookup_table_buffer_ptr(qpl_decompression_huffman_table *decompression_table_ptr) {
