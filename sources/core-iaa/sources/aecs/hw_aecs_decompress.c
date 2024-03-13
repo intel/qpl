@@ -239,7 +239,7 @@ static void pack_cam(uint8_t *out_cam_p1, uint8_t *out_cam_p2, uint16_t *in_cam)
         (((uint64_t)(in_cam[132] & 0xFFF)) << 49) |
         (((uint64_t)(in_cam[133] & 0xFFF)) << 61);
 
-    uint32_t out, in;
+    uint32_t out = 0U, in = 0U;
 
     for (out = 21, in = 133;
          out < 42;
@@ -361,8 +361,8 @@ HW_PATH_IAA_AECS_API(void, decompress_set_huffman_only_huffman_table, (hw_iaa_ae
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_histogram, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                                                           const hw_iaa_histogram *const histogram_ptr,
                                                                                           bool is_aecs_format2_expected)) {
-    uint32_t idx;
-    uint32_t code, len;
+    uint32_t idx = 0U;
+    uint32_t code = 0U, len = 0U;
 
     // common for Mapping Table and Mapping CAM representations
     uint16_t num_codes[16];
@@ -371,7 +371,7 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
 
     // AECS Format-1 specifics
     uint16_t first_tbl_idx[16];
-    uint8_t  *lit_len_sym;
+    uint8_t  *lit_len_sym = NULL;
 
     // AECS Format-2 specifics
     uint16_t lit_cam[265];
@@ -474,7 +474,7 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
                                                                   const uint32_t source_size,
                                                                   const uint8_t ignore_start_bits,
                                                                   const uint8_t ignore_end_bits)){
-    uint32_t i;
+    uint32_t i = 0U;
     for (i = 0U; i < OWN_INFLATE_INPUT_ACCUMULATOR_DQ_COUNT - 1U; i++) {
         if (0U == aecs_ptr->input_accum_size[i]) {
             break;

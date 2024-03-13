@@ -92,7 +92,7 @@ OWN_QPLC_FUN(uint32_t, qplc_xor_checksum_8u,
  * @brief helper for bits/bytes reflecting
  */
 static uint64_t own_bit_byte_swap_64(uint64_t x) {
-    uint64_t y;
+    uint64_t y = 0U;
 
     y = bit_reverse_table[x >> 56];
     y |= ((uint64_t)bit_reverse_table[(x >> 48) & 0xFF]) << 8;
@@ -110,9 +110,9 @@ static uint64_t own_bit_byte_swap_64(uint64_t x) {
  * @brief table initializer
  */
 static void own_crc64_init_lookup_table(uint64_t *table, uint64_t polynomial, uint8_t be_flag) {
-    uint64_t crc = 0;
-    uint64_t i = 0;
-    uint32_t j = 0;
+    uint64_t crc = 0U;
+    uint64_t i   = 0U;
+    uint32_t j   = 0U;
 
     table[0] = 0;
 
@@ -218,12 +218,12 @@ static uint64_t own_crc64_finalize(uint64_t crc, uint64_t polynomial, uint8_t be
  *
  * @return CRC64 checksum value
  */
-OWN_QPLC_FUN(uint64_t, qplc_crc64, (const uint8_t *src_ptr, 
-                                    uint32_t length, 
-                                    uint64_t polynomial, 
-                                    uint8_t be_flag, 
+OWN_QPLC_FUN(uint64_t, qplc_crc64, (const uint8_t *src_ptr,
+                                    uint32_t length,
+                                    uint64_t polynomial,
+                                    uint8_t be_flag,
                                     uint8_t inversion_flag)) {
-    uint64_t crc;
+    uint64_t crc = 0U;
 #if PLATFORM >= K0
     if (be_flag) {
         crc = CALL_OPT_FUNCTION(k0_qplc_crc64_be)(src_ptr, length, polynomial, inversion_flag);

@@ -105,7 +105,7 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
     if (meta_ptr->algorithm != compression_algorithm_e::deflate)
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
-    size_t reqd_stream_buffer_size;
+    size_t reqd_stream_buffer_size = 0U;
     qpl_huffman_table_get_serialized_size(table, options, &reqd_stream_buffer_size);
 
     if(stream_buffer_size < reqd_stream_buffer_size)

@@ -49,7 +49,7 @@ OWN_QPLC_INLINE(void, qplc_unpack_be_Nu32u, (const uint8_t *src_ptr,
     uint32_t shift       = OWN_QWORD_WIDTH - bit_width;
     uint32_t bits_in_buf = 0U;
     uint64_t src         = 0U;
-    uint64_t next_dword;
+    uint64_t next_dword  = 0U;
     uint32_t bytes_to_read = OWN_BITS_2_BYTE(num_elements * bit_width + start_bit);
 
     if (sizeof(uint32_t) <= bytes_to_read) {

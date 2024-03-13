@@ -21,7 +21,7 @@ void cpuid(int info[4], int InfoType) {
 }
 
 unsigned long long _xgetbv(unsigned int index) {
-    unsigned int eax, edx;
+    unsigned int eax = 0U, edx = 0U;
     __asm__ __volatile__(
     "xgetbv;"
     : "=a" (eax), "=d"(edx)

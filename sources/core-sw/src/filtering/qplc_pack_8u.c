@@ -37,7 +37,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_pack_8u1u)(src_ptr, num_elements, dst_ptr, start_bit);
 #else
-    uint32_t i;
+    uint32_t i = 0U;
 
     dst_ptr[0] &= OWN_BIT_MASK(start_bit);
     while (0U != start_bit) {
@@ -56,7 +56,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
     while (num_elements > 64U) {
         uint64_t bit_buf  = 0LLU;
         uint64_t *tmp_dst = (uint64_t *) dst_ptr;
-        uint64_t bit_mask;
+        uint64_t bit_mask = 0U;
 
         for (i = 0; i < 64U; i++) {
             bit_mask = OWN_1_BIT_MASK & src_ptr[i];
@@ -71,7 +71,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
     if (num_elements > 32U) {
         uint32_t bit_buf  = 0U;
         uint32_t *tmp_dst = (uint32_t *) dst_ptr;
-        uint32_t bit_mask;
+        uint32_t bit_mask = 0U;
 
         for (i = 0; i < 32U; i++) {
             bit_mask = OWN_1_BIT_MASK & src_ptr[i];
@@ -86,7 +86,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
     if (num_elements > 16U) {
         uint16_t bit_buf  = 0U;
         uint16_t *tmp_dst = (uint16_t *) dst_ptr;
-        uint16_t bit_mask;
+        uint16_t bit_mask = 0U;
 
         for (i = 0; i < 16; i++) {
             bit_mask = OWN_1_BIT_MASK & src_ptr[i];
@@ -100,7 +100,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
     }
     if (0U < num_elements) {
         uint16_t bit_buf  = 0U;
-        uint16_t bit_mask;
+        uint16_t bit_mask = 0U;
         uint16_t *tmp_dst = (uint16_t *) dst_ptr;
         for (i            = 0U; i < num_elements; i++) {
             bit_mask = OWN_1_BIT_MASK & src_ptr[i];
@@ -125,7 +125,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_pack_8u2u)(src_ptr, num_elements, dst_ptr, start_bit);
 #else
-    uint32_t i;
+    uint32_t i = 0U;
 
     dst_ptr[0] &= OWN_BIT_MASK(start_bit);
     while (0U != start_bit) {
@@ -144,7 +144,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
     while (num_elements > 32U) {
         uint64_t bit_buf  = 0LLU;
         uint64_t *tmp_dst = (uint64_t *) dst_ptr;
-        uint64_t bit_mask;
+        uint64_t bit_mask = 0U;
 
         for (i = 0U; i < 32U; i++) {
             bit_mask = OWN_2_BIT_MASK & src_ptr[i];
@@ -159,7 +159,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
     if (num_elements > 16U) {
         uint32_t bit_buf  = 0U;
         uint32_t *tmp_dst = (uint32_t *) dst_ptr;
-        uint32_t bit_mask;
+        uint32_t bit_mask = 0U;
 
         for (i = 0U; i < 16U; i++) {
             bit_mask = OWN_2_BIT_MASK & src_ptr[i];
@@ -174,7 +174,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
     if (num_elements > 8U) {
         uint16_t bit_buf  = 0U;
         uint16_t *tmp_dst = (uint16_t *) dst_ptr;
-        uint16_t bit_mask;
+        uint16_t bit_mask = 0U;
 
         for (i = 0U; i < 8U; i++) {
             bit_mask = OWN_2_BIT_MASK & src_ptr[i];
@@ -188,7 +188,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
     }
     if (0U < num_elements) {
         uint16_t bit_buf  = 0U;
-        uint16_t bit_mask;
+        uint16_t bit_mask = 0U;
         uint16_t *tmp_dst = (uint16_t *) dst_ptr;
         for (i            = 0U; i < num_elements; i++) {
             bit_mask = OWN_2_BIT_MASK & src_ptr[i];
@@ -233,8 +233,8 @@ OWN_QPLC_FUN(void, qplc_pack_8u3u, (const uint8_t *src_ptr,
         }
     }
     while (num_elements > 32U) {
-        uint64_t bit_buf64;
-        uint32_t bit_buf32;
+        uint64_t bit_buf64  = 0U;
+        uint32_t bit_buf32  = 0U;
         uint64_t *dst64_ptr = (uint64_t *) dst_ptr;
         uint32_t *dst32_ptr = (uint32_t *) (dst_ptr + 8U);
 
@@ -278,8 +278,8 @@ OWN_QPLC_FUN(void, qplc_pack_8u3u, (const uint8_t *src_ptr,
         num_elements -= 32U;
     }
     while (num_elements > 16U) {
-        uint16_t bit_buf16;
-        uint32_t bit_buf32;
+        uint16_t bit_buf16  = 0U;
+        uint32_t bit_buf32  = 0U;
         uint16_t *dst16_ptr = (uint16_t *) (dst_ptr + 4U);
         uint32_t *dst32_ptr = (uint32_t *) (dst_ptr);
 
@@ -307,8 +307,8 @@ OWN_QPLC_FUN(void, qplc_pack_8u3u, (const uint8_t *src_ptr,
         num_elements -= 16U;
     }
     while (num_elements > 8U) {
-        uint16_t bit_buf16;
-        uint8_t  bit_buf8;
+        uint16_t bit_buf16  = 0U;
+        uint8_t  bit_buf8   = 0U;
         uint16_t *dst16_ptr = (uint16_t *) (dst_ptr);
 
         bit_buf16 = (uint16_t) src_ptr[0];
@@ -358,7 +358,7 @@ OWN_QPLC_FUN(void, qplc_pack_8u4u, (const uint8_t *src_ptr,
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_pack_8u4u)(src_ptr, num_elements, dst_ptr, start_bit);
 #else
-    uint32_t i;
+    uint32_t i = 0U;
 
     dst_ptr[0] &= OWN_BIT_MASK(start_bit);
     while (0U != start_bit) {
@@ -375,11 +375,11 @@ OWN_QPLC_FUN(void, qplc_pack_8u4u, (const uint8_t *src_ptr,
         }
     }
     while (num_elements > 32U) {
-        uint64_t bit_buf0 = 0LLU;
-        uint64_t bit_buf1 = 0LLU;
-        uint64_t *tmp_dst = (uint64_t *) dst_ptr;
-        uint64_t bit_mask0;
-        uint64_t bit_mask1;
+        uint64_t bit_buf0  = 0LLU;
+        uint64_t bit_buf1  = 0LLU;
+        uint64_t *tmp_dst  = (uint64_t *) dst_ptr;
+        uint64_t bit_mask0 = 0U;
+        uint64_t bit_mask1 = 0U;
 
         for (i = 0U; i < 16U; i++) {
             bit_mask0 = ((uint64_t) src_ptr[i]) << (4U * i);
@@ -395,9 +395,9 @@ OWN_QPLC_FUN(void, qplc_pack_8u4u, (const uint8_t *src_ptr,
         num_elements -= 32U;
     }
     if (num_elements > 16U) {
-        uint64_t bit_buf0 = 0LLU;
-        uint64_t *tmp_dst = (uint64_t *) dst_ptr;
-        uint64_t bit_mask0;
+        uint64_t bit_buf0  = 0LLU;
+        uint64_t *tmp_dst  = (uint64_t *) dst_ptr;
+        uint64_t bit_mask0 = 0U;
 
         for (i = 0U; i < 16U; i++) {
             bit_mask0 = ((uint64_t) src_ptr[i]) << (4U * i);
@@ -409,9 +409,9 @@ OWN_QPLC_FUN(void, qplc_pack_8u4u, (const uint8_t *src_ptr,
         num_elements -= 16U;
     }
     if (num_elements > 8U) {
-        uint32_t bit_buf0 = 0U;
-        uint32_t *tmp_dst = (uint32_t *) dst_ptr;
-        uint32_t bit_mask0;
+        uint32_t bit_buf0  = 0U;
+        uint32_t *tmp_dst  = (uint32_t *) dst_ptr;
+        uint32_t bit_mask0 = 0U;
 
         for (i = 0U; i < 8U; i++) {
             bit_mask0 = ((uint32_t) src_ptr[i]) << (4U * i);
@@ -465,11 +465,11 @@ OWN_QPLC_FUN(void, qplc_pack_8u5u, (const uint8_t *src_ptr,
         }
     }
     while (num_elements > 32U) {
-        uint64_t bit_buf64_0;
-        uint64_t bit_buf64_1;
-        uint32_t bit_buf32;
-        uint64_t *dst64_ptr = (uint64_t *) dst_ptr;
-        uint32_t *dst32_ptr = (uint32_t *) (dst_ptr + 2U * sizeof(uint64_t));
+        uint64_t bit_buf64_0 = 0U;
+        uint64_t bit_buf64_1 = 0U;
+        uint32_t bit_buf32   = 0U;
+        uint64_t *dst64_ptr  = (uint64_t *) dst_ptr;
+        uint32_t *dst32_ptr  = (uint32_t *) (dst_ptr + 2U * sizeof(uint64_t));
 
         bit_buf64_0 = (uint64_t) src_ptr[0];
         bit_buf64_0 |= ((uint64_t) (src_ptr[1])) << 5U;
@@ -515,8 +515,8 @@ OWN_QPLC_FUN(void, qplc_pack_8u5u, (const uint8_t *src_ptr,
         num_elements -= 32U;
     }
     while (num_elements > 16U) {
-        uint64_t bit_buf64;
-        uint16_t bit_buf16;
+        uint64_t bit_buf64  = 0U;
+        uint16_t bit_buf16  = 0U;
         uint64_t *dst64_ptr = (uint64_t *) dst_ptr;
         uint16_t *dst16_ptr = (uint16_t *) (dst_ptr + sizeof(uint64_t));
 
@@ -545,8 +545,8 @@ OWN_QPLC_FUN(void, qplc_pack_8u5u, (const uint8_t *src_ptr,
         num_elements -= 16U;
     }
     while (num_elements > 8U) {
-        uint32_t bit_buf32;
-        uint8_t  bit_buf8;
+        uint32_t bit_buf32  = 0U;
+        uint8_t  bit_buf8   = 0U;
         uint32_t *dst32_ptr = (uint32_t *) (dst_ptr);
 
         bit_buf32 = (uint32_t) src_ptr[0];

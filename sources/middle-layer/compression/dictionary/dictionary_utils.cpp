@@ -65,15 +65,15 @@ static inline uint8_t calc_meta(uint16_t data) {
 
 /** @brief Initializes hash table for HW dictionary */
 static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
-    uint32_t raw_dict_size, ptrs_per_entry, raw_dict_offset;
-    uint32_t data32;
-    uint16_t data16;
-    uint8_t  meta, *ddata, *hw_hash_table_ptr;
-    uint32_t hash_val;
+    uint32_t raw_dict_size = 0U, ptrs_per_entry = 0U, raw_dict_offset = 0U;
+    uint32_t data32 = 0U;
+    uint16_t data16 = 0U;
+    uint8_t  meta = 0U, *ddata = nullptr, *hw_hash_table_ptr = nullptr;
+    uint32_t hash_val = 0U;
     uint64_t hash_tbl[1024];
-    uint64_t entry;
-    uint32_t *entries32;
-    uint64_t *entries64;
+    uint64_t entry = 0U;
+    uint32_t *entries32 = nullptr;
+    uint64_t *entries64 = nullptr;
 
     qpl::core_sw::util::set_zeros((uint8_t *) hash_tbl, sizeof(hash_tbl));
 

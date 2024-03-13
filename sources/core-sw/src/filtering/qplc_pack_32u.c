@@ -72,11 +72,11 @@ OWN_QPLC_INLINE(void, qplc_pack_32u_nu, (const uint8_t *src_ptr,
         // In case when there's only one element to pack
         // output buffer size can be less than 32 bits,
         // the following code performs packing byte by byte
-        uint64_t    mask = (uint64_t)((1U << bit_width) - 1) << start_bit;
-        uint64_t    source = (uint64_t)(*(uint32_t*)src_ptr) << start_bit;
-        uint8_t     mask_8u = (uint8_t)mask;
-        uint8_t     source_8u;
-        uint8_t     dst_8u;
+        uint64_t    mask      = (uint64_t)((1U << bit_width) - 1) << start_bit;
+        uint64_t    source    = (uint64_t)(*(uint32_t*)src_ptr) << start_bit;
+        uint8_t     mask_8u   = (uint8_t)mask;
+        uint8_t     source_8u = 0U;
+        uint8_t     dst_8u    = 0U;
 
         while (0U == mask_8u) {
             dst_ptr++;

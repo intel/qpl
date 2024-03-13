@@ -68,7 +68,7 @@ void bit_writer_set_buffer(bit_writer_t *const bit_writer_ptr, const uint8_t *co
 
 void bit_writer_flush(bit_writer_t *const bit_writer_ptr) {
     // Variables
-    uint32_t bytes;
+    uint32_t bytes = 0U;
 
     // Main actions
     if (available == bit_writer_ptr->status)

@@ -25,8 +25,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_8u_i, (uint8_t * src_dst_ptr,
         uint32_t * index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t start;
-    uint32_t stop;
+    uint32_t start    = 0U;
+    uint32_t stop     = 0U;
     uint8_t  *src_ptr = (uint8_t *) src_dst_ptr;
     uint8_t  *dst_ptr = (uint8_t *) src_dst_ptr;
 
@@ -54,8 +54,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_16u_i, (uint8_t * src_dst_ptr,
         uint32_t * index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t start;
-    uint32_t stop;
+    uint32_t start    = 0U;
+    uint32_t stop     = 0U;
     uint16_t *src_ptr = (uint16_t *) src_dst_ptr;
     uint16_t *dst_ptr = (uint16_t *) src_dst_ptr;
 
@@ -83,8 +83,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_32u_i, (uint8_t * src_dst_ptr,
         uint32_t * index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t start;
-    uint32_t stop;
+    uint32_t start    = 0U;
+    uint32_t stop     = 0U;
     uint32_t *src_ptr = (uint32_t *) src_dst_ptr;
     uint32_t *dst_ptr = (uint32_t *) src_dst_ptr;
 
@@ -115,8 +115,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_8u, (const uint8_t *src_ptr,
         uint32_t *index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t start;
-    uint32_t stop;
+    uint32_t start = 0U;
+    uint32_t stop  = 0U;
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
@@ -141,8 +141,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_16u, (const uint8_t *src_ptr,
         uint32_t *index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t       start;
-    uint32_t       stop;
+    uint32_t       start = 0U;
+    uint32_t       stop  = 0U;
     const uint16_t *src_16u_ptr = (uint16_t *) src_ptr;
     uint16_t       *dst_16u_ptr = (uint16_t *) dst_ptr;
 
@@ -169,8 +169,8 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_32u, (const uint8_t *src_ptr,
         uint32_t *index_ptr,
         uint32_t low_value,
         uint32_t high_value)) {
-    uint32_t       start;
-    uint32_t       stop;
+    uint32_t       start        = 0U;
+    uint32_t       stop         = 0U;
     const uint32_t *src_32u_ptr = (uint32_t *) src_ptr;
     uint32_t       *dst_32u_ptr = (uint32_t *) dst_ptr;
 

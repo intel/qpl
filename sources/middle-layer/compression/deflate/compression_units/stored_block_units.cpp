@@ -247,10 +247,10 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
 
     compression_operation_result_t result;
 
-    uint8_t  *input_ptr;
-    uint32_t input_size;
-    uint8_t  *output_ptr;
-    uint32_t output_size;
+    uint8_t  *input_ptr = nullptr;
+    uint32_t input_size = 0U;
+    uint8_t  *output_ptr = nullptr;
+    uint32_t output_size = 0U;
 
     hw_iaa_descriptor_get_input_buffer(state.compress_descriptor_, &input_ptr, &input_size);
     hw_iaa_descriptor_get_output_buffer(state.compress_descriptor_, &output_ptr, &output_size);
@@ -303,7 +303,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
                                          state.is_last_chunk());
 
     // Calculate checksums
-    uint32_t crc, xor_checksum;
+    uint32_t crc = 0U, xor_checksum = 0U;
     hw_iaa_aecs_compress *actual_aecs_in = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, state.meta_data_->aecs_index, state.meta_data_->aecs_size);
     if (!actual_aecs_in) {
         result.status_code_ = status_list::internal_error;

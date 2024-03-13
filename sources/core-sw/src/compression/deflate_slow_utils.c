@@ -49,12 +49,12 @@ static inline void compute_offset_code(const struct isal_hufftables *huffman_tab
                                        uint64_t *const code_ptr,
                                        uint32_t *const code_length_ptr) {
     // Variables
-    uint32_t significant_bits;
-    uint32_t number_of_extra_bits;
-    uint32_t extra_bits;
-    uint32_t symbol;
-    uint32_t length;
-    uint32_t code;
+    uint32_t significant_bits     = 0U;
+    uint32_t number_of_extra_bits = 0U;
+    uint32_t extra_bits           = 0U;
+    uint32_t symbol               = 0U;
+    uint32_t length               = 0U;
+    uint32_t code                 = 0U;
 
     offset -= 1U;
     significant_bits = count_significant_bits(offset);
@@ -114,8 +114,8 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
 }
 
 static void compute_distance_icf_code(uint32_t distance, uint32_t *code, uint32_t *extra_bits) {
-    uint32_t msb;
-    uint32_t num_extra_bits;
+    uint32_t msb            = 0U;
+    uint32_t num_extra_bits = 0U;
 
     distance -= 1;
     msb = bsr(distance);

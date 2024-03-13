@@ -45,7 +45,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
 
     auto                 huffman_table_ptr = qpl_job_ptr->huffman_table;
     qpl_dictionary       *dictionary       = qpl_job_ptr->dictionary;
-    hw_iaa_aecs_compress *configuration_ptr;
+    hw_iaa_aecs_compress *configuration_ptr = nullptr;
     uint32_t             flags             = qpl_job_ptr->flags;
     qpl_comp_style       compression_style = own_get_compression_style(qpl_job_ptr);
     uint8_t              *next_out_ptr     = qpl_job_ptr->next_out_ptr;

@@ -35,7 +35,7 @@ OWN_QPLC_FUN(uint32_t, qplc_expand_8u, (const uint8_t *src1_ptr,
 #else
 
     uint32_t expanded = 0U;
-    uint32_t idx;
+    uint32_t idx      = 0U;
 
     for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
@@ -62,7 +62,7 @@ OWN_QPLC_FUN(uint32_t, qplc_expand_16u, (const uint8_t *src1_ptr,
     uint16_t *src_16u_ptr = (uint16_t *) src1_ptr;
     uint16_t *dst_16u_ptr = (uint16_t *) dst_ptr;
     uint32_t expanded     = 0U;
-    uint32_t idx;
+    uint32_t idx          = 0U;
 
     for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
@@ -89,7 +89,7 @@ OWN_QPLC_FUN(uint32_t, qplc_expand_32u, (const uint8_t *src1_ptr,
     uint32_t *src_32u_ptr = (uint32_t *) src1_ptr;
     uint32_t *dst_32u_ptr = (uint32_t *) dst_ptr;
     uint32_t expanded     = 0U;
-    uint32_t idx;
+    uint32_t idx          = 0U;
 
     for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {

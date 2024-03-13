@@ -57,9 +57,9 @@ HW_PATH_IAA_AECS_API(void, compress_accumulator_flush, (hw_iaa_aecs_compress *co
 
 HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_fixed_header, (hw_iaa_aecs_compress *const aecs_ptr,
         const uint32_t b_final)) {
-    uint32_t byte_offset;
-    uint32_t bit_offset;
-    uint32_t data;
+    uint32_t byte_offset = 0U;
+    uint32_t bit_offset = 0U;
+    uint32_t data = 0U;
 
     HW_IMMEDIATELY_RET((2 <= b_final), OWN_STATUS_ERROR);
     // 34 = 32 bytes of prev output accum + 2 bytes of EOB
@@ -87,13 +87,13 @@ HW_PATH_IAA_AECS_API(uint32_t, compress_write_deflate_dynamic_header, (hw_iaa_ae
         const uint8_t *const header_ptr,
         const uint32_t header_bit_size,
         const uint32_t b_final)) {
-    uint32_t byte_offset;
-    uint32_t bit_offset;
-    uint32_t idx;
-    uint32_t write_bits;
-    uint64_t bit_buf;
-    uint64_t hdr;
-    uint64_t *bit_ptr;
+    uint32_t byte_offset = 0U;
+    uint32_t bit_offset = 0U;
+    uint32_t idx = 0U;
+    uint32_t write_bits = 0U;
+    uint64_t bit_buf = 0U;
+    uint64_t hdr = 0U;
+    uint64_t *bit_ptr = NULL;
 
     HW_IMMEDIATELY_RET((2 <= b_final), OWN_STATUS_ERROR);
     // 34 = 32 bytes of prev output accum + 2 bytes of EOB

@@ -40,7 +40,7 @@ OWN_QPLC_INLINE(void, qplc_unpack_be_Nu16u, (const uint8_t *src_ptr,
     uint32_t bits_in_buf = OWN_WORD_WIDTH - start_bit;
     uint32_t shift       = OWN_DWORD_WIDTH - bit_width;
     uint32_t src         = ((uint32_t) qplc_swap_bytes_16u(*src16u_ptr)) << (OWN_DWORD_WIDTH - bits_in_buf);
-    uint32_t next_word;
+    uint32_t next_word   = 0U;
 
     src16u_ptr++;
 

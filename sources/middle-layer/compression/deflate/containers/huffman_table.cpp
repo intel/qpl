@@ -39,7 +39,7 @@ void huffman_table_icf::expand_huffman_tables() noexcept {
     uint32_t  i    = 0;
     uint32_t  len  = 0;
     uint32_t  code = 0;
-    huff_code *p_code;
+    huff_code *p_code = nullptr;
 
     huff_code *lit_len_codes = get_isal_huffman_tables()->lit_len_table;
     huff_code *dist_codes    = get_isal_huffman_tables()->dist_table;

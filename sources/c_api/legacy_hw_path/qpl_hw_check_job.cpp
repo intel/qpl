@@ -169,7 +169,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
                                                               is_final_block);
 
         // Calculate checksums and update their values in job ptr
-        uint32_t crc, xor_checksum;
+        uint32_t crc = 0U, xor_checksum = 0U;
         hw_iaa_aecs_compress_get_checksums(cfg_in_ptr, &crc, &xor_checksum);
         crc = !(qpl_job_ptr->flags & QPL_FLAG_CRC32C) ?
               util::crc32_gzip(input_data_ptr, input_data_ptr + input_data_size, crc) :
@@ -454,7 +454,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     job::update_output_stream(qpl_job_ptr, bytes_written, comp_ptr->output_bits);
 
     // Update input stream
-    uint32_t size;
+    uint32_t size = 0U;
     if (AD_STATUS_SUCCESS == comp_ptr->status) {
         size = desc_ptr->src1_size;
     } else if (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status) {
