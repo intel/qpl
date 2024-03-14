@@ -500,3 +500,27 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
 
     return OWN_STATUS_OK;
 }
+
+HW_PATH_IAA_AECS_API(void, decompress_clean_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr)) {
+    // If input_accum_size is set to 0, no need to reset input_accum
+    call_c_set_zeros_uint8_t(aecs_ptr->input_accum_size, sizeof(aecs_ptr->input_accum_size));
+}
+
+HW_PATH_IAA_AECS_API(void, decompress_clean_aecs, (hw_iaa_aecs_decompress *const aecs_ptr)) {
+    // Clean necessary fields in the decompress AECS to avoid using corrupted data from previous unrelated job
+    aecs_ptr->output_acc_bits_valid = 0U;
+
+    aecs_ptr->idx_bit_offset = 0U;
+
+    hw_iaa_aecs_decompress_clean_input_accumulator(aecs_ptr);
+
+    aecs_ptr->drop_initial_bits = 0U;
+
+    aecs_ptr->reserved4 = 0U;
+
+    aecs_ptr->reserved5[0] = 0U;
+    aecs_ptr->reserved5[1] = 0U;
+
+    aecs_ptr->history_buffer_params.history_buffer_write_offset = 0U;
+    aecs_ptr->history_buffer_params.is_history_buffer_overflowed = 0U;
+}

@@ -547,6 +547,11 @@ template <>
     auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_decompress_access_lookup_table[processing_step] |
                                                                 execution_state_ptr->aecs_index);
 
+    if (is_first()) {
+        // Clean necessary fields in the decompress AECS to avoid using corrupted data
+        hw_iaa_aecs_decompress_clean_aecs(&decompress_aecs_[execution_state_ptr->aecs_index].inflate_options);
+    }
+
     if (is_dictionary_set) {
         hw_iaa_aecs_decompress_set_dictionary(&decompress_aecs_[execution_state_ptr->aecs_index].inflate_options,
                                               get_dictionary_data(*dictionary_ptr),

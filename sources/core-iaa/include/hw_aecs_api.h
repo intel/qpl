@@ -500,17 +500,20 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_de
 
 
 /**
- * @brief Clean decompress input accumulator.
+ * @brief Clean decompress input accumulator by setting all values in input_accum_size to zero.
  *
  * @param [in, out] aecs_ptr pointer to valid @ref hw_iaa_aecs_decompress
  *
  */
-static inline
-HW_PATH_IAA_AECS_API(void, decompress_clean_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr)) {
-    aecs_ptr->input_accum[0]      = 0U;
-    aecs_ptr->input_accum_size[0] = 0U;
-}
+HW_PATH_IAA_AECS_API(void, decompress_clean_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr));
 
+/**
+ * @brief Clean necessary fields in the decompress AECS to avoid using corrupted data.
+ *
+ * @param [in, out] aecs_ptr pointer to valid @ref hw_iaa_aecs_decompress
+ *
+ */
+HW_PATH_IAA_AECS_API(void, decompress_clean_aecs, (hw_iaa_aecs_decompress *const aecs_ptr));
 
 /**
  * @brief Check if decompress input accumulator is empty.
