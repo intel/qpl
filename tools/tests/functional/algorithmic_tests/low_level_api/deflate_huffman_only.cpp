@@ -45,7 +45,6 @@ protected:
 
     void RunHuffmanOnlyDynamicTest(bool is_big_endian = false, bool omit_verification = true) {
         // Variables
-        uint32_t seed       = GetSeed();
         uint32_t total_out_ptr[2];
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
@@ -151,7 +150,6 @@ protected:
 
     void RunHuffmanOnlyStaticTest(bool is_big_endian = false, bool omit_verification = true) {
         // Variables
-        uint32_t seed       = GetSeed();
         uint32_t total_out_ptr[2];
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {

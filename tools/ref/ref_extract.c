@@ -296,12 +296,6 @@ REF_INLINE qpl_status own_extract_output_to_format(const uint32_t *const source_
     // End of the destination vector
     const uint8_t *destination_end_ptr = destination_ptr + qpl_job_ptr->available_out;
 
-    // Start index of the operation
-    uint32_t first_index = qpl_job_ptr->param_low;
-
-    // End index of the operation
-    uint32_t last_index = qpl_job_ptr->param_high;
-
     // Index of the last element
     uint32_t element_index = qpl_job_ptr->initial_output_index;
 

@@ -166,8 +166,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
     };
 
     auto     current_style        = (uint32_t) random_style;
-    auto     bytes_remain         = (uint32_t) source.size();
-    uint32_t current_block_length = bytes_remain / (uint32_t) random_bit_of_pie;
+    uint32_t current_block_length = (uint32_t) source.size() / (uint32_t) random_bit_of_pie;
 
     auto first_run_status = compress_with_style_table[current_style](job_ptr,
                                                                      source.data(),
@@ -177,7 +176,6 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
                                                                      QPL_FLAG_FIRST);
     ASSERT_EQ(QPL_STS_OK, first_run_status);
 
-    bytes_remain -= current_block_length;
     uint32_t previous_style = current_style;
 
     while (previous_style == (current_style = (uint32_t) random_style)) {

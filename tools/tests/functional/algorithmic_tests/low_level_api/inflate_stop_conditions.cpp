@@ -85,9 +85,6 @@ namespace qpl::test {
         random.set_range(1U, 5000U);
         auto block_size = static_cast<uint32_t>(random);
 
-        uint32_t expected_block_count = source_size / block_size;
-        expected_block_count += (0U == source_size % block_size) ? 0 : 1;
-
         // Get stream compressed with severals deflate blocks
         // Which means we have multiple eob symbols here
         deflate_stream_by_blocks(source,
@@ -124,9 +121,6 @@ namespace qpl::test {
 
         random.set_range(1U, 5000U);
         auto block_size = static_cast<uint32_t>(random);
-
-        uint32_t expected_block_count = source_size / block_size;
-        expected_block_count += (0U == source_size % block_size) ? 0 : 1;
 
         // Get stream compressed with severals deflate blocks
         // Which means we have multiple eob symbols here

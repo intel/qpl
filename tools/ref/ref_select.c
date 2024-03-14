@@ -331,9 +331,6 @@ REF_INLINE qpl_status own_select_output_to_format(const uint32_t *const source_p
     // Bit index in destination_ptr
     uint32_t element_index = qpl_job_ptr->initial_output_index;
 
-    // Number of bits available in destination_ptr
-    uint64_t output_bits = (uint64_t) output_bytes * REF_8U_BITS;
-
     // Input LE or BE
     bool input_be = (bool) (qpl_p_be_packed_array == qpl_job_ptr->parser);
 

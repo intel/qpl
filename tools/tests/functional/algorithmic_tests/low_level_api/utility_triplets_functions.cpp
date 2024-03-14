@@ -94,7 +94,6 @@ protected:
     void run_huffman_only_build_decomp_from_compression_table(std::vector<uint8_t> &source_for_compression_table,
                                                               uint64_t flag_be = 0) {
         // Variables
-        uint32_t             seed       = GetSeed();
         uint32_t             max_length = static_cast<uint32_t>(source_for_compression_table.size());
         std::vector<uint8_t> reference_buffer;
         uint32_t             status     = QPL_STS_OK;
@@ -343,7 +342,6 @@ protected:
 
         // Decompress
         status = qpl_huffman_table_init_with_other(d_table.get(), c_table_from_triplets.get());
-
         // Decompress
         status = run_job_api(decompression_job_ptr);
 

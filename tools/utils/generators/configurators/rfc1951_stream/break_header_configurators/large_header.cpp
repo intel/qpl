@@ -47,8 +47,7 @@ GenStatus gz_generator::LargeHeaderConfigurator::generate()
     }
     else
     {
-        startingBits = 0U;
-        startingQWords = 0U;
+        startingBits = 0u;
     }
 
 

@@ -2418,14 +2418,17 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateless) {
         is_iaa_dictionary_compress_supported()) {
         compression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     }
-    auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     // HW path canned mode dictionary decompression is not yet supported.
     // This is a workaround to perform decompression on SW path.
     // However, an additional restriction apply when mixing SW & HW path for dictionary:
     // raw dictionary must be 4k.
-    // This workaround should be removed after the feature is supported.
-    decompression_execution_path   = qpl_path_t::qpl_path_software;
+    // This workaround should be replaced by line below after the feature is supported.
+
+    //auto decompression_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+
+
+    auto decompression_execution_path   = qpl_path_t::qpl_path_software;
     auto dictionary_length = 4096U;
     auto c_table_path = compression_execution_path;
     auto d_table_path = decompression_execution_path;

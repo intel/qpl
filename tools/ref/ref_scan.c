@@ -296,7 +296,6 @@ REF_INLINE qpl_status own_compare_output_to_format(const uint32_t *const source_
 
     const uint32_t *current_ptr = source_ptr;
 
-    uint32_t source_bit_width      = qpl_job_ptr->src1_bit_width;
     uint32_t output_format         = (qpl_job_ptr->flags & QPL_FLAG_OUT_BE) + qpl_job_ptr->out_bit_width;
     uint32_t number_of_input_bytes = qpl_job_ptr->available_in;
     uint32_t current_index         = qpl_job_ptr->initial_output_index;

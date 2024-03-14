@@ -347,8 +347,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
             if (source_it >= source.end()) { // End of input buffer
                 break;
             }
-
-            uint32_t dist = std::distance(source_it, source.end());
             crc_value = UpdateCRC(crc_value, *source_it++);
         }
 

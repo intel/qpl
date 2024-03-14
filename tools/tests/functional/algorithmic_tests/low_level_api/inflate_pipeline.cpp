@@ -59,10 +59,6 @@ namespace qpl::test
 
             random.set_range(1U, 5000U);
             auto block_size = static_cast<uint32_t>(random);
-
-            uint32_t expected_block_count = source_size / block_size;
-            expected_block_count += (0U == source_size % block_size) ? 0 : 1;
-
             auto deflate_status = DeflateStreamByBlocks(source,
                                                         compressed_source,
                                                         block_size,
