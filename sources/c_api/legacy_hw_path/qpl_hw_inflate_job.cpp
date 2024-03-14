@@ -117,10 +117,26 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
 
     // Setup dictionary
     if (is_dictionary_mode) {
-        auto *dictionary = qpl_job_ptr->dictionary;
+        auto *dictionary  = qpl_job_ptr->dictionary;
+
+        // For SW dictionary, decompression dictionary size will be the same as the raw dictionary size;
+        // for HW dictionary, raw dictionary will be padded with 0 at the beginning if it is smaller than
+        // the allocated history size in HW. So set the decompression dictionary size to the history size.
+        size_t decompress_dictionary_size = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+                                            dictionary->raw_dictionary_size :
+                                            get_history_size_for_dictionary(dictionary->hw_dict_level);
+
+        // For SW dictionary, the raw dictionary will be used directly so set offset to 0
+        // for HW dictionary, set the offset to the raw dictionary offset in AECS
+        uint32_t decompress_raw_dict_offset = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+                                              0U :
+                                              dictionary->aecs_raw_dictionary_offset;
+
         hw_iaa_aecs_decompress_set_dictionary(&aecs_ptr->inflate_options,
-                                              qpl::ml::compression::get_dictionary_data(*dictionary),
-                                              dictionary->raw_dictionary_size);
+                                              get_dictionary_data(*dictionary),
+                                              dictionary->raw_dictionary_size,
+                                              decompress_dictionary_size,
+                                              decompress_raw_dict_offset);
 
 
         hw_iaa_aecs_decompress_set_decompression_state(&aecs_ptr->inflate_options,

@@ -14,6 +14,7 @@
 
 #include "qpl/qpl.h"
 #include "test_hw_status.h"
+#include "random_generator.h"
 
 #define HIGH_BIT_MASK 0x80
 #define BYTE_BIT_LENGTH 8u
@@ -306,6 +307,26 @@ namespace qpl::test
     static inline void align_ptr(size_t alignment, void* ptr_in, void** aligned_ptr_out) {
         std::uintptr_t mask = ~(std::uintptr_t)(alignment - 1U);
         *aligned_ptr_out = (void *)(((std::uintptr_t)ptr_in + alignment - 1U) & mask);
+    }
+
+
+    /**
+     * @brief Generates a vector containing randomized dictionary sizes from selected range.
+    */
+    static inline auto get_dictionary_lengths() {
+        std::vector<uint32_t> result;
+
+        auto generate = [&](uint32_t bound_low, uint32_t bound_high, uint32_t step) -> auto {
+            for (uint32_t i = bound_low; i <= bound_high; i += step) {
+                result.push_back(i);
+            }
+        };
+
+        generate(1, 32, 2);
+        generate(33, 4094, (4094 - 32) / 15);
+        generate(4095, 4097, 1);
+
+        return result;
     }
 
 // Skips entire test for specified path, will also skip all remaining test cases

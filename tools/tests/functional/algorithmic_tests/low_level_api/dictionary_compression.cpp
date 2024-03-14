@@ -11,7 +11,6 @@
 #include "source_provider.hpp"
 #include "qpl_test_environment.hpp"
 #include "util.hpp"
-#include "random_generator.h"
 #include "huffman_table_unique.hpp"
 #include "iaa_features_checks.hpp"
 
@@ -22,22 +21,6 @@ enum compression_mode {
     dynamic_compression,
     canned_compression
 };
-
-auto get_dictionary_lengths() {
-    std::vector<uint32_t> result;
-
-    auto generate = [&](uint32_t bound_low, uint32_t bound_high, uint32_t step) -> auto {
-        for (uint32_t i = bound_low; i <= bound_high; i += step) {
-            result.push_back(i);
-        }
-    };
-
-    generate(1, 32, 2);
-    generate(33, 4094, (4094 - 32) / 15);
-    generate(4095, 4097, 1);
-
-    return result;
-}
 
 template <compression_mode mode>
 void compress_with_chunks(std::vector<uint8_t> &source,

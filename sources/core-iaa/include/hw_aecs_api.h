@@ -542,13 +542,17 @@ HW_PATH_IAA_AECS_API(void, decompress_set_decompression_state, (hw_iaa_aecs_deco
 /**
  * @brief @todo add description
  *
- * @param [in] aecs_ptr pointer to valid @ref hw_iaa_aecs_decompress
- * @param [in] raw_dictionary_ptr pointer to dictionary
- * @param [in] dictionary_size    dictionary size in bytes
+ * @param [in] aecs_ptr                         pointer to valid @ref hw_iaa_aecs_decompress
+ * @param [in] raw_dictionary_ptr               pointer to raw dictionary data
+ * @param [in] raw_dictionary_size              raw dictionary size
+ * @param [in] decompress_dictionary_size       decompression dictionary size
+ * @param [in] decompress_raw_dictionary_offset decompression raw dictionary data offset
  */
 HW_PATH_IAA_AECS_API(void, decompress_set_dictionary, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                        const uint8_t *const raw_dictionary_ptr,
-                                                       const size_t dictionary_size));
+                                                       const size_t raw_dictionary_size,
+                                                       const size_t decompress_dictionary_size,
+                                                       const uint32_t decompress_raw_dictionary_offset));
 
 /** @} */
 

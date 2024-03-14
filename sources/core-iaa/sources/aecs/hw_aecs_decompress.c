@@ -459,14 +459,22 @@ HW_PATH_IAA_AECS_API(uint32_t, decompress_set_huffman_only_huffman_table_from_hi
 
 HW_PATH_IAA_AECS_API(void, decompress_set_dictionary, (hw_iaa_aecs_decompress *const aecs_ptr,
                                                        const uint8_t *const raw_dictionary_ptr,
-                                                       const size_t dictionary_length)) {
-    for (uint32_t i = 0; i < dictionary_length; i++) {
-        aecs_ptr->history_buffer[i] = raw_dictionary_ptr[i];
+                                                       const size_t raw_dictionary_size,
+                                                       const size_t decompress_dictionary_size,
+                                                       const uint32_t decompress_raw_dictionary_offset)) {
+    // Zero the bytes in the history buffer before the raw dictionary data starts
+    call_c_set_zeros_uint8_t(aecs_ptr->history_buffer, decompress_raw_dictionary_offset);
+
+    // Copy the raw dictionary data into the history buffer
+    for (uint32_t i = 0U; i < raw_dictionary_size; i++) {
+        aecs_ptr->history_buffer[decompress_raw_dictionary_offset + i] = raw_dictionary_ptr[i];
     }
 
-    aecs_ptr->history_buffer_params.history_buffer_write_offset = (uint16_t) dictionary_length;
+    aecs_ptr->history_buffer_params.history_buffer_write_offset = (uint16_t) decompress_dictionary_size;
 
-    aecs_ptr->history_buffer_params.is_history_buffer_overflowed = 1;
+    if (decompress_dictionary_size >= 4096U) {
+        aecs_ptr->history_buffer_params.is_history_buffer_overflowed = 1;
+    }
 }
 
 HW_PATH_IAA_AECS_API(uint32_t, decompress_set_input_accumulator, (hw_iaa_aecs_decompress *const aecs_ptr,
