@@ -18,27 +18,27 @@
 #define QPL_TEST_STS_SRC_IS_SHORT_ERR       QPL_STS_SRC_IS_SHORT_ERR
 
 
-#define QPL_TEST_PARQUET_WIDTH               8u
+#define QPL_TEST_PARQUET_WIDTH               8U
 #define QPL_TEST_MIN(a, b)                   (((a)<(b))?(a):(b))
 
-#define QPL_TEST_LOW_BIT_MASK                1u
-#define QPL_TEST_5_BIT_MASK                  0x1fu
-#define QPL_TEST_7_BIT_MASK                  0x7fu
-#define QPL_TEST_HIGH_BIT_MASK               0x80u
+#define QPL_TEST_LOW_BIT_MASK                1U
+#define QPL_TEST_5_BIT_MASK                  0x1FU
+#define QPL_TEST_7_BIT_MASK                  0x7FU
+#define QPL_TEST_HIGH_BIT_MASK               0x80U
 
-#define QPL_TEST_PRLE_COUNT(x)               (((x) & QPL_TEST_7_BIT_MASK) >> 1u)
-#define QPL_TEST_VARINT_BYTE_1(x)            (((x) & QPL_TEST_7_BIT_MASK) << 6u)
-#define QPL_TEST_VARINT_BYTE_2(x)            (((x) & QPL_TEST_7_BIT_MASK) << 13u)
-#define QPL_TEST_VARINT_BYTE_3(x)            (((x) & QPL_TEST_7_BIT_MASK) << 20u)
-#define QPL_TEST_VARINT_BYTE_4(x)            (((x) & QPL_TEST_5_BIT_MASK) << 27u)
+#define QPL_TEST_PRLE_COUNT(x)               (((x) & QPL_TEST_7_BIT_MASK) >> 1U)
+#define QPL_TEST_VARINT_BYTE_1(x)            (((x) & QPL_TEST_7_BIT_MASK) << 6U)
+#define QPL_TEST_VARINT_BYTE_2(x)            (((x) & QPL_TEST_7_BIT_MASK) << 13U)
+#define QPL_TEST_VARINT_BYTE_3(x)            (((x) & QPL_TEST_7_BIT_MASK) << 20U)
+#define QPL_TEST_VARINT_BYTE_4(x)            (((x) & QPL_TEST_5_BIT_MASK) << 27U)
 
-#define QPL_TEST_LITERAL_OCTA_GROUP          1u
+#define QPL_TEST_LITERAL_OCTA_GROUP          1U
 
 #define QPL_TEST_RETURN_ERROR(expression, error_code) { if (expression) { return (error_code); }}
 
-#define QPL_TEST_3_BYTE_WIDTH                24u
-#define QPL_TEST_BYTE_WIDTH                  8u
-#define QPL_TEST_WORD_WIDTH                  16u
+#define QPL_TEST_3_BYTE_WIDTH                24U
+#define QPL_TEST_BYTE_WIDTH                  8U
+#define QPL_TEST_WORD_WIDTH                  16U
 
 #include "qplc_api.h"
 #include "dispatcher.hpp"
@@ -532,7 +532,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, base) {
         uint8_t* p_source_8u = (uint8_t*)source.data();
         uint32_t* p_value_32u = (uint32_t*)value.data();
         uint32_t* p_ref_value_32u = (uint32_t*)ref_value.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_8u[indx] = 1;
             p_value_32u[indx] = 1;
             p_ref_value_32u[indx] = 1;

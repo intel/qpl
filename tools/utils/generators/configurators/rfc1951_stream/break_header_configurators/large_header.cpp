@@ -7,8 +7,8 @@
 #include "large_header.hpp"
 #include <math.h>
 
-#define BITS_IN_QWORD   64u
-#define BITS_IN_BYTE    8u
+#define BITS_IN_QWORD   64U
+#define BITS_IN_BYTE    8U
 
 GenStatus gz_generator::LargeHeaderConfigurator::generate()
 {

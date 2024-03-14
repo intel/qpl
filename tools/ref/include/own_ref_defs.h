@@ -52,7 +52,7 @@ extern "C" {
 #define REF_7_BIT_MASK       0x7f    /**< @todo */
 #define REF_5_BIT_MASK       0x1f    /**< @todo */
 
-#define REF_OCTA_GROUP_SIZE  8u      /**< @todo */
+#define REF_OCTA_GROUP_SIZE  8U      /**< @todo */
 #define REF_MAX_BIT_WIDTH    32U     /**< @todo */
 
 #define REF_BIT_BUF_LEN      (sizeof(uint64_t) * REF_BYTE_BIT_LEN)    /**< @todo */

@@ -10,9 +10,9 @@
 #include "random_generator.h"
 #include "t_common.hpp"
 
-#define QPL_TEST_MAX_8U      0xffu
-#define QPL_TEST_MAX_16U     0xffffu
-#define QPL_TEST_MAX_32U     0xffffffffu
+#define QPL_TEST_MAX_8U      0xFFU
+#define QPL_TEST_MAX_16U     0xFFFFU
+#define QPL_TEST_MAX_32U     0xFFFFFFFFU
 
 #include "qplc_api.h"
 #include "dispatcher.hpp"

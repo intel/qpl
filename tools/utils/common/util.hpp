@@ -17,7 +17,7 @@
 #include "random_generator.h"
 
 #define HIGH_BIT_MASK 0x80
-#define BYTE_BIT_LENGTH 8u
+#define BYTE_BIT_LENGTH 8U
 
 namespace qpl::test
 {
@@ -236,16 +236,16 @@ namespace qpl::test
         switch (output)
         {
             case qpl_ow_nom:
-                return 1u;
+                return 1U;
 
             case qpl_ow_8:
-                return 8u;
+                return 8U;
 
             case qpl_ow_16:
-                return 16u;
+                return 16U;
 
             case qpl_ow_32:
-                return 32u;
+                return 32U;
 
             default:
                 throw std::exception();
@@ -256,16 +256,16 @@ namespace qpl::test
     {
         switch (output)
         {
-            case 1u:
+            case 1U:
                 return qpl_ow_nom;
 
-            case 8u:
+            case 8U:
                 return qpl_ow_8;
 
-            case 16u:
+            case 16U:
                 return qpl_ow_16;
 
-            case 32u:
+            case 32U:
                 return qpl_ow_32;
 
             default:
@@ -291,7 +291,7 @@ namespace qpl::test
                 break;
 
             default:
-                result_bit_length = 0u;
+                result_bit_length = 0U;
                 break;
         }
 

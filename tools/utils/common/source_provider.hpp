@@ -13,11 +13,11 @@
 #include <stdexcept>
 #include "util.hpp"
 
-#define PRLE_OCTA_GROUP_SIZE 8u
+#define PRLE_OCTA_GROUP_SIZE 8U
 
-#define PRLE_COUNT_FIRST_BYTE_BITS 6u
+#define PRLE_COUNT_FIRST_BYTE_BITS 6U
 
-#define PRLE_COUNT_FOLLOWING_BYTE_BITS 7u
+#define PRLE_COUNT_FOLLOWING_BYTE_BITS 7U
 
 #define MASK_SEVEN_LOW_BITS 0x7F
 #define MASK_SIX_LOW_BITS MASK_SEVEN_LOW_BITS >> 1
@@ -44,7 +44,7 @@ namespace qpl::test
 
         auto get_source() -> std::vector<uint8_t>;
 
-        auto get_counter_source_expand_rle(uint16_t prologue = 0u) -> std::vector<uint8_t>;
+        auto get_counter_source_expand_rle(uint16_t prologue = 0U) -> std::vector<uint8_t>;
 
         auto get_count_expand_rle_value() const -> uint32_t;
 

@@ -338,7 +338,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
     qpl_init_job(path, decompr_job);
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
+        for (uint32_t header: {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = dataset.second;
             std::vector<uint8_t>  destination(source.size(), 0);
             std::vector<uint8_t>  reference(source.size(), 0);
@@ -425,7 +425,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     qpl_init_job(path, decompr_job);
 
     for (auto &data: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        for (uint32_t header: {0u, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
+        for (uint32_t header: {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = data.second;
             std::vector<uint8_t>  destination(source.size() * 2, 0);
             std::vector<uint8_t>  reference(source.size(), 0);

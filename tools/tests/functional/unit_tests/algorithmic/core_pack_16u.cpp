@@ -12,8 +12,8 @@
 #include "random_generator.h"
 #include "t_common.hpp"
 
-#define OWN_BYTE_WIDTH    8u                          /**< Byte width in bits */
-#define OWN_WORD_WIDTH    16u                         /**< Word width in bits */
+#define OWN_BYTE_WIDTH    8U                          /**< Byte width in bits */
+#define OWN_WORD_WIDTH    16U                         /**< Word width in bits */
 
 #include "qplc_api.h"
 #include "dispatcher.hpp"
