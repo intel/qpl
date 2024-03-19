@@ -27,7 +27,7 @@
  * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.
  * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow
  * the library to chose the path to execute. The Auto Path usage is not demonstrated by this example.
- * 
+ *
  * @note This example requires configuring accelerators to support multiple numa nodes,
  *       run `accel-config load-config -efc 2n1d1e1w-s.conf` to enable.
  *       Incorrect configuration will result in `503 QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE` error.
@@ -45,11 +45,11 @@
 /**
  * @brief This function finds the total sockets number on the system and the current socket ID
  *        results are returned using pointers.
- * 
+ *
  * @param cpu_id - current CPU ID as int
  * @param total_sockets - total sockets number as int pointer
  * @param socket_id - current socket ID as int pointer
- * 
+ *
  * @return error code as int
 */
 int get_socket_info(int cpu_id, int* total_sockets, int* socket_id) {
@@ -90,11 +90,11 @@ int get_socket_info(int cpu_id, int* total_sockets, int* socket_id) {
 /**
  * @brief This function finds the total NUMA node number on the system and the current node ID
  *        results are returned using pointers.
- * 
+ *
  * @param cpu_id - current CPU ID as int
  * @param total_nodes - total NUMA nodes number as int pointer
  * @param numa_id - current NUMA node ID as int pointer
- * 
+ *
  * @return error code as int
 */
 int get_numa_info(int cpu_id, int* total_nodes, int* numa_id) {
@@ -111,7 +111,7 @@ int get_numa_info(int cpu_id, int* total_nodes, int* numa_id) {
     if (line.find("-") != std::string::npos)
         *total_nodes = std::stoi(line.substr(line.find("-") + 1)) + 1;
     numa_nodes.close();
-    
+
     // Calculate current NUMA node
     *numa_id = -1;
     for (int i = 0; i < *total_nodes; ++i) {
@@ -135,16 +135,16 @@ int get_numa_info(int cpu_id, int* total_nodes, int* numa_id) {
 
 /**
  * @brief This function finds an alternative NUMA node that is different than the current NUMA node
- * 
+ *
  * @note This function is optional and is not a core part of this example. Alternative method of obtaining
- *       a NUMA ID to assign QPL task to can be use.
+ *       a NUMA ID to assign Intel® Query Processing Library (Intel® QPL) task to use.
  *
  * @warning If only 1 socket available, NUMA node selection will be set to automatic and uses same node.
- * 
+ *
  * @param execution_path - execution path as qpl_path_t
  * @param inv_socket - pointer to store the ID of the different socket
  * @param inv_numa_id - pointer to store the ID of the different NUMA node
- * 
+ *
  * @return error code as int
 */
 int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int* inv_numa_id) {
