@@ -129,7 +129,7 @@ qpl_status ref_expand_rle(qpl_job *const qpl_job_ptr) {
 
 REF_INLINE qpl_status own_expand_rle_prle(qpl_job *const qpl_job_ptr) {
     // Status of the process
-    qpl_status status;
+    qpl_status status = QPL_STS_OK;
 
     // Start of the source vector
     uint8_t *source_ptr     = qpl_job_ptr->next_in_ptr;
@@ -297,7 +297,7 @@ REF_INLINE qpl_status own_expand_rle_output_to_format(const uint32_t *const sour
                                                       uint32_t mask_bit_width,
                                                       qpl_job *const qpl_job_ptr) {
     // Status of the operation
-    qpl_status status;
+    qpl_status status = QPL_STS_OK;
 
     // Current destination vector
     uint8_t *destination_ptr = qpl_job_ptr->next_out_ptr;
@@ -356,7 +356,7 @@ REF_INLINE qpl_status own_expand_rle_output_to_format(const uint32_t *const sour
 
 REF_INLINE qpl_status own_expand_rle_le_be(qpl_job *const qpl_job_ptr) {
     // Status of the process
-    qpl_status status;
+    qpl_status status = QPL_STS_OK;
 
     // Start of the source vector
     uint8_t *source_ptr = qpl_job_ptr->next_in_ptr;

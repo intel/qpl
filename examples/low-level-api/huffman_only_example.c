@@ -55,11 +55,10 @@ int main(int argc, char** argv) {
    uint8_t destination [source_size * 2];
    uint8_t reference [source_size];
 
-   qpl_status status;
    uint32_t size = 0;
 
     // Getting job size
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         printf("An error acquired during job size getting. Error status = %d\n", status);
         return status;

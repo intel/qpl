@@ -46,14 +46,13 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> source(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0;
 
     // Filling source containers
     std::iota(std::begin(source), std::end(source), 0);
 
     // Job initialization
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job size getting.\n";
         return 1;

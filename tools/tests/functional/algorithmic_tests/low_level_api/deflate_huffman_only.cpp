@@ -341,11 +341,9 @@ protected:
 
         std::fill(source.begin(), source.end(), 5U);
 
-        qpl_status status;
-
         // Allocate job structure
         uint32_t job_size = 0;
-        status = qpl_get_job_size(execution_path, &job_size);
+        qpl_status status = qpl_get_job_size(execution_path, &job_size);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
 
         auto job_buffer = std::make_unique<uint8_t[]>(job_size);

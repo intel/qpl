@@ -51,11 +51,10 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> reference = {1, 0, 0, 2, 3, 4, 0, 5};
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0;
 
     // Job initialization
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job size getting.\n";
         return 1;

@@ -106,8 +106,6 @@ qpl_status ref_compare(qpl_job *const qpl_job_ptr) {
 }
 
 REF_INLINE qpl_status own_compare_le_be(qpl_job *const qpl_job_ptr) {
-    qpl_status status;
-
     uint8_t *source_ptr = qpl_job_ptr->next_in_ptr;
 
     uint32_t available_bytes    = qpl_job_ptr->available_in;
@@ -125,7 +123,7 @@ REF_INLINE qpl_status own_compare_le_be(qpl_job *const qpl_job_ptr) {
     uint32_t *results_ptr   = (uint32_t *) malloc((uint64_t) number_of_elements * sizeof(uint32_t));
 
     // convert source vector's elements to uint32_t format
-    status = ref_convert_to_32u_le_be(source_ptr,
+    qpl_status status = ref_convert_to_32u_le_be(source_ptr,
                                       0,
                                       source_bit_width,
                                       number_of_elements,
@@ -166,8 +164,6 @@ REF_INLINE qpl_status own_compare_le_be(qpl_job *const qpl_job_ptr) {
 }
 
 REF_INLINE qpl_status own_compare_prle(qpl_job *const qpl_job_ptr) {
-    qpl_status status;
-
     uint8_t *source_ptr     = qpl_job_ptr->next_in_ptr;
     uint8_t *source_end_ptr = source_ptr + qpl_job_ptr->available_in;
 
@@ -178,7 +174,7 @@ REF_INLINE qpl_status own_compare_prle(qpl_job *const qpl_job_ptr) {
     uint32_t source_bit_width = (uint32_t) (*source_ptr);     // extract source bit width
 
     // Getting number of elements
-    status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
+    qpl_status status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
 
     if (QPL_STS_OK != status) {
         return status;
@@ -290,7 +286,7 @@ REF_INLINE qpl_status own_compare(const uint32_t *const source_ptr,
 REF_INLINE qpl_status own_compare_output_to_format(const uint32_t *const source_ptr,
                                                    uint32_t number_of_elements,
                                                    qpl_job *const qpl_job_ptr) {
-    qpl_status status;
+    qpl_status status = QPL_STS_OK;
     uint8_t    *destination_ptr     = qpl_job_ptr->next_out_ptr;
     uint8_t    *destination_end_ptr = destination_ptr + qpl_job_ptr->available_out;
 

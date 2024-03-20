@@ -255,12 +255,11 @@ namespace qpl::test
             while ending in the middle of a literal octa-group
             for extract operation on parquet format
         */
-        qpl_status  status;
         uint32_t    size = 0;
 
         auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-        status = qpl_get_job_size(execution_path, &size);
+        qpl_status status = qpl_get_job_size(execution_path, &size);
         ASSERT_EQ(QPL_STS_OK, status);
 
         auto job_buffer = std::make_unique<uint8_t[]>(size);

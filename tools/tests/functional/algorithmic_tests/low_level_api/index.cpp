@@ -108,9 +108,7 @@ public:
                                           std::vector<uint8_t> &block_buffer) {
         qpl_job    *inflate_job_ptr;
         uint32_t   job_size;
-        qpl_status status;
-
-        status = qpl_get_job_size(GetExecutionPath(), &job_size);
+        qpl_status status = qpl_get_job_size(GetExecutionPath(), &job_size);
 
         if (status != QPL_STS_OK) {
             return testing::AssertionFailure() << "Couldn't get job size";

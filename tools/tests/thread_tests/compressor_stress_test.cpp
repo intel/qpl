@@ -44,12 +44,10 @@ int compress_test() {
     std::vector<uint8_t> compressed(source.size() * 2);
     std::vector<uint8_t> uncompressed(source.size());
 
-    qpl_status status;
-
     // job structure initialization
     auto path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t size = 0;
-    status = qpl_get_job_size(path, &size);
+    qpl_status status = qpl_get_job_size(path, &size);
     if (QPL_STS_OK != status) {
         return status;
     }
