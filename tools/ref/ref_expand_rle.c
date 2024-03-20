@@ -315,7 +315,7 @@ REF_INLINE qpl_status own_expand_rle_output_to_format(const uint32_t *const sour
     qpl_out_format output_format = (qpl_out_format) qpl_job_ptr->out_bit_width;
 
     // Number of output bytes
-    uint32_t output_bytes;
+    uint32_t output_bytes = 0U;
 
     // Store result
     status = ref_store_values(source_ptr,

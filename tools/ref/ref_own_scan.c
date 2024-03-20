@@ -26,7 +26,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
             uint8_t  r_bit    = REF_LOW_BIT_MASK << (bit_idx & REF_MAX_BIT_IDX);    // result bit mask
             // as we store only 1 bit - dst_buf can have only 2 values - 0 or 1
             // we already have correct dst byte - so mask index with position inside this byte
-            dst_ptr[tIdx] = (0 < dst_buf)
+            dst_ptr[tIdx] = (0U < dst_buf)
                             ? dst_ptr[tIdx] | r_bit
                             : dst_ptr[tIdx] & (~r_bit);
             break;
@@ -38,7 +38,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
             uint8_t  r_bit    = REF_HIGH_BIT_MASK >> (bit_idx & 7);    // result bit mask
             // as we store only 1 bit - dst_buf can have only 2 values - 0 or 1
             // we already have correct dst byte - so mask index with position inside this byte
-            dst_ptr[tIdx]     = (0 < dst_buf)
+            dst_ptr[tIdx]     = (0U < dst_buf)
                                 ? dst_ptr[tIdx] | r_bit
                                 : dst_ptr[tIdx] & (~r_bit);
             break;
@@ -46,7 +46,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
         case qpl_ow_8:    // output modification: store 8u idexes of non-zero bits in LE
         case qpl_ow_8 | QPL_FLAG_OUT_BE: {    // or BE (same as LE for bytes)
             uint8_t *dst_ptr = (uint8_t *) *pp_dst;    // destination pointer
-            if (0 < dst_buf) {    // skip zero values
+            if (0U < dst_buf) {    // skip zero values
                 if (*idx_ptr > UINT8_MAX) {    // 8u data type - index can't exceed max 8u
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -63,7 +63,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
         }
         case qpl_ow_16: {    // output modification: index of non-zero element in 16u data type (LE)
             uint16_t *dst_ptr = (uint16_t *) *pp_dst;    // dst pointer
-            if (0 < dst_buf) {    // skip zero index
+            if (0U < dst_buf) {    // skip zero index
                 if (*idx_ptr > UINT16_MAX) {    // can't exceed max 16u
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -83,7 +83,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
                 uint16_t u_int;
                 uint8_t  u_byte[2];
             } x, y;
-            if (0 < dst_buf) {
+            if (0U < dst_buf) {
                 if (*idx_ptr > UINT16_MAX) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -102,7 +102,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
         }
         case qpl_ow_32: {    // output modification - indexes of non-zero elements in 32u data type (LE)
             uint32_t *dst_ptr = (uint32_t *) *pp_dst;    // destination pointer
-            if (0 < dst_buf) {    // skip zero elements
+            if (0U < dst_buf) {    // skip zero elements
                 REF_CHECK_PTR_END((uint8_t *) dst_ptr,
                                   dst_end_ptr,
                                   sizeof(uint32_t),
@@ -123,7 +123,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
                 uint32_t u_int;
                 uint8_t  u_byte[4];
             } x, y;
-            if (0 < dst_buf) {
+            if (0U < dst_buf) {
                 REF_CHECK_PTR_END((uint8_t *) dst_ptr,
                                   dst_end_ptr,
                                   sizeof(uint32_t),
@@ -156,15 +156,15 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
                            uint32_t *const index_ptr,
                            const uint32_t output_format) {
     // Destination pointer
-    uint8_t  *destination_8u_ptr;
-    uint16_t *destination_16u_ptr;
-    uint32_t *destination_32u_ptr;
+    uint8_t  *destination_8u_ptr = NULL;
+    uint16_t *destination_16u_ptr = NULL;
+    uint32_t *destination_32u_ptr = NULL;
 
     // Result bit mask
-    uint8_t result_bit_mask;
+    uint8_t result_bit_mask = 0U;
 
     // Index of byte in dst_ptr where to update/store bit
-    uint32_t byte_index;
+    uint32_t byte_index     = 0U;
 
     switch (output_format) {
         // Nominal bit vector - store 1 bit
@@ -175,7 +175,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
 
             // As we store only 1 bit - destination_buffer can have only 2 values - 0 or 1
             // We already have correct destination byte - so mask index with position inside this byte
-            destination_8u_ptr[byte_index] = (0 < destination_buffer)
+            destination_8u_ptr[byte_index] = (0U < destination_buffer)
                                              ? (destination_8u_ptr[byte_index] | result_bit_mask)
                                              : (destination_8u_ptr[byte_index] & (~result_bit_mask));
             break;
@@ -186,7 +186,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
             result_bit_mask    = (REF_HIGH_BIT_MASK >> (bit_index & REF_MAX_BIT_IDX));
 
             // Update destination byte
-            destination_8u_ptr[byte_index] = (0 < destination_buffer)
+            destination_8u_ptr[byte_index] = (0U < destination_buffer)
                                              ? (destination_8u_ptr[byte_index] | result_bit_mask)
                                              : (destination_8u_ptr[byte_index] & (~result_bit_mask));
             break;
@@ -196,7 +196,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
             destination_8u_ptr = (uint8_t *) (*pp_destination);
 
             // Skip zero values
-            if (0 < destination_buffer) {
+            if (0U < destination_buffer) {
                 // 8u data type - index can't exceed max 8u
                 if ((*index_ptr) > UINT8_MAX) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
@@ -224,7 +224,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
             destination_16u_ptr = (uint16_t *) (*pp_destination);
 
             // Skip zero index
-            if (0 < destination_buffer) {
+            if (0U < destination_buffer) {
                 // Can't exceed max 16u
                 if ((*index_ptr) > UINT16_MAX) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
@@ -256,7 +256,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
                 uint8_t  u_byte[2];
             } x, y;
 
-            if (0 < destination_buffer) {
+            if (0U < destination_buffer) {
                 if ((*index_ptr) > UINT16_MAX) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -283,7 +283,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
             destination_32u_ptr = (uint32_t *) (*pp_destination);
 
             // Skip zero elements
-            if (0 < destination_buffer) {
+            if (0U < destination_buffer) {
                 // Check if there is enough place in dst
                 REF_CHECK_PTR_END((uint8_t *) destination_32u_ptr,
                                   destination_end_ptr,
@@ -314,7 +314,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
                 uint8_t  u_byte[4];
             } x, y;
 
-            if (0 < destination_buffer) {
+            if (0U < destination_buffer) {
                 REF_CHECK_PTR_END((uint8_t *) destination_32u_ptr,
                                   destination_end_ptr,
                                   sizeof(uint32_t),

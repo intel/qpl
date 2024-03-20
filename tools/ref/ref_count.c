@@ -30,22 +30,22 @@ qpl_status ref_count_elements_prle(const uint8_t *const source_ptr,
     uint32_t source_bit_width = *current_ptr++;
 
     // Number of unpacked elements
-    uint32_t number_of_elements = 0;
+    uint32_t number_of_elements = 0U;
 
     // Format ( octa-group or RLE )
-    uint32_t format;
+    uint32_t format = 0U;
 
     // Number of repetitions of each element
-    uint32_t repetitions;
+    uint32_t repetitions = 0U;
 
     // Bits in buffer counter
-    uint32_t number_of_bits_in_buffer;
+    uint32_t number_of_bits_in_buffer = 0U;
 
-    // Main buffer 
-    uint64_t bit_buffer;
+    // Main buffer
+    uint64_t bit_buffer = 0U;
 
     // Temporary buffer to store bits
-    uint64_t temp_buffer;
+    uint64_t temp_buffer = 0U;
 
     // Check source bit width
     REF_BAD_ARG_RET((REF_MAX_BIT_WIDTH < source_bit_width), QPL_STS_BIT_WIDTH_ERR);
@@ -54,7 +54,7 @@ qpl_status ref_count_elements_prle(const uint8_t *const source_ptr,
     available_bytes--;
 
     // Check if PRLE format is correct
-    REF_BAD_ARG_RET((0 == available_bytes), QPL_STS_SRC_IS_SHORT_ERR);
+    REF_BAD_ARG_RET((0U == available_bytes), QPL_STS_SRC_IS_SHORT_ERR);
 
     while (current_ptr < source_end_ptr) {
         // Get format and count
@@ -65,21 +65,21 @@ qpl_status ref_count_elements_prle(const uint8_t *const source_ptr,
         }
 
         // Check if repetitions is equal to zero
-        REF_BAD_ARG_RET((0 == repetitions), QPL_STS_PRLE_FORMAT_ERR);
+        REF_BAD_ARG_RET((0U == repetitions), QPL_STS_PRLE_FORMAT_ERR);
 
         // Packed set of octa-groups
-        if (0 < format) {
-            number_of_bits_in_buffer = 0;
-            bit_buffer               = 0;
+        if (0U < format) {
+            number_of_bits_in_buffer = 0U;
+            bit_buffer               = 0U;
 
             // Through all octa-groups
-            for (uint32_t i = 0; i < repetitions; ++i) {
+            for (uint32_t i = 0U; i < repetitions; ++i) {
                 // One octa-group
-                for (uint32_t j = 0; j < REF_OCTA_GROUP_SIZE; ++j) {
+                for (uint32_t j = 0U; j < REF_OCTA_GROUP_SIZE; ++j) {
                     // Extract an element
                     while (source_bit_width > number_of_bits_in_buffer) {
                         // Checks if we have enough bytes
-                        if (0 == available_bytes) {
+                        if (0U == available_bytes) {
                             return QPL_STS_PRLE_FORMAT_ERR;
                         }
 
@@ -127,11 +127,11 @@ uint32_t ref_count_non_zero_elements_32u(const uint32_t *const source_ptr, uint3
     const uint32_t *current_ptr = source_ptr;
 
     // Result of the operation
-    uint32_t number_of_non_zero_elements = 0;
+    uint32_t number_of_non_zero_elements = 0U;
 
     // Main action
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
-        if (0 != (*current_ptr)) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
+        if (0U != (*current_ptr)) {
             number_of_non_zero_elements++;
         }
 

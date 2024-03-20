@@ -209,7 +209,7 @@ REF_INLINE qpl_status own_expand_prle(qpl_job *const qpl_job_ptr) {
     uint32_t available_bytes = qpl_job_ptr->available_in;
 
     // Number of elements to process
-    uint32_t number_of_elements;
+    uint32_t number_of_elements = 0U;
 
     // Gettin number of elements
     status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
@@ -271,12 +271,12 @@ REF_INLINE qpl_status own_expand(const uint32_t *const source_ptr,
                                  uint32_t number_of_bits,
                                  uint32_t number_of_elements,
                                  uint32_t *const destination_ptr) {
-    uint32_t element_index = 0;
+    uint32_t element_index = 0U;
 
-    for (uint32_t i = 0; i < number_of_bits; ++i) {
+    for (uint32_t i = 0U; i < number_of_bits; ++i) {
         if (!mask_ptr[i]) {
             // Store zero
-            destination_ptr[i] = 0;
+            destination_ptr[i] = 0U;
         } else {
             // Check length
             if (number_of_elements <= element_index) {
@@ -318,7 +318,7 @@ REF_INLINE qpl_status own_expand_output_to_format(const uint32_t *const source_p
     qpl_out_format output_format = (qpl_out_format) qpl_job_ptr->out_bit_width;
 
     // Number of output bytes
-    uint32_t output_bytes;
+    uint32_t output_bytes = 0U;
 
     // Store result
     status = ref_store_values(source_ptr,

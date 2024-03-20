@@ -33,7 +33,7 @@ qpl_status ref_convert_to_32u_le_be(const uint8_t *const source_ptr,
     uint32_t shift_bits = REF_BIT_BUF_LEN - source_bit_width;
 
     // Bits in buffer counter
-    uint32_t number_of_bits_in_buffer = 0;
+    uint32_t number_of_bits_in_buffer = 0U;
 
     // source_ptr vector's length in bits
     int64_t bit_length  = (int64_t)number_of_elements * source_bit_width;
@@ -53,11 +53,11 @@ qpl_status ref_convert_to_32u_le_be(const uint8_t *const source_ptr,
     uint64_t shift_bit_mask = source_bit_mask << shift_bits;
 
     // Main buffer
-    uint64_t bit_buffer = 0;
+    uint64_t bit_buffer = 0U;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         if (REF_BIT_BUF_LEN_HALF >= number_of_bits_in_buffer) {
-            while (0 < bit_length) {
+            while (0U < bit_length) {
                 if (REF_BYTE_BIT_LEN > (REF_BIT_BUF_LEN - number_of_bits_in_buffer)) {
                     break;
                 }
@@ -108,25 +108,25 @@ qpl_status ref_convert_to_32u_prle(const uint8_t *const source_ptr,
     uint32_t source_bit_width = *current_ptr++;
 
     // Current index in destination_ptr vector
-    uint32_t index = 0;
+    uint32_t index = 0U;
 
     // Format ( octa-group or RLE )
-    uint32_t format;
+    uint32_t format = 0U;
 
     // Number of repetitions of each element
-    uint32_t repetitions;
+    uint32_t repetitions = 0U;
 
     // Bits in buffer counter
-    uint32_t number_of_bits_in_buffer;
+    uint32_t number_of_bits_in_buffer = 0U;
 
     // Mask for extracting value bits
     uint64_t source_bit_mask = (QPL_ONE_64U << source_bit_width) - QPL_ONE_64U;
 
     // Main buffer
-    uint64_t bit_buffer;
+    uint64_t bit_buffer = 0U;
 
     // Temporary buffer to store bits
-    uint64_t temp_buffer;
+    uint64_t temp_buffer = 0U;
 
 
     // Check source bit width
@@ -137,24 +137,24 @@ qpl_status ref_convert_to_32u_prle(const uint8_t *const source_ptr,
     (*available_bytes_ptr)--;
 
     // Check if PRLE format is correct
-    REF_BAD_ARG_RET((0 == (*available_bytes_ptr)), QPL_STS_SRC_IS_SHORT_ERR);
+    REF_BAD_ARG_RET((0U == (*available_bytes_ptr)), QPL_STS_SRC_IS_SHORT_ERR);
 
     while (current_ptr < source_end_ptr) {
         // Get format and count
         REF_CHECK_FUNC_STS(ref_get_format_and_count(&current_ptr, &format, &repetitions, available_bytes_ptr));
 
         // Check if repetitions is equal to zero
-        REF_BAD_ARG_RET((0 == repetitions), QPL_STS_PRLE_FORMAT_ERR);
+        REF_BAD_ARG_RET((0U == repetitions), QPL_STS_PRLE_FORMAT_ERR);
 
         // Packed set of octa-groups
-        if (0 < format) {
-            number_of_bits_in_buffer = 0;
-            bit_buffer               = 0;
+        if (0U < format) {
+            number_of_bits_in_buffer = 0U;
+            bit_buffer               = 0U;
 
-            for (uint32_t i = 0; i < repetitions; ++i) {
-                for (uint32_t j = 0; j < REF_OCTA_GROUP_SIZE; ++j) {
+            for (uint32_t i = 0U; i < repetitions; ++i) {
+                for (uint32_t j = 0U; j < REF_OCTA_GROUP_SIZE; ++j) {
                     while (source_bit_width > number_of_bits_in_buffer) {
-                        if (0 == (*available_bytes_ptr)) {
+                        if (0U == (*available_bytes_ptr)) {
                             return QPL_STS_PRLE_FORMAT_ERR;
                         }
 
@@ -191,7 +191,7 @@ qpl_status ref_convert_to_32u_prle(const uint8_t *const source_ptr,
             (*available_bytes_ptr) -= value_size;
             current_ptr += value_size;
 
-            for (uint32_t j = 0; j < repetitions; ++j) {
+            for (uint32_t j = 0U; j < repetitions; ++j) {
                 destination_ptr[index++] = rle_val.u_int;
             }
         }

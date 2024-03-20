@@ -174,7 +174,7 @@ REF_INLINE qpl_status own_compare_prle(qpl_job *const qpl_job_ptr) {
     uint32_t low_value        = qpl_job_ptr->param_low;       // value to compare with
     uint32_t high_value       = qpl_job_ptr->param_high;      // value to compare with
     uint32_t available_bytes  = qpl_job_ptr->available_in;    // available bytes in source vector after conversion
-    uint32_t number_of_elements;                              // count elements in source vector
+    uint32_t number_of_elements = 0U;                              // count elements in source vector
     uint32_t source_bit_width = (uint32_t) (*source_ptr);     // extract source bit width
 
     // Getting number of elements
@@ -237,44 +237,44 @@ REF_INLINE qpl_status own_compare(const uint32_t *const source_ptr,
                                   uint32_t low_value,
                                   uint32_t high_value,
                                   qpl_operation operation) {
-    uint32_t comparison_result;
+    uint32_t comparison_result = 0U;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         switch (operation) {
             case qpl_op_scan_lt: {
-                comparison_result = (source_ptr[i] < low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] < low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_le: {
-                comparison_result = (source_ptr[i] <= low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] <= low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_gt: {
-                comparison_result = (source_ptr[i] > low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] > low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_ge: {
-                comparison_result = (source_ptr[i] >= low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] >= low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_eq: {
-                comparison_result = (source_ptr[i] == low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] == low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_ne: {
-                comparison_result = (source_ptr[i] != low_value) ? QPL_ONE_32U : 0;
+                comparison_result = (source_ptr[i] != low_value) ? QPL_ONE_32U : 0U;
                 break;
             }
             case qpl_op_scan_range: {
                 comparison_result = ((source_ptr[i] >= low_value) && (source_ptr[i] <= high_value))
                                     ? QPL_ONE_32U
-                                    : 0;
+                                    : 0U;
                 break;
             }
             case qpl_op_scan_not_range: {
                 comparison_result = ((source_ptr[i] < low_value) || (source_ptr[i] > high_value))
                                     ? QPL_ONE_32U
-                                    : 0;
+                                    : 0U;
                 break;
             }
             default: {
@@ -300,7 +300,7 @@ REF_INLINE qpl_status own_compare_output_to_format(const uint32_t *const source_
     uint32_t number_of_input_bytes = qpl_job_ptr->available_in;
     uint32_t current_index         = qpl_job_ptr->initial_output_index;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         status = ref_store_result(current_ptr[i],
                                   i,
                                   &destination_ptr,
@@ -324,7 +324,7 @@ REF_INLINE qpl_status own_compare_output_to_format(const uint32_t *const source_
 
         // if at least 1 bit is written and the last byte is not "full"
         if ((QPL_ONE_32U < qpl_job_ptr->last_bit_offset) && (destination_ptr > qpl_job_ptr->next_out_ptr)) {
-            uint8_t bit_mask;
+            uint8_t bit_mask = 0U;
 
             if (qpl_job_ptr->flags & QPL_FLAG_OUT_BE) {
                 bit_mask =

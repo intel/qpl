@@ -121,7 +121,7 @@ REF_INLINE qpl_status own_select_le_be(qpl_job *const qpl_job_ptr) {
     uint32_t mask_be = qpl_job_ptr->flags & QPL_FLAG_SRC2_BE;
 
     // Number of elements in destination_ptr
-    uint32_t destination_length;
+    uint32_t destination_length = 0U;
 
     // Bit length of number of elements
     uint64_t bit_length = (uint64_t) number_of_elements * (uint64_t) source_bit_width;
@@ -210,10 +210,10 @@ REF_INLINE qpl_status own_select_prle(qpl_job *const qpl_job_ptr) {
     uint32_t available_bytes = qpl_job_ptr->available_in;
 
     // Number of elements to process
-    uint32_t number_of_elements;
+    uint32_t number_of_elements = 0U;
 
     // Number of elements in destination_ptr
-    uint32_t destination_length;
+    uint32_t destination_length = 0U;
 
     REF_BAD_SIZE_RET(qpl_job_ptr->available_out);
 
@@ -292,9 +292,9 @@ REF_INLINE qpl_status own_select(const uint32_t *const source_ptr,
                                  uint32_t *const destination_ptr,
                                  uint32_t *const destination_length_ptr) {
     // Current position in destination_ptr
-    uint32_t index = 0;
+    uint32_t index = 0U;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         if (mask_ptr[i]) {
             destination_ptr[index++] = source_ptr[i];
         }

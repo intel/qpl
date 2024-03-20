@@ -150,11 +150,11 @@ REF_INLINE qpl_status own_store_value_8(const uint32_t *const source_ptr,
     // Current index to store in case 1 bit output bit width
     uint32_t index = last_element_index;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         uint8_t value = (uint8_t) source_ptr[i];
 
         if (QPL_ONE_32U == source_bit_width) {
-            if (0 < value) {
+            if (0U < value) {
                 if (UINT8_MAX < index) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -203,11 +203,11 @@ REF_INLINE qpl_status own_store_value_16(const uint32_t *const source_ptr,
     // Current index to store in case 1 bit output bit width
     uint32_t index = last_element_index;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         uint16_t value = (uint16_t) source_ptr[i];
 
         if (QPL_ONE_32U == source_bit_width) {
-            if (0 < value) {
+            if (0U < value) {
                 if (UINT16_MAX < index) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -260,11 +260,11 @@ REF_INLINE qpl_status own_store_value_32(const uint32_t *const source_ptr,
     // Current index to store in case 1 bit output bit width
     uint32_t index = last_element_index;
 
-    for (uint32_t i = 0; i < number_of_elements; ++i) {
+    for (uint32_t i = 0U; i < number_of_elements; ++i) {
         uint32_t value = (uint32_t) source_ptr[i];
 
         if (QPL_ONE_32U == source_bit_width) {
-            if (0 < value) {
+            if (0U < value) {
                 if (UINT32_MAX < index) {
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
@@ -310,15 +310,15 @@ REF_INLINE qpl_status own_store_value_nom(const uint32_t *const source_ptr,
     uint8_t *current_destination_ptr = destination_ptr;
 
     // Mask to store one bit
-    uint8_t destination_mask;
+    uint8_t destination_mask = 0U;
 
     // Destination offset in bits
-    uint64_t destination_bit_offset = 0;
+    uint64_t destination_bit_offset = 0U;
 
     // Ouput is in BE format
     if (output_be) {
         // For all mask elements
-        for (uint32_t i = 0; i < number_of_elements; i++) {
+        for (uint32_t i = 0U; i < number_of_elements; i++) {
             // First bit of n-bit BE number in some current_destination_ptr byte
             destination_bit_offset += source_bit_width;
 
@@ -333,7 +333,7 @@ REF_INLINE qpl_status own_store_value_nom(const uint32_t *const source_ptr,
             (*current_destination_ptr) &= ~(destination_mask - QPL_ONE_8U);
 
             // COpy bit by bit
-            for (uint32_t j = 0; j < source_bit_width; j++) {
+            for (uint32_t j = 0U; j < source_bit_width; j++) {
                 // Get source bit value
                 uint32_t sourceBit = (uint32_t) (source_ptr[i] & (QPL_ONE_32U << j));
 
@@ -361,9 +361,9 @@ REF_INLINE qpl_status own_store_value_nom(const uint32_t *const source_ptr,
         destination_mask = (uint8_t) REF_LOW_BIT_MASK;
 
         // Through all mask elements
-        for (uint32_t i = 0; i < number_of_elements; i++) {
+        for (uint32_t i = 0U; i < number_of_elements; i++) {
             // Copy bit by bit
-            for (uint32_t j = 0; j < source_bit_width; j++) {
+            for (uint32_t j = 0U; j < source_bit_width; j++) {
                 // Get source bit value
                 uint32_t sourceBit = (uint32_t) (source_ptr[i] & (QPL_ONE_32U << j));
 

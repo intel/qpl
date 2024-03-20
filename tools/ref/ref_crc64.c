@@ -61,7 +61,7 @@ static uint8_t bit_ref_8(uint8_t x) {
  * @todo
  */
 static uint32_t bit_ref_32(uint32_t x) {
-    uint32_t y;
+    uint32_t y = 0U;
 
     y = bit_ref_8(x >> 24);
     y = (y << 8) | bit_ref_8(x >> 16);
@@ -76,7 +76,7 @@ static uint32_t bit_ref_32(uint32_t x) {
  * @return
  */
 static uint64_t bit_ref_64(uint64_t x) {
-    uint64_t y;
+    uint64_t y = 0U;
 
     y = bit_ref_32(x >> 32);
     y = (y << 32) | bit_ref_32(x >> 0);
@@ -121,7 +121,7 @@ static uint64_t bit_byte_swap_64(uint64_t x) {
 static uint64_t reduce(uint64_t poly, uint32_t n) {
     uint64_t data = poly;
 
-    for (uint32_t i = 0; i < n; i++) {
+    for (uint32_t i = 0U; i < n; i++) {
         if (data & 0x8000000000000000ULL) {
             data = (data << 1) ^ poly;
         } else {
@@ -138,9 +138,9 @@ static uint64_t reduce(uint64_t poly, uint32_t n) {
  * @return
  */
 static uint64_t clmul_32_x_32(uint64_t a, uint64_t b) {
-    uint64_t r = 0;
+    uint64_t r = 0U;
 
-    for (uint32_t i = 0; i < 32; i++) {
+    for (uint32_t i = 0U; i < 32; i++) {
         if (a & 1) {
             r ^= b;
         }
@@ -157,8 +157,8 @@ static uint64_t clmul_32_x_32(uint64_t a, uint64_t b) {
  * @param b
  */
 static void clmul_32_x_64(crc_reg *res, uint32_t a, uint64_t b) {
-    uint64_t x1;
-    uint64_t x2;
+    uint64_t x1 = 0U;
+    uint64_t x2 = 0U;
     x1 = clmul_32_x_32(a, b & 0xFFFFFFFF);
     x2 = clmul_32_x_32(a, b >> 32);
     res->h32 = (uint32_t) (x2 >> 32);
@@ -172,7 +172,7 @@ static void clmul_32_x_64(crc_reg *res, uint32_t a, uint64_t b) {
  * @param data
  */
 static void proc_dword(uint64_t k, crc_reg *crc_accum, uint32_t data) {
-    uint32_t x;
+    uint32_t x = 0U;
     crc_reg  tmp;
 
     x = data ^ crc_accum->h32;
@@ -190,13 +190,13 @@ static void proc_dword(uint64_t k, crc_reg *crc_accum, uint32_t data) {
  * @return
  */
 static uint64_t final_reduce(uint64_t poly, uint64_t h, uint32_t l, uint32_t n) {
-    uint64_t p;
+    uint64_t p = 0U;
 
-    for (uint32_t i = 0; i < n; i++) {
+    for (uint32_t i = 0U; i < n; i++) {
         if (h & 0x8000000000000000ULL) {
             p = poly;
         } else {
-            p = 0;
+            p = 0U;
         }
         h = p ^ (h << 1) ^ (l >> 31);
         l <<= 1;
@@ -216,7 +216,7 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
     if (!qpl_job_ptr->available_in) {
         return QPL_STS_SIZE_ERR;
     }
-    if (qpl_job_ptr->crc64_poly == 0) {
+    if (qpl_job_ptr->crc64_poly == 0U) {
         return QPL_STS_CRC64_BAD_POLYNOM;
     }
 
@@ -224,23 +224,23 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
 
     uint8_t  *src      = (uint8_t *) qpl_job_ptr->next_in_ptr;
     uint32_t len       = qpl_job_ptr->available_in;
-    uint32_t data      = 0;
-    uint64_t crc       = 0;
-    uint64_t init_crc  = 0;
-    uint64_t crc_high  = 0;
-    uint32_t crc_low   = 0;
-    uint32_t i         = 0;
+    uint32_t data      = 0U;
+    uint64_t crc       = 0U;
+    uint64_t init_crc  = 0U;
+    uint64_t crc_high  = 0U;
+    uint32_t crc_low   = 0U;
+    uint32_t i         = 0U;
     uint64_t poly      = qpl_job_ptr->crc64_poly;
-    uint8_t  big_end   = 0;
-    uint8_t  inv_crc   = 0;
+    uint8_t  big_end   = 0U;
+    uint8_t  inv_crc   = 0U;
     crc_reg  crc_accum = {0};
-    uint64_t poly_red  = 0;
+    uint64_t poly_red  = 0U;
 
     if (qpl_job_ptr->flags & QPL_FLAG_CRC64_BE) {
-        big_end = 1;
+        big_end = 1U;
     }
     if (qpl_job_ptr->flags & QPL_FLAG_CRC64_INV) {
-        inv_crc = 1;
+        inv_crc = 1U;
     }
 
     poly_red = reduce(poly, 32);
@@ -258,8 +258,8 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
     crc_accum.h32 = (uint32_t) (init_crc >> 32);
     crc_accum.l64 = init_crc << 32;
 
-    if (len > 8) {
-        for (i = 0; i < len - 8; i += 4) {
+    if (len > 8U) {
+        for (i = 0U; i < len - 8U; i += 4) {
             data = *(uint32_t *) (src + i);
             data = byte_ref_32(data);
             if (big_end) {
@@ -268,16 +268,16 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
             proc_dword(poly_red, &crc_accum, data);
         }
     } else {
-        i = 0;
+        i = 0U;
     }
 
     crc_high = (((uint64_t) crc_accum.h32) << 32) | (crc_accum.l64 >> 32);
     crc_low  = (uint32_t) crc_accum.l64;
 
     len  = (len - i);
-    if (len < 4) {
-        data = 0;
-        for (uint32_t idx = 0; idx < len; idx++) {
+    if (len < 4U) {
+        data = 0U;
+        for (uint32_t idx = 0U; idx < len; idx++) {
             data |= (*(src + i + idx)) << (idx * 8);
         }
     } else {
@@ -288,14 +288,14 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
         data = bit_ref_32(data);
     }
     crc_high ^= ((uint64_t) data) << 32;
-    if (len > 4) {
-        if (len < 8) {
-            data = 0;
-            for (uint32_t idx = 0; idx < len - 4; idx++) {
+    if (len > 4U) {
+        if (len < 8U) {
+            data = 0U;
+            for (uint32_t idx = 0U; idx < len - 4U; idx++) {
                 data |= (*(src + i + idx + 4)) << (idx * 8);
             }
         } else {
-            data = *(uint32_t *) (src + i + 4);
+            data = *(uint32_t *) (src + i + 4U);
         }
         data = byte_ref_32(data);
         if (big_end) {

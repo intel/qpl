@@ -119,7 +119,7 @@ REF_INLINE qpl_status own_extract_le_be(qpl_job *const qpl_job_ptr) {
     uint32_t last_index = QPL_MIN(qpl_job_ptr->param_high, number_of_elements);
 
     // Number of elements in destination_ptr
-    uint32_t destination_length = last_index - first_index + 1;
+    uint32_t destination_length = last_index - first_index + 1U;
 
     // Bit length of number of elements
     uint64_t bit_length = (uint64_t) number_of_elements * (uint64_t) source_bit_width;
@@ -197,7 +197,7 @@ REF_INLINE qpl_status own_extract_prle(qpl_job *const qpl_job_ptr) {
     uint32_t last_index = qpl_job_ptr->param_high;
 
     // Number of elements to process
-    uint32_t number_of_elements;
+    uint32_t number_of_elements = 0U;
 
     // Getting number of elements
     status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
@@ -212,7 +212,7 @@ REF_INLINE qpl_status own_extract_prle(qpl_job *const qpl_job_ptr) {
     }
 
     // Number of elements in destination_ptr
-    uint32_t destination_length;
+    uint32_t destination_length = 0U;
 
     // Due to the fact that the variable is unsigned,
     // we must add an additional check for uint underflow
@@ -273,7 +273,7 @@ REF_INLINE qpl_status own_extract(const uint32_t *const source_ptr,
                                   uint32_t *const destination_ptr,
                                   uint32_t first_index,
                                   uint32_t last_index) {
-    uint32_t index = 0;
+    uint32_t index = 0U;
 
     for (uint32_t i = first_index; i < last_index; ++i) {
         destination_ptr[index++] = source_ptr[i];
@@ -300,7 +300,7 @@ REF_INLINE qpl_status own_extract_output_to_format(const uint32_t *const source_
     uint32_t element_index = qpl_job_ptr->initial_output_index;
 
     // Number of output bytes
-    uint32_t output_bytes;
+    uint32_t output_bytes = 0U;
 
     // Output format
     qpl_out_format output_format = (qpl_out_format) qpl_job_ptr->out_bit_width;
