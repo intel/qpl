@@ -45,16 +45,23 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, get_index_table_size) {
     size_t *ret_size_ptr = &ret_size;
 
     auto status = qpl_get_index_table_size(0, 1, ret_size_ptr);
-    EXPECT_EQ(*ret_size_ptr,calculate_table_size(0, 1));;
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
+    EXPECT_EQ(*ret_size_ptr,calculate_table_size(0, 1));
     status = qpl_get_index_table_size(0, 2, ret_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     EXPECT_EQ(*ret_size_ptr, calculate_table_size(0, 2));
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     status = qpl_get_index_table_size(1, 1, ret_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     EXPECT_EQ(*ret_size_ptr, calculate_table_size(1, 1));
     status = qpl_get_index_table_size(1, 2, ret_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     EXPECT_EQ(*ret_size_ptr, calculate_table_size(1, 2));
     status = qpl_get_index_table_size(2, 1, ret_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     EXPECT_EQ(*ret_size_ptr, calculate_table_size(2, 1));
     status = qpl_get_index_table_size(2, 2, ret_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during getting index table size\n";
     EXPECT_EQ(*ret_size_ptr, calculate_table_size(2, 2));
 
 }
@@ -92,6 +99,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
                                               first_bit_offset_ptr,
                                               last_bit_offset_ptr,
                                               compressed_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during setting mini block location\n";
     EXPECT_EQ(**source_pptr, **next_in_pptr);
     EXPECT_EQ(*first_bit_offset_ptr, ignore_start_bits);
     EXPECT_EQ(*last_bit_offset_ptr, ignore_end_bits);
@@ -110,6 +118,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
                                               first_bit_offset_ptr,
                                               last_bit_offset_ptr,
                                               compressed_size_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during setting mini block location\n";
     EXPECT_EQ(**source_pptr, **next_in_pptr);
     EXPECT_EQ(*first_bit_offset_ptr, ignore_start_bits);
     EXPECT_EQ(*last_bit_offset_ptr, ignore_end_bits);
@@ -127,24 +136,30 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_header_block_index){
     table.mini_blocks_per_block = 1;
     ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     auto status = qpl_find_header_block_index(table_ptr, 0, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 0));
 
     status = qpl_find_header_block_index(table_ptr, 1, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 1));
 
     status = qpl_find_header_block_index(table_ptr, 2, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(1, 2));
 
     table.mini_block_count = 20;
     table.mini_blocks_per_block = 2;
     ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     status = qpl_find_header_block_index(table_ptr, 0, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 0));
 
     status = qpl_find_header_block_index(table_ptr, 1, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 1));
 
     status = qpl_find_header_block_index(table_ptr, 2, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search of header block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_header_block_index(2, 2));
 }
 
@@ -160,24 +175,30 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_mini_block_index){
     table.mini_blocks_per_block = 1;
     ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     auto status = qpl_find_mini_block_index(table_ptr, 0, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 0));
 
     status = qpl_find_mini_block_index(table_ptr, 1, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 1));
 
     status = qpl_find_mini_block_index(table_ptr, 2, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(1, 2));
 
     table.mini_block_count = 20;
     table.mini_blocks_per_block = 2;
     ASSERT_EQ(table.mini_block_count, table.block_count * table.mini_blocks_per_block) << "Incompatible mini_block_count";
     status = qpl_find_mini_block_index(table_ptr, 0, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 0));
 
     status = qpl_find_mini_block_index(table_ptr, 1, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 1));
 
     status = qpl_find_mini_block_index(table_ptr, 2, block_index_ptr);
+    EXPECT_EQ(QPL_STS_OK, status) << "Error during search mini block index\n";
     EXPECT_EQ(*block_index_ptr, calculate_mini_block_index(2, 2));
 }
 

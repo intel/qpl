@@ -1039,6 +1039,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
                 }
 
                 status = run_job_api(job_ptr);
+                ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
                                             << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);
@@ -1161,6 +1162,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
                 }
 
                 status = run_job_api(job_ptr);
+                ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
                                             << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);
@@ -1303,6 +1305,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
                 }
 
                 status = run_job_api(job_ptr);
+                ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
                                             << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);

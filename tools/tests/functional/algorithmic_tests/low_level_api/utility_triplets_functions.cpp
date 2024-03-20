@@ -342,9 +342,9 @@ protected:
 
         // Decompress
         status = qpl_huffman_table_init_with_other(d_table.get(), c_table_from_triplets.get());
+        ASSERT_EQ(status, QPL_STS_OK) << "Failed to initialize huffman table\n";
         // Decompress
         status = run_job_api(decompression_job_ptr);
-
         // IAA 1.0 limitation: cannot work if ignore_end_bits is greater than 7 bits for BE16 decompress.
         // Expect error in this case.
         // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
