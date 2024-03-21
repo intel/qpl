@@ -16,7 +16,6 @@ static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
 				uint8_t * next_in, uint8_t * end_in)
 {
 	struct isal_zstate *state = &stream->internal_state;
-	uint32_t bytes_written;
 
 	if (next_in - start_in > 0)
 		state->has_hist = IGZIP_HIST;
@@ -25,7 +24,7 @@ static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
 	stream->total_in += next_in - start_in;
 	stream->avail_in = end_in - next_in;
 
-	bytes_written = buffer_used(&state->bitbuf);
+	uint32_t bytes_written = buffer_used(&state->bitbuf);
 	stream->total_out += bytes_written;
 	stream->next_out += bytes_written;
 	stream->avail_out -= bytes_written;
@@ -34,11 +33,11 @@ static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
 
 void qpl_isal_deflate_body_base(struct isal_zstream *stream)
 {
-	uint32_t literal, hash;
-	uint8_t *start_in, *next_in, *end_in, *end, *next_hash;
-	uint16_t match_length;
-	uint32_t dist;
-	uint64_t code, code_len, code2, code_len2;
+	uint32_t literal = 0U, hash = 0U;
+	uint8_t *end = NULL, *next_hash = NULL;
+	uint16_t match_length = 0U;
+	uint32_t dist = 0U;
+	uint64_t code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
 	struct isal_zstate *state = &stream->internal_state;
 	uint16_t *last_seen = state->head;
 	uint8_t *file_start = (uint8_t *) ((uintptr_t) stream->next_in - stream->total_in);
@@ -53,9 +52,9 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-	start_in = stream->next_in;
-	end_in = start_in + stream->avail_in;
-	next_in = start_in;
+	uint8_t *start_in = stream->next_in;
+	uint8_t *end_in = start_in + stream->avail_in;
+	uint8_t *next_in = start_in;
 
 	while (next_in + ISAL_LOOK_AHEAD < end_in) {
 
@@ -137,11 +136,11 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
 
 void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
 {
-	uint32_t literal = 0, hash;
-	uint8_t *start_in, *next_in, *end_in, *end, *next_hash;
-	uint16_t match_length;
-	uint32_t dist;
-	uint64_t code, code_len, code2, code_len2;
+	uint32_t literal = 0U, hash = 0U;
+	uint8_t *end = NULL, *next_hash = NULL;
+	uint16_t match_length = 0U;
+	uint32_t dist = 0U;
+	uint64_t code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
 	struct isal_zstate *state = &stream->internal_state;
 	uint16_t *last_seen = state->head;
 	uint8_t *file_start = (uint8_t *) ((uintptr_t) stream->next_in - stream->total_in);
@@ -150,9 +149,9 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-	start_in = stream->next_in;
-	end_in = start_in + stream->avail_in;
-	next_in = start_in;
+	uint8_t *start_in = stream->next_in;
+	uint8_t *end_in = start_in + stream->avail_in;
+	uint8_t *next_in = start_in;
 
 	if (stream->avail_in != 0) {
 		while (next_in + 3 < end_in) {
@@ -272,10 +271,10 @@ void qpl_isal_deflate_hash_base(uint16_t * hash_table, uint32_t hash_mask,
 			    uint32_t current_index, uint8_t * dict, uint32_t dict_len)
 {
 	uint8_t *next_in = dict;
-	uint8_t *end_in = dict + dict_len - SHORTEST_MATCH;
-	uint32_t literal;
-	uint32_t hash;
-	uint16_t index = current_index - dict_len;
+	uint8_t *end_in  = dict + dict_len - SHORTEST_MATCH;
+	uint32_t literal = 0U;
+	uint32_t hash    = 0U;
+	uint16_t index   = current_index - dict_len;
 
 	while (next_in <= end_in) {
 		literal = load_u32(next_in);

@@ -12,8 +12,8 @@
 
 void qpl_flatten_ll(uint32_t * ll_hist)
 {
-	uint32_t i, j;
-	uint32_t *s = ll_hist, x, *p;
+	uint32_t i = 0U, j = 0U;
+	uint32_t *s = ll_hist, x = 0U, *p = NULL;
 
 	s[265] += s[266];
 	s[266] = s[267] + s[268];

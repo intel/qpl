@@ -3,7 +3,6 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
-
 #include "crc.h"
 
 static const uint16_t crc16tab[256] = {
@@ -244,10 +243,9 @@ static const uint32_t crc32_table_gzip_refl[256] = {
 
 uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 {
-	uint64_t i;
 	uint16_t crc = seed;
 
-	for (i = 0; i < len; i++)
+	for (uint64_t i = 0U; i < len; i++)
 		crc = (crc << 8) ^ crc16tab[((crc >> 8) ^ *buf++) & 0x00FF];
 
 	return crc;
@@ -255,10 +253,9 @@ uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
 
 uint16_t qpl_crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uint64_t len)
 {
-	uint64_t i;
 	uint16_t crc = seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		crc = (crc << 8) ^ crc16tab[((crc >> 8) ^ *src) & 0x00FF];
 		*dst++ = *src++;
 	}
@@ -268,12 +265,9 @@ uint16_t qpl_crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src,
 
 unsigned int qpl_crc32_iscsi_base(unsigned char *buffer, int len, unsigned int crc_init)
 {
-	unsigned int crc;
-	unsigned char *p_buf;
+	unsigned int crc = crc_init;
+	unsigned char *p_buf = buffer;
 	unsigned char *p_end = buffer + len;
-
-	p_buf = buffer;
-	crc = crc_init;
 
 	while (p_buf < p_end) {
 		crc = (crc >> 8) ^ crc32_table_iscsi_refl[(crc & 0x000000FF) ^ *p_buf++];
@@ -295,12 +289,9 @@ uint32_t qpl_crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
 
 uint32_t qpl_crc32_gzip_refl_base(uint32_t seed, uint8_t * buf, uint64_t len)
 {
-	unsigned int crc;
-	unsigned char *p_buf;
+	unsigned int crc = ~seed;
+	unsigned char *p_buf = (unsigned char *)buf;
 	unsigned char *p_end = buf + len;
-
-	p_buf = (unsigned char *)buf;
-	crc = ~seed;
 
 	while (p_buf < p_end) {
 		crc = (crc >> 8) ^ crc32_table_gzip_refl[(crc & 0x000000FF) ^ *p_buf++];

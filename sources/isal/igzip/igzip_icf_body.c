@@ -35,8 +35,8 @@ void qpl_set_long_icf_fg_base(uint8_t * next_in, uint64_t processed, uint64_t in
 {
 	uint8_t *end_processed = next_in + processed;
 	uint8_t *end_in = next_in + input_size;
-	uint32_t dist_code, dist_extra, dist, len;
-	uint32_t match_len;
+	uint32_t dist_code = 0U, dist_extra = 0U, dist = 0U, len = 0U;
+	uint32_t match_len = 0U;
 	uint32_t dist_start[] = {
 		0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0007, 0x0009, 0x000d,
 		0x0011, 0x0019, 0x0021, 0x0031, 0x0041, 0x0061, 0x0081, 0x00c1,
@@ -81,12 +81,12 @@ uint64_t qpl_gen_icf_map_h1_base(struct isal_zstream *stream,
 			     struct deflate_icf *matches_icf_lookup, uint64_t input_size)
 {
 
-	uint32_t dist, len, extra_bits;
+	uint32_t dist = 0U, len = 0U, extra_bits = 0U;
 	uint8_t *next_in = stream->next_in, *end_in = stream->next_in + input_size;
 	uint8_t *file_start = (uint8_t *) ((uintptr_t) stream->next_in - stream->total_in);
-	uint32_t hash;
-	uint64_t next_bytes, match_bytes;
-	uint64_t match;
+	uint32_t hash = 0U;
+	uint64_t next_bytes = 0U, match_bytes = 0U;
+	uint64_t match = 0U;
 	struct level_buf *level_buf = (struct level_buf *)stream->level_buf;
 	uint16_t *hash_table = level_buf->hash_map.hash_table;
 	uint32_t hist_size = stream->internal_state.dist_mask;
@@ -144,8 +144,8 @@ static struct deflate_icf *compress_icf_map_g(struct isal_zstream *stream,
 					      struct deflate_icf *matches_next,
 					      struct deflate_icf *matches_end)
 {
-	uint32_t lit_len, lit_len2, dist;
-	uint64_t code;
+	uint32_t lit_len = 0U, lit_len2 = 0U, dist = 0U;
+	uint64_t code = 0U;
 	struct isal_zstate *state = &stream->internal_state;
 	struct level_buf *level_buf = (struct level_buf *)stream->level_buf;
 	struct deflate_icf *matches_start = matches_next;
@@ -241,10 +241,10 @@ static inline void icf_body_next_state(struct isal_zstream *stream)
 
 void qpl_icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
 {
-	struct deflate_icf *matches_icf, *matches_next_icf, *matches_end_icf;
-	struct deflate_icf *matches_icf_lookup;
+	struct deflate_icf *matches_icf = NULL, *matches_next_icf = NULL, *matches_end_icf = NULL;
+	struct deflate_icf *matches_icf_lookup = NULL;
 	struct level_buf *level_buf = (struct level_buf *)stream->level_buf;
-	uint32_t input_size, processed;
+	uint32_t input_size = 0U, processed = 0U;
 
 	matches_icf = level_buf->hash_map.matches;
 	matches_icf_lookup = matches_icf;
@@ -280,18 +280,15 @@ void qpl_icf_body_hash1_fillgreedy_lazy(struct isal_zstream *stream)
 
 void qpl_icf_body_lazyhash1_fillgreedy_greedy(struct isal_zstream *stream)
 {
-	struct deflate_icf *matches_icf, *matches_next_icf, *matches_end_icf;
-	struct deflate_icf *matches_icf_lookup;
 	struct level_buf *level_buf = (struct level_buf *)stream->level_buf;
-	uint32_t input_size, processed;
-
-	matches_icf = level_buf->hash_map.matches;
-	matches_icf_lookup = matches_icf;
-	matches_next_icf = level_buf->hash_map.matches_next;
-	matches_end_icf = level_buf->hash_map.matches_end;
+	struct deflate_icf *matches_icf = level_buf->hash_map.matches;
+	struct deflate_icf *matches_icf_lookup = matches_icf;
+	struct deflate_icf *matches_next_icf = level_buf->hash_map.matches_next;
+	struct deflate_icf *matches_end_icf = level_buf->hash_map.matches_end;
 
 	matches_next_icf = compress_icf_map_g(stream, matches_next_icf, matches_end_icf);
 
+	uint32_t input_size = 0U, processed = 0U;
 	while (matches_next_icf >= matches_end_icf) {
 		input_size = MATCH_BUF_SIZE;
 		input_size = (input_size > stream->avail_in) ? stream->avail_in : input_size;

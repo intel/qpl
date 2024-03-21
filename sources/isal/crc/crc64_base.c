@@ -794,9 +794,9 @@ static const uint64_t crc64_jones_norm_table[256] = {
 
 uint64_t qpl_crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_ecma_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
 	}
@@ -806,9 +806,9 @@ uint64_t qpl_crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t l
 
 uint64_t qpl_crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t  crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_ecma_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
 	}
@@ -818,9 +818,9 @@ uint64_t qpl_crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t l
 
 uint64_t qpl_crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_iso_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
 	}
@@ -830,9 +830,9 @@ uint64_t qpl_crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t le
 
 uint64_t qpl_crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_iso_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
 	}
@@ -842,9 +842,9 @@ uint64_t qpl_crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t le
 
 uint64_t qpl_crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_jones_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
 	}
@@ -854,9 +854,9 @@ uint64_t qpl_crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t 
 
 uint64_t qpl_crc64_jones_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
 {
-	uint64_t i, crc = ~seed;
+	uint64_t crc = ~seed;
 
-	for (i = 0; i < len; i++) {
+	for (uint64_t i = 0U; i < len; i++) {
 		uint8_t byte = buf[i];
 		crc = crc64_jones_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
 	}

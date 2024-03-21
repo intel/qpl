@@ -123,7 +123,6 @@ static inline void update_state(struct isal_zstream* stream, uint8_t* start_in,
 	uint8_t* next_in, uint8_t* end_in)
 {
 	struct isal_zstate* state = &stream->internal_state;
-	uint32_t bytes_written;
 
 	if (next_in - start_in > 0)
 		state->has_hist = IGZIP_HIST;
@@ -132,7 +131,7 @@ static inline void update_state(struct isal_zstream* stream, uint8_t* start_in,
 	stream->total_in += next_in - start_in;
 	stream->avail_in = end_in - next_in;
 
-	bytes_written = buffer_used(&state->bitbuf);
+	uint32_t bytes_written = buffer_used(&state->bitbuf);
 	stream->total_out += bytes_written;
 	stream->next_out += bytes_written;
 	stream->avail_out -= bytes_written;
@@ -141,9 +140,8 @@ static inline void update_state(struct isal_zstream* stream, uint8_t* start_in,
 
 void qpl_isal_deflate_body_huffman_only(struct isal_zstream* stream)
 {
-	uint32_t literal;
-	uint8_t* start_in, * next_in, * end_in;
-	uint64_t code, code_len;
+	uint32_t literal = 0U;
+	uint64_t code = 0U, code_len = 0U;
 	struct isal_zstate* state = &stream->internal_state;
 
 	if (stream->avail_in == 0) {
@@ -154,9 +152,9 @@ void qpl_isal_deflate_body_huffman_only(struct isal_zstream* stream)
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-	start_in = stream->next_in;
-	end_in = start_in + stream->avail_in;
-	next_in = start_in;
+	uint8_t* start_in = stream->next_in;
+	uint8_t* end_in = start_in + stream->avail_in;
+	uint8_t* next_in = start_in;
 
 	while (next_in + ISAL_LOOK_AHEAD < end_in) {
 
@@ -185,15 +183,14 @@ void qpl_isal_deflate_body_huffman_only(struct isal_zstream* stream)
 void qpl_isal_deflate_finish_huffman_only(struct isal_zstream* stream)
 {
 	uint32_t literal = 0;
-	uint8_t* start_in, * next_in, * end_in;
-	uint64_t code, code_len;
+	uint64_t code = 0U, code_len = 0U;
 	struct isal_zstate* state = &stream->internal_state;
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-	start_in = stream->next_in;
-	end_in = start_in + stream->avail_in;
-	next_in = start_in;
+	uint8_t* start_in = stream->next_in;
+	uint8_t* end_in = start_in + stream->avail_in;
+	uint8_t* next_in = start_in;
 
 	if (stream->avail_in != 0) {
 		while (next_in + 3 < end_in) {
@@ -244,11 +241,9 @@ void qpl_isal_deflate_finish_huffman_only(struct isal_zstream* stream)
 
 uint32_t qpl_isal_adler32_bam1(uint32_t adler32, const unsigned char* start, uint64_t length)
 {
-	uint64_t a;
-
 	/* Internally the checksum is being stored as B | (A-1) so crc and
 	 * addler have same init value */
-	a = adler32 & 0xffff;
+	uint64_t a = adler32 & 0xffff;
 	a = (a == ADLER_MOD - 1) ? 0 : a + 1;
 	adler32 = qpl_isal_adler32((adler32 & 0xffff0000) | a, start, length);
 	a = (adler32 & 0xffff);
@@ -276,9 +271,9 @@ static
 void sync_flush(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
-	uint64_t bits_to_write = 0xFFFF0000, bits_len;
-	uint64_t bytes;
-	int flush_size;
+	uint64_t bits_to_write = 0xFFFF0000, bits_len = 0U;
+	uint64_t bytes = 0U;
+	int flush_size = 0;
 
 	if (stream->avail_out >= 8) {
 		set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
@@ -326,13 +321,11 @@ static void flush_icf_block(struct isal_zstream* stream)
 	struct isal_zstate* state = &stream->internal_state;
 	struct level_buf* level_buf = (struct level_buf*)stream->level_buf;
 	struct BitBuf2* write_buf = &state->bitbuf;
-	struct deflate_icf* icf_buf_encoded_next;
 
 	set_buf(write_buf, stream->next_out, stream->avail_out);
 
-	icf_buf_encoded_next = qpl_encode_deflate_icf(level_buf->icf_buf_start + state->count,
-		level_buf->icf_buf_next, write_buf,
-		&level_buf->encode_tables);
+	struct deflate_icf* icf_buf_encoded_next = qpl_encode_deflate_icf(level_buf->icf_buf_start + state->count,
+                                           level_buf->icf_buf_next, write_buf, &level_buf->encode_tables);
 
 	state->count = icf_buf_encoded_next - level_buf->icf_buf_start;
 	stream->next_out = buffer_ptr(write_buf);
@@ -427,9 +420,7 @@ static void init_new_icf_block(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 	struct level_buf* level_buf = (struct level_buf*)stream->level_buf;
-	int level_struct_size;
-
-	level_struct_size = init_lvlX_buf(stream);
+	int level_struct_size = init_lvlX_buf(stream);
 
 	state->block_next = state->block_end;
 	level_buf->icf_buf_start =
@@ -476,16 +467,13 @@ static void create_icf_block_hdr(struct isal_zstream* stream, uint8_t* start_in)
 	struct BitBuf2* write_buf = &state->bitbuf;
 	struct BitBuf2 write_buf_tmp;
 	uint32_t out_size = stream->avail_out;
-	uint32_t avail_output, block_start_offset;
-	uint8_t* end_out = stream->next_out + out_size, * block_start;
-	uint64_t bit_count;
+	uint8_t* end_out = stream->next_out + out_size, * block_start = NULL;
 	uint64_t block_in_size = state->block_end - state->block_next;
-	uint64_t block_size;
 	int buffer_header = 0;
 
 	memcpy(&write_buf_tmp, write_buf, sizeof(struct BitBuf2));
 
-	block_size = (TYPE0_BLK_HDR_LEN) * ((block_in_size + TYPE0_MAX_BLK_LEN - 1) /
+	uint64_t block_size = (TYPE0_BLK_HDR_LEN) * ((block_in_size + TYPE0_MAX_BLK_LEN - 1) /
 		TYPE0_MAX_BLK_LEN) + block_in_size;
 	block_size = block_size ? block_size : TYPE0_BLK_HDR_LEN;
 
@@ -513,14 +501,15 @@ static void create_icf_block_hdr(struct isal_zstream* stream, uint8_t* start_in)
 		buffer_header = 1;
 	}
 
-	bit_count = qpl_create_hufftables_icf(write_buf, &level_buf->encode_tables,
+	uint64_t bit_count = qpl_create_hufftables_icf(write_buf, &level_buf->encode_tables,
 		&level_buf->hist, state->has_eob_hdr);
 
 	/* Assumes that type 0 block has size less than 4G */
-	block_start_offset = (stream->total_in - state->block_next);
+	uint32_t block_start_offset = (stream->total_in - state->block_next);
 	block_start = stream->next_in - block_start_offset;
-	avail_output = stream->avail_out + sizeof(state->buffer) -
+	uint32_t avail_output = stream->avail_out + sizeof(state->buffer) -
 		(stream->total_in - state->block_end);
+
 	if (bit_count / 8 >= block_size && block_start >= start_in
 		&& block_size <= avail_output) {
 		/* Reset stream for writing out a type0 block */
@@ -686,7 +675,7 @@ static void qpl_isal_deflate_icf_pass(struct isal_zstream* stream, uint8_t * inb
 static void qpl_isal_deflate_int(struct isal_zstream* stream, uint8_t * start_in)
 {
 	struct isal_zstate* state = &stream->internal_state;
-	uint32_t size;
+	uint32_t size = 0U;
 
 	/* Move data from temporary output buffer to output buffer */
 	if (state->state >= ZSTATE_TMP_OFFSET) {
@@ -716,13 +705,9 @@ static void qpl_isal_deflate_int(struct isal_zstream* stream, uint8_t * start_in
 
 	/* Fill temporary output buffer then complete filling output buffer */
 	if (stream->avail_out > 0 && stream->avail_out < 8 && state->state != ZSTATE_NEW_HDR) {
-		uint8_t* next_out;
-		uint32_t avail_out;
-		uint32_t total_out;
-
-		next_out = stream->next_out;
-		avail_out = stream->avail_out;
-		total_out = stream->total_out;
+		uint8_t* next_out  = stream->next_out;
+		uint32_t avail_out = stream->avail_out;
+		uint32_t total_out = stream->total_out;
 
 		stream->next_out = state->tmp_out_buff;
 		stream->avail_out = sizeof(state->tmp_out_buff);
@@ -922,11 +907,11 @@ static int qpl_isal_deflate_int_stateless(struct isal_zstream* stream)
 static void write_type0_header(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
-	uint64_t stored_blk_hdr;
-	uint32_t copy_size;
-	uint32_t memcpy_len, avail_in;
+	uint64_t stored_blk_hdr = 0U;
+	uint32_t copy_size = 0U;
+	uint32_t memcpy_len = 0U, avail_in = 0U;
 	uint32_t block_in_size = state->block_end - state->block_next;
-	uint32_t block_next_offset;
+	uint32_t block_next_offset = 0U;
 	struct BitBuf2* bitbuf = &stream->internal_state.bitbuf;
 
 	if (block_in_size > TYPE0_MAX_BLK_LEN) {
@@ -976,8 +961,8 @@ static void write_type0_header(struct isal_zstream* stream)
 
 static uint32_t write_stored_block(struct isal_zstream* stream)
 {
-	uint32_t copy_size, avail_in, block_next_offset;
-	uint8_t* next_in;
+	uint32_t copy_size = 0U, avail_in = 0U, block_next_offset = 0U;
+	uint8_t* next_in = NULL;
 	struct isal_zstate* state = &stream->internal_state;
 
 	do {
@@ -1032,11 +1017,8 @@ static inline void reset_match_history(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 	struct level_buf* level_buf = (struct level_buf*)stream->level_buf;
-	uint16_t* hash_table;
-	uint32_t hash_table_size;
-	uint32_t i = 0;
-
-	hash_table_size = 2 * (state->hash_mask + 1);
+	uint16_t* hash_table = NULL;
+	uint32_t hash_table_size = 2 * (state->hash_mask + 1);
 
 	switch (stream->level) {
 	case 3:
@@ -1057,7 +1039,7 @@ static inline void reset_match_history(struct isal_zstream* stream)
 	if ((stream->total_in & 0xFFFF) == 0)
 		memset(hash_table, 0, hash_table_size);
 	else {
-		for (i = 0; i < hash_table_size / 2; i++) {
+		for (uint32_t i = 0U; i < hash_table_size / 2; i++) {
 			hash_table[i] = (uint16_t)(stream->total_in);
 		}
 	}
@@ -1186,7 +1168,7 @@ void qpl_isal_gzip_header_init(struct isal_gzip_header* gz_hdr)
 
 uint32_t qpl_isal_write_gzip_header(struct isal_zstream* stream, struct isal_gzip_header* gz_hdr)
 {
-	uint32_t flags = 0, hcrc, hdr_size = GZIP_HDR_BASE;
+	uint32_t flags = 0U, hcrc = 0U, hdr_size = GZIP_HDR_BASE;
 	uint8_t* out_buf = stream->next_out, * out_buf_start = stream->next_out;
 	uint32_t name_len = 0, comment_len = 0;
 
@@ -1260,7 +1242,7 @@ uint32_t qpl_isal_write_gzip_header(struct isal_zstream* stream, struct isal_gzi
 
 uint32_t qpl_isal_write_zlib_header(struct isal_zstream* stream, struct isal_zlib_header* z_hdr)
 {
-	uint32_t cmf, flg, dict_flag = 0, hdr_size = ZLIB_HDR_BASE;
+	uint32_t dict_flag = 0U, hdr_size = ZLIB_HDR_BASE;
 	uint8_t* out_buf = stream->next_out;
 
 	if (z_hdr->dict_flag) {
@@ -1271,8 +1253,8 @@ uint32_t qpl_isal_write_zlib_header(struct isal_zstream* stream, struct isal_zli
 	if (stream->avail_out < hdr_size)
 		return hdr_size;
 
-	cmf = DEFLATE_METHOD | (z_hdr->info << 4);
-	flg = (z_hdr->level << 6) | dict_flag;
+	uint32_t cmf = DEFLATE_METHOD | (z_hdr->info << 4);
+	uint32_t flg = (z_hdr->level << 6) | dict_flag;
 
 	flg += 31 - ((256 * cmf + flg) % 31);
 
@@ -1405,9 +1387,7 @@ int qpl_isal_deflate_stateless(struct isal_zstream* stream)
 	const uint32_t total_out = stream->total_out;
 	const uint32_t gzip_flag = stream->gzip_flag;
 	const uint32_t has_wrap_hdr = state->has_wrap_hdr;
-
-	int level_check;
-	uint64_t stored_len;
+	uint64_t stored_len = 0U;
 
 	/* Final block has already been written */
 	state->block_next = stream->total_in;
@@ -1425,7 +1405,7 @@ int qpl_isal_deflate_stateless(struct isal_zstream* stream)
 	if (stream->flush != NO_FLUSH && stream->flush != FULL_FLUSH)
 		return INVALID_FLUSH;
 
-	level_check = check_level_req(stream);
+	int level_check = check_level_req(stream);
 	if (level_check) {
 		if (stream->level == 1 && stream->level_buf == NULL) {
 			/* Default to internal buffer if invalid size is supplied */
@@ -1525,16 +1505,12 @@ static inline uint32_t get_hist_size(struct isal_zstream* stream, uint8_t * star
 	int32_t buf_hist_start)
 {
 	struct isal_zstate* state = &stream->internal_state;
-	uint32_t history_size;
-	uint32_t buffered_history;
 	uint32_t buffered_size = state->b_bytes_valid - state->b_bytes_processed;
-	uint32_t input_history;
-
-	buffered_history = (state->has_hist) ? state->b_bytes_processed - buf_hist_start : 0;
-	input_history = stream->next_in - start_in;
+	uint32_t buffered_history = (state->has_hist) ? state->b_bytes_processed - buf_hist_start : 0;
+	uint32_t input_history = stream->next_in - start_in;
 
 	/* Calculate history required for deflate window */
-	history_size = (buffered_history >= input_history) ? buffered_history : input_history;
+	uint32_t history_size = (buffered_history >= input_history) ? buffered_history : input_history;
 	if (history_size > IGZIP_HIST_SIZE)
 		history_size = IGZIP_HIST_SIZE;
 
@@ -1557,17 +1533,17 @@ int qpl_isal_deflate(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 	int ret = COMP_OK;
-	uint8_t* next_in, * start_in, * buf_start_in, * next_in_pre;
-	uint32_t avail_in, total_start, hist_size, future_size;
-	uint32_t in_size, in_size_initial, out_size, out_size_initial;
-	uint32_t processed, buffered_size = state->b_bytes_valid - state->b_bytes_processed;
+	uint8_t* next_in = NULL, *buf_start_in = NULL, *next_in_pre = NULL;
+	uint32_t avail_in = 0U, future_size = 0U;
+	uint32_t in_size_initial = 0U, out_size_initial = 0U;
+	uint32_t processed = 0U, buffered_size = state->b_bytes_valid - state->b_bytes_processed;
 	uint32_t flush_type = stream->flush;
 	uint32_t end_of_stream = stream->end_of_stream;
 	uint32_t size = 0;
 	int32_t buf_hist_start = 0;
 	uint8_t* copy_down_src = NULL;
-	uint64_t copy_down_size = 0, copy_start_offset;
-	int internal;
+	uint64_t copy_down_size = 0U, copy_start_offset = 0U;
+	int internal = 0;
 
 #if defined(QPL_LIB)
 	if (stream->flush > QPL_PARTIAL_FLUSH)
@@ -1580,10 +1556,10 @@ int qpl_isal_deflate(struct isal_zstream* stream)
 	if (ret)
 		return ret;
 
-	start_in = stream->next_in;
-	total_start = stream->total_in;
+	uint8_t* start_in = stream->next_in;
+	uint32_t total_start = stream->total_in;
 
-	hist_size = get_hist_size(stream, start_in, buf_hist_start);
+	uint32_t hist_size = get_hist_size(stream, start_in, buf_hist_start);
 
 	if (state->has_hist == IGZIP_NO_HIST) {
 		set_dist_mask(stream);
@@ -1603,8 +1579,9 @@ int qpl_isal_deflate(struct isal_zstream* stream)
 		qpl_isal_deflate_hash(stream, state->buffer, state->b_bytes_processed);
 	}
 
-	in_size = stream->avail_in + buffered_size;
-	out_size = stream->total_out;
+	uint32_t in_size = stream->avail_in + buffered_size;
+	uint32_t out_size = stream->total_out;
+
 	do {
 		in_size_initial = in_size;
 		out_size_initial = out_size;
@@ -1759,9 +1736,9 @@ static int write_stream_header_stateless(struct isal_zstream* stream)
 		return COMP_OK;
 	}
 
-	uint32_t hdr_bytes;
-	const uint8_t* hdr;
-	uint32_t next_flag;
+	uint32_t hdr_bytes = 0U;
+	const uint8_t* hdr = NULL;
+	uint32_t next_flag = 0U;
 
 	if (stream->internal_state.has_wrap_hdr)
 		return COMP_OK;
@@ -1802,9 +1779,8 @@ static void write_stream_header(struct isal_zstream* stream)
 	}
 
 	struct isal_zstate* state = &stream->internal_state;
-	uint32_t bytes_to_write;
-	uint32_t hdr_bytes;
-	const uint8_t* hdr;
+	uint32_t hdr_bytes = 0U;
+	const uint8_t* hdr = NULL;
 
 	if (stream->internal_state.has_wrap_hdr)
 		return;
@@ -1818,7 +1794,7 @@ static void write_stream_header(struct isal_zstream* stream)
 		hdr = gzip_hdr;
 	}
 
-	bytes_to_write = hdr_bytes;
+	uint32_t bytes_to_write = hdr_bytes;
 	bytes_to_write -= state->count;
 
 	if (bytes_to_write > stream->avail_out)
@@ -1843,7 +1819,7 @@ static int write_deflate_header_stateless(struct isal_zstream* stream)
 	struct isal_zstate* state = &stream->internal_state;
 	struct isal_hufftables* hufftables = stream->hufftables;
 	uint64_t hdr_extra_bits = hufftables->deflate_hdr[hufftables->deflate_hdr_count];
-	uint32_t count;
+	uint32_t count = 0U;
 
 	if (stream->canned_mode_flag)
 	{
@@ -1888,11 +1864,6 @@ static int write_deflate_header_unaligned_stateless(struct isal_zstream* stream)
 {
 	struct isal_zstate* state = &stream->internal_state;
 	struct isal_hufftables* hufftables = stream->hufftables;
-	unsigned int count;
-	uint64_t bit_count;
-	uint64_t* header_next;
-	uint64_t* header_end;
-	uint64_t header_bits;
 
 	if (state->bitbuf.m_bit_count == 0)
 		return write_deflate_header_stateless(stream);
@@ -1902,10 +1873,9 @@ static int write_deflate_header_unaligned_stateless(struct isal_zstream* stream)
 
 	set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-	header_next = (uint64_t*)hufftables->deflate_hdr;
-	header_end = header_next + hufftables->deflate_hdr_count / 8;
-
-	header_bits = *header_next;
+	uint64_t* header_next = (uint64_t*)hufftables->deflate_hdr;
+	uint64_t* header_end  = header_next + hufftables->deflate_hdr_count / 8;
+	uint64_t header_bits  = *header_next;
 
 	if (stream->end_of_stream == 0)
 		header_bits--;
@@ -1921,7 +1891,8 @@ static int write_deflate_header_unaligned_stateless(struct isal_zstream* stream)
 		write_bits(&state->bitbuf, header_bits, 32);
 		header_bits = *header_next;
 	}
-	bit_count =
+
+	uint64_t bit_count =
 		(hufftables->deflate_hdr_count & 0x7) * 8 + hufftables->deflate_hdr_extra_bits;
 
 	if (bit_count > MAX_BITBUF_BIT_WRITE) {
@@ -1938,7 +1909,7 @@ static int write_deflate_header_unaligned_stateless(struct isal_zstream* stream)
 	 * length exceed 64 bits */
 	check_space(&state->bitbuf, FORCE_FLUSH);
 
-	count = buffer_used(&state->bitbuf);
+	unsigned int count = buffer_used(&state->bitbuf);
 	stream->next_out = buffer_ptr(&state->bitbuf);
 	stream->avail_out -= count;
 	stream->total_out += count;
@@ -1960,7 +1931,7 @@ static void write_header(struct isal_zstream* stream, uint8_t * deflate_hdr,
 
 	struct isal_zstate* state = &stream->internal_state;
 	uint32_t hdr_extra_bits = deflate_hdr[deflate_hdr_count];
-	uint32_t count;
+	uint32_t count = 0U;
 	state->state = ZSTATE_HDR;
 
 	if (state->bitbuf.m_bit_count != 0) {
