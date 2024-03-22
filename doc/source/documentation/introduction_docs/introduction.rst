@@ -197,8 +197,19 @@ done in two ways:
 
 -  Pin thread that performs submissions to the specific NUMA, the
    library will use devices only from this node.
+
+   .. code-block:: shell
+
+      numactl --cpunodebind <numa_id> --membind <numa_id> /path/to/executable
+
 -  Set NUMA ID parameter of the job to the specific node ID, then
    devices will be selected only from this node.
+
+   .. code-block:: cpp
+      :emphasize-lines: 2
+
+      qpl_job *qpl_job_ptr;
+      job->numa_id = <int32_t>;
 
 Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.
