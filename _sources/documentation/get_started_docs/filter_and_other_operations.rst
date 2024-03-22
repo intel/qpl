@@ -18,6 +18,14 @@ CRC64
     :language: cpp
 
 
+CRC64 with Device Selection From Another Socket Example
+=======================================================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/crc64_cross_socket_example.cpp
+    :language: cpp
+
+
 Expand
 ======
 

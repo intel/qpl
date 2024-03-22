@@ -607,11 +607,20 @@ library depending on internal heuristics (<code class="docutils literal notransl
 <p>Intel QPL is NUMA aware and respects the NUMA node ID of the calling
 thread. If a user needs to use a device from a specific node, it can be
 done in two ways:</p>
-<ul class="simple">
+<ul>
 <li><p>Pin thread that performs submissions to the specific NUMA, the
-library will use devices only from this node.</p></li>
+library will use devices only from this node.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--cpunodebind<span class="w"> </span>&lt;numa_id&gt;<span class="w"> </span>--membind<span class="w"> </span>&lt;numa_id&gt;<span class="w"> </span>/path/to/executable
+</pre></div>
+</div>
+</li>
 <li><p>Set NUMA ID parameter of the job to the specific node ID, then
-devices will be selected only from this node.</p></li>
+devices will be selected only from this node.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="n">qpl_job_ptr</span><span class="p">;</span>
+<span class="hll"><span class="n">job</span><span class="o">-&gt;</span><span class="n">numa_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">;</span>
+</span></pre></div>
+</div>
+</li>
 </ul>
 <p>Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.</p>
