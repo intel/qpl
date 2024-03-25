@@ -38,7 +38,7 @@ set_target_properties(qpl_c_api PROPERTIES
 
 target_compile_options(qpl_c_api
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
-                                             $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
+                                             $<$<CONFIG:Release>:-O3;-U_FORTIFY_SOURCE;-D_FORTIFY_SOURCE=2>>
         PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS}>
         PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU,Clang>:${QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>
         PRIVATE $<$<C_COMPILER_ID:MSVC>:${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS};

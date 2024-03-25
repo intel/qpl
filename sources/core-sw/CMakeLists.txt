@@ -55,7 +55,7 @@ foreach(PLATFORM_ID IN LISTS PLATFORMS_LIST)
      target_compile_options(qplcore_${PLATFORM_ID}
                             PRIVATE ${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS}
                             PRIVATE "$<$<CONFIG:Debug>:>"
-                            PRIVATE "$<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>")
+                            PRIVATE "$<$<CONFIG:Release>:-O3;-U_FORTIFY_SOURCE;-D_FORTIFY_SOURCE=2>")
      endif ()
 
      # Set specific compiler options and/or definitions based on a platform
@@ -117,7 +117,7 @@ target_compile_definitions(qplcore_sw_dispatcher PUBLIC -DQPL_LIB)
 
 target_compile_options(qplcore_sw_dispatcher
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
-                                             $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
+                                             $<$<CONFIG:Release>:-O3;-U_FORTIFY_SOURCE;-D_FORTIFY_SOURCE=2>>
         PRIVATE $<$<C_COMPILER_ID:GNU>:${QPL_LINUX_TOOLCHAIN_DYNAMIC_LIBRARY_FLAGS}>
         PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,GNU,Clang>:${QPL_LINUX_TOOLCHAIN_CPP_EMBEDDED_FLAGS}>
         PRIVATE $<$<C_COMPILER_ID:MSVC>:${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS};

@@ -36,7 +36,7 @@ set_target_properties(core_iaa PROPERTIES
 
 target_compile_options(core_iaa
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};
-                                       $<$<CONFIG:Release>:-O3;-D_FORTIFY_SOURCE=2>>
+                                       $<$<CONFIG:Release>:-O3;-U_FORTIFY_SOURCE;-D_FORTIFY_SOURCE=2>>
         PRIVATE $<$<C_COMPILER_ID:MSVC>:${QPL_WINDOWS_TOOLCHAIN_REQUIRED_FLAGS};
                                         $<$<CONFIG:Release>:-O2>>)
 
