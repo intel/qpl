@@ -43,8 +43,11 @@ static inline bool own_search_device_name(const uint8_t *src_ptr,
 
 namespace qpl::ml::dispatcher {
 
+/**
+ * @brief Routine to restore device properties.
+*/
 void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) const noexcept {
-    // Restore device properties
+    // GENCAP-related
     hw_context_ptr->device_properties.max_set_size                  = hw_device::get_max_set_size();
     hw_context_ptr->device_properties.max_decompressed_set_size     = hw_device::get_max_decompressed_set_size();
     hw_context_ptr->device_properties.indexing_support_enabled      = hw_device::get_indexing_support_enabled();
@@ -54,6 +57,12 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
     hw_context_ptr->device_properties.cache_write_available         = hw_device::get_cache_write_available();
     hw_context_ptr->device_properties.overlapping_available         = hw_device::get_overlapping_available();
     hw_context_ptr->device_properties.block_on_fault_enabled        = hw_device::get_block_on_fault_available();
+
+    // IAACAP-related
+    hw_context_ptr->device_properties.gen_2_min_capabilities_available = hw_device::get_gen_2_min_capabilities();
+    hw_context_ptr->device_properties.header_gen_supported             = hw_device::get_header_gen_support();
+    hw_context_ptr->device_properties.dict_compression_supported       = hw_device::get_dict_compress_support();
+    hw_context_ptr->device_properties.load_partial_aecs_supported      = hw_device::get_load_partial_aecs_support();
 }
 
 auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status {
@@ -138,6 +147,10 @@ auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint3
     return OC_GET_OP_SUPPORTED(op_configs_[wq_idx], operation);
 }
 
+auto hw_device::get_load_partial_aecs_support() const noexcept -> bool {
+    return IC_LOAD_PARTIAL_AECS(iaa_cap_register_);
+}
+
 /**
  * @brief Function to query device and check its properties.
  * Returns HW_ACCELERATOR_STATUS_OK upon success and HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE for invalid device.
@@ -207,6 +220,11 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     iaa_cap_register_ = iaa_cap;
     DIAG("%5s: IAACAP: %" PRIu64 "\n", name_ptr, iaa_cap_register_);
+
+    DIAG("%5s: IAACAP: generation 2 minimum capabilities:   %d\n",          name_ptr, get_gen_2_min_capabilities());
+    DIAG("%5s: IAACAP: load partial AECS support:           %d\n",          name_ptr, get_load_partial_aecs_support());
+    DIAG("%5s: IAACAP: header generation support:           %d\n",          name_ptr, get_header_gen_support());
+    DIAG("%5s: IAACAP: dictionary compression support:      %d\n",          name_ptr, get_dict_compress_support());
 
     // Working queues initialization stage
     auto *wq_ptr = accfg_wq_get_first(device_ptr);

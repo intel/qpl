@@ -73,6 +73,8 @@ public:
 
     [[nodiscard]] auto get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool;
 
+    [[nodiscard]] auto get_load_partial_aecs_support() const noexcept -> bool;
+
 private:
     queues_container_t working_queues_   = {};    /**< Set of available HW working queues */
     opcfg_container_t  op_configs_       = {};    /**< Array of OPCFG register content for each available HW working queue */
