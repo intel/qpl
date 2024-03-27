@@ -158,30 +158,30 @@ enum {IGZIP_LIT_TABLE_SIZE = ISAL_DEF_LIT_SYMBOLS};
  * hufftable being used for compression may be swapped
  */
 enum isal_zstate_state {
-	ZSTATE_NEW_HDR,  //!< Header to be written
-	ZSTATE_HDR,	//!< Header state
-	ZSTATE_CREATE_HDR, //!< Header to be created
-	ZSTATE_BODY,	//!< Body state
-	ZSTATE_FLUSH_READ_BUFFER, //!< Flush buffer
-	ZSTATE_FLUSH_ICF_BUFFER,
-	ZSTATE_TYPE0_HDR, //! Type0 block header to be written
-	ZSTATE_TYPE0_BODY, //!< Type0 block body to be written
-	ZSTATE_SYNC_FLUSH, //!< Write sync flush block
-	ZSTATE_FLUSH_WRITE_BUFFER, //!< Flush bitbuf
-	ZSTATE_TRL,	//!< Trailer state
-	ZSTATE_END,	//!< End state
-	ZSTATE_TMP_NEW_HDR, //!< Temporary Header to be written
-	ZSTATE_TMP_HDR,	//!< Temporary Header state
-	ZSTATE_TMP_CREATE_HDR, //!< Temporary Header to be created state
-	ZSTATE_TMP_BODY,	//!< Temporary Body state
-	ZSTATE_TMP_FLUSH_READ_BUFFER, //!< Flush buffer
-	ZSTATE_TMP_FLUSH_ICF_BUFFER,
-	ZSTATE_TMP_TYPE0_HDR, //! Temporary Type0 block header to be written
-	ZSTATE_TMP_TYPE0_BODY, //!< Temporary Type0 block body to be written
-	ZSTATE_TMP_SYNC_FLUSH, //!< Write sync flush block
-	ZSTATE_TMP_FLUSH_WRITE_BUFFER, //!< Flush bitbuf
-	ZSTATE_TMP_TRL,	//!< Temporary Trailer state
-	ZSTATE_TMP_END	//!< Temporary End state
+    ZSTATE_NEW_HDR,  //!< Header to be written
+    ZSTATE_HDR,	//!< Header state
+    ZSTATE_CREATE_HDR, //!< Header to be created
+    ZSTATE_BODY,	//!< Body state
+    ZSTATE_FLUSH_READ_BUFFER, //!< Flush buffer
+    ZSTATE_FLUSH_ICF_BUFFER,
+    ZSTATE_TYPE0_HDR, //! Type0 block header to be written
+    ZSTATE_TYPE0_BODY, //!< Type0 block body to be written
+    ZSTATE_SYNC_FLUSH, //!< Write sync flush block
+    ZSTATE_FLUSH_WRITE_BUFFER, //!< Flush bitbuf
+    ZSTATE_TRL,	//!< Trailer state
+    ZSTATE_END,	//!< End state
+    ZSTATE_TMP_NEW_HDR, //!< Temporary Header to be written
+    ZSTATE_TMP_HDR,	//!< Temporary Header state
+    ZSTATE_TMP_CREATE_HDR, //!< Temporary Header to be created state
+    ZSTATE_TMP_BODY,	//!< Temporary Body state
+    ZSTATE_TMP_FLUSH_READ_BUFFER, //!< Flush buffer
+    ZSTATE_TMP_FLUSH_ICF_BUFFER,
+    ZSTATE_TMP_TYPE0_HDR, //! Temporary Type0 block header to be written
+    ZSTATE_TMP_TYPE0_BODY, //!< Temporary Type0 block body to be written
+    ZSTATE_TMP_SYNC_FLUSH, //!< Write sync flush block
+    ZSTATE_TMP_FLUSH_WRITE_BUFFER, //!< Flush bitbuf
+    ZSTATE_TMP_TRL,	//!< Temporary Trailer state
+    ZSTATE_TMP_END	//!< Temporary End state
 };
 
 /* Offset used to switch between TMP states and non-tmp states */
@@ -195,19 +195,19 @@ enum isal_zstate_state {
 
 /* Current state of decompression */
 enum isal_block_state {
-	ISAL_BLOCK_NEW_HDR,	/* Just starting a new block */
-	ISAL_BLOCK_HDR,		/* In the middle of reading in a block header */
-	ISAL_BLOCK_TYPE0,	/* Decoding a type 0 block */
-	ISAL_BLOCK_CODED,	/* Decoding a huffman coded block */
-	ISAL_BLOCK_INPUT_DONE,	/* Decompression of input is completed */
-	ISAL_BLOCK_FINISH,	/* Decompression of input is completed and all data has been flushed to output */
-	ISAL_GZIP_EXTRA_LEN,
-	ISAL_GZIP_EXTRA,
-	ISAL_GZIP_NAME,
-	ISAL_GZIP_COMMENT,
-	ISAL_GZIP_HCRC,
-	ISAL_ZLIB_DICT,
-	ISAL_CHECKSUM_CHECK,
+    ISAL_BLOCK_NEW_HDR,	/* Just starting a new block */
+    ISAL_BLOCK_HDR,		/* In the middle of reading in a block header */
+    ISAL_BLOCK_TYPE0,	/* Decoding a type 0 block */
+    ISAL_BLOCK_CODED,	/* Decoding a huffman coded block */
+    ISAL_BLOCK_INPUT_DONE,	/* Decompression of input is completed */
+    ISAL_BLOCK_FINISH,	/* Decompression of input is completed and all data has been flushed to output */
+    ISAL_GZIP_EXTRA_LEN,
+    ISAL_GZIP_EXTRA,
+    ISAL_GZIP_NAME,
+    ISAL_GZIP_COMMENT,
+    ISAL_GZIP_HCRC,
+    ISAL_ZLIB_DICT,
+    ISAL_CHECKSUM_CHECK,
 };
 
 #if defined(QPL_LIB)
@@ -291,9 +291,9 @@ enum inflate_end_proc
 /******************************************************************************/
 /** @brief Holds histogram of deflate symbols*/
 struct isal_huff_histogram {
-	uint64_t lit_len_histogram[ISAL_DEF_LIT_LEN_SYMBOLS]; //!< Histogram of Literal/Len symbols seen
-	uint64_t dist_histogram[ISAL_DEF_DIST_SYMBOLS]; //!< Histogram of Distance Symbols seen
-	uint16_t hash_table[IGZIP_LVL0_HASH_SIZE]; //!< Tmp space used as a hash table
+    uint64_t lit_len_histogram[ISAL_DEF_LIT_LEN_SYMBOLS]; //!< Histogram of Literal/Len symbols seen
+    uint64_t dist_histogram[ISAL_DEF_DIST_SYMBOLS]; //!< Histogram of Distance Symbols seen
+    uint16_t hash_table[IGZIP_LVL0_HASH_SIZE]; //!< Tmp space used as a hash table
 };
 
 struct isal_mod_hist {
@@ -350,34 +350,34 @@ struct isal_mod_hist {
 
 /** @brief Holds Bit Buffer information*/
 struct BitBuf2 {
-	uint64_t m_bits;	//!< bits in the bit buffer
-	uint32_t m_bit_count;	//!< number of valid bits in the bit buffer
-	uint8_t *m_out_buf;	//!< current index of buffer to write to
-	uint8_t *m_out_end;	//!< end of buffer to write to
-	uint8_t *m_out_start;	//!< start of buffer to write to
+    uint64_t m_bits;	//!< bits in the bit buffer
+    uint32_t m_bit_count;	//!< number of valid bits in the bit buffer
+    uint8_t *m_out_buf;	//!< current index of buffer to write to
+    uint8_t *m_out_end;	//!< end of buffer to write to
+    uint8_t *m_out_start;	//!< start of buffer to write to
 };
 
 struct isal_zlib_header {
-	uint32_t info;		//!< base-2 logarithm of the LZ77 window size minus 8
-	uint32_t level;		//!< Compression level (fastest, fast, default, maximum)
-	uint32_t dict_id;	//!< Dictionary id
-	uint32_t dict_flag;	//!< Whether to use a dictionary
+    uint32_t info;		//!< base-2 logarithm of the LZ77 window size minus 8
+    uint32_t level;		//!< Compression level (fastest, fast, default, maximum)
+    uint32_t dict_id;	//!< Dictionary id
+    uint32_t dict_flag;	//!< Whether to use a dictionary
 };
 
 struct isal_gzip_header {
-	uint32_t text;		//!< Optional Text hint
-	uint32_t time;		//!< Unix modification time in gzip header
-	uint32_t xflags;		//!< xflags in gzip header
-	uint32_t os;		//!< OS in gzip header
-	uint8_t *extra;		//!< Extra field in gzip header
-	uint32_t extra_buf_len;	//!< Length of extra buffer
-	uint32_t extra_len;	//!< Actual length of gzip header extra field
-	char *name;		//!< Name in gzip header
-	uint32_t name_buf_len;	//!< Length of name buffer
-	char *comment;		//!< Comments in gzip header
-	uint32_t comment_buf_len;	//!< Length of comment buffer
-	uint32_t hcrc;		//!< Header crc or header crc flag
-	uint32_t flags;		//!< Internal data
+    uint32_t text;		//!< Optional Text hint
+    uint32_t time;		//!< Unix modification time in gzip header
+    uint32_t xflags;		//!< xflags in gzip header
+    uint32_t os;		//!< OS in gzip header
+    uint8_t *extra;		//!< Extra field in gzip header
+    uint32_t extra_buf_len;	//!< Length of extra buffer
+    uint32_t extra_len;	//!< Actual length of gzip header extra field
+    char *name;		//!< Name in gzip header
+    uint32_t name_buf_len;	//!< Length of name buffer
+    char *comment;		//!< Comments in gzip header
+    uint32_t comment_buf_len;	//!< Length of comment buffer
+    uint32_t hcrc;		//!< Header crc or header crc flag
+    uint32_t flags;		//!< Internal data
 };
 
 /* Variable prefixes:
@@ -387,73 +387,73 @@ struct isal_gzip_header {
 
 /** @brief Holds the internal state information for input and output compression streams*/
 struct isal_zstate {
-	uint32_t total_in_start; //!< Not used, may be replaced with something else
-	uint32_t block_next;	//!< Start of current deflate block in the input
-	uint32_t block_end;	//!< End of current deflate block in the input
-	uint32_t dist_mask;	//!< Distance mask used.
+    uint32_t total_in_start; //!< Not used, may be replaced with something else
+    uint32_t block_next;	//!< Start of current deflate block in the input
+    uint32_t block_end;	//!< End of current deflate block in the input
+    uint32_t dist_mask;	//!< Distance mask used.
 #if defined(QPL_LIB)
     uint32_t max_dist;  //!< For indexing feature: maximum distance (distance from last mini-block boundary)
     uint32_t mb_mask;   //!< For indexing feature: size of mini-block
 #endif
-	uint32_t hash_mask;
-	enum isal_zstate_state state;	//!< Current state in processing the data stream
-	struct BitBuf2 bitbuf;	//!< Bit Buffer
-	uint32_t crc;		//!< Current checksum without finalize step if any (adler)
-	uint8_t has_wrap_hdr;	//!< keeps track of wrapper header
-	uint8_t has_eob_hdr;	//!< keeps track of eob hdr (with BFINAL set)
-	uint8_t has_eob;	//!< keeps track of eob on the last deflate block
-	uint8_t has_hist;	//!< flag to track if there is match history
-	uint16_t has_level_buf_init; //!< flag to track if user supplied memory has been initialized.
-	uint32_t count;	//!< used for partial header/trailer writes
-	uint8_t tmp_out_buff[16];	//!< temporary array
-	uint32_t tmp_out_start;	//!< temporary variable
-	uint32_t tmp_out_end;	//!< temporary variable
-	uint32_t b_bytes_valid;	//!< number of valid bytes in buffer
-	uint32_t b_bytes_processed;	//!< number of bytes processed in buffer
-	uint8_t buffer[2 * IGZIP_HIST_SIZE + ISAL_LOOK_AHEAD];	//!< Internal buffer
+    uint32_t hash_mask;
+    enum isal_zstate_state state;	//!< Current state in processing the data stream
+    struct BitBuf2 bitbuf;	//!< Bit Buffer
+    uint32_t crc;		//!< Current checksum without finalize step if any (adler)
+    uint8_t has_wrap_hdr;	//!< keeps track of wrapper header
+    uint8_t has_eob_hdr;	//!< keeps track of eob hdr (with BFINAL set)
+    uint8_t has_eob;	//!< keeps track of eob on the last deflate block
+    uint8_t has_hist;	//!< flag to track if there is match history
+    uint16_t has_level_buf_init; //!< flag to track if user supplied memory has been initialized.
+    uint32_t count;	//!< used for partial header/trailer writes
+    uint8_t tmp_out_buff[16];	//!< temporary array
+    uint32_t tmp_out_start;	//!< temporary variable
+    uint32_t tmp_out_end;	//!< temporary variable
+    uint32_t b_bytes_valid;	//!< number of valid bytes in buffer
+    uint32_t b_bytes_processed;	//!< number of bytes processed in buffer
+    uint8_t buffer[2 * IGZIP_HIST_SIZE + ISAL_LOOK_AHEAD];	//!< Internal buffer
 
-	/* Stream should be setup such that the head is cache aligned*/
-	uint16_t head[IGZIP_LVL0_HASH_SIZE];	//!< Hash array
+    /* Stream should be setup such that the head is cache aligned*/
+    uint16_t head[IGZIP_LVL0_HASH_SIZE];	//!< Hash array
 };
 
 /** @brief Holds the huffman tree used to huffman encode the input stream **/
 struct isal_hufftables {
 
-	uint8_t deflate_hdr[ISAL_DEF_MAX_HDR_SIZE]; //!< deflate huffman tree header
-	uint32_t deflate_hdr_count; //!< Number of whole bytes in deflate_huff_hdr
-	uint32_t deflate_hdr_extra_bits; //!< Number of bits in the partial byte in header
-	uint32_t dist_table[IGZIP_DIST_TABLE_SIZE]; //!< bits 4:0 are the code length, bits 31:5 are the code
-	uint32_t len_table[IGZIP_LEN_TABLE_SIZE]; //!< bits 4:0 are the code length, bits 31:5 are the code
-	uint16_t lit_table[IGZIP_LIT_TABLE_SIZE]; //!< literal code
-	uint8_t lit_table_sizes[IGZIP_LIT_TABLE_SIZE]; //!< literal code length
-	uint16_t dcodes[30 - IGZIP_DECODE_OFFSET]; //!< distance code
-	uint8_t dcodes_sizes[30 - IGZIP_DECODE_OFFSET]; //!< distance code length
+    uint8_t deflate_hdr[ISAL_DEF_MAX_HDR_SIZE]; //!< deflate huffman tree header
+    uint32_t deflate_hdr_count; //!< Number of whole bytes in deflate_huff_hdr
+    uint32_t deflate_hdr_extra_bits; //!< Number of bits in the partial byte in header
+    uint32_t dist_table[IGZIP_DIST_TABLE_SIZE]; //!< bits 4:0 are the code length, bits 31:5 are the code
+    uint32_t len_table[IGZIP_LEN_TABLE_SIZE]; //!< bits 4:0 are the code length, bits 31:5 are the code
+    uint16_t lit_table[IGZIP_LIT_TABLE_SIZE]; //!< literal code
+    uint8_t lit_table_sizes[IGZIP_LIT_TABLE_SIZE]; //!< literal code length
+    uint16_t dcodes[30 - IGZIP_DECODE_OFFSET]; //!< distance code
+    uint8_t dcodes_sizes[30 - IGZIP_DECODE_OFFSET]; //!< distance code length
 
 };
 
 /** @brief Holds stream information*/
 struct isal_zstream {
-	uint8_t *next_in;	//!< Next input byte
-	uint32_t avail_in;	//!< number of bytes available at next_in
-	uint32_t total_in;	//!< total number of bytes read so far
+    uint8_t *next_in;	//!< Next input byte
+    uint32_t avail_in;	//!< number of bytes available at next_in
+    uint32_t total_in;	//!< total number of bytes read so far
 
-	uint8_t *next_out;	//!< Next output byte
-	uint32_t avail_out;	//!< number of bytes available at next_out
-	uint32_t total_out;	//!< total number of bytes written so far
+    uint8_t *next_out;	//!< Next output byte
+    uint32_t avail_out;	//!< number of bytes available at next_out
+    uint32_t total_out;	//!< total number of bytes written so far
 
-	struct isal_hufftables *hufftables; //!< Huffman encoding used when compressing
-	uint32_t level; //!< Compression level to use
-	uint32_t level_buf_size; //!< Size of level_buf
-	uint8_t * level_buf; //!< User allocated buffer required for different compression levels
-	uint16_t end_of_stream;	//!< non-zero if this is the last input buffer
-	uint16_t flush;	//!< Flush type can be NO_FLUSH, SYNC_FLUSH or FULL_FLUSH
-	uint16_t gzip_flag; //!< Indicate if gzip compression is to be performed
-	uint16_t hist_bits; //!< Log base 2 of maximum lookback distance, 0 is use default
+    struct isal_hufftables *hufftables; //!< Huffman encoding used when compressing
+    uint32_t level; //!< Compression level to use
+    uint32_t level_buf_size; //!< Size of level_buf
+    uint8_t * level_buf; //!< User allocated buffer required for different compression levels
+    uint16_t end_of_stream;	//!< non-zero if this is the last input buffer
+    uint16_t flush;	//!< Flush type can be NO_FLUSH, SYNC_FLUSH or FULL_FLUSH
+    uint16_t gzip_flag; //!< Indicate if gzip compression is to be performed
+    uint16_t hist_bits; //!< Log base 2 of maximum lookback distance, 0 is use default
 #ifdef QPL_LIB
     uint16_t huffman_only_flag; //!< Activate huffman only mode
     uint16_t canned_mode_flag; //!< Activate huffman only mode
 #endif
-	struct isal_zstate internal_state;	//!< Internal state for this stream
+    struct isal_zstate internal_state;	//!< Internal state for this stream
 };
 
 /******************************************************************************/
@@ -530,51 +530,51 @@ struct isal_zstream {
 
 /* Large lookup table for decoding huffman codes */
 struct inflate_huff_code_large {
-	uint32_t short_code_lookup[1 << (ISAL_DECODE_LONG_BITS)];
-	uint16_t long_code_lookup[ISAL_HUFF_CODE_LARGE_LONG_ALIGNED];
+    uint32_t short_code_lookup[1 << (ISAL_DECODE_LONG_BITS)];
+    uint16_t long_code_lookup[ISAL_HUFF_CODE_LARGE_LONG_ALIGNED];
 };
 
 /* Small lookup table for decoding huffman codes */
 struct inflate_huff_code_small {
-	uint16_t short_code_lookup[1 << (ISAL_DECODE_SHORT_BITS)];
-	uint16_t long_code_lookup[ISAL_HUFF_CODE_SMALL_LONG_ALIGNED];
+    uint16_t short_code_lookup[1 << (ISAL_DECODE_SHORT_BITS)];
+    uint16_t long_code_lookup[ISAL_HUFF_CODE_SMALL_LONG_ALIGNED];
 };
 
 /** @brief Holds decompression state information*/
 struct inflate_state {
-	uint8_t *next_out;	//!< Next output Byte
-	uint32_t avail_out;	//!< Number of bytes available at next_out
-	uint32_t total_out;	//!< Total bytes written out so far
-	uint8_t *next_in;	//!< Next input byte
-	uint64_t read_in;	//!< Bits buffered to handle unaligned streams
-	uint32_t avail_in;	//!< Number of bytes available at next_in
-	int32_t read_in_length;	//!< Bits in read_in
-	struct inflate_huff_code_large lit_huff_code;	//!< Structure for decoding lit/len symbols
-	struct inflate_huff_code_small dist_huff_code;	//!< Structure for decoding dist symbols
-	enum isal_block_state block_state;	//!< Current decompression state
-	uint32_t dict_length;	//!< Length of dictionary used
-	uint32_t bfinal;	//!< Flag identifying final block
-	uint32_t crc_flag;	//!< Flag identifying whether to track of crc
-	uint32_t crc;		//!< Contains crc or adler32 of output if crc_flag is set
-	uint32_t hist_bits; //!< Log base 2 of maximum lookback distance
-	union {
-		int32_t type0_block_len;	//!< Length left to read of type 0 block when outbuffer overflow occurred
-		int32_t count; //!< Count of bytes remaining to be parsed
-		uint32_t dict_id;
-	};
-	int32_t write_overflow_lits;
-	int32_t write_overflow_len;
-	int32_t copy_overflow_length; 	//!< Length left to copy when outbuffer overflow occurred
-	int32_t copy_overflow_distance;	//!< Lookback distance when outbuffer overflow occurred
+    uint8_t *next_out;	//!< Next output Byte
+    uint32_t avail_out;	//!< Number of bytes available at next_out
+    uint32_t total_out;	//!< Total bytes written out so far
+    uint8_t *next_in;	//!< Next input byte
+    uint64_t read_in;	//!< Bits buffered to handle unaligned streams
+    uint32_t avail_in;	//!< Number of bytes available at next_in
+    int32_t read_in_length;	//!< Bits in read_in
+    struct inflate_huff_code_large lit_huff_code;	//!< Structure for decoding lit/len symbols
+    struct inflate_huff_code_small dist_huff_code;	//!< Structure for decoding dist symbols
+    enum isal_block_state block_state;	//!< Current decompression state
+    uint32_t dict_length;	//!< Length of dictionary used
+    uint32_t bfinal;	//!< Flag identifying final block
+    uint32_t crc_flag;	//!< Flag identifying whether to track of crc
+    uint32_t crc;		//!< Contains crc or adler32 of output if crc_flag is set
+    uint32_t hist_bits; //!< Log base 2 of maximum lookback distance
+    union {
+        int32_t type0_block_len;	//!< Length left to read of type 0 block when outbuffer overflow occurred
+        int32_t count; //!< Count of bytes remaining to be parsed
+        uint32_t dict_id;
+    };
+    int32_t write_overflow_lits;
+    int32_t write_overflow_len;
+    int32_t copy_overflow_length; 	//!< Length left to copy when outbuffer overflow occurred
+    int32_t copy_overflow_distance;	//!< Lookback distance when outbuffer overflow occurred
 #if defined(QPL_LIB)
     uint32_t mini_block_size;       //!< Size of miniblock to decompress.. // TODO add detailes
 #endif
-	int16_t wrapper_flag;
-	int16_t tmp_in_size;	//!< Number of bytes in tmp_in_buffer
-	int32_t tmp_out_valid;	//!< Number of bytes in tmp_out_buffer
-	int32_t tmp_out_processed;	//!< Number of bytes processed in tmp_out_buffer
-	uint8_t tmp_in_buffer[ISAL_DEF_MAX_HDR_SIZE];	//!< Temporary buffer containing data from the input stream
-	uint8_t tmp_out_buffer[2 * ISAL_DEF_HIST_SIZE + ISAL_LOOK_AHEAD]; 	//!< Temporary buffer containing data from the output stream
+    int16_t wrapper_flag;
+    int16_t tmp_in_size;	//!< Number of bytes in tmp_in_buffer
+    int32_t tmp_out_valid;	//!< Number of bytes in tmp_out_buffer
+    int32_t tmp_out_processed;	//!< Number of bytes processed in tmp_out_buffer
+    uint8_t tmp_in_buffer[ISAL_DEF_MAX_HDR_SIZE];	//!< Temporary buffer containing data from the input stream
+    uint8_t tmp_out_buffer[2 * ISAL_DEF_HIST_SIZE + ISAL_LOOK_AHEAD]; 	//!< Temporary buffer containing data from the output stream
 #if defined(QPL_LIB)
     uint32_t eob_code_and_len;
     uint8_t  decomp_end_proc;
@@ -619,7 +619,7 @@ void qpl_isal_update_histogram(uint8_t * in_stream, int length, struct isal_huff
  * @returns Returns a non zero value if an invalid huffman code was created.
  */
 int qpl_isal_create_hufftables(struct isal_hufftables * hufftables,
-			struct isal_huff_histogram * histogram);
+            struct isal_huff_histogram * histogram);
 
 /**
  * @brief Creates a custom huffman code for the given histograms like
@@ -632,7 +632,7 @@ int qpl_isal_create_hufftables(struct isal_hufftables * hufftables,
  * @returns Returns a non zero value if an invalid huffman code was created.
  */
 int qpl_isal_create_hufftables_subset(struct isal_hufftables * hufftables,
-				struct isal_huff_histogram * histogram);
+                struct isal_huff_histogram * histogram);
 
 #if defined(QPL_LIB)
 /**
@@ -732,7 +732,7 @@ uint32_t qpl_isal_write_zlib_header(struct isal_zstream * stream, struct isal_zl
  * allowed or an invalid input is provided.
  */
 int qpl_isal_deflate_set_hufftables(struct isal_zstream *stream,
-				struct isal_hufftables *hufftables, int type);
+                struct isal_hufftables *hufftables, int type);
 
 /**
  * @brief Initialize compression stream data structure
@@ -762,12 +762,12 @@ int qpl_isal_deflate_set_dict(struct isal_zstream *stream, uint8_t *dict, uint32
 /** @brief Structure for holding processed dictionary information */
 
 struct isal_dict {
-	uint32_t params;
-	uint32_t level;
-	uint32_t hist_size;
-	uint32_t hash_size;
-	uint8_t history[ISAL_DEF_HIST_SIZE];
-	uint16_t hashtable[IGZIP_LVL3_HASH_SIZE];
+    uint32_t params;
+    uint32_t level;
+    uint32_t hist_size;
+    uint32_t hash_size;
+    uint8_t history[ISAL_DEF_HIST_SIZE];
+    uint16_t hashtable[IGZIP_LVL3_HASH_SIZE];
 };
 
 /**
@@ -789,7 +789,7 @@ struct isal_dict {
  *          ISAL_INVALID_STATE (dictionary could not be processed)
  */
 int qpl_isal_deflate_process_dict(struct isal_zstream *stream, struct isal_dict *dict_str,
-			uint8_t *dict, uint32_t dict_len);
+            uint8_t *dict, uint32_t dict_len);
 
 /**
  * @brief Reset compression dictionary to use

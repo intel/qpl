@@ -22,23 +22,23 @@
 #include "bitbuf2.h"
 
 struct deflate_icf *qpl_encode_deflate_icf_base(struct deflate_icf *next_in,
-					    struct deflate_icf *end_in, struct BitBuf2 *bb,
-					    struct hufftables_icf *hufftables)
+                        struct deflate_icf *end_in, struct BitBuf2 *bb,
+                        struct hufftables_icf *hufftables)
 {
-	struct huff_code lsym, dsym;
+    struct huff_code lsym, dsym;
 
-	while (next_in < end_in && !is_full(bb)) {
-		lsym = hufftables->lit_len_table[next_in->lit_len];
-		dsym = hufftables->dist_lit_table[next_in->lit_dist];
+    while (next_in < end_in && !is_full(bb)) {
+        lsym = hufftables->lit_len_table[next_in->lit_len];
+        dsym = hufftables->dist_lit_table[next_in->lit_dist];
 
-		// insert ll code, dist_code, and extra_bits
-		write_bits_unsafe(bb, lsym.code_and_extra, lsym.length);
-		write_bits_unsafe(bb, dsym.code, dsym.length);
-		write_bits_unsafe(bb, next_in->dist_extra, dsym.extra_bit_count);
-		flush_bits(bb);
+        // insert ll code, dist_code, and extra_bits
+        write_bits_unsafe(bb, lsym.code_and_extra, lsym.length);
+        write_bits_unsafe(bb, dsym.code, dsym.length);
+        write_bits_unsafe(bb, next_in->dist_extra, dsym.extra_bit_count);
+        flush_bits(bb);
 
-		next_in++;
-	}
+        next_in++;
+    }
 
-	return next_in;
+    return next_in;
 }

@@ -86,53 +86,53 @@ extern "C" {
  * @brief Structure used to store huffman codes
  */
 struct huff_code {
-	union {
+    union {
 
                 struct {
                         uint32_t code_and_extra:24;
                         uint32_t length2:8;
                 };
 
-		struct {
-			uint16_t code;
-			uint8_t extra_bit_count;
-			uint8_t length;
-		};
+        struct {
+            uint16_t code;
+            uint8_t extra_bit_count;
+            uint8_t length;
+        };
 
-		uint32_t code_and_length;
-	};
+        uint32_t code_and_length;
+    };
 };
 
 struct tree_node {
-	uint32_t child;
-	uint32_t depth;
+    uint32_t child;
+    uint32_t depth;
 };
 
 struct heap_tree {
-	union {
-		uint64_t heap[HEAP_TREE_SIZE];
-		uint64_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
-		struct tree_node tree[HEAP_TREE_SIZE];
-	};
+    union {
+        uint64_t heap[HEAP_TREE_SIZE];
+        uint64_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
+        struct tree_node tree[HEAP_TREE_SIZE];
+    };
 };
 
 struct rl_code {
-	uint8_t code;
-	uint8_t extra_bits;
+    uint8_t code;
+    uint8_t extra_bits;
 };
 
 struct hufftables_icf {
-	union {
-		struct {
-			struct huff_code dist_table[31];
-			struct huff_code lit_len_table[513];
-		};
+    union {
+        struct {
+            struct huff_code dist_table[31];
+            struct huff_code lit_len_table[513];
+        };
 
-		struct {
-			struct huff_code dist_lit_table[288];
-			struct huff_code len_table[256];
-		};
-	};
+        struct {
+            struct huff_code dist_lit_table[288];
+            struct huff_code len_table[256];
+        };
+    };
 };
 
 /**

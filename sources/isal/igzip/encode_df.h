@@ -30,13 +30,13 @@ extern "C" {
 #define ICF_CODE_LEN 32
 
 struct deflate_icf {
-	uint32_t lit_len:LIT_LEN_BIT_COUNT;
-	uint32_t lit_dist:DIST_LIT_BIT_COUNT;
-	uint32_t dist_extra:ICF_CODE_LEN - DIST_LIT_BIT_COUNT - ICF_DIST_OFFSET;
+    uint32_t lit_len:LIT_LEN_BIT_COUNT;
+    uint32_t lit_dist:DIST_LIT_BIT_COUNT;
+    uint32_t dist_extra:ICF_CODE_LEN - DIST_LIT_BIT_COUNT - ICF_DIST_OFFSET;
 };
 
 struct deflate_icf *qpl_encode_deflate_icf(struct deflate_icf *next_in, struct deflate_icf *end_in,
-			               struct BitBuf2 *bb, struct hufftables_icf * hufftables);
+                           struct BitBuf2 *bb, struct hufftables_icf * hufftables);
 #ifdef __cplusplus
 }
 #endif

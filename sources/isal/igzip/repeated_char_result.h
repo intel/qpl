@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
- 
+
 #ifndef _IGZIP_REPEATED_8K_CHAR_RESULT_H_
 #define _IGZIP_REPEATED_8K_CHAR_RESULT_H_
 
@@ -38,8 +38,8 @@
 /* Headers for constant 0x00 and 0xFF blocks
  * This also contains the first literal character. */
 const uint32_t repeated_char_header[2][5] = {
-	{ 0x0121c0ec, 0xc30c0000, 0x7d57fab0, 0x49270938}, /* Deflate header for 0x00 */
-	{ 0x0121c0ec, 0xc30c0000, 0x7baaff30, 0x49270938}  /* Deflate header for 0xFF */
+    { 0x0121c0ec, 0xc30c0000, 0x7d57fab0, 0x49270938}, /* Deflate header for 0x00 */
+    { 0x0121c0ec, 0xc30c0000, 0x7baaff30, 0x49270938}  /* Deflate header for 0xFF */
 
 };
 
