@@ -300,19 +300,17 @@ namespace gz_generator
     }
 
     gen_c::gen_c(std::stringstream *config, std::vector<uint8_t> *pBinaryVector, std::vector<uint8_t> *pReferenceVector)
-            : m_grammar(config),
+            : m_blktype(BT_DYN), m_grammar(config),
               m_binaryBitBuffer(pBinaryVector),
-              m_pReferenceBitBuffer(pReferenceVector)
+              m_pReferenceBitBuffer(pReferenceVector), m_cum_bytes(0), m_hist_ptr(0), m_byte_count(0)
     {
         m_state  = {false, false, true, false};
-        m_cum_bytes       = 0;
-        m_hist_ptr        = 0;
+
         m_num_ll_lens     = m_num_d_lens     = m_num_cl_lens     = m_num_cl_lens_alt = 0;
         m_num_ll_enc_lens = m_num_d_enc_lens = m_num_cl_enc_lens = 0;
         m_testmode        = m_testparam      = 0;
         m_grammar.set_gen(this);
-        m_byte_count = 0;
-        m_blktype = BT_DYN;
+
         for (uint32_t i = 0; i < NUM_WARN; i++)
         { m_warn_printed[i] = false; }
         m_pad       = 0;

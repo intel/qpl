@@ -9,11 +9,13 @@
 #include "hw_definitions.h"
 
 namespace qpl::ml::compression{
-decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
-                                                         uint8_t *hw_table_ptr,
-                                                         uint8_t *deflate_header_ptr,
-                                                         uint8_t *canned_table_ptr) {
-    sw_decompression_table_ptr = reinterpret_cast<qplc_huffman_table_flat_format *>(sw_table_ptr);
+decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr, uint8_t *hw_table_ptr,
+                                                         uint8_t *deflate_header_ptr, uint8_t *canned_table_ptr)
+                                                         : sw_decompression_table_ptr(reinterpret_cast<qplc_huffman_table_flat_format *>(sw_table_ptr)),
+                                                           canned_table_ptr_(reinterpret_cast<canned_table *>(canned_table_ptr)),
+                                                           deflate_header_ptr_(reinterpret_cast<deflate_header *>(deflate_header_ptr)),
+                                                           sw_decompression_table_flag(false), hw_decompression_table_flag(false),
+                                                           deflate_header_flag(false) {
 
     size_t aecs_buffer_size = sizeof(qpl::ml::compression::hw_decompression_state);
     void * pointer_to_be_aligned_ptr = hw_table_ptr;
@@ -29,12 +31,6 @@ decompression_huffman_table::decompression_huffman_table(uint8_t *sw_table_ptr,
                                        aecs_buffer_size);
 
     hw_decompression_table_ptr = reinterpret_cast<hw_decompression_state *>(aligned_aecs_ptr);
-    deflate_header_ptr_ = reinterpret_cast<deflate_header *>(deflate_header_ptr);
-    canned_table_ptr_ = reinterpret_cast<canned_table *>(canned_table_ptr);
-
-    sw_decompression_table_flag = false;
-    hw_decompression_table_flag = false;
-    deflate_header_flag         = false;
 }
 
 auto decompression_huffman_table::get_deflate_header() noexcept -> deflate_header * {

@@ -7,11 +7,9 @@
 #include "bitbuffer.h"
 
 gz_generator::BitBuffer::BitBuffer(std::vector<uint8_t> *data)
-    : m_data(data)
+    : m_totalBitWritten(0U), m_bigEndian16(false), m_data(data)
 {
     m_buffer = {0U,0U};
-    m_totalBitWritten = 0U;
-    m_bigEndian16 = false;
 }
 
 void gz_generator::BitBuffer::write(uint64_t value, uint32_t bit_count)

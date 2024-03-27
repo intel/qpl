@@ -349,8 +349,7 @@ auto kernels_dispatcher::get_expand_table() const noexcept -> const expand_table
     return *expand_table_ptr_;
 }
 
-kernels_dispatcher::kernels_dispatcher() noexcept {
-    arch_ = detect_platform();
+kernels_dispatcher::kernels_dispatcher() noexcept : arch_(detect_platform()) {
 
     switch (arch_) {
         case arch_t::avx512_arch: {

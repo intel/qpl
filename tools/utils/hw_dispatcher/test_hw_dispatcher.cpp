@@ -12,8 +12,7 @@
 
 namespace qpl::test
 {
-hw_dispatcher::hw_dispatcher() noexcept {
-    hw_init_status_ = hw_dispatcher::initialize_hw();
+hw_dispatcher::hw_dispatcher() noexcept : hw_init_status_(hw_dispatcher::initialize_hw()) {
     hw_support_     = hw_init_status_ == QPL_TEST_HW_ACCELERATOR_STATUS_OK;
 }
 

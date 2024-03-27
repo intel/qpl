@@ -10,16 +10,14 @@ namespace qpl::ml::compression {
 compression_huffman_table::compression_huffman_table(uint8_t *sw_table_ptr,
                                                      uint8_t *isal_table_ptr,
                                                      uint8_t *hw_table_ptr,
-                                                     uint8_t *deflate_header_ptr) noexcept {
-    sw_compression_table_ptr_   = reinterpret_cast<qplc_huffman_table_default_format *>(sw_table_ptr);
-    isal_compression_table_ptr_ = reinterpret_cast<isal_hufftables *>(isal_table_ptr);
-    hw_compression_table_ptr_   = reinterpret_cast<hw_compression_huffman_table *>(hw_table_ptr);
-    deflate_header_ptr_         = reinterpret_cast<deflate_header *>(deflate_header_ptr);
+                                                     uint8_t *deflate_header_ptr) noexcept
+                                                    : hw_compression_table_ptr_(reinterpret_cast<hw_compression_huffman_table *>(hw_table_ptr)),
+                                                      sw_compression_table_ptr_(reinterpret_cast<qplc_huffman_table_default_format *>(sw_table_ptr)),
+                                                      isal_compression_table_ptr_(reinterpret_cast<isal_hufftables *>(isal_table_ptr)),
+                                                      deflate_header_ptr_(reinterpret_cast<deflate_header *>(deflate_header_ptr)),
+                                                      sw_compression_table_flag_(false), hw_compression_table_flag_(false),
+                                                      deflate_header_flag_(false), huffman_only_flag_(false) {
 
-    sw_compression_table_flag_ = false;
-    hw_compression_table_flag_ = false;
-    deflate_header_flag_       = false;
-    huffman_only_flag_         = false;
 }
 
 auto compression_huffman_table::get_deflate_header() const noexcept -> deflate_header * {

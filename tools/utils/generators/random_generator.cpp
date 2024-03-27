@@ -12,15 +12,14 @@
 
 /* ------ gzRandU ------ */
 
-qpl::test::random_base::random_base(double mpy, double add, uint32_t seed )
-: c(1), s2n1(seed), m_seed(seed), m_mpy(mpy), m_add(add)
+qpl::test::random_base::random_base(double mpy, double add, uint32_t seed)
+: s1n3(41), s1n2(18467), s1n1(6334), c(1), s2n1(seed), m_seed(seed), m_mpy(mpy), m_add(add)
 {
    double val1 = -m_mpy + m_add;
    double val2 = +m_mpy + m_add;
    m_valMin = std::min( val1, val2 );
    m_valMax = std::max( val1, val2 );
 
-   s1n3 = 41; s1n2 = 18467; s1n1 = 6334;
    i_s1n3 = s1n3;
    i_s1n2 = s1n2;
    i_s1n1 = s1n1;
@@ -220,16 +219,10 @@ const char *qpl::test::random_base::get_reference()
 /* ------ gzRandG ------*/
 
 qpl::test::mean_random::mean_random(double mean, double stdev, uint32_t seed)
-: m_seed(seed), m_mean(mean), m_stdev(stdev)
-{
+: seed2(1131199209), seed12(seed), seed13(69069 * seed12 + 1013904243), seed14(69069 * seed13 + 1013904243),
+  carry(0xFFFFFFFF), status(1), m_seed(seed), m_mean(mean), m_stdev(stdev) {
    v1 = v2 = radius = 0.0;
    seed10 = seed11 = 0;
-   seed2  = 1131199209;
-   seed12 = seed;
-   seed13 = 69069 * seed12 + 1013904243;
-   seed14 = 69069 * seed13 + 1013904243;
-   carry  = 0xFFFFFFFF;
-   status = 1;
 }
 
 
