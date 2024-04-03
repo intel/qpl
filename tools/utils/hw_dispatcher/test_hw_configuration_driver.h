@@ -39,8 +39,12 @@ typedef struct {
     void *driver_instance_ptr; /**< Pointer to a loaded driver */
 } qpl_test_hw_driver_t;
 
-typedef struct accfg_ctx    accfg_ctx;
-typedef struct accfg_device accfg_dev;
+typedef struct accfg_ctx        accfg_ctx;
+typedef struct accfg_device     accfg_dev;
+typedef struct accfg_wq         accfg_wq;
+
+typedef struct accfg_op_config  accfg_opcfg;
+
 
 /**
  * @brief Initializes driver functions
@@ -56,54 +60,85 @@ void qpl_test_hw_finalize_accelerator_driver(qpl_test_hw_driver_t *driver_ptr);
 /**
  * accel-config APIs
  */
+typedef accfg_ctx *             (*accfg_unref_ptr)(accfg_ctx *ctx);
+
 typedef int                     (*accfg_new_ptr)(accfg_ctx **ctx);
 
 typedef accfg_dev *             (*accfg_device_get_first_ptr)(accfg_ctx *ctx);
 
-typedef const char *            (*accfg_device_get_devname_ptr)(accfg_dev *device);
-
 typedef accfg_dev *             (*accfg_device_get_next_ptr)(accfg_dev *device);
 
-typedef enum accfg_device_state (*accfg_device_get_state_ptr)(accfg_dev *device);
+typedef const char *            (*accfg_device_get_devname_ptr)(accfg_dev *device);
 
-typedef accfg_ctx *             (*accfg_unref_ptr)(accfg_ctx *ctx);
+typedef int                     (*accfg_device_get_numa_node_ptr)(accfg_dev *device);
+
+typedef enum accfg_device_state (*accfg_device_get_state_ptr)(accfg_dev *device);
 
 typedef unsigned int            (*accfg_device_get_version_ptr)(accfg_dev *device);
 
 typedef int                     (*accfg_device_get_iaa_cap_ptr)(accfg_dev *device, uint64_t *iaa_cap);
 
-typedef int                     (*accfg_device_get_numa_node_ptr)(accfg_dev *device);
+typedef accfg_wq *              (*accfg_wq_get_first_ptr)(accfg_dev *device);
+
+typedef accfg_wq *              (*accfg_wq_get_next_ptr)(accfg_wq *wq);
+
+typedef enum accfg_wq_state     (*accfg_wq_get_state_ptr)(accfg_wq *wq);
+
+typedef int                     (*accfg_wq_get_priority_ptr)(accfg_wq *wq);
+
+typedef enum accfg_wq_mode      (*accfg_wq_get_mode_ptr)(accfg_wq *wq);
+
+typedef int                     (*accfg_wq_get_user_dev_path_ptr)(accfg_wq *wq, char *buf, size_t size);
+
+typedef int                     (*accfg_wq_get_op_config_ptr)(accfg_wq *wq, accfg_opcfg *op_config);
 
 #else  //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct accfg_ctx    accfg_ctx;
-typedef struct accfg_device accfg_dev;
+typedef struct accfg_ctx        accfg_ctx;
+typedef struct accfg_device     accfg_dev;
+typedef struct accfg_wq         accfg_wq;
+
+typedef struct accfg_op_config  accfg_opcfg;
 
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG=ON
 
 /**
  * accel-config APIs with Intel® Query Processing Library (Intel® QPL) wrappers
  */
+accfg_ctx *qpl_test_accfg_unref(accfg_ctx *ctx);
+
 int32_t qpl_test_accfg_new(accfg_ctx **ctx);
 
 accfg_dev *qpl_test_accfg_device_get_first(accfg_ctx *ctx);
 
+accfg_dev *qpl_test_accfg_device_get_next(accfg_dev *device);
+
 const char *qpl_test_accfg_device_get_devname(accfg_dev *device);
 
-accfg_dev *qpl_test_accfg_device_get_next(accfg_dev *device);
+int qpl_test_accfg_device_get_numa_node(accfg_dev *device);
 
 enum accfg_device_state qpl_test_accfg_device_get_state(accfg_dev *device);
 
-accfg_ctx *qpl_test_accfg_unref(accfg_ctx *ctx);
-
 unsigned int qpl_test_accfg_device_get_version(accfg_dev *device);
 
-int qpl_test_accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap);
+int qpl_test_accfg_device_get_iaa_cap(accfg_dev *device, uint64_t *iaa_cap);
 
-int qpl_test_accfg_device_get_numa_node(accfg_dev *device);
+accfg_wq *qpl_test_accfg_wq_get_first(accfg_dev *device);
+
+accfg_wq *qpl_test_accfg_wq_get_next(accfg_wq *wq);
+
+enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq);
+
+int qpl_test_accfg_wq_get_priority(accfg_wq *wq);
+
+enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq);
+
+int qpl_test_accfg_wq_get_user_dev_path(accfg_wq *wq, char *buf, size_t size);
+
+int qpl_test_accfg_wq_get_op_config(accfg_wq *wq, accfg_opcfg *op_config);
 
 #ifdef __cplusplus
 }

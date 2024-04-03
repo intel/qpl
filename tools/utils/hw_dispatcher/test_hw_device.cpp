@@ -10,10 +10,13 @@
 
 #if defined( __linux__ )
 
+#include <algorithm>
+#include <queue>
+
 #include "test_hw_device.hpp"
 
-static const uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
-static const uint32_t accelerator_name_length = sizeof(accelerator_name) - 2U; /**< Last symbol index */
+constexpr uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
+constexpr uint32_t accelerator_name_length = sizeof(accelerator_name) - 2U; /**< Last symbol index */
 
 
 /**
@@ -55,6 +58,14 @@ auto hw_device::numa_id() const noexcept -> uint64_t {
     return numa_node_id_;
 }
 
+auto hw_device::get_opcfg_enabled() const noexcept -> bool {
+    return op_cfg_enabled_;
+}
+
+auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool {
+    return QPL_TEST_OC_GET_OP_SUPPORTED(op_configs_[wq_idx], operation);
+}
+
 auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexcept -> qpl_test_hw_accelerator_status {
     // Device initialization stage
     auto       *device_ptr          = reinterpret_cast<accfg_device *>(device_descriptor_ptr);
@@ -71,11 +82,13 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
         return QPL_TEST_HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
+    numa_node_id_     = qpl_test_accfg_device_get_numa_node(device_ptr);
+
     // Retrieve IAACAP if available
     uint64_t iaa_cap = 0U;
     int32_t get_iaa_cap_status = qpl_test_accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
     if (get_iaa_cap_status) {
-        // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
+        // @todo this is a workaround to optionally load qpl_test_accfg_device_get_iaa_cap
         if (version_major_ > 1U) {
             return QPL_TEST_HW_ACCELERATOR_LIBACCEL_NOT_FOUND;
         }
@@ -83,9 +96,57 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     iaa_cap_register_ = iaa_cap;
 
-    numa_node_id_     = qpl_test_accfg_device_get_numa_node(device_ptr);
+    // Working queues initialization stage
+    auto *wq_ptr = qpl_test_accfg_wq_get_first(device_ptr);
+    auto wq_it   = working_queues_.begin();
+
+    while (nullptr != wq_ptr) {
+        if (QPL_TEST_HW_ACCELERATOR_STATUS_OK == wq_it->initialize_new_queue(wq_ptr)) {
+            wq_it++;
+
+            std::push_heap(working_queues_.begin(), wq_it,
+                           [](const hw_queue &a, const hw_queue &b) -> bool {
+                               return a.priority() < b.priority();
+                           });
+        }
+
+        wq_ptr = qpl_test_accfg_wq_get_next(wq_ptr);
+    }
+
+    // Check number of working queues
+    queue_count_ = std::distance(working_queues_.begin(), wq_it);
+
+    if (queue_count_ > 1) {
+        auto begin = working_queues_.begin();
+        auto end   = begin + queue_count_;
+
+        std::sort_heap(begin, end, [](const hw_queue &a, const hw_queue &b) -> bool {
+            return a.priority() < b.priority();
+        });
+    }
+
+    // Logic for op_cfg_enabled_ value
+    op_cfg_enabled_ = working_queues_[0].get_op_configuration_support();
+
+    for (uint32_t wq_idx = 0; wq_idx < queue_count_; wq_idx++) {
+        for (uint32_t register_index = 0 ; register_index < QPL_TEST_TOTAL_OP_CFG_BIT_GROUPS; register_index++) {
+            op_configs_[wq_idx] = working_queues_[wq_idx].get_op_config_register();
+        }
+    }
 
     return QPL_TEST_HW_ACCELERATOR_STATUS_OK;
+}
+
+auto hw_device::size() const noexcept -> size_t {
+    return queue_count_;
+}
+
+auto hw_device::begin() const noexcept -> queues_container_t::const_iterator {
+    return working_queues_.cbegin();
+}
+
+auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
+    return working_queues_.cbegin() + queue_count_;
 }
 
 }

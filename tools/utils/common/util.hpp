@@ -340,6 +340,12 @@ GTEST_SKIP()
 if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) \
 GTEST_SKIP_(message)
 
+
+// Will skip entire test case if expr evaluates to true, will also skip all remaining test cases
+// Prints a message w/ skipped testcase
+#define QPL_SKIP_TEST_FOR_EXPR_VERBOSE(expr, message) \
+if (expr) { GTEST_SKIP_(message); }
+
 // Will skip a specific test case, will continue with running other test cases in test
 // Prints a message w/ skipped testcase
 #define QPL_SKIP_TC_TEST(expr, message) \
