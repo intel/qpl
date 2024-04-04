@@ -211,6 +211,8 @@ namespace qpl::test
                                                                                          test_name) &) = delete;            \
         GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,        \
                                                                                                     test_name) &) = delete; \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,         \
+                                                                                                    test_name) &&) = delete;\
                                                                                                                             \
     private:                                                                                                                \
         void RunSingleIteration();                                                                                          \
