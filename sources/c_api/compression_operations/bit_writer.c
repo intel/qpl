@@ -14,7 +14,7 @@
 #include "bit_writer.h"
 #include "own_defs.h"
 
-#define _mm_stream_si64x(dst, src) *((uint64_t *)(dst)) = src
+#define mm_stream_si64x(dst, src) *((uint64_t *)(dst)) = src
 
 /* ------ Internal functions implementation ------ */
 
@@ -24,7 +24,7 @@ static inline void own_bit_writer_flush_bits(bit_writer_t *const bit_writer_ptr)
     const uint32_t completeBytes = number_of_bits / OWN_BYTE_BIT_LEN;
 
     // Writing the whole 64-bit buffer into output
-    _mm_stream_si64x((int64_t *) bit_writer_ptr->current_ptr, bit_writer_ptr->buffer);
+    mm_stream_si64x((int64_t *) bit_writer_ptr->current_ptr, bit_writer_ptr->buffer);
 
     // Simple assignment
     bit_writer_ptr->bits_in_buffer -= number_of_bits;
@@ -75,7 +75,7 @@ void bit_writer_flush(bit_writer_t *const bit_writer_ptr) {
     {
         if (bit_writer_ptr->bits_in_buffer)
         {
-            _mm_stream_si64x((int64_t *) bit_writer_ptr->current_ptr, bit_writer_ptr->buffer);
+            mm_stream_si64x((int64_t *) bit_writer_ptr->current_ptr, bit_writer_ptr->buffer);
             bytes = (bit_writer_ptr->bits_in_buffer + 7U) / 8U;
             bit_writer_ptr->current_ptr += bytes;
         }

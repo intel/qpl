@@ -81,7 +81,7 @@ static inline uint32_t own_count_significant_bits(uint32_t value) {
     return bsr(value);
 }
 
-static inline void _compute_offset_code(const struct isal_hufftables* huffman_table_ptr,
+static inline void compute_offset_code(const struct isal_hufftables* huffman_table_ptr,
                                         uint16_t offset,
                                         uint64_t* const code_ptr,
                                         uint32_t* const code_length_ptr) {
@@ -125,7 +125,7 @@ static void _get_offset_code(const struct isal_hufftables* const huffman_table_p
         *code_length_ptr = offset_info & 0x1FU;
     }
     else {
-        _compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
+        compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
     }
 }
 
