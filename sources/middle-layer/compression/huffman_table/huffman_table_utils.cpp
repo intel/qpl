@@ -434,8 +434,8 @@ static inline void isal_compression_table_to_qpl(const isal_hufftables *isal_tab
         uint8_t        length = isal_table_ptr->len_table[details::match_length_codes_bases[i]]
                                 & isal_match_lengths_mask;
 
-        // Normally, (in all cases except for huffman only) ISAL assignes code for every match length token, but
-        // this can be a huffman only table, without match lengths codes, so additionaly check if code length is more than zero
+        // Normally, (in all cases except for huffman only) ISAL assigns code for every match length token, but
+        // this can be a huffman only table, without match lengths codes, so additionally check if code length is more than zero
         // to prevent the overflow of code's length
         if (0U != length) {
             length -= details::match_lengths_extra_bits[i];

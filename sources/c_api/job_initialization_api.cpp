@@ -54,7 +54,7 @@ QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_p
     // therefore need to add additional bytes to be able to align pointers
     *job_size_ptr  = QPL_ALIGNED_SIZE(sizeof(qpl_job), QPL_DEFAULT_ALIGNMENT) + QPL_DEFAULT_ALIGNMENT;
 
-    // add storage required for internal stuctures
+    // add storage required for internal structures
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_compress(qpl_path), QPL_DEFAULT_ALIGNMENT);
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_decompress(qpl_path), QPL_DEFAULT_ALIGNMENT);
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_analytics(qpl_path), QPL_DEFAULT_ALIGNMENT);

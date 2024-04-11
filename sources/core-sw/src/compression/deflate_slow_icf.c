@@ -91,7 +91,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
     int      hash_mask = hash_table_ptr->hash_mask;
     int      win_mask  = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
     int      hash_key  = 0;
-    int      bound     = 0, win_bound = 0, tmp = 0, candidat = 0, index = 0;
+    int      bound     = 0, win_bound = 0, tmp = 0, candidate = 0, index = 0;
     uint32_t win_size  = QPLC_DEFLATE_MAXIMAL_OFFSET;
     uint16_t dist      = 0U;
     uint8_t  length    = 0U;
@@ -147,7 +147,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             break;
                         }
                         p_src_tmp = p_src + tmp;
-                        candidat = tmp;
+                        candidate = tmp;
                         tmp = p_hash_story[tmp & win_mask];
                         if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                             continue;
@@ -179,7 +179,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                                 }
                             }
                             bound = flag_cmp;
-                            index = candidat;
+                            index = candidate;
 
                             #if PLATFORM >= K0
 
@@ -265,7 +265,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             }
                             if (l > bound) {
                                 bound = l;
-                                index = candidat;
+                                index = candidate;
                             }
                             if (bound >= nice_match) {
                                 break;
@@ -343,7 +343,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                                 break;
                             }
                             p_src_tmp = p_src + tmp;
-                            candidat = tmp;
+                            candidate = tmp;
                             tmp = p_hash_story[tmp & win_mask];
                             if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                                 continue;
@@ -357,7 +357,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                                 }
                                 if (bound < l) {
                                     bound = l;
-                                    index = candidat;
+                                    index = candidate;
                                     if (bound >= nice_match) {
                                         break;
                                     }
@@ -465,7 +465,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                         break;
                     }
                     p_src_tmp = p_src + tmp;
-                    candidat = tmp;
+                    candidate = tmp;
                     tmp = p_hash_story[tmp & win_mask];
                     if (*(uint32_t*)(p_str + bound - 3) == *(uint32_t*)(p_src_tmp + bound - 3)) {
                         int l = 0;
@@ -476,7 +476,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                         }
                         if (bound < l) {
                             bound = l;
-                            index = candidat;
+                            index = candidate;
                             if (bound >= mx_match) {
                                 break;
                             }
@@ -541,7 +541,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             break;
                         }
                         p_src_tmp = p_src + tmp;
-                        candidat = tmp;
+                        candidate = tmp;
                         tmp = p_hash_story[tmp & win_mask];
                         if (*(uint32_t*)(p_str + bound - 3) == *(uint32_t*)(p_src_tmp + bound - 3)) {
                             int l = 0;
@@ -553,7 +553,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             if (bound < l)
                             {
                                 bound = l;
-                                index = candidat;
+                                index = candidate;
                                 if (bound >= bound_lim) {
                                     break;
                                 }

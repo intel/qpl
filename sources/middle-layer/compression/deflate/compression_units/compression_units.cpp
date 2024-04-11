@@ -60,7 +60,7 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
             count = stream.isal_stream_ptr_->avail_out;
         }
 
-        // By defalut the header has the first bit = 1 (Final Deflate block marker)
+        // By default the header has the first bit = 1 (Final Deflate block marker)
         if (!stream.isal_stream_ptr_->end_of_stream && isal_state->count == 0) {
             /* Assumes the final block bit is the first bit */
             deflate_header[0] ^= 0x1;

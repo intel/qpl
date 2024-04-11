@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /**
- * @brief Contains implementation of functions for PRLE fromat unpacking to bytes, words & dwords
+ * @brief Contains implementation of functions for PRLE format unpacking to bytes, words & dwords
  * @date 07/06/2020
  *
  * @details Function list:

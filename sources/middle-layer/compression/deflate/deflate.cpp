@@ -63,7 +63,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path).
     // 3. the hardware_dictionary_level is set
@@ -194,7 +194,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path)
     // 3. the hardware_dictionary_level is set

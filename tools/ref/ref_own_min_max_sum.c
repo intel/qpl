@@ -52,7 +52,7 @@ qpl_status ref_min_max_sum(const uint8_t *src_ptr,
         // check if circular bit-buffer has enough bits to read new element
         if (!input_be) {
             if (n_bits_in_buf <= REF_BIT_BUF_LEN_HALF) {
-                // fill buffer untill there is enough space in buffer to store new byte 
+                // fill buffer until there is enough space in buffer to store new byte
                 // and there are bytes in input array
                 while (src_bit_len > 0 && REF_BYTE_BIT_LEN <= (REF_BIT_BUF_LEN - n_bits_in_buf)) {
                     // load byte, shift it to the proper position

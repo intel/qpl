@@ -470,7 +470,7 @@ static void make_inflate_huff_code_lit_len(struct inflate_huff_code_large *resul
 
     uint32_t min_length = last_length;
     for (; last_length <= ISAL_DECODE_LONG_BITS; last_length++) {
-        /* Copy forward previosly set codes */
+        /* Copy forward previously set codes */
         memcpy(short_code_lookup + copy_size, short_code_lookup,
                sizeof(*short_code_lookup) * copy_size);
         copy_size *= 2;
@@ -1063,7 +1063,7 @@ static inline void decode_next_lit_len(uint32_t * next_lits, uint32_t * sym_coun
     /* next_sym is a possible symbol decoded from next_bits. If bit 15 is 0,
      * next_code is a symbol. Bits 9:0 represent the symbol, and bits 14:10
      * represent the length of that symbols huffman code. If next_sym is not
-     * a symbol, it provides a hint of where the large symbols containin
+     * a symbol, it provides a hint of where the large symbols containing
      * this code are located. Note the hint is at largest the location the
      * first actual symbol in the long code list.*/
     uint32_t next_sym = huff_code->short_code_lookup[next_bits];
@@ -1116,7 +1116,7 @@ static inline uint16_t decode_next_dist(struct inflate_state *state,
     /* next_sym is a possible symbol decoded from next_bits. If bit 15 is 0,
      * next_code is a symbol. Bits 9:0 represent the symbol, and bits 14:10
      * represent the length of that symbols huffman code. If next_sym is not
-     * a symbol, it provides a hint of where the large symbols containin
+     * a symbol, it provides a hint of where the large symbols containing
      * this code are located. Note the hint is at largest the location the
      * first actual symbol in the long code list.*/
     uint16_t next_sym = huff_code->short_code_lookup[next_bits];
@@ -1171,7 +1171,7 @@ static inline uint16_t decode_next_header(struct inflate_state *state,
     /* next_sym is a possible symbol decoded from next_bits. If bit 15 is 0,
      * next_code is a symbol. Bits 9:0 represent the symbol, and bits 14:10
      * represent the length of that symbols huffman code. If next_sym is not
-     * a symbol, it provides a hint of where the large symbols containin
+     * a symbol, it provides a hint of where the large symbols containing
      * this code are located. Note the hint is at largest the location the
      * first actual symbol in the long code list.*/
     uint16_t next_sym = huff_code->short_code_lookup[next_bits];
@@ -2097,7 +2097,7 @@ int qpl_check_gzip_checksum(struct inflate_state *state)
     int ret = 0;
 
     if (state->read_in_length >= 8 * GZIP_TRAILER_LEN) {
-        /* The following is unecessary as state->read_in_length == 64 */
+        /* The following is unnecessary as state->read_in_length == 64 */
         /* bit_count = state->read_in_length % 8; */
         /* state->read_in >>= bit_count; */
         /* state->read_in_length -= bit_count; */

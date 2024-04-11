@@ -230,7 +230,7 @@ qpl_status ref_extract(qpl_job *const qpl_job_ptr);
  *                                         num_input_elements is 0
  *    - @ref QPL_STS_BIT_WIDTH_ERR       - if src1_bit_width is 0 or greater than 32 or src2_bit_width differs from 1
  *    - @ref QPL_STS_SRC_IS_SHORT_ERR    - in case of num_input_elements has not been processed while available_in
- *                                         or available_src2 archieved
+ *                                         or available_src2 archived
  *    - @ref QPL_STS_DST_IS_SHORT_ERR    - if num_input_elements has not been processed while available_out archived
  *    - @ref QPL_STS_PARSER_ERR          - in case of bad (non-supported) value in the parser field
  *    - @ref QPL_STS_OPERATION_ERR       - in case of bad (non-supported) value in the op field
@@ -260,7 +260,7 @@ qpl_status ref_select(qpl_job *const qpl_job_ptr);
  *                                         num_input_elements is 0
  *    - @ref QPL_STS_BIT_WIDTH_ERR       - if src1_bit_width is 0 or greater than 32 or src2_bit_width differs from 1
  *    - @ref QPL_STS_SRC_IS_SHORT_ERR    - in case of num_input_elements has not been processed while available_in
- *                                         or available_src2 archieved
+ *                                         or available_src2 archived
  *    - @ref QPL_STS_DST_IS_SHORT_ERR    - if num_input_elements has not been processed while available_out archived
  *    - @ref QPL_STS_PARSER_ERR          - in case of bad (non-supported) value in the parser field
  *    - @ref QPL_STS_OPERATION_ERR       - in case of bad (non-supported) value in the op field

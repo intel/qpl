@@ -19,7 +19,7 @@ void index_table_t::initialize(uint64_t *index_ptr, uint32_t current_index, uint
 }
 
 auto index_table_t::write_new_index(uint32_t bit_count, uint32_t crc) noexcept -> bool {
-    // Additionaly check if index table is available to write
+    // Additionally check if index table is available to write
     if (current_index_ < index_table_size_) {
         index_ptr_[current_index_] = static_cast<uint64_t>(bit_count) + index_bit_offset;
         index_ptr_[current_index_] |= (static_cast<uint64_t>(crc) << crc_bit_length);

@@ -30,7 +30,7 @@
 
 constexpr const uint32_t source_size = 1000;
 
-// In this example source data is splitted to `chunk_count` pieces.
+// In this example source data is split to `chunk_count` pieces.
 // Compression is then performed via multiple job submissions.
 constexpr const uint32_t chunk_count = 7;
 

@@ -62,7 +62,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path)
     // 3. the hardware_dictionary_level is set
@@ -482,7 +482,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path).
     // 3. the hardware_dictionary_level is set

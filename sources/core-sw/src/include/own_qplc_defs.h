@@ -121,7 +121,7 @@ extern "C" {
 #define OWN_CONDITION_BREAK(x) if ((x)) {break;}              /**< Break loop if condition is met */
 
 /**
- * @brief Macro for cheching error situation
+ * @brief Macro for checking error situation
  */
 #define OWN_RETURN_ERROR(expression, error_code) { if (expression) { return (error_code); }}
 

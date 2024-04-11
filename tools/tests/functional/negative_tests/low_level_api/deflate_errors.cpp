@@ -261,7 +261,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_o
 /**
  * @brief Test fixed mode high level compression on @ref qpl_path_software will return
  * proper error (QPL_STS_MORE_OUTPUT_NEEDED) when the destination buffer is not large enough
- * to accomodate the compressed stream and the slop.
+ * to accommodate the compressed stream and the slop.
  *
  * @note The source buffer size and data is hardcoded to simulate this edge case.
  */
@@ -269,7 +269,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
 
     // This hardcoded source data and size will result in a compressed stream of 10 Bytes.
-    // The destination buffer (14 Bytes) is not large enough to accomodate the compressed
+    // The destination buffer (14 Bytes) is not large enough to accommodate the compressed
     // stream and the slop
     uint32_t fixed_source_size = 14U;
     uint32_t fixed_destination_size = fixed_source_size;

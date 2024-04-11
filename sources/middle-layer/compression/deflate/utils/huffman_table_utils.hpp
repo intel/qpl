@@ -17,7 +17,7 @@ namespace qpl::ml::compression {
  * @requires table has been initialized to already contain the code length for each element.
  * @param table: A lookup table used to store the codes.
  * @param table_length: The length of table.
- * @param count: a histogram representing the number of occurences of codes of a given length
+ * @param count: a histogram representing the number of occurrences of codes of a given length
  */
 auto set_huffman_codes(huff_code *huff_code_table,
                        int table_length,
@@ -41,7 +41,7 @@ auto set_dist_huff_codes(huff_code *codes, uint32_t * bl_count) noexcept -> uint
  * 0 corresponds to not end of block and all other inputs correspond to end of block.
  * @param hclen: Length of huffman code for huffman codes minus 4.
  * @param hlit: Length of literal/length table minus 257.
- * @parm hdist: Length of distance table minus 1.
+ * @param hdist: Length of distance table minus 1.
  */
 auto create_huffman_header(BitBuf2 *header_bitbuf,
                            huff_code *lookup_table,
