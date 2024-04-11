@@ -937,7 +937,7 @@ static int header_matches_pregen(struct inflate_state *state)
     uint32_t bytes_read_in = (state->read_in_length + bits_read_prior) / 8;
     uint32_t header_len = hufftables_default.deflate_hdr_count;
 
-    if (memcmp(in, &hdr[bytes_read_in], header_len - bytes_read_in))
+    if (0 != memcmp(in, &hdr[bytes_read_in], header_len - bytes_read_in))
         return 0;
 
     /* If there are any last/end bits to the header check them too */
