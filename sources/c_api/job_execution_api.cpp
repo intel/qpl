@@ -48,6 +48,10 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
             return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
     }
 
+    if ((qpl_job_ptr->flags & QPL_FLAG_CANNED_MODE)
+        && (qpl_job_ptr->huffman_table == nullptr))
+        return QPL_STS_NULL_PTR_ERR;
+
     if (qpl_path_hardware == qpl_job_ptr->data_ptr.path || qpl_path_auto == qpl_job_ptr->data_ptr.path) {
         auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
@@ -192,6 +196,10 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
     using namespace qpl;
 
     QPL_BAD_PTR_RET(qpl_job_ptr);
+
+    if ((qpl_job_ptr->flags & QPL_FLAG_CANNED_MODE)
+        && (qpl_job_ptr->huffman_table == nullptr))
+        return QPL_STS_NULL_PTR_ERR;
 
     if (job::is_supported_on_hardware(qpl_job_ptr)) {
         auto *const analytics_state_ptr = reinterpret_cast<own_analytics_state_t *>(qpl_job_ptr->data_ptr.analytics_state_ptr);

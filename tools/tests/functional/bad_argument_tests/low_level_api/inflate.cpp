@@ -195,4 +195,22 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(decompress_huffman_only, fixed) {
 
 }
 
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate_canned, nullptr_huffman_table) {
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
+
+    set_operation_properties(job_ptr,
+        DROP_INITIAL_BYTES,
+        QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE,
+        qpl_op_decompress);
+
+    job_ptr->huffman_table = nullptr;
+
+    ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NULL_PTR_ERR);
+}
+
 }
