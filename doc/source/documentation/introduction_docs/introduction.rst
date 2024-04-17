@@ -214,6 +214,8 @@ done in two ways:
 Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.
 
+.. _library_page_fault_handling_reference_link:
+
 Page Faults Handling
 ====================
 
@@ -232,7 +234,19 @@ In the case of ``Hardware Path``, single resubmission to the device is attempted
 In the case of ``Auto Path``, single resubmission to the device is attempted, and, in the case of the failure,
 the operation is continued on the ``Software Path``.
 
-Refer to :ref:`accelerator_configuration_reference_link` for more details on setting ``block_on_fault`` and other attributes.
+Refer to :ref:`library_get_configured_accel_properties_reference_link` for more details on setting ``block_on_fault`` and other attributes.
+
+.. _library_get_configured_accel_properties_reference_link:
+
+Getting Configured Accelerator Properties in User Application
+=============================================================
+
+Intel(R) QPL behavior depends on accelerator configuration. There is a limitation on :c:member:`qpl_job.available_in` and :c:member:`qpl_job.available_out`
+based on configured ``max_transfer_size``. There is also a behavior dependent on ``block_on_fault`` described in :ref:`library_page_fault_handling_reference_link`.
+If you need to identify these limitations or expected behavior, query the accelerator configuration.
+
+Intel(R) QPL does not support APIs to check accelerator configuration. Use the ``accel-config``
+library directly. See the example of checking ``max_transfer_size`` in :ref:`multi_chunk_compression_with_fixed_block_reference_link`.
 
 .. _library_work_queue_support_reference_link:
 
