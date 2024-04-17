@@ -97,9 +97,8 @@ auto update_histogram<execution_path_t::hardware>(const uint8_t *begin,
 
     if (status_list::ok == status) {
         details::histogram_join_another(histogram, hw_histogram);
+        details::remove_empty_places_in_histogram(histogram);
     }
-
-    details::remove_empty_places_in_histogram(histogram);
 
     return status;
 }
