@@ -426,6 +426,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-configured-accelerator-properties-in-user-application">Getting Configured Accelerator Properties in User Application</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
@@ -626,7 +627,7 @@ devices will be selected only from this node.</p>
 boundary. Users are responsible for balancing workloads between different nodes.</p>
 </section>
 <section id="page-faults-handling">
-<h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Link to this heading">#</a></h3>
+<span id="library-page-fault-handling-reference-link"></span><h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Link to this heading">#</a></h3>
 <p>If a page fault occurs during operations supported by Intel QPL on Intel IAA,
 no partial completion is available and the operation must be resubmitted to the device.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">Block</span> <span class="pre">on</span> <span class="pre">Fault</span></code> is set (that is, the <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> attribute must be set to <code class="docutils literal notranslate"><span class="pre">1</span></code>
@@ -639,7 +640,15 @@ In the case of <code class="docutils literal notranslate"><span class="pre">Hard
 <a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_INTL_PAGE_FAULT" title="QPL_STS_INTL_PAGE_FAULT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_FAULT</span></code></a> or <a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_INTL_W_PAGE_FAULT" title="QPL_STS_INTL_W_PAGE_FAULT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_PAGE_FAULT</span></code></a> is returned.
 In the case of <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>, single resubmission to the device is attempted, and, in the case of the failure,
 the operation is continued on the <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code>.</p>
-<p>Refer to <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details on setting <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> and other attributes.</p>
+<p>Refer to <a class="reference internal" href="#library-get-configured-accel-properties-reference-link"><span class="std std-ref">Getting Configured Accelerator Properties in User Application</span></a> for more details on setting <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> and other attributes.</p>
+</section>
+<section id="getting-configured-accelerator-properties-in-user-application">
+<span id="library-get-configured-accel-properties-reference-link"></span><h3>Getting Configured Accelerator Properties in User Application<a class="headerlink" href="#getting-configured-accelerator-properties-in-user-application" title="Link to this heading">#</a></h3>
+<p>Intel(R) QPL behavior depends on accelerator configuration. There is a limitation on <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_in" title="qpl_job.available_in"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_in</span></code></a> and <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.available_out" title="qpl_job.available_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.available_out</span></code></a>
+based on configured <code class="docutils literal notranslate"><span class="pre">max_transfer_size</span></code>. There is also a behavior dependent on <code class="docutils literal notranslate"><span class="pre">block_on_fault</span></code> described in <a class="reference internal" href="#library-page-fault-handling-reference-link"><span class="std std-ref">Page Faults Handling</span></a>.
+If you need to identify these limitations or expected behavior, query the accelerator configuration.</p>
+<p>Intel(R) QPL does not support APIs to check accelerator configuration. Use the <code class="docutils literal notranslate"><span class="pre">accel-config</span></code>
+library directly. See the example of checking <code class="docutils literal notranslate"><span class="pre">max_transfer_size</span></code> in <a class="reference internal" href="../get_started_docs/compression_decompression.html#multi-chunk-compression-with-fixed-block-reference-link"><span class="std std-ref">Multi-chunk Compression with Fixed Block</span></a>.</p>
 </section>
 <section id="work-queue-support">
 <span id="library-work-queue-support-reference-link"></span><h3>Work Queue Support<a class="headerlink" href="#work-queue-support" title="Link to this heading">#</a></h3>
@@ -730,6 +739,7 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-configured-accelerator-properties-in-user-application">Getting Configured Accelerator Properties in User Application</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
