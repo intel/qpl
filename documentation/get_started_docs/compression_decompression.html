@@ -1619,9 +1619,109 @@ document.write(`
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.h&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;examples_utils.hpp&quot;</span><span class="c1"> // for argument parsing function</span>
+
+<span class="cp">#ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;x86intrin.h&gt;</span>
+
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_ctx</span><span class="p">;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="p">;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_wq</span><span class="p">;</span>
+
+<span class="cm">/* Instantiate a new library context */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">accfg_new</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_ctx</span><span class="w"> </span><span class="o">**</span><span class="n">ctx</span><span class="p">);</span>
+
+<span class="cm">/* Get first available device */</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">accfg_device_get_first</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_ctx</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="p">);</span>
+<span class="cm">/* Get next available device */</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">accfg_device_get_next</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="p">);</span>
+<span class="cm">/* Get numa id for device */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">accfg_device_get_numa_node</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="p">);</span>
+
+<span class="cm">/* macro to loop through all available devices */</span>
+<span class="cp">#define accfg_device_foreach(ctx, device) \</span>
+<span class="cp">	for (device = accfg_device_get_first(ctx); \</span>
+<span class="cp">	     device != NULL; \</span>
+<span class="cp">	     device = accfg_device_get_next(device))</span>
+
+<span class="cm">/* Get first available workqueue on device */</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_wq</span><span class="w"> </span><span class="o">*</span><span class="n">accfg_wq_get_first</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="p">);</span>
+<span class="cm">/* Get next available workqueue */</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">accfg_wq</span><span class="w"> </span><span class="o">*</span><span class="n">accfg_wq_get_next</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_wq</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
+<span class="cm">/* Get max tranfer size of workqueue */</span>
+<span class="kt">uint64_t</span><span class="w"> </span><span class="nf">accfg_wq_get_max_transfer_size</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">accfg_wq</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
+
+<span class="cm">/* macro to loop through all available workqueues on device */</span>
+<span class="cp">#define accfg_wq_foreach(device, wq) \</span>
+<span class="cp">	for (wq = accfg_wq_get_first(device); \</span>
+<span class="cp">	     wq != NULL; \</span>
+<span class="cp">	     wq = accfg_wq_get_next(wq))</span>
+
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief This function gets the current NUMA node id.</span>
+<span class="cm"> */</span>
+<span class="kt">int32_t</span><span class="w"> </span><span class="n">get_numa_id</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
+<span class="cp">#if defined(__linux__)</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">tsc_aux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">__rdtscp</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tsc_aux</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Linux encodes NUMA node into [32:12] of TSC_AUX</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tsc_aux</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">12</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="c1">// if defined(__linux__)</span>
+<span class="p">}</span>
+<span class="cp">#endif </span><span class="c1">// #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief This function gets the values for max transfer size from all available</span>
+<span class="cm"> * workqueues on numa node (-1 for all) and sets max_transfer_size to the minimum</span>
+<span class="cm"> * of the values returns a status code 0 is okay, -1 is an accel-config loading error</span>
+<span class="cm">*/</span>
+<span class="kt">int32_t</span><span class="w"> </span><span class="n">get_min_max_transfer_size</span><span class="p">(</span><span class="kt">uint64_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">max_transfer_size</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">numa_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="cp">#ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG</span>
+<span class="w">    </span><span class="n">accfg_ctx</span><span class="w">    </span><span class="o">*</span><span class="n">ctx_ptr</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">    </span><span class="n">accfg_device</span><span class="w"> </span><span class="o">*</span><span class="n">device_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">    </span><span class="n">accfg_wq</span><span class="w">     </span><span class="o">*</span><span class="n">wq_ptr</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">numa_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">numa_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_numa_id</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">current_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UINT64_MAX</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">current_value</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">context_creation_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accfg_new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx_ptr</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="mi">0u</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">context_creation_status</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">accfg_device_foreach</span><span class="p">(</span><span class="n">ctx_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">device_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">numa_id</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">accfg_device_get_numa_node</span><span class="p">(</span><span class="n">device_ptr</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">accfg_wq_foreach</span><span class="p">(</span><span class="n">device_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">wq_ptr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">current_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accfg_wq_get_max_transfer_size</span><span class="p">(</span><span class="n">wq_ptr</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current_value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">current_min</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">current_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_value</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">max_transfer_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_min</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="cp">#else</span>
+<span class="w">    </span><span class="n">max_transfer_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UINT64_MAX</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="c1">// #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG</span>
+<span class="p">}</span>
+
 
 <span class="cm">/**</span>
 <span class="cm"> * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`</span>
@@ -1635,14 +1735,15 @@ document.write(`
 <span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
 <span class="cm"> *</span>
 <span class="cm"> * The example compresses data with multi-chunk and decompresses data using single job with Deflate fixed Huffman encoding.</span>
-<span class="cm"> *</span>
+<span class="cm"> * If the accel-config library is available, this example will also check to ensure that the job size does not exceed the</span>
+<span class="cm"> * accelerator configured maximum transfer size.</span>
 <span class="cm"> */</span>
 
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
 
-<span class="c1">// In this example source data is split to `chunk_count` pieces.</span>
+<span class="c1">// In this example source data is split into `chunk_count` pieces.</span>
 <span class="c1">// Compression is then performed via multiple job submissions.</span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">chunk_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">chunk_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
 
 <span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Intel(R) Query Processing Library version is &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">qpl_get_library_version</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
@@ -1654,6 +1755,19 @@ document.write(`
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">parse_ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_execution_path</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">execution_path</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parse_ret</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Calculate chunk size for the compression.</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">chunk_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="o">/</span><span class="n">chunk_count</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">execution_path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">qpl_path_hardware</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">max_transfer_size</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">get_min_max_transfer_size</span><span class="p">(</span><span class="n">max_transfer_size</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">chunk_size</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max_transfer_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Chunk size(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">chunk_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;) exceeds configured max transfer size (&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">max_transfer_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="s">&quot;), reducing chunk size.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">                </span><span class="n">chunk_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max_transfer_size</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Source and output containers.</span>
@@ -1690,8 +1804,6 @@ document.write(`
 <span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_OMIT_VERIFY</span><span class="p">;</span>
 <span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
 
-<span class="w">    </span><span class="c1">// Calculate chunk size for the compression.</span>
-<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">chunk_size</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">source_size</span><span class="o">/</span><span class="n">chunk_count</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">iteration_count</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0U</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_bytes_left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
 
@@ -1711,6 +1823,9 @@ document.write(`
 
 <span class="w">        </span><span class="n">source_bytes_left</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">chunk_size</span><span class="p">;</span>
 <span class="w">        </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">chunk_size</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Hardware requires that job-&gt;available_out does not exceed max_transfer_size</span>
+<span class="w">        </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="p">);</span>
 
 <span class="w">        </span><span class="c1">// Execute compression operation.</span>
 <span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
