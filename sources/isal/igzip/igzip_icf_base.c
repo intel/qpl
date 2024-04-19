@@ -135,8 +135,6 @@ void qpl_isal_deflate_icf_body_hash_hist_base(struct isal_zstream *stream)
     if (stream->end_of_stream || stream->flush != NO_FLUSH)
         state->state = ZSTATE_FLUSH_READ_BUFFER;
 
-    return;
-
 }
 
 void qpl_isal_deflate_icf_finish_hash_hist_base(struct isal_zstream *stream)
@@ -245,8 +243,6 @@ void qpl_isal_deflate_icf_finish_hash_hist_base(struct isal_zstream *stream)
     }
 
     update_state(stream, start_in, next_in, end_in, start_out, next_out, end_out);
-
-    return;
 }
 
 void qpl_isal_deflate_icf_finish_hash_map_base(struct isal_zstream *stream)
@@ -354,8 +350,6 @@ void qpl_isal_deflate_icf_finish_hash_map_base(struct isal_zstream *stream)
     }
 
     update_state(stream, start_in, next_in, end_in, start_out, next_out, end_out);
-
-    return;
 }
 
 void qpl_isal_deflate_hash_mad_base(uint16_t * hash_table, uint32_t hash_mask,

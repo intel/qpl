@@ -130,8 +130,6 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
     if (stream->end_of_stream || stream->flush != NO_FLUSH)
         state->state = ZSTATE_FLUSH_READ_BUFFER;
 
-    return;
-
 }
 
 void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
@@ -263,8 +261,6 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
 #endif
 
     update_state(stream, start_in, next_in, end_in);
-
-    return;
 }
 
 void qpl_isal_deflate_hash_base(uint16_t * hash_table, uint32_t hash_mask,

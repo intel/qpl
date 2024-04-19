@@ -176,8 +176,6 @@ void qpl_isal_deflate_body_huffman_only(struct isal_zstream* stream)
     if (stream->end_of_stream || stream->flush != NO_FLUSH)
         state->state = ZSTATE_FLUSH_READ_BUFFER;
 
-    return;
-
 }
 
 void qpl_isal_deflate_finish_huffman_only(struct isal_zstream* stream)
@@ -233,8 +231,6 @@ void qpl_isal_deflate_finish_huffman_only(struct isal_zstream* stream)
     }
 
     update_state(stream, start_in, next_in, end_in);
-
-    return;
 }
 
 /* ------ END OF TEST CODE ------ */
@@ -1116,8 +1112,6 @@ void qpl_isal_deflate_init(struct isal_zstream* stream)
     init(&state->bitbuf);
 
     state->crc = 0;
-
-    return;
 }
 
 void qpl_isal_deflate_reset(struct isal_zstream* stream)
@@ -1315,7 +1309,6 @@ void qpl_isal_deflate_stateless_init(struct isal_zstream* stream)
     stream->internal_state.max_dist = 0;
     stream->internal_state.mb_mask = 0xFFFFF;
 #endif
-    return;
 }
 
 void qpl_isal_deflate_hash(struct isal_zstream* stream, uint8_t * dict, uint32_t dict_len)

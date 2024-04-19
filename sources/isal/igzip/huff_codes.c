@@ -696,7 +696,6 @@ void qpl_isal_update_histogram_base(uint8_t * start_stream, int length,
         lit_len_histogram[*current] += 1;
 
     lit_len_histogram[256] += 1;
-    return;
 }
 
 /**
