@@ -12,6 +12,10 @@
 #ifndef QPL_INDEX_TABLE_H_
 #define QPL_INDEX_TABLE_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
 
@@ -119,6 +123,10 @@ QPL_API(qpl_status, qpl_find_mini_block_index, (qpl_index_table * table_ptr,
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_INDEX_TABLE_H_

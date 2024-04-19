@@ -15,6 +15,10 @@
 #include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -110,6 +114,10 @@ QPL_API(qpl_status, qpl_get_dictionary_id, (qpl_dictionary * dictionary_ptr,
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_DICTIONARY_H_

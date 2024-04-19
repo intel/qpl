@@ -267,8 +267,16 @@ section .text
 
 %macro slversion 4
 	section .text
+%ifdef QPL_HIDE_ASM_SYMBOLS
+	global %1_slver_%2%3%4:function hidden
+%else
 	global %1_slver_%2%3%4
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
+%ifdef QPL_HIDE_ASM_SYMBOLS
+	global %1_slver:function hidden
+%else
 	global %1_slver
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 	%1_slver:
 	%1_slver_%2%3%4:
 		dw 0x%4

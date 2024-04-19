@@ -118,7 +118,11 @@ section .text
 
 ; void qpl_isal_deflate_body ( isal_zstream *stream )
 ; arg 1: rcx: addr of stream
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_isal_deflate_body_ %+ ARCH:function hidden
+%else
 global qpl_isal_deflate_body_ %+ ARCH
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_isal_deflate_body_ %+ ARCH %+ :
 	endbranch
 %ifidn __OUTPUT_FORMAT__, elf64

@@ -139,7 +139,11 @@ section .text
 ; void qpl_isal_deflate_icf_body <hashsize> <arch> ( isal_zstream *stream )
 ; we make 6 different versions of this function
 ; arg 1: rcx: addr of stream
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_isal_deflate_icf_body_ %+ METHOD %+ _ %+ ARCH:function hidden
+%else
 global qpl_isal_deflate_icf_body_ %+ METHOD %+ _ %+ ARCH
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_isal_deflate_icf_body_ %+ METHOD %+ _ %+ ARCH %+ :
 	endbranch
 %ifidn __OUTPUT_FORMAT__, elf64

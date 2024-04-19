@@ -35,7 +35,11 @@
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+	global qpl_build_huff_tree:function hidden
+%else
 	global qpl_build_huff_tree
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_build_huff_tree:
 	endbranch
 %ifidn __OUTPUT_FORMAT__, win64
@@ -84,7 +88,11 @@ qpl_build_huff_tree:
 	ret
 
 align 32
+%ifdef QPL_HIDE_ASM_SYMBOLS
+	global	qpl_build_heap:function hidden
+%else
 	global	qpl_build_heap
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_build_heap:
 	endbranch
 %ifidn __OUTPUT_FORMAT__, win64

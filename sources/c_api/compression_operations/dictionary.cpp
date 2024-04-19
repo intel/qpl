@@ -10,6 +10,7 @@
  */
 
 #include "qpl/c_api/defs.h"
+#include "qpl/c_api/dictionary.h"
 #include "common/defs.hpp"
 #include "util/checkers.hpp"
 #include "compression/dictionary/dictionary_defs.hpp"

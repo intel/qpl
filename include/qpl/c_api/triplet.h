@@ -12,6 +12,10 @@
 #ifndef QPL_TRIPLET_H_
 #define QPL_TRIPLET_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -30,6 +34,10 @@ typedef struct {
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_TRIPLET_H_

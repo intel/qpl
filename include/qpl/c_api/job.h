@@ -12,6 +12,10 @@
 #ifndef QPL_JOB_API_H_
 #define QPL_JOB_API_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
 #include "qpl/c_api/huffman_table.h"
@@ -230,6 +234,10 @@ QPL_API(qpl_status, qpl_fini_job, (qpl_job * qpl_job_ptr))
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_JOB_API_H_

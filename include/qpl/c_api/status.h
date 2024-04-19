@@ -12,6 +12,10 @@
 #ifndef QPL_STATUS_H_
 #define QPL_STATUS_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -221,6 +225,10 @@ typedef enum {
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_STATUS_H_

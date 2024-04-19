@@ -23,8 +23,8 @@ target_include_directories(tool_common
 set_target_properties(tool_common PROPERTIES CXX_STANDARD 17)
 
 target_link_libraries(tool_common
-        "$<$<PLATFORM_ID:Linux>:stdc++fs>"
-        tool_hw_dispatcher) # iaa_features_checks.hpp depends on implementations from tool_hw_dispatcher
+        PRIVATE "$<$<PLATFORM_ID:Linux>:stdc++fs>"
+        PUBLIC tool_hw_dispatcher) # iaa_features_checks.hpp depends on implementations from tool_hw_dispatcher
 
 target_compile_options(tool_common
         PRIVATE $<$<CONFIG:Debug>:>

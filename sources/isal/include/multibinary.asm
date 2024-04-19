@@ -45,7 +45,11 @@
 		mbin_def_ptr	%1_mbinit
 
 	section .text
+%ifdef QPL_HIDE_ASM_SYMBOLS
+	mk_global %1, function, hidden
+%else
 	mk_global %1, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 	%1_mbinit:
 		endbranch
 		;;; only called the first time to setup hardware match

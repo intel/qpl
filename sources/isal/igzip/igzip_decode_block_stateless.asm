@@ -448,7 +448,11 @@ stack_size		equ	4 * 8 + 8 * 8
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_decode_huffman_code_block_stateless_ %+ ARCH:function hidden
+%else
 global qpl_decode_huffman_code_block_stateless_ %+ ARCH
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_decode_huffman_code_block_stateless_ %+ ARCH %+ :
 	endbranch
 

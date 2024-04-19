@@ -116,7 +116,11 @@ default rel
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_set_long_icf_fg_04:function hidden
+%else
 global qpl_set_long_icf_fg_04
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 func(qpl_set_long_icf_fg_04)
 	endbranch
 	FUNC_SAVE

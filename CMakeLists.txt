@@ -18,6 +18,11 @@ endif ()
 
 project(QPL VERSION 1.4.0 LANGUAGES C CXX)
 
+# This specify the build version
+set(QPL_SHARED_LIB_VERSION   ${PROJECT_VERSION})
+# This is the indicator for the API and ABI compatibility.
+set(QPL_SHARED_LIB_SOVERSION ${PROJECT_VERSION_MAJOR})
+
 set(CMAKE_USER_MAKE_RULES_OVERRIDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/overrides.cmake")
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
@@ -35,6 +40,7 @@ option(LOG_HW_INIT "Enables HW initialization log" OFF)
 option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
 option(DYNAMIC_LOADING_LIBACCEL_CONFIG "Loads the accelerator configuration library (libaccel-config) dynamically with dlopen" ON)
+set(QPL_LIBRARY_TYPE "STATIC" CACHE STRING "Specifies the resulting library type")
 
 # Print user's settings
 message(STATUS "Memory sanitizing build: ${SANITIZE_MEMORY}")
@@ -43,6 +49,7 @@ message(STATUS "Hardware initialization logging: ${LOG_HW_INIT}")
 message(STATUS "Efficient wait instructions: ${EFFICIENT_WAIT}")
 message(STATUS "Fuzz testing build: ${LIB_FUZZING_ENGINE}")
 message(STATUS "Load libaccel-config dynamically with dlopen: ${DYNAMIC_LOADING_LIBACCEL_CONFIG}")
+message(STATUS "Library build type: ${QPL_LIBRARY_TYPE}")
 
 if (SANITIZE_MEMORY)
     if (WIN32)
@@ -60,6 +67,10 @@ if (SANITIZE_THREADS)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=thread -g")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=thread -g")
     endif ()
+endif ()
+
+if (WIN32 AND "${QPL_LIBRARY_TYPE}" STREQUAL "SHARED")
+    message(FATAL_ERROR "Building shared library is not supported in Windows")
 endif ()
 
 if (LIB_FUZZING_ENGINE)

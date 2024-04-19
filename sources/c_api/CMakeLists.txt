@@ -34,7 +34,9 @@ target_include_directories(qpl_c_api
 set_target_properties(qpl_c_api PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
         $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
-        CXX_STANDARD 17)
+        CXX_STANDARD 17
+        C_VISIBILITY_PRESET hidden
+        CXX_VISIBILITY_PRESET hidden)
 
 target_compile_options(qpl_c_api
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};

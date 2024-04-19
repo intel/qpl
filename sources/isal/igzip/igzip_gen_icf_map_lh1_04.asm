@@ -150,7 +150,11 @@
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_gen_icf_map_lh1_04:function hidden
+%else
 global qpl_gen_icf_map_lh1_04
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 func(qpl_gen_icf_map_lh1_04)
 	endbranch
 	FUNC_SAVE

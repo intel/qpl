@@ -23,13 +23,17 @@ add_executable(tests main.cpp
 
 set_target_properties(tests PROPERTIES CXX_STANDARD 17)
 
+get_property(LIB_DEPS GLOBAL PROPERTY QPL_LIB_DEPS)
+
 target_link_libraries(tests
+        PRIVATE ${LIB_DEPS}
         PRIVATE tests_common
         PRIVATE tool_generator
         PRIVATE qplref
         PRIVATE qpl
         "$<$<PLATFORM_ID:Linux>:stdc++fs>"
-        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
+        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>"
+        "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},OFF>>:accel-config>")
 
 set_target_properties(tests PROPERTIES CXX_STANDARD 17)
 

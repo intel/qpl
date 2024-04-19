@@ -24,7 +24,8 @@ target_link_libraries(qpl_benchmarks
     PRIVATE tool_hw_dispatcher
     PRIVATE benchmark
     "$<$<PLATFORM_ID:Linux>:stdc++fs>"
-    "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>")
+    "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},ON>>:${CMAKE_DL_LIBS}>"
+    "$<$<AND:$<PLATFORM_ID:Linux>,$<STREQUAL:${DYNAMIC_LOADING_LIBACCEL_CONFIG},OFF>>:accel-config>")
 
 get_target_property(GBENCH_SOURCE_DIR benchmark SOURCE_DIR)
 

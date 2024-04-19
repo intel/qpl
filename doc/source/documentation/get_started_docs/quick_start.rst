@@ -68,6 +68,13 @@ Alternatively, in order to build ``compression_example.cpp`` individually using 
    Intel QPL could be also used from C applications.
    This would still require C++ runtime library installed on the system, and adding `-lstdc++`.
 
+On Linux, if you installed Intel QPL system wide, you can use the dynamic
+library to compile the examples with:
+
+.. code-block:: shell
+
+    g++ -I/<install_dir>/include -o compression_example compression_example.cpp -lqpl -ldl
+
 To run the example on the Hardware Path, use:
 
 .. code-block:: shell

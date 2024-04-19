@@ -104,7 +104,11 @@ default rel
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global qpl_adler32_avx2_4, function, hidden
+%else
 mk_global qpl_adler32_avx2_4, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 func(qpl_adler32_avx2_4)
 	FUNC_SAVE
 
