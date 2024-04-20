@@ -588,6 +588,7 @@ For more information on library testing, see <a class="reference internal" href=
 For information on benchmarking the library, see <a class="reference internal" href="../bench_docs/guide.html#library-benchmarking-reference-link"><span class="std std-ref">Benchmarks Framework Guide</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]</span></code> - Enables loading the accelerator configuration library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>)
 dynamically with dlopen (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE=[SHARED|STATIC]</span></code> - Enables building the library as a shared library or a static library (<code class="docutils literal notranslate"><span class="pre">STATIC</span></code> by default).</p></li>
 </ul>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
@@ -674,6 +675,14 @@ cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </
 <p>Configuration files and scripts for Intel® IAA
 (see <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details)
 are available in <code class="docutils literal notranslate"><span class="pre">share/QPL/</span></code> folder.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└── lib or lib64
+    ├── libqpl.so
+    ├── libqpl.so.X
+    └── libqpl.so.X.Y.Z
+</pre></div>
+</div>
+<p>On Linux OS a dynamic library is installed at <code class="docutils literal notranslate"><span class="pre">&lt;install_path&gt;/lib/</span></code>, where <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong>
+is the Intel QPL version when the <code class="docutils literal notranslate"><span class="pre">-QPL_LIBRARY_TYPE</span></code> is set to <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.</p>
 <p>Examples are located in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/</span></code>.</p>
 <p>Intel QPL could be easily integrated to other CMake projects once installed.
 Use <code class="docutils literal notranslate"><span class="pre">-DCMAKE_PREFIX_PATH</span></code> to point to the existing installation

@@ -183,6 +183,8 @@ Intel QPL supports the following build options:
 -  ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]`` - Enables loading the accelerator configuration library (``libaccel-config``)
    dynamically with dlopen (``ON`` by default).
 
+- ``-DQPL_LIBRARY_TYPE=[SHARED|STATIC]`` - Enables building the library as a shared library or a static library (``STATIC`` by default).
+
 .. attention::
 
    If Intel QPL is built with ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON``, which is the default value,
@@ -279,6 +281,16 @@ Executables for tests and benchmarks framework are available in ``bin/`` folder.
 Configuration files and scripts for Intel® IAA
 (see :ref:`accelerator_configuration_reference_link` for more details)
 are available in ``share/QPL/`` folder.
+
+::
+
+     └── lib or lib64
+         ├── libqpl.so
+         ├── libqpl.so.X
+         └── libqpl.so.X.Y.Z
+
+On Linux OS a dynamic library is installed at ``<install_path>/lib/``, where **X**, **Y**, **Z**
+is the Intel QPL version when the ``-QPL_LIBRARY_TYPE`` is set to ``SHARED``.
 
 Examples are located in ``<qpl_library>/build/examples/``.
 
