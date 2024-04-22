@@ -75,14 +75,14 @@ public:
     }
 
     static uint32_t UpdateCRC(uint32_t seed, uint8_t byte) {
-        uint64_t rem;
+        uint64_t rem = 0U;
         uint32_t cvt = ~seed;
         rem = cvt;
         const uint32_t polynomial = 0xEDB88320; // IEEE standard
 
         rem = rem ^ byte;
 
-        for (uint32_t i = 0; i < 8U; i++) {
+        for (uint32_t i = 0U; i < 8U; i++) {
             rem = (rem & 0x1ULL) ? (rem >> 1) ^ polynomial : (rem >> 1);
         }
 
@@ -90,24 +90,24 @@ public:
     }
 
     static uint32_t NumberOfIndexValues(uint32_t buffer_size, uint32_t mini_block_size, uint32_t block_size) {
-        uint32_t result;
+        uint32_t result = 0U;
 
-        result = (buffer_size + mini_block_size - 1) / mini_block_size;
+        result = (buffer_size + mini_block_size - 1U) / mini_block_size;
 
-        if (block_size == 0) {
-            result += 2;
+        if (block_size == 0U) {
+            result += 2U;
         } else {
-            result += 2 * ((buffer_size + block_size - 1) / block_size);
+            result += 2U * ((buffer_size + block_size - 1U) / block_size);
         }
 
-        return result + 1;
+        return result + 1U;
     }
 
     testing::AssertionResult GetMiniblock(uint32_t required_number_of_mblocks,
                                           uint32_t mblocks_per_block,
                                           std::vector<uint8_t> &block_buffer) {
-        qpl_job    *inflate_job_ptr;
-        uint32_t   job_size;
+        qpl_job    *inflate_job_ptr = nullptr;
+        uint32_t   job_size = 0U;
         qpl_status status = qpl_get_job_size(GetExecutionPath(), &job_size);
 
         if (status != QPL_STS_OK) {
@@ -119,14 +119,14 @@ public:
         qpl_init_job(GetExecutionPath(), inflate_job_ptr);
 
         inflate_job_ptr->op = qpl_op_decompress;
-        uint32_t block_number;
-        uint32_t block_header;
-        uint32_t bit_start;
-        uint32_t bit_end;
-        uint32_t mini_blocks_in_block;
+        uint32_t block_number = 0U;
+        uint32_t block_header = 0U;
+        uint32_t bit_start = 0U;
+        uint32_t bit_end = 0U;
+        uint32_t mini_blocks_in_block = 0U;
 
-        uint64_t header_index_start;
-        uint64_t header_index_finish;
+        uint64_t header_index_start = 0U;
+        uint64_t header_index_finish = 0U;
 
         if (SINGLE_BLOCK == current_test_case.block_usage) {
             // Current compression is SINGLE_BLOCK
@@ -238,7 +238,7 @@ public:
         for (uint32_t mini_block_size = qpl_mblk_size_512; mini_block_size <= qpl_mblk_size_32k; mini_block_size++) {
             for (uint32_t compression_mode = SINGLE_BUF_FIXED;
                  compression_mode <= SINGLE_BUF_DYNAMIC; compression_mode++) {
-                for (uint32_t gzip_mode = 0; gzip_mode < 2; gzip_mode++) {
+                for (uint32_t gzip_mode = 0U; gzip_mode < 2U; gzip_mode++) {
                     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
                         IndexTestCase test_case;
                         test_case.block_usage      = (BlockUsage) block_usage;
@@ -261,7 +261,7 @@ public:
         for (uint32_t chunk_size : {512U, 1024U, 1024U * 32U}) {
             for (uint32_t compression_mode = MULT_BUF_FIXED;
                  compression_mode <= MULT_BUF_DYNAMIC; compression_mode++) {
-                for (uint32_t gzip_mode = 0; gzip_mode < 2; gzip_mode++) {
+                for (uint32_t gzip_mode = 0U; gzip_mode < 2U; gzip_mode++) {
                     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
                         IndexTestCase test_case;
                         test_case.block_usage      = (BlockUsage) block_usage;
@@ -285,7 +285,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
     uint32_t             input_size  = static_cast<uint32_t>(source.size());
 
     uint32_t bytes_remain          = input_size;
-    uint32_t chunk_size            = 0;
+    uint32_t chunk_size            = 0U;
     uint32_t mini_block_size_bytes = (1U << (job_ptr->mini_block_size + 8U));
 
     job_ptr->next_in_ptr = source.data();
@@ -294,7 +294,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
     job_ptr->level = qpl_default_level;
     job_ptr->flags = QPL_FLAG_FIRST;
 
-    while (bytes_remain > 0) {
+    while (bytes_remain > 0U) {
         switch (current_test_case.compression_mode) {
             case SINGLE_BUF_FIXED:
                 chunk_size = bytes_remain;
@@ -337,11 +337,11 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
     }
 
     auto     source_it = source.begin();
-    uint32_t crc_value = 0;
-    uint32_t crc_next;
+    uint32_t crc_value = 0U;
+    uint32_t crc_next = 0U;
 
-    for (crc_next = 0; crc_next <= input_size / mini_block_size_bytes; crc_next++) {
-        for (uint32_t next_byte = 0; next_byte < mini_block_size_bytes; next_byte++) {
+    for (crc_next = 0U; crc_next <= input_size / mini_block_size_bytes; crc_next++) {
+        for (uint32_t next_byte = 0U; next_byte < mini_block_size_bytes; next_byte++) {
             if (source_it >= source.end()) { // End of input buffer
                 break;
             }
@@ -359,10 +359,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
 
     EXPECT_EQ(current_number_index, job_ptr->idx_num_written);
 
-    uint64_t previous_crc = 0;
-    crc_next = 0;
+    uint64_t previous_crc = 0U;
+    crc_next = 0U;
 
-    for (uint32_t crc_number = 0; crc_number < job_ptr->idx_num_written; crc_number++) {
+    for (uint32_t crc_number = 0U; crc_number < job_ptr->idx_num_written; crc_number++) {
         uint64_t qpl_crc = (index_array[crc_number] >> 32) & 0xFFFFFFFF;
 
         if (qpl_crc == previous_crc) {

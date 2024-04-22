@@ -90,7 +90,7 @@ namespace qpl::test {
 
             sw_source.clear();
             hw_source.clear();
-            uint8_t symbol;
+            uint8_t symbol = 0U;
             while (sw_source.size() < current_test_case.source_size - 1) {
                 symbol = static_cast<uint8_t>(rand() % 95 + 32);
                 sw_source.push_back(symbol);

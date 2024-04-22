@@ -52,7 +52,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
         ASSERT_NE(0U, file_size) << "Couldn't open file: "
                                  << dataset.first;
 
-        uint32_t size = 0;
+        uint32_t size = 0U;
         qpl_status status = qpl_get_job_size(path, &size);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size";
 
@@ -68,7 +68,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
 
         // Submit deflate and inflate jobs in loops using the same job object
         for (int loop = 0; loop < 10; loop++) {
-            qpl_huffman_table_t huffman_table;
+            qpl_huffman_table_t huffman_table = nullptr;
             auto ht_destroy_status = QPL_STS_OK;
 
             unique_huffman_table table(deflate_huffman_table_maker(combined_table_type,

@@ -97,7 +97,7 @@ static inline util::arguments_list_t get_testing_settings(int argc, char *argv[]
 #if defined(__linux__)
 qpl_status qpl_hw_compress() {
     qpl_path_t execution_path = qpl_path_hardware;
-    uint32_t job_size         = 0;
+    uint32_t job_size         = 0U;
 
     qpl_status status = qpl_get_job_size(execution_path, &job_size);
     if (QPL_STS_OK != status) return status;
@@ -131,7 +131,7 @@ int test_init_with_fork() {
     qpl_status status = QPL_STS_OK;
 
     // create a child process with fork()
-    pid_t pid;
+    pid_t pid = 0;
     pid = fork();
 
     if (pid < 0) {
@@ -146,7 +146,7 @@ int test_init_with_fork() {
         status = qpl_hw_compress();
 
         // wait for child process to finish
-        int child_status;
+        int child_status = 0;
         int ret = waitpid(pid, &child_status, 0);
 
         if (ret != pid) {

@@ -63,7 +63,7 @@ protected:
         }
 
         qpl::test::random random_element_generator(0, 1, GetSeed());
-        for (size_t i; i < src_size; i++) {
+        for (size_t i = 0U; i < src_size; i++) {
             aligned_src_buffer[i] = (uint8_t) random_element_generator;
         }
         std::memset(aligned_dst_buffer, 0, dst_size);

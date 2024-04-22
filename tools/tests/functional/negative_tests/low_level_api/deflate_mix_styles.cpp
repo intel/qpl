@@ -47,7 +47,7 @@ static qpl_status perform_static_compression(qpl_job *job_ptr,
     qpl_histogram deflate_histogram{};
     auto          path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    qpl_huffman_table_t huffman_table;
+    qpl_huffman_table_t huffman_table = nullptr;
 
     auto status = QPL_STS_OK;
 
@@ -137,7 +137,7 @@ static qpl_status perform_fixed_compression(qpl_job *job_ptr,
  * to change compression style in the middle of a sequence of jobs.
 */
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different_styles) {
-    const uint32_t    maximum_length = 4096;
+    const uint32_t    maximum_length = 4096U;
     qpl::test::random random_style(0, 2U, GetSeed());
     qpl::test::random random_bit_of_pie(2U, 8U, GetSeed());
     qpl::test::random random_element_generator(0, 1, GetSeed());

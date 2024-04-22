@@ -30,7 +30,7 @@ qplc_extract_i_t_ptr qplc_extract_i(uint32_t index) {
 static void fill_buffer_8u(uint8_t* src, uint8_t* dst, uint32_t length) {
     uint8_t* p_src_8u = src;
     uint8_t* p_dst_8u = dst;
-    for (uint32_t indx = 0; indx < length; indx++) {
+    for (uint32_t indx = 0U; indx < length; indx++) {
         p_dst_8u[indx] = p_src_8u[indx];
     }
 }
@@ -42,8 +42,6 @@ static uint32_t ref_qplc_extract_8u(const uint8_t* src_ptr,
     uint32_t low_value,
     uint32_t high_value)
 {
-    uint32_t start;
-    uint32_t stop;
 
     if ((*index_ptr + length) < low_value) {
         *index_ptr += length;
@@ -53,11 +51,11 @@ static uint32_t ref_qplc_extract_8u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_ptr += start;
-    for (uint32_t idx = 0; idx < (stop - start); idx++) {
+    for (uint32_t idx = 0U; idx < (stop - start); idx++) {
         dst_ptr[idx] = src_ptr[idx];
     }
     *index_ptr += length;
@@ -71,8 +69,6 @@ static uint32_t ref_qplc_extract_16u(const uint8_t* src_ptr,
     uint32_t low_value,
     uint32_t high_value)
 {
-    uint32_t       start;
-    uint32_t       stop;
     const uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
 
@@ -84,11 +80,11 @@ static uint32_t ref_qplc_extract_16u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_16u_ptr += start;
-    for (uint32_t idx = 0; idx < (stop - start); idx++) {
+    for (uint32_t idx = 0U; idx < (stop - start); idx++) {
         dst_16u_ptr[idx] = src_16u_ptr[idx];
     }
     *index_ptr += length;
@@ -102,8 +98,6 @@ static uint32_t ref_qplc_extract_32u(const uint8_t* src_ptr,
     uint32_t low_value,
     uint32_t high_value)
 {
-    uint32_t       start;
-    uint32_t       stop;
     const uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
 
@@ -115,11 +109,11 @@ static uint32_t ref_qplc_extract_32u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_32u_ptr += start;
-    for (uint32_t idx = 0; idx < (stop - start); idx++) {
+    for (uint32_t idx = 0U; idx < (stop - start); idx++) {
         dst_32u_ptr[idx] = src_32u_ptr[idx];
     }
     *index_ptr += length;
@@ -156,9 +150,9 @@ static uint32_t ref_qplc_extract_32u_i(uint8_t* src_dst_ptr,
         index_ptr, low_value, high_value);
 }
 
-constexpr uint32_t fun_indx_extract_8u = 0;
-constexpr uint32_t fun_indx_extract_16u = 1;
-constexpr uint32_t fun_indx_extract_32u = 2;
+constexpr uint32_t fun_indx_extract_8u = 0U;
+constexpr uint32_t fun_indx_extract_16u = 1U;
+constexpr uint32_t fun_indx_extract_32u = 2U;
 
 constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
@@ -176,13 +170,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u, base) {
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_8u[indx] = static_cast<uint8_t>(random_value);
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        for (uint32_t index = 0; index < length; index++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        for (uint32_t index = 0U; index < length; index++) {
             uint32_t index_current = index;
             uint32_t ref_index_current = index;
             destination.fill(0);
@@ -210,11 +204,11 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u, base) {
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_16u[indx] = static_cast<uint16_t>(random_value);
         }
-        for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-            for (uint32_t index = 0; index < length; index++) {
+        for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+            for (uint32_t index = 0U; index < length; index++) {
                 uint32_t index_current = index;
                 uint32_t ref_index_current = index;
                 destination.fill(0);
@@ -243,11 +237,11 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u, base) {
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_32u[indx] = static_cast<uint32_t>(random_value);
         }
-        for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-            for (uint32_t index = 0; index < length; index++) {
+        for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+            for (uint32_t index = 0U; index < length; index++) {
                 uint32_t index_current = index;
                 uint32_t ref_index_current = index;
                 destination.fill(0);
@@ -273,13 +267,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u_i, base) {
     uint32_t    low_value = 21U;
     uint32_t    high_value = 42U;
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        for (uint32_t index = 0; index < length; index++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        for (uint32_t index = 0U; index < length; index++) {
             uint32_t index_current = index;
             uint32_t ref_index_current = index;
             {
                 uint8_t* p_source_8u = (uint8_t*)source_destination.data();
-                for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+                for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                     p_source_8u[indx] = static_cast<uint8_t>(random_value);
                 }
             }
@@ -304,13 +298,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u_i, base) {
     uint32_t    low_value = 21U;
     uint32_t    high_value = 42U;
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        for (uint32_t index = 0; index < length; index++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        for (uint32_t index = 0U; index < length; index++) {
             uint32_t index_current = index;
             uint32_t ref_index_current = index;
             {
                 uint16_t* p_source_16u = (uint16_t*)source_destination.data();
-                for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+                for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                     p_source_16u[indx] = static_cast<uint16_t>(random_value);
                 }
             }
@@ -335,13 +329,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u_i, base) {
     uint32_t    low_value = 21U;
     uint32_t    high_value = 42U;
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        for (uint32_t index = 0; index < length; index++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        for (uint32_t index = 0U; index < length; index++) {
             uint32_t index_current = index;
             uint32_t ref_index_current = index;
             {
                 uint32_t* p_source_32u = (uint32_t*)source_destination.data();
-                for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+                for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                     p_source_32u[indx] = static_cast<uint32_t>(random_value);
                 }
             }

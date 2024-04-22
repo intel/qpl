@@ -30,8 +30,8 @@ template <class stream_t>
 auto compress_stream(stream_t stream) -> std::vector<uint8_t> {
     auto path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    uint32_t job_size = 0;
-    qpl_job  *deflate_job_ptr;
+    uint32_t job_size = 0U;
+    qpl_job  *deflate_job_ptr = nullptr;
     auto     status   = qpl_get_job_size(path, &job_size);
 
     if (QPL_STS_OK != status) {
@@ -149,7 +149,7 @@ AnalyticCountersStream::AnalyticCountersStream(size_t counters_count,
                                                uint16_t prologue)
 : AnalyticStream(counters_count, counter_width, parser), prologue_(prologue) {
     // Dynamic assert if bit width is not multiple of 8.
-    assert(bit_width_ == 8);
+    assert(bit_width_ == 8U);
     source_provider counters_generator(static_cast<uint32_t>(element_count_),
                                        bit_width_,
                                        util::TestEnvironment::GetInstance().GetSeed(),

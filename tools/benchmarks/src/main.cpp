@@ -34,11 +34,11 @@ registry_t& get_registry()
     return reg;
 }
 
-constexpr const uint64_t poly = 0x04C11DB700000000;
+constexpr const uint64_t poly = 0x04C11DB700000000U;
 
 static bool init_hw()
 {
-    uint32_t size;
+    uint32_t size = 0U;
 
     qpl_status status = qpl_get_job_size(qpl_path_hardware, &size);
     if (status != QPL_STS_OK)
@@ -105,7 +105,7 @@ std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept
 
 uint32_t get_current_numa() noexcept
 {
-    std::uint32_t tsc_aux = 0;
+    std::uint32_t tsc_aux = 0U;
     __rdtscp(&tsc_aux);
     std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
 
@@ -346,7 +346,7 @@ namespace bench
 std::string format(const char *format, ...) noexcept
 {
     std::string out;
-    size_t      size;
+    size_t      size = 0;
 
     va_list argptr1, argptr2;
     va_start(argptr1, format);

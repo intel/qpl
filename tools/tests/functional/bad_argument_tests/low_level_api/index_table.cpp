@@ -21,7 +21,7 @@ namespace qpl::test {
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(index_table, get_index_table_size) {
     const uint32_t mini_block_count = 1U;
     const uint32_t mini_blocks_per_block = 1U;
-    size_t size;
+    size_t size = 0U;
     size_t *size_ptr = &size;
 
     auto status = qpl_get_index_table_size(mini_block_count, mini_blocks_per_block, nullptr);
