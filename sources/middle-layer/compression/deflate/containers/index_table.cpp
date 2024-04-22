@@ -31,11 +31,11 @@ auto index_table_t::write_new_index(uint32_t bit_count, uint32_t crc) noexcept -
     }
 }
 
-auto index_table_t::get_current_index() noexcept -> uint32_t {
+auto index_table_t::get_current_index() const noexcept -> uint32_t {
     return current_index_;
 }
 
-auto index_table_t::size() noexcept -> uint32_t {
+auto index_table_t::size() const noexcept -> uint32_t {
     return index_table_size_;
 }
 

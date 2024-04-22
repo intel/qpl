@@ -34,7 +34,7 @@ namespace gz_generator
 
             BitBuffer& operator= (const BitBuffer &buffer) = delete;
 
-            uint32_t getBitsWritten();
+            uint32_t getBitsWritten() const;
 
             void setBigEndian16(bool value);
 

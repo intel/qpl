@@ -12,7 +12,7 @@
 
 /* ------ Index search index in the table ------ */
 
-uint32_t IndexTable::findHeaderBlockIndex(uint32_t miniBlockNumber)
+uint32_t IndexTable::findHeaderBlockIndex(uint32_t miniBlockNumber) const
 {
     if (miniBlockNumber >= m_miniBlockCount) throw std::invalid_argument("No such mini block in the table");
 
@@ -62,7 +62,7 @@ void IndexTable::reset(uint32_t miniBlockCount, uint32_t miniBlocksPerBlock)
     std::fill(m_indices.begin(), m_indices.end(), Index{0,0});
 }
 
-uint32_t IndexTable::getBlockCount()
+uint32_t IndexTable::getBlockCount() const
 {
    return this->m_blockCount;
 }

@@ -83,7 +83,7 @@ namespace gz_generator
             void declareTestToken(const Gen32u testNumber, const Gen32u testGroup);
             void declareVectorToken(const VectorTokenType type, const Gen32u* vector, const Gen32u length);
 
-            Gen32u makeRandomLengthCodesTable(Gen32u *pLengthCodeTable, Gen32u lengthTableSize, Gen8u maxLengthCodeValue);
+            Gen32u makeRandomLengthCodesTable(Gen32u *pLengthCodeTable, Gen32u lengthTableSize, Gen8u maxLengthCodeValue) const;
             
         public:
             TestConfigurator(Gen32u seed)

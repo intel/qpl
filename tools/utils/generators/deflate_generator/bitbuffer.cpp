@@ -79,7 +79,7 @@ void gz_generator::BitBuffer::padToByte()
     }
 }
 
-uint32_t gz_generator::BitBuffer::getBitsWritten()
+uint32_t gz_generator::BitBuffer::getBitsWritten() const
 {
     return m_totalBitWritten;
 }

@@ -171,7 +171,7 @@ auto AnalyticCountersStream::elements_count() noexcept -> size_t {
     return 0;
 }
 
-auto AnalyticCountersStream::packed_elements_count() noexcept -> size_t {
+auto AnalyticCountersStream::packed_elements_count() const noexcept -> size_t {
     return packed_elements_count_;
 }
 

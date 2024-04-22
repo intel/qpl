@@ -35,7 +35,7 @@ auto huffman_table_icf::get_isal_huffman_tables() const noexcept -> hufftables_i
     return huffman_table_;
 }
 
-void huffman_table_icf::expand_huffman_tables() noexcept {
+void huffman_table_icf::expand_huffman_tables() const noexcept {
     uint32_t  i    = 0;
     uint32_t  len  = 0;
     uint32_t  code = 0;

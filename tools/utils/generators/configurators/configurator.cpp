@@ -92,7 +92,7 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
 
     //returns the produced table length
 Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengthCodeTable, Gen32u lengthTableSize,
-                                                                  Gen8u maxLengthCodeValue)
+                                                                  Gen8u maxLengthCodeValue) const
 {
     pLengthCodeTable[0] = 1;
     pLengthCodeTable[1] = 1;
