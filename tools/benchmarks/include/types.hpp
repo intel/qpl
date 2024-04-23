@@ -60,7 +60,6 @@ enum class path_e
 {
     cpu,
     iaa,
-    dsa,
     auto_
 };
 

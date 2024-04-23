@@ -221,9 +221,6 @@ BM_DEFINE_string(out_mem, "cс_ram");
 BM_DEFINE_bool(full_time, false);
 BM_DEFINE_bool(no_hw, false);
 
-BM_DEFINE_double(canned_part, -1);
-BM_DEFINE_bool(canned_regen, false);
-
 static void print_help()
 {
     fprintf(stdout,
@@ -239,12 +236,7 @@ static void print_help()
             "          [--in_mem=<location>]         - Input memory type: cache, llc or ram. Set to llc by default. \n"
             "          [--out_mem=<location>]        - Output memory type: cache_ram or ram. Set to cache_ram by default. \n"
             "          [--full_time]                 - Include initialization and destruction into measured time. Off by default.\n"
-            "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n"
-
-            "\nCompression and Decompression Specific Flags (currently not in use):\n"
-            "benchmark [--canned_part=<num>]         - Amount of data used for tables generation:\n"
-            "                                          0 - full file, float (0-1) - portion of file, integer [1-N] - number of blocks.\n"
-            "          [--canned_regen]              - Regenerate tables for each part. Off by default.\n");
+            "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n");
 }
 
 static void parse_local(int* argc, char** argv)
@@ -260,10 +252,7 @@ static void parse_local(int* argc, char** argv)
            benchmark::ParseInt32Flag(argv[i],   "batch_size",   &FLAGS_batch_size) ||
            benchmark::ParseBoolFlag(argv[i],    "no_hw",        &FLAGS_no_hw) ||
            benchmark::ParseStringFlag(argv[i],  "in_mem",       &FLAGS_in_mem) ||
-           benchmark::ParseStringFlag(argv[i],  "out_mem",      &FLAGS_out_mem) ||
-
-           benchmark::ParseDoubleFlag(argv[i],  "canned_part",  &FLAGS_canned_part) ||
-           benchmark::ParseBoolFlag(argv[i],    "canned_regen", &FLAGS_canned_regen))
+           benchmark::ParseStringFlag(argv[i],  "out_mem",      &FLAGS_out_mem))
         {
             for(int j = i; j != *argc - 1; ++j)
                 argv[j] = argv[j + 1];
