@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 project(isal CXX ASM)
 
 enable_language(ASM_NASM)
