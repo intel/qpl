@@ -44,7 +44,6 @@ set(ISAL_ASM_SRC igzip/igzip_body.asm
     igzip/igzip_set_long_icf_fg_04.asm
     igzip/igzip_set_long_icf_fg_06.asm
     igzip/igzip_multibinary.asm
-    igzip/stdmac.asm
     crc/crc_multibinary.asm
     crc/crc32_gzip_refl_by8.asm
     crc/crc32_gzip_refl_by8_02.asm
