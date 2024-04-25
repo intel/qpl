@@ -27,6 +27,8 @@ if (QPL_BUILD_TESTS)
     endif ()
 endif ()
 
+add_subdirectory(pkg-config)
+
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/configs
                   DESTINATION share/${CMAKE_PROJECT_NAME}
                   COMPONENT        RUNTIME)

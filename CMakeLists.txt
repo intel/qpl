@@ -16,7 +16,9 @@ else ()
     cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 endif ()
 
-project(QPL VERSION 1.4.0 LANGUAGES C CXX)
+project(QPL VERSION 1.4.0 LANGUAGES C CXX
+    DESCRIPTION "A library to provide high-performance query processing operations on Intel CPUs."
+)
 
 # This specify the build version
 set(QPL_SHARED_LIB_VERSION   ${PROJECT_VERSION})

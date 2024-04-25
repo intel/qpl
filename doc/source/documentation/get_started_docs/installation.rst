@@ -287,10 +287,19 @@ are available in ``share/QPL/`` folder.
      └── lib or lib64
          ├── libqpl.so
          ├── libqpl.so.X
-         └── libqpl.so.X.Y.Z
+         ├── libqpl.so.X.Y.Z
+         └── pkgconfig
+             └── qpl.pc
 
 On Linux OS a dynamic library is installed at ``<install_path>/lib/``, where **X**, **Y**, **Z**
 is the Intel QPL version when the ``-QPL_LIBRARY_TYPE`` is set to ``SHARED``.
+
+Metadata file ``qpl.pc`` for pkg-config support is installed to `<install_path>/lib/pkgconfig`.
+
+.. warning::
+
+   The pkg-config file is only generated/supported for the shared library (``-DQPL_LIBRARY_TYPE=SHARED``)
+   build with dynamic loading of ``libaccel-config`` (``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON``).
 
 Examples are located in ``<qpl_library>/build/examples/``.
 

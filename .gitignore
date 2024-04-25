@@ -12,3 +12,9 @@ doc/html/*
 
 # Doc build folder
 doc/build
+
+# qpl tarball
+qpl-*.tar.*z
+
+# RPM build
+qpl*.rpm
