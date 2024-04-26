@@ -44,9 +44,12 @@ int main(int argc, char** argv) {
     } else if (strcmp(argv[1], "software_path") == 0) {
         execution_path = qpl_path_software;
          printf("The example will be run on the software path.\n");
+    } else if (strcmp(argv[1], "auto_path") == 0) {
+        execution_path = qpl_path_auto;
+         printf("The example will be run on the auto path.\n");
     } else {
         printf("argv[1] = %s", argv[1]);
-        printf("Unrecognized value for execution path parameter. Use hardware_path or software_path.\n");
+        printf("Unrecognized value for execution path parameter. Use hardware_path, software_path or auto_path.\n");
         return 1;
     }
 
