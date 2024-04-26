@@ -544,11 +544,17 @@ Compiled examples then would be located in <code class="docutils literal notrans
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Intel QPL could be also used from C applications.
-This would still require C++ runtime library installed on the system, and adding <cite>-lstdc++</cite>.</p>
+This would still require C++ runtime library installed on the system.
+You would also need to add <cite>-lstdc++</cite> if you are using the static library <code class="docutils literal notranslate"><span class="pre">libqpl.a</span></code>.</p>
 </div>
 <p>On Linux, if you installed Intel QPL system wide, you can use the dynamic
 library to compile the examples with:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-I/&lt;install_dir&gt;/include<span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp<span class="w"> </span>-lqpl<span class="w"> </span>-ldl
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-I/&lt;install_dir&gt;/include<span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp<span class="w"> </span>-lqpl
+</pre></div>
+</div>
+<p>In order to build an example using pkg-config for the dynamic library, set the
+<code class="docutils literal notranslate"><span class="pre">PKG_CONFIG_PATH</span></code> and compile the example using <code class="docutils literal notranslate"><span class="pre">qpl.pc</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span><span class="sb">`</span>pkg-config<span class="w"> </span>--cflags<span class="w"> </span>--libs<span class="w"> </span>qpl<span class="sb">`</span><span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp
 </pre></div>
 </div>
 <p>To run the example on the Hardware Path, use:</p>

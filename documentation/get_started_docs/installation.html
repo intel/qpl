@@ -678,11 +678,19 @@ are available in <code class="docutils literal notranslate"><span class="pre">sh
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>└── lib or lib64
     ├── libqpl.so
     ├── libqpl.so.X
-    └── libqpl.so.X.Y.Z
+    ├── libqpl.so.X.Y.Z
+    └── pkgconfig
+        └── qpl.pc
 </pre></div>
 </div>
 <p>On Linux OS a dynamic library is installed at <code class="docutils literal notranslate"><span class="pre">&lt;install_path&gt;/lib/</span></code>, where <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong>
 is the Intel QPL version when the <code class="docutils literal notranslate"><span class="pre">-QPL_LIBRARY_TYPE</span></code> is set to <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.</p>
+<p>Metadata file <code class="docutils literal notranslate"><span class="pre">qpl.pc</span></code> for pkg-config support is installed to <cite>&lt;install_path&gt;/lib/pkgconfig</cite>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The pkg-config file is only generated/supported for the shared library (<code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE=SHARED</span></code>)
+build with dynamic loading of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> (<code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON</span></code>).</p>
+</div>
 <p>Examples are located in <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/examples/</span></code>.</p>
 <p>Intel QPL could be easily integrated to other CMake projects once installed.
 Use <code class="docutils literal notranslate"><span class="pre">-DCMAKE_PREFIX_PATH</span></code> to point to the existing installation
