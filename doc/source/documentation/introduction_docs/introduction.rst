@@ -177,14 +177,15 @@ Execution Paths
 Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:
 
-- ``Hardware Path`` - all hardware-supported functions are executed by Intel IAA.
-- ``Software Path`` - all supported functionalities are executed by the software library in the CPU.
-- ``Auto Path`` - Intel QPL automatically dispatches execution of the
-  requested operations either to Intel IAA or to the software
-  library depending on internal heuristics (``Load Balancing`` feature).
+* ``Hardware Path`` - requested functionality will be executed by Intel IAA.
+  If an operation is not supported by the accelerator, corresponding error code will be returned.
+* ``Software Path`` - requested functionality will be executed on the CPU host.
+* ``Auto Path`` - library will always attempt to execute on the accelerator first.
+  If a functionality is not supported by the accelerator or execution on Intel IAA fails
+  (for example, due to the accelerator initialization error), fallback to the CPU host will be used.
 
 .. warning::
-   The implementation of ``Auto Path`` is in progress.
+   Currently, ``Auto Path`` with asynchronous execution is not supported.
 
 .. _library_numa_support_reference_link:
 
