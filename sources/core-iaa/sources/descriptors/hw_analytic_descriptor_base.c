@@ -46,7 +46,7 @@ HW_PATH_IAA_API(void, descriptor_analytic_set_filter_output, (hw_descriptor *con
 
     uint32_t output_format_field   = OWN_FILTER_FLAGS_SET_OUT_BIT_WIDTH(output_format);
 
-    uint32_t output_modifiers = (output_format & (hw_iaa_output_modifier_big_endian | hw_iaa_output_modifier_inverse));
+    uint32_t output_modifiers = (output_format & (hw_iaa_output_modifier_big_endian | hw_iaa_output_modifier_inverse | hw_iaa_output_modifier_force_array));
 
     this_ptr->destination_ptr      = output_ptr;
     this_ptr->max_destination_size = output_size;

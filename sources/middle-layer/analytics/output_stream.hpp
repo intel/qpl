@@ -67,6 +67,10 @@ public:
         return is_inverted_;
     }
 
+    [[nodiscard]] auto is_force_array() const noexcept -> uint32_t {
+        return is_force_array_;
+    }
+
     auto invert_data() noexcept -> void {
         is_inverted_ = !is_inverted_;
     }
@@ -83,6 +87,7 @@ private:
     uint8_t                               *destination_current_ptr_ = nullptr;
     bool                                  is_inverted_              = false;
     bool                                  is_nominal_               = false;
+    bool                                  is_force_array_           = false;
     stream_format_t                       stream_format_            = stream_format_t::le_format;
     output_bit_width_format_t             bit_width_format_         = output_bit_width_format_t::same_as_input;
     uint32_t                              start_bit_                = 0u;
@@ -148,6 +153,12 @@ public:
 
     inline auto inverted(bool value) noexcept -> builder & {
         stream_.is_inverted_ = value;
+
+        return *this;
+    }
+
+    inline auto force_array(bool value) noexcept -> builder & {
+        stream_.is_force_array_ = value;
 
         return *this;
     }

@@ -41,12 +41,13 @@ typedef enum {
 } hw_iaa_input_format;
 
 typedef enum {
-    hw_iaa_output_format_nominal      = 0U,
-    hw_iaa_output_format_8U           = 1U,
-    hw_iaa_output_format_16U          = 2U,
-    hw_iaa_output_format_32U          = 3U,
-    hw_iaa_output_modifier_big_endian = (1U << 15U),
-    hw_iaa_output_modifier_inverse    = (1U << 16U),
+    hw_iaa_output_format_nominal       = 0U,
+    hw_iaa_output_format_8U            = 1U,
+    hw_iaa_output_format_16U           = 2U,
+    hw_iaa_output_format_32U           = 3U,
+    hw_iaa_output_modifier_big_endian  = (1U << 15U),
+    hw_iaa_output_modifier_inverse     = (1U << 16U),
+    hw_iaa_output_modifier_force_array = (1U << 27U),
 } hw_iaa_output_format;
 
 typedef enum {

@@ -60,6 +60,7 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
             auto output_stream = analytics::output_stream_t<analytics::array_stream>::builder(dst_begin, dst_end)
                     .stream_format(output_stream_format)
                     .bit_format(out_bit_width_format, input_stream.bit_width())
+                    .force_array(job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT)
                     .nominal(input_stream.bit_width() == bit_bits_size)
                     .initial_output_index(job_ptr->initial_output_index)
                     .build<execution_path_t::hardware>();
@@ -97,6 +98,7 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
             auto output_stream = analytics::output_stream_t<analytics::array_stream>::builder(dst_begin, dst_end)
                     .stream_format(output_stream_format)
                     .bit_format(out_bit_width_format, input_stream.bit_width())
+                    .force_array(job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT)
                     .nominal(input_stream.bit_width() == bit_bits_size)
                     .initial_output_index(job_ptr->initial_output_index)
                     .build<execution_path_t::auto_detect>();
@@ -134,6 +136,7 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
             auto output_stream = analytics::output_stream_t<analytics::array_stream>::builder(dst_begin, dst_end)
                     .stream_format(output_stream_format)
                     .bit_format(out_bit_width_format, input_stream.bit_width())
+                    .force_array(job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT)
                     .nominal(input_stream.bit_width() == bit_bits_size)
                     .initial_output_index(job_ptr->initial_output_index)
                     .build<execution_path_t::software>();

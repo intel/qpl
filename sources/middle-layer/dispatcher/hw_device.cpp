@@ -59,10 +59,11 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
     hw_context_ptr->device_properties.block_on_fault_enabled        = hw_device::get_block_on_fault_available();
 
     // IAACAP-related
-    hw_context_ptr->device_properties.gen_2_min_capabilities_available = hw_device::get_gen_2_min_capabilities();
-    hw_context_ptr->device_properties.header_gen_supported             = hw_device::get_header_gen_support();
-    hw_context_ptr->device_properties.dict_compression_supported       = hw_device::get_dict_compress_support();
-    hw_context_ptr->device_properties.load_partial_aecs_supported      = hw_device::get_load_partial_aecs_support();
+    hw_context_ptr->device_properties.gen_2_min_capabilities_available          = hw_device::get_gen_2_min_capabilities();
+    hw_context_ptr->device_properties.header_gen_supported                      = hw_device::get_header_gen_support();
+    hw_context_ptr->device_properties.dict_compression_supported                = hw_device::get_dict_compress_support();
+    hw_context_ptr->device_properties.load_partial_aecs_supported               = hw_device::get_load_partial_aecs_support();
+    hw_context_ptr->device_properties.force_array_output_mod_available          = hw_device::get_force_array_output_support();
 }
 
 auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status {
@@ -141,6 +142,10 @@ auto hw_device::get_header_gen_support() const noexcept -> bool {
 
 auto hw_device::get_dict_compress_support() const noexcept -> bool {
     return IC_DICT_COMP(iaa_cap_register_);
+}
+
+auto hw_device::get_force_array_output_support() const noexcept -> bool {
+    return IC_FORCE_ARRAY(iaa_cap_register_);
 }
 
 auto hw_device::get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool {

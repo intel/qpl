@@ -77,6 +77,7 @@ extern "C" {
  * @{
  */
 #define IC_GEN_2_MIN_CAP(IAACAP)            (((IAACAP))    &0x01)       /**< IAACAP bit 0      - generation 2 Minimum Capabilities support */
+#define IC_FORCE_ARRAY(IAACAP)              (((IAACAP)>>3) &0x01)       /**< IAACAP bit 3      - force array output modification support   */
 #define IC_LOAD_PARTIAL_AECS(IAACAP)        (((IAACAP)>>4) &0x01)       /**< IAACAP bit 4      - load partial AECS support                 */
 #define IC_DICT_COMP(IAACAP)                (((IAACAP)>>7) &0x01)       /**< IAACAP bit 7      - dictionary compression support            */
 #define IC_HEADER_GEN(IAACAP)               (((IAACAP)>>8) &0x01)       /**< IAACAP bit 8      - header Generation support                 */
@@ -98,19 +99,20 @@ extern "C" {
  * @todo
  */
 typedef struct {
-    uint32_t max_set_size;                      /**< @todo */
-    uint32_t max_decompressed_set_size;         /**< @todo */
-    uint32_t max_transfer_size;                 /**< @todo */
-    bool     cache_flush_available;             /**< @todo */
-    bool     cache_write_available;             /**< @todo */
-    bool     overlapping_available;             /**< @todo */
-    bool     indexing_support_enabled;          /**< @todo */
-    bool     decompression_support_enabled;     /**< @todo */
-    bool     block_on_fault_enabled;            /**< @todo */
-    bool     gen_2_min_capabilities_available;  /**< @todo */
-    bool     header_gen_supported;              /**< @todo */
-    bool     dict_compression_supported;        /**< @todo */
-    bool     load_partial_aecs_supported;       /**< @todo */
+    uint32_t max_set_size;                                   /**< @todo */
+    uint32_t max_decompressed_set_size;                      /**< @todo */
+    uint32_t max_transfer_size;                              /**< @todo */
+    bool     cache_flush_available;                          /**< @todo */
+    bool     cache_write_available;                          /**< @todo */
+    bool     overlapping_available;                          /**< @todo */
+    bool     indexing_support_enabled;                       /**< @todo */
+    bool     decompression_support_enabled;                  /**< @todo */
+    bool     block_on_fault_enabled;                         /**< @todo */
+    bool     gen_2_min_capabilities_available;               /**< @todo */
+    bool     header_gen_supported;                           /**< @todo */
+    bool     dict_compression_supported;                     /**< @todo */
+    bool     load_partial_aecs_supported;                    /**< @todo */
+    bool     force_array_output_mod_available;               /**< @todo */
 } hw_device_properties;
 
 

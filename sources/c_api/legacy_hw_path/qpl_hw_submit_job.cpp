@@ -119,9 +119,16 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
                                                 (hw_iaa_input_format) job_ptr->parser,
                                                 job_ptr->src1_bit_width);
 
+    // Check if force array output mod is available when the force array output flag is set
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && qpl::job::is_force_array_output_supported(job_ptr) == false) {
+        // If the force array output mod flag is set, return an error
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
+
     auto out_format = ((hw_iaa_output_format) job_ptr->out_bit_width) |
                       ((job_ptr->flags & QPL_FLAG_OUT_BE) ? hw_iaa_output_modifier_big_endian : 0) |
-                      ((job_ptr->flags & QPL_FLAG_INV_OUT) ? hw_iaa_output_modifier_inverse : 0);
+                      ((job_ptr->flags & QPL_FLAG_INV_OUT) ? hw_iaa_output_modifier_inverse : 0) |
+                      ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) ? hw_iaa_output_modifier_force_array : 0);
 
     if(job_ptr->op == qpl_op_scan_not_range
        || job_ptr->op == qpl_op_scan_ne) {

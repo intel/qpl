@@ -71,6 +71,8 @@ public:
 
     [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;
 
+    [[nodiscard]] auto get_force_array_output_support() const noexcept -> bool;
+
     [[nodiscard]] auto get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool;
 
     [[nodiscard]] auto get_load_partial_aecs_support() const noexcept -> bool;

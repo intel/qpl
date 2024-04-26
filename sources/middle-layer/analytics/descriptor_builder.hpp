@@ -84,6 +84,11 @@ public:
                                                      : out_format;
         }
 
+        // Force Array Output Mod
+        out_format = output_stream.is_force_array() ?
+                     static_cast<hw_iaa_output_format>(hw_iaa_output_modifier_force_array | out_format)
+                                                 : out_format;
+
         hw_iaa_descriptor_analytic_set_filter_output(&descriptor_,
                                                      output_stream.data(),
                                                      output_stream.bytes_available(),
