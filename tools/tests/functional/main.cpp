@@ -22,8 +22,8 @@ namespace qpl::test {
 
 static inline void show_help() {
     std::cout << "\nQPL test system arguments:" << std::endl;
-    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw)" << std::endl;
-    std::cout << "     " << "Set execution path for functional tests. The default is software path." << std::endl;
+    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw|auto)" << std::endl;
+    std::cout << "     " << "Set execution path for functional tests. The default is qpl_path_software." << std::endl;
     std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)" << std::endl;
     std::cout << "     " << "Execute tests using asynchronous mode. The default is off (synchronous mode)." << std::endl;
     std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]" << std::endl;
@@ -39,12 +39,12 @@ static inline auto parse_execution_path_argument(std::string &value) -> qpl_path
 
     if (value == "sw") {
         execution_path = qpl_path_software;
-    } else {
-        if (value == "hw") {
-            execution_path = qpl_path_hardware;
-        } else {
-            throw std::runtime_error("Invalid usage of --path argument\n");
-        }
+    } else if (value == "hw") {
+        execution_path = qpl_path_hardware;
+    } else if (value == "auto") {
+        execution_path = qpl_path_auto;
+     } else {
+        throw std::runtime_error("Invalid usage of --path argument\n");
     }
 
     return execution_path;
