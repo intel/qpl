@@ -31,6 +31,9 @@ namespace qpl::test {
 /**< IAACAP bit 0 - generation 2 Minimum Capabilities support */
 #define QPL_TEST_IC_GEN_2_MIN_CAP(IAACAP) (((IAACAP))&0x01)
 
+/**< IAACAP bit 3 - Force Array Output Modification Support */
+#define QPL_TEST_IC_FORCE_ARRAY_OUTPUT_MOD(IAACAP) (((IAACAP)>>3) &0x01)
+
 /**< IAACAP bit 7 - dictionary compression support */
 #define QPL_TEST_IC_DICT_COMP(IAACAP) (((IAACAP)>>7) &0x01)
 
@@ -66,6 +69,9 @@ public:
     [[nodiscard]] auto get_gen_2_min_capabilities() const noexcept -> bool;
 
     [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;
+
+    // Force Array Output Modification Support
+    [[nodiscard]] auto get_force_array_output_mod_support() const noexcept -> bool;
 
     [[nodiscard]] auto get_opcfg_enabled() const noexcept -> bool;
 

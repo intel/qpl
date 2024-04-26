@@ -54,6 +54,11 @@ auto hw_device::get_dict_compress_support() const noexcept -> bool {
     return QPL_TEST_IC_DICT_COMP(iaa_cap_register_);
 }
 
+// Force Array Output Modification Support
+auto hw_device::get_force_array_output_mod_support() const noexcept -> bool {
+    return QPL_TEST_IC_FORCE_ARRAY_OUTPUT_MOD(iaa_cap_register_);
+}
+
 auto hw_device::numa_id() const noexcept -> uint64_t {
     return numa_node_id_;
 }

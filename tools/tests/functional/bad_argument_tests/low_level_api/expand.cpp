@@ -8,6 +8,9 @@
 
 #include "tb_ll_common.hpp"
 
+// utils_common
+#include "iaa_features_checks.hpp"
+
 // test_common
 #include "operation_test.hpp"
 
@@ -87,6 +90,52 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, buffer_overlap) {
     check_buffer_overlap<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand, OPERATION_FLAGS);
 
     check_buffer_overlap<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand, OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
+}
+
+/////////////////////////////////////
+// Force Array Output Modification //
+/////////////////////////////////////
+
+// If flag is set, output bit width is nominal, QPL_STS_OUT_FORMAT_ERR is expected
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_nominal) {
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == false, "Force array output modification is not supported. Skip the test.");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
+
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
+    std::array<uint8_t, MASK_ARRAY_SIZE>        mask{};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+
+    job_ptr->flags |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
+
+    // Preset correct parameters
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+    set_mask_stream(job_ptr, mask.data(), MASK_ARRAY_SIZE, MASK_BIT_WIDTH);
+    set_operation_properties(job_ptr, DROP_INITIAL_BYTES, OPERATION_FLAGS | QPL_FLAG_FORCE_ARRAY_OUTPUT, qpl_op_expand);
+
+    // Force Array Output Bit Width check
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_nom);
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_OUT_FORMAT_ERR) << "Fail on: force array output bit width error";
+}
+
+// If flag is set, force array output modification is not supported, QPL_STS_NOT_SUPPORTED_MODE_ERR is expected
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_not_supported) {
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == true, "Force array output modification is supported. Skip the test.");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
+
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
+    std::array<uint8_t, MASK_ARRAY_SIZE>        mask{};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+
+    job_ptr->flags |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
+
+    // Preset correct parameters
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+    set_mask_stream(job_ptr, mask.data(), MASK_ARRAY_SIZE, MASK_BIT_WIDTH);
+    set_operation_properties(job_ptr, DROP_INITIAL_BYTES, OPERATION_FLAGS | QPL_FLAG_FORCE_ARRAY_OUTPUT, qpl_op_expand);
+
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_32);
+
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR) << "Fail on: force array output modification is not supported";
 }
 
 }
