@@ -24,11 +24,11 @@ qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_ptr,
                                                     hw_completion_record *const completion_record_ptr,
                                                     qpl_hw_state *const state_ptr);
 
-void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor *desc_ptr,
-                                                 qpl_hw_state *state_ptr,
-                                                 qpl_job *qpl_job_ptr,
-                                                 hw_iaa_aecs_compress *cfg_in_ptr,
-                                                 hw_iaa_completion_record *comp_ptr);
+qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor *desc_ptr,
+                                                       qpl_hw_state *state_ptr,
+                                                       qpl_job *qpl_job_ptr,
+                                                       hw_iaa_aecs_compress *cfg_in_ptr,
+                                                       hw_iaa_completion_record *comp_ptr);
 
 qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr);
 

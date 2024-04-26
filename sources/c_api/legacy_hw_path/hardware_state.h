@@ -80,6 +80,7 @@ typedef struct {
     bool                     job_is_submitted;
     uint32_t                 verify_aecs_hw_read_offset;                   /**< AECS read offset for verify AECS */
     bool                     is_page_fault_processed;                      /**< Flag to limit resubmissions due to Page Fault to 1 */
+    bool                     is_sw_fallback;                               /**< Fallback to the SW path when Auto path is used */
 } qpl_hw_state;
 
 #ifdef __cplusplus

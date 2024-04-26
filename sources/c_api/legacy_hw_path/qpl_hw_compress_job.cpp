@@ -24,6 +24,7 @@
 #include "compression_operations/huffman_table.hpp"
 #include "compression/dictionary/dictionary_utils.hpp"
 #include "util/iaa_features_checks.hpp"
+#include "util/hw_status_converting.hpp"
 
 #include "dispatcher/hw_dispatcher.hpp"
 
@@ -56,7 +57,12 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     bool is_hw_dict_compress_supported = false;
 
 #if defined( __linux__ )
-    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!dispatcher.is_hw_support()) {
+        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+    }
+
     const auto &device            = dispatcher.device(0);
     is_hw_header_gen_supported    = device.get_header_gen_support();
     is_hw_dict_compress_supported = device.get_dict_compress_support();
@@ -374,7 +380,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     }
 }
 
-extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor *desc_ptr,
+extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor *desc_ptr,
                                                             qpl_hw_state *state_ptr,
                                                             qpl_job *qpl_job_ptr,
                                                             hw_iaa_aecs_compress *cfg_in_ptr,
@@ -389,6 +395,11 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
 
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!dispatcher.is_hw_support()) {
+        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+    }
+
     const auto &device = dispatcher.device(0);
     is_hw_header_gen_supported = device.get_header_gen_support();
 #endif //__linux__
@@ -461,6 +472,8 @@ extern "C" void hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_des
     if(!is_huffman_only) {
         desc_ptr->decomp_flags |= ADCF_END_PROC(AD_APPEND_EOB);
     }
+
+    return QPL_STS_OK;
 }
 
 extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const job_ptr) {
@@ -477,7 +490,12 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
     bool is_hw_dict_compress_supported = false;
 
 #if defined( __linux__ )
-    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!dispatcher.is_hw_support()) {
+        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+    }
+
     const auto &device            = dispatcher.device(0);
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__

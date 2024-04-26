@@ -255,7 +255,8 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         qpl_job_ptr->crc          = comp_ptr->crc;
         qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
 
-        hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
+        qpl_status status = hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
+        OWN_QPL_CHECK_STATUS(status)
 
         // Setup dictionary in compression descriptor
         if (qpl_job_ptr->dictionary != nullptr) {
@@ -274,10 +275,10 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
                                                         load_dictionary_val);
         }
 
-        auto status = ml::util::process_descriptor<qpl_status,
-                                                   ml::util::execution_mode_t::async>((hw_descriptor *) desc_ptr,
-                                                                                      (hw_completion_record *) &state_ptr->comp_ptr,
-                                                                                       qpl_job_ptr->numa_id);
+        status = ml::util::process_descriptor<qpl_status,
+                                              ml::util::execution_mode_t::async>((hw_descriptor *) desc_ptr,
+                                                                                 (hw_completion_record *) &state_ptr->comp_ptr,
+                                                                                 qpl_job_ptr->numa_id);
 
         HW_IMMEDIATELY_RET(0U != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 

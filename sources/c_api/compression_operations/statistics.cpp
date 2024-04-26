@@ -30,8 +30,17 @@ QPL_FUN(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
 
     switch (path) {
         case qpl_path_auto:
-            return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-
+            status = compression::update_histogram<execution_path_t::hardware>(begin,
+                                                                               end,
+                                                                               *histogram_ptr);
+            // If HW execution returns error, run on SW path
+            if (status_list::ok != status) {
+                status = compression::update_histogram<execution_path_t::software>(begin,
+                                                                                   end,
+                                                                                   *histogram_ptr,
+                                                                                   level);
+            }
+            return static_cast<qpl_status>(status);
         case qpl_path_hardware:
             status = compression::update_histogram<execution_path_t::hardware>(begin,
                                                                                end,
