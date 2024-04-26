@@ -91,3 +91,15 @@ In this case, it is better to advance the input buffer pointer to the
 start of the columnar data, and adjust the size accordingly.
 
 
+
+Force Array Output Modification
+===============================
+
+By default, when the output bit width of a filter operation is 1, the output
+is returned as a bit vector. However, if the flag
+:c:macro:`QPL_FLAG_FORCE_ARRAY_OUTPUT` is specified, the output is returned
+as an array of a bit width defined by the :c:member:`qpl_job.output_bit_width`
+field. Use this feature to receive the output as an array of a larger bit width
+when the output is expected to have a bit width of 1 bit. This feature is only
+supported on the hardware path for Intel® In-Memory Analytics Accelerator
+(Intel® IAA) 2.0 and later.

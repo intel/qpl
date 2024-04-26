@@ -34,6 +34,14 @@ Expand
     :language: cpp
 
 
+Expand with Force Array Output Modification
+===========================================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/expand_with_force_array_output_mod_example.cpp
+    :language: cpp
+
+
 Extract
 =======
 
