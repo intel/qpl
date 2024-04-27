@@ -592,15 +592,16 @@ compressed stream for efficient random access.</p>
 <p>Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> - all hardware-supported functions are executed by Intel IAA.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code> - all supported functionalities are executed by the software library in the CPU.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> - Intel QPL automatically dispatches execution of the
-requested operations either to Intel IAA or to the software
-library depending on internal heuristics (<code class="docutils literal notranslate"><span class="pre">Load</span> <span class="pre">Balancing</span></code> feature).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> - requested functionality will be executed by Intel IAA.
+If an operation is not supported by the accelerator, corresponding error code will be returned.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code> - requested functionality will be executed on the CPU host.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> - library will always attempt to execute on the accelerator first.
+If a functionality is not supported by the accelerator or execution on Intel IAA fails
+(for example, due to the accelerator initialization error), fallback to the CPU host will be used.</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The implementation of <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> is in progress.</p>
+<p>Currently, <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> with asynchronous execution is not supported.</p>
 </div>
 </section>
 <section id="numa-support">

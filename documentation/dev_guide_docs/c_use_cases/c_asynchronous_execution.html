@@ -424,11 +424,15 @@ document.write(`
 <h1>Asynchronous Execution<a class="headerlink" href="#asynchronous-execution" title="Link to this heading">#</a></h1>
 <p>The function <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> in <a class="reference internal" href="../../get_started_docs/quick_start.html#quick-start-reference-link"><span class="std std-ref">Quick Start</span></a> is the
 <em>synchronous</em> interface. It does not return until the job has completed. If the application
-wants to do other work while the job is being processed on the hardware, it can use the
-<em>asynchronous</em> interface. In this case, the application specifies the hardware execution
-path and submits the job using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>. The status of the job can then be
+wants to do other work while the job is being processed on the accelerator, it can use the
+<em>asynchronous</em> interface. In this case, the application specifies the <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> or <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>
+for the execution and submits the job using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>. The status of the job can then be
 periodically queried by <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>. The application may call <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>
 to wait until the job completes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently, <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> with asynchronous execution is not supported.</p>
+</div>
 <p>Note that the synchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> is essentially a
 combination of the asynchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a> followed by
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>.</p>
