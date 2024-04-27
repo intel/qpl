@@ -171,6 +171,8 @@ Intel QPL supports:
 .. warning::
    The implementation of Huffman-only compression/decompression is in progress.
 
+.. _library_execution_paths_reference_link:
+
 Execution Paths
 ===============
 

@@ -557,13 +557,13 @@ library to compile the examples with:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span><span class="sb">`</span>pkg-config<span class="w"> </span>--cflags<span class="w"> </span>--libs<span class="w"> </span>qpl<span class="sb">`</span><span class="w"> </span>-o<span class="w"> </span>compression_example<span class="w"> </span>compression_example.cpp
 </pre></div>
 </div>
-<p>To run the example on the Hardware Path, use:</p>
+<p>To run the example on the <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> (see <a class="reference internal" href="../introduction_docs/introduction.html#library-execution-paths-reference-link"><span class="std std-ref">Execution Paths</span></a>), use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>hardware_path
 </pre></div>
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Either sudo privileges or elevated permissions are required to initialize Intel QPL job with <cite>hardware_path</cite>.</p>
+<p>Either sudo privileges or elevated permissions are required to initialize Intel QPL job with <cite>qpl_path_hardware</cite>.</p>
 <p>Refer to the <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> section for more details about getting permissions.</p>
 </div>
 <div class="admonition attention">
@@ -580,8 +580,12 @@ that the calling process will be located on the same NUMA node as specified with
 <p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.</p>
 <p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
 </div>
-<p>To run the example on the Software Path, use:</p>
+<p>To run the example on the <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code> (see <a class="reference internal" href="../introduction_docs/introduction.html#library-execution-paths-reference-link"><span class="std std-ref">Execution Paths</span></a>), use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>software_path
+</pre></div>
+</div>
+<p>To run the example on the <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> (see <a class="reference internal" href="../introduction_docs/introduction.html#library-execution-paths-reference-link"><span class="std std-ref">Execution Paths</span></a>), use:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>auto_path
 </pre></div>
 </div>
 <div class="admonition attention">
