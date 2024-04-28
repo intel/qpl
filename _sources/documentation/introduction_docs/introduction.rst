@@ -256,8 +256,8 @@ library directly. See the example of checking ``max_transfer_size`` in :ref:`mul
 Work Queue Support
 ==================
 
-Intel IAA 2.0 supports the ability to configure which operations are supported using
-the OPCFG register.
+Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 supports the ability
+to configure which operations are supported using the OPCFG register.
 
 As of Intel QPL 1.3.0 or higher with ``libaccel-config`` library version 4.0
 or higher, the device dispatcher respects each work queue's OPCFG register.

@@ -419,6 +419,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crc64">CRC64</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crc64-with-device-selection-from-another-socket-example">CRC64 with Device Selection From Another Socket Example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expand">Expand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expand-with-force-array-output-modification">Expand with Force Array Output Modification</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extract">Extract</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scan-for-elements-equal-to-specific-value">Scan for Elements Equal to Specific Value</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scan-for-elements-in-specific-range">Scan for Elements in Specific Range</a></li>
@@ -446,10 +447,11 @@ document.write(`
 <li><p><a class="reference internal" href="#crc64" id="id2">CRC64</a></p></li>
 <li><p><a class="reference internal" href="#crc64-with-device-selection-from-another-socket-example" id="id3">CRC64 with Device Selection From Another Socket Example</a></p></li>
 <li><p><a class="reference internal" href="#expand" id="id4">Expand</a></p></li>
-<li><p><a class="reference internal" href="#extract" id="id5">Extract</a></p></li>
-<li><p><a class="reference internal" href="#scan-for-elements-equal-to-specific-value" id="id6">Scan for Elements Equal to Specific Value</a></p></li>
-<li><p><a class="reference internal" href="#scan-for-elements-in-specific-range" id="id7">Scan for Elements in Specific Range</a></p></li>
-<li><p><a class="reference internal" href="#select" id="id8">Select</a></p></li>
+<li><p><a class="reference internal" href="#expand-with-force-array-output-modification" id="id5">Expand with Force Array Output Modification</a></p></li>
+<li><p><a class="reference internal" href="#extract" id="id6">Extract</a></p></li>
+<li><p><a class="reference internal" href="#scan-for-elements-equal-to-specific-value" id="id7">Scan for Elements Equal to Specific Value</a></p></li>
+<li><p><a class="reference internal" href="#scan-for-elements-in-specific-range" id="id8">Scan for Elements in Specific Range</a></p></li>
+<li><p><a class="reference internal" href="#select" id="id9">Select</a></p></li>
 </ul>
 </li>
 </ul>
@@ -969,8 +971,160 @@ document.write(`
 </pre></div>
 </div>
 </section>
+<section id="expand-with-force-array-output-modification">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Expand with Force Array Output Modification</a><a class="headerlink" href="#expand-with-force-array-output-modification" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
+<span class="cm"> * Copyright (C) 2024 Intel Corporation</span>
+<span class="cm"> *</span>
+<span class="cm"> * SPDX-License-Identifier: MIT</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="c1">//* [QPL_LOW_LEVEL_EXPAND_EXAMPLE] */</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;examples_utils.hpp&quot;</span><span class="c1"> // for argument parsing function</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`</span>
+<span class="cm"> * and `hardware_path`.</span>
+<span class="cm"> * In QPL, @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.</span>
+<span class="cm"> * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.</span>
+<span class="cm"> * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow</span>
+<span class="cm"> * the library to chose the path to execute. The Auto Path usage is not demonstrated by this example.</span>
+<span class="cm"> * </span>
+<span class="cm"> * This example demonstrates the usage of the `Force Array Output Modification` feature. The feature allows the user to</span>
+<span class="cm"> * force the output of filter operations to be an array of a size specified by the user. Without this feature, the output</span>
+<span class="cm"> * of filter operations where the output size is 1 bit will be returned as a bit vector. The feature is enabled by setting</span>
+<span class="cm"> * the `QPL_FLAG_FORCE_ARRAY_OUTPUT` flag in the job structure. The feature is supported only in `Hardware Path` on the</span>
+<span class="cm"> * Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 devices.</span>
+<span class="cm"> * </span>
+<span class="cm"> * @warning The use of `Force Array Output Modification` requires the use of the `Output Bit Width Modification` feature.</span>
+<span class="cm"> * The `Output Bit Width Modification` feature allows the user to specify the bit width of the output of the filter operation.</span>
+<span class="cm"> * The feature is enabled by setting the `out_bit_width` field in the job structure.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @warning ---! Important !---</span>
+<span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">5U</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mask_byte_length</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">1U</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">input_vector_width</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">1U</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">output_vector_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1U</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w">  </span><span class="n">mask</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="mb">0b0000000&#39;0U</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mask_size</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="mi">1U</span><span class="p">;</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Intel(R) Query Processing Library version is &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">qpl_get_library_version</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Default to Hardware Path</span>
+<span class="w">    </span><span class="n">qpl_path_t</span><span class="w"> </span><span class="n">execution_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_path_hardware</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Get path from input argument</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">parse_ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_execution_path</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">execution_path</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parse_ret</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Source and output containers</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mb">0b0000&#39;0001U</span><span class="p">};</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0U</span><span class="p">};</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0U</span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="w"> </span><span class="n">job_buffer</span><span class="p">;</span>
+<span class="w">    </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">   </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0U</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Check if on software path</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">execution_path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">qpl_path_software</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Force Array Output Modification is not supported on qpl_path_software.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Job initialization</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_job_size</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during job size getting.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">job_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="n">job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">job_buffer</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during job initializing.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Performing an operation</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">destination</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_expand</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">src1_bit_width</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">input_vector_width</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">src2_bit_width</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">output_vector_width</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_src2</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">mask_byte_length</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">num_input_elements</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mask_size</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">out_bit_width</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_ow_8</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_src2_ptr</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mask</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Enable Force Array Output Modification</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">              </span><span class="o">|=</span><span class="w"> </span><span class="n">QPL_FLAG_FORCE_ARRAY_OUTPUT</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">QPL_STS_NOT_SUPPORTED_MODE_ERR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Force Array Output Modification is not supported. This feature is only available on Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 with Hardware Path.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Note that Force Array Output Modification is supported only in Hardware Path.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">QPL_STS_OUT_FORMAT_ERR</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Using Force Array Output Modification flag requires setting output bit width with `job-&gt;out_bit_width`</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during performing expand.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">expand_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Freeing resources</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_fini_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during job finalization.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">expand_size</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error occurred, expected expand size 1, but got &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">expand_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Compare with reference</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">destination</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">reference</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Expand with Force Array Output Modification was performed successfully.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error occurred in Expand with Force Array Output Modification, expand result is not equal to reference.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//* [QPL_LOW_LEVEL_EXPAND_EXAMPLE] */</span>
+</pre></div>
+</div>
+</section>
 <section id="extract">
-<h2><a class="toc-backref" href="#id5" role="doc-backlink">Extract</a><a class="headerlink" href="#extract" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Extract</a><a class="headerlink" href="#extract" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1086,7 +1240,7 @@ document.write(`
 </div>
 </section>
 <section id="scan-for-elements-equal-to-specific-value">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Scan for Elements Equal to Specific Value</a><a class="headerlink" href="#scan-for-elements-equal-to-specific-value" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Scan for Elements Equal to Specific Value</a><a class="headerlink" href="#scan-for-elements-equal-to-specific-value" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1205,7 +1359,7 @@ document.write(`
 </div>
 </section>
 <section id="scan-for-elements-in-specific-range">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Scan for Elements in Specific Range</a><a class="headerlink" href="#scan-for-elements-in-specific-range" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Scan for Elements in Specific Range</a><a class="headerlink" href="#scan-for-elements-in-specific-range" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1328,7 +1482,7 @@ document.write(`
 </div>
 </section>
 <section id="select">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Select</a><a class="headerlink" href="#select" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Select</a><a class="headerlink" href="#select" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1517,6 +1671,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crc64">CRC64</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crc64-with-device-selection-from-another-socket-example">CRC64 with Device Selection From Another Socket Example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expand">Expand</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expand-with-force-array-output-modification">Expand with Force Array Output Modification</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extract">Extract</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scan-for-elements-equal-to-specific-value">Scan for Elements Equal to Specific Value</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scan-for-elements-in-specific-range">Scan for Elements in Specific Range</a></li>

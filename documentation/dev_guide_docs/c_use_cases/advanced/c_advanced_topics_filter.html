@@ -420,6 +420,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#invert-output">Invert Output</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-output-index">Initial Output Index</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-initial-bytes">Drop Initial Bytes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-array-output-modification">Force Array Output Modification</a></li>
 </ul>
             </nav>
         </div>
@@ -499,6 +500,17 @@ feature value is 65,535 bytes.</p>
 In this case, it is better to advance the input buffer pointer to the
 start of the columnar data, and adjust the size accordingly.</p>
 </section>
+<section id="force-array-output-modification">
+<h2>Force Array Output Modification<a class="headerlink" href="#force-array-output-modification" title="Link to this heading">#</a></h2>
+<p>By default, when the output bit width of a filter operation is 1, the output
+is returned as a bit vector. However, if the flag
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FORCE_ARRAY_OUTPUT" title="QPL_FLAG_FORCE_ARRAY_OUTPUT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FORCE_ARRAY_OUTPUT</span></code></a> is specified, the output is returned
+as an array of a bit width defined by the <code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.output_bit_width</span></code>
+field. Use this feature to receive the output as an array of a larger bit width
+when the output is expected to have a bit width of 1 bit. This feature is only
+supported on the hardware path for Intel® In-Memory Analytics Accelerator
+(Intel® IAA) 2.0 and later.</p>
+</section>
 </section>
 
 
@@ -550,6 +562,7 @@ start of the columnar data, and adjust the size accordingly.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#invert-output">Invert Output</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-output-index">Initial Output Index</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-initial-bytes">Drop Initial Bytes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#force-array-output-modification">Force Array Output Modification</a></li>
 </ul>
   </nav></div>
 
