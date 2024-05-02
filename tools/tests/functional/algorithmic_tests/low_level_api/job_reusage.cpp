@@ -19,6 +19,10 @@
 
 namespace qpl::test {
 class JobReusageTest : public JobFixtureWithTestCases<std::string> {
+private:
+    std::vector<uint8_t> compressed_source;
+    std::vector<uint8_t> decompressed_source;
+
 protected:
     void InitializeTestCases() override {
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
@@ -125,8 +129,6 @@ protected:
         ASSERT_TRUE(CompareVectors(decompressed_source, source));
     }
 
-    std::vector<uint8_t> compressed_source;
-    std::vector<uint8_t> decompressed_source;
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_default_level, JobReusageTest) {

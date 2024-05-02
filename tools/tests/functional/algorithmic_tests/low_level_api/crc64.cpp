@@ -72,6 +72,9 @@ namespace qpl::test
 
     class CRC64Test : public ReferenceFixtureWithTestCases<CRC64TestCase>
     {
+    private:
+        uint64_t poly = 0;
+
     protected:
         void SetUpJobs(BitOrder     bit_order,
                        CRCDirection crc_direction,
@@ -208,7 +211,6 @@ namespace qpl::test
             }
         }
 
-        uint64_t poly = 0;
     };
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(crc64, execute_crc64, CRC64Test)

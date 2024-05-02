@@ -127,6 +127,11 @@ namespace qpl::test
 
     class SelectTestPageFault : public SelectTest
     {
+    private:
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
+
     public:
         void InitializeTestCases()
         {
@@ -282,10 +287,6 @@ namespace qpl::test
                 EXPECT_TRUE(CompareVectors(destination, reference_destination));
             }
         }
-
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
     };
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(select_with_page_fault_read, analytic_only, SelectTestPageFault)

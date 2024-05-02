@@ -13,6 +13,11 @@
 namespace qpl::test {
 class SimpleCompressDecompressFixture : public BaseCrossTestFixture,
                                         public TestCases<SimpleDeflateTestCase> {
+private:
+    std::vector<uint8_t>  reference_text;
+    qpl_huffman_table_t   huffman_table;
+    SimpleDeflateTestCase current_test_case{};
+
 protected:
     void SetUp() override {
         BaseCrossTestFixture::SetUp();
@@ -55,10 +60,6 @@ protected:
             AddNewTestCase(test_case);
         }
     }
-
-    std::vector<uint8_t>  reference_text;
-    qpl_huffman_table_t   huffman_table;
-    SimpleDeflateTestCase current_test_case{};
 
 public:
     testing::AssertionResult ValidateCompressHwDecompressSw() {

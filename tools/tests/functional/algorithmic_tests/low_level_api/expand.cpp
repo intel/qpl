@@ -194,6 +194,11 @@ namespace qpl::test
 
     class ExpandTestPageFault : public ExpandTest
     {
+    private:
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
+
     public:
         void InitializeTestCases()
         {
@@ -348,9 +353,6 @@ namespace qpl::test
             }
         }
 
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
     };
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(expand_with_page_fault_read_src1, analytic_only, ExpandTestPageFault)

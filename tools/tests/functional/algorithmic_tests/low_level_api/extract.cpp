@@ -350,6 +350,10 @@ namespace qpl::test
 
     class ExtractTestPageFault : public ExtractTest
     {
+    private:
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
+
     public:
         void InitializeTestCases()
         {
@@ -476,9 +480,6 @@ namespace qpl::test
                 EXPECT_TRUE(CompareVectors(destination, reference_destination));
             }
         }
-
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
     };
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract_with_page_fault_read, analytic_only, ExtractTestPageFault)

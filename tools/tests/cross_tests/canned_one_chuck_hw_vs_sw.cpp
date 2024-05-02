@@ -14,6 +14,12 @@ namespace qpl::test {
 
 class SimpleCannedOneChuckCompressDecompressFixture : public BaseCrossTestFixture,
                                                       public TestCases<SimpleCannedOneChuckTestCase> {
+private:
+        std::vector<uint8_t>  reference_text;
+        qpl_huffman_table_t   c_huffman_table;
+        qpl_huffman_table_t   d_huffman_table;
+        SimpleCannedOneChuckTestCase  current_test_case{};
+
 protected:
     template <class Iterator>
     auto init_compression_huffman_table(qpl_huffman_table_t huffman_table,
@@ -78,11 +84,6 @@ protected:
             AddNewTestCase(test_case);
         }
     }
-
-    std::vector<uint8_t>  reference_text;
-    qpl_huffman_table_t   c_huffman_table;
-    qpl_huffman_table_t   d_huffman_table;
-    SimpleCannedOneChuckTestCase  current_test_case{};
 
 public:
     testing::AssertionResult ValidateCompressSwDecompressHw(qpl_compression_levels level) {

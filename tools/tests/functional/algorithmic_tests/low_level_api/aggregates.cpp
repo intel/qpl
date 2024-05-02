@@ -15,9 +15,10 @@ namespace qpl::test
 {
     class MinMaxSumTest : public JobFixtureWithTestCases<AnalyticTestCase>
     {
-    public:
+    private:
         AnalyticTestCase current_test_case;
 
+    public:
         void SetUpBeforeIteration() override
         {
             current_test_case = GetTestCase();
