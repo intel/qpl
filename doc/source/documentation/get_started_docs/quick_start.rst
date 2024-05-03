@@ -66,16 +66,31 @@ Alternatively, in order to build ``compression_example.cpp`` individually using 
 .. attention::
 
    Intel QPL could be also used from C applications.
-   This would still require C++ runtime library installed on the system, and adding `-lstdc++`.
+   This would still require C++ runtime library installed on the system.
+   You would also need to add `-lstdc++` if you are using the static library ``libqpl.a``.
 
-To run the example on the Hardware Path, use:
+On Linux, if you installed Intel QPL system wide, you can use the dynamic
+library to compile the examples with:
+
+.. code-block:: shell
+
+    g++ -I/<install_dir>/include -o compression_example compression_example.cpp -lqpl
+
+In order to build an example using pkg-config for the dynamic library, set the
+``PKG_CONFIG_PATH`` and compile the example using ``qpl.pc``:
+
+.. code-block:: shell
+
+    g++ `pkg-config --cflags --libs qpl` -o compression_example compression_example.cpp
+
+To run the example on the ``Hardware Path`` (see :ref:`library_execution_paths_reference_link`), use:
 
 .. code-block:: shell
 
     ./compression_example hardware_path
 
 .. attention::
-    Either sudo privileges or elevated permissions are required to initialize Intel QPL job with `hardware_path`.
+    Either sudo privileges or elevated permissions are required to initialize Intel QPL job with `qpl_path_hardware`.
 
     Refer to the :ref:`accelerator_configuration_reference_link` section for more details about getting permissions.
 
@@ -96,11 +111,17 @@ To run the example on the Hardware Path, use:
 
     Refer to :ref:`library_numa_support_reference_link` section for more details.
 
-To run the example on the Software Path, use:
+To run the example on the ``Software Path`` (see :ref:`library_execution_paths_reference_link`), use:
 
 .. code-block:: shell
 
     ./compression_example software_path
+
+To run the example on the ``Auto Path`` (see :ref:`library_execution_paths_reference_link`), use:
+
+.. code-block:: shell
+
+    ./compression_example auto_path
 
 .. attention::
 

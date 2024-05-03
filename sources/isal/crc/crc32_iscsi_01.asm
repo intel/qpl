@@ -27,7 +27,11 @@ default rel
 ;;;         len = rdx
 ;;;    crc_init = r8
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global  qpl_crc32_iscsi_01, function, hidden
+%else
 mk_global  qpl_crc32_iscsi_01, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_crc32_iscsi_01:
 	endbranch
 

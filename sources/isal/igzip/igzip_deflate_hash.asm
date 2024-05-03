@@ -79,7 +79,11 @@
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_isal_deflate_hash_crc_01:function hidden
+%else
 global qpl_isal_deflate_hash_crc_01
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_isal_deflate_hash_crc_01:
 	endbranch
 	FUNC_SAVE

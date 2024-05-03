@@ -49,7 +49,11 @@ section .text
         %define VARIABLE_OFFSET 16*2+8
 %endif
 align 16
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global 	qpl_crc32_ieee_01, function, hidden
+%else
 mk_global 	qpl_crc32_ieee_01, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_crc32_ieee_01:
 	endbranch
 

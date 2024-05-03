@@ -40,7 +40,7 @@ typedef uint32_t (*qplc_xor_checksum_t_ptr)(const uint8_t *buf,
 *
 * @param[in]  buf       - pointer to the data buffer
 * @param[in]  len       - len of the buffer
-* @param[in]  init_xor  - intialization value for Xor checksum
+* @param[in]  init_xor  - initialization value for Xor checksum
 *
 * @return XOR checksum value
 */

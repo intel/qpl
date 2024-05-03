@@ -85,7 +85,11 @@ default rel
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global qpl_adler32_sse, function, hidden
+%else
 mk_global qpl_adler32_sse, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 func(qpl_adler32_sse)
 	FUNC_SAVE
 

@@ -70,7 +70,7 @@ extern "C" {
 #define OWN_SRC2_BUF_SIZE (OWN_MAX_ELEMENTS * sizeof(uint32_t))
 
 /**
- * @brief Interal structure for analytics buffers manipulations
+ * @brief Internal structure for analytics buffers manipulations
  */
 typedef struct {
     uint32_t inflate_buf_size;    /**< Size of buffer for inflate operation */

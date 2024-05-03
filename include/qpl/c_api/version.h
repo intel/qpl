@@ -12,6 +12,10 @@
 #ifndef QPL_VERSION_H_
 #define QPL_VERSION_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -23,6 +27,10 @@ const char *qpl_get_library_version();
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_VERSION_H_

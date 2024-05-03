@@ -77,7 +77,11 @@ section .text
 
 ; void isal_deflate_icf_finish ( isal_zstream *stream )
 ; arg 1: rcx: addr of stream
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_isal_deflate_icf_finish_ %+ METHOD %+ _01:function hidden
+%else
 global qpl_isal_deflate_icf_finish_ %+ METHOD %+ _01
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_isal_deflate_icf_finish_ %+ METHOD %+ _01:
 	endbranch
 	PUSH_ALL	rbx, rsi, rdi, rbp, r12, r13, r14, r15

@@ -43,11 +43,11 @@ public:
 
     auto get_total_bytes_read() noexcept -> uint32_t;
 
-    auto get_buffer_bit_count() noexcept -> uint32_t;
+    auto get_buffer_bit_count() const noexcept -> uint32_t;
 
     void set_last_bits_offset(uint8_t value) noexcept;
 
-    auto is_overflowed() noexcept -> bool;
+    auto is_overflowed() const noexcept -> bool;
 
     auto is_source_end() noexcept -> bool;
 

@@ -34,8 +34,11 @@ static inline int parse_execution_path(int argc, char **argv, qpl_path_t *path_p
     } else if (path == "software_path") {
         *path_ptr = qpl_path_software;
         std::cout << "The example will be run on the software path." << std::endl;
+    } else if (path == "auto_path") {
+        *path_ptr = qpl_path_auto;
+        std::cout << "The example will be run on the auto path." << std::endl;
     } else {
-        std::cout << "Unrecognized value for parameter. Use hardware_path or software_path." << std::endl;
+        std::cout << "Unrecognized value for parameter. Use hardware_path, software_path or auto_path." << std::endl;
         return 1;
     }
 

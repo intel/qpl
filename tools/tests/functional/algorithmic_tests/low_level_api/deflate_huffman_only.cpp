@@ -19,6 +19,9 @@ namespace qpl::test {
 constexpr uint64_t no_flag = 0;
 
 class DeflateTestHuffmanOnly : public JobFixture {
+private:
+        uint8_t *job_buffer            = nullptr;
+        qpl_job *decompression_job_ptr = nullptr;
 protected:
     void SetUp() override {
         JobFixture::SetUp();
@@ -39,9 +42,6 @@ protected:
         qpl_fini_job(decompression_job_ptr);
         delete[] job_buffer;
     }
-
-    uint8_t *job_buffer            = nullptr;
-    qpl_job *decompression_job_ptr = nullptr;
 
     void RunHuffmanOnlyDynamicTest(bool is_big_endian = false, bool omit_verification = true) {
         // Variables

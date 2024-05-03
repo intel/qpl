@@ -70,10 +70,10 @@ static void ref_qplc_aggregates_32u(const uint8_t* src_ptr, uint32_t length,
 }
 
 
-constexpr uint32_t fun_indx_bit_aggregates_8u = 0;
-constexpr uint32_t fun_indx_aggregates_8u = 1;
-constexpr uint32_t fun_indx_aggregates_16u = 2;
-constexpr uint32_t fun_indx_aggregates_32u = 3;
+constexpr uint32_t fun_indx_bit_aggregates_8u = 0U;
+constexpr uint32_t fun_indx_aggregates_8u = 1U;
+constexpr uint32_t fun_indx_aggregates_16u = 2U;
+constexpr uint32_t fun_indx_aggregates_32u = 3U;
 
 constexpr uint32_t TEST_BUFFER_SIZE = 128U;
 
@@ -83,31 +83,31 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    min_value_ptr;
-    uint32_t    max_value_ptr;
-    uint32_t    sum_ptr;
-    uint32_t    index_ptr;
-    uint32_t    ref_min_value_ptr;
-    uint32_t    ref_max_value_ptr;
-    uint32_t    ref_sum_ptr;
-    uint32_t    ref_index_ptr;
+    uint32_t    min_value_ptr = 0U;
+    uint32_t    max_value_ptr = 0U;
+    uint32_t    sum_ptr = 0U;
+    uint32_t    index_ptr = 0U;
+    uint32_t    ref_min_value_ptr = 0U;
+    uint32_t    ref_max_value_ptr = 0U;
+    uint32_t    ref_sum_ptr = 0U;
+    uint32_t    ref_index_ptr = 0U;
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_8u[indx] = 1U & static_cast<uint8_t>(random_value);
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_bit_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_bit_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -117,15 +117,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_bit_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_bit_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -137,20 +137,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_8u[indx] = 0;
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
+            p_source_8u[indx] = 0U;
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_bit_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_bit_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -160,15 +160,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_bit_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_bit_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -183,31 +183,31 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    min_value_ptr;
-    uint32_t    max_value_ptr;
-    uint32_t    sum_ptr;
-    uint32_t    index_ptr;
-    uint32_t    ref_min_value_ptr;
-    uint32_t    ref_max_value_ptr;
-    uint32_t    ref_sum_ptr;
-    uint32_t    ref_index_ptr;
+    uint32_t    min_value_ptr = 0U;
+    uint32_t    max_value_ptr = 0U;
+    uint32_t    sum_ptr = 0U;
+    uint32_t    index_ptr = 0U;
+    uint32_t    ref_min_value_ptr = 0U;
+    uint32_t    ref_max_value_ptr = 0U;
+    uint32_t    ref_sum_ptr = 0U;
+    uint32_t    ref_index_ptr = 0U;
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_8u[indx] = static_cast<uint8_t>(random_value);
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -217,15 +217,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -235,15 +235,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
         max_value_ptr = QPL_TEST_MAX_8U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
         ref_max_value_ptr = QPL_TEST_MAX_8U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -253,15 +253,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 1;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 1U;
         max_value_ptr = QPL_TEST_MAX_8U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 1;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 1U;
         ref_max_value_ptr = QPL_TEST_MAX_8U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -273,20 +273,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_8u[indx] = 0;
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
+            p_source_8u[indx] = 0U;
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -296,15 +296,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -319,31 +319,31 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
-    uint32_t    min_value_ptr;
-    uint32_t    max_value_ptr;
-    uint32_t    sum_ptr;
-    uint32_t    index_ptr;
-    uint32_t    ref_min_value_ptr;
-    uint32_t    ref_max_value_ptr;
-    uint32_t    ref_sum_ptr;
-    uint32_t    ref_index_ptr;
+    uint32_t    min_value_ptr = 0U;
+    uint32_t    max_value_ptr = 0U;
+    uint32_t    sum_ptr = 0U;
+    uint32_t    index_ptr = 0U;
+    uint32_t    ref_min_value_ptr = 0U;
+    uint32_t    ref_max_value_ptr = 0U;
+    uint32_t    ref_sum_ptr = 0U;
+    uint32_t    ref_index_ptr = 0U;
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_16u[indx] = static_cast<uint16_t>(random_value);
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -353,15 +353,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -371,15 +371,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
         max_value_ptr = QPL_TEST_MAX_16U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
         ref_max_value_ptr = QPL_TEST_MAX_16U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -389,15 +389,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 1;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 1U;
         max_value_ptr = QPL_TEST_MAX_16U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 1;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 1U;
         ref_max_value_ptr = QPL_TEST_MAX_16U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -409,20 +409,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_16u[indx] = 0;
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
+            p_source_16u[indx] = 0U;
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -432,15 +432,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -455,31 +455,31 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source{};
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
-    uint32_t    min_value_ptr;
-    uint32_t    max_value_ptr;
-    uint32_t    sum_ptr;
-    uint32_t    index_ptr;
-    uint32_t    ref_min_value_ptr;
-    uint32_t    ref_max_value_ptr;
-    uint32_t    ref_sum_ptr;
-    uint32_t    ref_index_ptr;
+    uint32_t    min_value_ptr = 0U;
+    uint32_t    max_value_ptr = 0U;
+    uint32_t    sum_ptr = 0U;
+    uint32_t    index_ptr = 0U;
+    uint32_t    ref_min_value_ptr = 0U;
+    uint32_t    ref_max_value_ptr = 0U;
+    uint32_t    ref_sum_ptr = 0U;
+    uint32_t    ref_index_ptr = 0U;
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_32u[indx] = 0x1ffffU & static_cast<uint32_t>(random_value);
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
+            p_source_32u[indx] = 0x1FFFFU & static_cast<uint32_t>(random_value);
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -489,15 +489,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -507,15 +507,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
         max_value_ptr = QPL_TEST_MAX_32U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
         ref_max_value_ptr = QPL_TEST_MAX_32U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -525,15 +525,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 1;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 1U;
         max_value_ptr = QPL_TEST_MAX_32U;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 1;
+        sum_ptr = 0U;
+        index_ptr = 0u;
+        ref_min_value_ptr = 1U;
         ref_max_value_ptr = QPL_TEST_MAX_32U;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -545,20 +545,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
-            p_source_32u[indx] = 0;
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
+            p_source_32u[indx] = 0U;
         }
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         min_value_ptr = QPL_TEST_MAX_32U;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
         ref_min_value_ptr = QPL_TEST_MAX_32U;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
@@ -568,15 +568,15 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ASSERT_EQ(index_ptr, ref_index_ptr);
     }
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        min_value_ptr = 0;
-        max_value_ptr = 0;
-        sum_ptr = 0;
-        index_ptr = 0;
-        ref_min_value_ptr = 0;
-        ref_max_value_ptr = 0;
-        ref_sum_ptr = 0;
-        ref_index_ptr = 0;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+        min_value_ptr = 0U;
+        max_value_ptr = 0U;
+        sum_ptr = 0U;
+        index_ptr = 0U;
+        ref_min_value_ptr = 0U;
+        ref_max_value_ptr = 0U;
+        ref_sum_ptr = 0U;
+        ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
         ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);

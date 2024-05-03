@@ -63,7 +63,11 @@ section .text
 %endif
 
 align 16
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global  qpl_crc32_gzip_refl_by8, function, hidden
+%else
 mk_global  qpl_crc32_gzip_refl_by8, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_crc32_gzip_refl_by8:
 	endbranch
 

@@ -48,6 +48,7 @@ constexpr qpl_ml_status size_error                         = QPL_STS_SIZE_ERR;
 constexpr qpl_ml_status output_overflow_error              = QPL_STS_OUTPUT_OVERFLOW_ERR;
 constexpr qpl_ml_status buffers_overlap                    = QPL_STS_BUFFER_OVERLAP_ERR;
 constexpr qpl_ml_status compression_reference_before_start = QPL_STS_REF_BEFORE_START_ERR;
+constexpr qpl_ml_status output_format_error                = QPL_STS_OUT_FORMAT_ERR;
 
 }
 

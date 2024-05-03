@@ -44,7 +44,8 @@ foreach(PLATFORM_ID IN LISTS PLATFORMS_LIST)
 
      set_target_properties(qplcore_${PLATFORM_ID} PROPERTIES
                            $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
-                           $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>)
+                           $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
+                           C_VISIBILITY_PRESET hidden)
 
      if (WIN32)
      target_compile_options(qplcore_${PLATFORM_ID}
@@ -110,7 +111,10 @@ foreach(PLATFORM_ID IN LISTS PLATFORMS_LIST)
                                 PUBLIC $<TARGET_PROPERTY:qplcore_${PLATFORM_ID},INTERFACE_INCLUDE_DIRECTORIES>)
 endforeach()
 
-set_target_properties(qplcore_sw_dispatcher PROPERTIES CXX_STANDARD 17)
+set_target_properties(qplcore_sw_dispatcher PROPERTIES
+                      CXX_STANDARD 17
+                      C_VISIBILITY_PRESET hidden
+                      CXX_VISIBILITY_PRESET hidden)
 
 # w/a for build compatibility with ISAL codebase
 target_compile_definitions(qplcore_sw_dispatcher PUBLIC -DQPL_LIB)

@@ -25,7 +25,7 @@ typedef struct deflate_icf_stream deflate_icf_stream;
 
 #define MAX_MATCH   258 // Largest deflate match length
 #define MIN_MATCH4  4
-#define _CMP_MATCH_LENGTH MIN_MATCH4
+#define CMP_MATCH_LENGTH MIN_MATCH4
 
 static inline uint32_t hash_crc(const uint8_t* p_src) {
     return compute_hash(*(uint32_t*)(p_src));
@@ -91,7 +91,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
     int      hash_mask = hash_table_ptr->hash_mask;
     int      win_mask  = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
     int      hash_key  = 0;
-    int      bound     = 0, win_bound = 0, tmp = 0, candidat = 0, index = 0;
+    int      bound     = 0, win_bound = 0, tmp = 0, candidate = 0, index = 0;
     uint32_t win_size  = QPLC_DEFLATE_MAXIMAL_OFFSET;
     uint16_t dist      = 0U;
     uint8_t  length    = 0U;
@@ -132,8 +132,8 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                     if (prev_bound >= good_match) {
                         chain_length >>= 2;
                     }
-                    if (bound < (_CMP_MATCH_LENGTH - 1)) {
-                        bound = (_CMP_MATCH_LENGTH - 1);
+                    if (bound < (CMP_MATCH_LENGTH - 1)) {
+                        bound = (CMP_MATCH_LENGTH - 1);
                     }
 
                     #if PLATFORM >= K0
@@ -147,7 +147,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             break;
                         }
                         p_src_tmp = p_src + tmp;
-                        candidat = tmp;
+                        candidate = tmp;
                         tmp = p_hash_story[tmp & win_mask];
                         if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                             continue;
@@ -179,7 +179,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                                 }
                             }
                             bound = flag_cmp;
-                            index = candidat;
+                            index = candidate;
 
                             #if PLATFORM >= K0
 
@@ -265,7 +265,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             }
                             if (l > bound) {
                                 bound = l;
-                                index = candidat;
+                                index = candidate;
                             }
                             if (bound >= nice_match) {
                                 break;
@@ -275,7 +275,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                 }
 
                 if (prev_bound > 1) {
-                    if ((prev_bound >= bound) && (prev_bound > (_CMP_MATCH_LENGTH - 1))) {
+                    if ((prev_bound >= bound) && (prev_bound > (CMP_MATCH_LENGTH - 1))) {
                         uint32_t distance   = 0;
                         uint32_t extra_bits = 0;
                         int      k          = 0;
@@ -335,15 +335,15 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                         if (prev_bound >= good_match) {
                             chain_length >>= 2;
                         }
-                        if (bound < (_CMP_MATCH_LENGTH - 1)) {
-                            bound = (_CMP_MATCH_LENGTH - 1);
+                        if (bound < (CMP_MATCH_LENGTH - 1)) {
+                            bound = (CMP_MATCH_LENGTH - 1);
                         }
                         for (int k = 0; k < chain_length; k++) {
                             if (!(win_bound < tmp)) {
                                 break;
                             }
                             p_src_tmp = p_src + tmp;
-                            candidat = tmp;
+                            candidate = tmp;
                             tmp = p_hash_story[tmp & win_mask];
                             if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                                 continue;
@@ -357,7 +357,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                                 }
                                 if (bound < l) {
                                     bound = l;
-                                    index = candidat;
+                                    index = candidate;
                                     if (bound >= nice_match) {
                                         break;
                                     }
@@ -366,7 +366,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                         }
                     }
                     if (prev_bound > 1) {
-                        if ((prev_bound >= bound) && (prev_bound > (_CMP_MATCH_LENGTH - 1))) {
+                        if ((prev_bound >= bound) && (prev_bound > (CMP_MATCH_LENGTH - 1))) {
                             uint32_t distance = 0;
                             uint32_t extra_bits = 0;
                             int k = 0;
@@ -411,7 +411,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
 
             dst_len += 1;
             if (prev_bound > 1) {
-                if (prev_bound > (_CMP_MATCH_LENGTH - 1)) {
+                if (prev_bound > (CMP_MATCH_LENGTH - 1)) {
                     uint32_t distance = 0;
                     uint32_t extra_bits = 0;
                     int k = 0;
@@ -442,7 +442,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                     own_write_deflate_icf_lit(icf_stream_ptr->next_ptr, prev_ch);
                     icf_stream_ptr->next_ptr++;
                     histogram_ptr->ll_hist[prev_ch]++;
-                    if ((src_len - (indx_src + (_CMP_MATCH_LENGTH - 1))) > 0) {
+                    if ((src_len - (indx_src + (CMP_MATCH_LENGTH - 1))) > 0) {
                         hash_key = hash_crc(p_src + indx_src) & hash_mask;
                         p_hash_story[indx_src & win_mask] = p_hash_table[hash_key];
                         p_hash_table[hash_key] = indx_src;
@@ -458,14 +458,14 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                 index = tmp = p_hash_table[hash_key];
                 p_hash_story[indx_src & win_mask] = index;
                 p_hash_table[hash_key] = indx_src;
-                bound = (_CMP_MATCH_LENGTH - 1);
+                bound = (CMP_MATCH_LENGTH - 1);
                 chain_length = chain_length_current;
                 for (int k = 0; k < chain_length; k++) {
                     if (!(win_bound < tmp)) {
                         break;
                     }
                     p_src_tmp = p_src + tmp;
-                    candidat = tmp;
+                    candidate = tmp;
                     tmp = p_hash_story[tmp & win_mask];
                     if (*(uint32_t*)(p_str + bound - 3) == *(uint32_t*)(p_src_tmp + bound - 3)) {
                         int l = 0;
@@ -476,7 +476,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                         }
                         if (bound < l) {
                             bound = l;
-                            index = candidat;
+                            index = candidate;
                             if (bound >= mx_match) {
                                 break;
                             }
@@ -485,7 +485,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                 }
                 dist = 0;
                 length = p_str[0];
-                if (bound >= _CMP_MATCH_LENGTH)  {
+                if (bound >= CMP_MATCH_LENGTH)  {
                     uint32_t distance   = 0;
                     uint32_t extra_bits = 0;
                     int      k          = 0;
@@ -541,7 +541,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             break;
                         }
                         p_src_tmp = p_src + tmp;
-                        candidat = tmp;
+                        candidate = tmp;
                         tmp = p_hash_story[tmp & win_mask];
                         if (*(uint32_t*)(p_str + bound - 3) == *(uint32_t*)(p_src_tmp + bound - 3)) {
                             int l = 0;
@@ -553,7 +553,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                             if (bound < l)
                             {
                                 bound = l;
-                                index = candidat;
+                                index = candidate;
                                 if (bound >= bound_lim) {
                                     break;
                                 }
@@ -562,7 +562,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                     }
                     dist = 0;
                     length = p_str[0];
-                    if (bound >= _CMP_MATCH_LENGTH) {
+                    if (bound >= CMP_MATCH_LENGTH) {
                         uint32_t distance   = 0;
                         uint32_t extra_bits = 0;
                         int      k          = 0;
@@ -604,7 +604,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_icf_body, (uint8_t *current_ptr,
                     icf_stream_ptr->next_ptr++;
                     indx_dst++;
                     histogram_ptr->ll_hist[p_src[indx_src]]++;
-                    if ((src_len - (indx_src + (_CMP_MATCH_LENGTH - 1))) > 0) {
+                    if ((src_len - (indx_src + (CMP_MATCH_LENGTH - 1))) > 0) {
                         hash_key = hash_crc(p_src + indx_src) & hash_mask;
                         p_hash_story[indx_src & win_mask] = p_hash_table[hash_key];
                         p_hash_table[hash_key] = indx_src;

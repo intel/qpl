@@ -44,8 +44,8 @@ class DeflateWithPageFaults : public JobFixture {
 protected:
     testing::AssertionResult RunTestDeflatePageFaults(PageFaultType type) {
         const auto psize = getpagesize();
-        size_t src_size  = 1 * psize;
-        size_t dst_size  = 2 * src_size;
+        size_t src_size  = 1U * psize;
+        size_t dst_size  = 2U * src_size;
 
         uint8_t *aligned_src_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, src_size));
         uint8_t *aligned_dst_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, dst_size));
@@ -58,7 +58,7 @@ protected:
         }
 
         qpl::test::random random_element_generator(0, 1, GetSeed());
-        for (size_t i; i < src_size; i++) {
+        for (size_t i = 0U; i < src_size; i++) {
             aligned_src_buffer[i] = (uint8_t) random_element_generator;
         }
         std::memset(aligned_dst_buffer, 0, dst_size);

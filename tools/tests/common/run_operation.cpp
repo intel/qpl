@@ -15,6 +15,9 @@
 // tool_generator
 #include "igenerator.h"
 
+// tests_common
+#include "execution_wrapper.hpp"
+
 namespace qpl::test {
 
 qpl_status run_decompress_op(qpl_path_t execution_path) {
@@ -68,7 +71,7 @@ qpl_status run_decompress_op(qpl_path_t execution_path) {
     job->available_out = static_cast<uint32_t>(destination.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -105,7 +108,7 @@ qpl_status run_compress_op(qpl_path_t execution_path) {
     job->available_out = static_cast<uint32_t>(destination.size());
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -139,7 +142,7 @@ qpl_status run_crc64_op(qpl_path_t execution_path) {
     job->available_in = source_size;
     job->crc64_poly   = poly;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -181,7 +184,7 @@ qpl_status run_scan_op(qpl_path_t execution_path) {
     job->out_bit_width      = qpl_ow_32;
     job->param_low          = value_to_find;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -225,7 +228,7 @@ qpl_status run_extract_op(qpl_path_t execution_path) {
     job->num_input_elements = source_size;
     job->out_bit_width      = qpl_ow_nom;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -267,7 +270,7 @@ qpl_status run_select_op(qpl_path_t execution_path) {
     job->available_src2     = source_size;
     job->src2_bit_width     = 1;
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;
@@ -314,7 +317,7 @@ qpl_status run_expand_op(qpl_path_t execution_path) {
     job->out_bit_width      = qpl_ow_8;
     job->next_src2_ptr      = const_cast<uint8_t *>(&mask);
 
-    status = qpl_execute_job(job);
+    status = run_job_api(job);
 
     qpl_fini_job(job);
     return status;

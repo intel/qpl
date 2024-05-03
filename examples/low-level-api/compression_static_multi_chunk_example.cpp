@@ -115,7 +115,7 @@ auto main(int argc, char** argv) -> int {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = c_huffman_table;
 
-    // In this example source data is splitted to 5 chunks with unequal chunk sizes.
+    // In this example source data is split to 5 chunks with unequal chunk sizes.
     // Sum of all chunk sizes MUST be equal to source_size.
     std::vector<uint32_t> chunk_sizes {50, 250, 150, 350, 200};
     if (sum(chunk_sizes) != source_size) {

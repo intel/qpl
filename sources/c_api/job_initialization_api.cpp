@@ -41,7 +41,6 @@ QPL_INLINE uint32_t own_get_job_size_analytics (qpl_path_t qpl_path);
 uint32_t            own_get_job_size_middle_layer_buffer(qpl_path_t qpl_path);
 
 QPL_INLINE void own_init_compress  (qpl_job *qpl_job_ptr);
-QPL_INLINE void own_init_decompress(qpl_job *qpl_job_ptr);
 QPL_INLINE void own_init_analytics (qpl_job *qpl_job_ptr);
 
 QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_ptr)) {
@@ -54,7 +53,7 @@ QPL_FUN(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t *job_size_p
     // therefore need to add additional bytes to be able to align pointers
     *job_size_ptr  = QPL_ALIGNED_SIZE(sizeof(qpl_job), QPL_DEFAULT_ALIGNMENT) + QPL_DEFAULT_ALIGNMENT;
 
-    // add storage required for internal stuctures
+    // add storage required for internal structures
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_compress(qpl_path), QPL_DEFAULT_ALIGNMENT);
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_decompress(qpl_path), QPL_DEFAULT_ALIGNMENT);
     *job_size_ptr += QPL_ALIGNED_SIZE(own_get_job_size_analytics(qpl_path), QPL_DEFAULT_ALIGNMENT);
@@ -125,7 +124,6 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
     // initialize internal structures
     // note: ml is just a raw buffer, so no need
     own_init_compress(qpl_job_ptr);
-    own_init_decompress(qpl_job_ptr);
     own_init_analytics(qpl_job_ptr);
 
     return static_cast<qpl_status>(status);
@@ -221,10 +219,6 @@ uint32_t own_get_job_size_middle_layer_buffer(qpl_path_t UNREFERENCED_PARAMETER(
     }
 
     return size;
-}
-
-QPL_INLINE void own_init_decompress(qpl_job* UNREFERENCED_PARAMETER(qpl_job_ptr)) {
-    return;
 }
 
 QPL_INLINE void own_init_compress(qpl_job *qpl_job_ptr) {

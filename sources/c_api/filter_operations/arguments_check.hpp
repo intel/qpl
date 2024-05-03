@@ -71,6 +71,18 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
         return QPL_STS_OUT_FORMAT_ERR;
     }
 
+    // Check if the output bit width is nominal and the force array output flag is set
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && job_ptr->out_bit_width == qpl_ow_nom) {
+        // If the output bit width is nominal and the force array output flag is set, return an error
+        return status_list::output_format_error;
+    }
+
+    // Check if force array output mod is available when the force array output flag is set
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && is_force_array_output_supported(job_ptr) == false) {
+        // If the force array output mod flag is set, return an error
+        return status_list::not_supported_err;
+    }
+
     uint32_t source_bit_width            = job_ptr->src1_bit_width;
     bool     source_bit_width_is_unknown = (qpl_p_parquet_rle == job_ptr->parser &&
                                             (QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags));

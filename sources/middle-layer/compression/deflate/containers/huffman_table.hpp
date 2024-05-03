@@ -47,7 +47,7 @@ public:
 
     void init_isal_huffman_tables(hufftables_icf *huffman_table_ptr) noexcept;
 
-    void expand_huffman_tables() noexcept;
+    void expand_huffman_tables() const noexcept;
     auto get_isal_huffman_tables() const noexcept -> hufftables_icf *;
 
 private:

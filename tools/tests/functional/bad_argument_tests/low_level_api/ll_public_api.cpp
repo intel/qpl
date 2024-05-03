@@ -18,7 +18,7 @@ constexpr uint32_t dictionary_test_size = 10U;
 constexpr uint32_t dictionary_id_test   = 1U;
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_job_size, test) {
-    uint32_t   size;
+    uint32_t   size = 0U;
 
     qpl_status status = qpl_get_job_size(PATH, nullptr);
 
@@ -41,7 +41,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_init, test) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_submit, test) {
-    uint8_t    *stored_ptr;
+    uint8_t    *stored_ptr = nullptr;
 
     job_ptr->op          = qpl_op_crc64;
     job_ptr->next_in_ptr = (uint8_t *) job_ptr;
@@ -135,7 +135,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_finalize, test) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
-    uint8_t                source;
+    uint8_t                source = 0U;
     uint32_t               source_length = 1U;
     qpl_histogram          deflate_histogram{};
     qpl_path_t             path          = qpl_path_software;
@@ -171,7 +171,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_existing_dict_size, test) {
-    size_t dictionary_size = 0;
+    size_t dictionary_size = 0U;
 
     auto status = qpl_get_existing_dict_size(NULL, &dictionary_size);
     EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
@@ -212,7 +212,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_set_dictionary_id, test) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_get_dictionary_id, test) {
-    uint32_t dictionary_id = 0;
+    uint32_t dictionary_id = 0U;
     auto status = qpl_get_dictionary_id(NULL, &dictionary_id);
     EXPECT_EQ(status, QPL_STS_NULL_PTR_ERR);
 

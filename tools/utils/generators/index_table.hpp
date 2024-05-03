@@ -32,7 +32,7 @@ public:
     IndexTable() = default;
 
     /* ------ Index search index in the table ------ */
-    uint32_t findHeaderBlockIndex(uint32_t miniBlockNumber);
+    uint32_t findHeaderBlockIndex(uint32_t miniBlockNumber) const;
 
     uint32_t findMiniBlockIndex(uint32_t miniBlockNumber);
 
@@ -41,7 +41,7 @@ public:
 
     Index *data();
 
-    uint32_t getBlockCount();
+    uint32_t getBlockCount() const;
 
     uint32_t getMiniBlockCount() const;
 

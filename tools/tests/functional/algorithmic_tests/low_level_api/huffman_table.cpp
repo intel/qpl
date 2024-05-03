@@ -225,7 +225,7 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_table(qpl_hu
     serialization_options_t options;
     options.format = format;
 
-    size_t serialized_size = 0;
+    size_t serialized_size = 0U;
 
     status = qpl_huffman_table_get_serialized_size(huffman_table,
                                                    options,
@@ -233,9 +233,9 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_table(qpl_hu
     if (status != QPL_STS_OK)
         return testing::AssertionFailure() << "Can't get serialized size. Status = " << status;
 
-    auto buffer = std::make_unique<uint8_t[]>(serialized_size + 1);
+    auto buffer = std::make_unique<uint8_t[]>(serialized_size + 1U);
 
-    uint8_t number_to_check = 42;
+    uint8_t number_to_check = 42U;
     buffer.get()[serialized_size] = number_to_check;
 
     status = qpl_huffman_table_serialize(huffman_table,
@@ -250,7 +250,7 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_table(qpl_hu
         return testing::AssertionFailure() << "Buffer was overwritten during serialization.";
     }
 
-    qpl_huffman_table_t other_huffman_table;
+    qpl_huffman_table_t other_huffman_table = nullptr;
 
     status = qpl_huffman_table_deserialize(buffer.get(),
                                            serialized_size,

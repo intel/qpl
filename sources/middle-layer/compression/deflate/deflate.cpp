@@ -13,6 +13,7 @@
 #include "compression/deflate/streams/hw_deflate_state.hpp"
 #include "util/descriptor_processing.hpp"
 #include "util/iaa_features_checks.hpp"
+#include "util/hw_status_converting.hpp"
 
 #include "dispatcher/hw_dispatcher.hpp"
 
@@ -59,11 +60,17 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
     bool is_hw_dict_compress_supported = false;
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!dispatcher.is_hw_support()) {
+        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        result.status_code_ = qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+        return result;
+    }
+
     const auto &device = dispatcher.device(0);
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path).
     // 3. the hardware_dictionary_level is set
@@ -189,12 +196,18 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!dispatcher.is_hw_support()) {
+        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        result.status_code_ = qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+        return result;
+    }
+
     const auto &device = dispatcher.device(0);
     is_hw_header_gen_supported = device.get_header_gen_support();
     is_hw_dict_compress_supported = device.get_dict_compress_support();
 #endif //__linux__
 
-    // If dictionary is provided, check that the followings are true:
+    // If dictionary is provided, check that the following are true:
     // 1. compression with dictionary is supported
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path)
     // 3. the hardware_dictionary_level is set

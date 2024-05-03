@@ -171,20 +171,23 @@ Intel QPL supports:
 .. warning::
    The implementation of Huffman-only compression/decompression is in progress.
 
+.. _library_execution_paths_reference_link:
+
 Execution Paths
 ===============
 
 Intel QPL supports several execution paths that help to achieve the optimal
 system resources utilization:
 
-- ``Hardware Path`` - all hardware-supported functions are executed by Intel IAA.
-- ``Software Path`` - all supported functionalities are executed by the software library in the CPU.
-- ``Auto Path`` - Intel QPL automatically dispatches execution of the
-  requested operations either to Intel IAA or to the software
-  library depending on internal heuristics (``Load Balancing`` feature).
+* ``Hardware Path`` - requested functionality will be executed by Intel IAA.
+  If an operation is not supported by the accelerator, corresponding error code will be returned.
+* ``Software Path`` - requested functionality will be executed on the CPU host.
+* ``Auto Path`` - library will always attempt to execute on the accelerator first.
+  If a functionality is not supported by the accelerator or execution on Intel IAA fails
+  (for example, due to the accelerator initialization error), fallback to the CPU host will be used.
 
 .. warning::
-   The implementation of ``Auto Path`` is in progress.
+   Currently, ``Auto Path`` with asynchronous execution is not supported.
 
 .. _library_numa_support_reference_link:
 
@@ -214,6 +217,8 @@ done in two ways:
 Load balancer of the library does not cross a detected or specified NUMA
 boundary. Users are responsible for balancing workloads between different nodes.
 
+.. _library_page_fault_handling_reference_link:
+
 Page Faults Handling
 ====================
 
@@ -232,15 +237,27 @@ In the case of ``Hardware Path``, single resubmission to the device is attempted
 In the case of ``Auto Path``, single resubmission to the device is attempted, and, in the case of the failure,
 the operation is continued on the ``Software Path``.
 
-Refer to :ref:`accelerator_configuration_reference_link` for more details on setting ``block_on_fault`` and other attributes.
+Refer to :ref:`library_get_configured_accel_properties_reference_link` for more details on setting ``block_on_fault`` and other attributes.
+
+.. _library_get_configured_accel_properties_reference_link:
+
+Getting Configured Accelerator Properties in User Application
+=============================================================
+
+Intel(R) QPL behavior depends on accelerator configuration. There is a limitation on :c:member:`qpl_job.available_in` and :c:member:`qpl_job.available_out`
+based on configured ``max_transfer_size``. There is also a behavior dependent on ``block_on_fault`` described in :ref:`library_page_fault_handling_reference_link`.
+If you need to identify these limitations or expected behavior, query the accelerator configuration.
+
+Intel(R) QPL does not support APIs to check accelerator configuration. Use the ``accel-config``
+library directly. See the example of checking ``max_transfer_size`` in :ref:`multi_chunk_compression_with_fixed_block_reference_link`.
 
 .. _library_work_queue_support_reference_link:
 
 Work Queue Support
 ==================
 
-Intel IAA 2.0 supports the ability to configure which operations are supported using
-the OPCFG register.
+Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 supports the ability
+to configure which operations are supported using the OPCFG register.
 
 As of Intel QPL 1.3.0 or higher with ``libaccel-config`` library version 4.0
 or higher, the device dispatcher respects each work queue's OPCFG register.

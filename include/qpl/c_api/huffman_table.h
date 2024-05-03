@@ -12,6 +12,10 @@
 #ifndef QPL_HUFFMAN_TABLE_H_
 #define QPL_HUFFMAN_TABLE_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #include <stdint.h>
 
 #include "qpl/c_api/status.h"
@@ -239,5 +243,9 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const dump_buffer_ptr,
 #endif
 
 /** @} */
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
+#endif
 
 #endif //QPL_HUFFMAN_TABLE_H_

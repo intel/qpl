@@ -90,7 +90,7 @@ public:
 
     auto elements_count() noexcept -> size_t;
 
-    auto packed_elements_count() noexcept -> size_t;
+    auto packed_elements_count() const noexcept -> size_t;
 
     auto bit_width() noexcept -> uint8_t override;
 

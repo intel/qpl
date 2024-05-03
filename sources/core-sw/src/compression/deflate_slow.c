@@ -81,7 +81,7 @@ static inline uint32_t own_count_significant_bits(uint32_t value) {
     return bsr(value);
 }
 
-static inline void _compute_offset_code(const struct isal_hufftables* huffman_table_ptr,
+static inline void compute_offset_code(const struct isal_hufftables* huffman_table_ptr,
                                         uint16_t offset,
                                         uint64_t* const code_ptr,
                                         uint32_t* const code_length_ptr) {
@@ -125,7 +125,7 @@ static void _get_offset_code(const struct isal_hufftables* const huffman_table_p
         *code_length_ptr = offset_info & 0x1FU;
     }
     else {
-        _compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
+        compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
     }
 }
 
@@ -159,7 +159,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
     int      hash_mask = hash_table_ptr->hash_mask;
     int      win_mask = QPLC_DEFLATE_MAXIMAL_OFFSET - 1;
     int      hash_key = 0;
-    int      bound = 0, win_bound = 0, tmp = 0, candidat = 0, index = 0;
+    int      bound = 0, win_bound = 0, tmp = 0, candidate = 0, index = 0;
     uint32_t win_size = QPLC_DEFLATE_MAXIMAL_OFFSET;
 
     {
@@ -212,7 +212,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                             break;
                         }
                         p_src_tmp = p_src + tmp;
-                        candidat = tmp;
+                        candidate = tmp;
                         tmp = p_hash_story[tmp & win_mask];
                         if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                             continue;
@@ -244,7 +244,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                                 }
                             }
                             bound = flag_cmp;
-                            index = candidat;
+                            index = candidate;
 
                             #if PLATFORM >= K0
 
@@ -330,7 +330,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                             }
                             if (l > bound) {
                                 bound = l;
-                                index = candidat;
+                                index = candidate;
                             }
                             if (bound >= nice_match) {
                                 break;
@@ -414,7 +414,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                                 break;
                             }
                             p_src_tmp = p_src + tmp;
-                            candidat = tmp;
+                            candidate = tmp;
                             tmp = p_hash_story[tmp & win_mask];
                             if (*(uint32_t*)(p_str + bound - 3) != *(uint32_t*)(p_src_tmp + bound - 3)) {
                                 continue;
@@ -428,7 +428,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                                 }
                                 if (bound < l) {
                                     bound = l;
-                                    index = candidat;
+                                    index = candidate;
                                     if (bound >= nice_match) {
                                         break;
                                     }

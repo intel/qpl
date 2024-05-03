@@ -74,6 +74,11 @@ struct own_huffman_code {
     uint8_t  length;             /**< Huffman code length */
 };
 
+/**
+ * @brief Validate whether required representations are present
+ * and compatible in compression and decompression tables in order to
+ * convert compression table to decompression one.
+*/
 static inline auto validate_representation_flags(const compression_huffman_table &compression_table,
                                                  decompression_huffman_table &decompression_table) noexcept -> qpl_ml_status {
     if (decompression_table.is_deflate_header_used() &&
@@ -81,13 +86,16 @@ static inline auto validate_representation_flags(const compression_huffman_table
         return status_list::status_invalid_params;
     }
 
-    if (decompression_table.is_sw_decompression_table_used() &&
-        !compression_table.is_sw_compression_table_used()) {
+    // Allow the case when decompression_table have both representations,
+    // so that we could later create software one from compression table.
+    if (decompression_table.is_hw_decompression_table_used()
+        && !decompression_table.is_sw_decompression_table_used()
+        && !compression_table.is_hw_compression_table_used()) {
         return status_list::status_invalid_params;
     }
 
-    if (decompression_table.is_hw_decompression_table_used() &&
-        !compression_table.is_hw_compression_table_used()) {
+    if (decompression_table.is_sw_decompression_table_used() &&
+        !compression_table.is_sw_compression_table_used()) {
         return status_list::status_invalid_params;
     }
 
@@ -434,8 +442,8 @@ static inline void isal_compression_table_to_qpl(const isal_hufftables *isal_tab
         uint8_t        length = isal_table_ptr->len_table[details::match_length_codes_bases[i]]
                                 & isal_match_lengths_mask;
 
-        // Normally, (in all cases except for huffman only) ISAL assignes code for every match length token, but
-        // this can be a huffman only table, without match lengths codes, so additionaly check if code length is more than zero
+        // Normally, (in all cases except for huffman only) ISAL assigns code for every match length token, but
+        // this can be a huffman only table, without match lengths codes, so additionally check if code length is more than zero
         // to prevent the overflow of code's length
         if (0U != length) {
             length -= details::match_lengths_extra_bits[i];
@@ -598,9 +606,15 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
         hw_iaa_descriptor_set_completion_record(&descriptor, &completion_record);
 
-        return ml::util::process_descriptor<qpl_ml_status,
-                                            ml::util::execution_mode_t::sync>(&descriptor,
-                                                                              &completion_record);
+        auto status = ml::util::process_descriptor<qpl_ml_status,
+                                                   ml::util::execution_mode_t::sync>(&descriptor,
+                                                                                     &completion_record);
+        // If qpl_path_auto is used, we will compute both HW and SW representations. If
+        // execution on qpl_path_hardware fails (due to accelerator initialization or execution failures),
+        // we should not return error status because SW representation is already computed.
+        if (!decompression_table.is_sw_decompression_table_used()) {
+            return status;
+        }
     }
 
     return status_list::ok;

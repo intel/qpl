@@ -28,7 +28,7 @@ qplc_select_i_t_ptr qplc_select_i(uint32_t index) {
 static void fill_buffer_8u(uint8_t* src, uint8_t* dst, uint32_t length) {
     uint8_t* p_src_8u = src;
     uint8_t* p_dst_8u = dst;
-    for (uint32_t indx = 0; indx < length; indx++) {
+    for (uint32_t indx = 0U; indx < length; indx++) {
         p_dst_8u[indx] = p_src_8u[indx];
     }
 }
@@ -103,9 +103,9 @@ static uint32_t ref_qplc_select_32u_i(uint8_t* src_dst_ptr,
     return ref_qplc_select_32u(src_dst_ptr, src2_ptr, src_dst_ptr, length);
 }
 
-constexpr uint32_t fun_indx_select_8u = 0;
-constexpr uint32_t fun_indx_select_16u = 1;
-constexpr uint32_t fun_indx_select_32u = 2;
+constexpr uint32_t fun_indx_select_8u = 0U;
+constexpr uint32_t fun_indx_select_16u = 1U;
+constexpr uint32_t fun_indx_select_32u = 2U;
 
 constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 
@@ -123,22 +123,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u, base) {
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
         uint8_t* p_buffer_mask = (uint8_t*)buffer_mask.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_8u[indx] = static_cast<uint8_t>(random_value);
         }
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_buffer_mask[indx] = 1U & static_cast<uint8_t>(random_value);
         }
     }
     fill_buffer_8u(buffer_mask.data(), mask.data(), (uint32_t)mask.size());
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
-
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         destination.fill(0);
         reference.fill(0);
-        select = qplc_select(fun_indx_select_8u)(source.data(), mask.data(), destination.data(), length);
-        ref_select = ref_qplc_select_8u(source.data(), mask.data(), reference.data(), length);
+
+        uint32_t select = qplc_select(fun_indx_select_8u)(source.data(), mask.data(), destination.data(), length);
+        uint32_t ref_select = ref_qplc_select_8u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_8u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -157,24 +155,22 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u, base) {
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
         uint8_t* p_buffer_mask = (uint8_t*)buffer_mask.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_16u[indx] = static_cast<uint16_t>(random_value);
         }
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_buffer_mask[indx] = (uint8_t)(1U & static_cast<uint16_t>(random_value));
         }
     }
 
     fill_buffer_8u(buffer_mask.data(), mask.data(), (uint32_t)mask.size());
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
-
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         destination.fill(0);
         reference.fill(0);
-        select = qplc_select(fun_indx_select_16u)(source.data(), mask.data(), destination.data(), length);
-        ref_select = ref_qplc_select_16u(source.data(), mask.data(), reference.data(), length);
+
+        uint32_t select = qplc_select(fun_indx_select_16u)(source.data(), mask.data(), destination.data(), length);
+        uint32_t ref_select = ref_qplc_select_16u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_16u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -193,24 +189,22 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u, base) {
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
         uint8_t* p_buffer_mask = (uint8_t*)buffer_mask.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_32u[indx] = static_cast<uint16_t>(random_value);
         }
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_buffer_mask[indx] = (uint8_t)(1U & static_cast<uint32_t>(random_value));
         }
     }
 
     fill_buffer_8u(buffer_mask.data(), mask.data(), (uint32_t)mask.size());
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
-
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         destination.fill(0);
         reference.fill(0);
-        select = qplc_select(fun_indx_select_32u)(source.data(), mask.data(), destination.data(), length);
-        ref_select = ref_qplc_select_32u(source.data(), mask.data(), reference.data(), length);
+
+        uint32_t select = qplc_select(fun_indx_select_32u)(source.data(), mask.data(), destination.data(), length);
+        uint32_t ref_select = ref_qplc_select_32u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_32u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -224,22 +218,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u_i, base) {
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         {
             uint8_t* p_source_8u = (uint8_t*)source_destination.data();
             uint8_t* p_buffer_mask = (uint8_t*)mask.data();
-            for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+            for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                 p_source_8u[indx] = static_cast<uint8_t>(random_value);
             }
-            for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+            for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                 p_buffer_mask[indx] = 1U & static_cast<uint8_t>(random_value);
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        select = qplc_select_i(fun_indx_select_8u)(source_destination.data(), mask.data(), length);
-        ref_select = ref_qplc_select_8u_i(reference.data(), mask.data(), length);
+        uint32_t select = qplc_select_i(fun_indx_select_8u)(source_destination.data(), mask.data(), length);
+        uint32_t ref_select = ref_qplc_select_8u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_8u_i!!! "));
         ASSERT_EQ(select, ref_select);
@@ -253,9 +245,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u_i, base) {
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         {
             uint16_t* p_source_16u = (uint16_t*)source_destination.data();
             uint8_t* p_buffer_mask = (uint8_t*)mask.data();
@@ -267,8 +257,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u_i, base) {
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        select = qplc_select_i(fun_indx_select_16u)(source_destination.data(), mask.data(), length);
-        ref_select = ref_qplc_select_16u_i(reference.data(), mask.data(), length);
+        uint32_t select = qplc_select_i(fun_indx_select_16u)(source_destination.data(), mask.data(), length);
+        uint32_t ref_select = ref_qplc_select_16u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_16u_i!!! "));
         ASSERT_EQ(select, ref_select);
@@ -282,22 +272,20 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u_i, base) {
     uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
-    for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-        uint32_t select;
-        uint32_t ref_select;
+    for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         {
             uint32_t* p_source_32u = (uint32_t*)source_destination.data();
             uint8_t* p_buffer_mask = (uint8_t*)mask.data();
-            for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+            for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                 p_source_32u[indx] = static_cast<uint16_t>(random_value);
             }
-            for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+            for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
                 p_buffer_mask[indx] = (uint8_t)(1U & static_cast<uint32_t>(random_value));
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        select = qplc_select_i(fun_indx_select_32u)(source_destination.data(), mask.data(), length);
-        ref_select = ref_qplc_select_32u_i(reference.data(), mask.data(), length);
+        uint32_t select = qplc_select_i(fun_indx_select_32u)(source_destination.data(), mask.data(), length);
+        uint32_t ref_select = ref_qplc_select_32u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_32u_i!!! "));
         ASSERT_EQ(select, ref_select);

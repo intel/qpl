@@ -10,6 +10,9 @@
 namespace qpl::test {
     class SimpleCRC32Fixture: public BaseCRCTestFixture,
                               public TestCases<SimpleCRC32TestCase> {
+    private:
+        SimpleCRC32TestCase current_test_case {};
+
     protected:
         void SetUp() override {
             BaseCRCTestFixture::SetUp();
@@ -42,8 +45,6 @@ namespace qpl::test {
                 AddNewTestCase(test_case);
             }
         }
-
-        SimpleCRC32TestCase current_test_case {};
 
     public:
         testing::AssertionResult ValidateCRC32SwCRC32Hw() {
@@ -90,7 +91,7 @@ namespace qpl::test {
 
             sw_source.clear();
             hw_source.clear();
-            uint8_t symbol;
+            uint8_t symbol = 0U;
             while (sw_source.size() < current_test_case.source_size - 1) {
                 symbol = static_cast<uint8_t>(rand() % 95 + 32);
                 sw_source.push_back(symbol);

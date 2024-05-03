@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 
 # Add all the layers required for the library
 #   Core Layer (software optimizations and accelerator-related logic)
@@ -21,7 +21,11 @@ add_subdirectory(c_api)
 # Build and install the resulting library
 get_property(LIB_DEPS GLOBAL PROPERTY QPL_LIB_DEPS)
 
-add_library(qpl STATIC ${LIB_DEPS})
+if ("${QPL_LIBRARY_TYPE}" STREQUAL "SHARED")
+    add_library(qpl SHARED ${LIB_DEPS})
+else ()
+    add_library(qpl STATIC ${LIB_DEPS})
+endif()
 
 target_include_directories(qpl
         PUBLIC $<BUILD_INTERFACE:${QPL_PROJECT_DIR}/include/> $<INSTALL_INTERFACE:include>)
@@ -31,6 +35,9 @@ if (DYNAMIC_LOADING_LIBACCEL_CONFIG)
 else()
     target_link_libraries(qpl PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
 endif()
+
+set_target_properties(qpl PROPERTIES VERSION   ${QPL_SHARED_LIB_VERSION})
+set_target_properties(qpl PROPERTIES SOVERSION ${QPL_SHARED_LIB_SOVERSION})
 
 install(TARGETS qpl
         EXPORT ${PROJECT_NAME}Targets

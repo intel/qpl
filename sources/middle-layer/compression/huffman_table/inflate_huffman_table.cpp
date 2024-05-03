@@ -73,11 +73,11 @@ void decompression_huffman_table::enable_deflate_header() noexcept {
     deflate_header_flag = true;
 }
 
-auto decompression_huffman_table::is_hw_decompression_table_used() noexcept -> bool {
+auto decompression_huffman_table::is_hw_decompression_table_used() const noexcept -> bool {
     return hw_decompression_table_flag;
 }
 
-auto decompression_huffman_table::is_sw_decompression_table_used() noexcept -> bool {
+auto decompression_huffman_table::is_sw_decompression_table_used() const noexcept -> bool {
     return sw_decompression_table_flag;
 }
 

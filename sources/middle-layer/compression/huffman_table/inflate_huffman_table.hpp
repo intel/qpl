@@ -71,8 +71,8 @@ public:
     void enable_hw_decompression_table() noexcept;
     void enable_deflate_header() noexcept;
 
-    auto is_sw_decompression_table_used() noexcept -> bool;
-    auto is_hw_decompression_table_used() noexcept -> bool;
+    auto is_sw_decompression_table_used() const noexcept -> bool;
+    auto is_hw_decompression_table_used() const noexcept -> bool;
     auto is_deflate_header_used() noexcept -> bool;
 
 private:

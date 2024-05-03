@@ -22,8 +22,8 @@ namespace qpl::test {
 
 static inline void show_help() {
     std::cout << "\nQPL test system arguments:" << std::endl;
-    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw)" << std::endl;
-    std::cout << "     " << "Set execution path for functional tests. The default is software path." << std::endl;
+    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw|auto)" << std::endl;
+    std::cout << "     " << "Set execution path for functional tests. The default is qpl_path_software." << std::endl;
     std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)" << std::endl;
     std::cout << "     " << "Execute tests using asynchronous mode. The default is off (synchronous mode)." << std::endl;
     std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]" << std::endl;
@@ -39,12 +39,12 @@ static inline auto parse_execution_path_argument(std::string &value) -> qpl_path
 
     if (value == "sw") {
         execution_path = qpl_path_software;
-    } else {
-        if (value == "hw") {
-            execution_path = qpl_path_hardware;
-        } else {
-            throw std::runtime_error("Invalid usage of --path argument\n");
-        }
+    } else if (value == "hw") {
+        execution_path = qpl_path_hardware;
+    } else if (value == "auto") {
+        execution_path = qpl_path_auto;
+     } else {
+        throw std::runtime_error("Invalid usage of --path argument\n");
     }
 
     return execution_path;
@@ -97,7 +97,7 @@ static inline util::arguments_list_t get_testing_settings(int argc, char *argv[]
 #if defined(__linux__)
 qpl_status qpl_hw_compress() {
     qpl_path_t execution_path = qpl_path_hardware;
-    uint32_t job_size         = 0;
+    uint32_t job_size         = 0U;
 
     qpl_status status = qpl_get_job_size(execution_path, &job_size);
     if (QPL_STS_OK != status) return status;
@@ -131,7 +131,7 @@ int test_init_with_fork() {
     qpl_status status = QPL_STS_OK;
 
     // create a child process with fork()
-    pid_t pid;
+    pid_t pid = 0;
     pid = fork();
 
     if (pid < 0) {
@@ -146,7 +146,7 @@ int test_init_with_fork() {
         status = qpl_hw_compress();
 
         // wait for child process to finish
-        int child_status;
+        int child_status = 0;
         int ret = waitpid(pid, &child_status, 0);
 
         if (ret != pid) {

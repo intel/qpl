@@ -43,6 +43,8 @@ static std::ostream &operator<<(std::ostream &os, const InputStreamMeta &test_ca
 class SimpleAnalyticFixture : public ReferenceFixture,
                               public TestCases<InputStreamMeta> {
 
+private:
+    InputStreamMeta input_stream_meta;
 protected:
     void InitializeTestCases() {
         InputStreamMeta stream_meta;
@@ -94,7 +96,6 @@ protected:
 
     }
 
-    InputStreamMeta input_stream_meta;
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, scan, SimpleAnalyticFixture) {

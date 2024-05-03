@@ -61,7 +61,7 @@ typedef int            GenStatus;
 #define LAST_FROM( count )((count) - 1)
 
 /**
- * @brief list of definitions which was declarated in accordance with DEFLATE STANDART
+ * @brief list of definitions which was declared in accordance with DEFLATE STANDARD
  */
 
 #define DEFAULT_LL_TABLE_LENGTH     286   /**> The real LL table size without reserved 287 and 288 LL codes*/
@@ -75,7 +75,7 @@ typedef int            GenStatus;
 #define MATCH_HIGH_BORDER           285   /**> The value of the last match code in LL table*/
 
 #define MAX_OFFSET                  4096  /**> The maximum offset is limited by history window size (Intel QPL limit) */
-#define DEFAULT_MAX_OFFSET          32768 /**> The maximum offset is limited by history window size (DEFLATE STANDART limit) */
+#define DEFAULT_MAX_OFFSET          32768 /**> The maximum offset is limited by history window size (DEFLATE STANDARD limit) */
 #define MIN_MATCH                   3     /**> The minimum match*/
 #define MAX_MATCH                   258   /**> The maximum match*/
 #define MAX_CL_CODE_BIT_LENGTH      7     /**> The maximum CL code bit length*/
@@ -87,10 +87,10 @@ typedef int            GenStatus;
  */
 
 #define GEN_OK                      0  /**> Generation of the test stream was completed successfully*/
-#define GEN_ERR                     1  /**> Generation of the test stream was completed with unexpexted error*/
+#define GEN_ERR                     1  /**> Generation of the test stream was completed with unexpected error*/
 #define GEN_UNSUPPORTED_GENERATOR   2  /**> Specified generator is not supported*/
 #define GEN_TEST_FACTOR_NEEDED      3  /**> Specified generator is needed in special parameters*/
-#define GEN_ALLOCATION_ERROR        4  /**> Specified generator can't allolocate internall buffers*/
+#define GEN_ALLOCATION_ERROR        4  /**> Specified generator can't allocate internal buffers*/
 
 typedef enum
 {

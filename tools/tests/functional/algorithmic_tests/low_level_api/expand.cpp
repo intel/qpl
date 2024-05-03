@@ -13,6 +13,9 @@
 
 #include "qpl/qpl.h"
 
+// utils_common
+#include "iaa_features_checks.hpp"
+
 // tests_common
 #include "analytic_mask_fixture.hpp"
 
@@ -120,11 +123,82 @@ namespace qpl::test
         EXPECT_TRUE(CompareVectors(destination, reference_destination));
     }
 
+    // Force Array Output Modification Test
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(expand, force_array_output_modification, ExpandTest)
+    {
+        // Assert that Force Array Output Modification is supported
+        QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == false, "Force array output modification not available on device, skipping test.");
+
+        // Skip test if on software path
+        QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
+
+        // Constants
+        const uint32_t       source_size         = 5U;
+        const uint32_t       mask_byte_length    = 1U;
+        const uint32_t       input_vector_width  = 1U;
+        const uint32_t       output_vector_width = 1U;
+        const uint8_t        mask                = 0b0000000'0U;
+        const uint32_t       mask_size           = 1U;
+
+        // Source and output containers
+        std::vector<uint8_t> source              = {0b0000'0001U};
+        std::vector<uint8_t> destination         = {0U};
+        std::vector<uint8_t> reference           = {0U};
+
+        std::unique_ptr<uint8_t[]> job_buffer;
+        qpl_status status;
+        uint32_t   size = 0U;
+
+        // Job initialization
+        status = qpl_get_job_size(qpl_path_hardware, &size);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job size getting.\n";
+
+        job_buffer = std::make_unique<uint8_t[]>(size);
+        qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+        
+        status = qpl_init_job(qpl_path_hardware, job);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job initializing.\n";
+
+        // Performing an operation
+        job->next_in_ptr        = source.data();
+        job->available_in       = static_cast<uint32_t>(source.size());
+        job->next_out_ptr       = destination.data();
+        job->available_out      = static_cast<uint32_t>(destination.size());
+        job->op                 = qpl_op_expand;
+        job->src1_bit_width     = input_vector_width;
+        job->src2_bit_width     = output_vector_width;
+        job->available_src2     = mask_byte_length;
+        job->num_input_elements = mask_size;
+        job->out_bit_width      = qpl_ow_8;
+        job->next_src2_ptr      = const_cast<uint8_t *>(&mask);
+
+        // Enable Force Array Output Modification
+        job->flags              |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
+
+        status = run_job_api(job);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during performing expand.\n";
+
+        const auto expand_size = job->total_out;
+        EXPECT_EQ(expand_size, 1) << "Force Array Output Modification Failed, expect 1, got " << expand_size << "\n";
+
+        // Freeing resources
+        status = qpl_fini_job(job);
+        EXPECT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job finalizing.\n";
+
+        // Check that the output is correct
+        EXPECT_TRUE(CompareVectors(destination, reference)) << "Force Array Output Modification Failed\n";
+    }
+
 #if defined(__linux__)
 #ifdef MADV_PAGEOUT
 
     class ExpandTestPageFault : public ExpandTest
     {
+    private:
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
+        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
+
     public:
         void InitializeTestCases()
         {
@@ -279,9 +353,6 @@ namespace qpl::test
             }
         }
 
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_src2{nullptr, {}};
-        std::unique_ptr<uint8_t[], void(*)(void*)> aligned_dst{nullptr, {}};
     };
 
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(expand_with_page_fault_read_src1, analytic_only, ExpandTestPageFault)

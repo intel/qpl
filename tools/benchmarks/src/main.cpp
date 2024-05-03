@@ -34,11 +34,11 @@ registry_t& get_registry()
     return reg;
 }
 
-constexpr const uint64_t poly = 0x04C11DB700000000;
+constexpr const uint64_t poly = 0x04C11DB700000000U;
 
 static bool init_hw()
 {
-    uint32_t size;
+    uint32_t size = 0U;
 
     qpl_status status = qpl_get_job_size(qpl_path_hardware, &size);
     if (status != QPL_STS_OK)
@@ -105,7 +105,7 @@ std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept
 
 uint32_t get_current_numa() noexcept
 {
-    std::uint32_t tsc_aux = 0;
+    std::uint32_t tsc_aux = 0U;
     __rdtscp(&tsc_aux);
     std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
 
@@ -221,9 +221,6 @@ BM_DEFINE_string(out_mem, "cс_ram");
 BM_DEFINE_bool(full_time, false);
 BM_DEFINE_bool(no_hw, false);
 
-BM_DEFINE_double(canned_part, -1);
-BM_DEFINE_bool(canned_regen, false);
-
 static void print_help()
 {
     fprintf(stdout,
@@ -239,12 +236,7 @@ static void print_help()
             "          [--in_mem=<location>]         - Input memory type: cache, llc or ram. Set to llc by default. \n"
             "          [--out_mem=<location>]        - Output memory type: cache_ram or ram. Set to cache_ram by default. \n"
             "          [--full_time]                 - Include initialization and destruction into measured time. Off by default.\n"
-            "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n"
-
-            "\nCompression and Decompression Specific Flags (currently not in use):\n"
-            "benchmark [--canned_part=<num>]         - Amount of data used for tables generation:\n"
-            "                                          0 - full file, float (0-1) - portion of file, integer [1-N] - number of blocks.\n"
-            "          [--canned_regen]              - Regenerate tables for each part. Off by default.\n");
+            "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n");
 }
 
 static void parse_local(int* argc, char** argv)
@@ -260,10 +252,7 @@ static void parse_local(int* argc, char** argv)
            benchmark::ParseInt32Flag(argv[i],   "batch_size",   &FLAGS_batch_size) ||
            benchmark::ParseBoolFlag(argv[i],    "no_hw",        &FLAGS_no_hw) ||
            benchmark::ParseStringFlag(argv[i],  "in_mem",       &FLAGS_in_mem) ||
-           benchmark::ParseStringFlag(argv[i],  "out_mem",      &FLAGS_out_mem) ||
-
-           benchmark::ParseDoubleFlag(argv[i],  "canned_part",  &FLAGS_canned_part) ||
-           benchmark::ParseBoolFlag(argv[i],    "canned_regen", &FLAGS_canned_regen))
+           benchmark::ParseStringFlag(argv[i],  "out_mem",      &FLAGS_out_mem))
         {
             for(int j = i; j != *argc - 1; ++j)
                 argv[j] = argv[j + 1];
@@ -346,7 +335,7 @@ namespace bench
 std::string format(const char *format, ...) noexcept
 {
     std::string out;
-    size_t      size;
+    size_t      size = 0;
 
     va_list argptr1, argptr2;
     va_start(argptr1, format);

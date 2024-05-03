@@ -165,7 +165,11 @@ stack_size		equ	gpr_save_mem_size + xmm_save_mem_size + bitbuf_mem_size
 default rel
 section .text
 
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_encode_deflate_icf_ %+ ARCH:function hidden
+%else
 global qpl_encode_deflate_icf_ %+ ARCH
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_encode_deflate_icf_ %+ ARCH:
 	endbranch
 	FUNC_SAVE

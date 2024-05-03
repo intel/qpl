@@ -61,7 +61,11 @@ section .text
 ;;;;
 ; qpl_crc32_iscsi multibinary function
 ;;;;
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global qpl_crc32_iscsi, function, hidden
+%else
 mk_global qpl_crc32_iscsi, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_crc32_iscsi_mbinit:
 	endbranch
 	call	qpl_crc32_iscsi_dispatch_init
@@ -136,7 +140,11 @@ qpl_crc32_iscsi_dispatch_init:
 ;;;;
 ; qpl_crc32_ieee multibinary function
 ;;;;
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global qpl_crc32_ieee, function, hidden
+%else
 mk_global qpl_crc32_ieee, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_crc32_ieee_mbinit:
 	endbranch
 	call	qpl_crc32_ieee_dispatch_init

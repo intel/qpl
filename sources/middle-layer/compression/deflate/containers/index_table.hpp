@@ -24,9 +24,9 @@ public:
 
     auto write_new_index(uint32_t bit_count, uint32_t crc) noexcept -> bool;
 
-    auto get_current_index() noexcept -> uint32_t;
+    auto get_current_index() const noexcept -> uint32_t;
 
-    auto size() noexcept -> uint32_t;
+    auto size() const noexcept -> uint32_t;
 
     auto get_crc(uint32_t index) noexcept -> uint32_t;
 

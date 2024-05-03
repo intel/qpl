@@ -50,7 +50,7 @@ qpl_status ref_store_result(uint32_t dst_buf,
                 if (*idx_ptr > UINT8_MAX) {    // 8u data type - index can't exceed max 8u
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
-                // we don't know initialy required dst buf size - so check here
+                // we don't know initially required dst buf size - so check here
                 REF_CHECK_PTR_END(dst_ptr,
                                   dst_end_ptr,
                                   sizeof(uint8_t),
@@ -202,7 +202,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer,
                     return QPL_STS_OUTPUT_OVERFLOW_ERR;
                 }
 
-                // We don't know initialy required dst buf size - so check here
+                // We don't know initially required dst buf size - so check here
                 REF_CHECK_PTR_END(destination_8u_ptr,
                                   destination_end_ptr,
                                   sizeof(uint8_t),

@@ -32,7 +32,8 @@ target_include_directories(core_iaa
 
 set_target_properties(core_iaa PROPERTIES
         $<$<C_COMPILER_ID:MSVC>:C_STANDARD 18>
-        $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>)
+        $<$<C_COMPILER_ID:GNU,Clang>:C_STANDARD 17>
+        C_VISIBILITY_PRESET hidden)
 
 target_compile_options(core_iaa
         PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS};

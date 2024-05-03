@@ -59,7 +59,11 @@ section .text
 %endif
 
 align 16
+%ifdef QPL_HIDE_ASM_SYMBOLS
+mk_global FUNCTION_NAME, function, hidden
+%else
 mk_global FUNCTION_NAME, function
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 FUNCTION_NAME:
 	endbranch
 	sub		rsp, VARIABLE_OFFSET

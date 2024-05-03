@@ -318,7 +318,17 @@ auto gzip_decorator::wrap(F function,
 
     result = function(state, begin, current_in_size);
 
-    result.output_bytes_ += wrapper_bytes;
+    // With qpl_path_auto, if execution on qpl_path_hardware writes header and then gets error in execution,
+    // fallback to qpl_path_software will write header again before execution. In this case, compressed
+    // stream will contain 2 copies of the headers. So, here we write the header,
+    // but only make header bytes valid by adding them to result.output_bytes_ when result
+    // status is OK. When execution on qpl_path_hardware returns error, result.output_bytes_ is not updated,
+    // fallback to qpl_path_software will write the header at the same place as HW execution did and update
+    // result.output_bytes_.
+    // Note: since gzip headers are very small, writing header twice shouldn't have big performance impact
+    if (!result.status_code_) {
+        result.output_bytes_ += wrapper_bytes;
+    }
 
     if (!result.status_code_ && state.is_last_chunk()) {
         auto wrapper_result = write_gzip_trailer(data_ptr + result.output_bytes_,

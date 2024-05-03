@@ -25,9 +25,6 @@ BM_DECLARE_bool(no_hw);
 BM_DECLARE_string(in_mem);
 BM_DECLARE_string(out_mem);
 
-BM_DECLARE_double(canned_part);
-BM_DECLARE_bool(canned_regen);
-
 std::int32_t get_block_size();
 mem_loc_e    get_in_mem();
 mem_loc_e    get_out_mem();

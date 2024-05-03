@@ -231,7 +231,11 @@ default rel
 section .text
 
 ; void qpl_isal_update_histogram
+%ifdef QPL_HIDE_ASM_SYMBOLS
+global qpl_isal_update_histogram_ %+ ARCH:function hidden
+%else
 global qpl_isal_update_histogram_ %+ ARCH
+%endif ; %ifdef QPL_HIDE_ASM_SYMBOLS
 qpl_isal_update_histogram_ %+ ARCH %+ :
 	endbranch
 	FUNC_SAVE

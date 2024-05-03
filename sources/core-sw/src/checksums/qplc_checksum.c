@@ -30,7 +30,7 @@
  *
  * @param[in]  src_ptr   - pointer to the data buffer
  * @param[in]  length    - len of the buffer
- * @param[in]  init_xor  - intialization value for Xor checksum
+ * @param[in]  init_xor  - initialization value for Xor checksum
  *
  * @return XOR checksum value
  */

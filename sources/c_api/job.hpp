@@ -15,6 +15,7 @@
 #include "common/defs.hpp"
 #include "qpl/c_api/job.h"
 #include "compression_operations/compression_state_t.h"
+#include "legacy_hw_path/hardware_state.h"
 
 namespace qpl::job {
 
@@ -83,15 +84,6 @@ static inline bool is_huffman_only_compression(const qpl_job *const job_ptr) noe
     return (qpl_op_compress == job_ptr->op) && (QPL_FLAG_GEN_LITERALS & job_ptr->flags);
 }
 
-static inline bool is_single_job(const qpl_job *const job_ptr) noexcept {
-    const uint32_t stateless_flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
-    return ((stateless_flags & job_ptr->flags) == stateless_flags);
-}
-
-static inline bool is_multi_job(const qpl_job *const job_ptr) noexcept {
-    return !is_single_job(job_ptr);
-}
-
 static inline bool is_random_decompression(const qpl_job *const job_ptr) noexcept {
     return (qpl_op_decompress == job_ptr->op) &&
            (QPL_FLAG_RND_ACCESS & job_ptr->flags);
@@ -121,6 +113,26 @@ static inline bool is_expand(const qpl_job *const job_ptr) noexcept {
     return qpl_op_expand == job_ptr->op;
 }
 
+static inline bool is_crc64(const qpl_job *const job_ptr) noexcept {
+    return qpl_op_crc64 == job_ptr->op;
+}
+
+static inline bool is_filter(const qpl_job *const job_ptr) noexcept {
+    return (is_scan(job_ptr) || is_extract(job_ptr) || is_select(job_ptr) || is_expand(job_ptr));
+}
+
+/**
+ * @note crc64 and filter operations are always done as a single job.
+*/
+static inline bool is_single_job(const qpl_job *const job_ptr) noexcept {
+    const uint32_t stateless_flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+    return ((stateless_flags & job_ptr->flags) == stateless_flags || is_filter(job_ptr) || is_crc64(job_ptr));
+}
+
+static inline bool is_multi_job(const qpl_job *const job_ptr) noexcept {
+    return !is_single_job(job_ptr);
+}
+
 static inline bool is_zlib_flag_set(const qpl_job *const job_ptr) noexcept {
     return QPL_FLAG_ZLIB_MODE & job_ptr->flags;
 }
@@ -143,6 +155,16 @@ static inline bool is_verification_supported(const qpl_job *const qpl_job_ptr) n
 static inline bool is_supported_on_hardware(const qpl_job *const qpl_ptr) {
     return ((qpl_path_hardware == qpl_ptr->data_ptr.path || qpl_path_auto == qpl_ptr->data_ptr.path)
             && !is_high_level_compression(qpl_ptr));
+}
+
+// Check if Force Array Output Modification is supported
+static inline bool is_force_array_output_supported(const qpl_job *const job_ptr) noexcept {
+    // Check if job_ptr and hw_state_ptr are not null
+    if (job_ptr != nullptr && job_ptr->data_ptr.hw_state_ptr != nullptr && ((qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr) != nullptr){
+        // Check if force array output modification is supported
+        return ((qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr)->accel_context.device_properties.force_array_output_mod_available;
+    }
+    return false;
 }
 
 // ------ JOB SETTERS ------ //

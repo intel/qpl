@@ -64,7 +64,7 @@ namespace qpl::test::util
         std::filesystem::path GetDatasetPath();
 
         /**
-        * @briеf This method initializes variables that can be recieved through command line
+        * @briеf This method initializes variables that can be received through command line
         */
         void Initialize(const arguments_list_t &arguments_list);
 

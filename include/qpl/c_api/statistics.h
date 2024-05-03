@@ -12,6 +12,10 @@
 #ifndef QPL_STATISTICS_HPP_
 #define QPL_STATISTICS_HPP_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #include "stdint.h"
 #include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
@@ -76,6 +80,10 @@ QPL_API(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_STATISTICS_HPP_

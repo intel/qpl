@@ -41,7 +41,7 @@ uint32_t calculate_mini_block_index(uint32_t mini_block_per_block, uint32_t mini
 
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, get_index_table_size) {
-    size_t ret_size;
+    size_t ret_size = 0U;
     size_t *ret_size_ptr = &ret_size;
 
     auto status = qpl_get_index_table_size(0, 1, ret_size_ptr);
@@ -67,18 +67,18 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, get_index_table_size) {
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location) {
-    uint32_t start_bit;
-    uint32_t last_bit;
+    uint32_t start_bit = 0U;
+    uint32_t last_bit = 1U;
 
-    uint32_t first_bit_offset;
-    uint32_t last_bit_offset;
-    uint32_t compressed_size;
+    uint32_t first_bit_offset = 0U;
+    uint32_t last_bit_offset = 0U;
+    uint32_t compressed_size = 0U;
 
-    uint8_t source;
+    uint8_t source = 0U;
     uint8_t *source_ptr = &source;
     uint8_t **source_pptr = &source_ptr;
 
-    uint8_t next_in;
+    uint8_t next_in = 0U;
     uint8_t *next_in_ptr = &next_in;
     uint8_t **next_in_pptr = &next_in_ptr;
 
@@ -86,8 +86,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
     uint32_t *last_bit_offset_ptr = &last_bit_offset;
     uint32_t *compressed_size_ptr = &compressed_size;
 
-    start_bit = 0;
-    last_bit = 1;
     uint32_t ignore_start_bits = start_bit & 7;
     uint32_t ignore_end_bits = 7 & (0 - last_bit);
     uint32_t available_in = ((last_bit + 7) / 8) - (start_bit / 8);
@@ -105,8 +103,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
     EXPECT_EQ(*last_bit_offset_ptr, ignore_end_bits);
     EXPECT_EQ(*compressed_size_ptr, available_in);
 
-    start_bit = 1;
-    last_bit = 2;
+    start_bit = 1U;
+    last_bit = 2U;
     ignore_start_bits = start_bit & 7;
     ignore_end_bits = 7 & (0 - last_bit);
     available_in = ((last_bit + 7) / 8) - (start_bit / 8);
@@ -128,7 +126,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, DISABLED_set_mini_block_location
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_header_block_index){
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;
-    uint32_t block_index;
+    uint32_t block_index = 0U;
     uint32_t *block_index_ptr = &block_index;
     table.block_count = 10;
 
@@ -167,7 +165,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(index_table, find_mini_block_index){
     // works on HW path, not on SW path
     qpl_index_table table;
     qpl_index_table *table_ptr = &table;
-    uint32_t block_index;
+    uint32_t block_index = 0U;
     uint32_t *block_index_ptr = &block_index;
     table.block_count = 10;
 

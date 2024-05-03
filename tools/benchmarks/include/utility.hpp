@@ -71,7 +71,6 @@ static inline std::string to_string(path_e path)
     {
     case path_e::cpu:    return "cpu";
     case path_e::iaa:    return "iaa";
-    case path_e::dsa:    return "dsa";
     case path_e::auto_:  return "auto";
     default:             return "error";
     }

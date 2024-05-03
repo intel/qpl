@@ -84,7 +84,7 @@ qpl_status ref_copy_le_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -116,7 +116,7 @@ qpl_status ref_copy_le_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint16_t) val;
                 dst_ptr++;
             }
@@ -148,7 +148,7 @@ qpl_status ref_copy_le_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint32_t) val;
                 dst_ptr++;
             }
@@ -238,7 +238,7 @@ qpl_status ref_copy_le_be_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -271,7 +271,7 @@ qpl_status ref_copy_le_be_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst16_ptr = (uint16_t) ref_cvt_le_2_be_16u(val);
                 dst16_ptr++;
             }
@@ -304,7 +304,7 @@ qpl_status ref_copy_le_be_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = (uint32_t) ref_cvt_le_2_be_32u(val);
                 dst32_ptr++;
             }
@@ -389,7 +389,7 @@ qpl_status ref_copy_be_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -424,7 +424,7 @@ qpl_status ref_copy_be_le_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else if (1U != s_bit) {    // otherwize store all values itself
+            } else if (1U != s_bit) {    // otherwise store all values itself
                 *dst16_ptr = (uint16_t) val;
                 dst16_ptr++;
             }
@@ -460,7 +460,7 @@ qpl_status ref_copy_be_le_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = (uint32_t) val;
                 dst32_ptr++;
             }
@@ -550,7 +550,7 @@ qpl_status ref_copy_be_be_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -586,7 +586,7 @@ qpl_status ref_copy_be_be_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst16_ptr = ref_cvt_le_2_be_16u(val);
                 dst16_ptr++;
             }
@@ -622,7 +622,7 @@ qpl_status ref_copy_be_be_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = ref_cvt_le_2_be_32u(val);
                 dst32_ptr++;
             }
@@ -880,7 +880,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_8U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_8U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -937,7 +937,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_16U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_16U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -997,7 +997,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_32U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_32U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1142,7 +1142,7 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_8U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_8U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1201,7 +1201,7 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_16U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_16U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1260,7 +1260,7 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_32U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_32U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1398,7 +1398,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_8U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_8U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1457,7 +1457,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_16U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_16U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1518,7 +1518,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_32U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_32U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1656,7 +1656,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_8U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_8U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1711,7 +1711,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_16U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_16U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;    // if upper boundary reached - than return error
                     }
@@ -1766,7 +1766,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t *src_ptr,
                         *output_bits_ptr -= REF_32U_BITS;    // for dst upper boundary check
                     }
                     idx++;
-                } else {    // otherwize store all values itself
+                } else {    // otherwise store all values itself
                     if (REF_32U_BITS > *output_bits_ptr) {    // control dst buffer
                         return QPL_STS_DST_IS_SHORT_ERR;     // if upper boundary reached - than return error
                     }
@@ -1895,7 +1895,7 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -1945,7 +1945,7 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst16_ptr = (uint16_t) val;
                 dst16_ptr++;
             }
@@ -1994,7 +1994,7 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = (uint32_t) val;
                 dst32_ptr++;
             }
@@ -2128,7 +2128,7 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -2177,7 +2177,7 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst16_ptr = (uint16_t) ref_cvt_le_2_be_16u(val);
                 dst16_ptr++;
             }
@@ -2226,7 +2226,7 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = (uint32_t) ref_cvt_le_2_be_32u(val);
                 dst32_ptr++;
             }
@@ -2361,7 +2361,7 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -2412,7 +2412,7 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else if (1U != s_bit) {    // otherwize store all values itself
+            } else if (1U != s_bit) {    // otherwise store all values itself
                 *dst16_ptr = (uint16_t) val;
                 dst16_ptr++;
             }
@@ -2464,7 +2464,7 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = (uint32_t) val;
                 dst32_ptr++;
             }
@@ -2606,7 +2606,7 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t *src_ptr,
                     dst_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst_ptr = (uint8_t) val;
                 dst_ptr++;
             }
@@ -2658,7 +2658,7 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t *src_ptr,
                     dst16_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst16_ptr = ref_cvt_le_2_be_16u(val);
                 dst16_ptr++;
             }
@@ -2710,7 +2710,7 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t *src_ptr,
                     dst32_ptr++;
                 }
                 idx++;
-            } else {    // otherwize store all values itself
+            } else {    // otherwise store all values itself
                 *dst32_ptr = ref_cvt_le_2_be_32u(val);
                 dst32_ptr++;
             }

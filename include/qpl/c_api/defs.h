@@ -186,6 +186,11 @@ extern "C" {
  */
 #define QPL_FLAG_OMIT_AGGREGATES 0x00200000U
 
+/**
+ * Filtering only: Force Array Output Mod
+*/
+#define QPL_FLAG_FORCE_ARRAY_OUTPUT 0x00800000U
+
 /** @} */
 
 /**

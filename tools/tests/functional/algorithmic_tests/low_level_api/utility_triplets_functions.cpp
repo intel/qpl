@@ -24,6 +24,8 @@ typedef struct qpl_compression_huffman_table qpl_compression_huffman_table;
 extern "C" qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl_huffman_table_t table);
 
 class triplets_fixture : public JobFixture {
+private:
+    uint8_t *job_buffer            = nullptr;
 protected:
     void SetUp() override {
         JobFixture::SetUp();
@@ -372,7 +374,6 @@ protected:
         }
     }
 
-    uint8_t *job_buffer            = nullptr;
     qpl_job *decompression_job_ptr = nullptr;
 };
 

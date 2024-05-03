@@ -12,6 +12,10 @@
 #ifndef QPL_STATUS_H_
 #define QPL_STATUS_H_
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility push(default)
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -99,7 +103,7 @@ typedef enum {
 // <-- Filtering
     QPL_STS_SET_TOO_LARGE_ERR           = QPL_PARAMETER_ERROR(20U), /**< Set is too large for operation */
     QPL_STS_PARSER_ERR                  = QPL_PARAMETER_ERROR(21U), /**< Non-supported value in the qpl_job parser field */
-    QPL_STS_OUT_FORMAT_ERR              = QPL_PARAMETER_ERROR(22U), /**< qpl_job out_bit_width field contains invalid value */
+    QPL_STS_OUT_FORMAT_ERR              = QPL_PARAMETER_ERROR(22U), /**< qpl_job out_bit_width field contains invalid value or QPL_FLAG_FORCE_ARRAY_OUTPUT is set with nominal out_bit_width */
     QPL_STS_DROP_BITS_OVERFLOW_ERR      = QPL_PARAMETER_ERROR(23U), /**< Incorrect dropBits value (param_low + param_high must be beyond 0..32) */
     QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR  = QPL_PARAMETER_ERROR(24U), /**< qpl_job bit-width field contains an invalid value for current output format */
     QPL_STS_DROP_BYTES_ERR              = QPL_PARAMETER_ERROR(25U), /**< qpl_job drop_initial_bytes field contains an invalid value */
@@ -221,6 +225,10 @@ typedef enum {
 
 #ifdef __cplusplus
 }
+#endif
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC visibility pop
 #endif
 
 #endif //QPL_STATUS_H_

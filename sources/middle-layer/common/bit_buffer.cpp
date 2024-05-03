@@ -101,7 +101,7 @@ auto bit_reader::get_total_bytes_read() noexcept -> uint32_t {
     return static_cast<uint32_t>(current_source_ptr_ - source_begin_ptr_);
 }
 
-auto bit_reader::get_buffer_bit_count() noexcept -> uint32_t {
+auto bit_reader::get_buffer_bit_count() const noexcept -> uint32_t {
     return bits_in_buffer_;
 }
 
@@ -109,7 +109,7 @@ void bit_reader::set_last_bits_offset(uint8_t value) noexcept {
     last_bits_offset_ = value;
 }
 
-auto bit_reader::is_overflowed() noexcept -> bool {
+auto bit_reader::is_overflowed() const noexcept -> bool {
     return is_overflowed_;
 }
 

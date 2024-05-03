@@ -9,9 +9,109 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function
+
+#ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
+#include <x86intrin.h>
+
+extern "C" {
+
+struct accfg_ctx;
+struct accfg_device;
+struct accfg_wq;
+
+/* Instantiate a new library context */
+int accfg_new(struct accfg_ctx **ctx);
+
+/* Get first available device */
+struct accfg_device *accfg_device_get_first(struct accfg_ctx *ctx);
+/* Get next available device */
+struct accfg_device *accfg_device_get_next(struct accfg_device *device);
+/* Get numa id for device */
+int accfg_device_get_numa_node(struct accfg_device *device);
+
+/* macro to loop through all available devices */
+#define accfg_device_foreach(ctx, device) \
+	for (device = accfg_device_get_first(ctx); \
+	     device != NULL; \
+	     device = accfg_device_get_next(device))
+
+/* Get first available workqueue on device */
+struct accfg_wq *accfg_wq_get_first(struct accfg_device *device);
+/* Get next available workqueue */
+struct accfg_wq *accfg_wq_get_next(struct accfg_wq *wq);
+/* Get max tranfer size of workqueue */
+uint64_t accfg_wq_get_max_transfer_size(struct accfg_wq *wq);
+
+/* macro to loop through all available workqueues on device */
+#define accfg_wq_foreach(device, wq) \
+	for (wq = accfg_wq_get_first(device); \
+	     wq != NULL; \
+	     wq = accfg_wq_get_next(wq))
+
+}
+
+/**
+ * @brief This function gets the current NUMA node id.
+ */
+int32_t get_numa_id() noexcept {
+#if defined(__linux__)
+    uint32_t tsc_aux = 0;
+
+    __rdtscp(&tsc_aux);
+
+    // Linux encodes NUMA node into [32:12] of TSC_AUX
+    return static_cast<int32_t>(tsc_aux >> 12);
+#else
+    return -1;
+#endif // if defined(__linux__)
+}
+#endif // #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
+
+/**
+ * @brief This function gets the values for max transfer size from all available
+ * workqueues on numa node (-1 for all) and sets max_transfer_size to the minimum
+ * of the values returns a status code 0 is okay, -1 is an accel-config loading error
+*/
+int32_t get_min_max_transfer_size(uint64_t &max_transfer_size, int32_t numa_id = -1) {
+#ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
+    accfg_ctx    *ctx_ptr     = nullptr;
+    accfg_device *device_ptr  = nullptr;
+    accfg_wq     *wq_ptr      = nullptr;
+
+    if (numa_id == -1) {
+        numa_id = get_numa_id();
+    }
+
+    uint64_t current_min = UINT64_MAX;
+    uint64_t current_value;
+
+    int32_t context_creation_status = accfg_new(&ctx_ptr);
+    if (0u != context_creation_status) {
+        return -1;
+    }
+    accfg_device_foreach(ctx_ptr, device_ptr) {
+        if(numa_id != accfg_device_get_numa_node(device_ptr)) {
+            continue;
+        }
+        accfg_wq_foreach(device_ptr, wq_ptr) {
+            current_value = accfg_wq_get_max_transfer_size(wq_ptr);
+            if (current_value < current_min) {
+                current_min = current_value;
+            }
+        }
+    }
+    max_transfer_size = current_min;
+    return 0;
+#else
+    max_transfer_size = UINT64_MAX;
+    return -1;
+#endif // #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
+}
+
 
 /**
  * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`
@@ -25,14 +125,15 @@
  * `Hardware Path` doesn't support all features declared for `Software Path`
  *
  * The example compresses data with multi-chunk and decompresses data using single job with Deflate fixed Huffman encoding.
- *
+ * If the accel-config library is available, this example will also check to ensure that the job size does not exceed the
+ * accelerator configured maximum transfer size.
  */
 
-constexpr const uint32_t source_size = 1000;
+constexpr uint32_t source_size = 21 * 1024 * 1024;
 
-// In this example source data is splitted to `chunk_count` pieces.
+// In this example source data is split into `chunk_count` pieces.
 // Compression is then performed via multiple job submissions.
-constexpr const uint32_t chunk_count = 7;
+constexpr uint32_t chunk_count = 7;
 
 auto main(int argc, char** argv) -> int {
     std::cout << "Intel(R) Query Processing Library version is " << qpl_get_library_version() << ".\n";
@@ -44,6 +145,19 @@ auto main(int argc, char** argv) -> int {
     int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
+    }
+
+    // Calculate chunk size for the compression.
+    uint32_t chunk_size = source_size/chunk_count;
+
+    if (execution_path == qpl_path_hardware) {
+        uint64_t max_transfer_size;
+        if(get_min_max_transfer_size(max_transfer_size) == 0){
+            if (chunk_size > max_transfer_size) {
+                std::cout << "Chunk size(" << chunk_size << ") exceeds configured max transfer size (" << max_transfer_size <<"), reducing chunk size.\n";
+                chunk_size = max_transfer_size;
+            }
+        }
     }
 
     // Source and output containers.
@@ -80,8 +194,6 @@ auto main(int argc, char** argv) -> int {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_OMIT_VERIFY;
     job->huffman_table = NULL;
 
-    // Calculate chunk size for the compression.
-    uint32_t chunk_size        = source_size/chunk_count;
     uint32_t iteration_count   = 0U;
     uint32_t source_bytes_left = static_cast<uint32_t>(source.size());
 
@@ -101,6 +213,9 @@ auto main(int argc, char** argv) -> int {
 
         source_bytes_left -= chunk_size;
         job->available_in  = chunk_size;
+
+        // Hardware requires that job->available_out does not exceed max_transfer_size
+        job->available_out = std::min(chunk_size, job->available_out);
 
         // Execute compression operation.
         status = qpl_execute_job(job);

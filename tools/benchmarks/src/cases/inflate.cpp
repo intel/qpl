@@ -73,9 +73,8 @@ static inline void cases_set(data_t &data, huffman_type_e huffman, const canned_
 
 BENCHMARK_SET_DELAYED(inflate)
 {
-    std::vector<std::uint32_t>   block_sizes;
+    std::vector<std::uint32_t>  block_sizes;
     std::vector<huffman_type_e> huffman_modes{huffman_type_e::fixed, huffman_type_e::dynamic};
-    std::vector<double>         canned_parts = (cmd::FLAGS_canned_part >= 0) ? std::vector<double>{cmd::FLAGS_canned_part} : std::vector<double>{0.1, 0.5, 0};
     std::vector<std::int32_t>   sw_levels{1, 3};
     std::vector<std::int32_t>   hw_levels{1};
     std::vector<std::int32_t>   sw_hw_levels{3};

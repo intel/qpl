@@ -60,6 +60,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
             auto output_stream = analytics::output_stream_t<analytics::bit_stream>::builder(dst_begin, dst_end)
                     .stream_format(output_stream_format)
                     .bit_format(out_bit_width_format, bit_bits_size)
+                    .force_array(job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT)
                     .nominal(true)
                     .initial_output_index(job_ptr->initial_output_index)
                     .build<execution_path_t::hardware>();
@@ -181,6 +182,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
             auto output_stream = analytics::output_stream_t<analytics::bit_stream>::builder(dst_begin, dst_end)
                     .stream_format(output_stream_format)
                     .bit_format(out_bit_width_format, bit_bits_size)
+                    .force_array(job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT)
                     .nominal(true)
                     .initial_output_index(job_ptr->initial_output_index)
                     .build<execution_path_t::auto_detect>();

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # ==========================================================================
 
-cmake_minimum_required(VERSION 3.12.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15.0 FATAL_ERROR)
 project(isal CXX ASM)
 
 enable_language(ASM_NASM)
@@ -44,7 +44,6 @@ set(ISAL_ASM_SRC igzip/igzip_body.asm
     igzip/igzip_set_long_icf_fg_04.asm
     igzip/igzip_set_long_icf_fg_06.asm
     igzip/igzip_multibinary.asm
-    igzip/stdmac.asm
     crc/crc_multibinary.asm
     crc/crc32_gzip_refl_by8.asm
     crc/crc32_gzip_refl_by8_02.asm
@@ -78,7 +77,9 @@ target_include_directories(isal
 
 set_target_properties(isal PROPERTIES
                       CXX_STANDARD 11
-                      C_STANDARD 99)
+                      C_STANDARD 99
+                      CXX_VISIBILITY_PRESET hidden
+                      C_VISIBILITY_PRESET hidden)
 
 target_compile_options(isal PRIVATE
                        "$<$<C_COMPILER_ID:GNU,Clang>:${QPL_LINUX_TOOLCHAIN_REQUIRED_FLAGS}>"
@@ -91,7 +92,8 @@ target_compile_options(isal_asm PUBLIC "-I${CMAKE_CURRENT_SOURCE_DIR}/include/"
                        PUBLIC "-I${CMAKE_CURRENT_SOURCE_DIR}/crc/"
                        PUBLIC "-DHAVE_AS_KNOWS_AVX512"
                        PUBLIC "-DAS_FEATURE_LEVEL=10"
-                       PUBLIC "-DQPL_LIB")
+                       PUBLIC "-DQPL_LIB"
+                       PUBLIC "$<$<STREQUAL:${QPL_LIBRARY_TYPE},SHARED>:-DQPL_HIDE_ASM_SYMBOLS>")
 
 target_compile_definitions(isal PUBLIC
                            QPL_LIB

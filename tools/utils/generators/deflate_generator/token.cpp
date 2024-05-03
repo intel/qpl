@@ -12,7 +12,7 @@
 
 static char_type_c g_ctype;
 #define CTYPE(c)   (g_ctype.get_type(c))
-#define TOLOWER(c) (g_ctype.tolower(c))
+#define TOLOWER(c) (static_cast<unsigned char>(g_ctype.tolower(c)))
 
 ////////////////////////////////////////////////////////////////
 

@@ -315,7 +315,7 @@ REF_INLINE qpl_status own_store_value_nom(const uint32_t *const source_ptr,
     // Destination offset in bits
     uint64_t destination_bit_offset = 0U;
 
-    // Ouput is in BE format
+    // Output is in BE format
     if (output_be) {
         // For all mask elements
         for (uint32_t i = 0U; i < number_of_elements; i++) {

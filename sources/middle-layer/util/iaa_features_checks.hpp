@@ -33,8 +33,10 @@ inline bool are_iaa_gen_2_min_capabilities_present() {
 
 #if defined( __linux__ )
     static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    const auto &device            = dispatcher.device(0);
-    are_gen2_capabilities_present = device.get_gen_2_min_capabilities();
+    if (dispatcher.is_hw_support()) {
+        const auto &device            = dispatcher.device(0);
+        are_gen2_capabilities_present = device.get_gen_2_min_capabilities();
+    }
 #endif
 
     return are_gen2_capabilities_present;
