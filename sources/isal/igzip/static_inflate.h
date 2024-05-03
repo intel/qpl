@@ -1349,7 +1349,6 @@ struct inflate_huff_code_small static_dist_huff_code = {
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000	}
 };
 
-#endif
 struct inflate_huff_code_large pregen_lit_huff_code = {
     .short_code_lookup = {
         0x24000102, 0x88010265, 0x44000103, 0xa8010277,
@@ -2682,3 +2681,4 @@ struct inflate_huff_code_small pregen_dist_huff_code = {
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000	}
 };
 
+#endif

@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#ifndef QPLC_UNPACK_BE_16U_K0_H
+#define QPLC_UNPACK_BE_16U_K0_H
+
 /**
  * @brief Contains implementation of functions for unpacking 9..16-bit BE data to words
  * @date 07/06/2020
@@ -914,3 +917,5 @@ OWN_OPT_FUN(void, k0_qplc_unpack_be_16u16u, (const uint8_t *src_ptr,
         dst16u_ptr[i] = qplc_swap_bytes_16u(src16u_ptr[i]);
     }
 }
+
+#endif

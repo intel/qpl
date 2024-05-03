@@ -5,6 +5,8 @@
  ******************************************************************************/
 
 #ifndef IGZIP_WRAPPER_H
+#define IGZIP_WRAPPER_H
+
 
 #define DEFLATE_METHOD 8
 #define ZLIB_DICT_FLAG (1 << 5)
