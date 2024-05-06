@@ -209,9 +209,11 @@ namespace qpl::test
         ~GTEST_TEST_CLASS_NAME_(test_suite_name, test_name)() override = default;                                           \
         GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) (const GTEST_TEST_CLASS_NAME_(test_suite_name,                   \
                                                                                          test_name) &) = delete;            \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) (const GTEST_TEST_CLASS_NAME_(test_suite_name,                   \
+                                                                                         test_name) &&) = delete;           \
         GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,        \
                                                                                                     test_name) &) = delete; \
-        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,         \
+        GTEST_TEST_CLASS_NAME_(test_suite_name, test_name) & operator=(const GTEST_TEST_CLASS_NAME_(test_suite_name,        \
                                                                                                     test_name) &&) = delete;\
                                                                                                                             \
     private:                                                                                                                \
