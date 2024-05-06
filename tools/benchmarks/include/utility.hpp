@@ -6,9 +6,11 @@
 
 #pragma once
 
-#include <details/utility.hpp>
 #include <string>
+#include <cstdint>
+
 #include "cmd_decl.hpp"
+#include "details/utility.hpp"
 
 //
 // Defines

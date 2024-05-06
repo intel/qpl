@@ -54,6 +54,13 @@ protected:
         job_->available_out = static_cast<std::uint32_t>(data_.size());
         job_->op            = qpl_op_decompress;
         job_->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+        job_->huffman_table = nullptr;
+
+        if (params_.huffman_ == huffman_type_e::canned)
+        {
+            job_->flags |= QPL_FLAG_CANNED_MODE;
+            job_->huffman_table = params_.p_huffman_table_.get();
+        }
 
         if(params_.no_headers_)
             job_->flags |= QPL_FLAG_NO_HDRS;

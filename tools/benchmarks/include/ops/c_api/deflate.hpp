@@ -51,6 +51,7 @@ protected:
         job_->available_out = static_cast<std::uint32_t>(stream_.size());
         job_->op            = qpl_op_compress;
         job_->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_->huffman_table = nullptr;
 
         if(params_.huffman_only_)
             job_->flags |= QPL_FLAG_GEN_LITERALS;
@@ -61,6 +62,11 @@ protected:
             job_->flags |= QPL_FLAG_DYNAMIC_HUFFMAN;
         else if(params_.huffman_ == huffman_type_e::fixed)
             job_->flags &= ~QPL_FLAG_DYNAMIC_HUFFMAN;
+        else if (params_.huffman_ == huffman_type_e::canned)
+        {
+            job_->flags |= QPL_FLAG_CANNED_MODE;
+            job_->huffman_table = params_.p_huffman_table_.get();
+        }
         else
             throw std::runtime_error(format("invalid Huffman mode: %s", to_string(params_.huffman_).c_str()));
 

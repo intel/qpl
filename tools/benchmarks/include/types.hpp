@@ -21,19 +21,6 @@ struct data_t
 using dataset_t = std::vector<data_t>;
 using blocks_t  = std::vector<data_t>;
 
-struct canned_table_t
-{
-    std::vector<std::uint8_t> com_table_l1;
-    std::vector<std::uint8_t> com_table_l3;
-    std::vector<std::uint8_t> dec_table_l1;
-    std::vector<std::uint8_t> dec_table_l3;
-
-    std::vector<std::uint8_t> com_table_l1_ho;
-    std::vector<std::uint8_t> com_table_l3_ho;
-    std::vector<std::uint8_t> dec_table_l1_ho;
-    std::vector<std::uint8_t> dec_table_l3_ho;
-};
-
 struct dictionary_t
 {
     std::vector<std::uint8_t> dict;
