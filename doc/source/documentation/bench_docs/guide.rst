@@ -12,64 +12,40 @@ Benchmarks Framework Guide
 Goal of the benchmarks is to provide performance guidance on various use case scenarios
 of the Intel® Query Processing Library (Intel® QPL).
 To cover these cases the benchmarks provide several performance metrics and modes of operation.
+Benchmark are based on the Google benchmark library and built as a part of Intel QPL.
 
 .. attention::
 
     Currently, the Intel QPL benchmarks framework offers limited support.
 
-    - Compression and decompression are supported for fixed and dynamic modes; canned mode is not supported.
+    - Compression and decompression are supported for Fixed, Dynamic and Canned modes.
     - CRC operations are supported. The supported CRCs are the default CRC64, CRC32 (Gzip), CRC32 (wimax),
       CRC32-C (ICSCI), CRC-16-T10-DIF, and CRC-16-CCITT.
     - Huffman only mode is not supported.
     - Analytic operations are not supported.
 
-Quick Start
-***********
+To learn how to start using Benchmarks and run simple operation, refer to the :ref:`Quick Start page <library_benchmarking_quick_start_link>`.
+For more detailed information on the Benchmarks Framework, refer to the next sections.
 
-Benchmark are based on the Google benchmark library and built as a part of Intel QPL.
-Refer to :ref:`Installation page <building_library_build_reference_link>`
-for details on how to build the library and resolve all prerequisites.
+Using the Benchmarks Framework
+******************************
 
-The example below demonstrates running Deflate using Fixed block on accelerator using synchronous execution.
-
-.. warning::
-
-    Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>` and
-    configure :ref:`Intel® In-Memory Analytics Accelerator (Intel® IAA) <accelerator_configuration_reference_link>`
-    before executing the example.
+To get a full list of supported commands and input arguments with detailed description, run ``./qpl_benchmarks --help``.
+Intel QPL Benchmark Framework is based on Google benchmark library and supports all its command line arguments
+as well as additional ones that are specific to Intel QPL.
 
 .. attention::
 
-    By default Benchmarks do not set :c:member:`qpl_job.numa_id` value, so the library will auto detect NUMA node
-    of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.
-
-    If you need to specify NUMA node for execution of this example,
-    use appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
-    or add ``--node=<numa_id>`` to execution command.
-
-    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
-
-    Refer to :ref:`library_numa_support_reference_link` section for more details.
-
-.. code-block:: shell
-
-    sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1 --block_size=0
-
-.. code-block:: shell
-    :caption: Output to terminal:
-
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Benchmark                                                                                                                          Time             CPU   Iterations UserCounters...
-    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:pic.113/huffman:fixed/lvl:1/real_time        3226 ns         3226 ns        42981 Latency=3.22604us Latency/Op=3.22604us Ratio=4.40904 Throughput=1.26967G/s
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:pic.28/huffman:fixed/lvl:1/real_time         9304 ns         9304 ns        14907 Latency=9.30406us Latency/Op=9.30406us Ratio=5.06461 Throughput=1.76095G/s
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:progp.02/huffman:fixed/lvl:1/real_time       9454 ns         9454 ns        14828 Latency=9.45413us Latency/Op=9.45413us Ratio=2.88756 Throughput=1.733G/s
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:progp.08/huffman:fixed/lvl:1/real_time       3255 ns         3255 ns        43100 Latency=3.25501us Latency/Op=3.25501us Ratio=3.25338 Throughput=1.25837G/s
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:trans.04/huffman:fixed/lvl:1/real_time       9436 ns         9436 ns        14782 Latency=9.43575us Latency/Op=9.43575us Ratio=2.41759 Throughput=1.73637G/s
-    deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:trans.21/huffman:fixed/lvl:1/real_time       3243 ns         3243 ns        43891 Latency=3.24297us Latency/Op=3.24297us Ratio=3.86051 Throughput=1.26304G/s
+    By default, Benchmarks Framework would attempt to do an initialization check for the accelerator.
+    If no accelerators are available on the system, you can use ``--no_hw`` to suppress
+    Intel® In-Memory Analytics Accelerator (Intel® IAA) initialization check warning.
 
 Key Terms
-*********
+=========
+
+Below is the list of key terms used in the Benchmarks Framework.
+Some of them are input parameters and some are used in the case naming.
+For the latter, refer to the next section for more details on how to set up the correct filter.
 
 * **API**: Currently, only Low-Level C API is supported. Case naming: ``api:c``.
 * **Path**: Represents execution path for the library. Case naming: ``path:iaa`` for executing on accelerator, ``path:cpu`` for running on CPU.
@@ -87,82 +63,69 @@ Key Terms
     For small workloads higher number of threads may be required to saturate devices,
     for big workloads even one thread may reach capacity.
 
+* **Compression mode**: Currently, Static mode is not supported. Supported case namings: ``huffman:fixed``, ``huffman:dynamic`` or ``huffman:canned``. Note, that for Canned mode, Huffman tables are precomputed and do not contribute to the metrics measured.
 * **Blocks**: Input data is split by blocks of size ``--block_size=XXXX`` (with XXXX being in bytes) and each block is processed separately.
 * **Dataset**: Path should be provided to a dataset (e.g., Calgary corpus) via ``--dataset=<dataset_dir>`` parameter.
 
-Using the Benchmarks Framework
-******************************
-
-Intel QPL benchmark framework is based on Google benchmark library,
-run ``./qpl_benchmarks --help`` to get a full list of supported commands and input arguments with detailed description.
-
-.. attention::
-
-    If no accelerators are available on the system, you can use ``--no_hw`` to suppress Intel IAA initialization check warning.
+Setting the Correct Filter for Performance Measurement
+======================================================
 
 In order to set up a specific run configuration ``--benchmark_filter`` should be used,
 which input is a regexp based on the case name.
 
 For instance, for launching compression operation using Low-Level C API, synchronous execution and fixed mode
 on a CPU, use the next expression ``--benchmark_filter="deflate.*:c/.*:cpu.*:sync.*fixed"``.
-
 To run decompression benchmarks, run the filter with ``inflate``.
 
-To run CRC benchmarks, run the filter with ``crc``. To filter for a specific CRC operation, run the filter with 
+To run CRC benchmarks, run the filter with ``crc``. To filter for a specific CRC operation, run the filter with
 one of the following phrases at the end: ``crc32_gzip``, ``crc32_iscsi``, ``crc32_wimax``, ``T10DIF``, ``crc16_ccitt``,
-``crc64``. 
+``crc64``. For example, to run CRC benchmarks on only crc64,
+the following filter would work: ``--benchmark_filter="crc.*:c/.*:cpu.*:sync.*crc64"``.
 
-For example, to run CRC benchmarks on only crc64, the following filter would work: ``--benchmark_filter="crc.*:c/.*:cpu.*:sync.*crc64"``.
+Executing using Accelerators
+============================
 
-Executing on Hardware Path
-==========================
+Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>`
+and :ref:`configure accelerator <accelerator_configuration_reference_link>` before executing using accelerator.
 
-.. warning::
+Benchmark Framework does not allow executing on a specific Intel IAA instance,
+however, it is possible to control the number of instances used by the benchmark.
+By default, Intel QPL respect the NUMA boundary and will use Intel IAA instances
+located on the NUMA node of the calling process.
 
-    Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>` and
-    :ref:`configure accelerator <accelerator_configuration_reference_link>` before executing the example.
-
-.. attention::
-
-    Currently, the library doesn't provide a way to specify a number of Intel IAA
-    instance for execution and will use everything available on the system.
-
-    It is the user's responsibility to configure the accelerator.
-    If you need to run on 1 or multiple Intel IAA instances, make sure your system is configured appropriately.
+Alternatively, you can explicitly specify the NUMA node for execution,
+use the appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
+or add ``--node=<numa_id>`` to the execution command.
 
 .. attention::
 
-    By default, Intel QPL would use Intel IAA instances located on the NUMA node of the calling process.
+    It is the user's responsibility to configure the accelerator and ensure device(s) availability on the NUMA node.
 
-    If you need to specify NUMA node for execution,
-    use appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
-    or add ``--node=<numa_id>`` to execution command.
-
-    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
-    Refer to :ref:`library_numa_support_reference_link` section for more details.
+    Refer to the :ref:`library_numa_support_reference_link` section for more details.
 
 Latency Tests
 =============
 
-For reporting or tracking latency metric, use ``sync`` mode, 1 Intel IAA instance, and a single thread.
+For reporting or tracking latency metric, it is recommended to use ``sync`` mode, 1 Intel IAA instance, and a single thread.
 
-Below are examples for compression (``deflate``) and decompression (``inflate``) using 4kb block_sizes:
-
-.. code-block:: shell
-
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1 --block_size=4096
-
+Below are examples for compression (``deflate``) and decompression (``inflate``) using 4kb block_sizes and Fixed mode:
 
 .. code-block:: shell
 
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*lvl:1.*" --benchmark_min_time=0.1 --block_size=4096
+    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1s --block_size=4096
+
+
+.. code-block:: shell
+
+    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*lvl:1.*" --benchmark_min_time=0.1s --block_size=4096
 
 Throughput Tests
 ================
 
 For reporting or tracking throughput metric, use ``async`` mode, 1 to 4 Intel IAA devices, and multiple threads.
 
-Below are examples for compression (``deflate``) and decompression (``inflate``) using 4kb block_size and ``queue_size=128``:
+Below are examples for compression (``deflate``) and decompression (``inflate``) using 4kb block_size, ``queue_size=128``
+and Fixed mode:
 
 .. note::
 
@@ -171,9 +134,15 @@ Below are examples for compression (``deflate``) and decompression (``inflate``)
 
 .. code-block:: shell
 
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:c/.*:iaa.*:async.*:fixed.*" --benchmark_min_time=0.5 --block_size=4096 --queue_size=128 --threads=2
+    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:c/.*:iaa.*:async.*:fixed.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=2
 
 
 .. code-block:: shell
 
-    numactl --membind=0 --cpunodebind=0 sudo ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5 --block_size=4096 --queue_size=128 --threads=8
+    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=8
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+
+   quick_start.rst
