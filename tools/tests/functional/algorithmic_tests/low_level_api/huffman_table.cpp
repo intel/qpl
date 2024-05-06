@@ -103,6 +103,11 @@ public:
         }
     }
 
+    HuffmanTableAlgorithmicTest(){};
+    HuffmanTableAlgorithmicTest(const HuffmanTableAlgorithmicTest &) = delete;
+    HuffmanTableAlgorithmicTest(const HuffmanTableAlgorithmicTest &&) = delete;
+    HuffmanTableAlgorithmicTest & operator=(const HuffmanTableAlgorithmicTest &) = delete;
+    HuffmanTableAlgorithmicTest & operator=(const HuffmanTableAlgorithmicTest &&) = delete;
     ~HuffmanTableAlgorithmicTest() override {
         if (m_c_huffman_table) {
             qpl_huffman_table_destroy(m_c_huffman_table);

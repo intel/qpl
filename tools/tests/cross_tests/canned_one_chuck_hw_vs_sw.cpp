@@ -69,6 +69,12 @@ protected:
         }
     }
 
+    SimpleCannedOneChuckCompressDecompressFixture(){};
+    SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
+    SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
+    SimpleCannedOneChuckCompressDecompressFixture & operator=(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
+    SimpleCannedOneChuckCompressDecompressFixture & operator=(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
+
     ~SimpleCannedOneChuckCompressDecompressFixture() {
         if (c_huffman_table != NULL)
             qpl_huffman_table_destroy(c_huffman_table);

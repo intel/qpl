@@ -32,6 +32,12 @@ public:
         ASSERT_EQ(status, QPL_STS_OK) << "Table creation failed";
     }
 
+    Inflate(){};
+    Inflate(const Inflate &) = delete;
+    Inflate(const Inflate &&) = delete;
+    Inflate & operator=(const Inflate &) = delete;
+    Inflate & operator=(const Inflate &&) = delete;
+
     ~Inflate() {
         if (d_huffman_table) {
             qpl_huffman_table_destroy(d_huffman_table);

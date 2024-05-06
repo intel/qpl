@@ -27,6 +27,12 @@ protected:
         this->InitializeTestCases();
     }
 
+    SimpleHuffmanOnlyCompressDecompressFixture(){};
+    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
+
     ~SimpleHuffmanOnlyCompressDecompressFixture() {
         if (c_huffman_table != NULL)
             qpl_huffman_table_destroy(c_huffman_table);
