@@ -95,5 +95,5 @@ uint16_t gz_generator::BitBuffer::bitFlip(uint16_t word)
 
 void gz_generator::BitBuffer::setBigEndian16(bool value)
 {
-    void setBigEndian16(bool value);
+    m_bigEndian16 = value;
 }
