@@ -75,7 +75,7 @@ protected:
     SimpleCannedOneChuckCompressDecompressFixture & operator=(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
     SimpleCannedOneChuckCompressDecompressFixture & operator=(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
 
-    ~SimpleCannedOneChuckCompressDecompressFixture() {
+    ~SimpleCannedOneChuckCompressDecompressFixture() override {
         if (c_huffman_table != NULL)
             qpl_huffman_table_destroy(c_huffman_table);
 

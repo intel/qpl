@@ -33,7 +33,7 @@ protected:
     SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
     SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
 
-    ~SimpleHuffmanOnlyCompressDecompressFixture() {
+    ~SimpleHuffmanOnlyCompressDecompressFixture() override {
         if (c_huffman_table != NULL)
             qpl_huffman_table_destroy(c_huffman_table);
         if (d_huffman_table != NULL)

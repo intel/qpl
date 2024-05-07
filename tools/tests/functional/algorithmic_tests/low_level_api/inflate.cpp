@@ -38,7 +38,7 @@ public:
     Inflate & operator=(const Inflate &) = delete;
     Inflate & operator=(const Inflate &&) = delete;
 
-    ~Inflate() {
+    ~Inflate() override {
         if (d_huffman_table) {
             qpl_huffman_table_destroy(d_huffman_table);
             d_huffman_table = nullptr;
