@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/bench_docs/guide';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Issue Reporting" href="../contributing_docs/issue_reporting.html" />
+    <link rel="next" title="Quick Start" href="quick_start.html" />
     <link rel="prev" title="Status Codes" href="../dev_ref_docs/c_ref/c_status_codes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -216,7 +216,10 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Benchmarking</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Benchmarks Framework Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Benchmarks Framework Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="quick_start.html">Quick Start</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul class="nav bd-sidenav">
@@ -416,10 +419,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terms">Key Terms</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-benchmarks-framework">Using the Benchmarks Framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-on-hardware-path">Executing on Hardware Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terms">Key Terms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-the-correct-filter-for-performance-measurement">Setting the Correct Filter for Performance Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-using-accelerators">Executing using Accelerators</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-tests">Latency Tests</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#throughput-tests">Throughput Tests</a></li>
 </ul>
@@ -441,60 +444,37 @@ document.write(`
 <span id="library-benchmarking-reference-link"></span><h1>Benchmarks Framework Guide<a class="headerlink" href="#benchmarks-framework-guide" title="Link to this heading">#</a></h1>
 <p>Goal of the benchmarks is to provide performance guidance on various use case scenarios
 of the Intel® Query Processing Library (Intel® QPL).
-To cover these cases the benchmarks provide several performance metrics and modes of operation.</p>
+To cover these cases the benchmarks provide several performance metrics and modes of operation.
+Benchmark are based on the Google benchmark library and built as a part of Intel QPL.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Currently, the Intel QPL benchmarks framework offers limited support.</p>
 <ul class="simple">
-<li><p>Compression and decompression are supported for fixed and dynamic modes; canned mode is not supported.</p></li>
+<li><p>Compression and decompression are supported for Fixed, Dynamic and Canned modes.</p></li>
 <li><p>CRC operations are supported. The supported CRCs are the default CRC64, CRC32 (Gzip), CRC32 (wimax),
 CRC32-C (ICSCI), CRC-16-T10-DIF, and CRC-16-CCITT.</p></li>
 <li><p>Huffman only mode is not supported.</p></li>
 <li><p>Analytic operations are not supported.</p></li>
 </ul>
 </div>
-<section id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
-<p>Benchmark are based on the Google benchmark library and built as a part of Intel QPL.
-Refer to <a class="reference internal" href="../get_started_docs/installation.html#building-library-build-reference-link"><span class="std std-ref">Installation page</span></a>
-for details on how to build the library and resolve all prerequisites.</p>
-<p>The example below demonstrates running Deflate using Fixed block on accelerator using synchronous execution.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
-configure <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Intel® In-Memory Analytics Accelerator (Intel® IAA)</span></a>
-before executing the example.</p>
-</div>
+<p>To learn how to start using Benchmarks and run simple operation, refer to the <a class="reference internal" href="quick_start.html#library-benchmarking-quick-start-link"><span class="std std-ref">Quick Start page</span></a>.
+For more detailed information on the Benchmarks Framework, refer to the next sections.</p>
+<section id="using-the-benchmarks-framework">
+<h2>Using the Benchmarks Framework<a class="headerlink" href="#using-the-benchmarks-framework" title="Link to this heading">#</a></h2>
+<p>To get a full list of supported commands and input arguments with detailed description, run <code class="docutils literal notranslate"><span class="pre">./qpl_benchmarks</span> <span class="pre">--help</span></code>.
+Intel QPL Benchmark Framework is based on Google benchmark library and supports all its command line arguments
+as well as additional ones that are specific to Intel QPL.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>By default Benchmarks do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value, so the library will auto detect NUMA node
-of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.</p>
-<p>If you need to specify NUMA node for execution of this example,
-use appropriate NUMA policy (for instance, <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span></code>)
-or add <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> to execution command.</p>
-<p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.</p>
-<p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
+<p>By default, Benchmarks Framework would attempt to do an initialization check for the accelerator.
+If no accelerators are available on the system, you can use <code class="docutils literal notranslate"><span class="pre">--no_hw</span></code> to suppress
+Intel® In-Memory Analytics Accelerator (Intel® IAA) initialization check warning.</p>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--block_size<span class="o">=</span><span class="m">0</span>
-</pre></div>
-</div>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Output to terminal:</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-Benchmark<span class="w">                                                                                                                          </span>Time<span class="w">             </span>CPU<span class="w">   </span>Iterations<span class="w"> </span>UserCounters...
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:pic.113/huffman:fixed/lvl:1/real_time<span class="w">        </span><span class="m">3226</span><span class="w"> </span>ns<span class="w">         </span><span class="m">3226</span><span class="w"> </span>ns<span class="w">        </span><span class="m">42981</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">3</span>.22604us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">3</span>.22604us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">4</span>.40904<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.26967G/s
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:pic.28/huffman:fixed/lvl:1/real_time<span class="w">         </span><span class="m">9304</span><span class="w"> </span>ns<span class="w">         </span><span class="m">9304</span><span class="w"> </span>ns<span class="w">        </span><span class="m">14907</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">9</span>.30406us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">9</span>.30406us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">5</span>.06461<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.76095G/s
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:progp.02/huffman:fixed/lvl:1/real_time<span class="w">       </span><span class="m">9454</span><span class="w"> </span>ns<span class="w">         </span><span class="m">9454</span><span class="w"> </span>ns<span class="w">        </span><span class="m">14828</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">9</span>.45413us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">9</span>.45413us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">2</span>.88756<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.733G/s
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:progp.08/huffman:fixed/lvl:1/real_time<span class="w">       </span><span class="m">3255</span><span class="w"> </span>ns<span class="w">         </span><span class="m">3255</span><span class="w"> </span>ns<span class="w">        </span><span class="m">43100</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">3</span>.25501us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">3</span>.25501us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">3</span>.25338<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.25837G/s
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:trans.04/huffman:fixed/lvl:1/real_time<span class="w">       </span><span class="m">9436</span><span class="w"> </span>ns<span class="w">         </span><span class="m">9436</span><span class="w"> </span>ns<span class="w">        </span><span class="m">14782</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">9</span>.43575us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">9</span>.43575us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">2</span>.41759<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.73637G/s
-deflate/api:c/path:iaa/exec:sync/qsize:1/in_mem:llc/out_mem:cc_ram/timer:proc/data:trans.21/huffman:fixed/lvl:1/real_time<span class="w">       </span><span class="m">3243</span><span class="w"> </span>ns<span class="w">         </span><span class="m">3243</span><span class="w"> </span>ns<span class="w">        </span><span class="m">43891</span><span class="w"> </span><span class="nv">Latency</span><span class="o">=</span><span class="m">3</span>.24297us<span class="w"> </span>Latency/Op<span class="o">=</span><span class="m">3</span>.24297us<span class="w"> </span><span class="nv">Ratio</span><span class="o">=</span><span class="m">3</span>.86051<span class="w"> </span><span class="nv">Throughput</span><span class="o">=</span><span class="m">1</span>.26304G/s
-</pre></div>
-</div>
-</div>
-</section>
 <section id="key-terms">
-<h2>Key Terms<a class="headerlink" href="#key-terms" title="Link to this heading">#</a></h2>
+<h3>Key Terms<a class="headerlink" href="#key-terms" title="Link to this heading">#</a></h3>
+<p>Below is the list of key terms used in the Benchmarks Framework.
+Some of them are input parameters and some are used in the case naming.
+For the latter, refer to the next section for more details on how to set up the correct filter.</p>
 <ul>
 <li><p><strong>API</strong>: Currently, only Low-Level C API is supported. Case naming: <code class="docutils literal notranslate"><span class="pre">api:c</span></code>.</p></li>
 <li><p><strong>Path</strong>: Represents execution path for the library. Case naming: <code class="docutils literal notranslate"><span class="pre">path:iaa</span></code> for executing on accelerator, <code class="docutils literal notranslate"><span class="pre">path:cpu</span></code> for running on CPU.</p></li>
@@ -512,76 +492,68 @@ For small workloads higher number of threads may be required to saturate devices
 for big workloads even one thread may reach capacity.</p>
 </div></blockquote>
 </li>
+<li><p><strong>Compression mode</strong>: Currently, Static mode is not supported. Supported case namings: <code class="docutils literal notranslate"><span class="pre">huffman:fixed</span></code>, <code class="docutils literal notranslate"><span class="pre">huffman:dynamic</span></code> or <code class="docutils literal notranslate"><span class="pre">huffman:canned</span></code>. Note, that for Canned mode, Huffman tables are precomputed and do not contribute to the metrics measured.</p></li>
 <li><p><strong>Blocks</strong>: Input data is split by blocks of size <code class="docutils literal notranslate"><span class="pre">--block_size=XXXX</span></code> (with XXXX being in bytes) and each block is processed separately.</p></li>
 <li><p><strong>Dataset</strong>: Path should be provided to a dataset (e.g., Calgary corpus) via <code class="docutils literal notranslate"><span class="pre">--dataset=&lt;dataset_dir&gt;</span></code> parameter.</p></li>
 </ul>
 </section>
-<section id="using-the-benchmarks-framework">
-<h2>Using the Benchmarks Framework<a class="headerlink" href="#using-the-benchmarks-framework" title="Link to this heading">#</a></h2>
-<p>Intel QPL benchmark framework is based on Google benchmark library,
-run <code class="docutils literal notranslate"><span class="pre">./qpl_benchmarks</span> <span class="pre">--help</span></code> to get a full list of supported commands and input arguments with detailed description.</p>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>If no accelerators are available on the system, you can use <code class="docutils literal notranslate"><span class="pre">--no_hw</span></code> to suppress Intel IAA initialization check warning.</p>
-</div>
+<section id="setting-the-correct-filter-for-performance-measurement">
+<h3>Setting the Correct Filter for Performance Measurement<a class="headerlink" href="#setting-the-correct-filter-for-performance-measurement" title="Link to this heading">#</a></h3>
 <p>In order to set up a specific run configuration <code class="docutils literal notranslate"><span class="pre">--benchmark_filter</span></code> should be used,
 which input is a regexp based on the case name.</p>
 <p>For instance, for launching compression operation using Low-Level C API, synchronous execution and fixed mode
-on a CPU, use the next expression <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;deflate.*:c/.*:cpu.*:sync.*fixed&quot;</span></code>.</p>
-<p>To run decompression benchmarks, run the filter with <code class="docutils literal notranslate"><span class="pre">inflate</span></code>.</p>
+on a CPU, use the next expression <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;deflate.*:c/.*:cpu.*:sync.*fixed&quot;</span></code>.
+To run decompression benchmarks, run the filter with <code class="docutils literal notranslate"><span class="pre">inflate</span></code>.</p>
 <p>To run CRC benchmarks, run the filter with <code class="docutils literal notranslate"><span class="pre">crc</span></code>. To filter for a specific CRC operation, run the filter with
 one of the following phrases at the end: <code class="docutils literal notranslate"><span class="pre">crc32_gzip</span></code>, <code class="docutils literal notranslate"><span class="pre">crc32_iscsi</span></code>, <code class="docutils literal notranslate"><span class="pre">crc32_wimax</span></code>, <code class="docutils literal notranslate"><span class="pre">T10DIF</span></code>, <code class="docutils literal notranslate"><span class="pre">crc16_ccitt</span></code>,
-<code class="docutils literal notranslate"><span class="pre">crc64</span></code>.</p>
-<p>For example, to run CRC benchmarks on only crc64, the following filter would work: <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;crc.*:c/.*:cpu.*:sync.*crc64&quot;</span></code>.</p>
-<section id="executing-on-hardware-path">
-<h3>Executing on Hardware Path<a class="headerlink" href="#executing-on-hardware-path" title="Link to this heading">#</a></h3>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a> and
-<a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing the example.</p>
-</div>
+<code class="docutils literal notranslate"><span class="pre">crc64</span></code>. For example, to run CRC benchmarks on only crc64,
+the following filter would work: <code class="docutils literal notranslate"><span class="pre">--benchmark_filter=&quot;crc.*:c/.*:cpu.*:sync.*crc64&quot;</span></code>.</p>
+</section>
+<section id="executing-using-accelerators">
+<h3>Executing using Accelerators<a class="headerlink" href="#executing-using-accelerators" title="Link to this heading">#</a></h3>
+<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a>
+and <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing using accelerator.</p>
+<p>Benchmark Framework does not allow executing on a specific Intel IAA instance,
+however, it is possible to control the number of instances used by the benchmark.
+By default, Intel QPL respect the NUMA boundary and will use Intel IAA instances
+located on the NUMA node of the calling process.</p>
+<p>Alternatively, you can explicitly specify the NUMA node for execution,
+use the appropriate NUMA policy (for instance, <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span></code>)
+or add <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> to the execution command.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>Currently, the library doesn’t provide a way to specify a number of Intel IAA
-instance for execution and will use everything available on the system.</p>
-<p>It is the user’s responsibility to configure the accelerator.
-If you need to run on 1 or multiple Intel IAA instances, make sure your system is configured appropriately.</p>
-</div>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>By default, Intel QPL would use Intel IAA instances located on the NUMA node of the calling process.</p>
-<p>If you need to specify NUMA node for execution,
-use appropriate NUMA policy (for instance, <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span></code>)
-or add <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> to execution command.</p>
-<p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
-Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
+<p>It is the user’s responsibility to configure the accelerator and ensure device(s) availability on the NUMA node.</p>
+<p>Refer to the <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
 </div>
 </section>
 <section id="latency-tests">
 <h3>Latency Tests<a class="headerlink" href="#latency-tests" title="Link to this heading">#</a></h3>
-<p>For reporting or tracking latency metric, use <code class="docutils literal notranslate"><span class="pre">sync</span></code> mode, 1 Intel IAA instance, and a single thread.</p>
-<p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_sizes:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span><span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span><span class="w"> </span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span>
+<p>For reporting or tracking latency metric, it is recommended to use <code class="docutils literal notranslate"><span class="pre">sync</span></code> mode, 1 Intel IAA instance, and a single thread.</p>
+<p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_sizes and Fixed mode:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1s<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span>
 </pre></div>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span><span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span><span class="w"> </span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;inflate.*:iaa.*:sync.*:fixed.*lvl:1.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;inflate.*:iaa.*:sync.*:fixed.*lvl:1.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1s<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span>
 </pre></div>
 </div>
 </section>
 <section id="throughput-tests">
 <h3>Throughput Tests<a class="headerlink" href="#throughput-tests" title="Link to this heading">#</a></h3>
 <p>For reporting or tracking throughput metric, use <code class="docutils literal notranslate"><span class="pre">async</span></code> mode, 1 to 4 Intel IAA devices, and multiple threads.</p>
-<p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_size and <code class="docutils literal notranslate"><span class="pre">queue_size=128</span></code>:</p>
+<p>Below are examples for compression (<code class="docutils literal notranslate"><span class="pre">deflate</span></code>) and decompression (<code class="docutils literal notranslate"><span class="pre">inflate</span></code>) using 4kb block_size, <code class="docutils literal notranslate"><span class="pre">queue_size=128</span></code>
+and Fixed mode:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">--threads=2</span></code> might not be enough for inflate operation to saturate full capacity,
 so it is recommended to use <code class="docutils literal notranslate"><span class="pre">--threads=6</span></code> or <code class="docutils literal notranslate"><span class="pre">--threads=8</span></code> to get best and stable results.</p>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span><span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span><span class="w"> </span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:c/.*:iaa.*:async.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.5<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--queue_size<span class="o">=</span><span class="m">128</span><span class="w"> </span>--threads<span class="o">=</span><span class="m">2</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:c/.*:iaa.*:async.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.5s<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--queue_size<span class="o">=</span><span class="m">128</span><span class="w"> </span>--threads<span class="o">=</span><span class="m">2</span>
 </pre></div>
 </div>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span><span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span><span class="w"> </span>sudo<span class="w"> </span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.5<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--queue_size<span class="o">=</span><span class="m">128</span><span class="w"> </span>--threads<span class="o">=</span><span class="m">8</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.5s<span class="w"> </span>--block_size<span class="o">=</span><span class="m">4096</span><span class="w"> </span>--queue_size<span class="o">=</span><span class="m">128</span><span class="w"> </span>--threads<span class="o">=</span><span class="m">8</span>
 </pre></div>
+</div>
+<div class="toctree-wrapper compound">
 </div>
 </section>
 </section>
@@ -608,11 +580,11 @@ so it is recommended to use <code class="docutils literal notranslate"><span cla
       </div>
     </a>
     <a class="right-next"
-       href="../contributing_docs/issue_reporting.html"
+       href="quick_start.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Issue Reporting</p>
+        <p class="prev-next-title">Quick Start</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -632,10 +604,10 @@ so it is recommended to use <code class="docutils literal notranslate"><span cla
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terms">Key Terms</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-benchmarks-framework">Using the Benchmarks Framework</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-on-hardware-path">Executing on Hardware Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-terms">Key Terms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-the-correct-filter-for-performance-measurement">Setting the Correct Filter for Performance Measurement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-using-accelerators">Executing using Accelerators</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-tests">Latency Tests</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#throughput-tests">Throughput Tests</a></li>
 </ul>
