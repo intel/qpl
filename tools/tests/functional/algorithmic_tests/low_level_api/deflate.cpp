@@ -104,7 +104,7 @@ protected:
 
         std::vector<uint8_t> decompressed_source(source.size());
 
-        DecompressStream(destination, decompressed_source, true);
+        DecompressStream(destination, decompressed_source);
 
         ASSERT_TRUE(CompareVectors(decompressed_source, source));
     }
@@ -180,8 +180,7 @@ protected:
 
 private:
     void DecompressStream(std::vector<uint8_t> &compressed_source,
-                          std::vector<uint8_t> &decompressed_destination,
-                          bool use_dynamic_flag = false) {
+                          std::vector<uint8_t> &decompressed_destination) {
         uint32_t job_size = 0;
 
         auto status = qpl_get_job_size(GetExecutionPath(), &job_size);
