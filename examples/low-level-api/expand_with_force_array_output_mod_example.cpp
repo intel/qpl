@@ -21,13 +21,13 @@
  * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.
  * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow
  * the library to chose the path to execute. The Auto Path usage is not demonstrated by this example.
- * 
+ *
  * This example demonstrates the usage of the `Force Array Output Modification` feature. The feature allows the user to
  * force the output of filter operations to be an array of a size specified by the user. Without this feature, the output
  * of filter operations where the output size is 1 bit will be returned as a bit vector. The feature is enabled by setting
  * the `QPL_FLAG_FORCE_ARRAY_OUTPUT` flag in the job structure. The feature is supported only in `Hardware Path` on the
  * Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 devices.
- * 
+ *
  * @warning The use of `Force Array Output Modification` requires the use of the `Output Bit Width Modification` feature.
  * The `Output Bit Width Modification` feature allows the user to specify the bit width of the output of the filter operation.
  * The feature is enabled by setting the `out_bit_width` field in the job structure.
@@ -61,7 +61,6 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> reference   = {0U};
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0U;
 
     // Check if on software path
@@ -71,7 +70,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Job initialization
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during job size getting.\n";
         return 1;

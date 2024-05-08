@@ -101,9 +101,6 @@ REF_INLINE qpl_status own_expand_le_be(qpl_job *const qpl_job_ptr) {
     REF_BAD_ARG_RET((qpl_job_ptr->available_src2 < REF_BIT_2_BYTE(qpl_job_ptr->num_input_elements)),
                     QPL_STS_SRC_IS_SHORT_ERR);
 
-    // Status of the process
-    qpl_status status;
-
     // Start of the source vector
     uint8_t *source_ptr = qpl_job_ptr->next_in_ptr;
 
@@ -136,7 +133,7 @@ REF_INLINE qpl_status own_expand_le_be(qpl_job *const qpl_job_ptr) {
 
 
     // Convert source vector's elements to uint32_t format
-    status = ref_convert_to_32u_le_be(source_ptr,
+    qpl_status status = ref_convert_to_32u_le_be(source_ptr,
                                       0,
                                       source_bit_width,
                                       number_of_elements,
@@ -184,8 +181,6 @@ REF_INLINE qpl_status own_expand_le_be(qpl_job *const qpl_job_ptr) {
 }
 
 REF_INLINE qpl_status own_expand_prle(qpl_job *const qpl_job_ptr) {
-    // Status of the process
-    qpl_status status;
 
     // Start of the source vector
     uint8_t *source_ptr = qpl_job_ptr->next_in_ptr;
@@ -212,7 +207,7 @@ REF_INLINE qpl_status own_expand_prle(qpl_job *const qpl_job_ptr) {
     uint32_t number_of_elements = 0U;
 
     // Gettin number of elements
-    status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
+    qpl_status status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
 
     if (QPL_STS_OK != status) {
         return status;
@@ -296,9 +291,6 @@ REF_INLINE qpl_status own_expand_output_to_format(const uint32_t *const source_p
                                                   uint32_t source_bit_width,
                                                   uint32_t available_bytes,
                                                   qpl_job *const qpl_job_ptr) {
-    // Status of the operation
-    qpl_status status;
-
     // Current destination vector
     uint8_t *destination_ptr = qpl_job_ptr->next_out_ptr;
 
@@ -321,7 +313,7 @@ REF_INLINE qpl_status own_expand_output_to_format(const uint32_t *const source_p
     uint32_t output_bytes = 0U;
 
     // Store result
-    status = ref_store_values(source_ptr,
+    qpl_status status = ref_store_values(source_ptr,
                               number_of_elements,
                               source_bit_width,
                               destination_ptr,

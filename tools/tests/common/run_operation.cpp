@@ -41,7 +41,6 @@ qpl_status run_decompress_op(qpl_path_t execution_path) {
                                                 test_factor);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status                 status;
     uint32_t                   size = 0U;
 
     source.resize(encoded_data_buffer.size());
@@ -51,7 +50,7 @@ qpl_status run_decompress_op(qpl_path_t execution_path) {
 
     destination.resize(decoded_data_buffer.size());
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -84,10 +83,9 @@ qpl_status run_compress_op(qpl_path_t execution_path) {
     std::vector<uint8_t> destination(source_size / 2, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status                 status;
     uint32_t                   size = 0U;
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -121,10 +119,9 @@ qpl_status run_crc64_op(qpl_path_t execution_path) {
     std::vector<uint8_t> source(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0U;
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -157,11 +154,10 @@ qpl_status run_scan_op(qpl_path_t execution_path) {
     std::vector<uint8_t> destination(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size     = 0U;
     const auto *indices = reinterpret_cast<const uint32_t *>(destination.data());
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -201,10 +197,9 @@ qpl_status run_extract_op(qpl_path_t execution_path) {
     std::vector<uint8_t> destination(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0U;
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -242,10 +237,9 @@ qpl_status run_select_op(qpl_path_t execution_path) {
     std::vector<uint8_t> destination(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0U;
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }
@@ -289,10 +283,9 @@ qpl_status run_expand_op(qpl_path_t execution_path) {
     std::vector<uint8_t> reference = {1, 0, 0, 2, 3, 4, 0, 5};
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    qpl_status status;
     uint32_t   size = 0;
 
-    status = qpl_get_job_size(execution_path, &size);
+    qpl_status status = qpl_get_job_size(execution_path, &size);
     if (status != QPL_STS_OK) {
         return status;
     }

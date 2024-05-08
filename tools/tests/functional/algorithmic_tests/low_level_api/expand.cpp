@@ -146,16 +146,15 @@ namespace qpl::test
         std::vector<uint8_t> reference           = {0U};
 
         std::unique_ptr<uint8_t[]> job_buffer;
-        qpl_status status;
         uint32_t   size = 0U;
 
         // Job initialization
-        status = qpl_get_job_size(qpl_path_hardware, &size);
+        qpl_status status = qpl_get_job_size(qpl_path_hardware, &size);
         ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job size getting.\n";
 
         job_buffer = std::make_unique<uint8_t[]>(size);
         qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
-        
+
         status = qpl_init_job(qpl_path_hardware, job);
         ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job initializing.\n";
 

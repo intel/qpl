@@ -21,7 +21,7 @@ qpl_status ref_count_elements_prle(const uint8_t *const source_ptr,
     REF_BAD_PTR_RET(number_of_elements_ptr);
 
     // Result of the operation
-    qpl_status status;
+    qpl_status status = QPL_STS_OK;
 
     // Current position in source_ptr
     const uint8_t *current_ptr = source_ptr;
