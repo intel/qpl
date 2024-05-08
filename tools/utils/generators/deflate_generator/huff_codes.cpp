@@ -270,7 +270,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                    uint32_t *codes,
                    uint32_t num_codes)
     {
-        uint32_t i = 0U, clen = 0U;
+        uint32_t i = 0U, code_len = 0U;
 
         for (; i <= 15U; i++)
         {
@@ -278,8 +278,8 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
         for (i = 0U; i < num_lens; i++)
         {
-            codes[i] = clen = code_lens[i];
-            bl_count[clen]++;
+            codes[i] = code_len = code_lens[i];
+            bl_count[code_len]++;
         }
         for (; i < num_codes; i++)
         {
@@ -293,7 +293,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                              uint32_t cl_codes[19U],
                              uint32_t *bl_count)
     {
-        uint32_t j = 0U, clen = 0U;
+        uint32_t j = 0U, code_len = 0U;
 
         for (uint32_t i = 0U; i < 19U; i++)
         { cl_codes[i] = 0U; }
@@ -308,8 +308,8 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                 fprintf(stderr, "Not enough cl codes\n");
                 throw std::exception();
             }
-            cl_codes[i] = clen = cl_lens[j++];
-            bl_count[clen]++;
+            cl_codes[i] = code_len = cl_lens[j++];
+            bl_count[code_len]++;
         }
         if (j < num_cl_lens)
         {
@@ -317,8 +317,8 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             {
                 if (cl_counts[i] != 0U)
                     continue;
-                cl_codes[i] = clen = cl_lens[j++];
-                bl_count[clen]++;
+                cl_codes[i] = code_len = cl_lens[j++];
+                bl_count[code_len]++;
                 if (j == num_cl_lens)
                     break;
             }
@@ -328,7 +328,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     static void copy_cl_lens_alt(uint32_t *cl_lens, uint32_t num_cl_lens, uint32_t cl_counts[19],
                                  uint32_t cl_codes[19], uint32_t *bl_count)
     {
-        uint32_t clen = 0U;
+        uint32_t code_len = 0U;
 
         for (uint32_t i = 0U; i < 19U; i++)
         { cl_codes[i] = 0U; }
@@ -337,8 +337,8 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
 
         for (uint32_t i = 0U; i < 19U; i++)
         {
-            cl_codes[i] = clen = cl_lens[i];
-            bl_count[clen]++;
+            cl_codes[i] = code_len = cl_lens[i];
+            bl_count[code_len]++;
         }
 
         for (uint32_t i = 0U; i < 19U; i++)

@@ -43,7 +43,7 @@ int accfg_device_get_numa_node(struct accfg_device *device);
 struct accfg_wq *accfg_wq_get_first(struct accfg_device *device);
 /* Get next available workqueue */
 struct accfg_wq *accfg_wq_get_next(struct accfg_wq *wq);
-/* Get max tranfer size of workqueue */
+/* Get max transfer size of workqueue */
 uint64_t accfg_wq_get_max_transfer_size(struct accfg_wq *wq);
 
 /* macro to loop through all available workqueues on device */

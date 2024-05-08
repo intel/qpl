@@ -44,14 +44,14 @@ namespace gz_generator
         uint32_t       num_extra_bits = 0U;
         uint32_t       extra_bits = 0U;
         uint32_t       sym = 0U;
-        uint32_t       clen = 0U;
+        uint32_t       code_len = 0U;
 
         len -= 3U;
         if (len == 0xFFU)
         {
             //if (p_code)
             *p_code = m_ll_codes[285U] & 0xFFFF;
-            clen = m_ll_codes[285U] >> 24;
+            code_len = m_ll_codes[285U] >> 24;
         }
         else
         {
@@ -64,9 +64,9 @@ namespace gz_generator
             sym = len + (num_extra_bits << N) + 256U + 1U;
             *p_code = (m_ll_codes[sym] & 0xFFFF) |
                       (extra_bits << (m_ll_codes[sym] >> 24));
-            clen = (m_ll_codes[sym] >> 24) + num_extra_bits;
+            code_len = (m_ll_codes[sym] >> 24) + num_extra_bits;
         }
-        return clen;
+        return code_len;
     }
 
     uint32_t
