@@ -26,7 +26,7 @@ namespace gz_generator
         token_c      token;
         token_type_t type;
 
-        while (1)
+        while (1U)
         {
             type = m_tp.get_token(&token);
             switch (type)
@@ -91,7 +91,6 @@ namespace gz_generator
     {
         token_c      token;
         token_type_t type;
-        uint32_t     i;
 
         type = m_tp.get_token(&token);
 
@@ -104,7 +103,7 @@ namespace gz_generator
 
         type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        for (i = 0; i < token.m_value; i++)
+        for (uint32_t i = 0U; i < token.m_value; i++)
         {
             m_gen->proc_rand();
         }
@@ -120,11 +119,10 @@ namespace gz_generator
     {
         token_c      token;
         token_type_t type;
-        uint32_t     lit;
-        uint32_t     i;
+        uint32_t     lit = 0U;
 
         type = m_tp.get_token(&token);
-        while (1)
+        while (1U)
         {
             if (type != TT_NUM) syntax_error();
             lit = token.m_value;
@@ -144,7 +142,7 @@ namespace gz_generator
 
             type = m_tp.get_token(&token);
             if (type != TT_NUM) syntax_error();
-            for (i = 0; i < token.m_value; i++)
+            for (uint32_t i = 0U; i < token.m_value; i++)
             {
                 m_gen->proc_lit(lit);
             }
@@ -160,11 +158,10 @@ namespace gz_generator
     {
         token_c      token;
         token_type_t type;
-        uint32_t     len, dist;
-        uint32_t     i;
+        uint32_t     len = 0U, dist = 0U;
 
         type = m_tp.get_token(&token);
-        while (1)
+        while (1U)
         {
             if (type != TT_NUM) syntax_error();
             len = token.m_value;
@@ -189,7 +186,7 @@ namespace gz_generator
 
             type = m_tp.get_token(&token);
             if (type != TT_NUM) syntax_error();
-            for (i = 0; i < token.m_value; i++)
+            for (uint32_t i = 0U; i < token.m_value; i++)
             {
                 m_gen->proc_len_dist(len, dist);
             }
@@ -205,8 +202,7 @@ namespace gz_generator
     {
         token_c      token;
         token_type_t type;
-        uint32_t     lit;
-        uint32_t     i;
+        uint32_t     lit = 0U;
 
         type = m_tp.get_token(&token);
 
@@ -257,7 +253,7 @@ namespace gz_generator
 
             type = m_tp.get_token(&token);
             if (type != TT_NUM) syntax_error();
-            for (i = 0; i < token.m_value; i++)
+            for (uint32_t i = 0U; i < token.m_value; i++)
             {
                 m_gen->proc_lens(ltype, lit);
             }
@@ -276,7 +272,7 @@ namespace gz_generator
 
         type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        if (token.m_value == 0)
+        if (token.m_value == 0U)
             m_gen->set_bfinal(false);
         else
             m_gen->set_bfinal(true);
@@ -293,7 +289,7 @@ namespace gz_generator
 
         type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        if (token.m_value == 0)
+        if (token.m_value == 0U)
             m_gen->set_bout(false);
         else
             m_gen->set_bout(true);
@@ -335,12 +331,10 @@ namespace gz_generator
     grammar_c::parse_log()
     {
         token_c      token;
-        token_type_t type;
-        uint32_t     val;
 
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        val  = token.m_value;
+        uint32_t val  = token.m_value;
         type = m_tp.get_token(&token);
         if ((type != TT_EOL) && (type != TT_EOF)) syntax_error();
         m_gen->log(val);
@@ -361,13 +355,11 @@ namespace gz_generator
     grammar_c::parse_testmode()
     {
         token_c      token;
-        token_type_t type;
-        uint32_t     val;
-        uint32_t     param = 0;
+        uint32_t     param = 0U;
 
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        val  = token.m_value;
+        uint32_t val  = token.m_value;
         type = m_tp.get_token(&token);
         if (type == TT_NUM)
         {

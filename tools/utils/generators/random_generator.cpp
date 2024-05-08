@@ -13,7 +13,7 @@
 /* ------ gzRandU ------ */
 
 qpl::test::random_base::random_base(double mpy, double add, uint32_t seed)
-: s1n3(41), s1n2(18467), s1n1(6334), c(1), s2n1(seed), m_seed(seed), m_mpy(mpy), m_add(add)
+: s1n3(41U), s1n2(18467U), s1n1(6334U), c(1U), s2n1(seed), m_seed(seed), m_mpy(mpy), m_add(add)
 {
    double val1 = -m_mpy + m_add;
    double val2 = +m_mpy + m_add;
@@ -32,7 +32,7 @@ void qpl::test::random_base::init(uint32_t seed )
    s1n3   = i_s1n3;
    s1n2   = i_s1n2;
    s1n1   = i_s1n1;
-   c      = 1;
+   c      = 1U;
    s2n1   = seed;
    for(int i=0; i<10; i++) operator double(); /// take a running jump
 }
@@ -40,9 +40,9 @@ void qpl::test::random_base::init(uint32_t seed )
 
 double qpl::test::random_base::gen()
 {
-   double cnst2in31;// exact number for 0.4656613e-9 == 2^-31
-   *((uint32_t*)(&cnst2in31) + 0) = 0x00000000;
-   *((uint32_t*)(&cnst2in31) + 1) = 0x3e000000;
+   double cnst2in31 = NAN;// exact number for 0.4656613e-9 == 2^-31
+   *((uint32_t*)(&cnst2in31) + 0U) = 0x00000000;
+   *((uint32_t*)(&cnst2in31) + 1U) = 0x3e000000;
 
    int s1 = s1n2 - (s1n3 + c);
    if( s1 > 0)
@@ -126,7 +126,7 @@ qpl::test::random_base::operator int32_t()
    double val = gen();
    val = (val < 0.) ? (val - 0.5) : (val + 0.5);
 
-   int32_t sVal;
+   int32_t sVal = 0;
    if (val >= (double) INT32_MAX) {
       sVal = INT32_MAX;
    } else if (val < (double) INT32_MIN) {
@@ -144,7 +144,7 @@ qpl::test::random_base::operator uint32_t()
    double val = gen();
    val += 0.5;
 
-   uint32_t uVal;
+   uint32_t uVal = 0U;
    if (val >= (double) UINT32_MAX) {
       uVal = UINT32_MAX;
    } else if (val < (double) 0U) {
@@ -166,7 +166,7 @@ qpl::test::random_base::operator int64_t()
    double val = gen();
    val = (val < 0.) ? (val - 0.5) : (val + 0.5);
 
-   int64_t sVal;
+   int64_t sVal = 0;
    if (val >= (double) INT64_MAX) {
       sVal = INT64_MAX;
    } else if (val < (double) INT64_MIN) {
@@ -183,7 +183,7 @@ qpl::test::random_base::operator uint64_t()
    double val = gen();
    val += 0.5;
 
-   uint64_t uVal;
+   uint64_t uVal = 0U;
    if (val >= (double) UINT64_MAX) {
       uVal = UINT64_MAX;
    } else if (val < (double) 0U) {
@@ -219,21 +219,21 @@ const char *qpl::test::random_base::get_reference()
 /* ------ gzRandG ------*/
 
 qpl::test::mean_random::mean_random(double mean, double stdev, uint32_t seed)
-: seed2(1131199209), seed12(seed), seed13(69069 * seed12 + 1013904243), seed14(69069 * seed13 + 1013904243),
-  carry(0xFFFFFFFF), status(1), m_seed(seed), m_mean(mean), m_stdev(stdev) {
+: seed2(1131199209U), seed12(seed), seed13(69069U * seed12 + 1013904243U), seed14(69069U * seed13 + 1013904243U),
+  carry(0xFFFFFFFFU), status(1), m_seed(seed), m_mean(mean), m_stdev(stdev) {
    v1 = v2 = radius = 0.0;
-   seed10 = seed11 = 0;
+   seed10 = seed11 = 0U;
 }
 
 
 void qpl::test::mean_random::init(uint32_t seed ) {
    v1 = v2 = radius = 0.0;
-   seed10 = seed11 = 0;
-   seed2  = 1131199209;
+   seed10 = seed11 = 0U;
+   seed2  = 1131199209U;
    seed12 = seed;
-   seed13 = 69069 * seed12 + 1013904243;
-   seed14 = 69069 * seed13 + 1013904243;
-   carry  = 0xFFFFFFFF;
+   seed13 = 69069U * seed12 + 1013904243U;
+   seed14 = 69069U * seed13 + 1013904243U;
+   carry  = 0xFFFFFFFFU;
    status = 1;
 }
 
@@ -241,13 +241,13 @@ void qpl::test::mean_random::init(uint32_t seed ) {
 double qpl::test::mean_random::gen() {
    if( status ) {
       do {
-         seed2   = 69069 * seed2 + 1013904243;
+         seed2   = 69069U * seed2 + 1013904243U;
          seed11  = seed13 - seed14 + carry;
          carry   = (int)seed11 >> (int)31;
          seed11 -= 18 & carry;
          seed14  = seed12;
          v2      = 0.4656612873077e-9 * (int)(seed11 + seed2);
-         seed2   = 69069 * seed2 + 1013904243;
+         seed2   = 69069U * seed2 + 1013904243U;
          seed10  = seed12 - seed13 + carry;
          carry   = (int)seed10 >> (int)31;
          seed10 -= 18 & carry;

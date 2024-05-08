@@ -50,7 +50,7 @@ void gz_generator::TestConfigurator::writeRandomStoredBlock()
 
 void gz_generator::TestConfigurator::writeRandomLiteralSequence(Gen32u sequenceLength)
 {
-    for (Gen32u symbols = 0; symbols < sequenceLength; symbols++) {
+    for (Gen32u symbols = 0U; symbols < sequenceLength; symbols++) {
         TestConfigurator::declareLiteral(static_cast<Gen32u>(m_randomLiteralCode));
     }
 }
@@ -61,7 +61,7 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
 {
     uint32_t numberLiteralsEncoded = previouslyLiteralsEncoded;
 
-    for (uint32_t symbols = 0;
+    for (uint32_t symbols = 0U;
         (symbols < sequenceLength) && (encodedLiteralsCountLimit > numberLiteralsEncoded );
          symbols++)
     {
@@ -74,8 +74,8 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
         }
         else
         {
-            uint32_t offset;
-            uint32_t match;
+            uint32_t offset = 0U;
+            uint32_t match = 0U;
             uint32_t max_available_match = GEN_MIN(encodedLiteralsCountLimit - numberLiteralsEncoded, MAX_MATCH);
 
             m_randomOffset.set_range(1U, GEN_MIN(numberLiteralsEncoded, MAX_OFFSET));
@@ -94,12 +94,12 @@ Gen32u gz_generator::TestConfigurator::writeRandomReferenceSequence(Gen32u seque
 Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengthCodeTable, Gen32u lengthTableSize,
                                                                   Gen8u maxLengthCodeValue) const
 {
-    pLengthCodeTable[0] = 1;
-    pLengthCodeTable[1] = 1;
-    Gen32u len          = 0;
-    Gen32u lengthCount  = 2; //num length
-    Gen32u num_max      = 0;
-    qpl::test::random rand (0, lengthTableSize, m_seed);
+    pLengthCodeTable[0U] = 1U;
+    pLengthCodeTable[1U] = 1U;
+    Gen32u len          = 0U;
+    Gen32u lengthCount  = 2U; //num length
+    Gen32u num_max      = 0U;
+    qpl::test::random rand (0U, lengthTableSize, m_seed);
 
     while ((lengthCount + num_max) < lengthTableSize)
     {
@@ -118,7 +118,7 @@ Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengt
         }
     }
 
-    for (Gen8u i = 0; i < num_max; i++)
+    for (Gen8u i = 0U; i < num_max; i++)
     {
         pLengthCodeTable[lengthCount + i] = maxLengthCodeValue;
     }
@@ -239,7 +239,7 @@ void gz_generator::TestConfigurator::declareVectorToken(const VectorTokenType ty
 
     *m_config << vectorName;
 
-    for (Gen32u i = 0; i < length; i++)
+    for (Gen32u i = 0U; i < length; i++)
     {
         *m_config << ' ' << std::to_string(vector_ptr[i]);
     }

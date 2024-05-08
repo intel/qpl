@@ -9,11 +9,9 @@
 GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
 {
     Gen32u* pDistanceLengthCodesTable       = nullptr;
-    Gen32u  realCodesCount                  = 0U;
-    Gen32u  repeatingCodesCount             = 0U;
     Gen32u  valueToRepeat                   = 0U;
     Gen32u  distanceLengthCodesTableSize    = DEFAULT_D_TABLE_LENGTH;
-    Gen32u  testParameter;
+    Gen32u  testParameter = 0U;
 
     qpl::test::random random(0U, 0U, m_seed);
 
@@ -21,9 +19,9 @@ GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, distanceLengthCodesTableSize, 14U);
 
     random.set_range(1U, 25U);
-    realCodesCount = static_cast<Gen32u>(random);
+    Gen32u realCodesCount = static_cast<Gen32u>(random);
     random.set_range(3U, 30U - realCodesCount);
-    repeatingCodesCount = static_cast<Gen32u>(random);
+    Gen32u repeatingCodesCount = static_cast<Gen32u>(random);
 
     if (3U != repeatingCodesCount)
     {
@@ -32,7 +30,7 @@ GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
 
     for (Gen32u repeatedCode = 0U ; repeatedCode < repeatingCodesCount; repeatedCode++)
     {
-        Gen32u distanceTableIndex = (realCodesCount - 1) + repeatedCode;
+        Gen32u distanceTableIndex = (realCodesCount - 1U) + repeatedCode;
         pDistanceLengthCodesTable[distanceTableIndex] = valueToRepeat;
     }
 
@@ -68,21 +66,21 @@ bool gz_generator::ManyDistanceCodesConfigurator::breakInRun(Gen32u a, Gen32u b)
 {
     a--;
     b--;
-    while (b > 0)
+    while (b > 0U)
     {
-        if (a < 3)
+        if (a < 3U)
         {
             a--;
             b--;
             continue;
         }
-        if (a <= 6)
+        if (a <= 6U)
         {
             b -= a;
             break;
         }
-        a -= 6;
-        b -= 6;
+        a -= 6U;
+        b -= 6U;
     }
-    return b == 0;
+    return b == 0U;
 }

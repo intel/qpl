@@ -54,15 +54,15 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::generateLitera
         if (pLiteralSequence.size() < 4U || (0.8F > static_cast<float>(m_random))) {
             pLiteralSequence.push_back(static_cast<Gen32u>(m_randomLiteralCode));
         } else {
-            Gen32u match;
-            Gen32u offset;
+            Gen32u match = 0U;
+            Gen32u offset = 0U;
 
             m_randomOffset.set_range(1U, GEN_MIN(MAX_OFFSET, (uint32_t) pLiteralSequence.size()));
             m_randomMatch.set_range(4U, 7U);
             offset = static_cast<Gen32u>(m_randomOffset);
             match = static_cast<Gen32u>(m_randomMatch);
 
-            for (Gen32u repeat = 0; repeat < match; repeat++) {
+            for (Gen32u repeat = 0U; repeat < match; repeat++) {
                 pLiteralSequence.push_back(pLiteralSequence[pLiteralSequence.size() - offset]);
             }
         }
@@ -100,7 +100,7 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::generateLitera
 Gen32u gz_generator::HuffmanOnlyNoErrorConfigurator::calculateStreamBitLength(std::vector<Gen32u> &pLiterals,
                                                                               std::vector<Gen32u> &pLiteralLengthsTable)
 {
-    Gen32u streamBitLength = 0;
+    Gen32u streamBitLength = 0U;
     for (const auto &literal : pLiterals)
     {
         streamBitLength += pLiteralLengthsTable[literal];
@@ -121,9 +121,9 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffman
     Gen32u maxCodeLength    = 0U;
 
     std::vector<Gen32u> pBitLengthCountTable(MAX_LL_CODE_BIT_LENGTH + 1U);
-    std::fill(pBitLengthCountTable.begin(), pBitLengthCountTable.end(), 0);
+    std::fill(pBitLengthCountTable.begin(), pBitLengthCountTable.end(), 0U);
     std::vector<Gen32u> next_code(MAX_LL_CODE_BIT_LENGTH + 1U);
-    std::fill(next_code.begin(), next_code.end(), 0);
+    std::fill(next_code.begin(), next_code.end(), 0U);
     std::vector<Gen32u> huffmanCodes;
 
     //count number of equal bit lengths
@@ -134,15 +134,15 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffman
     }
 
     {
-        Gen32u huffmanCodeValue = 0;
-        for (Gen32u bits = 1; bits <= maxCodeLength; bits++)
+        Gen32u huffmanCodeValue = 0U;
+        for (Gen32u bits = 1U; bits <= maxCodeLength; bits++)
         {
-            huffmanCodeValue = (huffmanCodeValue + pBitLengthCountTable[bits - 1]) << 1;
+            huffmanCodeValue = (huffmanCodeValue + pBitLengthCountTable[bits - 1U]) << 1;
             next_code[bits] = huffmanCodeValue;
         }
     }
 
-    for (Gen32u i = 0; i < pLiteralLengthsTable.size(); i++)
+    for (Gen32u i = 0U; i < pLiteralLengthsTable.size(); i++)
     {
         Gen32u literalLength = pLiteralLengthsTable[i];
 
@@ -246,7 +246,7 @@ void gz_generator::HuffmanOnlyNoErrorConfigurator::buildDecompressionTable(std::
         m_huffmanTable.first_codes[i - 1U] = filtered[0U].code;
 
         if (_is_aecs_format2_expected) {
-            bitWidthIndex = 0;
+            bitWidthIndex = 0U;
             for (auto &item: filtered) {
                 m_huffmanTable.lit_cam[item.index] = item.len | (bitWidthIndex << 4);
                 bitWidthIndex++;

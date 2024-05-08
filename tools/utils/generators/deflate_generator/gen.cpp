@@ -9,7 +9,7 @@
 #include "gen.h"
 #include "token.h"
 
-constexpr uint32_t USE_RAND = 0xFFFFFFFF;
+constexpr uint32_t USE_RAND = 0xFFFFFFFFU;
 
 namespace gz_generator
 {
@@ -37,15 +37,15 @@ namespace gz_generator
             m_pReferenceBitBuffer->push_back(lit);
         }
         m_hist[m_hist_ptr] = lit;
-        m_hist_ptr = (m_hist_ptr + 1) & (HIST_SIZE - 1);
+        m_hist_ptr = (m_hist_ptr + 1U) & (HIST_SIZE - 1U);
         m_byte_count++;
     }
 
     void
     gen_c::proc_len_dist(uint32_t len, uint32_t dist)
     {
-        uint32_t cum_bytes, i;
-        uint8_t  c;
+        uint32_t cum_bytes = 0U;
+        uint8_t  c = 0U;
 
         if (!m_state.in_block)
             die("Len/dist found when not in block\n");
@@ -54,14 +54,14 @@ namespace gz_generator
         if (dist == USE_RAND)
         {
             cum_bytes     = m_cum_bytes;
-            if (cum_bytes > 4096)
-                cum_bytes = 4096;
-            dist          = 1 + (rand() % m_cum_bytes);
+            if (cum_bytes > 4096U)
+                cum_bytes = 4096U;
+            dist          = 1U + (rand() % m_cum_bytes);
         }
         if (len == USE_RAND)
-            len = 3 + (0xFF & rand());
+            len = 3U + (0xFFU & rand());
 
-        if ((dist == 32768 + 30) || (dist == 32768 + 31))
+        if ((dist == 32768U + 30U) || (dist == 32768U + 31U))
         {
 
             m_huff.add_len_dist(len, dist);
@@ -69,8 +69,8 @@ namespace gz_generator
             return;
         }
 
-        if ((len < 3) || (len > 259)) die("Invalid length: %d\n", len);
-        if ((dist == 0) || (dist > 32768)) die("Invalid distance: %d\n", dist);
+        if ((len < 3U) || (len > 259U)) die("Invalid length: %d\n", len);
+        if ((dist == 0U) || (dist > 32768U)) die("Invalid distance: %d\n", dist);
 
 #if defined (DEBUG) || (_DEBUG)
         if (dist > m_cum_bytes)
@@ -80,19 +80,19 @@ namespace gz_generator
 #endif
         m_huff.add_len_dist(len, dist);
 
-        if (len == 259)
-            len = 258;
+        if (len == 259U)
+            len = 258U;
         m_cum_bytes += len;
 
-        for (i = 0; i < len; i++)
+        for (uint32_t i = 0U; i < len; i++)
         {
-            c = m_hist[(m_hist_ptr - dist) & (HIST_SIZE - 1)];
+            c = m_hist[(m_hist_ptr - dist) & (HIST_SIZE - 1U)];
             if (m_state.bout)
             {
                 m_pReferenceBitBuffer->push_back(c);
             }
             m_hist[m_hist_ptr] = c;
-            m_hist_ptr = (m_hist_ptr + 1) & (HIST_SIZE - 1);
+            m_hist_ptr = (m_hist_ptr + 1U) & (HIST_SIZE - 1U);
         }
         m_byte_count += len;
     }
@@ -100,7 +100,7 @@ namespace gz_generator
     void
     gen_c::proc_rand()
     {
-        if (rand() & 1)
+        if (rand() & 1U)
             proc_lit(USE_RAND);
         else
             proc_len_dist(USE_RAND, USE_RAND);
@@ -152,9 +152,9 @@ namespace gz_generator
             end_block();
         }
         m_huff.reset();
-        m_num_ll_lens     = m_num_d_lens     = m_num_cl_lens     = m_num_cl_lens_alt = 0;
-        m_num_ll_enc_lens = m_num_d_enc_lens = m_num_cl_enc_lens = 0;
-        m_testmode        = m_testparam      = 0;
+        m_num_ll_lens     = m_num_d_lens     = m_num_cl_lens     = m_num_cl_lens_alt = 0U;
+        m_num_ll_enc_lens = m_num_d_enc_lens = m_num_cl_enc_lens = 0U;
+        m_testmode        = m_testparam      = 0U;
         m_state.in_block  = true;
         m_state.bfinal    = bfinal;
         m_state.bout      = true;
@@ -271,7 +271,7 @@ namespace gz_generator
                 m_huff.end_block(m_binaryBitBuffer);
                 break;
             case BT_STORED:
-                m_huff.wr_stored_blocks(m_binaryBitBuffer, m_state.bfinal, this, m_huff.get_noeob() ? 1 : 0);
+                m_huff.wr_stored_blocks(m_binaryBitBuffer, m_state.bfinal, this, m_huff.get_noeob() ? 1U : 0U);
                 break;
             case BT_INVALID:
                 m_huff.wr_invalid_block(m_binaryBitBuffer, m_state.bfinal);
@@ -302,7 +302,7 @@ namespace gz_generator
     gen_c::gen_c(std::stringstream *config, std::vector<uint8_t> *pBinaryVector, std::vector<uint8_t> *pReferenceVector)
             : m_blktype(BT_DYN), m_grammar(config),
               m_binaryBitBuffer(pBinaryVector),
-              m_pReferenceBitBuffer(pReferenceVector), m_cum_bytes(0), m_hist_ptr(0), m_byte_count(0)
+              m_pReferenceBitBuffer(pReferenceVector), m_cum_bytes(0U), m_hist_ptr(0U), m_byte_count(0U)
     {
         m_state  = {false, false, true, false};
 
@@ -313,7 +313,7 @@ namespace gz_generator
 
         for (uint32_t i = 0; i < NUM_WARN; i++)
         { m_warn_printed[i] = false; }
-        m_pad       = 0;
+        m_pad       = 0U;
         m_extra_len = false;
     }
 

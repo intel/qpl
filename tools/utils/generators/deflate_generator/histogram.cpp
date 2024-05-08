@@ -27,8 +27,6 @@ static const int extra_dbits_plus5[30] = {
 void
 histogram::consolidate()
 {
-    int i, j;
-
     static const int ll_start[30] = {
         3,     4,   5,   6,   7,
         8,     9,  10,  11,  13,
@@ -37,18 +35,18 @@ histogram::consolidate()
         67,   83,  99, 115, 131,
         163, 195, 227, 258, 259};
 
-    for (i=0; i<30; i++) {
+    for (int i = 0; i < 30; i++) {
         m_distcodes[i] = 0;
-        for (j=dist_start[i]-1; j < dist_start[i+1]-1; j++)
+        for (int j = dist_start[i] - 1; j < dist_start[i + 1] - 1; j++)
             m_distcodes[i] += m_dist[j];
     }
-    m_distcodes[30] = 0;
-    m_distcodes[31] = 0;
-    for (i=0; i<257; i++)
+    m_distcodes[30U] = 0U;
+    m_distcodes[31U] = 0U;
+    for (int i = 0; i < 257; i++)
         m_llcodes[i] = m_lit_len[i];
-    for (i=257; i<286; i++) {
-        m_llcodes[i] = 0;
-        for (j=ll_start[i-257]+257-3; j < ll_start[i-257+1]+257-3; j++)
+    for (int i = 257; i < 286; i++) {
+        m_llcodes[i] = 0U;
+        for (int j = ll_start[i-257] + 257 - 3; j < ll_start[i - 257 + 1] + 257 - 3; j++)
             m_llcodes[i] += m_lit_len[j];
     }
     normalize();
@@ -57,40 +55,38 @@ histogram::consolidate()
 void
 histogram::normalize()
 {
-    int i;
-    uint64_t sum, sum2;
-    uint64_t x;
+    uint64_t sum = 0, sum2 = 0;
+    uint64_t x = 0;
 
-    sum = 0;
-    for (i=0; i<30; i++)
+    for (int i = 0; i < 30; i++)
         sum += m_distcodes[i];
     if (sum >= (1<<16)) {
         sum2 = sum/2;
-        for (i=0; i<30; i++) {
-            if (m_distcodes[i] == 0)
+        for (int i = 0; i < 30; i++) {
+            if (m_distcodes[i] == 0U)
                 continue;
             x = m_distcodes[i];
             x <<= 15;
             x = (x + sum2) / sum;
-            if (x == 0)
-                x = 1;
+            if (x == 0U)
+                x = 1U;
             m_distcodes[i] = (uint32_t) x;
         }
     }
 
-    sum = 0;
-    for (i=0; i<286; i++)
+    sum = 0U;
+    for (int i = 0; i < 286; i++)
         sum += m_llcodes[i];
     if (sum >= (1<<16)) {
         sum2 = sum/2;
-        for (i=0; i<286; i++) {
-            if (m_llcodes[i] == 0)
+        for (int i = 0; i < 286; i++) {
+            if (m_llcodes[i] == 0U)
                 continue;
             x = m_llcodes[i];
             x <<= 15;
             x = (x + sum2) / sum;
-            if (x == 0)
-                x = 1;
+            if (x == 0U)
+                x = 1U;
             m_llcodes[i] = (uint32_t) x;
         }
     }

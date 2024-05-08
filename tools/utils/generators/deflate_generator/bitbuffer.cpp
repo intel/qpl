@@ -14,7 +14,7 @@ gz_generator::BitBuffer::BitBuffer(std::vector<uint8_t> *data)
 
 void gz_generator::BitBuffer::write(uint64_t value, uint32_t bit_count)
 {
-    uint32_t bitToProcess;
+    uint32_t bitToProcess = 0U;
     m_totalBitWritten += bit_count;
 
     bitToProcess =  m_buffer.bit_length;
@@ -25,7 +25,7 @@ void gz_generator::BitBuffer::write(uint64_t value, uint32_t bit_count)
     if (m_bigEndian16) {
         while (bitToProcess >= 16U)
         {
-            uint16_t word;
+            uint16_t word = 0U;
             word = (uint16_t)(m_buffer.value);
             word = bitFlip(word);
             m_data->push_back((char)word);
@@ -48,8 +48,7 @@ void gz_generator::BitBuffer::write(uint64_t value, uint32_t bit_count)
 
 void gz_generator::BitBuffer::flush(uint32_t pad)
 {
-    uint32_t code;
-    uint32_t code_length;
+    uint32_t code_length = 0U;
 
     if (m_bigEndian16)
     {
@@ -59,7 +58,7 @@ void gz_generator::BitBuffer::flush(uint32_t pad)
     {
         code_length = (0U - m_buffer.bit_length) & 7U;
     }
-    code = pad & ((1U << code_length) - 1U);
+    uint32_t code = pad & ((1U << code_length) - 1U);
 
     write(code, code_length);
 }

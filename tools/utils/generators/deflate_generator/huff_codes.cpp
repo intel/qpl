@@ -43,7 +43,7 @@ namespace gz_generator
 
 
     static bool     testmode_4  = false;
-    static uint32_t testmode_16 = 0;
+    static uint32_t testmode_16 = 0U;
     static bool     testmode_32 = false;
 
     static const uint8_t bit_rev_8[0x100] = {
@@ -77,12 +77,12 @@ namespace gz_generator
 //
 static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
 {
-    uint32_t child;
-    uint64_t tmp;
+    uint32_t child = 0U;
+    uint64_t tmp = 0U;
 
-    while ((child = 2 * i) <= n)
+    while ((child = 2U * i) <= n)
     {
-        if (heap[child] > heap[child + 1])
+        if (heap[child] > heap[child + 1U])
         {
             child++;
         }
@@ -108,31 +108,30 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                      uint32_t max_code_len)
     {
         uint64_t heap[HEAP_SIZE];
-        uint64_t *heap_freq = (uint64_t *) (4 + (uint8_t *) &heap[0]);
-        uint32_t heap_size;
-        uint32_t i, j, k, child, d1, d2, code_len, h_new;
-        uint64_t h1, h2;
+        uint64_t *heap_freq = (uint64_t *) (4U + (uint8_t *) &heap[0U]);
+        uint32_t heap_size = 0U;
+        uint32_t i = 0U, k = 0U, child = 0U, d1 = 0U, d2 = 0U, code_len = 0U, h_new = 0U;
+        uint64_t h1 = 0U, h2 = 0U;
         uint32_t node_ptr   = NODE_START;
 
-        heap_size = 0;
-        for (i    = 0; i < hist_size; i++)
+        for (; i < hist_size; i++)
         {
-            if (histogram[i] != 0)
+            if (histogram[i] != 0U)
                 heap[++heap_size] = (((uint64_t) histogram[i]) << FREQ_SHIFT) | i;
         }
 
         // handle heaps of 0 or 1 elements
-        if (heap_size < 2)
+        if (heap_size < 2U)
         {
-            for (i = 1; i <= max_code_len; i++)
+            for (i = 1U; i <= max_code_len; i++)
             {
-                bl_count[i] = 0;
+                bl_count[i] = 0U;
             }
-            memset(codes, 0, hist_size * sizeof(*codes));
-            if (heap_size == 1)
+            memset(codes, 0U, hist_size * sizeof(*codes));
+            if (heap_size == 1U)
             {
-                codes[(uint32_t) heap[1]] = 1;
-                bl_count[1]               = 1;
+                codes[(uint32_t) heap[1U]] = 1U;
+                bl_count[1U]               = 1U;
             }
             return;
         }
@@ -143,14 +142,14 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         //   node_ptr = proc_heap(heap, heap_size, node_ptr);
         do
         {
-            h1 = heap[1];
-            heap[1] = heap[heap_size];
+            h1 = heap[1U];
+            heap[1U] = heap[heap_size];
             heap[heap_size--] = 0xFFFFFFFFFFFFFFFFULL;
-            heapify64(heap, heap_size, 1);
+            heapify64(heap, heap_size, 1U);
 
-            h2 = heap[1];
+            h2 = heap[1U];
             heap[node_ptr] = (uint32_t) h1;
-            heap[node_ptr - 1] = (uint32_t) h2;
+            heap[node_ptr - 1U] = (uint32_t) h2;
 
             h_new = (h1 + h2) & FREQ_MASK_HI;
             d1 = (uint32_t) h1;
@@ -161,26 +160,25 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             }
             h_new |= node_ptr | ((h2 + DEPTH_1) & DEPTH_MASK_HI);
 
-            node_ptr -= 2;
-            heap[1] = h_new;
-            heapify64(heap, heap_size, 1);
+            node_ptr -= 2U;
+            heap[1U] = h_new;
+            heapify64(heap, heap_size, 1U);
         }
-        while (heap_size > 1);
-        heap[node_ptr] = (uint32_t) heap[1];
+        while (heap_size > 1U);
+        heap[node_ptr] = (uint32_t) heap[1U];
 
         //@    for (i = node_ptr; i <= NODE_START; i++) printf("0x%x\t%016x\n",i,heap[i]);
 
         // compute code lengths and code length counts
-        code_len = 0;
-        j        = node_ptr;
-        for (i   = node_ptr; i <= NODE_START; i++)
+        uint32_t j = node_ptr;
+        for (i = node_ptr; i <= NODE_START; i++)
         {
             child = (uint16_t) heap[i];
             if (child > MAX_HEAP)
             {
-                d1 = 1 + *(uint32_t *) &(heap_freq[i]);
+                d1 = 1U + *(uint32_t *) &(heap_freq[i]);
                 *(uint32_t *) &(heap_freq[child])     = d1;
-                *(uint32_t *) &(heap_freq[child - 1]) = d1;
+                *(uint32_t *) &(heap_freq[child - 1U]) = d1;
             }
             else
             {
@@ -189,7 +187,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                 while (code_len < d1)
                 {
                     code_len++;
-                    heap[code_len] = 0;
+                    heap[code_len] = 0U;
                 }
                 heap[d1]++;
             }
@@ -202,59 +200,58 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         {
             while (code_len > max_code_len)
             {
-                assert(heap[code_len] > 1);
-                for (i = max_code_len - 1; i != 0; i--)
+                assert(heap[code_len] > 1U);
+                for (i = max_code_len - 1U; i != 0U; i--)
                 {
-                    if (heap[i] != 0)
+                    if (heap[i] != 0U)
                         break;
                 }
-                assert(i != 0);
+                assert(i != 0U);
                 heap[i]--;
-                heap[i + 1] += 2;
-                heap[code_len - 1]++;
-                heap[code_len] -= 2;
-                if (heap[code_len] == 0)
+                heap[i + 1U] += 2U;
+                heap[code_len - 1U]++;
+                heap[code_len] -= 2U;
+                if (heap[code_len] == 0U)
                     code_len--;
             }
 
             ///        for (i=1; i <= code_len; i++)
             ///            printf("%d\t%d\n", i, heap[i]);
-
-            for (i = 1; i <= code_len; i++)
+            for (i = 1U; i <= code_len; i++)
             {
                 bl_count[i] = (uint32_t) (heap[i]);
             }
             for (; i <= max_code_len; i++)
             {
-                bl_count[i] = 0;
+                bl_count[i] = 0U;
             }
 
-            for (k = 1; heap[k] == 0; k++)
+            for (k = 1U; heap[k] == 0U; k++)
             {}
             for (i = node_ptr; i < j; i++)
             {
                 *(uint32_t *) &(heap_freq[i]) = k;
                 heap[k]--;
-                for (; heap[k] == 0; k++)
+                for (; heap[k] == 0U; k++)
                 {}
             }
         }
         else
         {
-            for (i = 1; i <= code_len; i++)
+            for (i = 1U; i <= code_len; i++)
             {
                 bl_count[i] = (uint32_t) (heap[i]);
             }
             for (; i <= max_code_len; i++)
             {
-                bl_count[i] = 0;
+                bl_count[i] = 0U;
             }
         }
 
         ///    for (i = node_ptr; i<j; i++)
         ///        printf("%016I64x\n", heap[i]);
 
-        memset(codes, 0, hist_size * sizeof(*codes));
+        memset(codes, 0U, hist_size * sizeof(*codes));
         for (i = node_ptr; i < j; i++)
         {
             h1 = heap[i];
@@ -273,39 +270,38 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                    uint32_t *codes,
                    uint32_t num_codes)
     {
-        uint32_t i, clen;
+        uint32_t i = 0U, clen = 0U;
 
-        for (i = 0; i <= 15; i++)
+        for (; i <= 15U; i++)
         {
-            bl_count[i] = 0;
+            bl_count[i] = 0U;
         }
-        for (i = 0; i < num_lens; i++)
+        for (i = 0U; i < num_lens; i++)
         {
             codes[i] = clen = code_lens[i];
             bl_count[clen]++;
         }
         for (; i < num_codes; i++)
         {
-            codes[i] = 0;
+            codes[i] = 0U;
         }
     }
 
     static void copy_cl_lens(uint32_t *cl_lens,
                              uint32_t num_cl_lens,
-                             uint32_t cl_counts[19],
-                             uint32_t cl_codes[19],
+                             uint32_t cl_counts[19U],
+                             uint32_t cl_codes[19U],
                              uint32_t *bl_count)
     {
-        uint32_t i, j, clen;
+        uint32_t j = 0U, clen = 0U;
 
-        for (i = 0; i < 19; i++)
-        { cl_codes[i] = 0; }
-        for (i = 0; i <= MAX_BL_CODE_LEN; i++)
-        { bl_count[i] = 0; }
-        j      = 0;
-        for (i = 0; i < 19; i++)
+        for (uint32_t i = 0U; i < 19U; i++)
+        { cl_codes[i] = 0U; }
+        for (uint32_t i = 0U; i <= MAX_BL_CODE_LEN; i++)
+        { bl_count[i] = 0U; }
+        for (uint32_t i = 0U; i < 19U; i++)
         {
-            if (cl_counts[i] == 0)
+            if (cl_counts[i] == 0U)
                 continue;
             if (j == num_cl_lens)
             {
@@ -317,9 +313,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
         if (j < num_cl_lens)
         {
-            for (i = 0; i < 19; i++)
+            for (uint32_t i = 0U; i < 19U; i++)
             {
-                if (cl_counts[i] != 0)
+                if (cl_counts[i] != 0U)
                     continue;
                 cl_codes[i] = clen = cl_lens[j++];
                 bl_count[clen]++;
@@ -332,24 +328,24 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     static void copy_cl_lens_alt(uint32_t *cl_lens, uint32_t num_cl_lens, uint32_t cl_counts[19],
                                  uint32_t cl_codes[19], uint32_t *bl_count)
     {
-        uint32_t i, clen;
+        uint32_t clen = 0U;
 
-        for (i = 0; i < 19; i++)
-        { cl_codes[i] = 0; }
-        for (i = 0; i <= MAX_BL_CODE_LEN; i++)
-        { bl_count[i] = 0; }
+        for (uint32_t i = 0U; i < 19U; i++)
+        { cl_codes[i] = 0U; }
+        for (uint32_t i = 0U; i <= MAX_BL_CODE_LEN; i++)
+        { bl_count[i] = 0U; }
 
-        for (i = 0; i < 19; i++)
+        for (uint32_t i = 0U; i < 19U; i++)
         {
             cl_codes[i] = clen = cl_lens[i];
             bl_count[clen]++;
         }
 
-        for (i = 0; i < 19; i++)
+        for (uint32_t i = 0U; i < 19U; i++)
         {
-            if (cl_counts[i] == 0)
+            if (cl_counts[i] == 0U)
                 continue;
-            if (cl_lens[i] == 0)
+            if (cl_lens[i] == 0U)
             {
                 fprintf(stderr, "Missing CL ALT code: %d\n", i);
                 throw std::exception();
@@ -367,24 +363,23 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     uint32_t compute_codes(uint32_t *codes, uint32_t num_codes, uint32_t *bl_count,
                            uint32_t max_code_len)
     {
-        uint32_t code, bits, i;
-        uint32_t next_code[MAX_CODE_LEN + 1];
-        uint32_t max_code = 0xFFFFFFFF;
+        uint32_t next_code[MAX_CODE_LEN + 1U];
+        uint32_t max_code = 0xFFFFFFFFU;
 
-        code      = bl_count[0] = 0;
-        for (bits = 1; bits <= max_code_len; bits++)
+        uint32_t code = bl_count[0U] = 0U;
+        for (uint32_t bits = 1U; bits <= max_code_len; bits++)
         {
-            code = (code + bl_count[bits - 1]) << 1;
+            code = (code + bl_count[bits - 1U]) << 1;
             next_code[bits] = code;
         }
-        for (i = 0; i < num_codes; i++)
+        for (uint32_t i = 0U; i < num_codes; i++)
         {
             code = codes[i];
-            if (code != 0)
+            if (code != 0U)
             {
                 codes[i] = (code << 24) | bit_reverse(next_code[code], code);
                 //            codes[i] = (code << 15) | next_code[code];
-                next_code[code] += 1;
+                next_code[code] += 1U;
                 max_code = i;
             }
         }
@@ -399,23 +394,22 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     uint32_t compute_codes_cl(uint32_t *codes, uint32_t num_codes, uint32_t *bl_count,
                               uint32_t max_code_len)
     {
-        uint32_t code, bits, i;
-        uint32_t next_code[MAX_CODE_LEN + 1];
-        uint32_t max_code = 0;
+        uint32_t next_code[MAX_CODE_LEN + 1U];
+        uint32_t max_code = 0U;
 
-        code      = bl_count[0] = 0;
-        for (bits = 1; bits <= max_code_len; bits++)
+        uint32_t code = bl_count[0U] = 0U;
+        for (uint32_t bits = 1U; bits <= max_code_len; bits++)
         {
-            code = (code + bl_count[bits - 1]) << 1;
+            code = (code + bl_count[bits - 1U]) << 1;
             next_code[bits] = code;
         }
-        for (i = 0; i < num_codes; i++)
+        for (uint32_t i = 0U; i < num_codes; i++)
         {
             code = codes[i];
-            if (code != 0)
+            if (code != 0U)
             {
                 codes[i] = (code << 24) | bit_reverse(next_code[code], code);
-                next_code[code] += 1;
+                next_code[code] += 1U;
                 max_code = i;
             }
         }
@@ -426,46 +420,44 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     uint16_t *
     write_rl(uint16_t *pout, uint16_t last_len, uint32_t run_len, uint32_t *counts)
     {
-        uint32_t last_len_tmp;
-
-        last_len_tmp = last_len;
-        if ((testmode_16 != 0) && (last_len == 0))
+        uint32_t last_len_tmp = last_len;
+        if ((testmode_16 != 0U) && (last_len == 0U))
         {
-            if (testmode_16 & 1)
-                last_len_tmp = 1;
+            if (testmode_16 & 1U)
+                last_len_tmp = 1U;
             testmode_16      = (testmode_16 >> 1) | (testmode_16 << 31);
         }
 
-        if (last_len_tmp == 0)
+        if (last_len_tmp == 0U)
         {
-            while (run_len > 138)
+            while (run_len > 138U)
             {
-                *pout++ = 18 | ((138 - 11) << 8);
-                run_len -= 138;
-                counts[18]++;
+                *pout++ = 18U | ((138U - 11U) << 8);
+                run_len -= 138U;
+                counts[18U]++;
             }
             // 1 <= run_len <= 138
-            if (run_len > 10)
+            if (run_len > 10U)
             {
-                *pout++ = 18 | ((run_len - 11) << 8);
-                counts[18]++;
+                *pout++ = 18U | ((run_len - 11U) << 8);
+                counts[18U]++;
             }
-            else if (run_len > 2)
+            else if (run_len > 2U)
             {
-                *pout++ = 17 | ((run_len - 3) << 8);
-                counts[17]++;
+                *pout++ = 17U | ((run_len - 3U) << 8);
+                counts[17U]++;
             }
-            else if (run_len == 1)
+            else if (run_len == 1U)
             {
-                *pout++ = 0;
-                counts[0]++;
+                *pout++ = 0U;
+                counts[0U]++;
             }
             else
             {
-                assert(run_len == 2);
-                pout[0] = pout[1] = 0;
-                pout += 2;
-                counts[0] += 2;
+                assert(run_len == 2U);
+                pout[0U] = pout[1U] = 0U;
+                pout += 2U;
+                counts[0U] += 2U;
             }
         }
         else
@@ -477,13 +469,13 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                 *pout++ = last_len;
             counts[last_len]++;
             run_len--;
-            if (run_len != 0)
+            if (run_len != 0U)
             {
-                while (run_len > 6)
+                while (run_len > 6U)
                 {
-                    *pout++ = 16 | ((6 - 3) << 8);
-                    run_len -= 6;
-                    counts[16]++;
+                    *pout++ = 16U | ((6U - 3U) << 8);
+                    run_len -= 6U;
+                    counts[16U]++;
                 }
                 // 1 <= run_len <= 6
                 switch (run_len)
@@ -493,13 +485,13 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                         counts[last_len]++;
                         break;
                     case 2:
-                        pout[0] = pout[1] = last_len;
-                        pout += 2;
-                        counts[last_len] += 2;
+                        pout[0U] = pout[1U] = last_len;
+                        pout += 2U;
+                        counts[last_len] += 2U;
                         break;
                     default: // 3...6
-                        *pout++ = 16 | ((run_len - 3) << 8);
-                        counts[16]++;
+                        *pout++ = 16U | ((run_len - 3U) << 8);
+                        counts[16U]++;
                 }
             }
         }
@@ -516,15 +508,13 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     rl_encode(uint32_t *codes, uint32_t num_codes, uint32_t *counts,
               uint16_t *out)
     {
-        uint32_t i, run_len;
-        uint16_t *pout, last_len, len;
-
-        pout = out;
+        uint32_t len = 0U;
+        uint16_t *pout = out;
 
         if (testmode_32)
         {
             testmode_32 = false;
-            for (i      = 0; i < num_codes; i++)
+            for (uint32_t i = 0U; i < num_codes; i++)
             {
                 len = (uint16_t) (codes[i] >> 24);
                 *pout++ = len;
@@ -533,9 +523,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             return (uint32_t) (pout - out);
         }
 
-        last_len = (uint16_t) (codes[0] >> 24);
-        run_len  = 1;
-        for (i   = 1; i < num_codes; i++)
+        uint16_t last_len = (uint16_t) (codes[0U] >> 24);
+        uint32_t run_len  = 1U;
+        for (uint32_t i = 1U; i < num_codes; i++)
         {
             len = (uint16_t) (codes[i] >> 24);
             if (len == last_len)
@@ -545,7 +535,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             }
             pout     = write_rl(pout, last_len, run_len, counts);
             last_len = len;
-            run_len  = 1;
+            run_len  = 1U;
         }
         pout     = write_rl(pout, last_len, run_len, counts);
 
@@ -556,15 +546,13 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     rl_encode_lens(uint32_t *lens, uint32_t num_lens, uint32_t *counts,
                    uint16_t *out)
     {
-        uint32_t i, run_len;
-        uint16_t *pout, last_len, len;
-
-        pout = out;
+        uint16_t len = 0U;
+        uint16_t *pout = out;
 
         if (testmode_32)
         {
             testmode_32 = false;
-            for (i      = 0; i < num_lens; i++)
+            for (uint32_t i = 0U; i < num_lens; i++)
             {
                 len = (uint16_t) (lens[i]);
                 *pout++ = len;
@@ -573,9 +561,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             return (uint32_t) (pout - out);
         }
 
-        last_len = (uint16_t) (lens[0]);
-        run_len  = 1;
-        for (i   = 1; i < num_lens; i++)
+        uint16_t last_len = (uint16_t) (lens[0U]);
+        uint32_t run_len  = 1U;
+        for (uint32_t i = 1U; i < num_lens; i++)
         {
             len = (uint16_t) (lens[i]);
             if (len == last_len)
@@ -585,7 +573,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             }
             pout     = write_rl(pout, last_len, run_len, counts);
             last_len = len;
-            run_len  = 1;
+            run_len  = 1U;
         }
         pout     = write_rl(pout, last_len, run_len, counts);
 
@@ -593,7 +581,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
     }
 
 
-    static const uint32_t cl_perm[19] = {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
+    static const uint32_t cl_perm[19U] = {16U, 17U, 18U, 0U, 8U, 7U, 9U, 6U, 10U, 5U, 11U, 4U, 12U, 3U, 13U, 2U, 14U, 1U, 15U};
 
     uint32_t
     create_header(BitBuffer *bb,
@@ -603,37 +591,37 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                   uint32_t *cl_enc_lens, uint32_t num_cl_enc_lens,
                   uint32_t end_of_block, gen_c *gen)
     {
-        uint32_t       cl_counts[19];
-        uint32_t       i, num_cl_tokens, max_cl_code, code, bit_count, limit;
-        uint16_t       cl_tokens[286 + 32], token, len;
-        uint32_t       bl_count[MAX_CODE_LEN + 1];
-        uint32_t       cl_codes[19];
-        uint64_t       data;
-        int            ii;
-        const uint32_t extra_bits[3] = {2, 3, 7};
+        uint32_t       cl_counts[19U];
+        uint32_t       num_cl_tokens = 0U, max_cl_code = 0U, code = 0U, bit_count = 0U, limit = 0U;
+        uint16_t       cl_tokens[286U + 32U], token = 0U, len = 0U;
+        uint32_t       bl_count[MAX_CODE_LEN + 1U];
+        uint32_t       cl_codes[19U];
+        uint64_t       data = 0U;
+        int            ii = 0;
+        const uint32_t extra_bits[3U] = {2U, 3U, 7U};
 
-        assert(num_ll_codes >= 257); // must be EOB code
+        assert(num_ll_codes >= 257U); // must be EOB code
         //    assert(num_d_codes != 0);
-        if (num_d_codes == 0)
-            num_d_codes = 1;
+        if (num_d_codes == 0U)
+            num_d_codes = 1U;
 
-        if (gen->m_testmode & 16)
+        if (gen->m_testmode & 16U)
         {
             testmode_16 = gen->m_testparam;
         }
 
-        memset(cl_counts, 0, sizeof(cl_counts));
-        if ((gen->m_testmode & 0x0001) &&
+        memset(cl_counts, 0U, sizeof(cl_counts));
+        if ((gen->m_testmode & 0x0001U) &&
             (ll_is_lens) &&
             (d_is_lens))
         {
             // combine LL and D when making CL tokens
-            uint32_t lld_lens[286 + 32];
-            for (i = 0; i < num_ll_codes; i++)
+            uint32_t lld_lens[286U + 32U];
+            for (uint32_t i = 0U; i < num_ll_codes; i++)
             {
                 lld_lens[i] = ll_codes[i];
             }
-            for (i = 0; i < num_d_codes; i++)
+            for (uint32_t i = 0U; i < num_d_codes; i++)
             {
                 lld_lens[i + num_ll_codes] = d_codes[i];
             }
@@ -642,9 +630,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
         else
         {
-            if ((gen->m_testmode & 4) && (gen->m_testparam == 0))
+            if ((gen->m_testmode & 4U) && (gen->m_testparam == 0U))
                 testmode_4    = true;
-            if ((gen->m_testmode & 32) && (gen->m_testparam & 1))
+            if ((gen->m_testmode & 32U) && (gen->m_testparam & 1U))
                 testmode_32   = true;
             if (ll_is_lens)
                 num_cl_tokens = rl_encode_lens(ll_codes, num_ll_codes, cl_counts,
@@ -653,9 +641,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                 num_cl_tokens = rl_encode(ll_codes, num_ll_codes, cl_counts,
                                           cl_tokens);
 
-            if ((gen->m_testmode & 4) && (gen->m_testparam != 0))
+            if ((gen->m_testmode & 4U) && (gen->m_testparam != 0U))
                 testmode_4  = true;
-            if ((gen->m_testmode & 32) && (gen->m_testparam & 2))
+            if ((gen->m_testmode & 32U) && (gen->m_testparam & 2U))
                 testmode_32 = true;
             if (d_is_lens)
                 num_cl_tokens += rl_encode_lens(d_codes, num_d_codes, cl_counts,
@@ -666,9 +654,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
         testmode_32     = false;
 
-        if (num_cl_lens == 0)
+        if (num_cl_lens == 0U)
         {
-            create_huff_tree(cl_counts, 19, bl_count, cl_codes, MAX_BL_CODE_LEN);
+            create_huff_tree(cl_counts, 19U, bl_count, cl_codes, MAX_BL_CODE_LEN);
         }
         else if (cl_alt)
         {
@@ -678,26 +666,26 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         {
             copy_cl_lens(cl_lens, num_cl_lens, cl_counts, cl_codes, bl_count);
         }
-        compute_codes_cl(cl_codes, 19, bl_count, MAX_BL_CODE_LEN);
+        compute_codes_cl(cl_codes, 19U, bl_count, MAX_BL_CODE_LEN);
 
         #ifdef DBG_PRINT
-        for (int i=0; i<19; i++)
+        for (int i = 0; i < 19; i++)
             fprintf(stderr,"cl[%d]\t%d\n",i,(cl_codes[i] >> 24));
         #endif
 
-        for (max_cl_code = 18; max_cl_code >= 4; max_cl_code--)
+        for (max_cl_code = 18U; max_cl_code >= 4U; max_cl_code--)
         {
-            if (0 != cl_codes[cl_perm[max_cl_code]])
+            if (0U != cl_codes[cl_perm[max_cl_code]])
                 break;
         }
         // 3 <= max_cl_code <= 18  (4 <= num_cl_code <= 19)
         if (num_cl_enc_lens)
-            max_cl_code  = num_cl_enc_lens - 1;
+            max_cl_code  = num_cl_enc_lens - 1U;
 
-        if (gen->m_testmode & 2)
+        if (gen->m_testmode & 2U)
             num_d_codes -= gen->m_testparam;
 
-        limit = gen->m_extra_len ? 288 : 286;
+        limit = gen->m_extra_len ? 288U : 286U;
         if (num_ll_codes > limit)
         {
 #if defined (DEBUG) || (_DEBUG)
@@ -706,7 +694,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
 #endif
             num_ll_codes = limit;
         }
-        limit = gen->m_extra_len ? 32 : 30;
+        limit = gen->m_extra_len ? 32U : 30U;
         if (num_d_codes > limit)
         {
 #if defined (DEBUG) || (_DEBUG)
@@ -719,18 +707,18 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         bit_count = bb->getBitsWritten();
         // actually write header
         data =
-                (end_of_block ? 5 : 4) |
-                ((num_ll_codes - 257) << 3) |
-                ((num_d_codes - 1) << (3 + 5)) |
-                ((max_cl_code - 3) << (3 + 5 + 5));
+                (end_of_block ? 5U : 4U) |
+                ((num_ll_codes - 257U) << 3U) |
+                ((num_d_codes - 1U) << (3U + 5U)) |
+                ((max_cl_code - 3U) << (3U + 5U + 5U));
         // write the first CL code here, because bitbuf2_write can only safely
         // write up to 56 bits
         if (num_cl_enc_lens)
-            data |= static_cast<uint64_t>(cl_enc_lens[cl_perm[0]]) << (3 + 5 + 5 + 4);
+            data |= static_cast<uint64_t>(cl_enc_lens[cl_perm[0U]]) << (3U + 5U + 5U + 4U);
         else
-            data |= (cl_codes[cl_perm[0]] >> 24) << (3 + 5 + 5 + 4);
-        bb->write(data, 3 + 5 + 5 + 4 + 3);
-        data        = 0;
+            data |= (cl_codes[cl_perm[0U]] >> 24) << (3U + 5U + 5U + 4U);
+        bb->write(data, 3U + 5U + 5U + 4U + 3U);
+        data = 0U;
         if (num_cl_enc_lens)
             for (ii = max_cl_code; ii >= 1; ii--)
             {
@@ -741,20 +729,20 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             {
                 data = (data << 3) | (cl_codes[cl_perm[ii]] >> 24);
             }
-        bb->write(data, 3 * (max_cl_code));
-        for (i      = 0; i < num_cl_tokens; i++)
+        bb->write(data, 3U * (max_cl_code));
+        for (uint32_t i = 0U; i < num_cl_tokens; i++)
         {
             token = cl_tokens[i];
-            len   = token & 0x1F;
+            len   = token & 0x1FU;
             code  = cl_codes[len];
             #ifdef DBG_PRINT
             fprintf(stderr, "cl_token[%d] = 0x%x\t%08x\n", i, token, code);
             #endif
             bb->write(code & 0xFFFF, code >> 24);
-            if (len > 15)
-                bb->write(token >> 8, extra_bits[len - 16]);
+            if (len > 15U)
+                bb->write(token >> 8, extra_bits[len - 16U]);
         }
-        testmode_16 = 0;
+        testmode_16 = 0U;
         bit_count   = bb->getBitsWritten() - bit_count;
         return bit_count;
     }
@@ -762,25 +750,25 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
 
     void expand_len_tree(uint32_t *codes)
     {
-        uint32_t i, eb, j, k, len;
-        uint32_t orig[21], *p_code, code;
+        uint32_t i = 0U, len = 0U;
+        uint32_t orig[21U], *p_code = nullptr, code = 0U;
 
-        for (i = 0; i < 21; i++)
+        for (; i < 21U; i++)
         {
-            orig[i] = codes[i + 265];
+            orig[i] = codes[i + 265U];
         }
 
         p_code = &codes[265];
 
-        i       = 0;
-        for (eb = 1; eb < 6; eb++)
+        i       = 0U;
+        for (uint32_t eb = 1U; eb < 6U; eb++)
         {
-            for (k = 0; k < 4; k++)
+            for (uint32_t k = 0U; k < 4U; k++)
             {
                 code   = orig[i++];
                 len    = code >> 24;
                 code += eb << 24;
-                for (j = 0; j < (1U << eb); j++)
+                for (uint32_t j = 0U; j < (1U << eb); j++)
                 {
                     *p_code++ = code | (j << len);
                 }
@@ -798,45 +786,43 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                       uint32_t *ll_hist, uint32_t *d_hist,
                       gen_c *gen)
     {
-        uint32_t bl_count[MAX_CODE_LEN + 1];
-        uint32_t max_ll_code, max_d_code;
-        uint32_t num_ll_lens, num_d_lens;
-        uint32_t *cl_lens;
-        uint32_t num_cl_lens;
-        bool     cl_alt, ll_is_lens, d_is_lens;
-        uint32_t num_ll_codes, num_d_codes;
+        uint32_t bl_count[MAX_CODE_LEN + 1U];
+        uint32_t max_ll_code, max_d_code = 0U;
+        uint32_t *cl_lens = nullptr;
+        uint32_t num_cl_lens = 0U;
+        bool     cl_alt = false;
 
-        num_ll_lens = gen->m_num_ll_lens;
-        if (num_ll_lens == 0)
+        uint32_t num_ll_lens = gen->m_num_ll_lens;
+        if (num_ll_lens == 0U)
         {
             // make sure EOB is present
-            if (ll_hist[256] == 0)
-                ll_hist[256] = 1;
+            if (ll_hist[256U] == 0U)
+                ll_hist[256U] = 1U;
 
-            create_huff_tree(ll_hist, 286, bl_count, ll_codes, MAX_CODE_LEN);
+            create_huff_tree(ll_hist, 286U, bl_count, ll_codes, MAX_CODE_LEN);
         }
         else
         {
-            copy_lens(ll_hist, num_ll_lens, bl_count, ll_codes, 286);
+            copy_lens(ll_hist, num_ll_lens, bl_count, ll_codes, 286U);
         }
-        max_ll_code = compute_codes(ll_codes, 286, bl_count, MAX_CODE_LEN);
+        max_ll_code = compute_codes(ll_codes, 286U, bl_count, MAX_CODE_LEN);
 
-        if ((num_ll_lens != 0) && (num_ll_lens - 1 > max_ll_code))
-            max_ll_code = num_ll_lens - 1;
+        if ((num_ll_lens != 0U) && (num_ll_lens - 1U > max_ll_code))
+            max_ll_code = num_ll_lens - 1U;
 
-        num_d_lens = gen->m_num_d_lens;
-        if (num_d_lens == 0)
+        uint32_t num_d_lens = gen->m_num_d_lens;
+        if (num_d_lens == 0U)
         {
-            create_huff_tree(d_hist, 32, bl_count, d_codes, MAX_CODE_LEN);
+            create_huff_tree(d_hist, 32U, bl_count, d_codes, MAX_CODE_LEN);
         }
         else
         {
-            copy_lens(d_hist, num_d_lens, bl_count, d_codes, 32);
+            copy_lens(d_hist, num_d_lens, bl_count, d_codes, 32U);
         }
-        max_d_code = compute_codes(d_codes, 32, bl_count, MAX_CODE_LEN);
+        max_d_code = compute_codes(d_codes, 32U, bl_count, MAX_CODE_LEN);
 
-        if ((num_d_lens != 0) && (num_d_lens - 1 > max_d_code))
-            max_d_code = num_d_lens - 1;
+        if ((num_d_lens != 0U) && (num_d_lens - 1U > max_d_code))
+            max_d_code = num_d_lens - 1U;
 
         #ifdef DBG_PRINT
         for (int i=0; i<286; i++)
@@ -846,9 +832,9 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
             if (d_codes[i] >> 16)
                 fprintf(stderr,"d[%d]\t%d\n",i,(d_codes[i] >> 16));
         #endif
-        num_ll_codes = max_ll_code + 1;
-        num_d_codes  = max_d_code + 1;
-        ll_is_lens   = d_is_lens = false;
+        uint32_t num_ll_codes = max_ll_code + 1U;
+        uint32_t num_d_codes  = max_d_code + 1U;
+        bool ll_is_lens   = false, d_is_lens = false;
         if (gen->m_num_ll_enc_lens)
         {
             ll_codes     = gen->m_ll_enc_lens;

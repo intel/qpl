@@ -31,18 +31,18 @@ namespace qpl::test
 
     auto source_provider::get_prle_header_bytes_size(uint32_t count) -> uint32_t
     {
-        uint32_t bit_count = 0; // number of bits required to store count value
+        uint32_t bit_count = 0U; // number of bits required to store count value
 
-        for (; count != 0; bit_count++)
+        for (; count != 0U; bit_count++)
         {
             count >>= 1;
         }
 
-        uint32_t header_bytes = 1;
+        uint32_t header_bytes = 1U;
 
-        header_bytes += (bit_count > 6) ? 1 : 0;
-        header_bytes += (bit_count > 13) ? 1 : 0;
-        header_bytes += (bit_count > 20) ? 1 : 0;
+        header_bytes += (bit_count > 6U) ? 1U : 0U;
+        header_bytes += (bit_count > 13U) ? 1U : 0U;
+        header_bytes += (bit_count > 20U) ? 1U : 0U;
 
         return header_bytes;
     }
@@ -51,22 +51,20 @@ namespace qpl::test
                                             uint32_t count,
                                             prle_encoding_t prle_encoding)
     {
-        uint64_t buffer             = 0;
+        uint64_t buffer             = 0U;
         int32_t  bits_in_buffer     = 0;
-        uint64_t mask               = 0;
         uint32_t header_bytes       = get_prle_header_bytes_size(count);
+        uint64_t mask = MASK_SIX_LOW_BITS;
 
         if (prle_encoding_t::parquet == prle_encoding) // store encoding type
         {
             buffer = (1ULL << 0);
         }
 
-        mask = MASK_SIX_LOW_BITS;
-
         // store first 6 bits of count with 1 bit shift, because 1st byte contains encoding type information
         buffer |= (uint64_t(count) & mask) << 1;
 
-        if (header_bytes > 1) // check if additional bytes required to store count
+        if (header_bytes > 1U) // check if additional bytes required to store count
         {
             // set last bit to indicate that the following byte is still header
             buffer |= (1UL << PRLE_COUNT_FOLLOWING_BYTE_BITS);
@@ -76,12 +74,11 @@ namespace qpl::test
         header_bytes--;
         source_it++;
 
-        buffer         = 0;
-        bits_in_buffer = 0;
+        buffer = 0U;
         mask           = MASK_SEVEN_LOW_BITS;
         count >>= PRLE_COUNT_FIRST_BYTE_BITS;
 
-        while (header_bytes > 0) // store the rest of count bits
+        while (header_bytes > 0U) // store the rest of count bits
         {
             buffer |= (uint64_t(count) & mask) << bits_in_buffer;
 
@@ -89,7 +86,7 @@ namespace qpl::test
             bits_in_buffer += PRLE_COUNT_FOLLOWING_BYTE_BITS;
             header_bytes--;
 
-            if (header_bytes > 0)
+            if (header_bytes > 0U)
             {
                 buffer |= (1ULL << bits_in_buffer);
                 bits_in_buffer++;
@@ -119,8 +116,8 @@ namespace qpl::test
                                               uint32_t count,
                                               const std::vector<uint32_t>& elements) const
     {
-        uint64_t mask           = (1ULL << m_bit_width) - 1;
-        uint64_t buffer         = 0;
+        uint64_t mask           = (1ULL << m_bit_width) - 1U;
+        uint64_t buffer         = 0U;
         int32_t  bits_in_buffer = 0;
 
         for (auto element : elements)
@@ -162,9 +159,9 @@ namespace qpl::test
                                     uint32_t count,
                                     uint32_t element) const
     {
-        uint64_t mask           = (1ULL << m_bit_width) - 1;
-        uint64_t buffer         = 0;
+        uint64_t buffer         = 0U;
         int32_t  bits_in_buffer = 0;
+        uint64_t mask           = (1ULL << m_bit_width) - 1U;
 
         buffer |= (uint64_t(element) & mask) << bits_in_buffer;
         bits_in_buffer += m_bit_width;
@@ -181,16 +178,16 @@ namespace qpl::test
     auto source_provider::generate_prle_stream() -> std::vector<uint8_t>
     {
         const uint32_t minimal_vector_size = 100U;
-        uint32_t       initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 1);
+        uint32_t       initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 1U);
         initial_vector_size = (initial_vector_size < minimal_vector_size) ? minimal_vector_size : initial_vector_size;
         std::vector<uint8_t> result_vector(
-                initial_vector_size * 3); // Temporary fix, TODO:: change memory allocation logic
+                initial_vector_size * 3U); // Temporary fix, TODO:: change memory allocation logic
 
-        uint64_t      max_input_value   = (1ULL << m_bit_width) - 1;
-        qpl::test::random num_generator(0, max_input_value, m_seed);
-        qpl::test::random count_generator(1, m_number_of_elements, m_seed);
+        uint64_t      max_input_value   = (1ULL << m_bit_width) - 1U;
+        qpl::test::random num_generator(0U, max_input_value, m_seed);
+        qpl::test::random count_generator(1U, m_number_of_elements, m_seed);
 
-        std::vector<uint32_t> octa_group(PRLE_OCTA_GROUP_SIZE, 0);
+        std::vector<uint32_t> octa_group(PRLE_OCTA_GROUP_SIZE, 0U);
         auto bit_width = static_cast<uint8_t>(m_bit_width);
 
         auto source_it = result_vector.begin();
@@ -199,17 +196,17 @@ namespace qpl::test
 
         uint32_t elements_remain = m_number_of_elements; // we want to m_number_of_elements to be generated and stored
 
-        uint32_t count       = 0;       // count variable in prle stream
-        uint32_t rle_element = 0; // element to be run length encoded
+        uint32_t count       = 0U;       // count variable in prle stream
+        uint32_t rle_element = 0U; // element to be run length encoded
 
-        while (elements_remain > 0)
+        while (elements_remain > 0U)
         {
             // check if it's possible to store an octa group and generate it's in half of cases
-            if (elements_remain >= PRLE_OCTA_GROUP_SIZE && 0 == (uint32_t(num_generator) % 2))
+            if (elements_remain >= PRLE_OCTA_GROUP_SIZE && 0U == (uint32_t(num_generator) % 2))
             {
                 // number of generated elements is up to elements_remain
                 count = (uint32_t(count_generator) % (elements_remain / PRLE_OCTA_GROUP_SIZE));
-                count = count / 2 + 1; // reduce number of elements
+                count = count / 2 + 1U; // reduce number of elements
                 source_provider::store_prle_header(source_it, count, prle_encoding_t::parquet);
 
                 std::generate(octa_group.data(), octa_group.data() + PRLE_OCTA_GROUP_SIZE,
@@ -218,7 +215,7 @@ namespace qpl::test
                                   return static_cast<uint32_t>(num_generator);
                               });
 
-                for (uint32_t i = 0; i < count; i++) // generate parquet group to result vector
+                for (uint32_t i = 0U; i < count; i++) // generate parquet group to result vector
                 {
                     uint32_t number_of_attempts = 0U;
 
@@ -229,7 +226,7 @@ namespace qpl::test
                     }
                     catch (const std::exception &e)
                     {
-                        if (number_of_attempts > 3)
+                        if (number_of_attempts > 3U)
                         {
                             std::cerr << e.what() << '\n';
                             break;
@@ -243,7 +240,7 @@ namespace qpl::test
             }
             else // store run length encoding element otherwise
             {
-                count       = uint32_t(count_generator) % elements_remain + 1;
+                count       = uint32_t(count_generator) % elements_remain + 1U;
                 rle_element = uint32_t(num_generator);
                 store_prle_header(source_it, count, prle_encoding_t::run_length_encoding);
                 store_rle(source_it, count, rle_element);
@@ -258,14 +255,14 @@ namespace qpl::test
 
     auto source_provider::generate_expand_rle_prle_stream() -> std::vector<uint8_t>
     {
-        uint32_t             initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 2);
+        uint32_t             initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 2U);
         std::vector<uint8_t> result_vector(initial_vector_size);
 
         uint64_t      max_count_expand_rle_value = (1ULL << 2);
-        qpl::test::random num_generator(1, max_count_expand_rle_value, m_seed);
-        qpl::test::random count_generator(1, m_number_of_elements, m_seed);
+        qpl::test::random num_generator(1U, max_count_expand_rle_value, m_seed);
+        qpl::test::random count_generator(1U, m_number_of_elements, m_seed);
 
-        std::vector<uint32_t> octa_group(PRLE_OCTA_GROUP_SIZE, 0);
+        std::vector<uint32_t> octa_group(PRLE_OCTA_GROUP_SIZE, 0U);
 
         auto bit_width = static_cast<uint8_t>(m_bit_width);
 
@@ -275,49 +272,49 @@ namespace qpl::test
 
         uint32_t elements_remain = m_number_of_elements; // we want to m_number_of_elements to be generated and stored
 
-        uint32_t count = 0; // count variable in prle stream
+        uint32_t count = 0U; // count variable in prle stream
 
-        bool accumulate_values = (m_bit_width == 32);
+        bool accumulate_values = (m_bit_width == 32U);
 
-        m_count_number_expand_rle = 0;
+        m_count_number_expand_rle = 0U;
 
         if (accumulate_values)
         {
-            count = 1;
+            count = 1U;
             store_prle_header(source_it, count, prle_encoding_t::run_length_encoding);
-            store_rle(source_it, count, 0);
+            store_rle(source_it, count, 0U);
             elements_remain -= count;
         }
 
-        count = 0;
+        count = 0U;
 
-        while (elements_remain > 0)
+        while (elements_remain > 0U)
         {
-            if (elements_remain >= PRLE_OCTA_GROUP_SIZE && uint32_t(num_generator) % 2 == 0 ||
+            if (elements_remain >= PRLE_OCTA_GROUP_SIZE && uint32_t(num_generator) % 2 == 0U ||
                 (accumulate_values && elements_remain >= PRLE_OCTA_GROUP_SIZE))
             {
                 uint32_t octa_groups_remain = elements_remain / PRLE_OCTA_GROUP_SIZE;
-                octa_groups_remain += (0 == elements_remain % PRLE_OCTA_GROUP_SIZE) ? 0 : 1;
+                octa_groups_remain += (0U == elements_remain % PRLE_OCTA_GROUP_SIZE) ? 0U : 1U;
                 count                       = (uint32_t(count_generator) %
                                                (octa_groups_remain)); // number of generated elements is up to elements_remain
                 count =
-                        count / 2 + 1;                                      // reduce number of elements
+                        count / 2 + 1U;                                      // reduce number of elements
 
                 if (accumulate_values)
-                    count = 1;
+                    count = 1U;
 
                 source_provider::store_prle_header(source_it, count, prle_encoding_t::parquet);
 
-                for (uint32_t i = 0; i < count; i++) // generate parquet group to result vector
+                for (uint32_t i = 0U; i < count; i++) // generate parquet group to result vector
                 {
                     if (accumulate_values)
                     {
-                        octa_group[0] = m_count_number_expand_rle;
+                        octa_group[0U] = m_count_number_expand_rle;
 
-                        for (auto octa_group_it = octa_group.begin() + 1;
+                        for (auto octa_group_it = octa_group.begin() + 1U;
                              octa_group_it < octa_group.end(); octa_group_it++)
                         {
-                            *octa_group_it = *(octa_group_it - 1) + uint32_t(num_generator);
+                            *octa_group_it = *(octa_group_it - 1U) + uint32_t(num_generator);
                         }
 
                         m_count_number_expand_rle = octa_group.back();
@@ -345,7 +342,7 @@ namespace qpl::test
                     }
                     catch (const std::exception &e)
                     {
-                        if (number_of_attempts > 3)
+                        if (number_of_attempts > 3U)
                         {
                             std::cerr << e.what() << '\n';
                             break;
@@ -359,17 +356,17 @@ namespace qpl::test
             }
             else
             {
-                uint32_t rle_element;
+                uint32_t rle_element = 0U;
 
                 if (accumulate_values)
                 {
-                    count                     = 1;
+                    count                     = 1U;
                     rle_element               = m_count_number_expand_rle + uint32_t(num_generator);
                     m_count_number_expand_rle = rle_element;
                 }
                 else
                 {
-                    count       = uint32_t(count_generator) % elements_remain + 1;
+                    count       = uint32_t(count_generator) % elements_remain + 1U;
                     rle_element = uint32_t(num_generator);
                     m_count_number_expand_rle += rle_element * count;
                 }
@@ -410,15 +407,15 @@ namespace qpl::test
         else
         {
             uint32_t              max_value = (1ULL << 2);
-            qpl::test::random     num_generator(1, max_value, m_seed);
-            std::vector<uint32_t> temporary_source_vector(m_number_of_elements, 0);
+            qpl::test::random     num_generator(1U, max_value, m_seed);
+            std::vector<uint32_t> temporary_source_vector(m_number_of_elements, 0U);
 
             if (m_bit_width == 32U)
             {
-                for (auto it = temporary_source_vector.begin() + 1; it < temporary_source_vector.end(); it++)
+                for (auto it = temporary_source_vector.begin() + 1U; it < temporary_source_vector.end(); it++)
                 {
                     auto new_value = (uint32_t) num_generator;
-                    *it = new_value + *(it - 1);
+                    *it = new_value + *(it - 1U);
                 }
             }
             else

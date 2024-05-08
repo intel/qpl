@@ -18,8 +18,8 @@ static char_type_c g_ctype;
 
 char_type_c::char_type_c()
 {
-    uint32_t i;
-    for (i=0; i<0x100; i++) m_array[i] = 0;
+    uint32_t i = 0U;
+    for (; i<0x100; i++) m_array[i] = 0U;
     m_array[' '] |= CC_WHITE;
     m_array['\t'] |= CC_WHITE;
     m_array['\n'] |= CC_EOL;
@@ -32,7 +32,7 @@ char_type_c::char_type_c()
     for (i='A'; i<='F'; i++) m_array[i] |= CC_HEXNUMBER;
     m_array['#'] |= CC_COMMENT;
 
-    for (i=0; i<0x100; i++)
+    for (i=0U; i<0x100; i++)
         m_tolower[i] = (char) i;
     for (i='A'; i<='Z'; i++)
         m_tolower[i] = (char)(i + 'a' - 'A');
@@ -43,8 +43,8 @@ char_type_c::char_type_c()
 token_type_t
 token_parser_c::get_token_(token_c *token)
 {
-    int c;
-    uint32_t ctype;
+    int c = 0;
+    uint32_t ctype = 0U;
 
     if (m_on_deck_valid) {
         *token = m_on_deck;
@@ -82,7 +82,7 @@ token_parser_c::get_token_(token_c *token)
 
     switch (c) {
     case '*': return TT_STAR;
-    case '?': {token->m_value = 0xFFFFFFFF; return TT_NUM;}
+    case '?': {token->m_value = 0xFFFFFFFFU; return TT_NUM;}
     }
 
     fprintf(stderr, "unexpected char 0x%02x at line %d\n", c, m_line_num);
@@ -118,11 +118,10 @@ token_parser_c::parse_one_string(token_c *token,
                                  const char *str, uint32_t strlen,
                                  token_type_t type)
 {
-    uint32_t i, j;
-    int c;
-    uint32_t ctype;
+    int c = 0;
+    uint32_t ctype = 0U;
 
-    for (i=1; i<strlen; i++) {
+    for (uint32_t i = 1U; i<strlen; i++) {
         c = getc();
         if (c == -1){
             fprintf(stderr, "End of file while parsing string.");
@@ -131,7 +130,7 @@ token_parser_c::parse_one_string(token_c *token,
         c = TOLOWER(c);
         if (c != str[i]) {
             fprintf(stderr, "Unknown keyword: ");
-            for (j=0; j<i; j++)
+            for (uint32_t j = 0U; j<i; j++)
                 putc(str[j], stderr);
             fprintf(stderr, "%c at line %d\n", c, m_line_num);
             throw std::exception();
@@ -154,10 +153,9 @@ token_parser_c::parse_two_strings(token_c *token,
                                  const char *str2, uint32_t strlen2,
                                  token_type_t type2)
 {
-    uint32_t i, j;
-    int c;
-    uint32_t ctype;
-    const char *str;
+    int c = 0;
+    uint32_t ctype = 0U;
+    const char *str = nullptr;
     token_type_t type;
 
     c = getc();
@@ -176,7 +174,7 @@ token_parser_c::parse_two_strings(token_c *token,
         type = type2;
         ungetc(c);
     } else if (c == str1[1]) {
-        for (i=2; i<strlen1; i++) {
+        for (uint32_t i = 2U; i<strlen1; i++) {
             c = getc();
             if (c == -1){
                 fprintf(stderr, "End of file while parsing string.");
@@ -185,7 +183,7 @@ token_parser_c::parse_two_strings(token_c *token,
             c = TOLOWER(c);
             if (c != str1[i]) {
                 fprintf(stderr, "Unknown keyword: ");
-                for (j=0; j<i; j++)
+                for (uint32_t j = 0U; j<i; j++)
                     putc(str1[j], stderr);
                 fprintf(stderr, "%c at line %d\n", c, m_line_num);
                 throw std::exception();
@@ -194,7 +192,7 @@ token_parser_c::parse_two_strings(token_c *token,
         str = str1;
         type = type1;
     } else if (c == str2[1]) {
-        for (i=2; i<strlen2; i++) {
+        for (uint32_t i = 2U; i<strlen2; i++) {
             c = getc();
             if (c == -1){
                 fprintf(stderr, "End of file while parsing string.");
@@ -203,7 +201,7 @@ token_parser_c::parse_two_strings(token_c *token,
             c = TOLOWER(c);
             if (c != str2[i]) {
                 fprintf(stderr, "Unknown keyword: ");
-                for (j=0; j<i; j++)
+                for (uint32_t j = 0U; j<i; j++)
                     putc(str2[j], stderr);
                 fprintf(stderr, "%c at line %d\n", c, m_line_num);
                 throw std::exception();
@@ -235,10 +233,9 @@ token_parser_c::parse_three_strings(token_c *token,
                                     const char *str3, uint32_t strlen3,
                                     token_type_t type3)
 {
-    uint32_t i, j;
-    int c;
-    uint32_t ctype;
-    const char *str;
+    int c = 0;
+    uint32_t ctype = 0U;
+    const char *str = nullptr;
     token_type_t type;
 
     c = getc();
@@ -261,7 +258,7 @@ token_parser_c::parse_three_strings(token_c *token,
         type = type3;
         ungetc(c);
     } else if (c == str1[1]) {
-        for (i=2; i<strlen1; i++) {
+        for (uint32_t i = 2U; i<strlen1; i++) {
             c = getc();
             if (c == -1){
                 fprintf(stderr, "End of file while parsing string.");
@@ -270,7 +267,7 @@ token_parser_c::parse_three_strings(token_c *token,
             c = TOLOWER(c);
             if (c != str1[i]) {
                 fprintf(stderr, "Unknown keyword: ");
-                for (j=0; j<i; j++)
+                for (uint32_t j = 0U; j<i; j++)
                     putc(str1[j], stderr);
                 fprintf(stderr, "%c at line %d\n", c, m_line_num);
                 throw std::exception();
@@ -279,7 +276,7 @@ token_parser_c::parse_three_strings(token_c *token,
         str = str1;
         type = type1;
     } else if (c == str2[1]) {
-        for (i=2; i<strlen2; i++) {
+        for (uint32_t i = 2U; i<strlen2; i++) {
             c = getc();
             if (c == -1){
                 fprintf(stderr, "End of file while parsing string.");
@@ -288,7 +285,7 @@ token_parser_c::parse_three_strings(token_c *token,
             c = TOLOWER(c);
             if (c != str2[i]) {
                 fprintf(stderr, "Unknown keyword: ");
-                for (j=0; j<i; j++)
+                for (uint32_t j=0; j<i; j++)
                     putc(str2[j], stderr);
                 fprintf(stderr, "%c at line %d\n", c, m_line_num);
                 throw std::exception();
@@ -297,7 +294,7 @@ token_parser_c::parse_three_strings(token_c *token,
         str = str2;
         type = type2;
     } else if (c == str3[1]) {
-        for (i=2; i<strlen3; i++) {
+        for (uint32_t i = 2U; i<strlen3; i++) {
             c = getc();
             if (c == -1){
                 fprintf(stderr, "End of file while parsing string.");
@@ -306,7 +303,7 @@ token_parser_c::parse_three_strings(token_c *token,
             c = TOLOWER(c);
             if (c != str3[i]) {
                 fprintf(stderr, "Unknown keyword: ");
-                for (j=0; j<i; j++)
+                for (uint32_t j = 0U; j<i; j++)
                     putc(str3[j], stderr);
                 fprintf(stderr, "%c at line %d\n", c, m_line_num);
                 throw std::exception();
@@ -415,8 +412,8 @@ token_parser_c::parse_l(token_c *token)
 token_type_t
 token_parser_c::parse_m(token_c *token)
 {
-    int c;
-    uint32_t ctype;
+    int c = 0;
+    uint32_t ctype = 0U;
 
     c = getc();
     ctype = CTYPE(c);
@@ -479,7 +476,7 @@ token_parser_c::parse_t(token_c *token)
 token_type_t
 token_parser_c::parse_number(token_c *token, int c)
 {
-    uint32_t ctype;
+    uint32_t ctype = 0U;
     if (c == '0') {
         c = getc();
         if (c == -1){
@@ -493,7 +490,7 @@ token_parser_c::parse_number(token_c *token, int c)
         if (ctype & CC_NUMBER)
             return parse_octal(token, c);
         ungetc(c);
-        token->m_value = 0;
+        token->m_value = 0U;
         return TT_NUM;
     }
     return parse_decimal(token, c);
@@ -502,15 +499,14 @@ token_parser_c::parse_number(token_c *token, int c)
 token_type_t
 token_parser_c::parse_decimal(token_c *token, int c)
 {
-    uint32_t value;
-    uint32_t ctype;
+    uint32_t ctype = 0U;
+    uint32_t value = (c - '0');
 
-    value = (c - '0');
-    while (1) {
+    while (1U) {
         c = getc();
         ctype = CTYPE(c);
         if (ctype & CC_NUMBER) {
-            value = value * 10 + c - '0';
+            value = value * 10U + c - '0';
             continue;
         }
         ungetc(c);
@@ -522,33 +518,32 @@ token_parser_c::parse_decimal(token_c *token, int c)
 token_type_t
 token_parser_c::parse_hex(token_c *token)
 {
-    uint32_t value;
-    int c;
-    uint32_t ctype;
+    uint32_t value = 0U;
+    int c = 0;
+    uint32_t ctype = 0U;
     static const uint8_t hval[0x100] = {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,	// 00 - 0F
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,	// 10 - 1F
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,	// 20 - 2F
-        0,1,2,3,4,5,6,7,8,9,0,0,0,0,0,0,	// 30 - 3F
-        0,10,11,12,13,14,15,0,0,0,0,0,0,0,0,0,	// 40 - 4F
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,	// 50 - 5F
-        0,10,11,12,13,14,15,0,0,0,0,0,0,0,0,0,	// 60 - 6F
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,	// 70 - 7F
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 00 - 0F
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 10 - 1F
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 20 - 2F
+        0U,1U,2U,3U,4U,5U,6U,7U,8U,9U,0U,0U,0U,0U,0U,0U,	// 30 - 3F
+        0U,10U,11U,12U,13U,14U,15U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 40 - 4F
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 50 - 5F
+        0U,10U,11U,12U,13U,14U,15U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 60 - 6F
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,	// 70 - 7F
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,
+        0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U,0U};
 
-    value = 0;
-    while (1) {
+    while (1U) {
         c = getc();
         ctype = CTYPE(c);
         if (ctype & CC_HEXNUMBER) {
-            value = value * 16 + hval[c];
+            value = value * 16U + hval[c];
             continue;
         }
         ungetc(c);
@@ -560,14 +555,13 @@ token_parser_c::parse_hex(token_c *token)
 token_type_t
 token_parser_c::parse_octal(token_c *token, int c)
 {
-    uint32_t value;
-    uint32_t ctype;
+    uint32_t ctype = 0U;
 
     if (c > '7') {
         fprintf(stderr, "Invalid octal number at line %d\n", m_line_num);
         throw std::exception();
     }
-    value = (c - '0');
+    uint32_t value = (c - '0');
     while (1) {
         c = getc();
         ctype = CTYPE(c);
@@ -576,7 +570,7 @@ token_parser_c::parse_octal(token_c *token, int c)
                 fprintf(stderr, "Invalid octal number at line %d\n", m_line_num);
                 throw std::exception();
             }
-            value = value * 8 + c - '0';
+            value = value * 8U + c - '0';
             continue;
         }
         ungetc(c);

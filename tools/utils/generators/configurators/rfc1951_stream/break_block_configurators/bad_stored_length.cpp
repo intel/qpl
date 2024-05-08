@@ -7,8 +7,8 @@
 #include "bad_stored_length.hpp"
 
 GenStatus gz_generator::BadStoredLengthConfigurator::generate()
-{   
-    Gen32u testGroup;
+{
+    Gen32u testGroup = 0U;
     qpl::test::random randomTestGroup;
 
     TestConfigurator::declareStoredBlock();
@@ -31,7 +31,7 @@ GenStatus gz_generator::BadStoredLengthConfigurator::generate()
     }
     else
     {
-        randomTestGroup.set_range(0U, 0xFFFF);
+        randomTestGroup.set_range(0U, 0xFFFFU);
         testGroup = static_cast<Gen32u>(randomTestGroup);
     }
 
