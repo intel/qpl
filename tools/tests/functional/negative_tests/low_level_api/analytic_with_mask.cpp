@@ -15,12 +15,12 @@ namespace qpl::test {
     public:
         void SetUpDefaultCase() override {
             job_ptr->op = operation;
-            job_ptr->num_input_elements = 4096;
+            job_ptr->num_input_elements = 4096U;
             job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = parser;
-            job_ptr->flags = 0;
-            job_ptr->src2_bit_width = 1;
+            job_ptr->flags = 0U;
+            job_ptr->src2_bit_width = 1U;
 
             second_input_elements = job_ptr->num_input_elements;
             job_ptr->param_low    = 0U;
@@ -45,7 +45,7 @@ namespace qpl::test {
 
     private:
         std::vector<uint8_t> mask;
-        uint32_t             second_input_elements;
+        uint32_t             second_input_elements = 0U;
     };
 
     template <qpl_operation operation>
@@ -57,8 +57,8 @@ namespace qpl::test {
             job_ptr->src1_bit_width = 8U;
             job_ptr->out_bit_width = qpl_ow_nom;
             job_ptr->parser = qpl_p_parquet_rle;
-            job_ptr->flags = 0;
-            job_ptr->src2_bit_width = 1;
+            job_ptr->flags = 0U;
+            job_ptr->src2_bit_width = 1U;
 
             second_input_elements = job_ptr->num_input_elements;
             job_ptr->param_low    = 0U;
@@ -83,7 +83,7 @@ namespace qpl::test {
 
         testing::AssertionResult ValidatePRLEBitwidthError() {
             job_ptr->src1_bit_width = 0U;
-            source[0] = 103U; // Set incorrect 1st byte (incorrect bit width)
+            source[0U] = 103U; // Set incorrect 1st byte (incorrect bit width)
             CompressSource();
 
             return RunStatusTest(QPL_STS_BIT_WIDTH_ERR); /* Invalid bit width */
@@ -91,7 +91,7 @@ namespace qpl::test {
 
     private:
         std::vector<uint8_t> mask;
-        uint32_t             second_input_elements;
+        uint32_t             second_input_elements = 0U;
     };
 
     #define REGISTER_NEGATIVE_PRLE_BIT_WIDTH_ERROR_TEST(operation, fixture) \
@@ -125,11 +125,11 @@ namespace qpl::test {
 
             second_input_elements = job_ptr->num_input_elements;
 
-            job_ptr->src1_bit_width = 1;
+            job_ptr->src1_bit_width = 1U;
             job_ptr->out_bit_width = out_format;
             job_ptr->parser = qpl_p_le_packed_array;
-            job_ptr->flags = 0;
-            job_ptr->src2_bit_width = 1;
+            job_ptr->flags = 0U;
+            job_ptr->src2_bit_width = 1U;
         }
 
         void PrepareMask() {
@@ -137,8 +137,8 @@ namespace qpl::test {
 
             uint32_t size = static_cast<uint32_t>(mask.size());
 
-            for (uint32_t i = 0; i < size; ++i) {
-                mask[i] = 0xFF;
+            for (uint32_t i = 0U; i < size; ++i) {
+                mask[i] = 0xFFU;
             }
 
             job_ptr->available_src2 = size;
@@ -151,8 +151,8 @@ namespace qpl::test {
         }
 
         testing::AssertionResult ValidateIncorrectNumElementsWithIndexOutputError() {
-            for (uint32_t i = 0; i < mask.size(); ++i) {
-                source[i] = 0xFF;
+            for (uint32_t i = 0U; i < mask.size(); ++i) {
+                source[i] = 0xFFU;
             }
 
             return RunStatusTest(QPL_STS_OUTPUT_OVERFLOW_ERR); /* Invalid bit width */
@@ -160,7 +160,7 @@ namespace qpl::test {
 
     private:
         std::vector<uint8_t> mask;
-        uint32_t             second_input_elements;
+        uint32_t             second_input_elements = 0U;
     };
 
     #define REGISTER_NEGATIVE_EXPAND_NUM_ELEMENTS_TEST(fixture, name) \
