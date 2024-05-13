@@ -36,9 +36,9 @@ qpl_status run_decompress_op(qpl_path_t execution_path) {
 
     gz_generator::InflateGenerator data_generator;
 
-    generator_status = data_generator.generate(encoded_data_buffer,
-                                                decoded_data_buffer,
-                                                test_factor);
+    generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
+                                                                decoded_data_buffer,
+                                                                test_factor);
 
     std::unique_ptr<uint8_t[]> job_buffer;
     uint32_t                   size = 0U;

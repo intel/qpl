@@ -35,9 +35,9 @@ namespace gz_generator
 
         private:
             std::vector<Gen32u> generateLiteralSequences(std::vector<Gen32u> &pLiteralLengthCodesTable);
-            std::vector<Gen32u> computeHuffmanCodes(std::vector<Gen32u> &pLiteralLengthsTable);
+            static std::vector<Gen32u> computeHuffmanCodes(std::vector<Gen32u> &pLiteralLengthsTable);
 
-            Gen32u calculateStreamBitLength(std::vector<Gen32u> &pLiteralsSequence, std::vector<Gen32u> &pLiteralLengths);
+            static Gen32u calculateStreamBitLength(std::vector<Gen32u> &pLiteralsSequence, std::vector<Gen32u> &pLiteralLengths);
 
             void buildDecompressionTable(std::vector<Gen32u> &pLiteralLengthCodesTable,
                                          std::vector<Gen32u> &pHuffmanCodes);

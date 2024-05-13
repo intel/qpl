@@ -88,7 +88,7 @@ public:
                            qpl_parser parser = qpl_p_le_packed_array,
                            uint16_t prologue = 0u);
 
-    auto elements_count() noexcept -> size_t;
+    static auto elements_count() noexcept -> size_t;
 
     auto packed_elements_count() const noexcept -> size_t;
 

@@ -144,9 +144,9 @@ private:
 
         gz_generator::InflateGenerator data_generator;
 
-        generator_status = data_generator.generate(encoded_data_buffer,
-                                                   decoded_data_buffer,
-                                                   test_factor);
+        generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
+                                                                    decoded_data_buffer,
+                                                                    test_factor);
 
         if (NO_ERR_HUFFMAN_ONLY == test_type) {
             job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS;

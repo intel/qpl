@@ -24,7 +24,7 @@ namespace gz_generator
             /**
              * return true if given POINT in run of length N is a breakpoint between sequences
              */
-            bool breakInRun (Gen32u a, Gen32u b);
+            static bool breakInRun (Gen32u a, Gen32u b);
     };
 }
 

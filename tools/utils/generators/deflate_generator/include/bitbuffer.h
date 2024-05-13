@@ -30,7 +30,7 @@ namespace gz_generator
 
             void padToByte();
 
-            uint16_t bitFlip(uint16_t word);
+            static uint16_t bitFlip(uint16_t word);
 
             BitBuffer& operator= (const BitBuffer &buffer) = delete;
 

@@ -36,9 +36,9 @@ namespace qpl::test
 
             gz_generator::InflateGenerator data_generator;
 
-            generator_status = data_generator.generate(encoded_data_buffer,
-                                                       decoded_data_buffer,
-                                                       test_factor);
+            generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
+                                                                        decoded_data_buffer,
+                                                                        test_factor);
 
             EXPECT_EQ(GEN_OK, generator_status);
 

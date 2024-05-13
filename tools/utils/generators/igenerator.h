@@ -15,21 +15,21 @@ namespace gz_generator
     class InflateGenerator
     {
         protected:
-            std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
+            static std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
 
         public:
 
-            GenStatus
+            static GenStatus
             generate(std::vector<Gen8u> &pBinaryData, std::vector<Gen8u> &pReferenceData, TestFactor &factor);
     };
 
     class IndexGenerator
     {
         protected:
-            std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
+            static std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
 
         public:
-            GenStatus
+            static GenStatus
             generate(std::vector<Gen8u> &pBinaryData, std::vector<Gen8u> &pReferenceData, TestFactor &factor);
     };
 }

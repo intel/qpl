@@ -109,7 +109,7 @@ namespace gz_generator
 
             void wr_stored_blocks(BitBuffer &buffer, bool b_final, gen_c *gen, uint32_t extra = 0);
 
-            void wr_invalid_block(BitBuffer &buffer, bool b_final);
+            static void wr_invalid_block(BitBuffer &buffer, bool b_final);
 
             void writeIndex(BitBuffer *bit_buffer);
 

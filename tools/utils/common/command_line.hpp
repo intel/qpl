@@ -31,7 +31,7 @@ private:
 
     std::map<std::string, argument_t> parsed_arguments_;
 
-    argument_t convertType(const std::string &parsed_argument);
+    static argument_t convertType(const std::string &parsed_argument);
 };
 }
 #endif //QPL_TESTS_THREAD_TESTS_STRESS_COMMAND_LINE_HPP_

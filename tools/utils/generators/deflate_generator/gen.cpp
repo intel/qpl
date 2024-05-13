@@ -274,7 +274,7 @@ namespace gz_generator
                 m_huff.wr_stored_blocks(m_binaryBitBuffer, m_state.bfinal, this, m_huff.get_noeob() ? 1U : 0U);
                 break;
             case BT_INVALID:
-                m_huff.wr_invalid_block(m_binaryBitBuffer, m_state.bfinal);
+                gz_generator::huffman_c::wr_invalid_block(m_binaryBitBuffer, m_state.bfinal);
                 break;
         }
         m_huff.reset();

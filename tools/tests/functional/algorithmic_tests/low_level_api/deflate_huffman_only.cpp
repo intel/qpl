@@ -329,7 +329,7 @@ protected:
     // ISAL routine to compute histogram for HT construction did not do huffman only
     // Manually computing the histogram with a for loop and then constructing HT works properly
     // This test checks (both paths, they should create same output) for correct compression in huffman only
-    void RunHuffmanOnlyDynamicCorrectnessTest() {
+    static void RunHuffmanOnlyDynamicCorrectnessTest() {
         auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
         const qpl_compression_levels compression_level = qpl_default_level;
