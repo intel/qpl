@@ -118,7 +118,7 @@ Gen32u gz_generator::TestConfigurator::makeRandomLengthCodesTable(Gen32u *pLengt
         }
     }
 
-    for (Gen8u i = 0U; i < num_max; i++)
+    for (Gen32u i = 0U; i < num_max; i++)
     {
         pLengthCodeTable[lengthCount + i] = maxLengthCodeValue;
     }

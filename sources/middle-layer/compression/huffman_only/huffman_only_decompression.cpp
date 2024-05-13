@@ -47,7 +47,7 @@ static void build_lookup_table(
         const std::array<huffman_code, huffman_only_number_of_literals> &huffman_table,
         uint8_t *lookup_table_ptr) noexcept {
     // Main cycle
-    for (uint16_t symbol = 0U; symbol < huffman_table.size(); symbol++) {
+    for (uint64_t symbol = 0U; symbol < huffman_table.size(); symbol++) {
         const uint8_t  code_length             = huffman_table[symbol].length;
         const uint8_t  offset                  = 16U - code_length;
         const uint16_t code                    = reverse_bits(huffman_table[symbol].code, code_length);

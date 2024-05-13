@@ -58,7 +58,7 @@ namespace qpl::test
                             continue;
                         }
 
-                        for (uint8_t input_bit_width = 1;
+                        for (uint32_t input_bit_width = 1U;
                              input_bit_width <= (qpl_ow_nom == out_bit_width ? 32 : out_bit_width); input_bit_width++)
                         {
                             AnalyticTestCase test_case;
