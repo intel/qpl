@@ -26,7 +26,7 @@
 #if defined(__linux__)
 #include <sys/mman.h>
 #include <unistd.h>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 namespace qpl::test

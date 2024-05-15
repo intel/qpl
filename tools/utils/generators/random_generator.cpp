@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 
 #include "random_generator.h"

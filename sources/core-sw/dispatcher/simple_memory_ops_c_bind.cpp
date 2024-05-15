@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <stdint.h>
+#include <cstdint>
 #include "simple_memory_ops.hpp"
 
 // C wrapper for util::copy with uint8_t type

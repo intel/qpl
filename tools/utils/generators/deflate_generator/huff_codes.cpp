@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <assert.h>
+#include <cstdio>
+#include <cstdint>
+#include <cstdlib>
+#include <cassert>
 #include <memory.h>
 
 #include "heap_alt.h"

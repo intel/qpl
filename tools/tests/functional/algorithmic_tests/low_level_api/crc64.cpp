@@ -8,7 +8,6 @@
 #include <cstdint>
 #include <memory>
 #include <numeric>
-#include <stdbool.h>
 
 #include "qpl/qpl.h"
 
@@ -33,7 +32,7 @@
 #if defined(__linux__)
 #include <sys/mman.h>
 #include <unistd.h>
-#include <errno.h>
+#include <cerrno>
 #endif
 
 namespace qpl::test

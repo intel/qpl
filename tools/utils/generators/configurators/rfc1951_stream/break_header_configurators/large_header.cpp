@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 #include "large_header.hpp"
-#include <math.h>
+#include <cmath>
 
 #define BITS_IN_QWORD   64U
 #define BITS_IN_BYTE    8U

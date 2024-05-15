@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <assert.h>
+#include <cassert>
 
 #include "huffman.h"
 #include "huff_codes.h"

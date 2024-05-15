@@ -8,14 +8,13 @@
 
 #include <sys/mman.h>
 #include <unistd.h>
-#include <errno.h>
+#include <cerrno>
 
 #ifdef MADV_PAGEOUT
 
 #include <cstdlib>
 #include <memory>    // unique_ptr
 #include <cstring>   // memset, memcmp
-#include <stdbool.h> // bool
 
 #include <gtest/gtest.h>
 

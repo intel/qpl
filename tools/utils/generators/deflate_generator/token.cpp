@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 
 #include "token.h"
 

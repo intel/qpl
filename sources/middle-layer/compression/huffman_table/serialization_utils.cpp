@@ -9,9 +9,9 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include <stdint.h>
-#include <string.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstring>
+#include <cstdlib>
 #include "compression/huffman_table/serialization_utils.hpp"
 
 namespace qpl::ml::serialization {

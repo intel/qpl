@@ -8,7 +8,7 @@
 
 #if defined( __linux__ )
 
-#include <inttypes.h>
+#include <cinttypes>
 
 #include "hw_device.hpp"
 #include "hw_descriptors_api.h"

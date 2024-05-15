@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 
 #include "qpl/qpl.h"
 #include "examples_utils.hpp" // for argument parsing function

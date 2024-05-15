@@ -6,7 +6,7 @@
 
 #include <array>
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 
 #include "operation_test.hpp"
 #include "source_provider.hpp"

@@ -20,7 +20,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
-#include <stdarg.h>
+#include <cstdarg>
 #include <stdexcept>
 
 namespace bench::details
