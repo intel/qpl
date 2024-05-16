@@ -440,6 +440,9 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
         hw_iaa_descriptor_set_input_buffer(state.verify_descriptor_, output_begin_ptr, result.output_bytes_);
 
+        hw_iaa_aecs_decompress_state_set_aecs_format(&state.aecs_verify_->inflate_options,
+                                                     qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
+
         if (verify_access_policy) {
             hw_iaa_descriptor_inflate_set_aecs(state.verify_descriptor_,
                                                state.aecs_verify_,
@@ -458,6 +461,10 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         if (verify_result.status_code_ ||
             (state.is_last_chunk() && verify_result.checksums_.crc32_ != result.checksums_.crc32_)) {
             result.status_code_ = qpl::ml::status_list::verify_error;
+
+            if (verify_result.status_code_) {
+                DIAG("Deflate verification error code is %d\n", verify_result.status_code_);
+            }
 
             return result;
         }
