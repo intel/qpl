@@ -69,6 +69,16 @@ protected:
         }
     }
 
+    void InitializeTestCases() {
+        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+            SimpleCannedOneChuckTestCase test_case{};
+            test_case.file_name = dataset.first;
+            AddNewTestCase(test_case);
+        }
+    }
+
+public:
+
     SimpleCannedOneChuckCompressDecompressFixture(){};
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
@@ -83,15 +93,6 @@ protected:
             qpl_huffman_table_destroy(d_huffman_table);
     }
 
-    void InitializeTestCases() {
-        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-            SimpleCannedOneChuckTestCase test_case{};
-            test_case.file_name = dataset.first;
-            AddNewTestCase(test_case);
-        }
-    }
-
-public:
     testing::AssertionResult ValidateCompressSwDecompressHw(qpl_compression_levels level) {
         init_compression_huffman_table(c_huffman_table,
                                        reference_text.data(),

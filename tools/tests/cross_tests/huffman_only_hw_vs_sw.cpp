@@ -27,19 +27,6 @@ protected:
         this->InitializeTestCases();
     }
 
-    SimpleHuffmanOnlyCompressDecompressFixture(){};
-    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
-    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
-    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
-    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
-
-    ~SimpleHuffmanOnlyCompressDecompressFixture() override {
-        if (c_huffman_table != NULL)
-            qpl_huffman_table_destroy(c_huffman_table);
-        if (d_huffman_table != NULL)
-            qpl_huffman_table_destroy(d_huffman_table);
-    }
-
     void InitializeTestCases() {
 
         for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
@@ -54,6 +41,19 @@ protected:
     }
 
 public:
+    SimpleHuffmanOnlyCompressDecompressFixture(){};
+    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &) = delete;
+    SimpleHuffmanOnlyCompressDecompressFixture & operator=(const SimpleHuffmanOnlyCompressDecompressFixture &&) = delete;
+
+    ~SimpleHuffmanOnlyCompressDecompressFixture() override {
+        if (c_huffman_table != NULL)
+            qpl_huffman_table_destroy(c_huffman_table);
+        if (d_huffman_table != NULL)
+            qpl_huffman_table_destroy(d_huffman_table);
+    }
+
     testing::AssertionResult ValidateCompressHwDecompressSw() {
         // Create Huffman Table objects for compression and decompression
         auto status = qpl_huffman_only_table_create(compression_table_type,
