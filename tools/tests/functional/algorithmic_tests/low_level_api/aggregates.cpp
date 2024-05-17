@@ -83,7 +83,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_ne;
         auto status = run_job_api(job_ptr);
 
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         uint32_t library_min_value = job_ptr->first_index_min_value;
         uint32_t library_max_value = job_ptr->last_index_max_value;

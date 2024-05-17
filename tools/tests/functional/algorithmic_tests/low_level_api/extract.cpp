@@ -111,8 +111,8 @@ namespace qpl::test
 
         auto reference_status = ref_extract(reference_job_ptr);
 
-        EXPECT_EQ(QPL_STS_OK, status);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareTotalInOutWithReference());
 
@@ -142,10 +142,10 @@ namespace qpl::test
         }
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         auto reference_status = ref_extract(reference_job_ptr);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareVectors(destination, reference_destination));
         test_case_counter++;
@@ -190,7 +190,7 @@ namespace qpl::test
         job_ptr->next_in_ptr       = start;
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         // Filter with random access
         auto mini_block_index = index_table.findMiniBlockIndex(0);
@@ -208,10 +208,10 @@ namespace qpl::test
         job_ptr->flags = saved_flags | QPL_FLAG_DECOMPRESS_ENABLE | QPL_FLAG_RND_ACCESS;
 
         status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         auto reference_status = ref_extract(reference_job_ptr);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareVectors(destination, reference_destination));
         test_case_counter++;
@@ -237,8 +237,8 @@ namespace qpl::test
 
         auto reference_status = ref_extract(reference_job_ptr);
 
-        EXPECT_EQ(QPL_STS_OK, status);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareTotalInOutWithReference());
 

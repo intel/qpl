@@ -94,8 +94,8 @@ namespace qpl::test
 
         auto reference_status = ref_expand(reference_job_ptr);
 
-        EXPECT_EQ(QPL_STS_OK, status);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareTotalInOutWithReference());
         EXPECT_TRUE(compare_checksum_fields(job_ptr, reference_job_ptr));
@@ -115,10 +115,10 @@ namespace qpl::test
         }
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         auto reference_status = ref_expand(reference_job_ptr);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareVectors(destination, reference_destination));
     }

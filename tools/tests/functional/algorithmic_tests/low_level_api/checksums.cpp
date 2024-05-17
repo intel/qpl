@@ -82,7 +82,7 @@ namespace qpl::test
         const uint32_t polynomial = 0x04C11DB7;
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         uint32_t library_crc   = job_ptr->crc;
         uint32_t reference_crc = ref_crc32(source.data(),
@@ -99,7 +99,7 @@ namespace qpl::test
         job_ptr->flags = QPL_FLAG_CRC32C;
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         uint32_t library_crc   = job_ptr->crc;
         uint32_t reference_crc = ref_crc32(source.data(),
@@ -113,7 +113,7 @@ namespace qpl::test
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(integrity_control, xor_checksum, AggregatesTest)
     {
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         uint32_t library_xor   = job_ptr->xor_checksum;
         uint32_t reference_xor = ref_xor_checksum(source.data(),

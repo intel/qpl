@@ -55,17 +55,17 @@ namespace qpl::test {
         reference_job_ptr->src1_bit_width = 8;
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         auto reference_status = ref_compare(reference_job_ptr);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareTotalInOutWithReference());
         EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
 
         for (uint32_t i = 0; i < job_ptr->total_out - 1; i++) {
             uint32_t expected_elem = (1ULL << 8) - 1;
-            EXPECT_EQ(destination[i], expected_elem);
+            ASSERT_EQ(destination[i], expected_elem);
         }
     }
 
@@ -110,17 +110,17 @@ namespace qpl::test {
         reference_job_ptr->src1_bit_width = 8;
 
         auto status = run_job_api(job_ptr);
-        EXPECT_EQ(QPL_STS_OK, status);
+        ASSERT_EQ(QPL_STS_OK, status);
 
         auto reference_status = ref_compare(reference_job_ptr);
-        EXPECT_EQ(QPL_STS_OK, reference_status);
+        ASSERT_EQ(QPL_STS_OK, reference_status);
 
         EXPECT_TRUE(CompareTotalInOutWithReference());
         EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
 
         for (uint32_t i = 0; i < job_ptr->total_out - 1; i++) {
             uint32_t expected_elem = 0;
-            EXPECT_EQ(destination[i], expected_elem);
+            ASSERT_EQ(destination[i], expected_elem);
         }
     }
 }

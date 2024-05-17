@@ -134,8 +134,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, scan, SimpleA
 
     auto reference_status = ref_compare(reference_job_ptr);
 
-    EXPECT_EQ(QPL_STS_OK, status);
-    EXPECT_EQ(QPL_STS_OK, reference_status);
+    ASSERT_EQ(QPL_STS_OK, status);
+    ASSERT_EQ(QPL_STS_OK, reference_status);
 
     EXPECT_TRUE(compare_crc32_field(job_ptr, reference_job_ptr));
     EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
@@ -181,8 +181,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
 
     auto reference_status = ref_extract(reference_job_ptr);
 
-    EXPECT_EQ(QPL_STS_OK, status);
-    EXPECT_EQ(QPL_STS_OK, reference_status);
+    ASSERT_EQ(QPL_STS_OK, status);
+    ASSERT_EQ(QPL_STS_OK, reference_status);
 
     EXPECT_TRUE(compare_crc32_field(job_ptr, reference_job_ptr));
     EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
