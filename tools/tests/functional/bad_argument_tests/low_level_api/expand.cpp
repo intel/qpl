@@ -94,6 +94,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, buffer_overlap) {
 
 /////////////////////////////////////
 // Force Array Output Modification //
+//                                 //
+// Dependencies:                   //
+// - iaa_features_checks.hpp       //
+// - util.hpp                      //
 /////////////////////////////////////
 
 // If flag is set, output bit width is nominal, QPL_STS_OUT_FORMAT_ERR is expected
