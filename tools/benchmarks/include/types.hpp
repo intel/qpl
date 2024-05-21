@@ -56,12 +56,6 @@ enum class execution_e
     async
 };
 
-enum class batch_e
-{
-    yes,
-    no
-};
-
 enum class operation_e
 {
     deflate,

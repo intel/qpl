@@ -46,16 +46,19 @@ public:
 template <path_e path>
 static inline void cases_set(data_t &data, crc_type_e type)
 {
-    if(path != path_e::cpu && cmd::FLAGS_no_hw)
-        return;
+    if (continue_register(execution_e::sync))
+        register_benchmarks_common("crc64", to_name(path, "gen_path") + crc_to_name(type), crc64_t<execution_e::sync,  api_e::c, path>{}, case_params_t{}, data, type);
 
-    register_benchmarks_common("crc64", to_name(path, "gen_path") + crc_to_name(type), crc64_t<execution_e::sync,  api_e::c, path>{}, case_params_t{}, data, type);
-    register_benchmarks_common("crc64", to_name(path, "gen_path") + crc_to_name(type), crc64_t<execution_e::async, api_e::c, path>{}, case_params_t{}, data, type);
+    if (continue_register(execution_e::async))
+       register_benchmarks_common("crc64", to_name(path, "gen_path") + crc_to_name(type), crc64_t<execution_e::async, api_e::c, path>{}, case_params_t{}, data, type);
 }
 
 BENCHMARK_SET_DELAYED(crc64)
 {
-    std::vector<std::uint32_t>   block_sizes;
+    if (!continue_register(bench::operation_e::crc64))
+        return;
+
+    std::vector<std::uint32_t>  block_sizes;
     std::vector<crc_type_e>     crc_types{crc_type_e::crc32_gzip, crc_type_e::crc32_wimax, crc_type_e::crc32_iscsi, crc_type_e::T10DIF, crc_type_e::crc16_ccitt, crc_type_e::crc64};
 
     auto dataset = data::read_dataset(cmd::FLAGS_dataset);
@@ -69,8 +72,11 @@ BENCHMARK_SET_DELAYED(crc64)
             {
                 for (auto &crc_type : crc_types)
                 {
-                    cases_set<path_e::iaa>(block, crc_type);
-                    cases_set<path_e::cpu>(block, crc_type);
+                    if(continue_register(path_e::iaa))
+                        cases_set<path_e::iaa>(block, crc_type);
+
+                    if (continue_register(path_e::cpu))
+                        cases_set<path_e::cpu>(block, crc_type);
                 }
             }
         }

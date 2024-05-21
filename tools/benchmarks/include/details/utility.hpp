@@ -42,15 +42,13 @@ namespace bench::details
 //
 // Registration utils
 //
-
 using registry_call_t = void(*)();
 using registry_t      = std::vector<registry_call_t>;
 registry_t& get_registry();
 
 //
-// Registration utils
+// System information utils
 //
-
 struct accel_info_t
 {
     size_t                total_devices = 0;

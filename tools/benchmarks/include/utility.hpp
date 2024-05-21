@@ -8,6 +8,8 @@
 
 #include <string>
 #include <cstdint>
+#include <vector>
+#include <algorithm> // vector search
 
 #include "cmd_decl.hpp"
 #include "details/utility.hpp"
@@ -199,7 +201,6 @@ struct case_params_t
     mem_loc_e     out_mem_{cmd::get_out_mem()};
     bool          full_time_{cmd::FLAGS_full_time};
     std::int32_t  queue_size_{cmd::FLAGS_queue_size};
-    std::int32_t  batch_size_{cmd::FLAGS_batch_size};
     std::int32_t  node_{cmd::FLAGS_node};
 };
 
@@ -275,4 +276,94 @@ static inline void base_counters(benchmark::State &state, statistics_t &stat, st
                                                       benchmark::Counter::kIsIterationInvariantRate |benchmark::Counter::kAvgThreads|benchmark::Counter::kInvert,
                                                       benchmark::Counter::kIs1000);
 }
+
+extern std::vector<std::string> FILTER_op;
+extern std::vector<std::string> FILTER_path;
+extern std::vector<std::string> FILTER_execution_mode;
+extern std::vector<std::string> FILTER_compression_mode;
+
+/**
+ * Check if the given operation, path or execution mode is present in the vector.
+*/
+static inline bool is_in_vector(const std::vector<std::string>& vec, const bench::operation_e& op)
+{
+    return std::find(vec.begin(), vec.end(), to_string(op)) != vec.end();
 }
+static inline bool is_in_vector(std::vector<std::string> vec, bench::path_e path)
+{
+    return std::find(vec.begin(), vec.end(), to_string(path)) != vec.end();
+}
+static inline bool is_in_vector(std::vector<std::string> vec, bench::execution_e exec)
+{
+    return std::find(vec.begin(), vec.end(), to_string(exec)) != vec.end();
+}
+
+/**
+ * Register the benchmark case if the operation, path or execution mode
+ * matches the input parameter, or if the vector is empty.
+ *
+ * @note An empty vector indicates that we were not able to reliably parse the input filter
+ * (e.g., the filter included "flat" instead of "deflate" or "inflate").
+ * In this case, we don't want to filter anything out, so we will register everything.
+*/
+static inline bool continue_register(bench::operation_e op)
+{
+    return (FILTER_op.empty() || is_in_vector(FILTER_op, op));
+}
+static inline bool continue_register(path_e path)
+{
+    // Special case for --no_hw parameter
+    if (path == path_e::iaa && cmd::FLAGS_no_hw)
+        return false;
+
+    return (FILTER_path.empty() || is_in_vector(FILTER_path, path));
+}
+static inline bool continue_register(execution_e exec)
+{
+    return (FILTER_execution_mode.empty() || is_in_vector(FILTER_execution_mode, exec));
+}
+
+/**
+ * @brief Converts a string representation of a Huffman type to its corresponding enum value.
+ *
+ * This function takes a string `val` and returns the corresponding `huffman_type_e` enum value.
+ * The possible string values and their corresponding enum values are as follows:
+ *   - "fixed"   : huffman_type_e::fixed
+ *   - "static"  : huffman_type_e::static_
+ *   - "dynamic" : huffman_type_e::dynamic
+ *   - "canned"  : huffman_type_e::canned
+ *
+ * @param val The string representation of the Huffman type.
+ * @return The corresponding `huffman_type_e` enum value.
+ */
+static inline huffman_type_e to_huffman_type(const std::string& val)
+{
+    huffman_type_e type = huffman_type_e::fixed;
+    if(val == "fixed")
+        type = huffman_type_e::fixed;
+    else if(val == "static")
+        type = huffman_type_e::static_;
+    else if(val == "dynamic")
+        type = huffman_type_e::dynamic;
+    else if(val == "canned")
+        type = huffman_type_e::canned;
+
+    return type;
+}
+
+/**
+ * Converts a vector of strings to a vector of huffman_type_e values.
+ *
+ * @param vec The vector of strings to convert.
+ * @return The resulting vector of huffman_type_e values.
+ */
+static inline std::vector<huffman_type_e> to_huffman_type(const std::vector<std::string>& vec)
+{
+    std::vector<huffman_type_e> res;
+    for(const auto& val : vec)
+        res.push_back(to_huffman_type(val));
+
+    return res;
+}
+
+} // namespace bench

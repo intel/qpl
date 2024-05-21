@@ -67,11 +67,11 @@ static inline void register_inflate_case(const data_t &data,
                                          const std::shared_ptr<qpl_huffman_table> &table,
                                          const std::int32_t &level)
 {
-    if(path != path_e::cpu && cmd::FLAGS_no_hw)
-        return;
+    if (continue_register(execution_e::sync))
+        register_benchmarks_common("inflate", to_name(comp_path, "gen_path") + to_name(huffman) + level_to_name(level), inflate_t<execution_e::sync,  api_e::c,   path, comp_path>{}, case_params_t{}, data, huffman, table, level);
 
-    register_benchmarks_common("inflate", to_name(comp_path, "gen_path") + to_name(huffman) + level_to_name(level), inflate_t<execution_e::sync,  api_e::c,   path, comp_path>{}, case_params_t{}, data, huffman, table, level);
-    register_benchmarks_common("inflate", to_name(comp_path, "gen_path") + to_name(huffman) + level_to_name(level), inflate_t<execution_e::async, api_e::c,   path, comp_path>{}, case_params_t{}, data, huffman, table, level);
+    if (continue_register(execution_e::async))
+        register_benchmarks_common("inflate", to_name(comp_path, "gen_path") + to_name(huffman) + level_to_name(level), inflate_t<execution_e::async, api_e::c,   path, comp_path>{}, case_params_t{}, data, huffman, table, level);
 }
 
 template <path_e path, path_e comp_path = path>
@@ -110,16 +110,30 @@ static inline void prepare_cases(bench::dataset_t& dataset,
 
 BENCHMARK_SET_DELAYED(inflate)
 {
+    if (!continue_register(bench::operation_e::inflate))
+        return;
+
     /**
      * Input data for inflate benchmarks.
     */
-    std::vector<huffman_type_e> compression_mode{huffman_type_e::fixed, huffman_type_e::dynamic, huffman_type_e::canned};
+    std::vector<huffman_type_e> compression_mode;
+    if (FILTER_compression_mode.empty()) {
+        compression_mode = {huffman_type_e::fixed, huffman_type_e::dynamic, huffman_type_e::canned};
+    } else {
+        compression_mode = to_huffman_type(FILTER_compression_mode);
+    }
+
     std::vector<std::int32_t>   sw_levels{1, 3};
     std::vector<std::int32_t>   hw_levels{1};
     std::vector<std::int32_t>   sw_hw_levels{3};
     bench::dataset_t dataset = data::read_dataset(cmd::FLAGS_dataset);
 
-    prepare_cases<path_e::cpu>(dataset, sw_levels, compression_mode);
-    prepare_cases<path_e::iaa>(dataset, hw_levels, compression_mode);
-    prepare_cases<path_e::iaa, path_e::cpu>(dataset, sw_hw_levels, compression_mode);
+    if (continue_register(path_e::cpu))
+        prepare_cases<path_e::cpu>(dataset, sw_levels, compression_mode);
+
+    if(continue_register(path_e::iaa))
+    {
+        prepare_cases<path_e::iaa>(dataset, hw_levels, compression_mode);
+        prepare_cases<path_e::iaa, path_e::cpu>(dataset, sw_hw_levels, compression_mode);
+    }
 }

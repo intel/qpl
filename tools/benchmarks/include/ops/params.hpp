@@ -23,7 +23,7 @@ struct deflate_params_t
         huffman_(huffman),
         huffman_only_(huffman_only),
         no_headers_(no_headers),
-        p_huffman_table_(huffman_table) {}
+        p_huffman_table_(std::move(huffman_table)) {}
 
     const data_t         *p_source_data_{nullptr};
     std::int32_t          level_{0};
@@ -41,7 +41,7 @@ struct inflate_params_t
         original_size_(original_size),
         no_headers_(no_headers),
         huffman_(mode),
-        p_huffman_table_(huffman_table) {}
+        p_huffman_table_(std::move(huffman_table)) {}
 
     const data_t         *p_stream_{nullptr};
     size_t                original_size_{0};

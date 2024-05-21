@@ -17,7 +17,6 @@ namespace bench::cmd
 BM_DECLARE_string(dataset);
 BM_DECLARE_string(block_size);
 BM_DECLARE_int32(queue_size);
-BM_DECLARE_int32(batch_size);
 BM_DECLARE_int32(threads);
 BM_DECLARE_int32(node);
 BM_DECLARE_bool(full_time);

@@ -9,7 +9,7 @@
 
 #include "qpl/qpl.h"
 
-#include "cmd_decl.hpp"
+#include "cmd_decl.hpp" // cmd flags
 
 // tool_hw_dispatcher
 #include "test_hw_dispatcher.hpp"
@@ -22,6 +22,7 @@
 #include <mutex>
 #include <cstdarg>
 #include <stdexcept>
+#include <regex>
 
 namespace bench::details
 {
@@ -210,9 +211,9 @@ const extended_info_t& get_sys_info()
 //
 namespace bench::cmd
 {
+// Default values for command line parameters
 BM_DEFINE_string(block_size, "-1");
 BM_DEFINE_int32(queue_size, 0);
-BM_DEFINE_int32(batch_size, 0);
 BM_DEFINE_int32(threads, 0);
 BM_DEFINE_int32(node, -1);
 BM_DEFINE_string(dataset, "");
@@ -221,15 +222,22 @@ BM_DEFINE_string(out_mem, "cс_ram");
 BM_DEFINE_bool(full_time, false);
 BM_DEFINE_bool(no_hw, false);
 
+/**
+ * Print the help message that includes information about the input parameters that can be used to configure the benchmark.
+ * These parameters allow specifying the dataset path, block size, queue size, number of threads, NUMA node,
+ * input and output memory types.
+ *
+ * Example:
+ *   ./qpl_benchmark --dataset=/path/to/dataset --block_size=4096 --queue_size=16 --threads=4 --node=0
+ *                   --in_mem=llc --out_mem=cache_ram
+ */
 static void print_help()
 {
     fprintf(stdout,
-            "Common Flags:\n"
             "benchmark [--dataset=<path>]            - Path to folder containing dataset.\n"
             "          [--block_size=<size>]         - Input data is split by blocks of specified size and each block is processed separately.\n"
             "                                          If not specified, benchmarks would iterate over multiple block_sizes, incl. processing the full file.\n"
             "          [--queue_size=<size>]         - Number of tasks for a single device.\n"
-            "          [--batch_size=<size>]         - Number of operations in a single batch.\n"
             "          [--threads=<num>]             - Number of threads for asynchronous execution.\n"
             "          [--node=<num>]                - NUMA node for device selection.\n"
             "                                          If not specified, devices with NUMA nodes matching the NUMA node of the calling process are selected.\n"
@@ -239,20 +247,19 @@ static void print_help()
             "          [--no_hw]                     - Skip accelerator initialization check and run only using qpl_software_path. Off by default.\n");
 }
 
-static void parse_local(int* argc, char** argv)
+static void parse_cmd_line(int* argc, char** argv)
 {
     for(int i = 1; argc && i < *argc; ++i)
     {
-        if(benchmark::ParseStringFlag(argv[i],  "dataset",      &FLAGS_dataset) ||
-           benchmark::ParseStringFlag(argv[i],  "block_size",   &FLAGS_block_size) ||
-           benchmark::ParseInt32Flag(argv[i],   "threads",      &FLAGS_threads) ||
-           benchmark::ParseInt32Flag(argv[i],   "node",         &FLAGS_node) ||
-           benchmark::ParseBoolFlag(argv[i],    "full_time",    &FLAGS_full_time) ||
-           benchmark::ParseInt32Flag(argv[i],   "queue_size",   &FLAGS_queue_size) ||
-           benchmark::ParseInt32Flag(argv[i],   "batch_size",   &FLAGS_batch_size) ||
-           benchmark::ParseBoolFlag(argv[i],    "no_hw",        &FLAGS_no_hw) ||
-           benchmark::ParseStringFlag(argv[i],  "in_mem",       &FLAGS_in_mem) ||
-           benchmark::ParseStringFlag(argv[i],  "out_mem",      &FLAGS_out_mem))
+        if(benchmark::ParseStringFlag(argv[i], "dataset",          &FLAGS_dataset) ||
+           benchmark::ParseStringFlag(argv[i], "block_size",       &FLAGS_block_size) ||
+           benchmark::ParseInt32Flag(argv[i],  "queue_size",       &FLAGS_queue_size) ||
+           benchmark::ParseInt32Flag(argv[i],  "threads",          &FLAGS_threads) ||
+           benchmark::ParseInt32Flag(argv[i],  "node",             &FLAGS_node) ||
+           benchmark::ParseStringFlag(argv[i], "in_mem",           &FLAGS_in_mem) ||
+           benchmark::ParseStringFlag(argv[i], "out_mem",          &FLAGS_out_mem) ||
+           benchmark::ParseBoolFlag(argv[i],   "full_time",        &FLAGS_full_time) ||
+           benchmark::ParseBoolFlag(argv[i],   "no_hw",            &FLAGS_no_hw))
         {
             for(int j = i; j != *argc - 1; ++j)
                 argv[j] = argv[j + 1];
@@ -332,6 +339,57 @@ mem_loc_e get_out_mem()
 
 namespace bench
 {
+std::vector<std::string> FILTER_op;
+std::vector<std::string> FILTER_path;
+std::vector<std::string> FILTER_execution_mode;
+std::vector<std::string> FILTER_compression_mode;
+
+/**
+ * Parses the benchmark filter string and initialize the corresponding vectors
+ * based on the parsed values.
+ *
+ * @param filter_string The benchmark filter string to parse.
+ */
+static void parse_benchmark_filter(const std::string& filter_string)
+{
+    // If the filter is empty or negative, skip and register all benchmarks
+    if (filter_string.empty() || filter_string[0] == '-')
+        return;
+
+    std::regex re("([a-zA-Z_]+)");
+    std::smatch match;
+    std::string::const_iterator search_start(filter_string.cbegin());
+    while (std::regex_search(search_start, filter_string.cend(), match, re))
+    {
+        std::string value = match[1].str();
+        if(value == "inflate" || value == "deflate" || value == "crc64")
+            FILTER_op.push_back(value);
+        else if(value == "gen_path")
+        {
+            /**
+             * Skip the next value if it is "cpu" or "iaa" to not include it in the FILTER_path,
+             * as it is only related to the generator path.
+            */
+            auto next_value = match.suffix().str();
+            if(next_value.find(":cpu") == 0 || next_value.find(":iaa") == 0)
+            {
+                search_start = match.suffix().first + 4U /* e.g., length of ":cpu" */;
+                continue;
+            }
+        }
+        else if(value == "iaa" || value == "cpu")
+            FILTER_path.push_back(value);
+        else if(value == "fixed" || value == "dynamic" || value == "static" || value == "canned")
+            FILTER_compression_mode.push_back(value);
+        else if(value == "sync" || value == "async")
+            FILTER_execution_mode.push_back(value);
+        search_start = match.suffix().first;
+    }
+}
+}
+
+namespace bench
+{
 std::string format(const char *format, ...) noexcept
 {
     std::string out;
@@ -355,21 +413,35 @@ std::string format(const char *format, ...) noexcept
 //
 // Main
 //
-
 int main(int argc, char** argv)
 {
-    bench::cmd::parse_local(&argc, argv);
+    // Parse command line arguments
+    bench::cmd::parse_cmd_line(&argc, argv);
+
+    // Initialize the benchmark framework
     ::benchmark::Initialize(&argc, argv);
     if (::benchmark::ReportUnrecognizedArguments(argc, argv)) return 1;
+
+    // Retrieve system information
     bench::details::get_sys_info();
 
+    // Initialize accelerator hardware if enabled
     if(!bench::cmd::FLAGS_no_hw)
         bench::details::init_hw();
 
+    // Parse the benchmark filter
+    bench::parse_benchmark_filter(benchmark::GetBenchmarkFilter());
+
+    // Register benchmarks
     auto &registry = bench::details::get_registry();
     for(auto &reg : registry)
         reg();
+
+    // Run benchmarks
     ::benchmark::RunSpecifiedBenchmarks();
+
+    // Shutdown the benchmark framework
     ::benchmark::Shutdown();
+
     return 0;
 }
