@@ -22,13 +22,10 @@ namespace qpl::job {
 // ------ JOB VALIDATION ------ //
 
 template <qpl_operation operation>
-inline auto validate_operation(const qpl_job *const job_ptr) noexcept;
+inline qpl_status validate_operation(const qpl_job *const job_ptr) noexcept;
 
 template <qpl_operation operation>
-inline auto validate_flags(const qpl_job *const job_ptr) noexcept;
-
-template <qpl_operation operation>
-inline auto validate_mode(const qpl_job *const job_ptr) noexcept;
+inline qpl_status bad_arguments_check(const qpl_job *const job_ptr) noexcept;
 
 
 // ------ JOB GETTERS ------ //

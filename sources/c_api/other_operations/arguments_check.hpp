@@ -19,7 +19,7 @@
 namespace qpl::job {
 
 template<>
-inline auto validate_operation<qpl_op_crc64>(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_operation<qpl_op_crc64>(const qpl_job *const job_ptr) noexcept {
     QPL_BAD_PTR2_RET(job_ptr, job_ptr->next_in_ptr);
     QPL_BAD_SIZE_RET(job_ptr->available_in);
 

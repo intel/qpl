@@ -19,7 +19,7 @@
 namespace qpl::job {
 namespace details {
 template <qpl_operation operation>
-inline auto validate_analytic_buffers(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_analytic_buffers(const qpl_job *const job_ptr) noexcept {
     if (nullptr == job_ptr || nullptr == job_ptr->next_in_ptr || nullptr == job_ptr->next_out_ptr) {
         return QPL_STS_NULL_PTR_ERR;
     }
@@ -63,10 +63,8 @@ inline auto validate_analytic_buffers(const qpl_job *const job_ptr) noexcept {
     return QPL_STS_OK;
 }
 
-using namespace qpl::ml;
-
-namespace common {
-static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t {
+namespace filter::common {
+static inline qpl_status bad_arguments_check(const qpl_job *const job_ptr) {
     if ((job_ptr->out_bit_width < qpl_ow_nom) || (job_ptr->out_bit_width > qpl_ow_32)) {
         return QPL_STS_OUT_FORMAT_ERR;
     }
@@ -74,13 +72,13 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
     // Check if the output bit width is nominal and the force array output flag is set
     if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && job_ptr->out_bit_width == qpl_ow_nom) {
         // If the output bit width is nominal and the force array output flag is set, return an error
-        return status_list::output_format_error;
+        return QPL_STS_OUT_FORMAT_ERR;
     }
 
     // Check if force array output mod is available when the force array output flag is set
     if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && is_force_array_output_supported(job_ptr) == false) {
         // If the force array output mod flag is set, return an error
-        return status_list::not_supported_err;
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
     uint32_t source_bit_width            = job_ptr->src1_bit_width;
@@ -103,10 +101,14 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
 
     return QPL_STS_OK;
 }
-}
+} // namespace filter::common
 
-namespace select {
-static inline qpl_status check_bad_arguments(const qpl_job *const job_ptr) {
+} // namespace details
+
+using namespace qpl::ml;
+
+template <>
+inline qpl_status bad_arguments_check<qpl_operation::qpl_op_select>(const qpl_job *const job_ptr) noexcept {
     QPL_BADARG_RET((qpl_op_select != job_ptr->op), QPL_STS_OPERATION_ERR)
     QPL_BADARG_RET((1u != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR)
 
@@ -136,10 +138,9 @@ static inline qpl_status check_bad_arguments(const qpl_job *const job_ptr) {
 
     return QPL_STS_OK;
 }
-}
 
-namespace expand {
-static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t {
+template <>
+inline qpl_status bad_arguments_check<qpl_operation::qpl_op_expand>(const qpl_job *const job_ptr) noexcept {
     QPL_BADARG_RET((qpl_op_expand != job_ptr->op), QPL_STS_OPERATION_ERR);
     QPL_BADARG_RET((1u != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR);
 
@@ -149,12 +150,11 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
     uint32_t expected_mask_byte_length = util::bit_to_byte(job_ptr->num_input_elements);
     QPL_BADARG_RET((expected_mask_byte_length > job_ptr->available_src2), QPL_STS_SRC_IS_SHORT_ERR);
 
-    return status_list::ok;
-}
+    return QPL_STS_OK;
 }
 
-namespace extract {
-static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t {
+template <>
+inline qpl_status bad_arguments_check<qpl_operation::qpl_op_extract>(const qpl_job *const job_ptr) noexcept {
     if ((qpl_p_parquet_rle != job_ptr->parser) &&
         !(QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags)) {
         uint64_t input_bits = (uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width;
@@ -179,10 +179,9 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
 
     return QPL_STS_OK;
 }
-}
 
-namespace scanning {
-static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t {
+template <>
+inline qpl_status bad_arguments_check<qpl_operation::qpl_op_scan_eq>(const qpl_job *const job_ptr) noexcept {
     if (qpl_ow_nom == job_ptr->out_bit_width) {
         if (util::bit_to_byte(job_ptr->num_input_elements) > job_ptr->available_out) {
             return QPL_STS_DST_IS_SHORT_ERR;
@@ -212,47 +211,44 @@ static inline auto check_bad_arguments(const qpl_job *const job_ptr) -> uint32_t
 
     return QPL_STS_OK;
 }
-}
-
-}
 
 template<>
-inline auto validate_operation<qpl_op_scan_eq>(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_operation<qpl_op_scan_eq>(const qpl_job *const job_ptr) noexcept {
     OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_scan_eq>(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::scanning::check_bad_arguments(job_ptr));
+    OWN_QPL_CHECK_STATUS(details::filter::common::bad_arguments_check(job_ptr));
+    OWN_QPL_CHECK_STATUS(bad_arguments_check<qpl_op_scan_eq>(job_ptr));
 
     return QPL_STS_OK;
 }
 
 template<>
-inline auto validate_operation<qpl_op_extract>(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_operation<qpl_op_extract>(const qpl_job *const job_ptr) noexcept {
     OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_extract>(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr))
-    OWN_QPL_CHECK_STATUS(details::extract::check_bad_arguments(job_ptr));
+    OWN_QPL_CHECK_STATUS(details::filter::common::bad_arguments_check(job_ptr))
+    OWN_QPL_CHECK_STATUS(bad_arguments_check<qpl_op_extract>(job_ptr));
 
     return QPL_STS_OK;
 }
 
 template<>
-inline auto validate_operation<qpl_op_select>(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_operation<qpl_op_select>(const qpl_job *const job_ptr) noexcept {
     OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_select>(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::select::check_bad_arguments(job_ptr));
+    OWN_QPL_CHECK_STATUS(details::filter::common::bad_arguments_check(job_ptr));
+    OWN_QPL_CHECK_STATUS(bad_arguments_check<qpl_op_select>(job_ptr));
 
     return QPL_STS_OK;
 }
 
 template<>
-inline auto validate_operation<qpl_op_expand>(const qpl_job *const job_ptr) noexcept {
+inline qpl_status validate_operation<qpl_op_expand>(const qpl_job *const job_ptr) noexcept {
     OWN_QPL_CHECK_STATUS(details::validate_analytic_buffers<qpl_op_expand>(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::common::check_bad_arguments(job_ptr));
-    OWN_QPL_CHECK_STATUS(details::expand::check_bad_arguments(job_ptr));
+    OWN_QPL_CHECK_STATUS(details::filter::common::bad_arguments_check(job_ptr));
+    OWN_QPL_CHECK_STATUS(bad_arguments_check<qpl_op_expand>(job_ptr));
 
     return QPL_STS_OK;
 }
 
-}
+} // namespace qpl::job
 
 namespace qpl::ml::analytics {
 static inline auto validate_input_stream(const input_stream_t &stream,
