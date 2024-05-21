@@ -89,6 +89,11 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
+    // Check for Canned & Indexing mode
+    if (job::is_canned_mode_compression(job_ptr) && job::is_indexing_enabled(job_ptr)) {
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
+
     /* Check for Unsupported Compression Levels */
 
     // Check for unsupported compression levels
@@ -191,6 +196,11 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qp
 
     // Check for huffman only decompression w/o huffman table
     if (!(job_ptr->huffman_table) && job::is_huffman_only_decompression(job_ptr)) {
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
+
+    // Check for canned w/ random access
+    if (job::is_canned_mode_decompression(job_ptr) && job::is_random_decompression(job_ptr)) {
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
