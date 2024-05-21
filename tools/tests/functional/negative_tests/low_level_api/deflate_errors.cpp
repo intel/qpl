@@ -142,7 +142,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_bl
     auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(source, destination,
                                                                                              job_ptr, nullptr,
                                                                                              qpl_default_level);
-    if (GetExecutionPath() == qpl_path_software) {
+
+    // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
+    // the test will fall back to host. Therefore, auto path should get the same error as sw path
+    if (GetExecutionPath() == qpl_path_software || GetExecutionPath() == qpl_path_auto) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);
@@ -187,7 +190,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
                                                                            job_ptr,
                                                                            table.get(),
                                                                            qpl_default_level);
-    if (GetExecutionPath() == qpl_path_software) {
+
+    // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
+    // the test will fall back to host. Therefore, auto path should get the same error as sw path
+    if (GetExecutionPath() == qpl_path_software || GetExecutionPath() == qpl_path_auto) {
         ASSERT_EQ(status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(status, QPL_STS_INDEX_GENERATION_ERR);
@@ -233,7 +239,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_bloc
                                                                                            job_ptr,
                                                                                            nullptr,
                                                                                            qpl_default_level);
-    if (GetExecutionPath() == qpl_path_software) {
+
+    // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
+    // the test will fall back to host. Therefore, auto path should get the same error as sw path
+    if (GetExecutionPath() == qpl_path_software || GetExecutionPath() == qpl_path_auto) {
         ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
     } else {
         ASSERT_EQ(compression_status, QPL_STS_INDEX_GENERATION_ERR);

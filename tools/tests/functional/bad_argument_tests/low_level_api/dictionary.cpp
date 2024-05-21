@@ -32,6 +32,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, level_none) {
         GTEST_SKIP() << "Software dictionary level currently depends on the compression level set in qpl_job";
     }
 
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_auto) {
+        GTEST_SKIP() << "Skip because this test is not designed for qpl_path_auto";
+    }
+
     if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_hardware &&
         !is_iaa_dictionary_compress_supported()) {
         GTEST_SKIP() << "Dictionary is not supported in this generation of accelerator";
@@ -90,6 +94,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, level_none) {
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, hw_multi_chunk) {
     if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_software) {
         GTEST_SKIP() << "Software dictionary does not have limitation with multi-chunk";
+    }
+
+    if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_auto) {
+        GTEST_SKIP() << "Skip because this test is not designed for qpl_path_auto";
     }
 
     if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_hardware &&
