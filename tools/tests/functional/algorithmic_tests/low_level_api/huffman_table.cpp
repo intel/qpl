@@ -155,8 +155,8 @@ protected:
     template <compression_algorithm_e algorithm>
     testing::AssertionResult run_decompression();
 
-    qpl_huffman_table_t m_d_huffman_table{};
-    qpl_huffman_table_t m_c_huffman_table{};
+    qpl_huffman_table_t m_d_huffman_table{}; //NOLINT(misc-non-private-member-variables-in-classes)
+    qpl_huffman_table_t m_c_huffman_table{}; //NOLINT(misc-non-private-member-variables-in-classes)
 
 private:
     std::vector<uint8_t> m_compressed_data{};

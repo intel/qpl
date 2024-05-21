@@ -103,13 +103,12 @@ namespace qpl::test
 
             return CompareVectors(source, destination, source_size);
         }
-        qpl_job                     *deflate_job_ptr = nullptr;
-        std::vector<uint8_t>       compressed_source;
+
+        qpl_job                     *deflate_job_ptr = nullptr; //NOLINT(misc-non-private-member-variables-in-classes)
+        std::vector<uint8_t>       compressed_source; //NOLINT(misc-non-private-member-variables-in-classes)
 
     private:
         std::unique_ptr<uint8_t[]> job_buffer;
-
-
         testing::AssertionResult DeflateStreamByBlocks(std::vector<uint8_t> &source_stream,
                                                        std::vector<uint8_t> &compressed_destination,
                                                        uint32_t block_size,

@@ -73,7 +73,7 @@ public:
 
     auto is_sw_decompression_table_used() const noexcept -> bool;
     auto is_hw_decompression_table_used() const noexcept -> bool;
-    auto is_deflate_header_used() noexcept -> bool;
+    auto is_deflate_header_used() noexcept -> bool; //NOLINT(readability-make-member-function-const)
 
 private:
     hw_decompression_state         *hw_decompression_table_ptr;

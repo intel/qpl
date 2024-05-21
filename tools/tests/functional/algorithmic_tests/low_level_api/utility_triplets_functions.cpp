@@ -374,7 +374,7 @@ protected:
         }
     }
 
-    qpl_job *decompression_job_ptr = nullptr;
+    qpl_job *decompression_job_ptr = nullptr; //NOLINT(misc-non-private-member-variables-in-classes)
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_utility, build_triplets_run_huffman_only_le, triplets_fixture) {

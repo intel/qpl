@@ -48,7 +48,7 @@ std::ostream &operator<<(std::ostream &os, const DeflateTestCase &test_case) {
 class DeflateTest : public JobFixtureWithTestCases<DeflateTestCase> {
 
 public:
-    int32_t num_test = 0;
+    int32_t num_test = 0; //NOLINT(misc-non-private-member-variables-in-classes)
 
 protected:
     void InitializeTestCases() override {

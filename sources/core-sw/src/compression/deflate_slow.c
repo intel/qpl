@@ -113,7 +113,7 @@ static inline void compute_offset_code(const struct isal_hufftables* huffman_tab
 }
 
 
-static void _get_offset_code(const struct isal_hufftables* const huffman_table_ptr,
+static void _get_offset_code(const struct isal_hufftables* const huffman_table_ptr, //NOLINT(bugprone-reserved-identifier)
     uint32_t offset,
     uint64_t* const code_ptr,
     uint32_t* const code_length_ptr) {
@@ -370,7 +370,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
 
                         code_match = match_length_info >> 5U;
                         code_match_length = match_length_info & 0x1FU;
-                        _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
+                        _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length); //NOLINT(bugprone-reserved-identifier)
                         // Combining two codes
                         code_match |= code_offset << code_match_length;
                         // Writing to the output
@@ -467,7 +467,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                             }
                             code_match = match_length_info >> 5U;
                             code_match_length = match_length_info & 0x1FU;
-                            _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
+                            _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length); //NOLINT(bugprone-reserved-identifier)
                             // Combining two codes
                             code_match |= code_offset << code_match_length;
                             // Writing to the output
@@ -503,7 +503,7 @@ OWN_QPLC_FUN(uint32_t, slow_deflate_body,(uint8_t *current_ptr,
                     }
                     code_match = match_length_info >> 5U;
                     code_match_length = match_length_info & 0x1FU;
-                    _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length);
+                    _get_offset_code(huffman_tables_ptr, prev_dist, &code_offset, &code_offset_length); //NOLINT(bugprone-reserved-identifier)
                     // Combining two codes
                     code_match |= code_offset << code_match_length;
                     // Writing to the output

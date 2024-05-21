@@ -20,7 +20,7 @@ void cpuid(int info[4], int InfoType) {
     __cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]);
 }
 
-unsigned long long _xgetbv(unsigned int index) {
+unsigned long long _xgetbv(unsigned int index) { //NOLINT(bugprone-reserved-identifier)
     unsigned int eax = 0U, edx = 0U;
     __asm__ __volatile__(
     "xgetbv;"
@@ -127,7 +127,7 @@ auto detect_platform() -> arch_t {
 
     // Check if XGETBV enabled for application use
     if (os_uses_XSAVE_XSTORE) {
-        unsigned long long xcr_feature_mask = _xgetbv(0);
+        unsigned long long xcr_feature_mask = _xgetbv(0); //NOLINT(bugprone-reserved-identifier)
         // Check if OPMASK state and ZMM state are enabled
         if ((xcr_feature_mask & 0xe0) == 0xe0) {
              // Check if XMM state and YMM state are enabled

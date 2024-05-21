@@ -396,19 +396,19 @@ namespace gz_generator
                 case TT_STORED:
                     stored = true;
                     if (type_seen)
-                        goto error;
+                        goto error; //NOLINT(cppcoreguidelines-avoid-goto)
                     type_seen = true;
                     continue;
                 case TT_FIXED:
                     fixed = true;
                     if (type_seen)
-                        goto error;
+                        goto error; //NOLINT(cppcoreguidelines-avoid-goto)
                     type_seen = true;
                     continue;
                 case TT_INVALID:
                     invalid = true;
                     if (type_seen)
-                        goto error;
+                        goto error; //NOLINT(cppcoreguidelines-avoid-goto)
                     type_seen = true;
                     continue;
                 case TT_RAW:

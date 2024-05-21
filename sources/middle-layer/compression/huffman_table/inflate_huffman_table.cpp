@@ -81,7 +81,7 @@ auto decompression_huffman_table::is_sw_decompression_table_used() const noexcep
     return sw_decompression_table_flag;
 }
 
-auto decompression_huffman_table::is_deflate_header_used() noexcept -> bool {
+auto decompression_huffman_table::is_deflate_header_used() noexcept -> bool { //NOLINT(readability-make-member-function-const)
     return deflate_header_flag;
 }
 }

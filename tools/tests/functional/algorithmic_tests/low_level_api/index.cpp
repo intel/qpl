@@ -194,9 +194,9 @@ public:
         return testing::AssertionSuccess();
     }
 
-    std::vector<uint64_t> index_array;
-    std::vector<uint64_t> crc_array;
-    IndexTestCase         current_test_case;
+    std::vector<uint64_t> index_array; //NOLINT(misc-non-private-member-variables-in-classes)
+    std::vector<uint64_t> crc_array; //NOLINT(misc-non-private-member-variables-in-classes)
+    IndexTestCase         current_test_case; //NOLINT(misc-non-private-member-variables-in-classes)
 
     static std::map<std::string, std::vector<uint8_t>> calgary_sources;
 

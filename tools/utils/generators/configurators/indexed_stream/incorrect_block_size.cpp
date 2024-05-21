@@ -20,7 +20,7 @@ GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
     // Generate first block
     TestConfigurator::declareDynamicBlock();
 
-    for (Gen32u mini_block = 0; miniBlockCount < miniBlocksPerBlock - 1U; mini_block++)
+    for (Gen32u mini_block = 0; miniBlockCount < miniBlocksPerBlock - 1U; mini_block++) //NOLINT(bugprone-infinite-loop)
     {
         ConfiguratorDecompressIndex::generateMiniBlock(mini_block_size);
     }
