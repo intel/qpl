@@ -57,3 +57,12 @@ void set_range(qpl_job *job_ptr, uint32_t low_param, uint32_t high_param) {
     job_ptr->param_low  = low_param;
     job_ptr->param_high = high_param;
 }
+
+void set_indexing_parameters(qpl_job *job_ptr,
+                             qpl_mini_block_size mini_block_size,
+                             uint64_t *index_array,
+                             uint32_t index_array_size) {
+    job_ptr->mini_block_size  = mini_block_size;
+    job_ptr->idx_array        = index_array;
+    job_ptr->idx_max_size     = index_array_size;
+}

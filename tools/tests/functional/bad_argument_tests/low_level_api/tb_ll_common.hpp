@@ -27,20 +27,22 @@
 
 using TestEnviroment = qpl::test::util::TestEnvironment;
 
-constexpr uint32_t SOURCE_ARRAY_SIZE             = 100u;
-constexpr uint32_t MASK_ARRAY_SIZE               = 100u;
-constexpr uint32_t DESTINATION_ARRAY_SIZE        = 100u;
-constexpr uint32_t ELEMENTS_TO_PROCESS           = 10u;
-constexpr uint32_t INPUT_BIT_WIDTH               = 1u;
-constexpr uint32_t MASK_BIT_WIDTH                = 1u;
-constexpr uint32_t DROP_INITIAL_BYTES            = 0u;
-constexpr uint32_t OPERATION_FLAGS               = 0u;
+constexpr uint32_t SOURCE_ARRAY_SIZE             = 100U;
+constexpr uint32_t MASK_ARRAY_SIZE               = 100U;
+constexpr uint32_t DESTINATION_ARRAY_SIZE        = 100U;
+constexpr uint32_t ELEMENTS_TO_PROCESS           = 10U;
+constexpr uint32_t INPUT_BIT_WIDTH               = 1U;
+constexpr uint32_t MASK_BIT_WIDTH                = 1U;
+constexpr uint32_t DROP_INITIAL_BYTES            = 0U;
+constexpr uint32_t OPERATION_FLAGS               = 0U;
 constexpr qpl_parser INPUT_FORMAT                = qpl_p_le_packed_array;
 constexpr qpl_out_format OUTPUT_BIT_WIDTH        = qpl_ow_nom;
 constexpr qpl_path_t  PATH                       = qpl_path_auto;
-constexpr qpl_path_t  INCORRECT_PATH             = static_cast<qpl_path_t>(qpl_path_software + 1u);
-constexpr qpl_compression_levels INCORRECT_LEVEL = static_cast<qpl_compression_levels>(qpl_high_level + 1u);
-constexpr uint32_t NOT_APPLICABLE_PARAMETER      = 0u;
+constexpr qpl_path_t  INCORRECT_PATH             = static_cast<qpl_path_t>(qpl_path_software + 1U);
+constexpr qpl_compression_levels INCORRECT_LEVEL = static_cast<qpl_compression_levels>(qpl_high_level + 1U);
+constexpr uint32_t NOT_APPLICABLE_PARAMETER      = 0U;
+constexpr uint32_t INDEX_ARRAY_SIZE              = 3U;
+constexpr qpl_mini_block_size INDEX_MBLK_SIZE    = qpl_mblk_size_8k;
 
 #define LAST_INPUT_PARSER   qpl_p_parquet_rle
 #define LAST_OUTPUT_FORMAT  qpl_ow_32
@@ -80,6 +82,11 @@ void set_operation_properties(qpl_job *job_ptr,
 
 void set_range(qpl_job *job_ptr, uint32_t low_param, uint32_t high_param);
 
+void set_indexing_parameters(qpl_job *job_ptr,
+                             qpl_mini_block_size mini_block_size,
+                             uint64_t *index_array,
+                             uint32_t index_array_size);
+
 
 /* ------ Commons Analytic Checks ------ */
 
@@ -99,21 +106,21 @@ static inline void check_input_stream_validation(qpl_job *const job_ptr, qpl_ope
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NULL_PTR_ERR) << "Fail on: source == nullptr";
 
     // Source size checks
-    set_input_stream(job_ptr, source.data(), 0u, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+    set_input_stream(job_ptr, source.data(), 0U, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SIZE_ERR) << "Fail on: source size == 0";
 
-    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, 0u, INPUT_FORMAT);
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, 0U, INPUT_FORMAT);
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SIZE_ERR) << "Fail on: number elements == 0";
 
     // Bit-width checks
-    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 0u, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
-    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width !€ [1:32]";
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 0U, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width != [1:32]";
 
-    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 33u, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
-    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width !€ [1:32]";
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 33U, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width != [1:32]";
 
     // Input format check
-    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, (qpl_parser)(LAST_INPUT_PARSER + 1u));
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, (qpl_parser)(LAST_INPUT_PARSER + 1U));
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_PARSER_ERR) << "Fail on: parser";
 
     if (TestEnviroment::GetInstance().GetExecutionPath() != qpl_path_hardware){ // @todo check for hw
@@ -121,26 +128,26 @@ static inline void check_input_stream_validation(qpl_job *const job_ptr, qpl_ope
     if (!(flags & QPL_FLAG_DECOMPRESS_ENABLE))
     {
         // Bit-width checks for PRLE parser
-        source[0] = 0u;
-        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 10u, ELEMENTS_TO_PROCESS, qpl_p_parquet_rle);
-        EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width !€ [1:32], parser = PRLE";
+        source[0] = 0U;
+        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 10U, ELEMENTS_TO_PROCESS, qpl_p_parquet_rle);
+        EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width != [1:32], parser = PRLE";
 
-        source[0] = 33u;
-        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 10u, ELEMENTS_TO_PROCESS, qpl_p_parquet_rle);
-        EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width !€ [1:32], parser = PRLE";
+        source[0] = 33U;
+        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 10U, ELEMENTS_TO_PROCESS, qpl_p_parquet_rle);
+        EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: bit width != [1:32], parser = PRLE";
 
-        source[0] = 0u;
+        source[0] = 0U;
 
         // Source bit width for PRLE format is read directly from 1st byte of input stream
-        source[0] = 1u;
-        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 0u, INPUT_BIT_WIDTH * SOURCE_ARRAY_SIZE / INPUT_BIT_WIDTH + 32u, qpl_p_parquet_rle);
+        source[0] = 1U;
+        set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, 0U, INPUT_BIT_WIDTH * SOURCE_ARRAY_SIZE / INPUT_BIT_WIDTH + 32U, qpl_p_parquet_rle);
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SRC_IS_SHORT_ERR) << "Fail on: size < needed";
     }
     }
 
     if (TestEnviroment::GetInstance().GetExecutionPath() == qpl_path_hardware) {
-        job_ptr->available_in = 0u;
-        job_ptr->ignore_end_bits = 0u;
+        job_ptr->available_in = 0U;
+        job_ptr->ignore_end_bits = 0U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SIZE_ERR);
     }
 }
@@ -159,7 +166,7 @@ static inline void check_double_source_stream_limits_validation(qpl_job *const j
     set_mask_stream(job_ptr, mask.data(), MASK_ARRAY_SIZE, MASK_BIT_WIDTH);
 
     // Drop limit check
-    set_operation_properties(job_ptr, 1u, QPL_FLAG_DECOMPRESS_ENABLE, operation);
+    set_operation_properties(job_ptr, 1U, QPL_FLAG_DECOMPRESS_ENABLE, operation);
     ASSERT_EQ(QPL_STS_DROP_BYTES_ERR, qpl::test::run_job_api(job_ptr));
 }
 
@@ -180,11 +187,11 @@ static inline void check_output_stream_validation(qpl_job *const job_ptr, qpl_op
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NULL_PTR_ERR) << "Fail on: destination == nullptr";
 
     // Output stream size check
-    set_output_stream(job_ptr, destination.data(), 0u, OUTPUT_BIT_WIDTH);
+    set_output_stream(job_ptr, destination.data(), 0U, OUTPUT_BIT_WIDTH);
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SIZE_ERR) << "Fail on: destination size == 0";
 
     // Output format check
-    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, (qpl_out_format)(LAST_OUTPUT_FORMAT + 1u));
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, (qpl_out_format)(LAST_OUTPUT_FORMAT + 1U));
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_OUT_FORMAT_ERR) << "Fail on: output format error";
 }
 
@@ -205,11 +212,11 @@ static inline void check_mask_stream_validation(qpl_job *const job_ptr, qpl_oper
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NULL_PTR_ERR) << "Fail on: mask == nullptr";
 
     // Vector size check
-    set_mask_stream(job_ptr, mask.data(), 0u, MASK_BIT_WIDTH);
+    set_mask_stream(job_ptr, mask.data(), 0U, MASK_BIT_WIDTH);
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SIZE_ERR) << "Fail on: mask size == 0";
 
     // Bit-width check
-    set_mask_stream(job_ptr, mask.data(), MASK_ARRAY_SIZE, 2u);
+    set_mask_stream(job_ptr, mask.data(), MASK_ARRAY_SIZE, 2U);
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BIT_WIDTH_ERR) << "Fail on: mask bit-width != 1";
 }
 
@@ -227,17 +234,17 @@ static inline void check_initial_output_index_verification(qpl_job *const job_pt
 
     if constexpr(group == operation_group_e::filter_single_source) {
         set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_8);
-        job_ptr->initial_output_index = 1u << 8u;
+        job_ptr->initial_output_index = 1U << 8U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_OUTPUT_OVERFLOW_ERR)
                             << "Fail on: initial output index error (mode: qpl_ow_8)";
 
         set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_16);
-        job_ptr->initial_output_index = 1u << 16u;
+        job_ptr->initial_output_index = 1U << 16U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_OUTPUT_OVERFLOW_ERR)
                             << "Fail on: initial output index error (mode: qpl_ow_16)";
     } else {
         set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_nom);
-        job_ptr->initial_output_index = 1u;
+        job_ptr->initial_output_index = 1U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_INVALID_PARAM_ERR)
                             << "Fail on: initial output index error for double source operation";
     }
@@ -246,8 +253,8 @@ static inline void check_initial_output_index_verification(qpl_job *const job_pt
 template<operation_group_e group = operation_group_e::filter_single_source>
 static inline void check_drop_initial_bytes_verification(qpl_job *const job_ptr, qpl_operation operation, flags_t flags)
 {
-    constexpr uint32_t source_size = UINT16_MAX + 1u;
-    constexpr uint32_t mask_size = (source_size + 7u) / 8u;
+    constexpr uint32_t source_size = UINT16_MAX + 1U;
+    constexpr uint32_t mask_size = (source_size + 7U) / 8U;
 
     std::array<uint8_t, source_size> source{};
     std::array<uint8_t, mask_size>   mask{};
@@ -260,7 +267,7 @@ static inline void check_drop_initial_bytes_verification(qpl_job *const job_ptr,
     set_operation_properties(job_ptr, DROP_INITIAL_BYTES, flags, operation);
 
     if constexpr(group == operation_group_e::filter_single_source) {
-        job_ptr->drop_initial_bytes = UINT16_MAX + 1u;
+        job_ptr->drop_initial_bytes = UINT16_MAX + 1U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_DROP_BYTES_ERR) << "Fail on: drop initial bytes > 64k";
         job_ptr->drop_initial_bytes = DROP_INITIAL_BYTES;
 
@@ -273,7 +280,7 @@ static inline void check_drop_initial_bytes_verification(qpl_job *const job_ptr,
         }
 
     } else {
-        job_ptr->drop_initial_bytes = 1u;
+        job_ptr->drop_initial_bytes = 1U;
         EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_DROP_BYTES_ERR) << "Fail on: `drop initial bytes` feature is not supported";
         job_ptr->drop_initial_bytes = DROP_INITIAL_BYTES;
     }
@@ -287,7 +294,7 @@ static inline void check_buffer_overlap(qpl_job *const job_ptr, qpl_operation op
     set_operation_properties(job_ptr, DROP_INITIAL_BYTES, flags, operation);
 
     auto source_begin = buffer.data();
-    auto destination_begin = source_begin + SOURCE_ARRAY_SIZE - 1u;
+    auto destination_begin = source_begin + SOURCE_ARRAY_SIZE - 1U;
 
     set_input_stream(job_ptr, source_begin, SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
     set_output_stream(job_ptr, destination_begin, DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
@@ -295,7 +302,7 @@ static inline void check_buffer_overlap(qpl_job *const job_ptr, qpl_operation op
     EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_BUFFER_OVERLAP_ERR) << "Fail on: destination overlaps source";
 
     destination_begin = buffer.data();
-    source_begin = destination_begin + DESTINATION_ARRAY_SIZE - 1u;
+    source_begin = destination_begin + DESTINATION_ARRAY_SIZE - 1U;
 
     set_input_stream(job_ptr, source_begin, SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
     set_output_stream(job_ptr, destination_begin, DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
@@ -347,7 +354,7 @@ static inline void check_buffer_overlap(qpl_job *const job_ptr, qpl_operation op
 
 static inline void analytic_with_mask_check_num_elements_with_index_output(qpl_job *const job_ptr, qpl_operation operation, flags_t flags)
 {
-    const uint32_t size = 65537u;
+    const uint32_t size = 65537U;
 
     std::array<uint8_t, size>      source{};
     std::array<uint8_t, size>        mask{};
@@ -370,9 +377,9 @@ static inline void analytic_with_mask_check_num_elements_with_index_output(qpl_j
 
 static inline void check_source_size_not_enough_to_hold_num_input_elements(qpl_job *const job_ptr, qpl_operation operation, flags_t flags)
 {
-    constexpr uint32_t size = 2048u;
-    constexpr uint32_t input_bit_width = 5u;
-    constexpr uint32_t number_of_elements = (size * 8u) / input_bit_width + 3u;
+    constexpr uint32_t size = 2048U;
+    constexpr uint32_t input_bit_width = 5U;
+    constexpr uint32_t number_of_elements = (size * 8U) / input_bit_width + 3U;
 
     std::array<uint8_t, size>      source{};
     std::array<uint8_t, size>        mask{};

@@ -256,4 +256,42 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_canned, nullptr_huffman_table) {
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NULL_PTR_ERR);
 }
 
+/**
+ * @brief Tests deflate operation for Canned Mode and Indexing Mode flags and expects the
+ * mode not supported error.
+ */
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, canned_indexing) {
+    qpl_path_t execution_path = qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath();
+
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint64_t, INDEX_ARRAY_SIZE>      index_array{};
+
+    set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
+
+    set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
+
+    set_operation_properties(job_ptr,
+        DROP_INITIAL_BYTES,
+        QPL_FLAG_FIRST| QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE,
+        qpl_op_compress);
+
+    set_indexing_parameters(job_ptr, INDEX_MBLK_SIZE, index_array.data(), INDEX_ARRAY_SIZE);
+
+    qpl_huffman_table_t huffman_table = nullptr;
+
+    ASSERT_EQ(qpl_deflate_huffman_table_create(combined_table_type,
+                                               execution_path,
+                                               DEFAULT_ALLOCATOR_C,
+                                               &huffman_table), QPL_STS_OK);
+
+    job_ptr->huffman_table = huffman_table;
+
+    qpl_status status = run_job_api(job_ptr);
+
+    qpl_huffman_table_destroy(huffman_table);
+
+    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_MODE_ERR);
+}
+
 }
