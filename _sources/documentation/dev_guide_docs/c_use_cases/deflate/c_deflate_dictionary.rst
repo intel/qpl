@@ -143,7 +143,7 @@ The job should be marked with :c:macro:`QPL_FLAG_FIRST`.
 
 .. warning::
 
-    On software path, the user must use the same value for the dictionary level
+    On ``software path`` and ``auto path``, the user must use the same value for the dictionary level
     (i.e. :c:enum:`sw_compression_level`) and the compression level (i.e. :c:member:`qpl_job.level`).
 
 Decompressing with Dictionary
