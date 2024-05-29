@@ -21,13 +21,13 @@ namespace qpl::test
                                        GetSeed(),
                                        current_test_case.parser);
 
-            ASSERT_NO_THROW(source = source_gen.get_source());
+            ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             source_provider mask_gen(current_test_case.second_input_num_elements,
                                      current_test_case.second_input_bit_width,
                                      GetSeed());
 
-            ASSERT_NO_THROW(mask = mask_gen.get_source());
+            ASSERT_NO_THROW(mask = mask_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             uint32_t destination_bit_width = (1u == current_test_case.destination_bit_width) ? current_test_case.source_bit_width
                                                                                              : current_test_case.destination_bit_width;

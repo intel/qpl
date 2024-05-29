@@ -27,7 +27,7 @@ namespace qpl::test
                                              current_test_case.source_bit_width,
                                              GetSeed());
 
-            ASSERT_NO_THROW(source = source_generator.get_source());
+            ASSERT_NO_THROW(source = source_generator.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
             destination.resize(current_test_case.number_of_elements *
                                (current_test_case.destination_bit_width / BYTE_BIT_LENGTH + 1));
 

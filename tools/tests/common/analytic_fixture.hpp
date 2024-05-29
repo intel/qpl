@@ -197,7 +197,7 @@ namespace qpl::test
                                        GetSeed(),
                                        current_test_case.parser);
 
-            ASSERT_NO_THROW(source = source_gen.get_source());
+            ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             uint32_t actual_out_bit_width = current_test_case.destination_bit_width;
 

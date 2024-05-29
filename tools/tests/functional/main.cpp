@@ -163,7 +163,7 @@ int test_init_with_fork() {
 #endif
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) { //NOLINT(bugprone-exception-escape)
 
     std::vector<std::string> arguments(argv + 1, argv + argc);
     if (std::find(begin(arguments), end(arguments), QPL_ARG_HELP) != end(arguments)) {

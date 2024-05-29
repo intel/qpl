@@ -35,7 +35,7 @@ namespace qpl::test {
                                            GetSeed(),
                                            job_ptr->parser);
 
-                ASSERT_NO_THROW(source = source_gen.get_source());
+                ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
                 uint32_t actual_out_bit_width = (job_ptr->out_bit_width == qpl_ow_nom) ?
                                                 job_ptr->src1_bit_width :

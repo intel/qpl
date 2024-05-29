@@ -116,7 +116,7 @@ namespace qpl::test
                                              8U,
                                              GetSeed());
 
-            ASSERT_NO_THROW(source = source_generator.get_source());
+            ASSERT_NO_THROW(source = source_generator.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
             destination.resize(source.size());
             reference_destination.resize(source.size());
 

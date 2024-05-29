@@ -209,7 +209,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_eq;
         reference_job_ptr->op = qpl_op_scan_eq;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -232,7 +232,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_ne;
         reference_job_ptr->op = qpl_op_scan_ne;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -255,7 +255,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_lt;
         reference_job_ptr->op = qpl_op_scan_lt;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -278,7 +278,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_le;
         reference_job_ptr->op = qpl_op_scan_le;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -301,7 +301,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_ge;
         reference_job_ptr->op = qpl_op_scan_ge;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -324,7 +324,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_range;
         reference_job_ptr->op = qpl_op_scan_range;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -347,7 +347,7 @@ namespace qpl::test
         job_ptr->op = qpl_op_scan_not_range;
         reference_job_ptr->op = qpl_op_scan_not_range;
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -493,8 +493,8 @@ namespace qpl::test
             uint8_t *aligned_dst_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, destination.size()));
 
             if (aligned_src_buffer == nullptr || aligned_dst_buffer == nullptr) {
-                std::free(aligned_src_buffer);
-                std::free(aligned_dst_buffer);
+                std::free(aligned_src_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+                std::free(aligned_dst_buffer); //NOLINT(cppcoreguidelines-no-malloc)
 
                 return;
             }

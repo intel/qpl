@@ -413,7 +413,7 @@ std::string format(const char *format, ...) noexcept
 //
 // Main
 //
-int main(int argc, char** argv)
+int main(int argc, char** argv) //NOLINT(bugprone-exception-escape)
 {
     // Parse command line arguments
     bench::cmd::parse_cmd_line(&argc, argv);

@@ -37,7 +37,7 @@ void compress_with_chunks<compression_mode::dynamic_compression>(std::vector<uin
                                                                  std::vector<uint8_t> &destination,
                                                                  uint32_t chunk_size,
                                                                  qpl_dictionary *dictionary_ptr,
-                                                                 qpl_huffman_table_t table_ptr,
+                                                                 qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                  qpl_compression_levels level,
                                                                  qpl_path_t compression_execution_path) {
 
@@ -227,7 +227,7 @@ void compress_with_chunks<compression_mode::fixed_compression>(std::vector<uint8
                                                                std::vector<uint8_t> &destination,
                                                                uint32_t chunk_size,
                                                                qpl_dictionary *dictionary_ptr,
-                                                               qpl_huffman_table_t table_ptr,
+                                                               qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                qpl_compression_levels level,
                                                                qpl_path_t compression_execution_path) {
 

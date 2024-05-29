@@ -41,7 +41,7 @@ template<>
 qpl_status compress_create_indices<compression_mode::dynamic_compression>(std::vector<uint8_t> &source,
                                                                           std::vector<uint8_t> &destination,
                                                                           qpl_job *job_ptr,
-                                                                          qpl_huffman_table_t table_ptr,
+                                                                          qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                           qpl_compression_levels level) {
     std::vector<uint64_t> indices(100, 0);
 
@@ -104,7 +104,7 @@ template<>
 qpl_status compress_create_indices<compression_mode::fixed_compression>(std::vector<uint8_t> &source,
                                                                         std::vector<uint8_t> &destination,
                                                                         qpl_job *job_ptr,
-                                                                        qpl_huffman_table_t table_ptr,
+                                                                        qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                         qpl_compression_levels level) {
     std::vector<uint64_t> indices(100, 0);
     // Configure job

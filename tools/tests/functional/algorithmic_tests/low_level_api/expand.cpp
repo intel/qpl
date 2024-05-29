@@ -105,7 +105,7 @@ namespace qpl::test
     QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(expand, analytic_with_decompression, ExpandTest)
     {
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -269,9 +269,9 @@ namespace qpl::test
 
             if (aligned_src_buffer == nullptr || aligned_dst_buffer == nullptr ||
                 aligned_src2_buffer == nullptr) {
-                std::free(aligned_src_buffer);
-                std::free(aligned_src2_buffer);
-                std::free(aligned_dst_buffer);
+                std::free(aligned_src_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+                std::free(aligned_src2_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+                std::free(aligned_dst_buffer); //NOLINT(cppcoreguidelines-no-malloc)
 
                 return;
             }

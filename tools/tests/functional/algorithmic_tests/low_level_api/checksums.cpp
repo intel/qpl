@@ -39,7 +39,7 @@ namespace qpl::test
                                              GetSeed(),
                                              test_case.parser);
 
-            ASSERT_NO_THROW(source = source_generator.get_source());
+            ASSERT_NO_THROW(source = source_generator.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             destination.resize(source.size());
 

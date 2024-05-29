@@ -55,7 +55,7 @@ static inline util::arguments_list_t get_testing_settings(int argc, char *argv[]
 
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) { //NOLINT(bugprone-exception-escape)
     testing::InitGoogleTest(&argc, argv);
 
     auto arguments_list = qpl::test::get_testing_settings(argc, argv);

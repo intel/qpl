@@ -32,7 +32,7 @@ namespace qpl::test {
                                      job_ptr->src1_bit_width,
                                      GetSeed());
 
-            ASSERT_NO_THROW(mask = mask_gen.get_source());
+            ASSERT_NO_THROW(mask = mask_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             job_ptr->available_src2 = static_cast<uint32_t>(mask.size());
             job_ptr->next_src2_ptr  = mask.data();
@@ -70,7 +70,7 @@ namespace qpl::test {
                                      job_ptr->src1_bit_width,
                                      GetSeed());
 
-            ASSERT_NO_THROW(mask = mask_gen.get_source());
+            ASSERT_NO_THROW(mask = mask_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
             job_ptr->available_src2 = static_cast<uint32_t>(mask.size());
             job_ptr->next_src2_ptr  = mask.data();
@@ -133,7 +133,7 @@ namespace qpl::test {
         }
 
         void PrepareMask() {
-            ASSERT_NO_THROW(mask.resize(qpl::test::bits_to_bytes(second_input_elements)));
+            ASSERT_NO_THROW(mask.resize(qpl::test::bits_to_bytes(second_input_elements))); //NOLINT(cppcoreguidelines-avoid-goto)
 
             uint32_t size = static_cast<uint32_t>(mask.size());
 

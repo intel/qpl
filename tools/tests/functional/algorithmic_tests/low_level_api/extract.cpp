@@ -132,7 +132,7 @@ namespace qpl::test
         }
 
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource());
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
         job_ptr->available_in = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_in_ptr  = compressed_source.data();
         job_ptr->flags   |= QPL_FLAG_DECOMPRESS_ENABLE;
@@ -161,7 +161,7 @@ namespace qpl::test
         }
 
         std::vector<uint8_t> compressed_source;
-        ASSERT_NO_THROW(compressed_source = GetCompressedSource(true));
+        ASSERT_NO_THROW(compressed_source = GetCompressedSource(true)); //NOLINT(cppcoreguidelines-avoid-goto)
 
         if (GetExecutionPath() == qpl_path_software && current_test_case.parser == qpl_p_parquet_rle) {
             job_ptr->src1_bit_width = 0U;
@@ -417,8 +417,8 @@ namespace qpl::test
             uint8_t *aligned_dst_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, destination.size()));
 
             if (aligned_src_buffer == nullptr || aligned_dst_buffer == nullptr) {
-                std::free(aligned_src_buffer);
-                std::free(aligned_dst_buffer);
+                std::free(aligned_src_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+                std::free(aligned_dst_buffer); //NOLINT(cppcoreguidelines-no-malloc)
 
                 return;
             }

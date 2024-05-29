@@ -54,7 +54,7 @@ qpl_status compress_with_chunks<compression_mode::dynamic_compression>(std::vect
                                                                        std::vector<uint8_t> &destination,
                                                                        uint32_t chunk_size,
                                                                        qpl_job *job_ptr,
-                                                                       qpl_huffman_table_t table_ptr,
+                                                                       qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                        qpl_compression_levels level,
                                                                        bool omit_verification) {
     qpl_status result = QPL_STS_OK;
@@ -157,7 +157,7 @@ qpl_status compress_with_chunks<compression_mode::fixed_compression>(std::vector
                                                                      std::vector<uint8_t> &destination,
                                                                      uint32_t chunk_size,
                                                                      qpl_job *job_ptr,
-                                                                     qpl_huffman_table_t table_ptr,
+                                                                     qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
                                                                      qpl_compression_levels level,
                                                                      bool omit_verification) {
     qpl_status result = QPL_STS_OK;

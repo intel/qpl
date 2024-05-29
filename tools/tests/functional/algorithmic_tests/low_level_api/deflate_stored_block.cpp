@@ -48,7 +48,7 @@ public:
         source_provider source_gen(input_size,
                                    8U,
                                    GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();
@@ -98,7 +98,7 @@ public:
         source_provider source_gen(input_size,
                                    8U,
                                    GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();
@@ -146,7 +146,7 @@ public:
         std::vector<uint8_t> destination(expected_size);
 
         source_provider source_gen(input_size, 8U, GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
         unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
@@ -208,7 +208,7 @@ public:
         std::vector<uint8_t> destination(expected_size);
 
         source_provider source_gen(input_size, 8U, GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
         unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
@@ -242,7 +242,7 @@ public:
         std::vector<uint8_t> destination(expected_size - 1U - (number_of_stored_blocks - 1) * max_stored_block_size);
 
         source_provider source_gen(input_size, 8U, GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
         unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
@@ -279,7 +279,7 @@ public:
         source_provider source_gen(input_size,
                                    8U,
                                    GetSeed());
-        ASSERT_NO_THROW(source = source_gen.get_source());
+        ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->next_in_ptr   = source.data();

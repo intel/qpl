@@ -52,9 +52,9 @@ protected:
 
         if (aligned_src_buffer == nullptr || aligned_dst_buffer == nullptr ||
             aligned_ref_buffer == nullptr ) {
-            std::free(aligned_src_buffer);
-            std::free(aligned_dst_buffer);
-            std::free(aligned_ref_buffer);
+            std::free(aligned_src_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+            std::free(aligned_dst_buffer); //NOLINT(cppcoreguidelines-no-malloc)
+            std::free(aligned_ref_buffer); //NOLINT(cppcoreguidelines-no-malloc)
 
             return testing::AssertionFailure() << "aligned_src_buffer == nullptr"
                                                <<  " || aligned_dst_buffer == nullptr"
