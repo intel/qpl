@@ -10,8 +10,8 @@
 #include "random_generator.h"
 #include "t_common.hpp"
 
-#define OWN_BYTE_WIDTH    8u                          /**< Byte width in bits */
-#define OWN_DWORD_WIDTH   32u                         /**< Dword width in bits */
+#define OWN_BYTE_WIDTH    8U                          /**< Byte width in bits */
+#define OWN_DWORD_WIDTH   32U                         /**< Dword width in bits */
 
 #include "qplc_api.h"
 #include "dispatcher.hpp"
@@ -26,11 +26,11 @@ typedef void (*qplc_pack_32u_type)(const uint8_t* src_ptr, uint32_t num_elements
 
 void static ref_qplc_pack_32unu(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit, uint32_t nbits)
 {
-    if (num_elements > 1) {
+    if (num_elements > 1U) {
         int32_t  bits_in_buf = (int32_t)(nbits + start_bit);
         uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
         uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
-        uint64_t src = (uint64_t)(*dst_32u_ptr) & ((1U << start_bit) - 1);
+        uint64_t src = (uint64_t)(*dst_32u_ptr) & ((1U << start_bit) - 1U);
 
         src |= ((uint64_t)(*src_32u_ptr)) << start_bit;
         src_32u_ptr++;
@@ -140,7 +140,7 @@ void static ref_qplc_pack_32u31u(const uint8_t* src_ptr, uint32_t num_elements, 
     ref_qplc_pack_32unu(src_ptr, num_elements, dst_ptr, start_bit, 31U);
 }
 
-static qplc_pack_32u_type ref_qplc_pack_32u_tabl[15] =
+static qplc_pack_32u_type ref_qplc_pack_32u_tabl[15U] =
 {
     ref_qplc_pack_32u17u,
     ref_qplc_pack_32u18u,
@@ -164,7 +164,7 @@ static void fill_src_buffer_32u(uint8_t* src, uint8_t* dst, size_t length, uint3
     uint32_t *p_src_32u = (uint32_t*)src;
     uint32_t *p_dst_32u = (uint32_t*)dst;
     uint32_t mask = (1U << nbits) - 1U;
-    for (uint32_t indx = 0; indx < length; indx++)
+    for (uint32_t indx = 0U; indx < length; indx++)
         p_dst_32u[indx] = p_src_32u[indx] & mask;
 }
 
@@ -182,35 +182,35 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_32u, base) {
 
     {
         uint32_t* p_buffer_32u = (uint32_t*)buffer.data();
-        for (uint32_t indx = 0; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_buffer_32u[indx] = static_cast<uint32_t>(random_value);
         }
     }
 
-    for (uint32_t nbits = 17; nbits <= 31; nbits++) {
+    for (uint32_t nbits = 17U; nbits <= 31U; nbits++) {
         source.fill(0);
         fill_src_buffer_32u(buffer.data(), source.data(), TEST_BUFFER_SIZE, nbits);
-        for (uint32_t length = 1; length <= TEST_BUFFER_SIZE; length++) {
-            for (uint32_t start_bit = 0; start_bit < 16; start_bit++) {
-                if ((18 == nbits) || (22 == nbits) || (26 == nbits) || (30 == nbits)) {
+        for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
+            for (uint32_t start_bit = 0U; start_bit < 16U; start_bit++) {
+                if ((18U == nbits) || (22U == nbits) || (26U == nbits) || (30U == nbits)) {
                     if (start_bit & 1) {
                         continue;
                     }
                 }
-                if ((20 == nbits) || (28 == nbits)) {
+                if ((20U == nbits) || (28U == nbits)) {
                     if (start_bit & 3) {
                         continue;
                     }
                 }
-                if (24 == nbits) {
+                if (24U == nbits) {
                     if (start_bit & 7) {
                         continue;
                     }
                 }
                 destination.fill(0);
                 reference.fill(0);
-                qplc_pack_bits(nbits - 1)(source.data(), length, destination.data(), start_bit);
-                ref_qplc_pack_32u_tabl[nbits - 1 - 16](source.data(), length, reference.data(), start_bit);
+                qplc_pack_bits(nbits - 1U)(source.data(), length, destination.data(), start_bit);
+                ref_qplc_pack_32u_tabl[nbits - 1U - 16U](source.data(), length, reference.data(), start_bit);
                 ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                     destination.begin(), destination.end(), "FAIL qplc_pack_32u!!! "));
             }

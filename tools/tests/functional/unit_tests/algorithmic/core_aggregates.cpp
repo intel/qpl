@@ -529,7 +529,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         min_value_ptr = 1U;
         max_value_ptr = QPL_TEST_MAX_32U;
         sum_ptr = 0U;
-        index_ptr = 0u;
+        index_ptr = 0U;
         ref_min_value_ptr = 1U;
         ref_max_value_ptr = QPL_TEST_MAX_32U;
         ref_sum_ptr = 0U;

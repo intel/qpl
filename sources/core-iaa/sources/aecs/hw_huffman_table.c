@@ -36,7 +36,7 @@ extern const uint8_t own_reversed_bits_table[];
 static inline uint16_t own_bit_reverse(uint16_t code, const uint32_t length) {
     code = (own_reversed_bits_table[code & 0x00FF] << 8U) | (own_reversed_bits_table[code >> 8U]);
 
-    return (code >> (16 - length));
+    return (code >> (16U - length));
 }
 
 /**
@@ -418,7 +418,7 @@ static void hw_bitbuf_2_flush(bitbuf2 *bb_ptr) {
 /**
  * @todo
  */
-static const uint32_t cl_perm[19] = {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
+static const uint32_t cl_perm[19] = {16U, 17U, 18U, 0U, 8U, 7U, 9U, 6U, 10U, 5U, 11U, 4U, 12U, 3U, 13U, 2U, 14U, 1U, 15U};
 
 /**
  * @brief helper to create deflate header
@@ -442,7 +442,7 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
     uint32_t       bl_count[MAX_CODE_LEN + 1U];
     uint32_t       cl_codes[19];
     uint64_t       data          = 0U;
-    const uint32_t extra_bits[3] = {2, 3, 7};
+    const uint32_t extra_bits[3] = {2U, 3U, 7U};
 
     call_c_set_zeros_uint8_t((uint8_t *) cl_counts, sizeof(cl_counts));
     num_cl_tokens = hw_rl_encode(ll_codes_ptr, num_ll_codes, cl_counts, cl_tokens);
@@ -521,7 +521,7 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
                                uint32_t oa_valid_bits,
                                uint32_t *ll_hist_ptr,
                                uint32_t *d_hist_ptr) {
-    uint32_t       bl_count[MAX_CODE_LEN + 1u];
+    uint32_t       bl_count[MAX_CODE_LEN + 1U];
     uint32_t       max_ll_code = 0U;
     uint32_t       max_d_code  = 0U;
     uint32_t       header_bits = 0U;

@@ -47,7 +47,7 @@ GenStatus gz_generator::LargeHeaderConfigurator::generate()
     }
     else
     {
-        startingBits = 0u;
+        startingBits = 0U;
     }
 
 
@@ -80,14 +80,14 @@ GenStatus gz_generator::LargeHeaderConfigurator::generate()
         return status;
     }
 
-    m_randomLiteralCode.set_range(0, possibleLiteralCount - 1U);
+    m_randomLiteralCode.set_range(0U, possibleLiteralCount - 1U);
     {
         Gen32u literalCount = 0U;
         std::vector<Gen32u> pLiteralVector;
 
         random.set_range(0U, 8U);
         literalCount = static_cast<Gen32u>(m_random);
-        if (literalCount != 0)
+        if (literalCount != 0U)
         {
             for (Gen32u literal = 0U; literal < literalCount; literal++)
             {
@@ -143,7 +143,7 @@ gz_generator::LargeHeaderConfigurator::writeLiteralLengthCodes(Gen32u header_bit
     }
     else if (1531U <= header_bit_size)
     {
-        num13 = caclulateNumberLiteralLengthsCodesEqualTo13(1814, header_bit_size);
+        num13 = caclulateNumberLiteralLengthsCodesEqualTo13(1814U, header_bit_size);
         x = 4U;
     }
     else if (1374U <= header_bit_size)
@@ -174,8 +174,8 @@ gz_generator::LargeHeaderConfigurator::writeLiteralLengthCodes(Gen32u header_bit
     pLiteralLengthCodes.push_back(12U);
 
     {
-        Gen32u code = 0U;
-        for (code = 1; code < num13; code++)
+        Gen32u code = 1U;
+        for (; code < num13; code++)
         {
             pLiteralLengthCodes.push_back(13U);
             pLiteralLengthCodes.push_back(15U);
@@ -186,8 +186,8 @@ gz_generator::LargeHeaderConfigurator::writeLiteralLengthCodes(Gen32u header_bit
             pLiteralLengthCodes.push_back(15U);
         }
     }
-    pCodeLengthCodes[0] = cl13;
-    pCodeLengthCodes[3] = x;
+    pCodeLengthCodes[0U] = cl13;
+    pCodeLengthCodes[3U] = x;
 
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodes.data(), (int) pLiteralLengthCodes.size());
     TestConfigurator::declareVectorToken(D_VECTOR, pDictanceLengthCodes.data(), (int) pDictanceLengthCodes.size());
@@ -224,8 +224,8 @@ GenStatus gz_generator::LargeHeaderConfigurator::writeLiteralLengthsCodesForSmal
     *pPossibleLiteralCount = num1314;
 
     {
-        Gen32u code = 0;
-        for (code = 1; code < num1314; code += 2U)
+        Gen32u code = 1U;
+        for (; code < num1314; code += 2U)
         {
             pLiteralLengthCodes.push_back(13U);
             pLiteralLengthCodes.push_back(14U);
@@ -238,14 +238,14 @@ GenStatus gz_generator::LargeHeaderConfigurator::writeLiteralLengthsCodesForSmal
         n1 = (int) (zeroCount / 2U);
         n2 = zeroCount - n1;
 
-        for (Gen32u i = 0; i < n1; i++)
+        for (Gen32u i = 0U; i < n1; i++)
         {
             pLiteralLengthCodes.push_back(0U);
         }
 
-        pLiteralLengthCodes.push_back(15);
+        pLiteralLengthCodes.push_back(15U);
 
-        for (Gen32u i = 0; i < n2; i++)
+        for (Gen32u i = 0U; i < n2; i++)
         {
             pLiteralLengthCodes.push_back(0U);
         }
@@ -253,7 +253,7 @@ GenStatus gz_generator::LargeHeaderConfigurator::writeLiteralLengthsCodesForSmal
         pLiteralLengthCodes.push_back(12U);
     }
 
-    pCodeLengthCodes[1] = cl12;
+    pCodeLengthCodes[1U] = cl12;
 
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodes.data(), (int) pLiteralLengthCodes.size());
     TestConfigurator::declareVectorToken(CL_VECTOR, pCodeLengthCodes.data(), (int) pCodeLengthCodes.size());

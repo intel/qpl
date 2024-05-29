@@ -787,7 +787,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
                       gen_c *gen)
     {
         uint32_t bl_count[MAX_CODE_LEN + 1U];
-        uint32_t max_ll_code, max_d_code = 0U;
+        uint32_t max_ll_code = 0U, max_d_code = 0U;
         uint32_t *cl_lens = nullptr;
         uint32_t num_cl_lens = 0U;
         bool     cl_alt = false;

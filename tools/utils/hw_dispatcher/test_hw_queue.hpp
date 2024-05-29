@@ -17,7 +17,7 @@
 
 // DEFINITIONS
 #define QPL_TEST_TOTAL_OP_CFG_BIT_GROUPS 8U            /**< 256 bits / 32 bit groups */
-#define QPL_TEST_OWN_PAGE_MASK           0x0FFFllU     /**< Defines page mask for portal incrementing */
+#define QPL_TEST_OWN_PAGE_MASK           0x0FFFLLU     /**< Defines page mask for portal incrementing */
 
 
 namespace qpl::test {

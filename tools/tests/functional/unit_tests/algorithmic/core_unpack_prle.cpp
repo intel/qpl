@@ -763,7 +763,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
         uint32_t* p_source_32u = (uint32_t*)source.data();
         uint32_t* p_value_32u = (uint32_t*)value.data();
         uint32_t* p_ref_value_32u = (uint32_t*)ref_value.data();
-        for (uint32_t indx = 0u; indx < TEST_BUFFER_SIZE; indx++) {
+        for (uint32_t indx = 0U; indx < TEST_BUFFER_SIZE; indx++) {
             p_source_32u[indx] = 0x8FU;
             p_value_32u[indx] = 0x8FU;
             p_ref_value_32u[indx] = 0x8FU;

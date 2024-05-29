@@ -151,7 +151,7 @@ auto main(int argc, char** argv) -> int {
     uint32_t chunk_size = source_size/chunk_count;
 
     if (execution_path == qpl_path_hardware) {
-        uint64_t max_transfer_size;
+        uint64_t max_transfer_size = 0U;
         if(get_min_max_transfer_size(max_transfer_size) == 0){
             if (chunk_size > max_transfer_size) {
                 std::cout << "Chunk size(" << chunk_size << ") exceeds configured max transfer size (" << max_transfer_size <<"), reducing chunk size.\n";
