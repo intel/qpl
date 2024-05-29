@@ -206,7 +206,7 @@ REF_INLINE qpl_status own_expand_prle(qpl_job *const qpl_job_ptr) {
     // Number of elements to process
     uint32_t number_of_elements = 0U;
 
-    // Gettin number of elements
+    // Getting number of elements
     qpl_status status = ref_count_elements_prle(source_ptr, source_end_ptr, &number_of_elements, available_bytes);
 
     if (QPL_STS_OK != status) {

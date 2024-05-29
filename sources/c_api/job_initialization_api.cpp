@@ -161,7 +161,7 @@ QPL_INLINE uint32_t own_get_job_size_compress(qpl_path_t UNREFERENCED_PARAMETER(
 /**
  * @brief Returns size of the analytics_buffer
  *
- * @note Holds allocations required for performin various analytics operations.
+ * @note Holds allocations required for performing various analytics operations.
  */
 QPL_INLINE uint32_t own_get_job_size_analytics(qpl_path_t UNREFERENCED_PARAMETER(qpl_path)) {
     uint32_t size = 0U;
