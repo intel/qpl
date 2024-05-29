@@ -17,6 +17,8 @@
 // tool_generator
 #include "random_generator.h"
 
+#include <algorithm>
+
 namespace qpl::test
 {
 enum compression_mode {

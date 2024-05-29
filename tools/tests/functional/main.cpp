@@ -18,6 +18,8 @@
 #include "execution_wrapper.hpp"
 #endif
 
+#include <algorithm>
+
 namespace qpl::test {
 
 static inline void show_help() {
