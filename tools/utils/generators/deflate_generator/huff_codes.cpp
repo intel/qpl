@@ -325,7 +325,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
     }
 
-    static void copy_cl_lens_alt(uint32_t *cl_lens, uint32_t num_cl_lens, uint32_t cl_counts[19],
+    static void copy_cl_lens_alt(uint32_t *cl_lens, uint32_t cl_counts[19],
                                  uint32_t cl_codes[19], uint32_t *bl_count)
     {
         uint32_t code_len = 0U;
@@ -660,7 +660,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         }
         else if (cl_alt)
         {
-            copy_cl_lens_alt(cl_lens, num_cl_lens, cl_counts, cl_codes, bl_count);
+            copy_cl_lens_alt(cl_lens, cl_counts, cl_codes, bl_count);
         }
         else
         {

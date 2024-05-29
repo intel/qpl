@@ -72,7 +72,6 @@ REF_INLINE qpl_status own_extract(const uint32_t *const source_ptr,
 REF_INLINE qpl_status own_extract_output_to_format(const uint32_t *const source_ptr,
                                                    uint32_t number_of_elements,
                                                    uint32_t source_bit_width,
-                                                   uint32_t available_bytes,
                                                    qpl_job *const qpl_job_ptr);
 
 /** @} */
@@ -159,7 +158,6 @@ REF_INLINE qpl_status own_extract_le_be(qpl_job *const qpl_job_ptr) {
     status = own_extract_output_to_format(results_ptr,
                                           destination_length,
                                           source_bit_width,
-                                          available_bytes,
                                           qpl_job_ptr);
 
     if (QPL_STS_OK != status) {
@@ -252,7 +250,6 @@ REF_INLINE qpl_status own_extract_prle(qpl_job *const qpl_job_ptr) {
     status = own_extract_output_to_format(results_ptr,
                                           destination_length,
                                           source_bit_width,
-                                          available_bytes,
                                           qpl_job_ptr);
 
     if (QPL_STS_OK != status) {
@@ -281,7 +278,6 @@ REF_INLINE qpl_status own_extract(const uint32_t *const source_ptr,
 REF_INLINE qpl_status own_extract_output_to_format(const uint32_t *const source_ptr,
                                                    uint32_t number_of_elements,
                                                    uint32_t source_bit_width,
-                                                   uint32_t available_bytes,
                                                    qpl_job *const qpl_job_ptr) {
 
     // Destination vector

@@ -39,7 +39,7 @@ static void ref_qplc_bit_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
 
 static void ref_qplc_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
-    uint32_t* sum_ptr, uint32_t* index_ptr) {
+    uint32_t* sum_ptr) {
     for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_ptr[idx];
         *min_value_ptr = (src_ptr[idx] < *min_value_ptr) ? src_ptr[idx] : *min_value_ptr;
@@ -49,7 +49,7 @@ static void ref_qplc_aggregates_8u(const uint8_t* src_ptr, uint32_t length,
 
 static void ref_qplc_aggregates_16u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
-    uint32_t* sum_ptr, uint32_t* index_ptr) {
+    uint32_t* sum_ptr) {
     const uint16_t* src_16u_ptr = (uint16_t*)src_ptr;
     for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_16u_ptr[idx];
@@ -60,7 +60,7 @@ static void ref_qplc_aggregates_16u(const uint8_t* src_ptr, uint32_t length,
 
 static void ref_qplc_aggregates_32u(const uint8_t* src_ptr, uint32_t length,
     uint32_t* min_value_ptr, uint32_t* max_value_ptr,
-    uint32_t* sum_ptr, uint32_t* index_ptr) {
+    uint32_t* sum_ptr) {
     const uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     for (uint32_t idx = 0U; idx < length; idx++) {
         *sum_ptr += src_32u_ptr[idx];
@@ -210,7 +210,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -228,7 +228,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -246,7 +246,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -264,7 +264,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -289,7 +289,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -307,7 +307,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_8u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_8u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -346,7 +346,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -364,7 +364,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -382,7 +382,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -400,7 +400,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -425,7 +425,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -443,7 +443,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_16u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_16u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -482,7 +482,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -500,7 +500,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -518,7 +518,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -536,7 +536,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -561,7 +561,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
@@ -579,7 +579,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
         ref_index_ptr = 0U;
 
         qplc_aggregates(fun_indx_aggregates_32u)(source.data(), length, &min_value_ptr, &max_value_ptr, &sum_ptr, &index_ptr);
-        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr, &ref_index_ptr);
+        ref_qplc_aggregates_32u(source.data(), length, &ref_min_value_ptr, &ref_max_value_ptr, &ref_sum_ptr);
         ASSERT_EQ(min_value_ptr, ref_min_value_ptr);
         ASSERT_EQ(max_value_ptr, ref_max_value_ptr);
         ASSERT_EQ(sum_ptr, ref_sum_ptr);
