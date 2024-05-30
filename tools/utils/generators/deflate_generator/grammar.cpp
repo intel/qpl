@@ -24,11 +24,10 @@ namespace gz_generator
     grammar_c::parse_lines()
     {
         token_c      token;
-        token_type_t type;
 
         while (1U)
         {
-            type = m_tp.get_token(&token);
+            token_type_t type = m_tp.get_token(&token);
             switch (type)
             {
                 case TT_EOF:
@@ -90,9 +89,7 @@ namespace gz_generator
     grammar_c::parse_m()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
 
         if ((type == TT_EOL) || (type == TT_EOF))
         {
@@ -118,10 +115,9 @@ namespace gz_generator
     grammar_c::parse_l()
     {
         token_c      token;
-        token_type_t type;
         uint32_t     lit = 0U;
 
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         while (1U)
         {
             if (type != TT_NUM) syntax_error();
@@ -157,10 +153,9 @@ namespace gz_generator
     grammar_c::parse_r()
     {
         token_c      token;
-        token_type_t type;
         uint32_t     len = 0U, dist = 0U;
 
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         while (1U)
         {
             if (type != TT_NUM) syntax_error();
@@ -201,10 +196,9 @@ namespace gz_generator
     grammar_c::parse_lens(len_type_t ltype)
     {
         token_c      token;
-        token_type_t type;
         uint32_t     lit = 0U;
 
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
 
         if (type == TT_ALT)
         {
@@ -268,9 +262,7 @@ namespace gz_generator
     grammar_c::parse_bfinal()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
         if (token.m_value == 0U)
             m_gen->set_bfinal(false);
@@ -285,9 +277,7 @@ namespace gz_generator
     grammar_c::parse_bout()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
         if (token.m_value == 0U)
             m_gen->set_bout(false);
@@ -302,9 +292,7 @@ namespace gz_generator
     grammar_c::parse_pad()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
         m_gen->set_pad(token.m_value);
 
@@ -316,9 +304,7 @@ namespace gz_generator
     grammar_c::parse_set()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if (type != TT_EXTRALEN) syntax_error();
 
         m_gen->set_extra_len();
@@ -344,9 +330,7 @@ namespace gz_generator
     grammar_c::parse_noeob()
     {
         token_c      token;
-        token_type_t type;
-
-        type = m_tp.get_token(&token);
+        token_type_t type = m_tp.get_token(&token);
         if ((type != TT_EOL) && (type != TT_EOF)) syntax_error();
         m_gen->noeob();
     }
@@ -374,7 +358,6 @@ namespace gz_generator
     grammar_c::parse_block()
     {
         token_c      token;
-        token_type_t type;
         bool         bfinal    = false;
         bool         stored    = false;
         bool         fixed     = false;
@@ -384,7 +367,7 @@ namespace gz_generator
 
         while (true)
         {
-            type = m_tp.get_token(&token);
+            token_type_t type = m_tp.get_token(&token);
             switch (type)
             {
                 case TT_EOL:

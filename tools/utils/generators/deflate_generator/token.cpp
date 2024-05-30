@@ -156,7 +156,7 @@ token_parser_c::parse_two_strings(token_c *token,
     int c = 0;
     uint32_t ctype = 0U;
     const char *str = nullptr;
-    token_type_t type;
+    token_type_t type = type1;
 
     c = getc();
     if (c == -1){
@@ -236,7 +236,7 @@ token_parser_c::parse_three_strings(token_c *token,
     int c = 0;
     uint32_t ctype = 0U;
     const char *str = nullptr;
-    token_type_t type;
+    token_type_t type = type1;
 
     c = getc();
     if (c == -1){

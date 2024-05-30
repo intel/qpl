@@ -213,8 +213,8 @@ class token_parser_c
 
         token_type_t get_token(token_c *token)
         {
-            token_type_t type;
-            token->m_type = type = get_token_(token);
+            token_type_t type = get_token_(token);
+            token->m_type = type;
             return type;
         }
 
