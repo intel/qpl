@@ -41,6 +41,8 @@ static qpl_desc_t functions_table[] = {
         {NULL, "accfg_wq_get_block_on_fault"},
         {NULL, "accfg_device_get_iaa_cap"},
         {NULL, "accfg_wq_get_op_config"},
+        {NULL, "accfg_device_get_max_transfer_size"},
+        {NULL, "accfg_wq_get_max_transfer_size"},
 
         // Terminate list/init
         {NULL, NULL}
@@ -165,6 +167,14 @@ int accfg_device_get_iaa_cap(struct accfg_device *device, uint64_t *iaa_cap) {
 int accfg_wq_get_op_config(accfg_wq *wq, struct accfg_op_config *op_cfg) {
     if (functions_table[19].function == NULL) return 1;
     return ((accfg_wq_get_op_config_ptr) functions_table[19].function)(wq, op_cfg);
+}
+
+uint64_t accfg_device_get_max_transfer_size(accfg_dev *device) {
+    return ((accfg_device_get_max_transfer_size_ptr) functions_table[20].function)(device);
+}
+
+uint64_t accfg_wq_get_max_transfer_size(accfg_wq *wq) {
+    return ((accfg_wq_get_max_transfer_size_ptr) functions_table[21].function)(wq);
 }
 
 /* ------ Internal functions implementation ------ */

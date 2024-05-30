@@ -93,6 +93,10 @@ typedef int                     (*accfg_device_get_iaa_cap_ptr)(accfg_dev *devic
 
 typedef int                     (*accfg_wq_get_op_config_ptr)(accfg_wq *wq, struct accfg_op_config *op_cfg);
 
+typedef uint64_t                (*accfg_device_get_max_transfer_size_ptr)(accfg_dev *device);
+
+typedef uint64_t                (*accfg_wq_get_max_transfer_size_ptr)(accfg_wq *wq);
+
 #ifdef __cplusplus
 }
 #endif
