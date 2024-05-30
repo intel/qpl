@@ -68,7 +68,7 @@ auto inflate(inflate_state<path> &decompression_state,
 
     // Prevent overwrite of inflate errors by buffer overflow errors
     if (result.status_code_ == status_list::ok){
-        if (decompression_state.is_final() && (decompression_state.get_state()->tmp_out_processed != 
+        if (decompression_state.is_final() && (decompression_state.get_state()->tmp_out_processed !=
                                                decompression_state.get_state()->tmp_out_valid)) {
             result.status_code_ = status_list::more_output_needed;
         }
@@ -132,7 +132,7 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
 
     auto flush_status = utility::flush_tmp_out_buffer(*inflate_state_ptr);
     /* Prevent overwrite of inflate pass errors by flush_tmp_out_buffer errors */
-    if (status_list::ok != flush_status && status_list::ok == result.status_code_) { 
+    if (status_list::ok != flush_status && status_list::ok == result.status_code_) {
         result.status_code_ = flush_status;
     }
 
@@ -379,28 +379,18 @@ static auto flush_tmp_out_buffer(isal_inflate_state &inflate_state) noexcept -> 
 static auto inline is_inflate_complete(end_processing_condition_t end_condition,
                                        isal_inflate_state &inflate_state) noexcept -> bool {
     switch (inflate_state.block_state) {
-        case ISAL_BLOCK_NEW_HDR:
-            if (end_condition == stop_and_check_any_eob ||
-                end_condition == stop_on_any_eob) {
-                // The block was done and we should stop at any EOB and finish decompressing
-                return true;
-            } else {
-                return false;
-            }
-
+        case ISAL_BLOCK_NEW_HDR: // The block was done and we should stop at any EOB and finish decompression
+            return (end_condition == stop_and_check_any_eob || end_condition == stop_on_any_eob);
         case ISAL_BLOCK_FINISH:
         case ISAL_BLOCK_INPUT_DONE:
             if (inflate_state.avail_in > 0U &&
-                (end_condition == dont_stop_or_check ||
-                 end_condition == check_for_any_eob
-                )) {
-                // Correct block state, so decompression could be continued
+                (end_condition == dont_stop_or_check || end_condition == check_for_any_eob)) {
+                // Set the correct block state, so that the decompression could be continued
                 inflate_state.block_state = ISAL_BLOCK_NEW_HDR;
                 return false;
             } else {
                 return true;
             }
-
         default:
             return false;
     }

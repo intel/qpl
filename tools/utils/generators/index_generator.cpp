@@ -80,7 +80,7 @@ GenStatus gz_generator::IndexGenerator::generate(std::vector<Gen8u> &pBinaryData
 
         return GEN_OK;
     }
-    catch (std::exception)
+    catch (const std::exception &e)
     {
         return GEN_ERR;
     }

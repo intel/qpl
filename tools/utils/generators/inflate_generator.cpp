@@ -280,7 +280,7 @@ GenStatus gz_generator::InflateGenerator::generate(std::vector<Gen8u> &pBinaryDa
 
         return GEN_OK;
     }
-    catch (std::exception)
+    catch (const std::exception &e)
     {
         return GEN_ERR;
     }
