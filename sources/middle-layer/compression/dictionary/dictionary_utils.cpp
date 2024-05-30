@@ -132,7 +132,7 @@ static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
 
 /** @brief Convert the public enum @ref hw_compression_level to internal enum @ref hardware_dictionary_level */
 auto convert_public_hw_dict_level_to_internal(hw_compression_level hw_dict_level) noexcept -> hardware_dictionary_level {
-    hardware_dictionary_level hw_dict_level_internal;
+    hardware_dictionary_level hw_dict_level_internal = hardware_dictionary_level::LEVEL_1;
 
     switch(hw_dict_level) {
         case hw_compression_level::SMALL: {

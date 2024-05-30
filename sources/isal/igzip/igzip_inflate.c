@@ -29,7 +29,7 @@
 # define bswap_32(x) _byteswap_ulong(x)
 #endif
 
-extern int qpl_decode_huffman_code_block_stateless(struct inflate_state *, uint8_t * start_out);
+
 extern struct isal_hufftables hufftables_default;	/* For known header detection */
 
 #define LARGE_SHORT_SYM_LEN 25

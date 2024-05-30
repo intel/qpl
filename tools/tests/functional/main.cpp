@@ -37,7 +37,7 @@ static inline void show_help() {
 }
 
 static inline auto parse_execution_path_argument(std::string &value) -> qpl_path_t {
-    qpl_path_t execution_path;
+    qpl_path_t execution_path = qpl_path_software;
 
     if (value == "sw") {
         execution_path = qpl_path_software;

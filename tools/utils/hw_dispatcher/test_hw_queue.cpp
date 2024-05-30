@@ -16,12 +16,11 @@
 
 namespace qpl::test {
 
-hw_queue::hw_queue(hw_queue &&other) noexcept {
-    priority_      = other.priority_;
-    portal_mask_   = other.portal_mask_;
-    portal_ptr_    = other.portal_ptr_;
-    portal_offset_ = 0;
-
+hw_queue::hw_queue(hw_queue &&other) noexcept :
+                        priority_(other.priority_),
+                        portal_mask_(other.portal_mask_),
+                        portal_ptr_(other.portal_ptr_),
+                        portal_offset_(0) {
     other.portal_ptr_ = nullptr;
 }
 

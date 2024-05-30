@@ -34,7 +34,7 @@ public:
     /* ------ Index search index in the table ------ */
     uint32_t findHeaderBlockIndex(uint32_t miniBlockNumber) const;
 
-    uint32_t findMiniBlockIndex(uint32_t miniBlockNumber);
+    uint32_t findMiniBlockIndex(uint32_t miniBlockNumber) const;
 
     /* ------ Getters & Setters ------ */
     size_t size();

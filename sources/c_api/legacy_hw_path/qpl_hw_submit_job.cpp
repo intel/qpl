@@ -120,7 +120,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
                                                 job_ptr->src1_bit_width);
 
     // Check if force array output mod is available when the force array output flag is set
-    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && qpl::job::is_force_array_output_supported(job_ptr) == false) {
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && !qpl::job::is_force_array_output_supported(job_ptr)) {
         // If the force array output mod flag is set, return an error
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
