@@ -34,7 +34,7 @@ qpl_status qpl_huffman_table_compare(const qpl_huffman_table_t table,
     auto other_meta_ptr = reinterpret_cast<huffman_table_meta_t*>(other_table);
 
     bool is_meta_equal = true;
-    const int meta_diff = std::memcmp(meta_ptr, other_meta_ptr, sizeof(huffman_table_meta_t));
+    const int meta_diff = std::memcmp(meta_ptr, other_meta_ptr, sizeof(huffman_table_meta_t)); //NOLINT(bugprone-suspicious-memory-comparison)
     if (meta_diff != 0)
         is_meta_equal = false;
 

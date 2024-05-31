@@ -79,9 +79,9 @@ protected:
 
 public:
 
-    SimpleCannedOneChuckCompressDecompressFixture(){
-        c_huffman_table = NULL;
-        d_huffman_table = NULL;
+    SimpleCannedOneChuckCompressDecompressFixture() : c_huffman_table(NULL), d_huffman_table(NULL){
+        
+        
     };
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
