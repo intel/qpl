@@ -592,7 +592,6 @@ For more information on library testing, see <a class="reference internal" href=
 For information on benchmarking the library, see <a class="reference internal" href="../bench_docs/guide.html#library-benchmarking-reference-link"><span class="std std-ref">Benchmarks Framework Guide</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]</span></code> - Enables loading the accelerator configuration library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>)
 dynamically with dlopen (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE=[SHARED|STATIC]</span></code> - Enables building the library as a shared library or a static library (<code class="docutils literal notranslate"><span class="pre">STATIC</span></code> by default).</p></li>
 </ul>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
@@ -611,6 +610,15 @@ building an application with the Intel QPL. The user has to either place <code c
 location of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> (for example, using <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">LIBRARY_PATH</span></code>). Since there may be different versions
 of <code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code> on a system, the user is advised to create a symbolic link between <code class="docutils literal notranslate"><span class="pre">libaccel-config.so</span></code> and
 <code class="docutils literal notranslate"><span class="pre">libaccel-config.so.1</span></code> to avoid potential compatibility issues.</p>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE=[SHARED|STATIC]</span></code> - Enables building the library as a shared library or a static library (<code class="docutils literal notranslate"><span class="pre">STATIC</span></code> by default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_USE_CLANG_TIDY=[ON|OFF]</span></code> - Enables clang-tidy checks (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p><code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code> checks are limited to Linux OS only.
+To use <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code>, the user should install Clang and clang-tidy tools and build QPL with Clang compiler.</p>
 </div>
 </section>
 <section id="build-steps">
