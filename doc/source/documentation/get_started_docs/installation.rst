@@ -183,8 +183,6 @@ Intel QPL supports the following build options:
 -  ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=[OFF|ON]`` - Enables loading the accelerator configuration library (``libaccel-config``)
    dynamically with dlopen (``ON`` by default).
 
-- ``-DQPL_LIBRARY_TYPE=[SHARED|STATIC]`` - Enables building the library as a shared library or a static library (``STATIC`` by default).
-
 .. attention::
 
    If Intel QPL is built with ``-DDYNAMIC_LOADING_LIBACCEL_CONFIG=ON``, which is the default value,
@@ -202,6 +200,15 @@ Intel QPL supports the following build options:
    location of ``libaccel-config`` (for example, using ``LD_LIBRARY_PATH`` and ``LIBRARY_PATH``). Since there may be different versions
    of ``libaccel-config`` on a system, the user is advised to create a symbolic link between ``libaccel-config.so`` and
    ``libaccel-config.so.1`` to avoid potential compatibility issues.
+
+- ``-DQPL_LIBRARY_TYPE=[SHARED|STATIC]`` - Enables building the library as a shared library or a static library (``STATIC`` by default).
+
+-  ``-DQPL_USE_CLANG_TIDY=[ON|OFF]`` - Enables clang-tidy checks (``OFF`` by default).
+
+.. attention::
+
+   ``clang-tidy`` checks are limited to Linux OS only.
+   To use ``clang-tidy``, the user should install Clang and clang-tidy tools and build QPL with Clang compiler.
 
 .. _building_library_build_reference_link:
 
