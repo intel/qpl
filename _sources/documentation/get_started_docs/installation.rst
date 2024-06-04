@@ -208,7 +208,7 @@ Intel QPL supports the following build options:
 .. attention::
 
    ``clang-tidy`` checks are limited to Linux OS only.
-   To use ``clang-tidy``, the user should install Clang and clang-tidy tools and build QPL with Clang compiler.
+   To use ``clang-tidy``, the user should install Clang and clang-tidy tools and build Intel QPL with Clang compiler.
 
 .. _building_library_build_reference_link:
 

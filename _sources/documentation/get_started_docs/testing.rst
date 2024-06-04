@@ -16,8 +16,12 @@ are classified into:
 - Functional tests
 - Cross tests
 - Fuzz tests
-- Thread tests
 
+.. attention::
+
+   Running library testing on the hardware_path (or running Cross tests) requires first configuring
+   Intel® In-Memory Analytics Accelerator (Intel® IAA).
+   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
 Functional Tests
 ****************
@@ -34,7 +38,10 @@ further divided into four groups:
   control over the input data format. These tests also check for cases
   that would lead to output overflow, and ensure proper error codes
   are thrown before overflow occurs.
-
+- Thread tests (``tt_*``) validate library behavior when run in a highly multithreaded environment.
+  The thread tests detect the number of physical cores on the system, then spawn
+  an equivalent number of threads and attempt to perform library operations
+  with each thread. It then ensures that the resulting output is correct.
 
 The tests can be launched using a single executable ``<install_dir>/bin/tests``.
 To run all the functional tests, execute the following command:
@@ -66,17 +73,10 @@ To see the full list of other available test options specific to the library
 .. note::
 
     software_path and synchronous execution mode is used for testing by default,
-    use --async=on and --path=hw to specify otherwise
-
-.. note::
-
-   Running functional tests on the hardware path requires first configuring
-   Intel® In-Memory Analytics Accelerator (Intel® IAA).
-   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
+    use ``--async=on`` and ``--path=hw`` (or ``--path=auto``) to specify otherwise.
 
 Cross Tests
 ***********
-
 
 Cross tests provide validation of:
 
@@ -95,11 +95,6 @@ To run cross tests, execute the following command:
 .. code:: shell
 
    <install_dir>/bin/cross_tests --dataset=<qpl_library>/tools/testdata/
-
-.. note::
-
-   Running cross tests requires first configuring Intel IAA.
-   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
 Fuzz Tests
 **********
@@ -125,23 +120,3 @@ for example:
 .. code:: shell
 
    <qpl_library>/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test -max_total_time=15
-
-
-Thread Tests
-************
-
-Thread tests validate library behavior when run in a highly multithreaded environment.
-The thread tests detect the number of physical cores on the system, then spawn
-an equivalent number of threads and attempt to perform library operations
-with each thread. It then ensures that the resulting output is correct.
-
-To run thread tests, execute the following command:
-
-.. code:: shell
-
-   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=tt_*
-
-Thread tests support both hardware and software paths. To specify the path, use the flag
-`--path=sw` or `--path=hw`. Users can also specify if asynchronous behavior is supported via
-the flag `--async=on` or `--async=off`. By default the path is set to software and behavior
-is set to synchronous.

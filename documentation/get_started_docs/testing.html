@@ -423,7 +423,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-tests">Functional Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
             </nav>
         </div>
@@ -446,8 +445,13 @@ are classified into:</p>
 <li><p>Functional tests</p></li>
 <li><p>Cross tests</p></li>
 <li><p>Fuzz tests</p></li>
-<li><p>Thread tests</p></li>
 </ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Running library testing on the hardware_path (or running Cross tests) requires first configuring
+Intel® In-Memory Analytics Accelerator (Intel® IAA).
+See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
+</div>
 <section id="functional-tests">
 <h2>Functional Tests<a class="headerlink" href="#functional-tests" title="Link to this heading">#</a></h2>
 <p>Functional tests provide functional validation of Intel QPL APIs. These tests are
@@ -462,6 +466,10 @@ and input size checks to ensure the safety of all operations.</p></li>
 control over the input data format. These tests also check for cases
 that would lead to output overflow, and ensure proper error codes
 are thrown before overflow occurs.</p></li>
+<li><p>Thread tests (<code class="docutils literal notranslate"><span class="pre">tt_*</span></code>) validate library behavior when run in a highly multithreaded environment.
+The thread tests detect the number of physical cores on the system, then spawn
+an equivalent number of threads and attempt to perform library operations
+with each thread. It then ensures that the resulting output is correct.</p></li>
 </ul>
 <p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/tests</span></code>.
 To run all the functional tests, execute the following command:</p>
@@ -484,13 +492,7 @@ To run all the functional tests, execute the following command:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>software_path and synchronous execution mode is used for testing by default,
-use –async=on and –path=hw to specify otherwise</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Running functional tests on the hardware path requires first configuring
-Intel® In-Memory Analytics Accelerator (Intel® IAA).
-See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
+use <code class="docutils literal notranslate"><span class="pre">--async=on</span></code> and <code class="docutils literal notranslate"><span class="pre">--path=hw</span></code> (or <code class="docutils literal notranslate"><span class="pre">--path=auto</span></code>) to specify otherwise.</p>
 </div>
 </section>
 <section id="cross-tests">
@@ -509,11 +511,6 @@ exchanged in the application code without behavior change.</p>
 To run cross tests, execute the following command:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/cross_tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Running cross tests requires first configuring Intel IAA.
-See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
 </div>
 </section>
 <section id="fuzz-tests">
@@ -536,21 +533,6 @@ for example:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test<span class="w"> </span>-max_total_time<span class="o">=</span><span class="m">15</span>
 </pre></div>
 </div>
-</section>
-<section id="thread-tests">
-<h2>Thread Tests<a class="headerlink" href="#thread-tests" title="Link to this heading">#</a></h2>
-<p>Thread tests validate library behavior when run in a highly multithreaded environment.
-The thread tests detect the number of physical cores on the system, then spawn
-an equivalent number of threads and attempt to perform library operations
-with each thread. It then ensures that the resulting output is correct.</p>
-<p>To run thread tests, execute the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/<span class="w"> </span>--gtest_filter<span class="o">=</span>tt_*
-</pre></div>
-</div>
-<p>Thread tests support both hardware and software paths. To specify the path, use the flag
-<cite>–path=sw</cite> or <cite>–path=hw</cite>. Users can also specify if asynchronous behavior is supported via
-the flag <cite>–async=on</cite> or <cite>–async=off</cite>. By default the path is set to software and behavior
-is set to synchronous.</p>
 </section>
 </section>
 
@@ -602,7 +584,6 @@ is set to synchronous.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-tests">Functional Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-tests">Cross Tests</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fuzz-tests">Fuzz Tests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-tests">Thread Tests</a></li>
 </ul>
   </nav></div>
 
