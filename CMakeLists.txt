@@ -43,7 +43,7 @@ option(EFFICIENT_WAIT "Enables usage of efficient wait instructions" OFF)
 option(LIB_FUZZING_ENGINE "Enables fuzzy testing" OFF)
 option(DYNAMIC_LOADING_LIBACCEL_CONFIG "Loads the accelerator configuration library (libaccel-config) dynamically with dlopen" ON)
 set(QPL_LIBRARY_TYPE "STATIC" CACHE STRING "Specifies the resulting library type")
-option(QPL_USE_QPL_USE_CLANG_TIDY "Run clang-tidy" OFF)
+option(QPL_USE_CLANG_TIDY "Run clang-tidy" OFF)
 
 # Print user's settings
 message(STATUS "Memory sanitizing build: ${SANITIZE_MEMORY}")
