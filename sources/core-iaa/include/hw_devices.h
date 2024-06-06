@@ -66,8 +66,6 @@ extern "C" {
 #define GC_CONF_SUPPORT(GENCAP)             (((GENCAP)>>31)&0x01)       /**< GENCAP bit 31     - configuration support                     */
 #define GC_DECOMP_SUPPORT(GENCAP)           (((GENCAP)>>40)&0x01)       /**< GENCAP bit 40     - decompression support                     */
 #define GC_IDX_SUPPORT(GENCAP)              (((GENCAP)>>41)&0x01)       /**< GENCAP bit 41     - indexing support                          */
-#define GC_MAX_DECOMP_SET_SIZE(GENCAP)     ((((GENCAP)>>42)&0x1F) + 1U) /**< GENCAP 46-42 bits - maximum decompression set size            */
-#define GC_MAX_SET_SIZE(GENCAP)            ((((GENCAP)>>47)&0x1F) + 1U) /**< GENCAP 51-47 bits - maximum set size                          */
 
 /** @} */
 

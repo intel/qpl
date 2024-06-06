@@ -48,8 +48,6 @@ namespace qpl::ml::dispatcher {
 */
 void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) const noexcept {
     // GENCAP-related
-    hw_context_ptr->device_properties.max_set_size                  = hw_device::get_max_set_size();
-    hw_context_ptr->device_properties.max_decompressed_set_size     = hw_device::get_max_decompressed_set_size();
     hw_context_ptr->device_properties.indexing_support_enabled      = hw_device::get_indexing_support_enabled();
     hw_context_ptr->device_properties.decompression_support_enabled = hw_device::get_decompression_support_enabled();
     hw_context_ptr->device_properties.max_transfer_size             = hw_device::get_max_transfer_size();
@@ -94,14 +92,6 @@ auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelera
     else {
         return HW_ACCELERATOR_WQ_IS_BUSY;
     }
-}
-
-auto hw_device::get_max_set_size() const noexcept -> uint32_t {
-    return GC_MAX_SET_SIZE(gen_cap_register_);
-}
-
-auto hw_device::get_max_decompressed_set_size() const noexcept -> uint32_t {
-    return GC_MAX_DECOMP_SET_SIZE(gen_cap_register_);
 }
 
 auto hw_device::get_indexing_support_enabled() const noexcept -> uint32_t {
@@ -198,8 +188,6 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
     DIAG("%5s: GENCAP: maximum supported transfer size:     %" PRIu32 "\n", name_ptr, get_max_transfer_size());
     DIAG("%5s: GENCAP: decompression support:               %d\n",          name_ptr, get_decompression_support_enabled());
     DIAG("%5s: GENCAP: indexing support:                    %d\n",          name_ptr, get_indexing_support_enabled());
-    DIAG("%5s: GENCAP: maximum decompression set size:      %d\n",          name_ptr, get_max_decompressed_set_size());
-    DIAG("%5s: GENCAP: maximum set size:                    %d\n",          name_ptr, get_max_set_size());
 
     // Retrieve IAACAP if available
     uint64_t iaa_cap = 0U;

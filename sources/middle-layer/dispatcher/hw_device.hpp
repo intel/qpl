@@ -49,10 +49,6 @@ public:
 
     [[nodiscard]] auto get_cache_write_available() const noexcept -> bool;
 
-    [[nodiscard]] auto get_max_set_size() const noexcept -> uint32_t;
-
-    [[nodiscard]] auto get_max_decompressed_set_size() const noexcept -> uint32_t;
-
     [[nodiscard]] auto get_indexing_support_enabled() const noexcept -> uint32_t;
 
     [[nodiscard]] auto get_decompression_support_enabled() const noexcept -> bool;
