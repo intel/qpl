@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include "igzip.h"
+
 #define ASM
 
 #include <assert.h>

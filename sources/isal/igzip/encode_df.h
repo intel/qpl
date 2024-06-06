@@ -41,3 +41,10 @@ struct deflate_icf *qpl_encode_deflate_icf(struct deflate_icf *next_in, struct d
 }
 #endif
 #endif
+#ifdef __cplusplus
+extern "C" {
+#endif
+    struct deflate_icf *qpl_encode_deflate_icf_base(struct deflate_icf *next_in, struct deflate_icf *end_in, struct BitBuf2 *bb, struct hufftables_icf *hufftables);
+#ifdef __cplusplus
+} // extern "C"
+#endif

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include "igzip_inflate.h"
+
 #include <stdint.h>
 #include "igzip_lib.h"
 #include "crc.h"

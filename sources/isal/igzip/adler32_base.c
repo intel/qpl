@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
+
+#include "adler32_base.h"
 #include <stddef.h>
 #include <stdint.h>
 #include "igzip_checksums.h"

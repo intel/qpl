@@ -156,4 +156,11 @@ qpl_create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf * hufftables
 #endif
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    void qpl_isal_update_histogram_base(uint8_t *start_stream, int length, struct isal_huff_histogram *histogram);
+#ifdef __cplusplus
+} // extern "C"
+#endif
 #endif

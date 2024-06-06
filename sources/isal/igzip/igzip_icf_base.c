@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include "igzip_icf_base.h"
+
 #include <stdint.h>
 #include "igzip_lib.h"
 #include "huffman.h"
