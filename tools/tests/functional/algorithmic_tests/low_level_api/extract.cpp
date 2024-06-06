@@ -13,6 +13,9 @@
 
 #include "qpl/qpl.h"
 
+// utils_common
+#include "iaa_features_checks.hpp"  // is_iaa_force_array_output_mod_supported()
+
 // tests_common
 #include "analytic_fixture.hpp"
 
@@ -343,6 +346,83 @@ namespace qpl::test
         }
         status = qpl_fini_job(job);
         ASSERT_EQ(QPL_STS_OK, status);
+    }
+
+    // Force Array Output Modification Extract Test
+    // This test is to verify that the force array output modification is working as expected
+    // The test creates a source vector with 64 elements, and extracts a range of elements from index 16 to 47
+    // The output will be extended to the force array output modification, and the output will be verified
+    QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, force_array_output_modification, ExtractTest)
+    {
+        // Assert that Force Array Output Modification is supported
+        QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == false, "Force array output modification not available on device, skipping test.");
+
+        // Skip test if on software path
+        QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
+
+        constexpr const uint32_t source_size        = 64;
+        constexpr const uint32_t input_vector_width = 8;
+        constexpr const uint32_t lower_index        = 16;
+        constexpr const uint32_t upper_index        = 47;
+        constexpr const uint64_t reference          = 16045690984062438142ULL;  // Reference value for extract range
+
+        // Source and output containers
+        std::vector<uint8_t> source(source_size, 0);
+        std::vector<uint8_t> destination(source_size * 4, 4);  // Destination are 32 bits which is 4 times larger than source
+
+        std::unique_ptr<uint8_t[]> job_buffer;
+        uint32_t   size = 0;
+
+        // Filling source container
+        for (uint32_t i = 0; i < source_size; ++i) {
+            if ((1UL << i) & reference) {
+                source[i] = (i % 4) + 7;  // values in a cycle: 7, 8, 9, 10
+            }
+            else {
+                source[i] = (i % 7);  // values in a cycle: 0, 1, 2, 3, 4, 5, 6
+            }
+        }
+
+        // Job initialization
+        qpl_status status = qpl_get_job_size(qpl_path_hardware, &size);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job size getting.\n";
+
+        job_buffer = std::make_unique<uint8_t[]>(size);
+        qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+
+        status = qpl_init_job(qpl_path_hardware, job);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job initializing.\n";
+
+        // Performing an operation
+        job->next_in_ptr        = source.data();
+        job->available_in       = source_size;
+        job->next_out_ptr       = destination.data();
+        job->available_out      = static_cast<uint32_t>(destination.size());
+        job->op                 = qpl_op_extract;
+        job->src1_bit_width     = input_vector_width;
+        job->param_low          = lower_index;
+        job->param_high         = upper_index;
+        job->num_input_elements = source_size;
+        job->out_bit_width      = qpl_ow_32;
+
+        // Enable force array output mod
+        job->flags             |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
+
+        status = run_job_api(job);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during performing extract.\n";
+
+        const auto extract_size = job->total_out;
+
+        EXPECT_EQ(extract_size, (upper_index - lower_index + 1) * 4);
+
+        // Freeing resources
+        status = qpl_fini_job(job);
+        ASSERT_EQ(QPL_STS_OK, status) << "An error " << status << " acquired during job finalizing.\n";
+
+        // Verify the output
+        for (size_t i = 0; i < extract_size / 4; i++) {
+            ASSERT_EQ(destination[i * 4], source[i + lower_index]) << "Mismatch at index " << i;
+        }
     }
 
 #if defined(__linux__)
