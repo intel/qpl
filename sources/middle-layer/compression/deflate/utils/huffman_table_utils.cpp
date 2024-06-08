@@ -9,6 +9,7 @@
 
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "common/bit_reverse.hpp"
+#include <algorithm>
 
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic push
@@ -222,12 +223,10 @@ static inline auto init_heap64(heap_tree *heap_space, uint64_t *histogram, uint6
     memset(heap_space, 0, sizeof(heap_tree));
 
     heap_size = 0;
-    for (uint64_t i = 0; i < hist_size; i++) {
-        if (histogram[i] != 0) {
-            heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
-        }
-    }
-
+    std::copy_if(histogram, histogram + hist_size, heap_space->heap + 1, 
+             [&heap_size, i = 0](uint64_t val) mutable { 
+                 return val != 0 && (++heap_size, true) && (val << FREQ_SHIFT) | i++; 
+             });
     // make sure heap has at least two elements in it
     if (heap_size < 2) {
         if (heap_size == 0) {

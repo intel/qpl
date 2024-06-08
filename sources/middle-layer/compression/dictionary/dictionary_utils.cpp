@@ -11,6 +11,7 @@
 
 #include "dictionary_utils.hpp"
 #include "simple_memory_ops.hpp"
+#include <numeric>
 
 namespace qpl::ml::compression {
 
@@ -48,12 +49,8 @@ static const uint32_t hash_vals[24] = {
 static inline uint32_t calc_hash(uint32_t data) {
     uint32_t hash = 0U;
 
-    for (uint32_t i = 0; i < 24; i++) {
-        if (data & (1U << i)) {
-            hash ^= hash_vals[i];
-        }
-    }
-    return hash;
+    std::accumulate(std::begin(hash_vals), std::begin(hash_vals) + 24, hash, 
+    [data](auto acc, auto val) { return (data & (1U << &val - &hash_vals[0])) ? acc ^ val : acc; });    return hash;
 }
 
 static inline uint8_t calc_meta(uint16_t data) {
