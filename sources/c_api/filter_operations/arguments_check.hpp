@@ -77,7 +77,13 @@ static inline qpl_status bad_arguments_check(const qpl_job *const job_ptr) {
 
     // Check if force array output mod is available when the force array output flag is set
     if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && is_force_array_output_supported(job_ptr) == false) {
-        // If the force array output mod flag is set, return an error
+        // If the force array output mod flag is set, return unsupported error
+        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    }
+
+    // Check if running on hardware path when the force array output flag is set
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && job_ptr->data_ptr.path != qpl_path_hardware) {
+        // If the force array output mod flag is set and NOT running on hardware path, return unsupported error
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
