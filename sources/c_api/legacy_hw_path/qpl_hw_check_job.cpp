@@ -215,8 +215,22 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
     // Validate descriptor result
 
+    ml::qpl_ml_status hw_status = ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr));
 
-    OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr)))
+    // If HW returns error, remove the header that is written for gzip/zlib case and reset fields in job
+    if ((qpl_job_ptr->flags & QPL_FLAG_FIRST) && (hw_status != ml::status_list::ok)) {
+        uint32_t header_size = 0U;
+        if (QPL_FLAG_GZIP_MODE & qpl_job_ptr->flags) {
+            header_size = ml::compression::gzip_sizes::gzip_header_size;
+        } else if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
+            header_size = ml::compression::zlib_sizes::zlib_header_size;
+        }
+        qpl_job_ptr->next_out_ptr  -= header_size;
+        qpl_job_ptr->available_out += header_size;
+        qpl_job_ptr->total_out     -= header_size;
+     }
+     OWN_QPL_CHECK_STATUS(hw_status)
+
 
     // Fix for QPL_FLAG_HUFFMAN_BE in Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0.
     // The workaround: When writing to the AECS compress Huffman table, if using Intel® IAA generation 1.0 and the job is a LAST job,

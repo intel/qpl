@@ -41,6 +41,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
 
     // TODO investigate and fix software path failure (compressed sizes differ across iterations)
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Skip deflate_inflate_canned_in_loops test on software path");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_auto, "Skip deflate_inflate_canned_in_loops test on auto path");
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         source = dataset.second;

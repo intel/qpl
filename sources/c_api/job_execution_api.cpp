@@ -19,6 +19,7 @@
 
 // Middle layer headers
 #include "util/checksum.hpp"
+#include "util/hw_status_converting.hpp"
 
 // core-iaa/include
 #include "hw_devices.h"
@@ -27,6 +28,9 @@
 #include "own_defs.h"
 #include "legacy_hw_path/async_hw_api.h"
 #include "legacy_hw_path/hardware_state.h"
+
+// dispatchers
+#include "dispatcher/hw_dispatcher.hpp"
 
 //#define KEEP_DESCRIPTOR_ENABLED
 
@@ -133,24 +137,19 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 
     qpl_path_t path = qpl_job_ptr->data_ptr.path;
 
-    // Return error before qpl_path_auto is fully supported with async API
-    if (qpl_path_auto == path) {
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-    }
-
     if ((qpl_path_hardware == path || qpl_path_auto == path)) {
         auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
         // Reset is_sw_fallback for the first job
         if (qpl_job_ptr->flags & QPL_FLAG_FIRST) {
-            state_ptr->is_sw_fallback = false;
+            job::update_is_sw_fallback(qpl_job_ptr, false);
         }
 
         if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
             if (qpl_path_hardware == path) {
                 return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
             } else if (qpl_path_auto == path) {
-                state_ptr->is_sw_fallback = true;
+                job::update_is_sw_fallback(qpl_job_ptr, true);
             }
         }
 
@@ -168,30 +167,31 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
             }
 #endif
 
-            status = hw_submit_job(qpl_job_ptr);
+            // check that HW is available
+            static auto &dispatcher = ml::dispatcher::hw_dispatcher::get_instance();
+            if (!dispatcher.is_hw_support()) {
+                hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+                status = ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+            }
 
             if (status == QPL_STS_OK) {
-                state_ptr->job_is_submitted = true;
-            }
+                status = hw_submit_job(qpl_job_ptr);
+
+                if (status == QPL_STS_OK) {
+                    state_ptr->job_is_submitted = true;
+                }
 
 #if defined(KEEP_DESCRIPTOR_ENABLED)
-            if (status == QPL_STS_QUEUES_ARE_BUSY_ERR && qpl_path_hardware == path) {
-                state_ptr->descriptor_not_submitted = true;
-            }
+                if (status == QPL_STS_QUEUES_ARE_BUSY_ERR && qpl_path_hardware == path) {
+                    state_ptr->descriptor_not_submitted = true;
+                }
 #endif
+            }
 
-            /**
-             * Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
-             * 
-             * @warning Disallow falling back to the host execution if failure is not on the
-             * first chunk or if QPL_STS_MORE_OUTPUT_NEEDED (output buffer is too small) error happened.
-            */
+            // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
             if (QPL_STS_OK != status
-                && (QPL_STS_MORE_OUTPUT_NEEDED != status)
-                && (qpl_path_auto == qpl_job_ptr->data_ptr.path)
-                && ((qpl_job_ptr->flags & QPL_FLAG_FIRST) || job::is_single_job(qpl_job_ptr))) {
-
-                state_ptr->is_sw_fallback = true;
+                && job::is_sw_fallback_supported(qpl_job_ptr, status)) {
+                job::update_is_sw_fallback(qpl_job_ptr, true);
             } else {
                 return static_cast<qpl_status>(status);
             }
@@ -215,36 +215,71 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 }
 
 QPL_FUN("C" qpl_status, qpl_check_job, (qpl_job *qpl_job_ptr)) {
+    using namespace qpl;
+
     QPL_BAD_PTR_RET(qpl_job_ptr);
     uint32_t status = QPL_STS_OK;
 
-    // Return error before qpl_path_auto is fully supported with async API
+    // If job was submitted on the Auto Path, and fell back to SW, return OK
     if (qpl_path_auto == qpl_job_ptr->data_ptr.path) {
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+        auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
+        if (state_ptr->is_sw_fallback) {
+            return QPL_STS_OK;
+        }
     }
 
-    if (qpl::job::is_supported_on_hardware(qpl_job_ptr)) {
+    if (job::is_supported_on_hardware(qpl_job_ptr)) {
         status = hw_check_job(qpl_job_ptr);
+    }
+
+    // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
+    if (QPL_STS_OK != status
+        && job::is_sw_fallback_supported(qpl_job_ptr, static_cast<qpl_status>(status))) {
+        job::update_is_sw_fallback(qpl_job_ptr, true);
+
+        // Execute job on SW path
+        qpl_path_t path = qpl_job_ptr->data_ptr.path;
+        qpl_job_ptr->data_ptr.path = qpl_path_software;
+        status = sw_execute_job(qpl_job_ptr);
+        qpl_job_ptr->data_ptr.path = path;
     }
 
     return static_cast<qpl_status>(status);
 }
 
 QPL_FUN("C" qpl_status, qpl_wait_job, (qpl_job *qpl_job_ptr)) {
+    using namespace qpl;
+
     QPL_BAD_PTR_RET(qpl_job_ptr);
 
     uint32_t status = QPL_STS_OK;
 
-    // Return error before qpl_path_auto is fully supported with async API
+    // If job was submitted on the Auto Path, and fell back to SW, return OK
     if (qpl_path_auto == qpl_job_ptr->data_ptr.path) {
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+        auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
+        if (state_ptr->is_sw_fallback) {
+            return QPL_STS_OK;
+        }
     }
 
     // HW path doesn't support qpl_high_level compression ratio and ZLIB headers/trailers
-    if (qpl::job::is_supported_on_hardware(qpl_job_ptr)) {
+    if (job::is_supported_on_hardware(qpl_job_ptr)) {
         do {
             status = hw_check_job(qpl_job_ptr);
         } while (QPL_STS_BEING_PROCESSED == status);
+    }
+
+    // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
+    if (QPL_STS_OK != status
+        && job::is_sw_fallback_supported(qpl_job_ptr, static_cast<qpl_status>(status))) {
+        job::update_is_sw_fallback(qpl_job_ptr, true);
+
+        // Execute job on SW path
+        qpl_path_t path = qpl_job_ptr->data_ptr.path;
+        qpl_job_ptr->data_ptr.path = qpl_path_software;
+        status = sw_execute_job(qpl_job_ptr);
+        qpl_job_ptr->data_ptr.path = path;
+
     }
 
     return static_cast<qpl_status>(status);
@@ -267,69 +302,72 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
 
         // Reset is_sw_fallback for the first job
         if (qpl_job_ptr->flags & QPL_FLAG_FIRST) {
-            state_ptr->is_sw_fallback = false;
+            job::update_is_sw_fallback(qpl_job_ptr, false);
         }
 
         if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
             if (qpl_path_hardware == path) {
                 return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
             } else if (qpl_path_auto == path) {
-                state_ptr->is_sw_fallback = true;
+                job::update_is_sw_fallback(qpl_job_ptr, true);
             }
         }
 
         auto *const analytics_state_ptr = reinterpret_cast<own_analytics_state_t *>(qpl_job_ptr->data_ptr.analytics_state_ptr);
 
         if (!state_ptr->is_sw_fallback) {
-            if (job::is_extract(qpl_job_ptr)) {
-                status = static_cast<qpl_status>(perform_extract(qpl_job_ptr,
-                                                                 analytics_state_ptr->unpack_buf_ptr,
-                                                                 analytics_state_ptr->unpack_buf_size));
-            } else if (job::is_scan(qpl_job_ptr)) {
-                status = static_cast<qpl_status>(perform_scan(qpl_job_ptr,
-                                                              analytics_state_ptr->unpack_buf_ptr,
-                                                              analytics_state_ptr->unpack_buf_size));
-            } else if (job::is_select(qpl_job_ptr)) {
-                status = static_cast<qpl_status>(perform_select(qpl_job_ptr,
-                                                                analytics_state_ptr->unpack_buf_ptr,
-                                                                analytics_state_ptr->unpack_buf_size,
-                                                                analytics_state_ptr->set_buf_ptr,
-                                                                analytics_state_ptr->set_buf_size,
-                                                                analytics_state_ptr->src2_buf_ptr,
-                                                                analytics_state_ptr->src2_buf_size));
-            } else if (job::is_expand(qpl_job_ptr)) {
-                status = static_cast<qpl_status>(perform_expand(qpl_job_ptr,
-                                                                analytics_state_ptr->unpack_buf_ptr,
-                                                                analytics_state_ptr->unpack_buf_size,
-                                                                analytics_state_ptr->set_buf_ptr,
-                                                                analytics_state_ptr->set_buf_size,
-                                                                analytics_state_ptr->src2_buf_ptr,
-                                                                analytics_state_ptr->src2_buf_size));
-            } else if (job::is_decompression(qpl_job_ptr)) {
-                status = static_cast<qpl_status>(perform_decompress<ml::execution_path_t::hardware>(qpl_job_ptr));
-            } else if (job::is_compression(qpl_job_ptr) &&
-                !(job::is_indexing_enabled(qpl_job_ptr) && job::is_multi_job(qpl_job_ptr))) {
-                status = static_cast<qpl_status>(perform_compression<ml::execution_path_t::hardware>(qpl_job_ptr));
-            } else {
-                // For other operations, like crc64, run legacy async code path
-                status = hw_submit_job(qpl_job_ptr);
+            // check that HW is available
+            static auto &dispatcher = ml::dispatcher::hw_dispatcher::get_instance();
+            if (!dispatcher.is_hw_support()) {
+                hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+                status = ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
+            }
 
-                if (QPL_STS_OK == status) {
-                    state_ptr->job_is_submitted = true;
-                    status = qpl_wait_job(qpl_job_ptr);
+            if (QPL_STS_OK == status) {
+                if (job::is_extract(qpl_job_ptr)) {
+                    status = static_cast<qpl_status>(perform_extract(qpl_job_ptr,
+                                                                     analytics_state_ptr->unpack_buf_ptr,
+                                                                     analytics_state_ptr->unpack_buf_size));
+                } else if (job::is_scan(qpl_job_ptr)) {
+                    status = static_cast<qpl_status>(perform_scan(qpl_job_ptr,
+                                                                  analytics_state_ptr->unpack_buf_ptr,
+                                                                  analytics_state_ptr->unpack_buf_size));
+                } else if (job::is_select(qpl_job_ptr)) {
+                    status = static_cast<qpl_status>(perform_select(qpl_job_ptr,
+                                                                    analytics_state_ptr->unpack_buf_ptr,
+                                                                    analytics_state_ptr->unpack_buf_size,
+                                                                    analytics_state_ptr->set_buf_ptr,
+                                                                    analytics_state_ptr->set_buf_size,
+                                                                    analytics_state_ptr->src2_buf_ptr,
+                                                                    analytics_state_ptr->src2_buf_size));
+                } else if (job::is_expand(qpl_job_ptr)) {
+                    status = static_cast<qpl_status>(perform_expand(qpl_job_ptr,
+                                                                    analytics_state_ptr->unpack_buf_ptr,
+                                                                    analytics_state_ptr->unpack_buf_size,
+                                                                    analytics_state_ptr->set_buf_ptr,
+                                                                    analytics_state_ptr->set_buf_size,
+                                                                    analytics_state_ptr->src2_buf_ptr,
+                                                                    analytics_state_ptr->src2_buf_size));
+                } else if (job::is_decompression(qpl_job_ptr)) {
+                    status = static_cast<qpl_status>(perform_decompress<ml::execution_path_t::hardware>(qpl_job_ptr));
+                } else if (job::is_compression(qpl_job_ptr) &&
+                    !(job::is_indexing_enabled(qpl_job_ptr) && job::is_multi_job(qpl_job_ptr))) {
+                    status = static_cast<qpl_status>(perform_compression<ml::execution_path_t::hardware>(qpl_job_ptr));
+                } else {
+                    // For other operations, like crc64, run legacy async code path
+                    status = hw_submit_job(qpl_job_ptr);
+
+                    if (QPL_STS_OK == status) {
+                        state_ptr->job_is_submitted = true;
+                        status = qpl_wait_job(qpl_job_ptr);
+                    }
                 }
             }
 
-            /**
-             * @warning Disallow falling back to the host execution if failure is not on the
-             * first chunk or if QPL_STS_MORE_OUTPUT_NEEDED (output buffer is too small) error happened.
-            */
+            // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
             if (QPL_STS_OK != status
-                && (QPL_STS_MORE_OUTPUT_NEEDED != status)
-                && (qpl_path_auto == qpl_job_ptr->data_ptr.path)
-                && ((qpl_job_ptr->flags & QPL_FLAG_FIRST) || job::is_single_job(qpl_job_ptr))) {
-
-                state_ptr->is_sw_fallback = true;
+                && job::is_sw_fallback_supported(qpl_job_ptr, status)) {
+                job::update_is_sw_fallback(qpl_job_ptr, true);
             }
         }
 

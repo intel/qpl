@@ -21,11 +21,6 @@
 
 namespace qpl::ml::compression {
 
-namespace gzip_sizes {
-constexpr size_t gzip_header_size  = 10;
-constexpr size_t gzip_trailer_size = 8;
-}
-
 namespace gzip_fields {
 constexpr uint8_t  ID1_RFC_VALUE             = 31U;
 constexpr uint8_t  ID2_RFC_VALUE             = 139U;

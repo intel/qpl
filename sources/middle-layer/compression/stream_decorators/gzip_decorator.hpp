@@ -24,6 +24,11 @@ constexpr uint32_t OWN_GZIP_HEADER_LENGTH  = 10u;
 
 extern std::array<uint8_t, OWN_GZIP_HEADER_LENGTH> default_gzip_header;
 
+namespace gzip_sizes {
+constexpr size_t gzip_header_size  = 10;
+constexpr size_t gzip_trailer_size = 8;
+}
+
 class gzip_decorator {
 public:
     template <class F, class state_t, class ...arguments>

@@ -154,6 +154,18 @@ static inline bool is_supported_on_hardware(const qpl_job *const qpl_ptr) {
             && !is_high_level_compression(qpl_ptr));
 }
 
+/**
+ * @brief Check if fallback to qpl_path_software is supported in case if qpl_path_hardware returns an error.
+ *
+ * @warning Disallow falling back to the host execution if failure is not on the
+ * first chunk or if QPL_STS_MORE_OUTPUT_NEEDED (output buffer is too small) error happened.
+*/
+static inline bool is_sw_fallback_supported(const qpl_job *const qpl_job_ptr, qpl_status status) {
+    return (QPL_STS_MORE_OUTPUT_NEEDED != status)
+            && (qpl_path_auto == qpl_job_ptr->data_ptr.path)
+            && ((qpl_job_ptr->flags & QPL_FLAG_FIRST) || job::is_single_job(qpl_job_ptr));
+}
+
 // Check if Force Array Output Modification is supported
 static inline bool is_force_array_output_supported(const qpl_job *const job_ptr) noexcept {
     // Check if job_ptr and hw_state_ptr are not null
@@ -226,6 +238,13 @@ static inline void update_output_stream(qpl_job *const qpl_job_ptr,
     qpl_job_ptr->available_out -= size;
     qpl_job_ptr->total_out += size;
     qpl_job_ptr->last_bit_offset = last_bit_offset;
+}
+
+static inline void update_is_sw_fallback(qpl_job *const qpl_job_ptr,
+                                         bool is_sw_fallback) noexcept {
+
+    auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
+    state_ptr->is_sw_fallback = is_sw_fallback;
 }
 
 template <class result_t>
