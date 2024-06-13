@@ -38,6 +38,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, base) {
 
     // Preset
     job_ptr->op = qpl_op_compress;
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+
     set_input_stream(job_ptr,
                      source.data(),
                      (uint32_t) source.size(),
@@ -89,10 +91,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, missed_flags) {
                       (uint32_t) destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
-    job_ptr->flags = QPL_FLAG_HUFFMAN_BE | QPL_FLAG_GEN_LITERALS;
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_HUFFMAN_BE | QPL_FLAG_GEN_LITERALS;
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr));
 
-    job_ptr->flags = QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
+    // Check that the correct error is returned when QPL_FLAG_NO_HDRS and QPL_FLAG_DYNAMIC_HUFFMAN
+    // are used and the job is not a single job
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN;
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr));
 }
 
@@ -128,9 +132,11 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, flag_conflict) {
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
 
+    // Check that the correct error is returned when QPL_FLAG_NO_HDRS and QPL_FLAG_DYNAMIC_HUFFMAN
+    // are used and the job is not a single job
     set_operation_properties(job_ptr,
                              DROP_INITIAL_BYTES,
-                             QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN,
+                             QPL_FLAG_NO_HDRS | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_FIRST,
                              qpl_op_compress);
 
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_FLAG_CONFLICT_ERR);
@@ -158,6 +164,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, incorrect_compression_level) {
                              QPL_FLAG_DYNAMIC_HUFFMAN,
                              qpl_op_compress);
 
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+
     job_ptr->level = (qpl_compression_levels) 0xFF;
 
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL);
@@ -170,7 +178,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, incorrect_compression_level) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, buffers_overlap) {
-    check_buffer_overlap(job_ptr, qpl_op_compress, OPERATION_FLAGS);
+    check_buffer_overlap(job_ptr, qpl_op_compress,  QPL_FLAG_FIRST | QPL_FLAG_LAST);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, dictionary_and_gzip_zlib_wrappers) {

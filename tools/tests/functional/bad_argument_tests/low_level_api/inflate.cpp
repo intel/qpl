@@ -35,6 +35,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, base) {
 
     // Preset
     job_ptr->op = qpl_op_decompress;
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
+
     set_input_stream(job_ptr,
                      source.data(),
                      (uint32_t) source.size(),
@@ -73,6 +75,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
 
     // Preset
     job_ptr->op = qpl_op_decompress;
+    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
     set_input_stream(job_ptr,
                      source.data(),
                      (uint32_t) source.size(),
@@ -131,7 +134,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
 /**
  * @brief Test @ref qpl_op_decompress operation behaviour in case if incompatible flags were set
  */
-QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_confilct) {
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_conflict) {
     std::array<uint8_t, SOURCE_ARRAY_SIZE> source{};
     std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
 
@@ -150,30 +153,30 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_confilct) {
                       (uint32_t) destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
-    job_ptr->flags = QPL_FLAG_RND_ACCESS | QPL_FLAG_NO_HDRS;
+    job_ptr->flags = QPL_FLAG_RND_ACCESS | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
                                 << "Don't found flag conflict: user try decompress huffman_only in random mode";
 
-    job_ptr->flags = QPL_FLAG_GZIP_MODE | QPL_FLAG_NO_HDRS;
+    job_ptr->flags = QPL_FLAG_GZIP_MODE | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
                                 << "Don't found flag conflict: user try decompress huffman_only in with gzip header";
 
-    job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_NO_HDRS;
+    job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
                                 << "Don't found flag conflict: user try decompress huffman_only in with zlib header";
 
 
-    job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_GZIP_MODE;
+    job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_GZIP_MODE | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
                                 << "Don't found flag conflict: user try decompress with zlib and gzip header both";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, buffers_overlap) {
-    check_buffer_overlap(job_ptr, qpl_op_decompress, OPERATION_FLAGS);
+    check_buffer_overlap(job_ptr, qpl_op_decompress, QPL_FLAG_FIRST | QPL_FLAG_LAST);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(decompress_huffman_only, fixed) {
