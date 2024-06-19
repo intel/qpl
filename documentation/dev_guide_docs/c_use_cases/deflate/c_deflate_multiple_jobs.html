@@ -397,7 +397,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -413,6 +415,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -432,22 +442,35 @@ might call Intel® Query Processing Library (Intel® QPL) repeatedly
 with 64 KB input buffers, until the end of the file was reached.
 In this case, the first job is specified with the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a>
 in <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.flags" title="qpl_job.flags"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.flags</span></code></a>, the middle jobs do not need additional flags,
-and the last job is specified with the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.
-If a single job is used to compress the stream, then both flags should be specified.
-The same <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object can be reused for multiple jobs. And
-<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> should not be called in between jobs. (<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a>
-should be called only after a new <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object is allocated)</p>
+and the last job is specified with the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p>
+<p>In comparison, if a single job is used to compress the stream, then both
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> flags must be set.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>The current implementation does not support canned compression/decompression
-across multiple jobs, thus canned compression/decompression jobs must specify
-the flags <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> | <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p>
+<p>The same <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object can be reused for multiple jobs.
+In this case, it is user responsibility to ensure that the job is reset correctly.
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> shouldn’t be called for this purposes,
+it should only be called when a new <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job" title="qpl_job"><code class="xref c c-struct docutils literal notranslate"><span class="pre">qpl_job</span></code></a> object is allocated.</p>
 </div>
-<p>Intel QPL does not save history state between jobs. This means that one compression
-job will never reference data from an earlier job. This implies that submitting,
-for example, 10 jobs of 1,000 bytes each will generate different output than
+<p>A compression job will never reference data from an earlier job. This implies that
+submitting, for example, 10 jobs of 1,000 bytes each will generate different output than
 submitting one job with all 10,000 bytes. In general, submitting very small buffers
 will result in a worse compression ratio than submitting fewer large buffers.</p>
+<section id="limitations">
+<span id="library-multiple-jobs-limitations-link"></span><h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p>Currently, Intel® QPL has a few limitations when using multiple jobs:</p>
+<ul class="simple">
+<li><p>The current implementation does not support canned compression/decompression
+across multiple jobs, thus canned compression/decompression jobs must specify
+the flags <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> | <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a>.</p></li>
+<li><p>All jobs in a sequence will be completed on the same execution path. If the application
+specifies <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> for the sequence, only the first job can initiate a host fallback.
+This means that if the first job runs successfully on the accelerator, the following
+jobs will not fall back to the host even if they fail to execute on the accelerator.
+The error will be returned to the user. If the first job falls back to the host,
+the following jobs in the sequence will also run on the host.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -485,6 +508,21 @@ will result in a worse compression ratio than submitting fewer large buffers.</p
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -603,9 +603,16 @@ If an operation is not supported by the accelerator, corresponding error code wi
 If a functionality is not supported by the accelerator or execution on Intel IAA fails
 (for example, due to the accelerator initialization error), fallback to the CPU host will be used.</p></li>
 </ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently, <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> with asynchronous execution is not supported.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Currently, there are several specifics to consider when using <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>.
+Please refer to <a class="reference internal" href="../dev_guide_docs/c_use_cases/c_asynchronous_execution.html#library-async-with-auto-reference-link"><span class="std std-ref">Asynchronous Execution and Auto Path</span></a>,
+<a class="reference internal" href="../dev_guide_docs/c_use_cases/deflate/c_deflate_multiple_jobs.html#library-multiple-jobs-limitations-link"><span class="std std-ref">Limitations for Compression and Decompression across multiple jobs</span></a>
+and <a class="reference internal" href="#library-page-fault-handling-reference-link"><span class="std std-ref">Page Faults Handling</span></a> for more details.</p>
+<p>Intel QPL also doesn’t provide an API to query if execution happened on the accelerator or host for <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>.
+To check whether host fallback happens in a job, Intel QPL could be built with the
+option <code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INIT=ON</span></code>, which prints diagnostic message about accelerator initialization,
+execution path, and other useful information.</p>
 </div>
 </section>
 <section id="numa-support">

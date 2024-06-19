@@ -397,7 +397,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -413,6 +415,14 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-execution-and-auto-path">Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -433,13 +443,21 @@ wants to do other work while the job is being processed on the accelerator, it c
 for the execution and submits the job using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>. The status of the job can then be
 periodically queried by <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>. The application may call <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>
 to wait until the job completes.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently, <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> with asynchronous execution is not supported.</p>
-</div>
-<p>Note that the synchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> is essentially a
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Synchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> is essentially a
 combination of the asynchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a> followed by
 <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>.</p>
+</div>
+<section id="asynchronous-execution-and-auto-path">
+<span id="library-async-with-auto-reference-link"></span><h2>Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code><a class="headerlink" href="#asynchronous-execution-and-auto-path" title="Link to this heading">#</a></h2>
+<p>When the application specifies <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> for an asynchronous execution, host fallback may happen inside
+<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>, <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>, or <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>.</p>
+<p>If host fallback doesn’t happen, these APIs will return status from the asynchronous accelerator execution.</p>
+<p>If host fallback happens inside an API, it will switch to execution on the CPU host, finish the execution, and return its status.
+After the host fallback has happened, subsequent calls to <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>
+will return <a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_OK" title="QPL_STS_OK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a> to indicate that the execution has already completed.</p>
+</section>
 </section>
 
 
@@ -477,6 +495,21 @@ combination of the asynchronous interface <a class="reference internal" href="..
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-execution-and-auto-path">Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
