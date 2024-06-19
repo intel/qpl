@@ -186,8 +186,16 @@ system resources utilization:
   If a functionality is not supported by the accelerator or execution on Intel IAA fails
   (for example, due to the accelerator initialization error), fallback to the CPU host will be used.
 
-.. warning::
-   Currently, ``Auto Path`` with asynchronous execution is not supported.
+.. attention::
+   Currently, there are several specifics to consider when using ``Auto Path``.
+   Please refer to :ref:`library_async_with_auto_reference_link`,
+   :ref:`Limitations for Compression and Decompression across multiple jobs <library_multiple_jobs_limitations_link>`
+   and :ref:`library_page_fault_handling_reference_link` for more details.
+
+   Intel QPL also doesn't provide an API to query if execution happened on the accelerator or host for ``Auto Path``.
+   To check whether host fallback happens in a job, Intel QPL could be built with the
+   option ``-DLOG_HW_INIT=ON``, which prints diagnostic message about accelerator initialization,
+   execution path, and other useful information.
 
 .. _library_numa_support_reference_link:
 
