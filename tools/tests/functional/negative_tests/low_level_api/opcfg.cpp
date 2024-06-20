@@ -37,8 +37,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_decompress) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_decompress_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
-
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_compress) {
@@ -49,7 +53,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_compress) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_compress_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_crc64) {
@@ -60,7 +69,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_crc64) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_crc64_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_scan) {
@@ -71,7 +85,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_scan) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_scan_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_extract) {
@@ -83,7 +102,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_extract) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_extract_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_select) {
@@ -95,7 +119,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_select) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_select_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_expand) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
@@ -106,7 +135,12 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_expand) {
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     qpl_status status = run_expand_op(execution_path);
-    ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    if (execution_path == qpl_path_auto) {
+        // Expect fallback on sw path to be successful
+        ASSERT_EQ(status, QPL_STS_OK);
+    } else {
+        ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
+    }
 }
 
 }
