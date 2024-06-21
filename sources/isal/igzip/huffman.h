@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#ifndef QPL_SOURCES_ISAL_IGZIP_HUFFMAN_H
+#define QPL_SOURCES_ISAL_IGZIP_HUFFMAN_H
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -359,3 +362,5 @@ static inline int compare(uint8_t * str1, uint8_t * str2, uint32_t max_length)
 
     return count;
 }
+
+#endif
