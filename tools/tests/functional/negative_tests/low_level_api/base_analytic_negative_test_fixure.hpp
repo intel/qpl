@@ -138,9 +138,22 @@ namespace qpl::test {
 
 
             testing::AssertionResult ValidateRLEInputErrorHandling() {
-                job_ptr->available_in = static_cast<uint32_t>(source.size() / 2);
+                source_provider source_gen(job_ptr->num_input_elements / 4,
+                                           job_ptr->src1_bit_width,
+                                           GetSeed(),
+                                           job_ptr->parser);
 
-                return RunStatusTest(QPL_STS_SRC_IS_SHORT_ERR);
+                auto source_is_short = source_gen.get_source();
+
+                job_ptr->available_in = static_cast<uint32_t>(source_is_short.size());
+                job_ptr->next_in_ptr  = source_is_short.data();
+
+                testing::AssertionResult testStatus = RunStatusTest(QPL_STS_SRC_IS_SHORT_ERR);
+
+                job_ptr->available_in = static_cast<uint32_t>(source.size());
+                job_ptr->next_in_ptr  = source.data();
+
+                return testStatus;
             }
 
 

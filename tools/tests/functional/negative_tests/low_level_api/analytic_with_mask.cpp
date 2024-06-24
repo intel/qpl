@@ -29,7 +29,7 @@ namespace qpl::test {
 
         void PrepareMask() {
             source_provider mask_gen(second_input_elements,
-                                     job_ptr->src1_bit_width,
+                                     job_ptr->src2_bit_width,
                                      GetSeed());
 
             ASSERT_NO_THROW(mask = mask_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
