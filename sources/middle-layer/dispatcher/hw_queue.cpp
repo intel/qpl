@@ -8,8 +8,15 @@
 
 #include <fcntl.h>
 #include <sys/mman.h>
+#include <unistd.h>    // write syscall
+#include <sys/types.h> // write return type
 
 #include "hw_queue.hpp"
+
+#include <x86intrin.h> // _mm_pause
+
+// core-iaa
+#include "hw_descriptors_api.h"
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
 #include "hw_configuration_driver.h"
@@ -20,36 +27,59 @@
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
 #define QPL_HWSTS_RET(expr, err_code) { if( expr ) { return( err_code ); }}
-#define DEC_BASE 10u         /**< @todo */
-#define DEC_CHAR_BASE ('0')  /**< @todo */
-#define DEC_MAX_INT_BUF 16u  /**< @todo */
 
 namespace qpl::ml::dispatcher {
 
 hw_queue::hw_queue(hw_queue &&other) noexcept :
-priority_(other.priority_), portal_mask_(other.portal_mask_), portal_ptr_(other.portal_ptr_), portal_offset_(0) {
+    block_on_fault_(other.block_on_fault_),
+    priority_(other.priority_),
+    portal_mask_(other.portal_mask_),
+    portal_ptr_(other.portal_ptr_),
+    portal_offset_(0),
+    op_cfg_enabled_(other.op_cfg_enabled_),
+    op_cfg_register_(other.op_cfg_register_),
+    mmap_done_(other.mmap_done_),
+    fd_(other.fd_) {
 
+    // to avoid close/freeing resources in the destructor twice
+    other.fd_         = -1;
     other.portal_ptr_ = nullptr;
 }
 
 auto hw_queue::operator=(hw_queue &&other) noexcept -> hw_queue & {
     if (this != &other) {
-        priority_      = other.priority_;
-        portal_mask_   = other.portal_mask_;
-        portal_ptr_    = other.portal_ptr_;
-        portal_offset_ = 0;
+        block_on_fault_  = other.block_on_fault_;
+        priority_        = other.priority_;
+        portal_mask_     = other.portal_mask_;
+        portal_ptr_      = other.portal_ptr_;
+        portal_offset_   = 0;
+        op_cfg_enabled_  = other.op_cfg_enabled_;
+        op_cfg_register_ = other.op_cfg_register_;
+        mmap_done_       = other.mmap_done_;
+        fd_              = other.fd_;
 
+        // to avoid close/freeing resources in the destructor twice
+        other.fd_         = -1;
         other.portal_ptr_ = nullptr;
     }
     return *this;
 }
 
+/**
+ * @brief Destructor for the hw_queue class.
+ *
+ * If the hw_queue object has memory mapped using mmap, it will unmap the memory region.
+ * It also closes the file descriptor associated with the hw_queue object.
+ */
 hw_queue::~hw_queue() noexcept {
-    // Freeing resources
-    if (portal_ptr_ != nullptr) {
+    if (is_wq_mmaped()) {
         munmap(portal_ptr_, 0x1000U);
 
         portal_ptr_ = nullptr;
+        mmap_done_  = false;
+    }
+    else { // since kept it open for write syscall
+        close(fd_);
     }
 }
 
@@ -65,16 +95,74 @@ auto hw_queue::get_portal_ptr() const noexcept -> void * {
     return reinterpret_cast<void *>(offset | portal_mask_);
 }
 
+/**
+ * Enqueues a descriptor into the hardware queue.
+ *
+ * This function is used to enqueue a descriptor into the hardware queue.
+ * If the hardware queue is memory-mapped, the descriptor is enqueued using ENQCMD.
+ * Otherwise, the descriptor is written to the file descriptor associated with the hardware queue.
+ *
+ * @param desc_ptr A pointer to the descriptor to be enqueued.
+ * @return The status of the enqueue operation. Returns QPL_STS_OK if the enqueue was successful, or an error code
+ *         if the enqueue failed.
+ */
 auto hw_queue::enqueue_descriptor(void *desc_ptr) const noexcept -> qpl_status {
-    uint8_t retry = 0U;
+    if (is_wq_mmaped()) {
+        uint8_t retry = 0U;
 
-    void *current_place_ptr = get_portal_ptr();
-    asm volatile("sfence\t\n"
-                 ".byte 0xf2, 0x0f, 0x38, 0xf8, 0x02\t\n"
-                 "setz %0\t\n"
-    : "=r"(retry) : "a" (current_place_ptr), "d" (desc_ptr));
+        void *current_place_ptr = get_portal_ptr();
+        asm volatile("sfence\t\n"
+                    ".byte 0xf2, 0x0f, 0x38, 0xf8, 0x02\t\n"
+                    "setz %0\t\n"
+        : "=r"(retry) : "a" (current_place_ptr), "d" (desc_ptr));
 
-    return static_cast<qpl_status>(retry);
+        // add with different verbosity level to not crowd output
+        // DIAG(" ENQCMD submitted\n");
+
+        return static_cast<qpl_status>(retry);
+    }
+    else {
+        ssize_t ret = write(fd_, desc_ptr, sizeof(hw_iaa_analytics_descriptor));
+
+        // add with different verbosity level to not crowd output
+        // DIAG(" write submitted\n");
+
+        if (ret == sizeof(hw_iaa_analytics_descriptor)) {
+            return QPL_STS_OK;
+        }
+        else {
+            DIAG(" write returned %ld, expected %ld\n", ret, sizeof(hw_iaa_analytics_descriptor));
+            return QPL_STS_INIT_HW_NOT_SUPPORTED;
+        }
+    }
+}
+
+/**
+ * @brief Execute NOOP operation to test out whether submitting to the Intel (R) Analytics Accelerator is possible.
+ * Particularly, this function is used to test out whether the write system call is supported.
+ *
+ * @return The status of the enqueue + wait operation.
+ */
+auto hw_queue::execute_noop() const noexcept -> qpl_status {
+    hw_descriptor HW_PATH_ALIGN_STRUCTURE desc{};
+    HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record{};
+
+    hw_iaa_descriptor_init_noop_operation(&desc);
+    hw_iaa_descriptor_set_completion_record(&desc, &completion_record);
+
+    qpl_status status = enqueue_descriptor(&desc);
+    if (QPL_STS_OK == status) {
+        while (completion_record.status == 0) {
+            _mm_pause();
+        }
+        if (completion_record.status == AD_STATUS_SUCCESS) {
+            return QPL_STS_OK;
+        }
+    }
+    else
+        return status;
+
+    return QPL_STS_INIT_HW_NOT_SUPPORTED;
 }
 
 auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_accelerator_status {
@@ -108,11 +196,29 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     }
 
     auto *region_ptr = mmap(nullptr, 0x1000U, PROT_WRITE, MAP_SHARED | MAP_POPULATE, fd, 0);
-    close(fd);
-    if(MAP_FAILED == region_ptr)
-    {
+    if (MAP_FAILED == region_ptr) {
         DIAGA(", limited MSI-X mapping failed\n");
-        return HW_ACCELERATOR_LIBACCEL_ERROR;
+
+        mmap_done_ = false;
+        fd_        = fd; // Store fd since we need it open to write
+                         // to the descriptor in the case of write syscall fallback
+
+        if (QPL_STS_OK != execute_noop()) {
+            DIAGA(", write system call failed.\n");
+
+            fd_ = -1;
+            close(fd);
+
+            return HW_ACCELERATOR_SUPPORT_ERR;
+        }
+        DIAGA(", write system call succeeded.\n");
+    }
+    else
+    {
+        DIAGA(", MSI-X mapping done.\n");
+
+        mmap_done_ = true;
+        close(fd);
     }
     DIAGA("\n");
 
@@ -150,6 +256,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
 #else
     DIAG("     %7s: priority:    %d\n", work_queue_dev_name, priority_);
     DIAG("     %7s: bof:         %d\n", work_queue_dev_name, block_on_fault_);
+    DIAG("     %7s: fd:          %d\n", work_queue_dev_name, fd_);
 #endif
 
     hw_queue::set_portal_ptr(region_ptr);
@@ -171,6 +278,10 @@ auto hw_queue::get_op_configuration_support() const noexcept -> bool {
 
 auto hw_queue::get_op_config_register() const noexcept -> op_config_register_t {
     return op_cfg_register_;
+}
+
+auto hw_queue::is_wq_mmaped() const noexcept -> bool {
+    return mmap_done_;
 }
 }
 #endif //__linux__

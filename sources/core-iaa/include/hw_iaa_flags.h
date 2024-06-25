@@ -22,6 +22,7 @@ typedef uint64_t hw_operation_flags_t; /**< Represents operation's flags */
  * @todo Opcode values
  * @{
  */
+#define QPL_OPCODE_NOOP         0x00U    /**< Intel® IAA no operation code */
 #define QPL_OPCODE_DECOMPRESS   0x42U    /**< Intel® IAA decompress operation code */
 #define QPL_OPCODE_COMPRESS     0x43U    /**< Intel® IAA compress operation code */
 #define QPL_OPCODE_CRC64        0x44U    /**< Intel® IAA crc64 operation code */

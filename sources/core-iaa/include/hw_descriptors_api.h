@@ -37,9 +37,26 @@ extern "C" {
 /* ################# SIMPLE OPERATIONS ################# */
 
 /**
- * @name Simple Descriptors API
+ * @name NOOP Descriptors API
  *
- * @brief Contains setters to initialize @ref hw_descriptor to perform filtering operation.
+ * @brief Contains setters to initialize @ref hw_descriptor to perform NOOP operation.
+ *
+ * @{
+ */
+
+/**
+ * @brief Inits @ref hw_descriptor for NOOP operation
+ * @param[in,out] descriptor_ptr pointer to allocated descriptor to init
+ *
+ * @note Descriptor is first set to zero in this function, so all previously set values will be lost
+*/
+HW_PATH_IAA_API(void, descriptor_init_noop_operation, (hw_descriptor *const descriptor_ptr));
+/** @} */
+
+/**
+ * @name CRC64 Descriptors API
+ *
+ * @brief Contains setters to initialize @ref hw_descriptor to perform CRC64 operation.
  *
  * @{
  */

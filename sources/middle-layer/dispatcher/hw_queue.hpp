@@ -47,6 +47,10 @@ public:
 
     [[nodiscard]] auto get_op_config_register() const noexcept -> op_config_register_t;
 
+    [[nodiscard]] auto is_wq_mmaped() const noexcept -> bool;
+
+    [[nodiscard]] auto execute_noop() const noexcept -> qpl_status;
+
     void set_portal_ptr(void *portal_ptr) noexcept;
 
     virtual ~hw_queue() noexcept;
@@ -59,6 +63,8 @@ private:
     mutable std::atomic<uint64_t> portal_offset_   = 0U;               /**< Portal for enqcmd (mod page size)*/
     bool                          op_cfg_enabled_  = false;
     op_config_register_t          op_cfg_register_ = {};               /**< OPCFG register content */
+    bool                          mmap_done_       = false;            /**< Flag to check whether mmap happened */
+    int                           fd_              = -1;               /**< File descriptor for submission via write */
 };
 
 }

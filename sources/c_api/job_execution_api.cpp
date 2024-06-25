@@ -37,6 +37,7 @@
 static inline qpl_status sw_execute_job(qpl_job *const qpl_job_ptr) {
     using namespace qpl;
 
+    // add with different verbosity level to not crowd output
     DIAG("Job is executed on qpl_path_software\n");
 
     uint32_t status = QPL_STS_OK;
@@ -188,7 +189,12 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 #endif
             }
 
-            // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
+            /**
+             * Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
+             *
+             * @warning Disallow falling back to the host execution if failure is not on the
+             * first chunk or if QPL_STS_MORE_OUTPUT_NEEDED (output buffer is too small) error happened.
+            */
             if (QPL_STS_OK != status
                 && job::is_sw_fallback_supported(qpl_job_ptr, status)) {
                 job::update_is_sw_fallback(qpl_job_ptr, true);
