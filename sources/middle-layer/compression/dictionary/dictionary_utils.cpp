@@ -11,6 +11,7 @@
 
 #include "dictionary_utils.hpp"
 #include "simple_memory_ops.hpp"
+#include <algorithm>
 
 namespace qpl::ml::compression {
 
@@ -104,14 +105,12 @@ static inline void init_hw_dict_hash_table(qpl_dictionary &dictionary) {
 
     if (ptrs_per_entry == 2U) {
         entries32 = (uint32_t*) (hw_hash_table_ptr);
-        for (uint32_t i = 0; i < 1024; i++) {
-            entry = hash_tbl[i];
-            entries32[i] =
-                ((entry >>  0) & 0x0000000F) |
-                ((entry >> 12) & 0x000000F0) |
-                ((entry <<  4) & 0x000FFF00) |
-                ((entry <<  0) & 0xFFF00000);
-        }
+        std::transform(std::begin(hash_tbl), std::end(hash_tbl), entries32, [&](uint32_t entry) {
+            return ((entry >>  0) & 0x0000000F) |
+                   ((entry >> 12) & 0x000000F0) |
+                   ((entry <<  4) & 0x000FFF00) |
+                   ((entry <<  0) & 0xFFF00000);
+        });
     } else {
         // ptrs_per_entry == 4
         entries64 = (uint64_t*) (hw_hash_table_ptr);
