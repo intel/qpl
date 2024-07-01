@@ -16,7 +16,7 @@ namespace qpl::test {
 
 using namespace qpl::job;
 
-constexpr auto incorrect_operation = static_cast<qpl_operation>(0xFFFFU);
+constexpr auto incorrect_operation = static_cast<qpl_operation>(0x3FU);
 constexpr auto no_flags = 0U;
 
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
