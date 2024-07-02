@@ -47,10 +47,10 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     auto                 huffman_table_ptr = qpl_job_ptr->huffman_table;
     qpl_dictionary       *dictionary       = qpl_job_ptr->dictionary;
     hw_iaa_aecs_compress *configuration_ptr = nullptr;
-    uint32_t             flags             = qpl_job_ptr->flags;
-    qpl_comp_style       compression_style = own_get_compression_style(qpl_job_ptr);
+    const uint32_t        flags             = qpl_job_ptr->flags;
+    const qpl_comp_style  compression_style = own_get_compression_style(qpl_job_ptr);
     uint8_t              *next_out_ptr     = qpl_job_ptr->next_out_ptr;
-    uint32_t             available_out     = qpl_job_ptr->available_out;
+    const uint32_t       available_out     = qpl_job_ptr->available_out;
 
     // Check if header generation and dictionary compression are supported in hardware
     bool is_hw_header_gen_supported    = false;
@@ -59,7 +59,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!dispatcher.is_hw_support()) {
-        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
         return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
     }
 
@@ -73,12 +73,12 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
     // 2. this is a single chunk job (multi-chunk dictionary is not supported on HW path)
     // 3. the hardware_dictionary_level is set
     if (dictionary) {
-        bool is_single_chunk = ((qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_LAST)) == (QPL_FLAG_FIRST | QPL_FLAG_LAST));
+        const bool is_single_chunk = ((qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_LAST)) == (QPL_FLAG_FIRST | QPL_FLAG_LAST));
         if (!is_hw_dict_compress_supported || !is_single_chunk || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
             return QPL_STS_NOT_SUPPORTED_MODE_ERR;
         }
 
-        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        const uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
         state_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
 
     } else {
@@ -191,7 +191,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
             if (dictionary) {
                 const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
                 const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-                uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+                const uint8_t load_dictionary_val        = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
                 hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) descriptor_ptr,
                                                             dict_size_in_aecs,
@@ -220,7 +220,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
             if (dictionary) {
                 const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
                 const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-                uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+                const uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
                 hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) descriptor_ptr,
                                                             dict_size_in_aecs,
@@ -240,8 +240,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
 
         return QPL_STS_OK;
     } else {
-        bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
-        bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
+        const bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
+        const bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
 
         if (flags & QPL_FLAG_START_NEW_BLOCK) {
             if (state_ptr->execution_history.execution_step != qpl_task_execution_step_header_inserting) {
@@ -263,19 +263,19 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
             // insert header
             if(huffman_table_ptr) {
                 // Static mode used
-                uint32_t status = hw_iaa_aecs_compress_write_deflate_dynamic_header(configuration_ptr,
+                const uint32_t status = hw_iaa_aecs_compress_write_deflate_dynamic_header(configuration_ptr,
                                                                                     table_impl->get_deflate_header_ptr(),
                                                                                     table_impl->get_deflate_header_bits_size(),
                                                                                     is_final_block);
                 HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
-                uint32_t code_length  = table_impl->get_literals_lengths_table_ptr()[256];
-                uint32_t eob_code_len = code_length >> 15U;
+                const uint32_t code_length  = table_impl->get_literals_lengths_table_ptr()[256];
+                const uint32_t eob_code_len = code_length >> 15U;
                 state_ptr->eob_code.code   = reverse_bits(static_cast<uint16_t>(code_length)) >> (16U - eob_code_len);
                 state_ptr->eob_code.length = eob_code_len;
             } else {
                 // Fixed mode used
-                uint32_t status = hw_iaa_aecs_compress_write_deflate_fixed_header(configuration_ptr,
+                const uint32_t status = hw_iaa_aecs_compress_write_deflate_fixed_header(configuration_ptr,
                                                                                   is_final_block);
 
                 HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
@@ -362,7 +362,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job *qpl_job_
         if (dictionary) {
             const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
             const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-            uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+            const uint8_t load_dictionary_val        = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
             hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) descriptor_ptr,
                                                         dict_size_in_aecs,
@@ -386,9 +386,9 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analyti
                                                             hw_iaa_aecs_compress *cfg_in_ptr,
                                                             hw_iaa_completion_record *comp_ptr) {
     using namespace qpl::ml::compression;
-    uint32_t flags = qpl_job_ptr->flags;
-    bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
-    bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
+    const uint32_t flags = qpl_job_ptr->flags;
+    const bool is_huffman_only = (flags & QPL_FLAG_NO_HDRS) != 0;
+    const bool is_final_block  = (flags & QPL_FLAG_LAST) ? 1U : 0U;
 
     // Check if header generation is supported in hardware
     bool is_hw_header_gen_supported = false;
@@ -396,7 +396,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analyti
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!dispatcher.is_hw_support()) {
-        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
         return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
     }
 
@@ -415,7 +415,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analyti
 
         auto table_impl = use_as_huffman_table<compression_algorithm_e::huffman_only>(qpl_job_ptr->huffman_table);
 
-        compression_huffman_table compression_table(table_impl->get_sw_compression_huffman_table_ptr(),
+        const compression_huffman_table compression_table(table_impl->get_sw_compression_huffman_table_ptr(),
                                                     table_impl->get_isal_compression_huffman_table_ptr(),
                                                     table_impl->get_hw_compression_huffman_table_ptr(),
                                                     table_impl->get_deflate_header_ptr());
@@ -481,9 +481,9 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
 
     qpl_hw_state            *const state_ptr      = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
     hw_iaa_analytics_descriptor *const descriptor_ptr = &state_ptr->desc_ptr;
-    uint32_t flags = job_ptr->flags;
-    bool is_final_block  = (flags & QPL_FLAG_LAST) != 0;
-    bool is_first_block  = (flags & QPL_FLAG_FIRST) != 0;
+    const uint32_t flags = job_ptr->flags;
+    const bool is_final_block  = (flags & QPL_FLAG_LAST) != 0;
+    const bool is_first_block  = (flags & QPL_FLAG_FIRST) != 0;
     qpl_dictionary *dictionary = job_ptr->dictionary;
 
     // Check if dictionary compression is supported in hardware
@@ -492,7 +492,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!dispatcher.is_hw_support()) {
-        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
         return qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
     }
 
@@ -509,7 +509,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
             return QPL_STS_NOT_SUPPORTED_MODE_ERR;
         }
 
-        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        const uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
         state_ptr->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
 
     } else {
@@ -549,7 +549,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job *const 
     if (dictionary) {
         const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
         const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-        uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+        const uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
         hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) descriptor_ptr,
                                                     dict_size_in_aecs,

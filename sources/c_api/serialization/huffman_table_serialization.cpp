@@ -150,7 +150,7 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
     if (stream_buffer_size == 0)
         return QPL_STS_SIZE_ERR;
 
-    allocator_t meta_allocator = details::get_allocator(allocator);
+    const allocator_t meta_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_meta_t);
     auto buffer = meta_allocator.allocator(allocated_size);

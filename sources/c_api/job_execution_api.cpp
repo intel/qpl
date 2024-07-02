@@ -136,7 +136,7 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
     qpl_status status = QPL_STS_OK;
     bool is_sw_fallback = false;
 
-    qpl_path_t path = qpl_job_ptr->data_ptr.path;
+    const qpl_path_t path = qpl_job_ptr->data_ptr.path;
 
     if ((qpl_path_hardware == path || qpl_path_auto == path)) {
         auto *state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
@@ -171,7 +171,7 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
             // check that HW is available
             static auto &dispatcher = ml::dispatcher::hw_dispatcher::get_instance();
             if (!dispatcher.is_hw_support()) {
-                hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+                const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
                 status = ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
             }
 
@@ -244,7 +244,7 @@ QPL_FUN("C" qpl_status, qpl_check_job, (qpl_job *qpl_job_ptr)) {
         job::update_is_sw_fallback(qpl_job_ptr, true);
 
         // Execute job on SW path
-        qpl_path_t path = qpl_job_ptr->data_ptr.path;
+        const qpl_path_t path = qpl_job_ptr->data_ptr.path;
         qpl_job_ptr->data_ptr.path = qpl_path_software;
         status = sw_execute_job(qpl_job_ptr);
         qpl_job_ptr->data_ptr.path = path;
@@ -281,7 +281,7 @@ QPL_FUN("C" qpl_status, qpl_wait_job, (qpl_job *qpl_job_ptr)) {
         job::update_is_sw_fallback(qpl_job_ptr, true);
 
         // Execute job on SW path
-        qpl_path_t path = qpl_job_ptr->data_ptr.path;
+        const qpl_path_t path = qpl_job_ptr->data_ptr.path;
         qpl_job_ptr->data_ptr.path = qpl_path_software;
         status = sw_execute_job(qpl_job_ptr);
         qpl_job_ptr->data_ptr.path = path;
@@ -325,7 +325,7 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
             // check that HW is available
             static auto &dispatcher = ml::dispatcher::hw_dispatcher::get_instance();
             if (!dispatcher.is_hw_support()) {
-                hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+                const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
                 status = ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
             }
 

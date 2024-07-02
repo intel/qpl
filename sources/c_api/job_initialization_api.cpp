@@ -96,7 +96,7 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job *qpl_job_ptr)) {
         qpl_job_ptr->numa_id = -1;
 
         auto *const hw_state_ptr = (qpl_hw_state *) (qpl_job_ptr->data_ptr.hw_state_ptr);
-        uint32_t hw_size = QPL_ALIGNED_SIZE(hw_get_job_size(), QPL_DEFAULT_ALIGNMENT);
+        const uint32_t hw_size = QPL_ALIGNED_SIZE(hw_get_job_size(), QPL_DEFAULT_ALIGNMENT);
 
         core_sw::util::set_zeros((uint8_t *) hw_state_ptr, hw_size);
 

@@ -43,7 +43,7 @@ uint32_t perform_select(qpl_job *job_ptr,
     auto *decompress_buffer_begin = analytics_state_ptr->inflate_buf_ptr;
     auto *decompress_buffer_end   = decompress_buffer_begin + analytics_state_ptr->inflate_buf_size;
 
-    allocation_buffer_t state_buffer(job_ptr->data_ptr.middle_layer_buffer_ptr, job_ptr->data_ptr.hw_state_ptr);
+    const allocation_buffer_t state_buffer(job_ptr->data_ptr.middle_layer_buffer_ptr, job_ptr->data_ptr.hw_state_ptr);
 
     analytic_operation_result_t result{};
 

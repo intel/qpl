@@ -67,9 +67,9 @@ qpl_status set_state_to_complete_and_wrap(qpl_job *const job_ptr,
         }
 
         // zlib trailer is a single checksum value
-        uint32_t adler32 = job::get_adler32(job_ptr);
+        const uint32_t adler32 = job::get_adler32(job_ptr);
 
-        uint32_t trailer_value = swap_bytes((adler32 & util::most_significant_16_bits) |
+        const uint32_t trailer_value = swap_bytes((adler32 & util::most_significant_16_bits) |
                                             ((adler32 & util::least_significant_16_bits) + 1) %
                                              util::adler32_mod);
 
@@ -90,7 +90,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
     hw_iaa_analytics_descriptor  *const desc_ptr = &state_ptr->desc_ptr;
     hw_iaa_completion_record *const comp_ptr     = &state_ptr->comp_ptr;
-    bool  is_final_block                         = QPL_FLAG_LAST & qpl_job_ptr->flags;
+    const bool is_final_block                    = QPL_FLAG_LAST & qpl_job_ptr->flags;
 
     hw_iaa_aecs_compress *const cfg_in_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset, state_ptr->aecs_size);
     if (!cfg_in_ptr) {
@@ -182,8 +182,8 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
         job::update_checksums(qpl_job_ptr, crc, xor_checksum);
 
         if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
-            uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
-            uint32_t new_acc_adler32 = qpl::ml::util::adler32(input_data_ptr,
+            const uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
+            const uint32_t new_acc_adler32 = qpl::ml::util::adler32(input_data_ptr,
                                                               input_data_size,
                                                               prev_adler32);
             job::update_adler32(qpl_job_ptr, new_acc_adler32);
@@ -215,7 +215,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
 
     // Validate descriptor result
 
-    ml::qpl_ml_status hw_status = ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr));
+    const ml::qpl_ml_status hw_status = ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record *> (comp_ptr));
 
     // If HW returns error, remove the header that is written for gzip/zlib case and reset fields in job
     if ((qpl_job_ptr->flags & QPL_FLAG_FIRST) && (hw_status != ml::status_list::ok)) {
@@ -259,7 +259,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     // 5: 2-pass header gen without Deflate header
     // 6: 2-pass header gen with Deflate header
     // 7: 2-pass header gen with bFinal Deflate header
-    bool hw_2_pass_header_gen = ADCF_ENABLE_HDR_GEN(5U) == (ADCF_ENABLE_HDR_GEN(5U) & desc_ptr->decomp_flags) ||
+    const bool hw_2_pass_header_gen = ADCF_ENABLE_HDR_GEN(5U) == (ADCF_ENABLE_HDR_GEN(5U) & desc_ptr->decomp_flags) ||
                                 ADCF_ENABLE_HDR_GEN(6U) == (ADCF_ENABLE_HDR_GEN(6U) & desc_ptr->decomp_flags) ||
                                 ADCF_ENABLE_HDR_GEN(7U) == (ADCF_ENABLE_HDR_GEN(7U) & desc_ptr->decomp_flags);
 
@@ -277,7 +277,7 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
             qpl_dictionary *dictionary               = qpl_job_ptr->dictionary;
             const uint32_t dict_size_in_aecs         = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
             const uint8_t *const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-            uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+            const uint8_t load_dictionary_val              = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
             hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor *) desc_ptr,
                                                         dict_size_in_aecs,
@@ -306,8 +306,8 @@ qpl_status hw_check_compress_job(qpl_job *qpl_job_ptr) {
     job::update_checksums(qpl_job_ptr, comp_ptr->crc, comp_ptr->xor_checksum);
 
     if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
-        uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
-        uint32_t new_acc_adler32 = qpl::ml::util::adler32(qpl_job_ptr->next_in_ptr,
+        const uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
+        const uint32_t new_acc_adler32 = qpl::ml::util::adler32(qpl_job_ptr->next_in_ptr,
                                                           qpl_job_ptr->available_in,
                                                           prev_adler32);
         job::update_adler32(qpl_job_ptr, new_acc_adler32);
@@ -444,7 +444,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     }
 
     if (!(IS_RND_ACCESS_BODY(qpl_job_ptr->flags))) {
-        uint32_t wrSrc2 = (desc_ptr->op_code_op_flags >> 18U) & 3U;
+        const uint32_t wrSrc2 = (desc_ptr->op_code_op_flags >> 18U) & 3U;
         state_ptr->config_valid = ((AD_WRSRC2_ALWAYS == wrSrc2) || ((AD_WRSRC2_MAYBE == wrSrc2) &&
                                                                     (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status)))
                                   ? 1U
@@ -463,8 +463,8 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
     }
 
     // Update output
-    uint32_t available_out = qpl_job_ptr->available_out - desc_ptr->max_dst_size;
-    uint32_t bytes_written = comp_ptr->output_size;
+    const uint32_t available_out = qpl_job_ptr->available_out - desc_ptr->max_dst_size;
+    const uint32_t bytes_written = comp_ptr->output_size;
 
     job::update_output_stream(qpl_job_ptr, bytes_written, comp_ptr->output_bits);
 
@@ -512,7 +512,7 @@ extern "C" qpl_status hw_check_job(qpl_job * qpl_job_ptr) {
 
     if (0U != qpl_job_ptr->available_in) {
         // This should only happen if buffer > 2GB, or if buffering
-        qpl_status status = hw_submit_decompress_job(qpl_job_ptr,
+        const qpl_status status = hw_submit_decompress_job(qpl_job_ptr,
                                                      qpl_job_ptr->flags & QPL_FLAG_LAST,
                                                      qpl_job_ptr->next_in_ptr,
                                                      qpl_job_ptr->available_in);

@@ -28,7 +28,7 @@ qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
     QPL_BADARG_RET(path > qpl_path_software, QPL_STS_PATH_ERR)
     QPL_BADARG_RET(type > decompression_table_type, QPL_STS_HUFFMAN_TABLE_TYPE_ERROR)
 
-    allocator_t table_allocator = details::get_allocator(allocator);
+    const allocator_t table_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_t<compression_algorithm_e::deflate>);
     auto buffer = table_allocator.allocator(allocated_size);
@@ -67,7 +67,7 @@ qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type,
 
     *huffman_table = nullptr;
 
-    allocator_t table_allocator = details::get_allocator(allocator);
+    const allocator_t table_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_t<compression_algorithm_e::huffman_only>);
     auto buffer = table_allocator.allocator(allocated_size);
@@ -103,13 +103,13 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table) {
 
     if (meta->algorithm == compression_algorithm_e::deflate) {
         auto table_impl       = reinterpret_cast<huffman_table_t<compression_algorithm_e::deflate>*>(table);
-        allocator_t allocator = table_impl->get_internal_allocator();
+        const allocator_t allocator = table_impl->get_internal_allocator();
 
         std::destroy_at(table_impl);
         allocator.deallocator(table);
     } else if (meta->algorithm == compression_algorithm_e::huffman_only) {
         auto table_impl       = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(table);
-        allocator_t allocator = table_impl->get_internal_allocator();
+        const allocator_t allocator = table_impl->get_internal_allocator();
 
         std::destroy_at(table_impl);
         allocator.deallocator(table);

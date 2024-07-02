@@ -57,7 +57,7 @@ static inline hw_scan_range_t own_get_scan_one_value_range(hw_scan_operator_e sc
                                                            uint32_t source_bit_width) {
     hw_scan_range_t range;
     auto range_mask    = static_cast<uint32_t>((1ULL << source_bit_width) - 1U);
-    uint32_t param_low = low_limit & range_mask;
+    const uint32_t param_low = low_limit & range_mask;
 
     switch (scan_operator) {
         case hw_scan_operator_eq:
@@ -176,7 +176,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job *const job_ptr) {
         case qpl_op_scan_lt:
         case qpl_op_scan_gt:
         case qpl_op_scan_ge: {
-            hw_scan_range_t range = own_get_scan_one_value_range(static_cast<hw_scan_operator_e>(job_ptr->op & 0x1F),
+            const hw_scan_range_t range = own_get_scan_one_value_range(static_cast<hw_scan_operator_e>(job_ptr->op & 0x1F),
                                                                  job_ptr->param_low,
                                                                  job_ptr->src1_bit_width);
 
@@ -312,13 +312,13 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
 
         case qpl_op_compress: {
             if (job::is_canned_mode_compression(job_ptr)) {
-                qpl_status status = hw_descriptor_compress_init_deflate_canned(job_ptr);
+                const qpl_status status = hw_descriptor_compress_init_deflate_canned(job_ptr);
 
                 OWN_QPL_CHECK_STATUS(status)
                 break;
             }
 
-            qpl_status status = hw_descriptor_compress_init_deflate_base(job_ptr,
+            const qpl_status status = hw_descriptor_compress_init_deflate_base(job_ptr,
                                                                          &state_ptr->desc_ptr,
                                                                          (hw_completion_record *) &state_ptr->comp_ptr,
                                                                          state_ptr);
@@ -338,7 +338,7 @@ static inline qpl_status hw_submit_task (qpl_job *const job_ptr) {
 
             HW_IMMEDIATELY_RET_NULLPTR(aecs_ptr)
 
-            qpl_status status = hw_descriptor_decompress_init_inflate_body(descriptor_ptr,
+            const qpl_status status = hw_descriptor_decompress_init_inflate_body(descriptor_ptr,
                                                                            &job_ptr->next_in_ptr,
                                                                            &job_ptr->available_in,
                                                                            job_ptr->next_out_ptr,
@@ -378,7 +378,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
     using namespace qpl;
     auto *const state_ptr = reinterpret_cast<qpl_hw_state *>(job::get_state(qpl_job_ptr));
 
-    uint32_t flags = qpl_job_ptr->flags;
+    const uint32_t flags = qpl_job_ptr->flags;
 
     OWN_QPL_CHECK_STATUS(own_bad_argument_validation(qpl_job_ptr))
     own_job_fix_task_properties(qpl_job_ptr);
@@ -423,7 +423,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
                 break; // Workaround for header reading
             }
 
-            uint32_t crc = qpl_job_ptr->crc;
+            const uint32_t crc = qpl_job_ptr->crc;
             job::reset<qpl_op_decompress>(qpl_job_ptr);
 
             if (flags & QPL_FLAG_RND_ACCESS){
@@ -498,7 +498,7 @@ extern "C" qpl_status hw_submit_job (qpl_job * qpl_job_ptr) {
 
     qpl_buffer *const accumulator_ptr = &state_ptr->accumulation_buffer;
     bool is_last_job      = flags & QPL_FLAG_LAST;
-    bool is_indexing_mode = flags & QPL_FLAG_RND_ACCESS;
+    const bool is_indexing_mode = flags & QPL_FLAG_RND_ACCESS;
 
     if ((!is_last_job && !is_indexing_mode)
         && own_qpl_buffer_touch(accumulator_ptr, source_size)) {
@@ -553,7 +553,7 @@ extern "C"  qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor 
     hw_iaa_descriptor_set_input_buffer((hw_descriptor*) desc_ptr, (*data_ptr), (*data_size));
     hw_iaa_descriptor_set_output_buffer((hw_descriptor*) desc_ptr, out_ptr, out_size);
 
-    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
+    const bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     hw_iaa_aecs_decompress_state_set_aecs_format(&aecs_ptr->inflate_options, is_aecs_format2_expected);
 

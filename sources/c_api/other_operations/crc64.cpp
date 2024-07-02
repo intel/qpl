@@ -23,8 +23,8 @@ uint32_t perform_crc64(qpl_job *const job_ptr) noexcept {
 
     other::crc_operation_result_t result;
 
-    bool is_be_bit_order = job_ptr->flags & QPL_FLAG_CRC64_BE;
-    bool is_inverse = job_ptr->flags & QPL_FLAG_CRC64_INV;
+    const bool is_be_bit_order = job_ptr->flags & QPL_FLAG_CRC64_BE;
+    const bool is_inverse = job_ptr->flags & QPL_FLAG_CRC64_INV;
 
     switch (qpl::job::get_execution_path(job_ptr)) {
         case execution_path_t::auto_detect:

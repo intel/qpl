@@ -87,8 +87,8 @@ static inline qpl_status bad_arguments_check(const qpl_job *const job_ptr) {
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
-    uint32_t source_bit_width            = job_ptr->src1_bit_width;
-    bool     source_bit_width_is_unknown = (qpl_p_parquet_rle == job_ptr->parser &&
+    uint32_t   source_bit_width            = job_ptr->src1_bit_width;
+    const bool source_bit_width_is_unknown = (qpl_p_parquet_rle == job_ptr->parser &&
                                             (QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags));
 
     if (qpl_p_parquet_rle == job_ptr->parser &&
@@ -121,12 +121,12 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_select>(const qpl_jo
     QPL_BADARG_RET(job_ptr->initial_output_index, QPL_STS_INVALID_PARAM_ERR);
 
     if (job_ptr->parser != qpl_p_parquet_rle && !(job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE)) {
-        uint64_t expected_source_byte_length = util::bit_to_byte((uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width);
+        const uint64_t expected_source_byte_length = util::bit_to_byte((uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width);
 
         QPL_BADARG_RET((expected_source_byte_length > (uint64_t)job_ptr->available_in), QPL_STS_SRC_IS_SHORT_ERR)
     }
 
-    uint32_t expected_mask_byte_length = util::bit_to_byte(job_ptr->num_input_elements);
+    const uint32_t expected_mask_byte_length = util::bit_to_byte(job_ptr->num_input_elements);
     QPL_BADARG_RET((expected_mask_byte_length > job_ptr->available_src2), QPL_STS_SRC_IS_SHORT_ERR)
 
     if ((qpl_ow_nom != job_ptr->out_bit_width) &&
@@ -153,7 +153,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_expand>(const qpl_jo
     QPL_BADARG_RET(job_ptr->initial_output_index, QPL_STS_INVALID_PARAM_ERR);
 
     // num_input_elements reflect elements in source-2 for expand operation
-    uint32_t expected_mask_byte_length = util::bit_to_byte(job_ptr->num_input_elements);
+    const uint32_t expected_mask_byte_length = util::bit_to_byte(job_ptr->num_input_elements);
     QPL_BADARG_RET((expected_mask_byte_length > job_ptr->available_src2), QPL_STS_SRC_IS_SHORT_ERR);
 
     return QPL_STS_OK;
@@ -163,7 +163,7 @@ template <>
 inline qpl_status bad_arguments_check<qpl_operation::qpl_op_extract>(const qpl_job *const job_ptr) noexcept {
     if ((qpl_p_parquet_rle != job_ptr->parser) &&
         !(QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags)) {
-        uint64_t input_bits = (uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width;
+        const uint64_t input_bits = (uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width;
 
         if (util::bit_to_byte(input_bits) > (uint64_t)job_ptr->available_in) {
             return QPL_STS_SRC_IS_SHORT_ERR;
@@ -196,7 +196,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_scan_eq>(const qpl_j
 
     if ((qpl_p_parquet_rle != job_ptr->parser) &&
         !(QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags)) {
-        uint64_t input_bits = (uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width;
+        const uint64_t input_bits = (uint64_t)job_ptr->num_input_elements * (uint64_t)job_ptr->src1_bit_width;
 
         if (util::bit_to_byte(input_bits) > (uint64_t)job_ptr->available_in) {
             return QPL_STS_SRC_IS_SHORT_ERR;

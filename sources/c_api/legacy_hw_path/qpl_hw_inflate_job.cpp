@@ -84,7 +84,7 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
     const bool is_dictionary_mode = (qpl_job_ptr->flags & QPL_FLAG_FIRST ||
                                      !state_ptr->execution_history.first_job_has_been_submitted) &&
                                              qpl_job_ptr->dictionary != NULL;
-    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
+    const bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     if (state_ptr->execution_history.first_job_has_been_submitted) {
         operation_flags |= ADOF_READ_SRC2(AD_RDSRC2_AECS);
@@ -122,13 +122,13 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job *qpl_job_ptr,
         // For SW dictionary, decompression dictionary size will be the same as the raw dictionary size;
         // for HW dictionary, raw dictionary will be padded with 0 at the beginning if it is smaller than
         // the allocated history size in HW. So set the decompression dictionary size to the history size.
-        size_t decompress_dictionary_size = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+        const size_t decompress_dictionary_size = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
                                             dictionary->raw_dictionary_size :
                                             get_history_size_for_dictionary(dictionary->hw_dict_level);
 
         // For SW dictionary, the raw dictionary will be used directly so set offset to 0
         // for HW dictionary, set the offset to the raw dictionary offset in AECS
-        uint32_t decompress_raw_dict_offset = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+        const uint32_t decompress_raw_dict_offset = (dictionary->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
                                               0U :
                                               dictionary->aecs_raw_dictionary_offset;
 
@@ -229,10 +229,10 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     if (!aecs_deflate_ptr) {
         return QPL_STS_LIBRARY_INTERNAL_ERR;
     }
-    bool is_first_job        = QPL_FLAG_FIRST & qpl_job_ptr->flags;
-    bool is_last_job         = QPL_FLAG_LAST & qpl_job_ptr->flags;
-    bool is_huffman_only     = QPL_FLAG_NO_HDRS & qpl_job_ptr->flags;
-    bool is_indexing_enabled = qpl_job_ptr->mini_block_size;
+    const bool is_first_job        = QPL_FLAG_FIRST & qpl_job_ptr->flags;
+    const bool is_last_job         = QPL_FLAG_LAST & qpl_job_ptr->flags;
+    const bool is_huffman_only     = QPL_FLAG_NO_HDRS & qpl_job_ptr->flags;
+    const bool is_indexing_enabled = qpl_job_ptr->mini_block_size;
 
     state_ptr->execution_history.compress_crc = comp_ptr->crc;
 
@@ -250,7 +250,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
                                    | ADDF_ENABLE_IDXING(qpl_job_ptr->mini_block_size)
                                    | ((QPL_FLAG_HUFFMAN_BE & qpl_job_ptr->flags) ? ADDF_DECOMP_BE : 0U);
 
-    bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
+    const bool is_aecs_format2_expected = qpl::ml::util::are_iaa_gen_2_min_capabilities_present();
 
     if (is_first_job) {
         if (is_indexing_enabled) {
@@ -328,7 +328,7 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job *qpl_job_ptr) {
     if (((qpl_job_ptr->flags & (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS)) ==
          (QPL_FLAG_LAST | QPL_FLAG_NO_HDRS))) {
         if (qpl_job_ptr->flags & QPL_FLAG_HUFFMAN_BE) {
-            uint8_t ignore_end_bits = 16U - comp_ptr->output_bits;
+            const uint8_t ignore_end_bits = 16U - comp_ptr->output_bits;
             desc_ptr->decomp_flags |= ADDF_IGNORE_END_BITS(ignore_end_bits & OWN_MAX_BIT_IDX);
 
             // Check availability of the ignore end bits extension bit

@@ -20,7 +20,7 @@ extern "C" {
 
 size_t qpl_get_dictionary_size(sw_compression_level sw_level, hw_compression_level hw_dict_level, size_t raw_dict_size) {
     using namespace qpl::ml;
-    hardware_dictionary_level hw_dict_level_internal = compression::convert_public_hw_dict_level_to_internal(hw_dict_level);
+    const hardware_dictionary_level hw_dict_level_internal = compression::convert_public_hw_dict_level_to_internal(hw_dict_level);
     return compression::get_dictionary_size(static_cast<software_compression_level>(sw_level),
                                             hw_dict_level_internal,
                                             raw_dict_size);
@@ -53,7 +53,7 @@ qpl_status qpl_build_dictionary(qpl_dictionary *dict_ptr,
         return static_cast<qpl_status>(status);
     }
 
-    hardware_dictionary_level hw_dict_level_internal = compression::convert_public_hw_dict_level_to_internal(hw_dict_level);
+    const hardware_dictionary_level hw_dict_level_internal = compression::convert_public_hw_dict_level_to_internal(hw_dict_level);
 
     status =  compression::build_dictionary(*dict_ptr,
                                             static_cast<software_compression_level>(sw_level),
