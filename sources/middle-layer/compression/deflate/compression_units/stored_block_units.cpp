@@ -30,8 +30,8 @@ static auto write_stored_block(uint8_t *source_ptr,
                                uint32_t start_bit_offset,
                                bool is_final = false) noexcept -> uint32_t {
     // Write deflate header
-    uint16_t header              = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
-    uint16_t header_mask         = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
+    const uint16_t header              = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
+    const uint16_t header_mask         = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
     uint8_t  *current_output_ptr = output_begin_ptr;
     uint32_t output_size         = output_max_size;
 
@@ -180,7 +180,7 @@ auto write_stored_block_header(deflate_state<execution_path_t::software> &stream
     uint32_t memcopy_len         = 0;
     uint32_t avail_in            = 0;
     uint32_t block_next_offset   = 0;
-    uint32_t block_in_size       = isal_state->block_end - isal_state->block_next;
+    const uint32_t block_in_size       = isal_state->block_end - isal_state->block_next;
 
     if (block_in_size > stored_block_max_length) {
         stored_block_header = 0xFFFF;
@@ -235,7 +235,7 @@ auto calculate_size_needed(uint32_t input_data_size, uint32_t bit_size) noexcept
     if (0U == input_data_size) {
         size += stored_block_header_length;
     } else {
-        uint32_t stored_blocks_count = (input_data_size + stored_block_max_length - 1U) / stored_block_max_length;
+        const uint32_t stored_blocks_count = (input_data_size + stored_block_max_length - 1U) / stored_block_max_length;
         size += input_data_size + stored_blocks_count * stored_block_header_length;
     }
 
@@ -258,7 +258,7 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
     // Check if output buffer enough
     //@todo separate logic for header_inserting and compression: Stateful requirement (Fixed/Static only) + take into account eob size
     constexpr bool is_block_continued = false;
-    uint32_t actual_bits_in_aecs = (is_block_continued) ?
+    const uint32_t actual_bits_in_aecs = (is_block_continued) ?
                                    // @todo Insert EOB
                                    hw_iaa_aecs_compress_accumulator_get_actual_bits(state.meta_data_->aecs_) :
                                    state.meta_data_->stored_bits;

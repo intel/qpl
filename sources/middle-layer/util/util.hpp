@@ -69,7 +69,7 @@ inline uint32_t bit_to_byte(const uint32_t value) noexcept {
         return 1u << 29u;
     }
 
-    uint32_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
+    const uint32_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
 
     return bytes;
 }
@@ -79,7 +79,7 @@ inline size_t bit_to_byte(const size_t value) noexcept {
         return 1llu << 61u;
     }
 
-    size_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
+    const size_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
 
     return bytes;
 }

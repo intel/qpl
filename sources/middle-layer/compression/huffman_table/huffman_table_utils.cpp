@@ -278,7 +278,7 @@ static inline auto initialize_inflate_state_from_deflate_header(uint8_t *deflate
     // Prepare inflate state to parse Deflate header
     constexpr auto end_processing_condition = end_processing_condition_t::stop_and_check_for_bfinal_eob;
 
-    uint32_t deflate_header_byte_size = util::bit_to_byte(deflate_header_bit_size);
+    const uint32_t deflate_header_byte_size = util::bit_to_byte(deflate_header_bit_size);
 
     isal_state_ptr->next_in   = deflate_header_data_ptr;
     isal_state_ptr->avail_in  = deflate_header_byte_size;
@@ -308,9 +308,9 @@ static inline auto triplets_to_sw_compression_table(const qpl_triplet *triplets_
                                                     std::size_t triplets_count,
                                                     qplc_huffman_table_default_format *compression_table) -> qpl_ml_status {
     for (std::size_t i = 0; i < triplets_count; i++) {
-        qpl_triplet current_triplet = triplets_ptr[i];
+        const qpl_triplet current_triplet = triplets_ptr[i];
 
-        uint32_t literal_length_table_index = current_triplet.character;
+        const uint32_t literal_length_table_index = current_triplet.character;
 
         qplc_huffman_table_write_ll_code(compression_table, literal_length_table_index, current_triplet.code);
         qplc_huffman_table_write_ll_code_length(compression_table,
@@ -383,7 +383,7 @@ static inline void triplets_to_sw_decompression_table(const qpl_triplet *triplet
                                                 });
 
         // Sorting to get the right order: charToSortedCode
-        size_t number_of_elements = std::distance(filtered.begin(), last_filtered);
+        const size_t number_of_elements = std::distance(filtered.begin(), last_filtered);
         qsort(filtered.data(), number_of_elements, sizeof(qpl_triplet), triplets_code_values_comparator);
 
         decompression_table_ptr->first_codes[i - 1U] = filtered[0].code;
@@ -594,8 +594,8 @@ static inline auto comp_to_decompression_table(const compression_huffman_table &
 
         core_sw::util::set_zeros(aecs_ptr, sizeof(hw_iaa_aecs_analytic));
 
-        uint32_t input_bytes_count = (header_bit_size + 7U) >> 3U;
-        uint8_t  ignore_end_bits   = max_bit_index & (0U - header_bit_size);
+        const uint32_t input_bytes_count = (header_bit_size + 7U) >> 3U;
+        const uint8_t ignore_end_bits   = max_bit_index & (0U - header_bit_size);
 
         hw_iaa_descriptor_set_input_buffer(&descriptor, header_ptr, input_bytes_count);
 

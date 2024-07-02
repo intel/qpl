@@ -156,7 +156,7 @@ auto zlib_decorator::unwrap(F function, state_t &state, arguments... args) noexc
     if (state.is_first()) {
         zlib_header header;
         uint8_t* input_ptr  = state.get_input_data();
-        uint32_t input_size = state.get_input_size();
+        const uint32_t input_size = state.get_input_size();
 
         auto status = read_header(input_ptr, input_size, header);
 

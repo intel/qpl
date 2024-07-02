@@ -34,10 +34,10 @@ auto write_buffered_icf_header(deflate_state<execution_path_t::software> &stream
     auto level_buffer = reinterpret_cast<level_buf *>(stream.isal_stream_ptr_->level_buf);
 
     uint8_t  *deflate_header      = level_buffer->deflate_hdr;
-    uint32_t deflate_header_count = level_buffer->deflate_hdr_count;
-    uint32_t extra_bits_count     = level_buffer->deflate_hdr_extra_bits;
+    const uint32_t deflate_header_count = level_buffer->deflate_hdr_count;
+    const uint32_t extra_bits_count     = level_buffer->deflate_hdr_extra_bits;
 
-    uint32_t header_extra_bits = deflate_header[deflate_header_count];
+    const uint32_t header_extra_bits = deflate_header[deflate_header_count];
     uint32_t count             = deflate_header_count - isal_state->count;
 
     if (bit_buffer->m_bit_count != 0) {
@@ -92,9 +92,9 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
 
     BitBuf2 bit_writer_tmp{};
 
-    uint32_t out_size      = stream.isal_stream_ptr_->avail_out;
-    uint8_t  *end_out      = stream.isal_stream_ptr_->next_out + out_size;
-    uint64_t block_in_size = isal_state->block_end - isal_state->block_next;
+    const uint32_t out_size      = stream.isal_stream_ptr_->avail_out;
+    uint8_t  *end_out            = stream.isal_stream_ptr_->next_out + out_size;
+    const uint64_t block_in_size = isal_state->block_end - isal_state->block_next;
 
     int buffer_header = 0;
 
@@ -134,7 +134,7 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
 
     build_huffman_table_icf(stream.huffman_table_icf_, &level_buffer->hist);
 
-    uint64_t bit_count = write_huffman_table_icf(bit_buffer,
+    const uint64_t bit_count = write_huffman_table_icf(bit_buffer,
                                                  stream.huffman_table_icf_,
                                                  &level_buffer->hist,
                                                  stream.compression_mode(),
@@ -143,10 +143,10 @@ auto create_icf_block_header(deflate_state<execution_path_t::software> &stream, 
     stream.huffman_table_icf_.expand_huffman_tables();
 
     /* Assumes that type 0 block has size less than 4G */
-    uint32_t block_start_offset = (stream.isal_stream_ptr_->total_in - isal_state->block_next);
-    uint8_t  *block_start       = stream.isal_stream_ptr_->next_in - block_start_offset;
-    uint32_t avail_output       = stream.isal_stream_ptr_->avail_out + sizeof(isal_state->buffer) -
-                                  (stream.isal_stream_ptr_->total_in - isal_state->block_end);
+    const uint32_t block_start_offset = (stream.isal_stream_ptr_->total_in - isal_state->block_next);
+    uint8_t  *block_start             = stream.isal_stream_ptr_->next_in - block_start_offset;
+    const uint32_t avail_output       = stream.isal_stream_ptr_->avail_out + sizeof(isal_state->buffer) -
+                                        (stream.isal_stream_ptr_->total_in - isal_state->block_end);
 
     if ((bit_count / byte_bit_size >= block_size ||
          (bit_count + bit_buffer_slope_bits) / byte_bit_size > stream.isal_stream_ptr_->avail_out
@@ -219,7 +219,7 @@ auto init_new_icf_block(deflate_state<execution_path_t::software> &stream, compr
     auto isal_state   = &stream.isal_stream_ptr_->internal_state;
     auto level_buffer = reinterpret_cast<level_buf *>(stream.isal_stream_ptr_->level_buf);
 
-    int level_struct_size = stream.init_level_buffer();
+    const int level_struct_size = stream.init_level_buffer();
 
     isal_state->block_next = isal_state->block_end;
 
@@ -276,7 +276,7 @@ auto slow_deflate_icf_body(deflate_state<execution_path_t::software> &stream, co
 
     deflate_icf_stream icf_stream = {icf_buffer_begin, icf_buffer_begin, icf_buffer_end};
 
-    uint32_t bytes_processed = qplc_slow_deflate_icf_body()(stream.isal_stream_ptr_->next_in,
+    const uint32_t bytes_processed = qplc_slow_deflate_icf_body()(stream.isal_stream_ptr_->next_in,
                                                             stream.isal_stream_ptr_->next_in
                                                             - stream.isal_stream_ptr_->total_in,
                                                             stream.isal_stream_ptr_->next_in

@@ -183,9 +183,9 @@ auto get_dictionary_size_in_aecs(qpl_dictionary &dictionary) noexcept -> uint32_
     if (hardware_dictionary_level::HW_NONE == dictionary.hw_dict_level) {
         return 0U;
     }
-    uint32_t hash_table_size   = hardware_hash_table_size[static_cast<uint32_t>(dictionary.hw_dict_level)];
-    uint32_t dict_text_size    = hardware_dictionary_text_size[static_cast<uint32_t>(dictionary.hw_dict_level)];
-    uint32_t dict_size_in_aecs = hash_table_size + dict_text_size;
+    const uint32_t hash_table_size   = hardware_hash_table_size[static_cast<uint32_t>(dictionary.hw_dict_level)];
+    const uint32_t dict_text_size    = hardware_dictionary_text_size[static_cast<uint32_t>(dictionary.hw_dict_level)];
+    const uint32_t dict_size_in_aecs = hash_table_size + dict_text_size;
 
     return dict_size_in_aecs;
 }
@@ -198,7 +198,7 @@ auto get_dictionary_size_in_aecs(qpl_dictionary &dictionary) noexcept -> uint32_
 */
 auto get_load_dictionary_flag(qpl_dictionary &dictionary) noexcept -> uint8_t {
     uint8_t load_dictionary_val = 0U;
-    hardware_dictionary_level hw_dict_level = dictionary.hw_dict_level;
+    const hardware_dictionary_level hw_dict_level = dictionary.hw_dict_level;
 
     switch (hw_dict_level) {
         case hardware_dictionary_level::LEVEL_1: {
@@ -229,7 +229,7 @@ auto get_dictionary_size(software_compression_level sw_level,
                          hardware_dictionary_level hw_dict_level,
                          size_t raw_dictionary_size) noexcept -> size_t {
 
-    size_t hist_size = get_history_size_for_dictionary(hw_dict_level);
+    const size_t hist_size = get_history_size_for_dictionary(hw_dict_level);
     raw_dictionary_size = std::min(raw_dictionary_size, static_cast<size_t>(hist_size));
     size_t result_size = raw_dictionary_size + sizeof(qpl_dictionary);
 
@@ -268,7 +268,7 @@ auto build_dictionary(qpl_dictionary &dictionary,
     uint32_t current_offset = static_cast<uint32_t>(sizeof(qpl_dictionary));
     dictionary.raw_dictionary_offset = current_offset;
 
-    size_t hist_size = get_history_size_for_dictionary(hw_dict_level);
+    const size_t hist_size = get_history_size_for_dictionary(hw_dict_level);
     if (raw_dict_size < hist_size) {
         if (hardware_dictionary_level::HW_NONE != hw_dict_level) {
             // If raw dictionary size is smaller than history size,

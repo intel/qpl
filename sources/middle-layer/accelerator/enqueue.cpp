@@ -26,7 +26,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
-    int32_t numa_id = (device_numa_id == -1) ? qpl::ml::util::get_numa_id()
+    const int32_t numa_id = (device_numa_id == -1) ? qpl::ml::util::get_numa_id()
                                              : device_numa_id;
 
     for (uint64_t try_count = 0U; try_count < device_count; ++try_count) {
@@ -53,7 +53,7 @@ extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t d
 
         hw_iaa_descriptor_hint_cpu_cache_as_destination((hw_descriptor *) desc_ptr, device.get_cache_write_available());
 
-        hw_accelerator_status enqueue_result = device.enqueue_descriptor(desc_ptr);
+        const hw_accelerator_status enqueue_result = device.enqueue_descriptor(desc_ptr);
         if (enqueue_result == HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ && result == HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE) {
             result = HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ;
         } else if (enqueue_result == HW_ACCELERATOR_WQ_IS_BUSY) {

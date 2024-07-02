@@ -47,8 +47,8 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
     auto bit_buffer = &isal_state->bitbuf;
 
     uint8_t  *deflate_header           = stream.isal_stream_ptr_->hufftables->deflate_hdr;
-    uint32_t deflate_header_count      = stream.isal_stream_ptr_->hufftables->deflate_hdr_count;
-    uint32_t deflate_header_extra_bits = stream.isal_stream_ptr_->hufftables->deflate_hdr_extra_bits;
+    const uint32_t deflate_header_count      = stream.isal_stream_ptr_->hufftables->deflate_hdr_count;
+    const uint32_t deflate_header_extra_bits = stream.isal_stream_ptr_->hufftables->deflate_hdr_extra_bits;
 
     isal_state->has_eob_hdr = 1;
 
@@ -124,7 +124,7 @@ auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compre
 
     stream.reset_bit_buffer();
 
-    uint32_t bytes_processed = qplc_slow_deflate_body()(stream.isal_stream_ptr_->next_in,
+    const uint32_t bytes_processed = qplc_slow_deflate_body()(stream.isal_stream_ptr_->next_in,
                                                  stream.isal_stream_ptr_->next_in - stream.isal_stream_ptr_->total_in,
                                                  stream.isal_stream_ptr_->next_in + stream.isal_stream_ptr_->avail_in,
                                                  &stream.hash_table_,

@@ -22,7 +22,7 @@ static inline auto extract(input_stream_t &input_stream,
                            const uint32_t param_low,
                            const uint32_t param_high) noexcept -> uint32_t {
     auto     table        = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_i_table();
-    uint32_t index        = core_sw::dispatcher::get_extract_index(input_stream.bit_width());
+    const uint32_t index        = core_sw::dispatcher::get_extract_index(input_stream.bit_width());
     auto     extract_impl = table[index];
 
     uint32_t source_index = 0;
@@ -152,7 +152,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
                                               int32_t UNREFERENCED_PARAMETER(numa_id)) noexcept -> analytic_operation_result_t {
     aggregates_t                aggregates;
     analytic_operation_result_t operation_result;
-    uint32_t                    input_bit_width = input_stream.bit_width();
+    const uint32_t              input_bit_width = input_stream.bit_width();
     uint32_t                    status_code     = status_list::ok;
 
     auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
@@ -165,7 +165,7 @@ auto call_extract<execution_path_t::software>(input_stream_t &input_stream,
         input_stream.stream_format() == stream_format_t::le_format &&
         !input_stream.is_compressed()) {
         auto     extract_table  = core_sw::dispatcher::kernels_dispatcher::get_instance().get_extract_table();
-        uint32_t extract_index  = core_sw::dispatcher::get_extract_index(input_bit_width);
+        const uint32_t extract_index  = core_sw::dispatcher::get_extract_index(input_bit_width);
         auto     extract_kernel = extract_table[extract_index];
 
         status_code = extract<analytic_pipeline::simple>(input_stream,

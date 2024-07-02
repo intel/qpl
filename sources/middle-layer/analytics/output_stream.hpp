@@ -172,8 +172,8 @@ public:
             stream_.capacity_ = (std::distance(stream_.begin(), stream_.end()) * byte_bits_size)
                                 / stream_.actual_bit_width_;
 
-            bool     is_output_be = (stream_.stream_format_ == stream_format_t::be_format);
-            uint32_t pack_index   = core_sw::dispatcher::get_pack_index(is_output_be,
+            const bool     is_output_be = (stream_.stream_format_ == stream_format_t::be_format);
+            const uint32_t pack_index   = core_sw::dispatcher::get_pack_index(is_output_be,
                                                                         static_cast<uint32_t>(stream_.bit_width_format_),
                                                                         static_cast<uint32_t>(stream_.is_nominal_));
 

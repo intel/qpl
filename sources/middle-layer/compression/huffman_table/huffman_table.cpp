@@ -51,7 +51,7 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::deflate>::create(huffman_
             decompression_table_offset = sizeof(qpl_compression_huffman_table);
     }
 
-    allocator_t table_allocator = details::get_allocator(allocator);
+    const allocator_t table_allocator = details::get_allocator(allocator);
     auto buffer = table_allocator.allocator(allocated_size);
     if (!buffer) return status_list::nullptr_error;
 
@@ -107,7 +107,7 @@ qpl_ml_status huffman_table_t<compression_algorithm_e::huffman_only>::create(huf
             decompression_table_offset = sizeof(qpl_compression_huffman_table);
     }
 
-    allocator_t table_allocator = details::get_allocator(allocator);
+    const allocator_t table_allocator = details::get_allocator(allocator);
     auto buffer = table_allocator.allocator(allocated_size);
     if (!buffer) return status_list::nullptr_error;
 

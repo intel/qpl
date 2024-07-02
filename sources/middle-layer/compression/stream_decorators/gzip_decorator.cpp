@@ -76,7 +76,7 @@ static inline bool parse_gzip_flags(const uint8_t *begin_ptr,
             return status_list::input_too_small;
         }
 
-        uint16_t extra_length = *(reinterpret_cast<const uint16_t *>(current_stream_ptr));
+        const uint16_t extra_length = *(reinterpret_cast<const uint16_t *>(current_stream_ptr));
         current_stream_ptr += 2;
 
         if (current_stream_ptr + extra_length > end_ptr) {
@@ -172,7 +172,7 @@ auto gzip_decorator::read_header(const uint8_t *stream_ptr,
 template <class F, class state_t, class ...arguments>
 auto gzip_decorator::unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t {
     uint8_t* saved_output_ptr  = state.get_output_data(); //state.get_output_buffer;
-    uint32_t origin_input_size = state.get_input_size();
+    const uint32_t origin_input_size = state.get_input_size();
     uint32_t wrapper_bytes     = 0;
 
     decompression_operation_result_t result{};

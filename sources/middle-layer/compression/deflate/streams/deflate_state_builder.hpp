@@ -134,11 +134,11 @@ private:
         uint8_t *bit_buffer_ptr   = nullptr;
         uint8_t *static_huffman_table_buffer_ptr = nullptr;
 
-        uint32_t level_buffer_size      = static_cast<uint32_t>(util::align_size(isal_level_buffer_size));
-        uint32_t bit_buffer_size        = static_cast<uint32_t>(util::align_size(sizeof(BitBuf2)));
-        uint32_t static_huff_table_size = static_cast<uint32_t>(util::align_size(sizeof(struct isal_hufftables)));
+        const uint32_t level_buffer_size      = static_cast<uint32_t>(util::align_size(isal_level_buffer_size));
+        const uint32_t bit_buffer_size        = static_cast<uint32_t>(util::align_size(sizeof(BitBuf2)));
+        const uint32_t static_huff_table_size = static_cast<uint32_t>(util::align_size(sizeof(struct isal_hufftables)));
 
-        uint32_t buffer_size = level_buffer_size + bit_buffer_size + static_huff_table_size;
+        const uint32_t buffer_size = level_buffer_size + bit_buffer_size + static_huff_table_size;
         auto buffer_ptr  = allocator.allocate<uint8_t, qpl::ml::util::memory_block_t::aligned_64u>(buffer_size);
 
         // do not initialize isal buffers if previous allocation failed
@@ -307,9 +307,9 @@ inline auto deflate_state_builder<execution_path_t::hardware>::compression_table
                                                    get_literals_lengths_table_ptr(state_.huffman_table_),
                                                    get_offsets_table_ptr(state_.huffman_table_));
 
-    uint32_t code_length  = get_literals_lengths_table_ptr(state_.huffman_table_)[256];
-    uint32_t eob_code_len = code_length >> 15u;
-    state_.meta_data_->eob_code.code   = util::revert_bits((uint16_t) code_length) >> (16u - eob_code_len);
+    const uint32_t code_length  = get_literals_lengths_table_ptr(state_.huffman_table_)[256];
+    const uint32_t eob_code_len = code_length >> 15U;
+    state_.meta_data_->eob_code.code   = util::revert_bits((uint16_t) code_length) >> (16U - eob_code_len);
     state_.meta_data_->eob_code.length = eob_code_len;
 
     return *this;

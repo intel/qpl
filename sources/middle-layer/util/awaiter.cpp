@@ -72,6 +72,6 @@ awaiter::~awaiter() noexcept {
 }
 
 void awaiter::wait_for(volatile void *address, uint8_t initial_value) noexcept {
-    awaiter wait_for(address, initial_value);
+    const awaiter wait_for(address, initial_value);
 }
 }

@@ -108,7 +108,7 @@ auto hw_queue::get_portal_ptr() const noexcept -> void * {
  */
 auto hw_queue::enqueue_descriptor(void *desc_ptr) const noexcept -> qpl_status {
     if (is_wq_mmaped()) {
-        uint8_t retry = 0U;
+        uint8_t retry = 0U; //NOLINT(misc-const-correctness)
 
         void *current_place_ptr = get_portal_ptr();
         asm volatile("sfence\t\n"
@@ -122,7 +122,7 @@ auto hw_queue::enqueue_descriptor(void *desc_ptr) const noexcept -> qpl_status {
         return static_cast<qpl_status>(retry);
     }
     else {
-        ssize_t ret = write(fd_, desc_ptr, sizeof(hw_iaa_analytics_descriptor));
+        const ssize_t ret = write(fd_, desc_ptr, sizeof(hw_iaa_analytics_descriptor));
 
         // add with different verbosity level to not crowd output
         // DIAG(" write submitted\n");
@@ -150,7 +150,7 @@ auto hw_queue::execute_noop() const noexcept -> qpl_status {
     hw_iaa_descriptor_init_noop_operation(&desc);
     hw_iaa_descriptor_set_completion_record(&desc, &completion_record);
 
-    qpl_status status = enqueue_descriptor(&desc);
+    const qpl_status status = enqueue_descriptor(&desc);
     if (QPL_STS_OK == status) {
         while (completion_record.status == 0) {
             _mm_pause();
@@ -226,7 +226,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> hw_acce
     block_on_fault_ = accfg_wq_get_block_on_fault(work_queue_ptr);
 
     accfg_op_config op_cfg;
-    int32_t get_op_cfg_status = accfg_wq_get_op_config(work_queue_ptr, &op_cfg);
+    int32_t get_op_cfg_status = accfg_wq_get_op_config(work_queue_ptr, &op_cfg); //NOLINT(misc-const-correctness)
     if(get_op_cfg_status) {
         DIAGA("Failed to load API accfg_wq_get_op_config from accel-config, WQ operation configs will not be used.\n");
         op_cfg_enabled_ = false;

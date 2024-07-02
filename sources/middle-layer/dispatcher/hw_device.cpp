@@ -67,7 +67,7 @@ void hw_device::fill_hw_context(hw_accelerator_context *const hw_context_ptr) co
 auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelerator_status {
     static thread_local std::uint32_t wq_idx = 0;
     bool is_op_supported_by_wq = false;
-    uint32_t operation = hw_iaa_descriptor_get_operation((hw_descriptor *)desc_ptr);
+    const uint32_t operation = hw_iaa_descriptor_get_operation((hw_descriptor *)desc_ptr);
 
     // For small low-latency cases WQ with small transfer size may be preferable
     // TODO: order WQs by priority and engines capacity, check transfer sizes and other possible features
@@ -78,7 +78,7 @@ auto hw_device::enqueue_descriptor(void *desc_ptr) const noexcept -> hw_accelera
             // For submitting when OPCFG is supported, logic is :
             //   If all WQs don't support operation, return HW_ACCELERATOR_NOT_SUPPORTED_BY_WQ
             //   If any WQ supports operation, but submission fails, then return HW_ACCELERATOR_WQ_IS_BUSY
-            qpl_status enqueue_status = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
+            const qpl_status enqueue_status = working_queues_[wq_idx].enqueue_descriptor(desc_ptr);
             is_op_supported_by_wq = true;
             if (QPL_STS_OK == enqueue_status) {
                 return HW_ACCELERATOR_STATUS_OK;
@@ -191,7 +191,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     // Retrieve IAACAP if available
     uint64_t iaa_cap = 0U;
-    int32_t get_iaa_cap_status = accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
+    const int32_t get_iaa_cap_status = accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
     if (get_iaa_cap_status) {
         // @todo this is a workaround to optionally load accfg_device_get_iaa_cap
         DIAGA("%5s: IAACAP: Failed to read IAACAP, HW gen 2 features will not be used\n", name_ptr);

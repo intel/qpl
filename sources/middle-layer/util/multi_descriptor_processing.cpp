@@ -16,7 +16,7 @@ auto split_elements(uint32_t number_of_elements) noexcept -> uint32_t {
         return number_of_elements / splitting_factor;
     }
 
-    uint32_t elements_in_part = ml::util::round_to_nearest_multiple(number_of_elements / splitting_factor, ml::byte_bits_size);
+    const uint32_t elements_in_part = ml::util::round_to_nearest_multiple(number_of_elements / splitting_factor, ml::byte_bits_size);
 
     return elements_in_part;
 }

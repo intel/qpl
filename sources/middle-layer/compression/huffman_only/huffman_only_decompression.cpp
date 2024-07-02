@@ -140,7 +140,7 @@ auto decompress_huffman_only<execution_path_t::software>(
     decompression_operation_result_t result{};
 
     reader.set_last_bits_offset(last_byte_valid_bits);
-    bool is_big_endian = decompression_state.get_endianness() == endianness_t::big_endian;
+    const bool is_big_endian = decompression_state.get_endianness() == endianness_t::big_endian;
     result = perform_huffman_only_decompression(reader,
                                                 destination_ptr,
                                                 available_out,
@@ -186,7 +186,7 @@ auto verify_huffman_only<execution_path_t::software>(huffman_only_decompression_
     const auto last_byte_valid_bits = state.get_fields().last_bits_offset;
     reader.set_last_bits_offset(last_byte_valid_bits);
 
-    bool is_big_endian = state.get_endianness() == endianness_t::big_endian;
+    const bool is_big_endian = state.get_endianness() == endianness_t::big_endian;
     reader.set_big_endian(is_big_endian);
 
     bool decode_next_symbol = true;

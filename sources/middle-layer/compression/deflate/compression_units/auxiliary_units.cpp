@@ -38,7 +38,7 @@ void huffman_only_state<execution_path_t::software>::reset_bit_buffer() noexcept
 void huffman_only_state<execution_path_t::software>::dump_bit_buffer() noexcept {
     auto isal_state = &isal_stream_ptr_->internal_state;
 
-    uint32_t bytes = buffer_used(&isal_state->bitbuf);
+    const uint32_t bytes = buffer_used(&isal_state->bitbuf);
 
     isal_stream_ptr_->next_out = buffer_ptr(&isal_state->bitbuf);
     isal_stream_ptr_->avail_out -= bytes;
@@ -316,7 +316,7 @@ auto get_history_size(deflate_state<execution_path_t::software> &stream,
 
     /* Calculate history required for deflate window */
     uint32_t history_size     = (buffered_history >= input_history) ? buffered_history : input_history;
-    uint32_t max_history_size = (1 << stream.isal_stream_ptr_->hist_bits);
+    const uint32_t max_history_size = (1 << stream.isal_stream_ptr_->hist_bits);
     if (history_size > max_history_size) {
         history_size = max_history_size;
     }
@@ -331,7 +331,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
     bool          internal       = false;
     uint32_t      buffered_size  = isal_state->b_bytes_valid - isal_state->b_bytes_processed;
     uint8_t       *start_in      = stream.isal_stream_ptr_->next_in;
-    uint32_t      total_start    = stream.isal_stream_ptr_->total_in;
+    const uint32_t total_start    = stream.isal_stream_ptr_->total_in;
     uint8_t       *next_in       = stream.isal_stream_ptr_->next_in;
     uint32_t      avail_in       = stream.isal_stream_ptr_->avail_in;
     int32_t       buf_hist_start = 0;
@@ -348,7 +348,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
             internal = true; // We are copying data into the internal buffer for compression
 
             if (isal_state->b_bytes_processed > history_size) {
-                uint32_t copy_start_offset = isal_state->b_bytes_processed - history_size;
+                const uint32_t copy_start_offset = isal_state->b_bytes_processed - history_size;
 
                 auto copy_down_src  = &isal_state->buffer[copy_start_offset];
                 auto copy_down_size = isal_state->b_bytes_valid - copy_start_offset;
@@ -426,7 +426,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software> &str
             status = implementation.execute(stream, internal_state);
         }
 
-        uint32_t processed = static_cast<uint32_t>(stream.isal_stream_ptr_->next_in - next_in_pre);
+        const uint32_t processed = static_cast<uint32_t>(stream.isal_stream_ptr_->next_in - next_in_pre);
         history_size = get_history_size(stream, buf_start_in, buf_hist_start);
 
         /* Restore compression to unbuffered input when compressing to internal buffer */

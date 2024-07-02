@@ -23,8 +23,8 @@ void bit_reader::load_buffer(uint8_t number_of_bits) noexcept {
         bits_in_buffer_ = 64;
     } else {
         // Try to load 16 bits for BE or 8 bits for LE
-        uint8_t load_bit_size  = is_big_endian_ ? 16U : 8U;
-        uint8_t load_byte_size = is_big_endian_ ? 2U : 1U;
+        const uint8_t load_bit_size  = is_big_endian_ ? 16U : 8U;
+        const uint8_t load_byte_size = is_big_endian_ ? 2U : 1U;
 
         while (bits_in_buffer_ <= (64U - load_bit_size) && number_of_bits > 0) {
             if (static_cast<uint32_t>(source_end_ptr_ - current_source_ptr_) <= 0) {

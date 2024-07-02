@@ -44,7 +44,7 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
     auto accel_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
 
     if constexpr (mode == execution_mode_t::sync) {
-        uint32_t status = convert_hw_accelerator_status_to_qpl_status(accel_status);
+        uint32_t status = convert_hw_accelerator_status_to_qpl_status(accel_status); //NOLINT(misc-const-correctness)
         if (status_list::ok != status) {
             if constexpr(std::is_same<decltype(status), return_t>::value) {
                 return status;
@@ -85,7 +85,7 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
                 completion_record_ptr->status = AD_STATUS_INPROG;
 
                 auto enqueue_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
-                uint32_t status = convert_hw_accelerator_status_to_qpl_status(enqueue_status);
+                uint32_t status = convert_hw_accelerator_status_to_qpl_status(enqueue_status); //NOLINT(misc-const-correctness)
                 if (status_list::ok != status) {
                     if constexpr(std::is_same<decltype(status), return_t>::value) {
                         return status;

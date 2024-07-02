@@ -21,7 +21,7 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
 
     const uint32_t initial_bits_in_buffer = inflate_state.read_in_length;
     uint8_t *initial_next_in_ptr = inflate_state.next_in;
-    uint64_t initial_read_in_buffer = inflate_state.read_in;
+    const uint64_t initial_read_in_buffer = inflate_state.read_in;
 
     parser_status_t parser_status = parser_status_t::ok;
 

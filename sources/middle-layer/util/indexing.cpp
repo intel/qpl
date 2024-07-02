@@ -17,7 +17,7 @@ qpl_status qpl_get_index_table_size(uint32_t mini_block_count,
         QPL_ERROR_RET(QPL_STS_SIZE_ERR);
     }
 
-    uint32_t block_count = (mini_block_count + mini_blocks_per_block - 1U) / mini_blocks_per_block;
+    const uint32_t block_count = (mini_block_count + mini_blocks_per_block - 1U) / mini_blocks_per_block;
     *size_ptr = (block_count * 2U + mini_block_count + 1U) * sizeof(uint64_t);
 
     return QPL_STS_OK;
@@ -55,7 +55,7 @@ qpl_status qpl_find_header_block_index(qpl_index_table *table_ptr,
         QPL_ERROR_RET(QPL_STS_SIZE_ERR);
     }
 
-    uint32_t block_number = mini_block_number / table_ptr->mini_blocks_per_block;
+    const uint32_t block_number = mini_block_number / table_ptr->mini_blocks_per_block;
 
     *block_index_ptr = block_number * (table_ptr->mini_blocks_per_block + 2U);
 
@@ -74,15 +74,15 @@ qpl_status qpl_find_mini_block_index(qpl_index_table *table_ptr,
 
     uint32_t current_header_index = 0U;
 
-    qpl_status status =
+    const qpl_status status =
         qpl_find_header_block_index(table_ptr, mini_block_number, &current_header_index);
 
     if (status) {
         return status;
     }
 
-    uint32_t block_number = mini_block_number / table_ptr->mini_blocks_per_block;
-    uint32_t mini_block_number_in_block =
+    const uint32_t block_number = mini_block_number / table_ptr->mini_blocks_per_block;
+    const uint32_t mini_block_number_in_block =
         mini_block_number - block_number * table_ptr->mini_blocks_per_block;
 
     *block_index_ptr = current_header_index + 1U + mini_block_number_in_block;

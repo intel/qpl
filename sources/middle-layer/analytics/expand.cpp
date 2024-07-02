@@ -87,7 +87,7 @@ static inline auto expand(input_stream_t &input_stream,
         source_elements -= source_elements_used;
 
         // Pack results
-        uint32_t pack_status = output_stream.perform_pack(output_buffer.data(), mask_elements_used);
+        const uint32_t pack_status = output_stream.perform_pack(output_buffer.data(), mask_elements_used);
         if (status_list::ok != pack_status) {
             return pack_status;
         }

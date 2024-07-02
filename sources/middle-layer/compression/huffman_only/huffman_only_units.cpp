@@ -201,7 +201,7 @@ auto convert_output_to_big_endian(huffman_only_state<execution_path_t::software>
 
     // Check if the last byte should be bit reversed (in case of odd stream length)
     if (stream.isal_stream_ptr_->total_out % 2 == 1) {
-        uint16_t temporary_array_value = *(reinterpret_cast<uint8_t *>(array_ptr + actual_length));
+        const uint16_t temporary_array_value = *(reinterpret_cast<uint8_t *>(array_ptr + actual_length));
         array_ptr[actual_length] = reverse_bits(temporary_array_value, 16);
     }
 

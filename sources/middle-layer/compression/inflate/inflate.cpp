@@ -100,9 +100,9 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
     decompression_operation_result_t result;
 
     uint8_t  *output_start_ptr      = inflate_state_ptr->next_out;
-    uint32_t saved_output_available = inflate_state_ptr->avail_out;
+    const uint32_t saved_output_available = inflate_state_ptr->avail_out;
 
-    bool is_internal_buffer_available = utility::try_to_setup_decoding_into_internal_buffer(*inflate_state_ptr);
+    const bool is_internal_buffer_available = utility::try_to_setup_decoding_into_internal_buffer(*inflate_state_ptr);
 
     if (is_internal_buffer_available) {
         // As we're decompressing into tmp_out_buffer, get corresponding start_out_ptr
@@ -176,7 +176,7 @@ static auto own_inflate(inflate_state<execution_path_t::software> &decompression
                                               inflate_state_ptr->write_overflow_len +
                                               inflate_state_ptr->tmp_out_valid;
 
-    bool is_internal_buffer_overflowed = bytes_in_internal_buffer > sizeof(inflate_state_ptr->tmp_out_buffer);
+    const bool is_internal_buffer_overflowed = bytes_in_internal_buffer > sizeof(inflate_state_ptr->tmp_out_buffer);
 
     if (ISAL_BLOCK_INPUT_DONE != inflate_state_ptr->block_state ||
         is_internal_buffer_overflowed) {
@@ -345,7 +345,7 @@ namespace utility {
 static inline void ignore_last_bits(isal_inflate_state &inflate_state,
                                     uint32_t number_of_bits) noexcept {
     if (number_of_bits > 0 && inflate_state.read_in_length > 0) {
-        uint32_t ignore_bits_count = static_cast<uint32_t>(inflate_state.read_in_length) > number_of_bits
+        const uint32_t ignore_bits_count = static_cast<uint32_t>(inflate_state.read_in_length) > number_of_bits
                                      ? (inflate_state.read_in_length - number_of_bits)
                                      : inflate_state.read_in_length;
 

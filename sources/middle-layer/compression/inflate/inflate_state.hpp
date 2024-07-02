@@ -556,13 +556,13 @@ template <>
         // For SW dictionary, decompression dictionary size will be the same as the raw dictionary size;
         // for HW dictionary, raw dictionary will be padded with 0 at the beginning if it is smaller than
         // the allocated history size in HW. So set the decompression dictionary size to the history size.
-        size_t decompress_dictionary_size = (dictionary_ptr->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+        const size_t decompress_dictionary_size = (dictionary_ptr->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
                                             dictionary_ptr->raw_dictionary_size :
                                             get_history_size_for_dictionary(dictionary_ptr->hw_dict_level);
 
         // For SW dictionary, the raw dictionary will be used directly so set offset to 0
         // for HW dictionary, set the offset to the raw dictionary offset in AECS
-        uint32_t decompress_raw_dict_offset = (dictionary_ptr->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
+        const uint32_t decompress_raw_dict_offset = (dictionary_ptr->hw_dict_level == hardware_dictionary_level::HW_NONE) ?
                                               0U :
                                               dictionary_ptr->aecs_raw_dictionary_offset;
 

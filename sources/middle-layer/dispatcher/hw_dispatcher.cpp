@@ -30,13 +30,13 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
     DIAG("Intel QPL version %s\n", QPL_VERSION);
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
-    hw_accelerator_status status = hw_initialize_accelerator_driver(&hw_driver_);
+    const hw_accelerator_status status = hw_initialize_accelerator_driver(&hw_driver_);
     QPL_HWSTS_RET(status != HW_ACCELERATOR_STATUS_OK, status);
 #endif
 
 
     DIAG("creating context\n");
-    int32_t context_creation_status = accfg_new(&ctx_ptr);
+    const int32_t context_creation_status = accfg_new(&ctx_ptr);
     QPL_HWSTS_RET(0U != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
 
     // Retrieve first device in the system given the passed in context
@@ -45,7 +45,7 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
     auto device_it    = devices_.begin();
 
     while (nullptr != dev_tmp_ptr) {
-        hw_accelerator_status status = device_it->initialize_new_device(dev_tmp_ptr);
+        const hw_accelerator_status status = device_it->initialize_new_device(dev_tmp_ptr);
 
         if (HW_ACCELERATOR_STATUS_OK == status) {
             device_it++;

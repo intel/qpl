@@ -14,12 +14,12 @@ namespace qpl::ml::analytics {
 template <>
 auto input_stream_t::unpack<analytic_pipeline::simple>(limited_buffer_t &output_buffer,
                                                        size_t required_elements) noexcept -> unpack_result_t {
-    uint32_t elements_to_unpack = std::min(current_number_of_elements_, static_cast<uint32_t>(required_elements));
+    const uint32_t elements_to_unpack = std::min(current_number_of_elements_, static_cast<uint32_t>(required_elements));
 
     unpack_kernel_(current_source_ptr_, elements_to_unpack, 0, output_buffer.data());
 
     current_number_of_elements_ -= elements_to_unpack;
-    uint32_t bytes_processed = util::bit_to_byte(elements_to_unpack * bit_width_);
+    const uint32_t bytes_processed = util::bit_to_byte(elements_to_unpack * bit_width_);
 
     current_source_ptr_ += bytes_processed;
     current_source_size_ -= bytes_processed;
@@ -151,7 +151,7 @@ auto input_stream_t::unpack<analytic_pipeline::inflate_prle>(limited_buffer_t &o
                                       &prle_value_);
 
     uint32_t elements_processed       = (static_cast<uint32_t>(current_ptr - output_buffer.data())) >> prle_index_;
-    uint32_t valid_decompressed_bytes = result.output_bytes_ + prev_decompressed_bytes_;
+    const uint32_t valid_decompressed_bytes = result.output_bytes_ + prev_decompressed_bytes_;
 
     if (unpack_source_ptr != (decompress_begin_ + valid_decompressed_bytes)) {
         core_sw::util::copy(unpack_source_ptr, decompress_begin_ + valid_decompressed_bytes, decompress_begin_);
@@ -192,9 +192,9 @@ auto input_stream_t::initialize_sw_kernels() noexcept -> void {
     auto unpack_table      = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_table();
     auto unpack_prle_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_unpack_prle_table();
 
-    uint32_t is_stream_be = (stream_format_ == stream_format_t::be_format) ? 1 : 0;
+    const uint32_t is_stream_be = (stream_format_ == stream_format_t::be_format) ? 1 : 0;
 
-    uint32_t unpack_index = core_sw::dispatcher::get_unpack_index(is_stream_be, bit_width_);
+    const uint32_t unpack_index = core_sw::dispatcher::get_unpack_index(is_stream_be, bit_width_);
     prle_index_ = core_sw::dispatcher::get_unpack_prle_index(bit_width_);
 
     if (stream_format_ != stream_format_t::prle_format) {

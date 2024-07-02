@@ -301,7 +301,7 @@ auto set_huffman_codes(huff_code *huff_code_table,
                        uint32_t *count) noexcept -> uint32_t {
     /* Uses the algorithm mentioned in the deflate standard, Rfc 1951. */
     int      i        = 0;
-    uint16_t code     = 0;
+    const uint16_t code     = 0;
     uint32_t max_code = 0;
 
     uint16_t next_code[MAX_HUFF_TREE_DEPTH + 1];

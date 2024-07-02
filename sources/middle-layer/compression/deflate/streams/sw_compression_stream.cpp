@@ -62,7 +62,7 @@ void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
 
         uint16_t *hash_table     = isal_stream_ptr_->level == 3 ? level_buffer->lvl3.hash_table :
                                                                   isal_state->head;
-        uint32_t hash_table_size = 2 * (isal_state->hash_mask + 1);
+        const uint32_t hash_table_size = 2 * (isal_state->hash_mask + 1);
 
         isal_state->has_hist = IGZIP_NO_HIST;
 
@@ -83,7 +83,7 @@ void deflate_state<execution_path_t::software>::reset_bit_buffer() noexcept {
 void deflate_state<execution_path_t::software>::dump_bit_buffer() noexcept {
     auto isal_state = &isal_stream_ptr_->internal_state;
 
-    uint32_t bytes = buffer_used(&isal_state->bitbuf);
+    const uint32_t bytes = buffer_used(&isal_state->bitbuf);
 
     isal_stream_ptr_->next_out = buffer_ptr(&isal_state->bitbuf);
     isal_stream_ptr_->avail_out -= bytes;

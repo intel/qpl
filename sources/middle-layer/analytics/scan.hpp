@@ -117,7 +117,7 @@ static inline auto scan(input_stream_t &input_stream,
             return status;
         }
 
-        uint32_t length_in_bytes = util::bit_to_byte(elements_to_process * input_stream.bit_width());
+        const uint32_t length_in_bytes = util::bit_to_byte(elements_to_process * input_stream.bit_width());
 
         input_stream.shift_current_ptr(length_in_bytes);
         input_stream.add_elements_processed(elements_to_process);

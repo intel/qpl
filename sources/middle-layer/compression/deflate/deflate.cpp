@@ -61,7 +61,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!dispatcher.is_hw_support()) {
-        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
         result.status_code_ = qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
         return result;
     }
@@ -76,13 +76,13 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
     // 3. the hardware_dictionary_level is set
     qpl_dictionary *dictionary = state.dictionary_;
     if (dictionary) {
-        bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
+        const bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
         if (!is_hw_dict_compress_supported || !is_single_chunk || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
             result.status_code_ = status_list::not_supported_err;
             return result;
         }
 
-        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        const uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
         state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
 
     } else {
@@ -101,7 +101,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(def
     if (dictionary) {
         const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
         const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
-        uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+        const uint8_t load_dictionary_val        = get_load_dictionary_flag(*dictionary);
 
         hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
                                                     dict_size_in_aecs,
@@ -197,7 +197,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 #if defined( __linux__ )
     static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (!dispatcher.is_hw_support()) {
-        hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
+        const hw_accelerator_status hw_status = dispatcher.get_hw_init_status();
         result.status_code_ = qpl::ml::util::convert_hw_accelerator_status_to_qpl_status(hw_status);
         return result;
     }
@@ -213,13 +213,13 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     // 3. the hardware_dictionary_level is set
     qpl_dictionary *dictionary = state.dictionary_;
     if (dictionary) {
-        bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
+        const bool is_single_chunk = (state.is_first_chunk() && state.is_last_chunk());
         if (!is_hw_dict_compress_supported || !is_single_chunk || (hardware_dictionary_level::HW_NONE == dictionary->hw_dict_level)) {
             result.status_code_ = status_list::not_supported_err;
             return result;
         }
 
-        uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
+        const uint32_t dict_size_in_aecs = get_dictionary_size_in_aecs(*dictionary);
         state.meta_data_->aecs_size = HW_AECS_COMPRESS_WITH_HT + dict_size_in_aecs;
 
     } else {
@@ -264,7 +264,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
             if (dictionary) {
                 const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
                 const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
-                uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+                const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
 
                 hw_iaa_descriptor_compress_setup_dictionary(state.collect_statistic_descriptor_,
                                                             dict_size_in_aecs,
@@ -385,7 +385,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
     if (dictionary) {
         const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
         const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
-        uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+        const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
 
         hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
                                                     dict_size_in_aecs,
