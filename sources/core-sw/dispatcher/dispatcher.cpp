@@ -120,14 +120,14 @@ auto detect_platform() -> arch_t {
     arch_t detected_platform = arch_t::px_arch;
     int    cpu_info[4];
     cpuid(cpu_info, 7);
-    bool avx512_support_cpu  = ((cpu_info[1] & CPUID_AVX512_MASK) == CPUID_AVX512_MASK);
+    const bool avx512_support_cpu  = ((cpu_info[1] & CPUID_AVX512_MASK) == CPUID_AVX512_MASK);
 
     cpuid(cpu_info, 1);
-    bool os_uses_XSAVE_XSTORE = cpu_info[2] & EXC_OSXSAVE;
+    const bool os_uses_XSAVE_XSTORE = cpu_info[2] & EXC_OSXSAVE;
 
     // Check if XGETBV enabled for application use
     if (os_uses_XSAVE_XSTORE) {
-        unsigned long long xcr_feature_mask = _xgetbv(0); //NOLINT(bugprone-reserved-identifier)
+        const unsigned long long xcr_feature_mask = _xgetbv(0); //NOLINT(bugprone-reserved-identifier)
         // Check if OPMASK state and ZMM state are enabled
         if ((xcr_feature_mask & 0xe0) == 0xe0) {
              // Check if XMM state and YMM state are enabled
@@ -144,18 +144,18 @@ auto detect_platform() -> arch_t {
 }
 
 auto get_unpack_index(const uint32_t flag_be, const uint32_t bit_width) -> uint32_t {
-    uint32_t input_be_shift = (flag_be) ? 32U : 0U;
+    const uint32_t input_be_shift = (flag_be) ? 32U : 0U;
     // Unpack function table contains 64 entries - starts from 1-32 bit-width for le_format, then 1-32 for BE input
-    uint32_t unpack_index   = input_be_shift + bit_width - 1U;
+    const uint32_t unpack_index   = input_be_shift + bit_width - 1U;
 
     return unpack_index;
 }
 
 auto get_pack_index(const uint32_t flag_be, const uint32_t out_bit_width, const uint32_t flag_nominal) -> uint32_t {
-    uint32_t output_be_shift = (flag_be) ? 4U : 0U;
+    const uint32_t output_be_shift = (flag_be) ? 4U : 0U;
     // Pack function table for nominal bit-vector output contains 8 entries - starts from 0-3 qpl_out_format for le_format,
     // then 4-7 for BE output
-    uint32_t pack_index      = (flag_nominal) ? out_bit_width + output_be_shift : output_be_shift;
+    const uint32_t  pack_index     = (flag_nominal) ? out_bit_width + output_be_shift : output_be_shift;
 
     return pack_index;
 }
@@ -172,37 +172,37 @@ auto kernels_dispatcher::get_instance() noexcept -> kernels_dispatcher & {
 
 auto get_scan_index(const uint32_t bit_width, const uint32_t scan_flavor_index) -> uint32_t {
     // Scan function table contains 3 entries for each scan sub-operation - for 8u, 16u & 32u unpacked data;
-    uint32_t data_type_index = BITS_2_DATA_TYPE_INDEX(bit_width);
+    const uint32_t data_type_index = BITS_2_DATA_TYPE_INDEX(bit_width);
     // Shift scan function index to the corresponding scan sub op: EQ, NE,LT, le_format, GT, GE, RANGE, NOT_RANGE
-    uint32_t scan_index      = data_type_index + scan_flavor_index * 3U;
+    const uint32_t scan_index      = data_type_index + scan_flavor_index * 3U;
 
     return scan_index;
 }
 
 auto get_extract_index(const uint32_t bit_width) -> uint32_t {
     // Extract function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t extract_index = BITS_2_DATA_TYPE_INDEX(bit_width);
+    const uint32_t extract_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return extract_index;
 }
 
 auto get_select_index(const uint32_t bit_width) -> uint32_t {
     // Select function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t select_index = BITS_2_DATA_TYPE_INDEX(bit_width);
+    const uint32_t select_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return select_index;
 }
 
 auto get_expand_index(const uint32_t bit_width) -> uint32_t {
     // Expand function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t expand_index = BITS_2_DATA_TYPE_INDEX(bit_width);
+    const uint32_t expand_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return expand_index;
 }
 
 auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t {
     // Memory copy function table contains 3 entries for 8u, 16u & 32u unpacked data;
-    uint32_t memory_copy_index = BITS_2_DATA_TYPE_INDEX(bit_width);
+    const uint32_t memory_copy_index = BITS_2_DATA_TYPE_INDEX(bit_width);
 
     return memory_copy_index;
 }
@@ -211,7 +211,7 @@ auto get_pack_bits_index(const uint32_t flag_be,
                          const uint32_t src_bit_width,
                          const uint32_t out_bit_width) -> uint32_t {
     uint32_t pack_array_index = src_bit_width - 1U;
-    uint32_t input_be_shift   = (flag_be) ? 35 : 0U; // 35
+    const uint32_t input_be_shift   = (flag_be) ? 35 : 0U; // 35
     // Unpack function table contains 70 (2 * 35) entries - starts from 1-32 bit-width
     // for le_format + 8u16u|8u32u|16u32u cases, then the same for BE input
     if (out_bit_width) {

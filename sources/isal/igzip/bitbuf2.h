@@ -30,7 +30,7 @@ static inline void init(struct BitBuf2 *me)
 
 static inline void set_buf(struct BitBuf2 *me, unsigned char *buf, unsigned int len)
 {
-    unsigned int slop = 8;
+    const unsigned int slop = 8;
     me->m_out_buf = me->m_out_start = buf;
     me->m_out_end = buf + len - slop;
 }
