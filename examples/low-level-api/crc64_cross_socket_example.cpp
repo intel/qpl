@@ -156,7 +156,7 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
     }
 
     // Get currently used CPU
-    int cpu_id = sched_getcpu();
+    const int cpu_id = sched_getcpu();
 
     // Get number of available sockets and current socket
     int total_sockets = -1;
@@ -186,7 +186,7 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
     std::cout << "\t" << "NUMA ID:" << numa_id << "\n";
 
     // Calculate different NUMA node
-    int numa_per_socket = total_nodes / total_sockets;
+    const int numa_per_socket = total_nodes / total_sockets;
     *inv_socket = !socket_id;  // Get the ID for a different socket
     *inv_numa_id = numa_per_socket * *inv_socket;
 
@@ -209,7 +209,7 @@ auto main(int argc, char** argv) -> int {
     qpl_path_t execution_path = qpl_path_software;
 
     // Get path from input argument
-    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }

@@ -27,7 +27,7 @@ static inline int parse_execution_path(int argc, char **argv, qpl_path_t *path_p
         }
     }
 
-    std::string path = argv[1];
+    const std::string path = argv[1];
     if (path == "hardware_path") {
         *path_ptr = qpl_path_hardware;
         std::cout << "The example will be run on the hardware path." << std::endl;

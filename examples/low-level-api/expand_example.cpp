@@ -40,7 +40,7 @@ auto main(int argc, char** argv) -> int {
     qpl_path_t execution_path = qpl_path_software;
 
     // Get path from input argument
-    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }

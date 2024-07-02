@@ -34,7 +34,7 @@ auto main(int argc, char** argv) -> int {
     qpl_path_t execution_path = qpl_path_software;
 
     // Get path from input argument
-    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }
@@ -82,7 +82,7 @@ auto main(int argc, char** argv) -> int {
 
     // First, we submit decompression operation with insufficient size,
     // in order to get a QPL_STS_MORE_OUTPUT_NEEDED error.
-    uint32_t insufficient_decompression_size = source_size / 2;
+    const uint32_t insufficient_decompression_size = source_size / 2;
 
     job->op            = qpl_op_decompress;
     job->next_in_ptr   = destination.data();

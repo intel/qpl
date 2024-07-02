@@ -35,7 +35,7 @@ auto main(int argc, char** argv) -> int {
     qpl_path_t execution_path = qpl_path_software;
 
     // Get path from input argument
-    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) {
         return 1;
     }
@@ -90,7 +90,7 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    std::unique_ptr<uint8_t[]> unique_buffer = std::make_unique<uint8_t[]>(serialized_size);
+    const std::unique_ptr<uint8_t[]> unique_buffer = std::make_unique<uint8_t[]>(serialized_size);
     uint8_t* buffer= reinterpret_cast<uint8_t *>(unique_buffer.get());
 
     // Serialization of a table
