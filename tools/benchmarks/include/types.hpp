@@ -67,6 +67,7 @@ enum class stat_type_e
 {
     compression,
     decompression,
+    crc64,
     filter
 };
 

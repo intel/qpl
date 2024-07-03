@@ -36,7 +36,7 @@ public:
             auto stat = measure<exec, path>(state, common_params, operations, params);
 
             // Set counters
-            base_counters(state, stat, stat_type_e::compression);
+            base_counters(state, stat, stat_type_e::crc64);
         }
         catch(std::runtime_error &err) { state.SkipWithError(err.what()); }
         catch(...)                     { state.SkipWithError("Unknown exception"); }

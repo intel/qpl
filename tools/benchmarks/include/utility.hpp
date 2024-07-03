@@ -242,38 +242,52 @@ static ::benchmark::internal::Benchmark* register_benchmarks_common(const std::s
     }
 }
 
-
+/**
+ * This function calculates and sets the counters for benchmarking based on the given state, statistics
+ * and operation type.
+ * The counters include latency, latency per operation, throughput and ratio.
+ *
+ * @param [in,out] state The benchmark state object.
+ * @param [in] stat The statistics object containing data read, data written, queue size and operations per thread.
+ * @param [in] type The type of operation performed.
+ */
 static inline void base_counters(benchmark::State &state, statistics_t &stat, stat_type_e type = stat_type_e::filter)
 {
-    if(type == stat_type_e::compression)
-    {
-        // Note: total data_read/write from all iterations are used when calculating Ratio to avoid potential rounding error
-        state.counters["Ratio"]      = benchmark::Counter(static_cast<double>(stat.data_read) / static_cast<double>(stat.data_written),
-                                                          benchmark::Counter::kAvgThreads);
-        if(state.iterations() != 0) {
-            state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_read / state.iterations()),
-                                                          benchmark::Counter::kIsIterationInvariantRate|benchmark::Counter::kAvgThreads,
-                                                          benchmark::Counter::kIs1000);
-        }
+    double throughput = 0.0;
 
-    }
-    else if(type == stat_type_e::decompression)
+    if (state.iterations() != 0)
     {
-        state.counters["Ratio"]      = benchmark::Counter(static_cast<double>(stat.data_written) / static_cast<double>(stat.data_read),
-                                                          benchmark::Counter::kAvgThreads);
-        if(state.iterations() != 0){
-            state.counters["Throughput"] = benchmark::Counter(static_cast<double>(stat.data_written / state.iterations()),
-                                                          benchmark::Counter::kIsIterationInvariantRate|benchmark::Counter::kAvgThreads,
-                                                          benchmark::Counter::kIs1000);
+        if (type == stat_type_e::compression || type == stat_type_e::crc64)
+        {
+            throughput = static_cast<double>(stat.data_read / state.iterations());
+        }
+        else if (type == stat_type_e::decompression)
+        {
+            throughput = static_cast<double>(stat.data_written / state.iterations());
         }
     }
 
-    state.counters["Latency/Op"] = benchmark::Counter(stat.operations_per_thread,
-                                                      benchmark::Counter::kIsIterationInvariantRate|benchmark::Counter::kAvgThreads|benchmark::Counter::kInvert,
-                                                      benchmark::Counter::kIs1000);
+    // Note: The total data_read and data_written from all iterations are used
+    // when calculating the Ratio to avoid potential rounding errors.
+    if (type == stat_type_e::compression)
+    {
+        state.counters["Ratio"] = benchmark::Counter(static_cast<double>(stat.data_read) / static_cast<double>(stat.data_written),
+                                                     benchmark::Counter::kAvgThreads);
+    }
+    else if (type == stat_type_e::decompression)
+    {
+        state.counters["Ratio"] = benchmark::Counter(static_cast<double>(stat.data_written) / static_cast<double>(stat.data_read),
+                                                     benchmark::Counter::kAvgThreads);
+    }
 
     state.counters["Latency"]    = benchmark::Counter(1,
-                                                      benchmark::Counter::kIsIterationInvariantRate |benchmark::Counter::kAvgThreads|benchmark::Counter::kInvert,
+                                                      benchmark::Counter::kIsIterationInvariantRate | benchmark::Counter::kAvgThreads | benchmark::Counter::kInvert,
+                                                      benchmark::Counter::kIs1000);
+    state.counters["Latency/Op"] = benchmark::Counter(stat.operations_per_thread,
+                                                      benchmark::Counter::kIsIterationInvariantRate | benchmark::Counter::kAvgThreads | benchmark::Counter::kInvert,
+                                                      benchmark::Counter::kIs1000);
+    state.counters["Throughput"] = benchmark::Counter(throughput,
+                                                      benchmark::Counter::kIsIterationInvariantRate | benchmark::Counter::kAvgThreads,
                                                       benchmark::Counter::kIs1000);
 }
 
