@@ -147,6 +147,9 @@ static const extended_info_t& get_sys_info()
             guard.unlock();
             throw std::runtime_error("Failed to open /proc/cpuinfo");
         }
+
+        info.cpu_logical_cores = 0U; // reset to 0, since we're going to actually count them
+
         std::string line;
         while (std::getline(info_file, line))
         {
@@ -164,7 +167,7 @@ static const extended_info_t& get_sys_info()
                 info.cpu_logical_cores++;
             else if(key == "physical id")
                 info.cpu_sockets = std::max(info.cpu_sockets, (std::uint32_t)atoi(val.c_str())+1);
-            else if(!info.cpu_physical_per_socket && key == "cpu cores")
+            else if(key == "cpu cores")
                 info.cpu_physical_per_socket = std::max(info.cpu_physical_per_socket, (std::uint32_t)atoi(val.c_str()));
             else if(!info.cpu_model_name.size() && key == "model name")
                 info.cpu_model_name = val;
