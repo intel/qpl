@@ -126,6 +126,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_select) {
         ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_BY_WQ);
     }
 }
+
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_expand) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
