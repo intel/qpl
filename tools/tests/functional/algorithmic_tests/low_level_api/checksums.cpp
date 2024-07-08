@@ -84,8 +84,8 @@ namespace qpl::test
         auto status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
 
-        uint32_t library_crc   = job_ptr->crc;
-        uint32_t reference_crc = ref_crc32(source.data(),
+        const uint32_t library_crc   = job_ptr->crc;
+        const uint32_t reference_crc = ref_crc32(source.data(),
                                            static_cast<uint32_t>(source.size()),
                                            polynomial,
                                            0U);
@@ -101,8 +101,8 @@ namespace qpl::test
         auto status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
 
-        uint32_t library_crc   = job_ptr->crc;
-        uint32_t reference_crc = ref_crc32(source.data(),
+        const uint32_t library_crc   = job_ptr->crc;
+        const uint32_t reference_crc = ref_crc32(source.data(),
                                            static_cast<uint32_t>(source.size()),
                                            polynomial,
                                            0U);
@@ -115,8 +115,8 @@ namespace qpl::test
         auto status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
 
-        uint32_t library_xor   = job_ptr->xor_checksum;
-        uint32_t reference_xor = ref_xor_checksum(source.data(),
+        const uint32_t library_xor   = job_ptr->xor_checksum;
+        const uint32_t reference_xor = ref_xor_checksum(source.data(),
                                                 static_cast<uint32_t>(source.size()),
                                                 0);
 

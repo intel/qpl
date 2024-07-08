@@ -56,7 +56,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(extract, param_low_greater_param_high)
 
     job_ptr->op = qpl_op_extract;
 
-    qpl_status status = run_job_api(job_ptr);
+    const qpl_status status = run_job_api(job_ptr);
 
     ASSERT_EQ(status, QPL_STS_OK);
 

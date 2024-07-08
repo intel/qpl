@@ -64,7 +64,7 @@ namespace qpl::test {
         EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
 
         for (uint32_t i = 0; i < job_ptr->total_out - 1; i++) {
-            uint32_t expected_elem = (1ULL << 8) - 1;
+            const uint32_t expected_elem = (1ULL << 8) - 1;
             ASSERT_EQ(destination[i], expected_elem);
         }
     }
@@ -119,7 +119,7 @@ namespace qpl::test {
         EXPECT_TRUE(CompareVectors(destination, reference_destination, job_ptr->total_out));
 
         for (uint32_t i = 0; i < job_ptr->total_out - 1; i++) {
-            uint32_t expected_elem = 0;
+            const uint32_t expected_elem = 0;
             ASSERT_EQ(destination[i], expected_elem);
         }
     }

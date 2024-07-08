@@ -118,13 +118,13 @@ constexpr uint32_t TEST_BUFFER_SIZE = 64U;
 namespace qpl::test {
 using randomizer = qpl::test::random;
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
-    std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> buffer_src{};
+    const std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> buffer_src{};
     std::array < uint8_t, TEST_BUFFER_SIZE > buffer_mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
@@ -146,8 +146,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(0)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length, mask.data(),&ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(0)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length, mask.data(),&ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_8u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -167,8 +167,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(0)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(0)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_8u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -184,8 +184,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
         fill_buffer_8u(buffer_mask.data(), mask.data(), TEST_BUFFER_SIZE);
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(0)(source.data(), length - 1, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 1, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(0)(source.data(), length - 1, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 1, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_8u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -205,8 +205,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(0)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(0)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_8u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -226,8 +226,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(0)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(0)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_8u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_8u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -237,13 +237,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_8u, base) {
 }
 
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
-    std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> buffer_src{};
+    const std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> buffer_src{};
     std::array < uint8_t, TEST_BUFFER_SIZE > buffer_mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {
@@ -265,8 +265,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(1)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(1)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_16u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -286,8 +286,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(1)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(1)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_16u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -303,8 +303,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
         fill_buffer_8u(buffer_mask.data(), mask.data(), TEST_BUFFER_SIZE);
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(1)(source.data(), length - 1U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 1U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(1)(source.data(), length - 1U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 1U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_16u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -324,8 +324,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(1)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(1)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_16u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -345,8 +345,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(1)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(1)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_16u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_16u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -355,13 +355,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_16u, base) {
 }
 
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
-    std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> buffer_src{};
+    const std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> buffer_src{};
     std::array < uint8_t, TEST_BUFFER_SIZE > buffer_mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
     {
@@ -383,8 +383,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(2)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(2)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_32u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -404,8 +404,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(2)(source.data(), length, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(2)(source.data(), length, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_32u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -421,8 +421,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
         fill_buffer_8u(buffer_mask.data(), mask.data(), TEST_BUFFER_SIZE);
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(2)(source.data(), length - 1U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 1U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(2)(source.data(), length - 1U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 1U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_32u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -442,8 +442,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(2)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(2)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_32u!!! "));
         ASSERT_EQ(length2, ref_length2);
@@ -463,8 +463,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_expand_32u, base) {
 
         destination.fill(0);
         reference.fill(0);
-        uint32_t expanded = qplc_expand(2)(source.data(), length - 32U, mask.data(), &length2, destination.data());
-        uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
+        const uint32_t expanded = qplc_expand(2)(source.data(), length - 32U, mask.data(), &length2, destination.data());
+        const uint32_t ref_expanded = ref_qplc_expand_32u(source.data(), length - 32U, mask.data(), &ref_length2, reference.data());
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_expand_32u!!! "));
         ASSERT_EQ(length2, ref_length2);

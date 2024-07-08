@@ -43,7 +43,7 @@ protected:
     }
 
     void CompressWithJobReusage(bool chunked, qpl_compression_levels level) {
-        uint32_t file_size = static_cast<uint32_t>(source.size());
+        const uint32_t file_size = static_cast<uint32_t>(source.size());
 
         const uint32_t min_chunk_size = chunked ? 1024 : file_size;
 

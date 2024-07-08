@@ -39,12 +39,12 @@ namespace qpl::test
     public:
         void InitializeTestCases()
         {
-            std::vector<uint32_t>     destination_bit_widths = {1U, 8U, 16U, 32U};
-            std::vector<uint32_t>     lengths                = GenerateNumberOfElementsVector();
+            const std::vector<uint32_t>     destination_bit_widths = {1U, 8U, 16U, 32U};
+            const std::vector<uint32_t>     lengths                = GenerateNumberOfElementsVector();
 
-            std::vector<uint32_t>     output_format_flags    = {0, QPL_FLAG_OUT_BE};
+            const std::vector<uint32_t>     output_format_flags    = {0, QPL_FLAG_OUT_BE};
 
-            for (uint32_t length : lengths)
+            for (const uint32_t length : lengths)
             {
                 for (uint32_t source_bit_width = 1; source_bit_width <= 32; source_bit_width++)
                 {
@@ -61,7 +61,7 @@ namespace qpl::test
                         {
                             for (auto flag : output_format_flags)
                             {
-                                uint32_t max_input_value = (1ULL << source_bit_width) - 1;
+                                const uint32_t max_input_value = (1ULL << source_bit_width) - 1;
                                 AnalyticTestCase test_case;
                                 test_case.number_of_elements = length;
                                 test_case.source_bit_width = source_bit_width;
@@ -375,7 +375,7 @@ namespace qpl::test
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
+        const uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }
@@ -402,7 +402,7 @@ namespace qpl::test
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
+        const uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }
@@ -527,13 +527,13 @@ namespace qpl::test
 
             // Following bit widths values are chosen for simplicity.
             // This way the resulting input buffer (next_in_ptr) would be exactly of length size.
-            uint32_t source_bit_width = 8U;
-            uint32_t destination_bit_width = 1U;
+            const uint32_t source_bit_width = 8U;
+            const uint32_t destination_bit_width = 1U;
 
             const uint32_t page_size = getpagesize();
-            for (uint32_t multiplier : lengths_multiplier)
+            for (const uint32_t multiplier : lengths_multiplier)
             {
-                uint32_t max_input_value = (1ULL << source_bit_width) - 1;
+                const uint32_t max_input_value = (1ULL << source_bit_width) - 1;
 
                 AnalyticTestCase test_case;
                 // For using madvise and aligned_alloc, buffer size should be multiple of page_size.
@@ -611,9 +611,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_in, psize);
 
-                    int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }
@@ -622,9 +622,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_out, psize);
 
-                    int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }

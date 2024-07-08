@@ -240,7 +240,7 @@ testing::AssertionResult HuffmanTableAlgorithmicTest::run_serialize_table(qpl_hu
 
     auto buffer = std::make_unique<uint8_t[]>(serialized_size + 1U);
 
-    uint8_t number_to_check = 42U;
+    const uint8_t number_to_check = 42U;
     buffer.get()[serialized_size] = number_to_check;
 
     status = qpl_huffman_table_serialize(huffman_table,

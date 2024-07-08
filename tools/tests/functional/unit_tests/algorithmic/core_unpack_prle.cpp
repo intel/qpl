@@ -124,9 +124,9 @@ static uint32_t ownc_decode_prle_header(uint8_t** pp_src, const uint8_t* src_sto
 
 
 static uint32_t ownc_octa_part_8u(uint8_t** pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr) {
-    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src);
-    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst);
-    uint32_t max_count = std::min(max_count_src, max_count_dst);
+    const uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src);
+    const uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst);
+    const uint32_t max_count = std::min(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
     }
@@ -139,9 +139,9 @@ static uint32_t ownc_octa_part_8u(uint8_t** pp_src, const uint8_t* src_stop_ptr,
 }
 
 static uint32_t ownc_octa_part_16u(uint8_t** pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr) {
-    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint16_t);
-    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint16_t);
-    uint32_t max_count = std::min(max_count_src, max_count_dst);
+    const uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint16_t);
+    const uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint16_t);
+    const uint32_t max_count = std::min(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
     }
@@ -154,9 +154,9 @@ static uint32_t ownc_octa_part_16u(uint8_t** pp_src, const uint8_t* src_stop_ptr
 }
 
 static uint32_t ownc_octa_part_32u(uint8_t** pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr) {
-    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint32_t);
-    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint32_t);
-    uint32_t max_count = std::min(max_count_src, max_count_dst);
+    const uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint32_t);
+    const uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint32_t);
+    const uint32_t max_count = std::min(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
     }
@@ -210,9 +210,9 @@ static uint32_t ref_qplc_unpack_prle_8u(uint8_t** pp_src, uint32_t src_length, u
                 *value_ptr = ownc_octa_part_8u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
             else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr);
-                uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
+                const uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
+                const uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr);
+                const uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
                 qplc_unpack_bits(bit_width - 1U)(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / QPL_TEST_PARQUET_WIDTH);
                 dst_ptr += max_count_lit;
@@ -323,9 +323,9 @@ static uint32_t ref_qplc_unpack_prle_16u(uint8_t** pp_src, uint32_t src_length, 
                 *value_ptr = ownc_octa_part_16u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
             else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint16_t);
-                uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
+                const uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
+                const uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint16_t);
+                const uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
                 qplc_unpack_bits(bit_width - 1U)(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / QPL_TEST_PARQUET_WIDTH);
                 dst_ptr += max_count_lit * sizeof(uint16_t);
@@ -408,8 +408,8 @@ static uint32_t ref_qplc_unpack_prle_32u(uint8_t** pp_src, uint32_t src_length, 
     uint32_t dst_step = 0U;
     uint32_t status = QPL_TEST_STS_OK;
     // Using a fixed-width of round-up-to-next-byte(bit-width) - value may take 3 or 4 bytes
-    uint32_t value_width = (QPL_TEST_3_BYTE_WIDTH < bit_width) ? 4U : 3U;
-    uint32_t value_mask = (QPL_TEST_3_BYTE_WIDTH < bit_width) ? UINT32_MAX : UINT32_MAX >> QPL_TEST_BYTE_WIDTH;
+    const uint32_t value_width = (QPL_TEST_3_BYTE_WIDTH < bit_width) ? 4U : 3U;
+    const uint32_t value_mask = (QPL_TEST_3_BYTE_WIDTH < bit_width) ? UINT32_MAX : UINT32_MAX >> QPL_TEST_BYTE_WIDTH;
 
     if (0 < *count_ptr) {
         count = std::min(static_cast<uint32_t>(*count_ptr),
@@ -436,9 +436,9 @@ static uint32_t ref_qplc_unpack_prle_32u(uint8_t** pp_src, uint32_t src_length, 
                 *value_ptr = ownc_octa_part_32u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
             }
             else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint32_t);
-                uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
+                const uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * QPL_TEST_PARQUET_WIDTH;
+                const uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint32_t);
+                const uint32_t max_count_lit = QPL_TEST_MIN(max_count_lit_src, max_count_lit_dst);
                 qplc_unpack_bits(bit_width - 1U)(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / QPL_TEST_PARQUET_WIDTH);
                 dst_ptr += max_count_lit * sizeof(uint32_t);
@@ -524,8 +524,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> ref_value{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const randomizer random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -549,13 +549,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_8u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_8u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_8u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_8u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);
@@ -591,13 +591,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_8u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_8u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_8u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_8u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);
@@ -618,8 +618,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> ref_value{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const randomizer random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
@@ -643,13 +643,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_16u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_16u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_16u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_16u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_16u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);
@@ -685,13 +685,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_16u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_16u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_16u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_16u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_16u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);
@@ -712,9 +712,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> ref_value{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
-    uint32_t p_bit_witdh[3U] = {23U, 24U, 32U};
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const randomizer random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    const uint32_t p_bit_witdh[3U] = {23U, 24U, 32U};
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
@@ -727,7 +727,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
         }
     }
     for (uint32_t indx_bit_width = 0U; indx_bit_width < 3U; indx_bit_width++) {
-        uint32_t bit_width = p_bit_witdh[indx_bit_width];
+        const uint32_t bit_width = p_bit_witdh[indx_bit_width];
         for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
             for (uint32_t length_dst = 1U; length_dst <= TEST_BUFFER_SIZE; length_dst++) {
                 for (int32_t count = -1; count <= (int32_t)TEST_BUFFER_SIZE; count++) {
@@ -739,13 +739,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_32u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_32u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_32u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_32u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);
@@ -770,7 +770,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
         }
     }
     for (uint32_t indx_bit_width = 0U; indx_bit_width < 3U; indx_bit_width++) {
-        uint32_t bit_width = p_bit_witdh[indx_bit_width];
+        const uint32_t bit_width = p_bit_witdh[indx_bit_width];
         for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
             for (uint32_t length_dst = 1U; length_dst <= TEST_BUFFER_SIZE; length_dst++) {
                 for (int32_t count = -1; count <= (int32_t)TEST_BUFFER_SIZE; count++) {
@@ -782,13 +782,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
                     uint8_t* p_ref_dst_8u = reference.data();
                     uint32_t* p_value = (uint32_t*)value.data();
                     uint32_t* p_ref_value = (uint32_t*)ref_value.data();
-                    uint32_t index = 0U;
-                    uint32_t ref_index = 0U;
+                    const uint32_t index = 0U;
+                    const uint32_t ref_index = 0U;
 
                     int32_t count_current = count;
                     int32_t ref_count_current = count;
-                    uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_32u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
-                    uint32_t ref_status = ref_qplc_unpack_prle_32u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
+                    const uint32_t status = qplc_unpack_prle(fun_indx_unpack_prle_32u)(&p_src_8u, length, bit_width, &p_dst_8u, length_dst, &count_current, p_value);
+                    const uint32_t ref_status = ref_qplc_unpack_prle_32u(&p_ref_src_8u, length, bit_width, &p_ref_dst_8u, length_dst, &ref_count_current, p_ref_value);
 
                     ASSERT_EQ(status, ref_status);
                     ASSERT_EQ(p_src_8u, p_ref_src_8u);

@@ -136,10 +136,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_finalize, test) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(qpl_gather_deflate_statistics, test) {
     uint8_t                source = 0U;
-    uint32_t               source_length = 1U;
+    const uint32_t         source_length = 1U;
     qpl_histogram          deflate_histogram{};
-    qpl_path_t             path          = qpl_path_software;
-    qpl_compression_levels level         = qpl_default_level;
+    const qpl_path_t             path          = qpl_path_software;
+    const qpl_compression_levels level         = qpl_default_level;
 
     qpl_status status = qpl_gather_deflate_statistics(nullptr,
                                            source_length,

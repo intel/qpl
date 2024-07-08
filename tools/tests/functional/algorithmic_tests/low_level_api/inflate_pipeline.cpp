@@ -225,7 +225,7 @@ namespace qpl::test
 
         destination.resize(job_ptr->total_out);
 
-        bool vectors_equality = source == destination;
+        const bool vectors_equality = source == destination;
 
         ASSERT_TRUE(vectors_equality);
     }
@@ -282,7 +282,7 @@ namespace qpl::test
             job_ptr->flags &= ~QPL_FLAG_FIRST; // Reset FIRST flag
         }
 
-        bool equal_vectors = source == destination;
+        const bool equal_vectors = source == destination;
 
         EXPECT_TRUE(equal_vectors);
     }

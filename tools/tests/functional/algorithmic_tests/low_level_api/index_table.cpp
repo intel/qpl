@@ -18,24 +18,24 @@ namespace qpl::test {
 
 size_t calculate_table_size(const uint32_t mini_block_count, const uint32_t mini_blocks_per_block) {
     const size_t index_size = sizeof(uint64_t);
-    uint32_t blocks_in_deflate_count =
+    const uint32_t blocks_in_deflate_count =
         (mini_block_count + mini_blocks_per_block - 1U) / mini_blocks_per_block;
-    uint32_t number_of_index_entries = (blocks_in_deflate_count * 2U + mini_block_count + 1U);
-    size_t table_size = number_of_index_entries * index_size;
+    const uint32_t number_of_index_entries = (blocks_in_deflate_count * 2U + mini_block_count + 1U);
+    const size_t table_size = number_of_index_entries * index_size;
     return table_size;
 }
 
 uint32_t calculate_header_block_index(uint32_t mini_block_per_block, uint32_t mini_block_to_decompress_number){
-    uint32_t block_number = mini_block_to_decompress_number/mini_block_per_block;
-    uint32_t index_block_header_start = block_number * (mini_block_per_block + 2U);
+    const uint32_t block_number = mini_block_to_decompress_number/mini_block_per_block;
+    const uint32_t index_block_header_start = block_number * (mini_block_per_block + 2U);
     return index_block_header_start;
 }
 
 uint32_t calculate_mini_block_index(uint32_t mini_block_per_block, uint32_t mini_block_to_decompress_number){
-    uint32_t block_number = mini_block_to_decompress_number/mini_block_per_block;
-    uint32_t index_block_header_start = block_number * (mini_block_per_block + 2U);
-    uint32_t mini_block_number_in_block = mini_block_to_decompress_number - block_number * mini_block_per_block;
-    uint32_t mini_block_index = index_block_header_start + 1U + mini_block_number_in_block;
+    const uint32_t block_number = mini_block_to_decompress_number/mini_block_per_block;
+    const uint32_t index_block_header_start = block_number * (mini_block_per_block + 2U);
+    const uint32_t mini_block_number_in_block = mini_block_to_decompress_number - block_number * mini_block_per_block;
+    const uint32_t mini_block_index = index_block_header_start + 1U + mini_block_number_in_block;
     return mini_block_index;
 }
 

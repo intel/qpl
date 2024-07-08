@@ -43,8 +43,8 @@ class InflateWithPageFaults : public JobFixture {
 protected:
     testing::AssertionResult RunTestInflatePageFaults(PageFaultType type) {
         const auto psize = getpagesize();
-        size_t src_size  = 1 * psize;
-        size_t dst_size  = 2 * src_size;
+        const size_t src_size  = 1 * psize;
+        const size_t dst_size  = 2 * src_size;
 
         uint8_t *aligned_src_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, src_size));
         uint8_t *aligned_dst_buffer = static_cast<uint8_t*>(std::aligned_alloc(psize, dst_size));
@@ -68,9 +68,9 @@ protected:
         std::memset(aligned_dst_buffer, 0, dst_size);
         std::memset(aligned_ref_buffer, 0, src_size);
 
-        std::unique_ptr<uint8_t, decltype(std::free)*> src{aligned_src_buffer, std::free};
-        std::unique_ptr<uint8_t, decltype(std::free)*> dst{aligned_dst_buffer, std::free};
-        std::unique_ptr<uint8_t, decltype(std::free)*> ref{aligned_ref_buffer, std::free};
+        const std::unique_ptr<uint8_t, decltype(std::free)*> src{aligned_src_buffer, std::free};
+        const std::unique_ptr<uint8_t, decltype(std::free)*> dst{aligned_dst_buffer, std::free};
+        const std::unique_ptr<uint8_t, decltype(std::free)*> ref{aligned_ref_buffer, std::free};
 
         job_ptr->op            = qpl_op_compress;
         job_ptr->level         = qpl_default_level;
@@ -103,7 +103,7 @@ protected:
             }
 
             if (err) {
-                int errsv = errno;
+                const int errsv = errno;
                 return testing::AssertionFailure() << "madvise failed, error code is " << errsv << "\n";
             }
         }

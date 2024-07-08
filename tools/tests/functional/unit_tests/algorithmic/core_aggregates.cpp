@@ -81,7 +81,7 @@ namespace qpl::test {
 using randomizer = qpl::test::random;
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> source{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
     uint32_t    min_value_ptr = 0U;
     uint32_t    max_value_ptr = 0U;
@@ -181,7 +181,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_bit_aggregates_8u, base) {
 
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
     uint32_t    min_value_ptr = 0U;
     uint32_t    max_value_ptr = 0U;
@@ -317,7 +317,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_8u, base) {
 
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
     uint32_t    min_value_ptr = 0U;
     uint32_t    max_value_ptr = 0U;
@@ -453,7 +453,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_16u, base) {
 
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_aggregates_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
     uint32_t    min_value_ptr = 0U;
     uint32_t    max_value_ptr = 0U;

@@ -49,7 +49,7 @@ namespace qpl::test
             {
                 for (uint32_t output_format = 0; output_format < 2; output_format++)
                 {
-                    for (uint32_t out_bit_width : {1, 8, 16, 32})
+                    for (const uint32_t out_bit_width : {1, 8, 16, 32})
                     {
                         const uint32_t max_output_value = (1ULL << out_bit_width) - 1;
 
@@ -85,9 +85,9 @@ namespace qpl::test
 
         ASSERT_EQ(QPL_STS_OK, status);
 
-        uint32_t library_min_value = job_ptr->first_index_min_value;
-        uint32_t library_max_value = job_ptr->last_index_max_value;
-        uint32_t library_sum_value = job_ptr->sum_value;
+        const uint32_t library_min_value = job_ptr->first_index_min_value;
+        const uint32_t library_max_value = job_ptr->last_index_max_value;
+        const uint32_t library_sum_value = job_ptr->sum_value;
 
         uint32_t reference_min_value = 0;
         uint32_t reference_max_value = 0;

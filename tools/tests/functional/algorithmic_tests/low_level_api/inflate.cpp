@@ -62,7 +62,7 @@ public:
             return testing::AssertionFailure();
         }
 
-        qpl_status status = run_job_api(job_ptr);
+        const qpl_status status = run_job_api(job_ptr);
 
         EXPECT_EQ(QPL_STS_OK, status);
 
@@ -75,12 +75,12 @@ public:
         job_ptr->op = qpl_op_decompress;
 
         uint8_t*    next_in_ptr_save = job_ptr->next_in_ptr;
-        uint32_t    available_in_save = job_ptr->available_in;
-        uint32_t    total_in_save = job_ptr->total_in;
+        const uint32_t    available_in_save = job_ptr->available_in;
+        const uint32_t    total_in_save = job_ptr->total_in;
         uint8_t*    next_out_ptr_save = job_ptr->next_out_ptr;
-        uint32_t    available_out_save = job_ptr->available_out;
-        uint32_t    total_out_save = job_ptr->total_out;
-        qpl_status  ref_status = QPL_STS_MORE_OUTPUT_NEEDED;
+        const uint32_t    available_out_save = job_ptr->available_out;
+        const uint32_t    total_out_save = job_ptr->total_out;
+        const qpl_status  ref_status = QPL_STS_MORE_OUTPUT_NEEDED;
 
         qpl_status status = run_job_api(job_ptr);
 
@@ -142,7 +142,7 @@ private:
             test_factor.specialTestOptions.is_aecs_format2_expected = are_iaa_gen_2_min_capabilities_present();
         }
 
-        gz_generator::InflateGenerator data_generator;
+        const gz_generator::InflateGenerator data_generator;
 
         generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
                                                                     decoded_data_buffer,
@@ -205,37 +205,37 @@ private:
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, small_data, Inflate) {
-    TestType test_type = CANNED_SMALL;
+    const TestType test_type = CANNED_SMALL;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, large_literal_lengths, Inflate) {
-    TestType test_type = CANNED_LARGE_LL;
+    const TestType test_type = CANNED_LARGE_LL;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, dynamic_block, Inflate) {
-    TestType test_type = NO_ERR_DYNAMIC_BLOCK;
+    const TestType test_type = NO_ERR_DYNAMIC_BLOCK;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, fixed_block, Inflate) {
-    TestType test_type = NO_ERR_FIXED_BLOCK;
+    const TestType test_type = NO_ERR_FIXED_BLOCK;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate, static_block, Inflate) {
-    TestType test_type = NO_ERR_STORED_BLOCK;
+    const TestType test_type = NO_ERR_STORED_BLOCK;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(inflate_huffman_only, generated_data, Inflate) {
-    TestType test_type = NO_ERR_HUFFMAN_ONLY;
+    const TestType test_type = NO_ERR_HUFFMAN_ONLY;
 
     ASSERT_TRUE(RunTestOnGeneratedData(test_type));
 }

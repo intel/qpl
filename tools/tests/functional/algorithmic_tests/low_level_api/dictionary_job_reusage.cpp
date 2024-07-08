@@ -94,7 +94,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary_deflate_inflate_job_reusage, fixed
                 status = run_job_api(comp_decomp_job_ptr);
                 ASSERT_EQ(QPL_STS_OK, status) << "Compression failed";
 
-                uint32_t compressed_size = comp_decomp_job_ptr->total_out;
+                const uint32_t compressed_size = comp_decomp_job_ptr->total_out;
                 destination.resize(compressed_size);
 
                 // Configure decompression job fields

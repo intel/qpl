@@ -60,8 +60,8 @@ namespace qpl::test
 
     std::ostream &operator<<(std::ostream &os, const CRC64TestCase &test_case)
     {
-        std::string crc_direction = (test_case.crc_direction == crc_forward) ? "forward" : "inverse";
-        std::string bit_order     = (test_case.bit_order == LE) ? "LE" : "BE";
+        const std::string crc_direction = (test_case.crc_direction == crc_forward) ? "forward" : "inverse";
+        const std::string bit_order     = (test_case.bit_order == LE) ? "LE" : "BE";
         os << "Source length : " << test_case.length << std::endl;
         os << "Polynomial shift : " << test_case.poly_shift << std::endl;
         os << "CRC direction : " << crc_direction << std::endl;
@@ -110,7 +110,7 @@ namespace qpl::test
 
         void SetUpBeforeIteration() override
         {
-            CRC64TestCase current_test_case = GetTestCase();
+            const CRC64TestCase current_test_case = GetTestCase();
 
             source_provider source_generator(current_test_case.length,
                                              8U,
@@ -131,7 +131,7 @@ namespace qpl::test
         {
             for (uint32_t length = 1U; length < 7U; length++)
             {
-                for (uint32_t poly_shift : {0U, 32U, 48U})
+                for (const uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -151,7 +151,7 @@ namespace qpl::test
 
             for (uint32_t length = 8U; length < 63U; length++)
             {
-                for (uint32_t poly_shift : {0U, 32U, 48U})
+                for (const uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -171,7 +171,7 @@ namespace qpl::test
 
             for (uint32_t length = 128U; length < 192U; length++)
             {
-                for (uint32_t poly_shift : {0U, 32U, 48U})
+                for (const uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -191,7 +191,7 @@ namespace qpl::test
 
             for (uint32_t length = 1000U; length < 2000U; length+= 101)
             {
-                for (uint32_t poly_shift : {0U, 32U, 48U})
+                for (const uint32_t poly_shift : {0U, 32U, 48U})
                 {
                     for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                     {
@@ -230,7 +230,7 @@ namespace qpl::test
         protected:
         void SetUpBeforeIteration() override
         {
-            CRC64TestCase current_test_case = GetTestCase();
+            const CRC64TestCase current_test_case = GetTestCase();
 
             // allocate extra space in source buffer to make enough room for the aligned address
             source.resize(current_test_case.length + current_test_case.src_alignment - 1U);
@@ -254,9 +254,9 @@ namespace qpl::test
         {
             // not required to test various lengths for page fault testing
             // might be extended in the future
-            uint32_t length = 128U;
+            const uint32_t length = 128U;
 
-            for (uint32_t poly_shift : {0U, 32U, 48U})
+            for (const uint32_t poly_shift : {0U, 32U, 48U})
             {
                 for (auto bit_order : {BitOrder::LE, BitOrder::BE})
                 {
@@ -283,9 +283,9 @@ namespace qpl::test
         if (is_madv_pageout_available()) {
             // swap out a single page of source buffer
             const auto psize = getpagesize();
-            int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
+            const int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
             if (err) {
-                int errsv = errno;
+                const int errsv = errno;
                 ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
             }
         }

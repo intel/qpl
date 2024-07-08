@@ -95,7 +95,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
@@ -112,9 +112,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u16u, base) {
             uint8_t* p_ref_dst_16u = reference.data();
             uint32_t index = 0U;
             uint32_t ref_index = 0U;
-            uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u16u)(source.data(), length,
+            const uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u16u)(source.data(), length,
                 &p_dst_16u, length_dst, &index);
-            uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u16u(source.data(), length,
+            const uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u16u(source.data(), length,
                 &p_ref_dst_16u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -131,9 +131,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u16u, base) {
             uint8_t* p_ref_dst_16u = reference.data();
             uint32_t index = UINT16_MAX - 32U;
             uint32_t ref_index = UINT16_MAX - 32U;
-            uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u16u)(source.data(), length,
+            const uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u16u)(source.data(), length,
                 &p_dst_16u, length_dst, &index);
-            uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u16u(source.data(), length,
+            const uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u16u(source.data(), length,
                 &p_ref_dst_16u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -148,7 +148,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
@@ -165,9 +165,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u32u, base) {
             uint8_t* p_ref_dst_32u = reference.data();
             uint32_t index = 0U;
             uint32_t ref_index = 0U;
-            uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u32u)(source.data(), length,
+            const uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u32u)(source.data(), length,
                 &p_dst_32u, length_dst, &index);
-            uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u32u(source.data(), length,
+            const uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u32u(source.data(), length,
                 &p_ref_dst_32u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);
@@ -184,9 +184,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_index_be_8u32u, base) {
             uint8_t* p_ref_dst_32u = reference.data();
             uint32_t index = UINT32_MAX - 32U;
             uint32_t ref_index = UINT32_MAX - 32U;
-            uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u32u)(source.data(), length,
+            const uint32_t status = (uint32_t)qplc_pack_vector(fun_indx_pack_be_index_8u32u)(source.data(), length,
                 &p_dst_32u, length_dst, &index);
-            uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u32u(source.data(), length,
+            const uint32_t ref_status = (uint32_t)ref_qplc_pack_be_index_8u32u(source.data(), length,
                 &p_ref_dst_32u, length_dst, &ref_index);
             ASSERT_EQ(status, ref_status);
             ASSERT_EQ(index, ref_index);

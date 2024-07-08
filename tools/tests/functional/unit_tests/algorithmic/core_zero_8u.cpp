@@ -41,7 +41,7 @@ namespace qpl::test {
 
         qplc_zero()(vector.data(), static_cast<uint32_t>(vector.size()));
 
-        bool all_elements_is_zero = std::all_of(vector.begin(), vector.end(), [](int i) { return i==0; });
+        const bool all_elements_is_zero = std::all_of(vector.begin(), vector.end(), [](int i) { return i==0; });
 
         EXPECT_TRUE(all_elements_is_zero);
     }

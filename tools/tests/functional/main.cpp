@@ -98,7 +98,7 @@ static inline util::arguments_list_t get_testing_settings(int argc, char *argv[]
  */
 #if defined(__linux__)
 qpl_status qpl_hw_compress() {
-    qpl_path_t execution_path = qpl_path_hardware;
+    const qpl_path_t execution_path = qpl_path_hardware;
     uint32_t job_size         = 0U;
 
     qpl_status status = qpl_get_job_size(execution_path, &job_size);
@@ -149,7 +149,7 @@ int test_init_with_fork() {
 
         // wait for child process to finish
         int child_status = 0;
-        int ret = waitpid(pid, &child_status, 0);
+        const int ret = waitpid(pid, &child_status, 0);
 
         if (ret != pid) {
             std::cout << "Failed to wait for child process to finish. " << std::endl;
@@ -194,11 +194,11 @@ int main(int argc, char *argv[]) { //NOLINT(bugprone-exception-escape)
 
     std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
 
-    int status = RUN_ALL_TESTS();
+    const int status = RUN_ALL_TESTS();
 
     if (init_with_fork_status) std::cout << "Hardware dispatcher initialization with fork() failed. " << std::endl;
     std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
 
-    int final_status = status | init_with_fork_status;
+    const int final_status = status | init_with_fork_status;
     return final_status;
 }

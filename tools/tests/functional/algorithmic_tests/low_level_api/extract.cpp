@@ -47,11 +47,11 @@ namespace qpl::test
             std::vector<uint32_t> bit_widths(32U, 0U);
             std::iota(bit_widths.begin(), bit_widths.end(), 1U);
             auto number_of_elements = format_generator::generate_length_sequence();
-            std::vector<uint64_t> output_format_flags = {0U, QPL_FLAG_OUT_BE};
+            const std::vector<uint64_t> output_format_flags = {0U, QPL_FLAG_OUT_BE};
 
             uint32_t test_cases_counter = 0;
 
-            for (uint32_t length_in_elements : number_of_elements)
+            for (const uint32_t length_in_elements : number_of_elements)
             {
                 for (auto source_bit_width : bit_widths)
                 {
@@ -70,7 +70,7 @@ namespace qpl::test
 
                         for (auto parser : {qpl_p_le_packed_array, qpl_p_be_packed_array, qpl_p_parquet_rle})
                         {
-                            for (uint64_t output_flag : output_format_flags)
+                            for (const uint64_t output_flag : output_format_flags)
                             {
                                 AnalyticTestCase test_case;
                                 test_case.operation = qpl_op_extract;
@@ -229,7 +229,7 @@ namespace qpl::test
             return;
         }
 
-        uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
+        const uint32_t max_available_index = (uint32_t)((1LLU << current_test_case.destination_bit_width) - 1U);
         if (current_test_case.number_of_elements > max_available_index) {
             return;
         }
@@ -304,7 +304,7 @@ namespace qpl::test
         const uint8_t values_to_extract = 10U;
 
         // Testing all potential output bit widths
-        std::vector<qpl_out_format> output_bit_widths = {qpl_ow_8, qpl_ow_16, qpl_ow_32};
+        const std::vector<qpl_out_format> output_bit_widths = {qpl_ow_8, qpl_ow_16, qpl_ow_32};
 
         // Output vector is of size 40 to fit {10 (items) * 4 (bytes per 32-bit value)}
         std::vector<uint8_t> destination(values_to_extract * 4);
@@ -445,11 +445,11 @@ namespace qpl::test
 
             // Following bit widths values are chosen for simplicity.
             // This way the resulting input buffer (next_in_ptr) would be exactly of length size.
-            uint32_t source_bit_width      = 8U;
-            uint32_t destination_bit_width = 1U;
+            const uint32_t source_bit_width      = 8U;
+            const uint32_t destination_bit_width = 1U;
 
             const uint32_t page_size = getpagesize();
-            for (uint32_t multiplier : lengths_multiplier)
+            for (const uint32_t multiplier : lengths_multiplier)
             {
                 AnalyticTestCase test_case;
 
@@ -528,9 +528,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_in, psize);
 
-                    int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }
@@ -539,9 +539,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_out, psize);
 
-                    int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }

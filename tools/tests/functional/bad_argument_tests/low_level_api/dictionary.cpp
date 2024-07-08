@@ -60,9 +60,9 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, level_none) {
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
     // Emulate dictionary
-    uint32_t dictionary_length = source.size();
-    sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
-    hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
+    const uint32_t dictionary_length = source.size();
+    const sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
+    const hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
 
     auto dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level,
                                                           hw_compr_level,
@@ -124,9 +124,9 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate_with_dictionary, hw_multi_chunk) {
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
     // Emulate dictionary
-    uint32_t dictionary_length = source.size();
-    sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
-    hw_compression_level hw_compr_level = hw_compression_level::HW_LEVEL_1;
+    const uint32_t dictionary_length = source.size();
+    const sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
+    const hw_compression_level hw_compr_level = hw_compression_level::HW_LEVEL_1;
 
     auto dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level,
                                                           hw_compr_level,

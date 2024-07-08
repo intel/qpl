@@ -221,7 +221,7 @@ namespace qpl::test
         void TestBody() override                                                                                            \
         {                                                                                                                   \
             using environment = util::TestEnvironment;                                                                      \
-            uint32_t test_case_id = environment::GetInstance().GetTestCaseId();                                             \
+            const uint32_t test_case_id = environment::GetInstance().GetTestCaseId();                                       \
             if (environment::GetInstance().IsTestCaseSpecified())                                                           \
             {                                                                                                               \
                 if (test_case_id < TestCaseCount())                                                                         \

@@ -34,7 +34,7 @@ namespace qpl::test
             test_factor.seed = GetSeed();
             test_factor.type = test_type;
 
-            gz_generator::InflateGenerator data_generator;
+            const gz_generator::InflateGenerator data_generator;
 
             generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
                                                                         decoded_data_buffer,
@@ -66,7 +66,7 @@ namespace qpl::test
             job_ptr->next_out_ptr  = destination.data();
             job_ptr->available_out = static_cast<uint32_t>(destination.size());
 
-            qpl_status job_status = run_job_api(job_ptr);
+            const qpl_status job_status = run_job_api(job_ptr);
 
             return job_status;
         }
@@ -79,8 +79,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, DISABLED_large_header)
     {
-        TestType  test_type      = LARGE_HEADER;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType  test_type        = LARGE_HEADER;
+        const qpl_status inflate_status  = InflateRunBrokenStream(test_type);
 
         const qpl_status expected_status = QPL_STS_BIG_HEADER_ERR;
 
@@ -89,8 +89,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, undefined_code_length_code)
     {
-        TestType  test_type      = UNDEFINED_CL_CODE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = UNDEFINED_CL_CODE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_UNDEF_CL_CODE_ERR;
 
@@ -99,8 +99,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, first_literal_lengths_code_is_16)
     {
-        TestType  test_type       = FIRST_LL_CODE_16;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = FIRST_LL_CODE_16;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_FIRST_LL_CODE_16_ERR;
 
@@ -112,8 +112,8 @@ namespace qpl::test
         // Could not be returned by the isa-l because ll codes parsed with dist codes in the same loop
         if (qpl_path_hardware == GetExecutionPath())
         {
-            TestType  test_type       = FIRST_D_CODE_16;
-            qpl_status inflate_status = InflateRunBrokenStream(test_type);
+            const TestType test_type        = FIRST_D_CODE_16;
+            const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
             const auto expected_status = QPL_STS_FIRST_D_CODE_16_ERR;
 
@@ -123,8 +123,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, no_literal_lengths_code)
     {
-        TestType  test_type       = NO_LL_CODE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = NO_LL_CODE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         // Check AD_ERROR_CODE_BAD_LL_CODE code
         if (qpl_path_hardware == GetExecutionPath())
@@ -139,8 +139,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, all_zero_literal_lengths_code)
     {
-        TestType  test_type       = ALL_ZERO_LL_CODE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = ALL_ZERO_LL_CODE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         EXPECT_EQ(QPL_STS_NO_LL_CODE_ERR, inflate_status);
     }
@@ -150,8 +150,8 @@ namespace qpl::test
         if (qpl_path_hardware == GetExecutionPath())
         {
             // Could not be returned by the isa-l
-            TestType  test_type      = CL_CODES_SPAN_LL_WITH_D;
-            qpl_status inflate_status = InflateRunBrokenStream(test_type);
+            const TestType test_type        = CL_CODES_SPAN_LL_WITH_D;
+            const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
             const auto expected_status = QPL_STS_WRONG_NUM_LL_CODES_ERR;
 
@@ -164,8 +164,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, many_literal_length_codes_declared)
     {
-        TestType  test_type      = TOO_MANY_LL_CODES;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = TOO_MANY_LL_CODES;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         // Check AD_ERROR_CODE_TOO_MANY_LL_CODES code
         if (qpl_path_hardware == GetExecutionPath())
@@ -182,8 +182,8 @@ namespace qpl::test
     {
         if (qpl_path_hardware == GetExecutionPath())
         {
-            TestType  test_type      = BIG_REPEAT_COUNT_LL;
-            qpl_status inflate_status = InflateRunBrokenStream(test_type);
+            const TestType test_type        = BIG_REPEAT_COUNT_LL;
+            const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
             const auto expected_status = QPL_STS_WRONG_NUM_LL_CODES_ERR;
 
@@ -193,8 +193,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, many_distance_codes)
     {
-        TestType  test_type      = TOO_MANY_D_CODES;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = TOO_MANY_D_CODES;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_WRONG_NUM_DIST_CODES_ERR;
 
@@ -203,8 +203,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, many_distance_codes_declared)
     {
-        TestType  test_type      = TOO_MANY_D_CODES_V2;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = TOO_MANY_D_CODES_V2;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         // Check AD_ERROR_CODE_TOO_MANY_D_CODES code
         if (qpl_path_hardware == GetExecutionPath())
@@ -219,8 +219,8 @@ namespace qpl::test
 
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest, large_count_repeating_distance_codes)
     {
-        TestType  test_type      = BIG_REPEAT_COUNT_D;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = BIG_REPEAT_COUNT_D;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_WRONG_NUM_DIST_CODES_ERR;
 
@@ -232,8 +232,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  oversubscribed_code_lengths_tree)
     {
-        TestType  test_type      = OVERSUBSCRIBED_CL_TREE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = OVERSUBSCRIBED_CL_TREE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_CL_CODE_LEN_ERR;
 
@@ -245,8 +245,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  oversubscribed_literal_lengths_tree)
     {
-        TestType  test_type      = OVERSUBSCRIBED_LL_TREE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = OVERSUBSCRIBED_LL_TREE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_LL_CODE_LEN_ERR;
 
@@ -258,8 +258,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  oversubscribed_distance_lengths_tree)
     {
-        TestType  test_type      = OVERSUBSCRIBED_D_TREE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = OVERSUBSCRIBED_D_TREE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_DIST_CODE_LEN_ERR;
 
@@ -270,8 +270,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  using_reserved_literal_length_code)
     {
-        TestType  test_type      = BLOCK_CONTAIN_UNALLOWABLE_LL_CODE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = BLOCK_CONTAIN_UNALLOWABLE_LL_CODE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_LL_CODE_ERR;
 
@@ -283,8 +283,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  using_reserved_distance_length_code)
     {
-        TestType  test_type      = BLOCK_CONTAIN_UNALLOWABLE_D_CODE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = BLOCK_CONTAIN_UNALLOWABLE_D_CODE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_D_CODE_ERR;
 
@@ -296,8 +296,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  invalid_block_type)
     {
-        TestType  test_type      = INVALID_BLOCK_TYPE;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = INVALID_BLOCK_TYPE;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_INVALID_BLOCK_TYPE;
 
@@ -309,8 +309,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  invalid_stored_length)
     {
-        TestType  test_type      = BAD_STORED_LEN;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = BAD_STORED_LEN;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_INVALID_STORED_LEN_ERR;
 
@@ -323,8 +323,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  bad_distance)
     {
-        TestType  test_type      = BAD_DIST;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = BAD_DIST;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_BAD_DIST_ERR;
 
@@ -337,8 +337,8 @@ namespace qpl::test
     */
     QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(inflate, InflateErrorsTest,  buffer_over_reading_via_distance)
     {
-        TestType  test_type      = DIST_BEFORE_START;
-        qpl_status inflate_status = InflateRunBrokenStream(test_type);
+        const TestType test_type        = DIST_BEFORE_START;
+        const qpl_status inflate_status = InflateRunBrokenStream(test_type);
 
         const auto expected_status = QPL_STS_REF_BEFORE_START_ERR;
 

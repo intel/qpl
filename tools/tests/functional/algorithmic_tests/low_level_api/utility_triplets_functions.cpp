@@ -96,21 +96,21 @@ protected:
     void run_huffman_only_build_decomp_from_compression_table(std::vector<uint8_t> &source_for_compression_table,
                                                               uint64_t flag_be = 0) {
         // Variables
-        uint32_t             max_length = static_cast<uint32_t>(source_for_compression_table.size());
+        const uint32_t max_length = static_cast<uint32_t>(source_for_compression_table.size());
         std::vector<uint8_t> reference_buffer;
         uint32_t             status     = QPL_STS_OK;
 
         // Create compression and decompression tables
-        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
                                                                       GetExecutionPath(),
                                                                       DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
                                                                       GetExecutionPath(),
                                                                       DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
@@ -128,10 +128,10 @@ protected:
 
         auto triplets = create_triplets_from_table(c_table.get());
 
-        unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
                                                                                     GetExecutionPath(),
                                                                                     DEFAULT_ALLOCATOR_C),
-                                                   any_huffman_table_deleter);
+                                                         any_huffman_table_deleter);
         ASSERT_NE(c_table_from_triplets.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_triplets(c_table_from_triplets.get(), triplets.data(), triplets.size());
@@ -241,16 +241,16 @@ protected:
         uint32_t             status     = QPL_STS_OK;
 
         // Create compression and decompression tables
-        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
                                                                       GetExecutionPath(),
                                                                       DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
                                                                       GetExecutionPath(),
                                                                       DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         destination.resize(max_length * 2);
@@ -268,10 +268,10 @@ protected:
 
         auto triplets = create_triplets_from_table(c_table.get());
 
-        unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table_from_triplets(huffman_only_huffman_table_maker(compression_table_type,
                                                                                     GetExecutionPath(),
                                                                                     DEFAULT_ALLOCATOR_C),
-                                                   any_huffman_table_deleter);
+                                                         any_huffman_table_deleter);
         ASSERT_NE(c_table_from_triplets.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_triplets(c_table_from_triplets.get(),

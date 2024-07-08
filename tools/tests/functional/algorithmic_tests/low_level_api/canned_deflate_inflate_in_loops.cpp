@@ -72,7 +72,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_inflate_canned_in_loops, default_le
             qpl_huffman_table_t huffman_table = nullptr;
             auto ht_destroy_status = QPL_STS_OK;
 
-            unique_huffman_table table(deflate_huffman_table_maker(combined_table_type,
+            const unique_huffman_table table(deflate_huffman_table_maker(combined_table_type,
                                                                    path,
                                                                    DEFAULT_ALLOCATOR_C),
                                        any_huffman_table_deleter);

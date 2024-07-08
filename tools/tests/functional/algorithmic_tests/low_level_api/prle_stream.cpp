@@ -44,7 +44,7 @@ public:
 
         std::copy(parquet_group.begin(), parquet_group.end(), source.begin() + 1);
 
-        uint32_t destination_size = rle_element.repeat_count * (bits_to_bytes(rle_element.bit_width));
+        const uint32_t destination_size = rle_element.repeat_count * (bits_to_bytes(rle_element.bit_width));
 
         destination.resize(destination_size);
         reference_destination.resize(destination_size);
@@ -89,7 +89,7 @@ public:
 
         std::copy(parquet_group.begin(), parquet_group.end(), source.begin() + 1);
 
-        uint32_t destination_size = rle_element.repeat_count * bits_to_bytes(job_ptr->src2_bit_width) * rle_element.element_value;
+        const uint32_t destination_size = rle_element.repeat_count * bits_to_bytes(job_ptr->src2_bit_width) * rle_element.element_value;
 
         destination.resize(destination_size);
         reference_destination.resize(destination_size);

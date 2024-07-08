@@ -305,7 +305,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR,
               qpl_huffman_table_get_serialized_size(table, DEFAULT_SERIALIZATION_OPTIONS, nullptr));
 
-    serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
+    const serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
 
     EXPECT_EQ(QPL_STS_SERIALIZATION_FORMAT_ERROR,
               qpl_huffman_table_get_serialized_size(table, bad_options, &table_size));
@@ -315,7 +315,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, get_serialized_size) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
     uint8_t buffer_ptr[1];
-    size_t  buffer_size = 1;
+    const size_t buffer_size = 1;
 
     EXPECT_EQ(QPL_STS_NULL_PTR_ERR, qpl_huffman_table_serialize(nullptr,
                                                                 buffer_ptr,
@@ -341,7 +341,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
                                                             0,
                                                             DEFAULT_SERIALIZATION_OPTIONS));
 
-    serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
+    const serialization_options_t bad_options = {static_cast<qpl_serialization_format_e>(0xFF), 0};
 
     EXPECT_EQ(QPL_STS_SERIALIZATION_FORMAT_ERROR, qpl_huffman_table_serialize(table,
                                                                               buffer_ptr,
@@ -353,7 +353,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, serialize) {
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(huffman_table, deserialize) {
     uint8_t buffer_ptr[1];
-    size_t  buffer_size = 1;
+    const size_t buffer_size = 1;
 
     qpl_huffman_table_t table{};
 

@@ -266,7 +266,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default) {
                 block_size = source.size();
             }
 
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -321,7 +321,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -371,7 +371,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -424,7 +424,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -474,7 +474,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -527,7 +527,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -577,7 +577,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -630,7 +630,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -682,10 +682,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default) {
                                                execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                execution_path,
                                                                DEFAULT_ALLOCATOR_C),
-                                   any_huffman_table_deleter);
+                                         any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
@@ -695,7 +695,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -752,10 +752,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                execution_path,
                                                                DEFAULT_ALLOCATOR_C),
-                                   any_huffman_table_deleter);
+                                         any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
@@ -765,7 +765,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -819,10 +819,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                execution_path,
                                                                DEFAULT_ALLOCATOR_C),
-                                   any_huffman_table_deleter);
+                                         any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
@@ -832,7 +832,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -888,10 +888,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
                                                execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                execution_path,
                                                                DEFAULT_ALLOCATOR_C),
-                                   any_huffman_table_deleter);
+                                         any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
@@ -901,7 +901,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -947,7 +947,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -1070,7 +1070,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);
@@ -1199,10 +1199,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                execution_path,
                                                                DEFAULT_ALLOCATOR_C),
-                                   any_huffman_table_deleter);
+                                         any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
@@ -1212,7 +1212,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
             if (block_size == 0) {
                 block_size = source.size();
             }
-            std::string          error_message = "File name - "
+            const std::string      error_message = "File name - "
                                                  + dataset.first
                                                  + ", block size = "
                                                  + std::to_string(block_size);

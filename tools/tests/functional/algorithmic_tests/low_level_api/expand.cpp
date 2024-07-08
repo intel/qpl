@@ -40,13 +40,13 @@ namespace qpl::test
     public:
         void InitializeTestCases()
         {
-            std::vector<uint32_t> lengths = GenerateNumberOfElementsVector();
+            const std::vector<uint32_t> lengths = GenerateNumberOfElementsVector();
 
-            for (uint32_t length : lengths)
+            for (const uint32_t length : lengths)
             {
                 for (uint32_t bit_width = 1U; bit_width <= 32U; bit_width++)
                 {
-                    for (uint32_t destination_bit_width : {1U, 8U, 16U, 32U})
+                    for (const uint32_t destination_bit_width : {1U, 8U, 16U, 32U})
                     {
                         const uint32_t max_output_value = (1ULL << destination_bit_width) - 1;
 
@@ -143,7 +143,7 @@ namespace qpl::test
         // Source and output containers
         std::vector<uint8_t> source              = {0b0000'0001U};
         std::vector<uint8_t> destination         = {0U};
-        std::vector<uint8_t> reference           = {0U};
+        const std::vector<uint8_t> reference     = {0U};
 
         std::unique_ptr<uint8_t[]> job_buffer;
         uint32_t   size = 0U;
@@ -208,12 +208,12 @@ namespace qpl::test
                 lengths_multiplier.push_back(i);
 
             // Following bit widths values are hard coded for simplicity.
-            uint32_t source_bit_width      = 1U;
-            uint32_t destination_bit_width = 1U;
+            const uint32_t source_bit_width      = 1U;
+            const uint32_t destination_bit_width = 1U;
 
             const uint32_t page_size = getpagesize();
 
-            for (uint32_t multiplier : lengths_multiplier)
+            for (const uint32_t multiplier : lengths_multiplier)
             {
                 AnalyticTestCase test_case;
 
@@ -308,9 +308,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_in, psize);
 
-                    int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_in_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }
@@ -319,9 +319,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_src2, psize);
 
-                    int err = madvise(job_ptr->next_src2_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_src2_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }
@@ -330,9 +330,9 @@ namespace qpl::test
                     // to avoid swapping out the memory that we don't own.
                     ASSERT_GE(job_ptr->available_out, psize);
 
-                    int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
+                    const int err = madvise(job_ptr->next_out_ptr, psize, MADV_PAGEOUT);
                     if (err) {
-                        int errsv = errno;
+                        const int errsv = errno;
                         ASSERT_EQ(err, 0) << "madvise failed, error code is " << errsv << "\n";
                     }
                 }

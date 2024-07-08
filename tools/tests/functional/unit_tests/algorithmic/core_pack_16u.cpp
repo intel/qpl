@@ -102,7 +102,7 @@ static qplc_pack_16u_type ref_qplc_pack_16u_tabl[7] =
 static void fill_src_buffer_16u(uint8_t* src, uint8_t* dst, size_t length, uint32_t nbits) {
     uint16_t *p_src_16u = (uint16_t*)src;
     uint16_t *p_dst_16u = (uint16_t*)dst;
-    uint16_t mask = (1U << nbits) - 1U;
+    const uint16_t mask = (1U << nbits) - 1U;
     for (uint32_t indx = 0; indx < length; indx++)
         p_dst_16u[indx] = p_src_16u[indx] & mask;
 }
@@ -116,7 +116,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_pack_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {

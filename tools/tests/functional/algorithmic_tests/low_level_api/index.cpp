@@ -43,7 +43,7 @@ struct IndexTestCase {
 std::ostream &operator<<(std::ostream &os, const IndexTestCase &test_case) {
     std::string block_usage;
     std::string compression_mode;
-    std::string header = (test_case.gzip_mode) ? "Gzip" : "No header";
+    const std::string header = (test_case.gzip_mode) ? "Gzip" : "No header";
 
     if (SINGLE_BLOCK == test_case.block_usage) {
         block_usage = "Single block";
@@ -76,7 +76,7 @@ public:
 
     static uint32_t UpdateCRC(uint32_t seed, uint8_t byte) {
         uint64_t rem = 0U;
-        uint32_t cvt = ~seed;
+        const uint32_t cvt = ~seed;
         rem = cvt;
         const uint32_t polynomial = 0xEDB88320; // IEEE standard
 
@@ -108,7 +108,7 @@ public:
                                           std::vector<uint8_t> &block_buffer) {
         qpl_job    *inflate_job_ptr = nullptr;
         uint32_t   job_size = 0U;
-        qpl_status status = qpl_get_job_size(GetExecutionPath(), &job_size);
+        const qpl_status status = qpl_get_job_size(GetExecutionPath(), &job_size);
 
         if (status != QPL_STS_OK) {
             return testing::AssertionFailure() << "Couldn't get job size";
@@ -165,7 +165,7 @@ public:
         }
 
         inflate_job_ptr->flags = QPL_FLAG_RND_ACCESS;
-        uint32_t mblock_start_index = (1 + block_number * (mblocks_per_block + 2) + mini_blocks_in_block);
+        const uint32_t mblock_start_index = (1 + block_number * (mblocks_per_block + 2) + mini_blocks_in_block);
         bit_start = (uint32_t) (index_array[mblock_start_index]);
         bit_end   = (uint32_t) (index_array[mblock_start_index + 1]);
 
@@ -218,7 +218,7 @@ public:
         job_ptr->op              = qpl_op_compress;
         job_ptr->mini_block_size = current_test_case.mini_block_size;
 
-        uint32_t required_indexes = NumberOfIndexValues(job_ptr->available_in,
+        const uint32_t required_indexes = NumberOfIndexValues(job_ptr->available_in,
                                                         (1U << (job_ptr->mini_block_size + 8U)),
                                                         (current_test_case.chunk_size == 0)
                                                         ? job_ptr->available_in
@@ -255,10 +255,10 @@ public:
         }
 
         block_usage = MULTIPLE_BLOCKS;
-        uint32_t mini_block_size = qpl_mblk_size_512;
+        const uint32_t mini_block_size = qpl_mblk_size_512;
 
         // All multiple blocks test cases
-        for (uint32_t chunk_size : {512U, 1024U, 1024U * 32U}) {
+        for (const uint32_t chunk_size : {512U, 1024U, 1024U * 32U}) {
             for (uint32_t compression_mode = MULT_BUF_FIXED;
                  compression_mode <= MULT_BUF_DYNAMIC; compression_mode++) {
                 for (uint32_t gzip_mode = 0U; gzip_mode < 2U; gzip_mode++) {
@@ -282,11 +282,11 @@ public:
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, IndexTest) {
     auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
     std::vector<uint8_t> source  = dataset[current_test_case.file_name];
-    uint32_t             input_size  = static_cast<uint32_t>(source.size());
+    const uint32_t   input_size  = static_cast<uint32_t>(source.size());
 
     uint32_t bytes_remain          = input_size;
     uint32_t chunk_size            = 0U;
-    uint32_t mini_block_size_bytes = (1U << (job_ptr->mini_block_size + 8U));
+    const uint32_t mini_block_size_bytes = (1U << (job_ptr->mini_block_size + 8U));
 
     job_ptr->next_in_ptr = source.data();
     job_ptr->available_in = input_size;
@@ -351,7 +351,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
         crc_array[crc_next] = crc_value;
     }
 
-    uint32_t current_number_index = NumberOfIndexValues(input_size,
+    const uint32_t current_number_index = NumberOfIndexValues(input_size,
                                                         mini_block_size_bytes,
                                                         (current_test_case.chunk_size == 0)
                                                         ? job_ptr->available_in
@@ -363,7 +363,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
     crc_next = 0U;
 
     for (uint32_t crc_number = 0U; crc_number < job_ptr->idx_num_written; crc_number++) {
-        uint64_t qpl_crc = (index_array[crc_number] >> 32) & 0xFFFFFFFF;
+        const uint64_t qpl_crc = (index_array[crc_number] >> 32) & 0xFFFFFFFF;
 
         if (qpl_crc == previous_crc) {
             continue;
@@ -374,14 +374,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index_extended, PerformOperation, 
         previous_crc = crc_array[crc_next++];
     }
 
-    uint32_t block_size = (current_test_case.chunk_size == 0) ? input_size
+    const uint32_t block_size = (current_test_case.chunk_size == 0) ? input_size
                                                               : current_test_case.chunk_size;
 
-    uint32_t number_of_mini_blocks = (input_size + mini_block_size_bytes - 1) / mini_block_size_bytes;
-    uint32_t mini_blocks_per_block = block_size / mini_block_size_bytes;
+    const uint32_t number_of_mini_blocks = (input_size + mini_block_size_bytes - 1) / mini_block_size_bytes;
+    const uint32_t mini_blocks_per_block = block_size / mini_block_size_bytes;
 
     for (uint32_t current_mini_block = 0; current_mini_block < number_of_mini_blocks; current_mini_block++) {
-        uint32_t             next_mini_block     = current_mini_block;
+        const uint32_t next_mini_block     = current_mini_block;
         std::vector<uint8_t> restored_mini_block;
         restored_mini_block.resize(mini_block_size_bytes * 2);
 

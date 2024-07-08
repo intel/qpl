@@ -103,7 +103,7 @@ static uint32_t test_dedeflate_icf_body(deflate_icf_stream *icf_stream_ptr,
 {
     uint32_t*   icf_ptr = (uint32_t*)icf_stream_ptr->begin_ptr;
     uint32_t    icf = 0U;
-    uint32_t    result = 0U;
+    const uint32_t result = 0U;
     for (uint32_t indx = 0U; indx < length;) {
         icf = *icf_ptr++;
         if ((icf & 0x3FF) < 0x100) {
@@ -120,9 +120,9 @@ static uint32_t test_dedeflate_icf_body(deflate_icf_stream *icf_stream_ptr,
             break;
         }
         {
-            uint32_t    len_match = (icf & 0x3FF) - 0xFE;
+            const uint32_t len_match = (icf & 0x3FF) - 0xFE;
             uint32_t    distance = (icf >> 10) & 0x1FF;
-            uint32_t    extend = icf >> 19;
+            const uint32_t extend = icf >> 19;
             str_histogram_ref->ll_hist[icf & 0x3FF]++;
             str_histogram_ref->d_hist[distance]++;
             distance = table_offset[distance];
@@ -173,8 +173,8 @@ using randomizer = qpl::test::random;
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_deflate_slow_icf, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const randomizer random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     uint8_t                 *current_ptr = (uint8_t*)source.data();
     uint8_t                 *lower_bound_ptr = (uint8_t*)source.data();

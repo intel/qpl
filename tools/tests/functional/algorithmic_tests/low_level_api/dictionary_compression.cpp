@@ -1682,10 +1682,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -1774,10 +1774,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compressi
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -1870,10 +1870,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_decompres
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -1966,10 +1966,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_default_stateful_compressi
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2065,10 +2065,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2157,10 +2157,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression)
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2253,10 +2253,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_decompressio
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2349,10 +2349,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, static_high_stateful_compression_
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the compression table
-                unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                                        compression_execution_path,
                                                                        DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+                                                 any_huffman_table_deleter);
                 ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2472,10 +2472,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateless) {
             ASSERT_EQ(QPL_STS_OK, status);
 
             // Create and fill the compression table
-            unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+            const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                      c_table_path,
                                                                      DEFAULT_ALLOCATOR_C),
-                                        any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
             qpl_histogram deflate_histogram{};
@@ -2500,10 +2500,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateless) {
                                                                        compression_execution_path);
 
             // Create and fill the decompression table
-            unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+            const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                      d_table_path,
                                                                      DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
             status = qpl_huffman_table_init_with_other(d_table.get(),
@@ -2559,10 +2559,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateful) {
                 }
 
                 // Create and fill the compression table
-                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                          compression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2621,10 +2621,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_default_stateful) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                          decompression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 status = qpl_huffman_table_init_with_other(d_table.get(),
@@ -2728,10 +2728,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateless) {
                 std::vector<uint8_t> reference(source.size(), 0);
 
                 // Create and fill the compression table
-                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                          compression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2786,10 +2786,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateless) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                          decompression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 status = qpl_huffman_table_init_with_other(d_table.get(),
@@ -2873,10 +2873,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateful) {
                 }
 
                 // Create and fill the compression table
-                unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+                const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                          compression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(c_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 qpl_histogram deflate_histogram{};
@@ -2935,10 +2935,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, canned_high_stateful) {
                 ASSERT_EQ(QPL_STS_OK, status);
 
                 // Create and fill the decompression table
-                unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+                const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                          decompression_execution_path,
                                                                          DEFAULT_ALLOCATOR_C),
-                                             any_huffman_table_deleter);
+                                                   any_huffman_table_deleter);
                 ASSERT_NE(d_table.get(), nullptr) << "Huffman Table creation failed\n";
 
                 status = qpl_huffman_table_init_with_other(d_table.get(),

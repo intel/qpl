@@ -32,7 +32,7 @@ static qpl_status perform_dynamic_compression(qpl_job *job_ptr,
     job_ptr->flags         = order_flag | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
     job_ptr->huffman_table = nullptr;
 
-    qpl_status status = run_job_api(job_ptr);
+    const qpl_status status = run_job_api(job_ptr);
     if (status != QPL_STS_OK)
         std::cout << "run_job_api status is " << status << "\n";
     return status;
@@ -125,7 +125,7 @@ static qpl_status perform_fixed_compression(qpl_job *job_ptr,
 
     job_ptr->huffman_table = nullptr;
 
-    qpl_status status = run_job_api(job_ptr);
+    const qpl_status status = run_job_api(job_ptr);
     if (status != QPL_STS_OK)
         std::cout << "run_job_api status is " << status << "\n";
     return status;
@@ -166,7 +166,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
     };
 
     auto     current_style        = (uint32_t) random_style;
-    uint32_t current_block_length = (uint32_t) source.size() / (uint32_t) random_bit_of_pie;
+    const uint32_t current_block_length = (uint32_t) source.size() / (uint32_t) random_bit_of_pie;
 
     auto first_run_status = compress_with_style_table[current_style](job_ptr,
                                                                      source.data(),
@@ -176,7 +176,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
                                                                      QPL_FLAG_FIRST);
     ASSERT_EQ(QPL_STS_OK, first_run_status);
 
-    uint32_t previous_style = current_style;
+    const uint32_t previous_style = current_style;
 
     while (previous_style == (current_style = (uint32_t) random_style)) {
         // Switching styles until get a new one

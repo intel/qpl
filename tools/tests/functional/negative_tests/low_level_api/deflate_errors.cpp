@@ -179,10 +179,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
 
     std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
-    unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+    const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                            GetExecutionPath(),
                                                            DEFAULT_ALLOCATOR_C),
-                               any_huffman_table_deleter);
+                                     any_huffman_table_deleter);
     ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
     auto status = fill_compression_table(table.get());
@@ -212,10 +212,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
 
     std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
 
-    unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
+    const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
                                                            GetExecutionPath(),
                                                            DEFAULT_ALLOCATOR_C),
-                               any_huffman_table_deleter);
+                                     any_huffman_table_deleter);
     ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
     auto status = fill_compression_table(table.get());
@@ -282,8 +282,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_
     // This hardcoded source data and size will result in a compressed stream of 10 Bytes.
     // The destination buffer (14 Bytes) is not large enough to accommodate the compressed
     // stream and the slop
-    uint32_t fixed_source_size = 14U;
-    uint32_t fixed_destination_size = fixed_source_size;
+    const uint32_t fixed_source_size = 14U;
+    const uint32_t fixed_destination_size = fixed_source_size;
     source.resize(fixed_source_size);
     destination.resize(fixed_destination_size);
     source = {0x5c, 0x01, 0xef, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a, 0x00, 0x5c};

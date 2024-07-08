@@ -57,10 +57,10 @@ protected:
             const uint32_t file_size = (uint32_t) source.size();
 
             // Create the compression table
-            unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+            const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
                                                                           GetExecutionPath(),
                                                                           DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             job_ptr->huffman_table = c_table.get();
@@ -92,10 +92,10 @@ protected:
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
             // Create and fill the decompression table
-            unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+            const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
                                                                           GetExecutionPath(),
                                                                           DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
             status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -162,10 +162,10 @@ protected:
             const uint32_t file_size = (uint32_t) source.size();
 
             // Create the compression table
-            unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+            const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
                                                                           GetExecutionPath(),
                                                                           DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             // Building table
@@ -270,10 +270,10 @@ protected:
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
             // Create and fill the decompression table
-            unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
+            const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
                                                                           GetExecutionPath(),
                                                                           DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+                                               any_huffman_table_deleter);
             ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
             status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -354,10 +354,10 @@ protected:
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
         // Create compression table
-        unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
                                                                       execution_path,
                                                                       DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         // Fill in job structure for Huffman only compression

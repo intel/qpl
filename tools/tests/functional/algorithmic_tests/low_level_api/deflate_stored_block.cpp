@@ -149,10 +149,10 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  GetExecutionPath(),
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         qpl_status status = fill_compression_table(c_table.get());
@@ -180,11 +180,11 @@ public:
             auto bytes_to_compare = std::min(total_byte_to_compare, max_stored_block_size);
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
-            bool compare_segments_result = CompareSegments(stored_block_begin,
-                                                           stored_block_end,
-                                                           reference,
-                                                           reference + bytes_to_compare,
-                                                           "Stored block index: " + std::to_string(i));
+            const bool compare_segments_result = CompareSegments(stored_block_begin,
+                                                                 stored_block_end,
+                                                                 reference,
+                                                                 reference + bytes_to_compare,
+                                                                 "Stored block index: " + std::to_string(i));
             ASSERT_TRUE(compare_segments_result);
 
             reference += bytes_to_compare;
@@ -211,13 +211,13 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  GetExecutionPath(),
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        qpl_status status = fill_compression_table(c_table.get());
+        const qpl_status status = fill_compression_table(c_table.get());
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_table.get();
@@ -245,13 +245,13 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  GetExecutionPath(),
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
-        qpl_status status = fill_compression_table(c_table.get());
+        const qpl_status status = fill_compression_table(c_table.get());
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_table.get();

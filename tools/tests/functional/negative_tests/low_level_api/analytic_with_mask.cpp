@@ -135,7 +135,7 @@ namespace qpl::test {
         void PrepareMask() {
             ASSERT_NO_THROW(mask.resize(qpl::test::bits_to_bytes(second_input_elements))); //NOLINT(cppcoreguidelines-avoid-goto)
 
-            uint32_t size = static_cast<uint32_t>(mask.size());
+            const uint32_t size = static_cast<uint32_t>(mask.size());
 
             for (uint32_t i = 0U; i < size; ++i) {
                 mask[i] = 0xFFU;

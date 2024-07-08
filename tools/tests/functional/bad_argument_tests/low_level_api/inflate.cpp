@@ -221,7 +221,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate_canned, nullptr_huffman_table) {
  * mode not supported error.
  */
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, canned_indexing) {
-    qpl_path_t execution_path = qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath();
+    const qpl_path_t execution_path = qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath();
 
     std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
     std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
@@ -245,7 +245,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, canned_indexing) {
 
     job_ptr->huffman_table = huffman_table;
 
-    qpl_status status = run_job_api(job_ptr);
+    const qpl_status status = run_job_api(job_ptr);
 
     qpl_huffman_table_destroy(huffman_table);
 

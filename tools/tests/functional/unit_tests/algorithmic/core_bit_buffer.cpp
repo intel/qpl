@@ -25,7 +25,7 @@ namespace qpl::test {
     QPL_UNIT_API_ALGORITHMIC_TEST(bit_writer_t, written_size) {
         std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
         uint64_t stream_bit_length = 0U;
-        uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+        const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
 
         bit_writer_t bit_writer = {};
         bit_writer_init(&bit_writer);

@@ -51,8 +51,8 @@ static uint32_t ref_qplc_extract_8u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    const uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    const uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_ptr += start;
     for (uint32_t idx = 0U; idx < (stop - start); idx++) {
@@ -80,8 +80,8 @@ static uint32_t ref_qplc_extract_16u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    const uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    const uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_16u_ptr += start;
     for (uint32_t idx = 0U; idx < (stop - start); idx++) {
@@ -109,8 +109,8 @@ static uint32_t ref_qplc_extract_32u(const uint8_t* src_ptr,
         return 0U;
     }
 
-    uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
-    uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
+    const uint32_t start = (*index_ptr < low_value) ? (low_value - *index_ptr) : 0U;
+    const uint32_t stop = ((*index_ptr + length) > high_value) ? (high_value + 1U - *index_ptr) : length;
 
     src_32u_ptr += start;
     for (uint32_t idx = 0U; idx < (stop - start); idx++) {
@@ -163,10 +163,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    randomizer random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     {
         uint8_t* p_source_8u = (uint8_t*)source.data();
@@ -181,9 +181,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u, base) {
             uint32_t ref_index_current = index;
             destination.fill(0);
             reference.fill(0);
-            uint32_t elements_extracted = qplc_extract(fun_indx_extract_8u)(source.data(), destination.data(),
+            const uint32_t elements_extracted = qplc_extract(fun_indx_extract_8u)(source.data(), destination.data(),
                 length, &index_current, low_value, high_value);
-            uint32_t ref_elements_extracted = ref_qplc_extract_8u(source.data(), reference.data(),
+            const uint32_t ref_elements_extracted = ref_qplc_extract_8u(source.data(), reference.data(),
                 length, &ref_index_current, low_value, high_value);
             ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                 destination.begin(), destination.end(), "FAIL qplc_extract_8u!!! "));
@@ -197,10 +197,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    randomizer random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     {
         uint16_t* p_source_16u = (uint16_t*)source.data();
@@ -213,9 +213,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u, base) {
                 uint32_t ref_index_current = index;
                 destination.fill(0);
                 reference.fill(0);
-                uint32_t elements_extracted = qplc_extract(fun_indx_extract_16u)(source.data(), destination.data(),
+                const uint32_t elements_extracted = qplc_extract(fun_indx_extract_16u)(source.data(), destination.data(),
                     length, &index_current, low_value, high_value);
-                uint32_t ref_elements_extracted = ref_qplc_extract_16u(source.data(), reference.data(),
+                const uint32_t ref_elements_extracted = ref_qplc_extract_16u(source.data(), reference.data(),
                     length, &ref_index_current, low_value, high_value);
                 ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                     destination.begin(), destination.end(), "FAIL qplc_extract_16u!!! "));
@@ -230,10 +230,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    randomizer random_value(0U, static_cast<double>(UINT32_MAX), seed);
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     {
         uint32_t* p_source_32u = (uint32_t*)source.data();
@@ -246,9 +246,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u, base) {
                 uint32_t ref_index_current = index;
                 destination.fill(0);
                 reference.fill(0);
-                uint32_t elements_extracted = qplc_extract(fun_indx_extract_32u)(source.data(), destination.data(),
+                const uint32_t elements_extracted = qplc_extract(fun_indx_extract_32u)(source.data(), destination.data(),
                     length, &index_current, low_value, high_value);
-                uint32_t ref_elements_extracted = ref_qplc_extract_32u(source.data(), reference.data(),
+                const uint32_t ref_elements_extracted = ref_qplc_extract_32u(source.data(), reference.data(),
                     length, &ref_index_current, low_value, high_value);
                 ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                     destination.begin(), destination.end(), "FAIL qplc_extract_32u!!! "));
@@ -262,10 +262,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    randomizer random_value(0U, static_cast<double>(UINT8_MAX), seed);
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0U; index < length; index++) {
@@ -278,9 +278,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u_i, base) {
                 }
             }
             fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-            uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_8u)(source_destination.data(),
+            const uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_8u)(source_destination.data(),
                 length, &index_current, low_value, high_value);
-            uint32_t ref_elements_extracted = ref_qplc_extract_8u_i(reference.data(),
+            const uint32_t ref_elements_extracted = ref_qplc_extract_8u_i(reference.data(),
                 length, &ref_index_current, low_value, high_value);
             ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                 source_destination.begin(), source_destination.end(), "FAIL qplc_extract_8u_i!!! "));
@@ -293,10 +293,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_8u_i, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
-    randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    randomizer random_value(0U, static_cast<double>(UINT16_MAX), seed);
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0U; index < length; index++) {
@@ -309,9 +309,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u_i, base) {
                 }
             }
             fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-            uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_16u)(source_destination.data(),
+            const uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_16u)(source_destination.data(),
                 length, &index_current, low_value, high_value);
-            uint32_t ref_elements_extracted = ref_qplc_extract_16u_i(reference.data(),
+            const uint32_t ref_elements_extracted = ref_qplc_extract_16u_i(reference.data(),
                 length, &ref_index_current, low_value, high_value);
             ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                 source_destination.begin(), source_destination.end(), "FAIL qplc_extract_16u_i!!! "));
@@ -324,10 +324,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_16u_i, base) {
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
-    uint32_t    low_value = 21U;
-    uint32_t    high_value = 42U;
+    const uint32_t low_value = 21U;
+    const uint32_t high_value = 42U;
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
         for (uint32_t index = 0U; index < length; index++) {
@@ -340,9 +340,9 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_extract_32u_i, base) {
                 }
             }
             fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-            uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_32u)(source_destination.data(),
+            const uint32_t elements_extracted = qplc_extract_i(fun_indx_extract_32u)(source_destination.data(),
                 length, &index_current, low_value, high_value);
-            uint32_t ref_elements_extracted = ref_qplc_extract_32u_i(reference.data(),
+            const uint32_t ref_elements_extracted = ref_qplc_extract_32u_i(reference.data(),
                 length, &ref_index_current, low_value, high_value);
             ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
                 source_destination.begin(), source_destination.end(), "FAIL qplc_extract_32u_i!!! "));

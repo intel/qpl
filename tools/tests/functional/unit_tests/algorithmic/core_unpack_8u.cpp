@@ -29,7 +29,7 @@ static inline qplc_unpack_bits_t_ptr qplc_unpack_bits(uint32_t index) {
 }
 
 static void fill_src_buffer_8u(uint8_t* src, uint8_t* dst, size_t length, uint32_t nbits) {
-    uint8_t mask = (1U << nbits) - 1U;
+    const uint8_t mask = (1U << nbits) - 1U;
     for (uint32_t indx = 0; indx < length; indx++) {
         dst[indx] = src[indx] & mask;
     }
@@ -52,7 +52,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> source_pack{};
     std::array<uint8_t, TEST_BUFFER_SIZE> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     std::generate(buffer.begin(), buffer.end(), [&random_value](){return static_cast<uint8_t>(random_value);});

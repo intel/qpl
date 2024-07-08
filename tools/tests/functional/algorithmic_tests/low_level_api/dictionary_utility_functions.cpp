@@ -16,19 +16,19 @@ namespace qpl::test {
 // This creates a variety of dictionaries from the dataset and checks that the sizes match
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, get_existing_dictionary_size) {
 
-    hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
+    const hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
 
         std::vector<uint8_t> source = dataset.second;
-        uint32_t dict_size          = static_cast<uint32_t>(source.size());
+        const uint32_t dict_size          = static_cast<uint32_t>(source.size());
 
-        for (hw_compression_level hw_compr_level : hw_levels) {
-            for (sw_compression_level sw_compr_level : sw_levels) {
+        for (const hw_compression_level hw_compr_level : hw_levels) {
+            for (const sw_compression_level sw_compr_level : sw_levels) {
 
-                uint32_t dictionary_buffer_size        = qpl_get_dictionary_size(sw_compr_level,
-                                                                                 hw_compr_level,
-                                                                                 dict_size);
+                const uint32_t dictionary_buffer_size        = qpl_get_dictionary_size(sw_compr_level,
+                                                                                       hw_compr_level,
+                                                                                       dict_size);
 
                 auto dictionary_buffer                 = std::make_unique<uint8_t[]>(dictionary_buffer_size);
                 qpl_dictionary* dictionary_ptr         = reinterpret_cast<qpl_dictionary *>(dictionary_buffer.get());
@@ -52,16 +52,16 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, get_existing_dictionary_size) {
 // Makes sure that the set function sets the same value that the get function returns
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(dictionary, dictionary_id) {
 
-    sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
-    hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
+    const sw_compression_level sw_compr_level = sw_compression_level::SW_NONE;
+    const hw_compression_level hw_compr_level = hw_compression_level::HW_NONE;
 
     // Raw dict size parameter is arbitrary, does not affect test's functionality
-    size_t dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, 4096);
+    const size_t dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, 4096);
 
     auto dictionary_buffer = std::make_unique<uint8_t[]>(dictionary_buffer_size);
     qpl_dictionary* dictionary_ptr    = reinterpret_cast<qpl_dictionary *>(dictionary_buffer.get());
 
-    uint32_t dictionary_id = 1; // Arbitrary ID for testing
+    const uint32_t dictionary_id = 1; // Arbitrary ID for testing
 
     qpl_status status = qpl_set_dictionary_id(dictionary_ptr, dictionary_id);
     ASSERT_EQ(QPL_STS_OK, status) << "Setting dict id failed";

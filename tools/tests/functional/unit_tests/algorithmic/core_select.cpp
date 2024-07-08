@@ -117,7 +117,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE*sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     {
@@ -135,8 +135,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u, base) {
         destination.fill(0);
         reference.fill(0);
 
-        uint32_t select = qplc_select(fun_indx_select_8u)(source.data(), mask.data(), destination.data(), length);
-        uint32_t ref_select = ref_qplc_select_8u(source.data(), mask.data(), reference.data(), length);
+        const uint32_t select = qplc_select(fun_indx_select_8u)(source.data(), mask.data(), destination.data(), length);
+        const uint32_t ref_select = ref_qplc_select_8u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_8u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -149,7 +149,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     {
@@ -169,8 +169,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u, base) {
         destination.fill(0);
         reference.fill(0);
 
-        uint32_t select = qplc_select(fun_indx_select_16u)(source.data(), mask.data(), destination.data(), length);
-        uint32_t ref_select = ref_qplc_select_16u(source.data(), mask.data(), reference.data(), length);
+        const uint32_t select = qplc_select(fun_indx_select_16u)(source.data(), mask.data(), destination.data(), length);
+        const uint32_t ref_select = ref_qplc_select_16u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_16u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -183,7 +183,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
     {
@@ -203,8 +203,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u, base) {
         destination.fill(0);
         reference.fill(0);
 
-        uint32_t select = qplc_select(fun_indx_select_32u)(source.data(), mask.data(), destination.data(), length);
-        uint32_t ref_select = ref_qplc_select_32u(source.data(), mask.data(), reference.data(), length);
+        const uint32_t select = qplc_select(fun_indx_select_32u)(source.data(), mask.data(), destination.data(), length);
+        const uint32_t ref_select = ref_qplc_select_32u(source.data(), mask.data(), reference.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             destination.begin(), destination.end(), "FAIL qplc_select_32u!!! "));
         ASSERT_EQ(select, ref_select);
@@ -215,7 +215,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT8_MAX), seed);
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
@@ -230,8 +230,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_8u_i, base) {
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        uint32_t select = qplc_select_i(fun_indx_select_8u)(source_destination.data(), mask.data(), length);
-        uint32_t ref_select = ref_qplc_select_8u_i(reference.data(), mask.data(), length);
+        const uint32_t select = qplc_select_i(fun_indx_select_8u)(source_destination.data(), mask.data(), length);
+        const uint32_t ref_select = ref_qplc_select_8u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_8u_i!!! "));
         ASSERT_EQ(select, ref_select);
@@ -242,7 +242,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint16_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT16_MAX), seed);
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
@@ -257,8 +257,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_16u_i, base) {
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        uint32_t select = qplc_select_i(fun_indx_select_16u)(source_destination.data(), mask.data(), length);
-        uint32_t ref_select = ref_qplc_select_16u_i(reference.data(), mask.data(), length);
+        const uint32_t select = qplc_select_i(fun_indx_select_16u)(source_destination.data(), mask.data(), length);
+        const uint32_t ref_select = ref_qplc_select_16u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_16u_i!!! "));
         ASSERT_EQ(select, ref_select);
@@ -269,7 +269,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u_i, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> source_destination{};
     std::array<uint8_t, TEST_BUFFER_SIZE> mask{};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> reference{};
-    uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
+    const uint64_t seed = util::TestEnvironment::GetInstance().GetSeed();
     randomizer         random_value(0U, static_cast<double>(UINT32_MAX), seed);
 
     for (uint32_t length = 1U; length <= TEST_BUFFER_SIZE; length++) {
@@ -284,8 +284,8 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_select_32u_i, base) {
             }
         }
         fill_buffer_8u(source_destination.data(), reference.data(), (uint32_t)source_destination.size());
-        uint32_t select = qplc_select_i(fun_indx_select_32u)(source_destination.data(), mask.data(), length);
-        uint32_t ref_select = ref_qplc_select_32u_i(reference.data(), mask.data(), length);
+        const uint32_t select = qplc_select_i(fun_indx_select_32u)(source_destination.data(), mask.data(), length);
+        const uint32_t ref_select = ref_qplc_select_32u_i(reference.data(), mask.data(), length);
         ASSERT_TRUE(CompareSegments(reference.begin(), reference.end(),
             source_destination.begin(), source_destination.end(), "FAIL qplc_select_32u_i!!! "));
         ASSERT_EQ(select, ref_select);

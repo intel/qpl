@@ -53,7 +53,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
                                  << dataset.first;
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
                                      any_huffman_table_deleter);
@@ -99,7 +99,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
                 << "\n";
 #endif
         // Create decompression from compression one
-        unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
                                      any_huffman_table_deleter);
@@ -151,7 +151,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
                                  << dataset.first;
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
                                      any_huffman_table_deleter);
@@ -201,7 +201,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
 #endif
 
         // Create decompression from compression one
-        unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
                                      any_huffman_table_deleter);
@@ -244,7 +244,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path");
 
     // Create and initialize compression table
-    unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+    const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                              path,
                                                              DEFAULT_ALLOCATOR_C),
                                  any_huffman_table_deleter);
@@ -320,10 +320,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
 
     uint8_t  *current_reference_buffer_ptr  = &(*reference_buffer.begin());
     uint8_t  *current_compressed_source_ptr = &(*destination.begin());
-    uint32_t output_bytes_available         = (uint32_t) reference_buffer.size();
+    const uint32_t output_bytes_available   = (uint32_t) reference_buffer.size();
 
     // Create decompression from compression one
-    unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+    const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                              path,
                                                              DEFAULT_ALLOCATOR_C),
                                 any_huffman_table_deleter);
@@ -363,10 +363,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
     auto path = GetExecutionPath();
 
     // Create and initialize compression table
-    unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+    const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                              path,
                                                              DEFAULT_ALLOCATOR_C),
-                                 any_huffman_table_deleter);
+                                       any_huffman_table_deleter);
     ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
     for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
@@ -437,13 +437,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_default_level, JobF
 
     uint8_t  *current_reference_buffer_ptr  = &(*reference_buffer.begin());
     uint8_t  *current_compressed_source_ptr = &(*destination.begin());
-    uint32_t output_bytes_available         = (uint32_t) reference_buffer.size();
+    const uint32_t output_bytes_available   = (uint32_t) reference_buffer.size();
 
     // Create decompression from compression one
-    unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+    const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                              path,
                                                              DEFAULT_ALLOCATOR_C),
-                                 any_huffman_table_deleter);
+                                       any_huffman_table_deleter);
     ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
     status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -490,7 +490,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
                                  << dataset.first;
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
                                      any_huffman_table_deleter);
@@ -520,13 +520,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Compression job failed\n";
 
-        uint32_t compressed_size = job_ptr->total_out;
+        const uint32_t compressed_size = job_ptr->total_out;
 
         // Create decompression table from compression one
-        unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -545,7 +545,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Decompression job failed\n";
 
-        uint32_t first_decompression_crc = job_ptr->crc;
+        const uint32_t first_decompression_crc = job_ptr->crc;
 
         // Reuse job structure for decompression
         job_ptr->next_in_ptr   = destination.data();
@@ -555,7 +555,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
 
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Second Decompression job failed\n";
-        uint32_t second_decompression_crc = job_ptr->crc;
+        const uint32_t second_decompression_crc = job_ptr->crc;
 
         ASSERT_EQ(first_decompression_crc, second_decompression_crc)
             << "Incorrect CRC in canned mode decompression when reusing job structure.\n";
@@ -583,10 +583,10 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
                                  << dataset.first;
 
         // Create and initialize compression table
-        unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
+        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         init_compression_huffman_table(c_table.get(),
@@ -613,13 +613,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Compression job failed\n";
 
-        uint32_t compressed_size = job_ptr->total_out;
+        const uint32_t compressed_size = job_ptr->total_out;
 
         // Create decompression from compression one
-        unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
+        const unique_huffman_table d_table(deflate_huffman_table_maker(decompression_table_type,
                                                                  path,
                                                                  DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+                                           any_huffman_table_deleter);
         ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -638,7 +638,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Decompression job failed\n";
 
-        uint32_t first_decompression_crc = job_ptr->crc;
+        const uint32_t first_decompression_crc = job_ptr->crc;
 
         // Reuse job structure for decompression
         job_ptr->next_in_ptr   = destination.data();
@@ -649,7 +649,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture)
         status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status) << "Second Decompression job failed\n";
 
-        uint32_t second_decompression_crc = job_ptr->crc;
+        const uint32_t second_decompression_crc = job_ptr->crc;
 
         ASSERT_EQ(first_decompression_crc, second_decompression_crc)
             << "Incorrect CRC in canned mode decompression when reusing job structure.";
