@@ -116,7 +116,7 @@ namespace qpl::test
                                               uint32_t count,
                                               const std::vector<uint32_t>& elements) const
     {
-        uint64_t mask           = (1ULL << m_bit_width) - 1U;
+        const uint64_t mask     = (1ULL << m_bit_width) - 1U;
         uint64_t buffer         = 0U;
         int32_t  bits_in_buffer = 0;
 
@@ -161,7 +161,7 @@ namespace qpl::test
     {
         uint64_t buffer         = 0U;
         int32_t  bits_in_buffer = 0;
-        uint64_t mask           = (1ULL << m_bit_width) - 1U;
+        const uint64_t mask     = (1ULL << m_bit_width) - 1U;
 
         buffer |= (uint64_t(element) & mask) << bits_in_buffer;
         bits_in_buffer += m_bit_width;
@@ -183,7 +183,7 @@ namespace qpl::test
         std::vector<uint8_t> result_vector(
                 initial_vector_size * 3U); // Temporary fix, TODO:: change memory allocation logic
 
-        uint64_t      max_input_value   = (1ULL << m_bit_width) - 1U;
+        const uint64_t max_input_value   = (1ULL << m_bit_width) - 1U;
         qpl::test::random num_generator(0U, max_input_value, m_seed);
         qpl::test::random count_generator(1U, m_number_of_elements, m_seed);
 
@@ -255,10 +255,10 @@ namespace qpl::test
 
     auto source_provider::generate_expand_rle_prle_stream() -> std::vector<uint8_t>
     {
-        uint32_t             initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 2U);
+        const uint32_t initial_vector_size = (m_number_of_elements) * (m_bit_width / BYTE_BIT_LENGTH + 2U);
         std::vector<uint8_t> result_vector(initial_vector_size);
 
-        uint64_t      max_count_expand_rle_value = (1ULL << 2);
+        const uint64_t max_count_expand_rle_value = (1ULL << 2);
         qpl::test::random num_generator(1U, max_count_expand_rle_value, m_seed);
         qpl::test::random count_generator(1U, m_number_of_elements, m_seed);
 
@@ -274,7 +274,7 @@ namespace qpl::test
 
         uint32_t count = 0U; // count variable in prle stream
 
-        bool accumulate_values = (m_bit_width == 32U);
+        const bool accumulate_values = (m_bit_width == 32U);
 
         m_count_number_expand_rle = 0U;
 
@@ -406,7 +406,7 @@ namespace qpl::test
         }
         else
         {
-            uint32_t              max_value = (1ULL << 2);
+            const uint32_t        max_value = (1ULL << 2);
             qpl::test::random     num_generator(1U, max_value, m_seed);
             std::vector<uint32_t> temporary_source_vector(m_number_of_elements, 0U);
 

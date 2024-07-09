@@ -27,7 +27,7 @@ namespace gz_generator
 
         while (1U)
         {
-            token_type_t type = m_tp.get_token(&token);
+            const token_type_t type = m_tp.get_token(&token);
             switch (type)
             {
                 case TT_EOF:
@@ -320,7 +320,7 @@ namespace gz_generator
 
         token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        uint32_t val  = token.m_value;
+        const uint32_t val  = token.m_value;
         type = m_tp.get_token(&token);
         if ((type != TT_EOL) && (type != TT_EOF)) syntax_error();
         m_gen->log(val);
@@ -330,7 +330,7 @@ namespace gz_generator
     grammar_c::parse_noeob()
     {
         token_c      token;
-        token_type_t type = m_tp.get_token(&token);
+        const token_type_t type = m_tp.get_token(&token);
         if ((type != TT_EOL) && (type != TT_EOF)) syntax_error();
         m_gen->noeob();
     }
@@ -343,7 +343,7 @@ namespace gz_generator
 
         token_type_t type = m_tp.get_token(&token);
         if (type != TT_NUM) syntax_error();
-        uint32_t val  = token.m_value;
+        const uint32_t val  = token.m_value;
         type = m_tp.get_token(&token);
         if (type == TT_NUM)
         {
@@ -367,7 +367,7 @@ namespace gz_generator
 
         while (true)
         {
-            token_type_t type = m_tp.get_token(&token);
+            const token_type_t type = m_tp.get_token(&token);
             switch (type)
             {
                 case TT_EOL:

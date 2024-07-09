@@ -58,7 +58,7 @@ testing::AssertionResult CompareVectors(const std::vector<DataType> &first,
         }
     }
 
-    uint32_t index_bound = (number_of_elements_to_compare == 0u) ? static_cast<uint32_t>(first.size())
+    const uint32_t index_bound = (number_of_elements_to_compare == 0u) ? static_cast<uint32_t>(first.size())
                                                                  : number_of_elements_to_compare;
 
     for (uint32_t i = 0; i < index_bound; i++)

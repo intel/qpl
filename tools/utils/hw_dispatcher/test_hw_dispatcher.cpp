@@ -21,12 +21,12 @@ auto hw_dispatcher::initialize_hw() noexcept -> qpl_test_hw_accelerator_status {
     accfg_ctx *ctx_ptr = nullptr;
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
-    qpl_test_hw_accelerator_status status = qpl_test_hw_initialize_accelerator_driver(&hw_driver_);
+    const qpl_test_hw_accelerator_status status = qpl_test_hw_initialize_accelerator_driver(&hw_driver_);
     if (status != QPL_TEST_HW_ACCELERATOR_STATUS_OK) return status;
 #endif
 
 
-    int32_t context_creation_status = qpl_test_accfg_new(&ctx_ptr);
+    const int32_t context_creation_status = qpl_test_accfg_new(&ctx_ptr);
     if (0U != context_creation_status) return QPL_TEST_HW_ACCELERATOR_LIBACCEL_ERROR;
 
     // Retrieve first device in the system given the passed in context

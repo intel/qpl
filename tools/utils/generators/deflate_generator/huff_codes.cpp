@@ -792,7 +792,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         uint32_t num_cl_lens = 0U;
         bool     cl_alt = false;
 
-        uint32_t num_ll_lens = gen->m_num_ll_lens;
+        const uint32_t num_ll_lens = gen->m_num_ll_lens;
         if (num_ll_lens == 0U)
         {
             // make sure EOB is present
@@ -810,7 +810,7 @@ static void heapify64(uint64_t *heap, uint32_t n, uint32_t i)
         if ((num_ll_lens != 0U) && (num_ll_lens - 1U > max_ll_code))
             max_ll_code = num_ll_lens - 1U;
 
-        uint32_t num_d_lens = gen->m_num_d_lens;
+        const uint32_t num_d_lens = gen->m_num_d_lens;
         if (num_d_lens == 0U)
         {
             create_huff_tree(d_hist, 32U, bl_count, d_codes, MAX_CODE_LEN);

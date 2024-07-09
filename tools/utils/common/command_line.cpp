@@ -29,7 +29,7 @@ CommandLine::CommandLine(char **arguments_pptr, int arguments_count) {
         }
 
         // Set argument key
-        std::string argument_key = std::string(current_argument.begin(), equal_sign_it);
+        const std::string argument_key = std::string(current_argument.begin(), equal_sign_it);
         std::string argument_value;
 
         if (current_argument.end() == equal_sign_it) {

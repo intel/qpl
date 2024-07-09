@@ -91,7 +91,7 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     // Retrieve IAACAP if available
     uint64_t iaa_cap = 0U;
-    int32_t get_iaa_cap_status = qpl_test_accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
+    const int32_t get_iaa_cap_status = qpl_test_accfg_device_get_iaa_cap(device_ptr, &iaa_cap);
     if (get_iaa_cap_status) {
         // @todo this is a workaround to optionally load qpl_test_accfg_device_get_iaa_cap
         if (version_major_ > 1U) {

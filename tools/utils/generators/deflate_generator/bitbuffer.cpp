@@ -58,7 +58,7 @@ void gz_generator::BitBuffer::flush(uint32_t pad)
     {
         code_length = (0U - m_buffer.bit_length) & 7U;
     }
-    uint32_t code = pad & ((1U << code_length) - 1U);
+    const uint32_t code = pad & ((1U << code_length) - 1U);
 
     write(code, code_length);
 }

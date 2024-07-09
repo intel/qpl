@@ -74,12 +74,12 @@ static std::vector<uint32_t> get_digits_between_delims(const std::string &s,
     while (std::string::npos != delim_pos) {
         delim_pos = s.find(delim, offset);
 
-        size_t substr_start = offset;
-        size_t substr_end   = (delim_pos == std::string::npos)
+        const size_t substr_start = offset;
+        const size_t substr_end   = (delim_pos == std::string::npos)
                               ? s.length()
                               : delim_pos - substr_start;
 
-        std::string substr_to_check = s.substr(substr_start, substr_end);
+        const std::string substr_to_check = s.substr(substr_start, substr_end);
 
         if (is_number(substr_to_check)) { vector.push_back(std::stoi(substr_to_check)); }
 
@@ -100,7 +100,7 @@ static std::vector<uint32_t> get_digits_between_delims(const std::string &s,
 static std::vector<uint32_t> get_kernel_major_minor(const std::string &s)
 {
     // Find "-" position to trim flavor info
-    size_t flavor_pos = s.find("-");
+    const size_t flavor_pos = s.find("-");
 
     return get_digits_between_delims(s.substr(0, flavor_pos), ".");
 }

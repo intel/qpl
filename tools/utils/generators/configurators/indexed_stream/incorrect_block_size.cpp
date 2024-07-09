@@ -8,9 +8,9 @@
 
 GenStatus gz_generator::InflateIndexIncorrectBlockSizeConfigurator::generate()
 {
-    Gen32u miniBlockCount = m_pIndexTable->getMiniBlockCount();
-    Gen32u miniBlocksPerBlock = m_pIndexTable->getMiniBlocksPerBlock();
-    Gen32u mini_block_size = m_miniBlockSize;
+    const Gen32u miniBlockCount = m_pIndexTable->getMiniBlockCount();
+    const Gen32u miniBlocksPerBlock = m_pIndexTable->getMiniBlocksPerBlock();
+    const Gen32u mini_block_size = m_miniBlockSize;
 
     Gen32s delta = 0;
     qpl::test::random randomDelta(-8, 8, m_seed);

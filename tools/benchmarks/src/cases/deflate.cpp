@@ -31,7 +31,7 @@ public:
         try
         {
             // Prepare compression
-            ops::deflate_params_t params(data, level, huffman, false, false, table);
+            const ops::deflate_params_t params(data, level, huffman, false, false, table);
             std::vector<ops::deflate_t<api, path>> operations;
 
             // Measuring loop
@@ -42,7 +42,7 @@ public:
             {
                 data_t stream;
                 stream.buffer = operation.get_result().stream_;
-                ops::inflate_params_t dec_params(stream, data.buffer.size(), false, huffman, table);
+                const ops::inflate_params_t dec_params(stream, data.buffer.size(), false, huffman, table);
                 ops::inflate_t<api, path> decompression;
                 decompression.init(dec_params, common_params.node_);
                 decompression.async_submit();
@@ -116,8 +116,8 @@ BENCHMARK_SET_DELAYED(deflate)
         compression_mode = to_huffman_type(FILTER_compression_mode);
     }
 
-    std::vector<std::int32_t>   sw_levels{1, 3};
-    std::vector<std::int32_t>   hw_levels{1};
+    const std::vector<std::int32_t>   sw_levels{1, 3};
+    const std::vector<std::int32_t>   hw_levels{1};
     bench::dataset_t dataset = data::read_dataset(cmd::FLAGS_dataset);
 
     if (continue_register(path_e::cpu))

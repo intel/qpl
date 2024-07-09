@@ -19,9 +19,9 @@ GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, distanceLengthCodesTableSize, 14U);
 
     random.set_range(1U, 25U);
-    Gen32u realCodesCount = static_cast<Gen32u>(random);
+    const Gen32u realCodesCount = static_cast<Gen32u>(random);
     random.set_range(3U, 30U - realCodesCount);
-    Gen32u repeatingCodesCount = static_cast<Gen32u>(random);
+    const Gen32u repeatingCodesCount = static_cast<Gen32u>(random);
 
     if (3U != repeatingCodesCount)
     {
@@ -30,7 +30,7 @@ GenStatus gz_generator::ManyDistanceCodesConfigurator::generate()
 
     for (Gen32u repeatedCode = 0U ; repeatedCode < repeatingCodesCount; repeatedCode++)
     {
-        Gen32u distanceTableIndex = (realCodesCount - 1U) + repeatedCode;
+        const Gen32u distanceTableIndex = (realCodesCount - 1U) + repeatedCode;
         pDistanceLengthCodesTable[distanceTableIndex] = valueToRepeat;
     }
 

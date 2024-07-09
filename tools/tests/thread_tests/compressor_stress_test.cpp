@@ -105,7 +105,7 @@ int compress_test() {
         return status;
     }
 
-    uint32_t out_len = job->total_out;
+    const uint32_t out_len = job->total_out;
 
     status = qpl_fini_job(job);
 
@@ -124,7 +124,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
     bool                          test_passed = true;
     std::vector<std::future<int>> results;
 
-    uint32_t num_threads = get_num_cores();
+    const uint32_t num_threads = get_num_cores();
 
     ASSERT_TRUE(num_threads > 0);
 

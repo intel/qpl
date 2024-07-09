@@ -11,7 +11,7 @@ GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
     Gen32u* pDistanceLengthCodesTable = nullptr;
     qpl::test::random rand (4U, 7U, m_seed);
 
-    Gen8u  repeatingCount = static_cast<Gen8u>(rand);
+    const Gen8u repeatingCount = static_cast<Gen8u>(rand);
 
     pDistanceLengthCodesTable = new Gen32u[DEFAULT_D_TABLE_LENGTH];
 
@@ -30,7 +30,7 @@ GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
 
     TestConfigurator::writeRandomHuffmanBlock();
     TestConfigurator::declareFinishBlock();
-     
+
     delete[] pDistanceLengthCodesTable;
     return GEN_OK;
 }

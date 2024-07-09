@@ -76,7 +76,7 @@ namespace qpl::test {
             status = run_job_api(hw_job_ptr);
             ASSERT_ERR_STATUS(status) << "Decompression status: " << status;
 
-            bool crcs_is_equal = (hw_job_ptr->crc64 == sw_job_ptr->crc64);
+            const bool crcs_is_equal = (hw_job_ptr->crc64 == sw_job_ptr->crc64);
 
             if (!crcs_is_equal) {
                 return testing::AssertionFailure() << "CRCs don't match";

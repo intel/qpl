@@ -45,7 +45,7 @@ static bool init_hw()
     if (status != QPL_STS_OK)
         throw std::runtime_error("hw init failed in qpl_get_job_size");
 
-    std::unique_ptr<std::uint8_t[]> job_buffer(new std::uint8_t[size]);
+    const std::unique_ptr<std::uint8_t[]> job_buffer(new std::uint8_t[size]);
 
     qpl_job *job = reinterpret_cast<qpl_job*>(job_buffer.get());
     status = qpl_init_job(qpl_path_hardware, job);
@@ -108,7 +108,7 @@ uint32_t get_current_numa() noexcept
 {
     std::uint32_t tsc_aux = 0U;
     __rdtscp(&tsc_aux);
-    std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
+    const std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
 
     return numa;
 }
@@ -356,12 +356,12 @@ static void parse_benchmark_filter(const std::string& filter_string)
     if (filter_string.empty() || filter_string[0] == '-')
         return;
 
-    std::regex re("([a-zA-Z_]+)");
+    const std::regex re("([a-zA-Z_]+)");
     std::smatch match;
     std::string::const_iterator search_start(filter_string.cbegin());
     while (std::regex_search(search_start, filter_string.cend(), match, re))
     {
-        std::string value = match[1].str();
+        const std::string value = match[1].str();
         if(value == "inflate" || value == "deflate" || value == "crc64")
             FILTER_op.push_back(value);
         else if(value == "gen_path")

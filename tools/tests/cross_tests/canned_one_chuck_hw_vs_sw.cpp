@@ -80,8 +80,8 @@ protected:
 public:
 
     SimpleCannedOneChuckCompressDecompressFixture() : c_huffman_table(NULL), d_huffman_table(NULL){
-        
-        
+
+
     };
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &) = delete;
     SimpleCannedOneChuckCompressDecompressFixture(const SimpleCannedOneChuckCompressDecompressFixture &&) = delete;
@@ -133,7 +133,7 @@ public:
 
         hw_destination.resize(hw_job_ptr->total_out);
 
-        bool vectors_is_equal = reference_text == hw_destination;
+        const bool vectors_is_equal = reference_text == hw_destination;
 
         if (!vectors_is_equal) {
             return testing::AssertionFailure() << "Decompressed data don't match with reference one";
@@ -180,7 +180,7 @@ public:
 
         sw_destination.resize(sw_job_ptr->total_out);
 
-        bool vectors_is_equal = reference_text == sw_destination;
+        const bool vectors_is_equal = reference_text == sw_destination;
 
         if (!vectors_is_equal) {
             return testing::AssertionFailure() << "Decompressed data don't match with reference one";

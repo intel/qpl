@@ -31,7 +31,7 @@ public:
         try
         {
             // Encode stream
-            ops::deflate_params_t comp_params(data, level, huffman, false, false, table);
+            const ops::deflate_params_t comp_params(data, level, huffman, false, false, table);
             ops::deflate_t<api, com_path> compression;
             compression.init(comp_params, common_params.node_);
             compression.async_submit();
@@ -40,7 +40,7 @@ public:
             // Prepare decompression
             data_t stream;
             stream.buffer = compression.get_result().stream_;
-            ops::inflate_params_t params(stream, data.buffer.size(), false, huffman, table);
+            const ops::inflate_params_t params(stream, data.buffer.size(), false, huffman, table);
             std::vector<ops::inflate_t<api, path>> operations;
 
             // Measuring loop
@@ -87,7 +87,7 @@ static inline void prepare_cases(bench::dataset_t& dataset,
 
         for (const auto &level: levels)
         {
-            std::shared_ptr<qpl_huffman_table> table(deflate_huffman_table_maker(combined_table_type,
+            const std::shared_ptr<qpl_huffman_table> table(deflate_huffman_table_maker(combined_table_type,
                                                                                  data,
                                                                                  level_to_qpl(level),
                                                                                  path_to_qpl(path),
@@ -123,9 +123,9 @@ BENCHMARK_SET_DELAYED(inflate)
         compression_mode = to_huffman_type(FILTER_compression_mode);
     }
 
-    std::vector<std::int32_t>   sw_levels{1, 3};
-    std::vector<std::int32_t>   hw_levels{1};
-    std::vector<std::int32_t>   sw_hw_levels{3};
+    const std::vector<std::int32_t>   sw_levels{1, 3};
+    const std::vector<std::int32_t>   hw_levels{1};
+    const std::vector<std::int32_t>   sw_hw_levels{3};
     bench::dataset_t dataset = data::read_dataset(cmd::FLAGS_dataset);
 
     if (continue_register(path_e::cpu))

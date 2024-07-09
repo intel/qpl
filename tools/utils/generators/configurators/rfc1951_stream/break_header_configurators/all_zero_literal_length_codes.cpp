@@ -11,7 +11,7 @@ GenStatus gz_generator::AllZeroLiteralLengthCodesConfigurator::generate()
     Gen32u* pLiteralLengthCodesTable = nullptr;
     Gen32u* pCodeLengthCodesTable = nullptr;
 
-    Gen32u numberMissedCodes = 286U;
+    const Gen32u numberMissedCodes = 286U;
 
     pLiteralLengthCodesTable = new Gen32u[DEFAULT_LL_TABLE_LENGTH];
     pCodeLengthCodesTable    = new Gen32u[DEFAULT_CL_TABLE_LENGTH];

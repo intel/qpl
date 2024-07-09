@@ -44,10 +44,10 @@ auto format_generator::push_back_uint_vector(std::vector<uint8_t> &vector,
                                   uint32_t bit_vector_element_width,
                                   bool is_little_endian) -> std::vector<uint8_t> {
     using namespace details;
-    uint32_t bytes_in_element = (bit_vector_element_width + 7) / BYTE_BIT_LENGTH;
-    uint32_t vector_size      = static_cast<uint32_t>(vector.size());
+    const uint32_t bytes_in_element = (bit_vector_element_width + 7) / BYTE_BIT_LENGTH;
+    const uint32_t vector_size      = static_cast<uint32_t>(vector.size());
 
-    uint64_t mask           = (1ULL << bit_vector_element_width) - 1;
+    const uint64_t mask     = (1ULL << bit_vector_element_width) - 1;
     uint64_t buffer         = 0U;
     uint32_t bits_in_buffer = 0U;
 
@@ -155,7 +155,7 @@ auto format_generator::generate_uint_bit_sequence(uint32_t length,
                                                   uint32_t prologue_bytes) -> std::vector<uint8_t> {
     std::vector<uint8_t> vector(prologue_bytes);
 
-    uint64_t max_input_value = (1ULL << bit_width) - 1U;
+    const uint64_t max_input_value = (1ULL << bit_width) - 1U;
     qpl::test::random num_generator(0, static_cast<double>(max_input_value), seed);
 
     std::vector<uint32_t> values_vector(length, 0U);

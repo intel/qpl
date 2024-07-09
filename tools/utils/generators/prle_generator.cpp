@@ -90,10 +90,10 @@ auto create_prle_header(prle_encoding_t prle_encoding, uint32_t prle_count) -> s
 
 auto create_rle_group(rle_element_t rle_element) -> std::vector<uint8_t> {
     // Get prle stream header size
-    uint32_t header_size = get_prle_header_size_bytes(rle_element.repeat_count);
+    const uint32_t header_size = get_prle_header_size_bytes(rle_element.repeat_count);
 
     // Expect to have the following maximum result RLE vector size
-    uint32_t expected_vector_size = sizeof(uint32_t) + header_size;
+    const uint32_t expected_vector_size = sizeof(uint32_t) + header_size;
     std::vector<uint8_t> result_vector(expected_vector_size);
     auto source_it = result_vector.begin();
 
@@ -107,7 +107,7 @@ auto create_rle_group(rle_element_t rle_element) -> std::vector<uint8_t> {
         source_it++;
     }
 
-    uint64_t mask = (1ULL << rle_element.bit_width) - 1;
+    const uint64_t mask = (1ULL << rle_element.bit_width) - 1;
     uint64_t buffer = 0;
     int32_t bits_in_buffer = 0;
 
@@ -131,11 +131,11 @@ auto create_rle_group(rle_element_t rle_element) -> std::vector<uint8_t> {
 }
 
 auto create_parquet_group(parquet_element_t parquet_element) -> std::vector<uint8_t> {
-    uint64_t mask = (1ULL << parquet_element.bit_width) - 1;
+    const uint64_t mask = (1ULL << parquet_element.bit_width) - 1;
     uint64_t buffer = 0;
     int32_t bits_in_buffer = 0;
 
-    uint32_t expected_result_size = get_prle_header_size_bytes(parquet_element.repeat_count) + sizeof(uint32_t) * 8;
+    const uint32_t expected_result_size = get_prle_header_size_bytes(parquet_element.repeat_count) + sizeof(uint32_t) * 8;
 
     std::vector<uint8_t> result_vector(expected_result_size, 0U);
 

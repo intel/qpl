@@ -15,12 +15,12 @@ GenStatus gz_generator::UndefinedCodeLengthCodeConfigurator::generate()
     Gen32u dataTokenCount        = 0; // The tokens that directly describe data stream
 
     qpl::test::random randomLLCode(0U, 285U, m_seed);
-    qpl::test::random randomMatchCode(257U, 285U, m_seed);
+    const qpl::test::random randomMatchCode(257U, 285U, m_seed);
     qpl::test::random randomDistanceCode(0, 29U, m_seed);
     qpl::test::random randomControlLiteralCode(0, 10U, m_seed);
-    qpl::test::random randomSmallMatch(3U, 10U, m_seed);
-    qpl::test::random randomLargeMatch(11U, 258U, m_seed);
-    qpl::test::random randomNoneControlLiteralCode(11U, 258U, m_seed);
+    const qpl::test::random randomSmallMatch(3U, 10U, m_seed);
+    const qpl::test::random randomLargeMatch(11U, 258U, m_seed);
+    const qpl::test::random randomNoneControlLiteralCode(11U, 258U, m_seed);
 
     pLiteralLengthTable  = new Gen32u[DEFAULT_LL_TABLE_LENGTH];
     pDistanceLengthTable = new Gen32u[DEFAULT_D_TABLE_LENGTH];
@@ -48,12 +48,12 @@ GenStatus gz_generator::UndefinedCodeLengthCodeConfigurator::generate()
     TestConfigurator::declareDynamicBlock();
 
     if (static_cast<float>(m_random) < 0.5F) // wreck D code
-    {   
+    {
         pDistanceLengthTable[static_cast<Gen8u>(randomDistanceCode)] = 15U;
     }
     else //wreck LL code
     {
-        float random = static_cast<float>(m_random);
+        const float random = static_cast<float>(m_random);
         if (random > 0.66F)
         {
             pLiteralLengthTable[static_cast<Gen8u>(randomLLCode)] = 15U;
@@ -93,6 +93,6 @@ GenStatus gz_generator::UndefinedCodeLengthCodeConfigurator::generate()
     delete[] pLiteralLengthTable;
     delete[] pDistanceLengthTable;
     delete[] code_length_table_ptr;
-    
+
     return GEN_OK;
 }

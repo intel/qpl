@@ -26,8 +26,8 @@ GenStatus gz_generator::CannedSmallBlocksConfigurator::generate()
             //generate references to literal sequence
             for (Gen32u lookUp = 0; lookUp < maxLiteralsCurrentBlock; lookUp++)
             {
-                Gen32u match = lookUp + MIN_MATCH;
-                Gen32u offset = lookUp + 1U;
+                const Gen32u match = lookUp + MIN_MATCH;
+                const Gen32u offset = lookUp + 1U;
                 TestConfigurator::declareReference(match, offset);
             }
         }

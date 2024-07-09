@@ -55,7 +55,7 @@ void gz_generator::CommonMethods::shuffle_32u(Gen32u *vector_ptr, Gen32u vectorL
         qpl::test::random rand(0U, vectorLength - 1U, seed);
         while (current_ptr < pVectorEnd)
         {
-            Gen32u i = static_cast<Gen32u>(rand);
+            const Gen32u i = static_cast<Gen32u>(rand);
             tmp = vector_ptr[i];
             vector_ptr[i] = *current_ptr;
             *current_ptr = tmp;
@@ -77,18 +77,18 @@ Gen32u gz_generator::CommonMethods::code2Match(Gen32u code, Gen32u seed)
     Gen32u numberExtraBits = 0;
     Gen32u extra_bits = 0;
 
-    Gen32u extraBitCountTable[] = {0, 0, 0, 0, 0, 0,
-                                   0, 0, 1, 1, 1, 1,
-                                   2, 2, 2, 2, 3, 3,
-                                   3, 3, 4, 4, 4, 4,
-                                   5, 5, 5, 5, 0};
+    const Gen32u extraBitCountTable[] = {0, 0, 0, 0, 0, 0,
+                                         0, 0, 1, 1, 1, 1,
+                                         2, 2, 2, 2, 3, 3,
+                                         3, 3, 4, 4, 4, 4,
+                                         5, 5, 5, 5, 0};
 
-    Gen32u distanceTable[] = {3, 4, 5, 6, 7,
-                              8, 9, 10, 11, 13,
-                              15, 17, 19, 23, 27,
-                              31, 35, 43, 51, 59,
-                              67, 83, 99, 115, 131,
-                              163, 195, 227, 258};
+    const Gen32u distanceTable[] = {3, 4, 5, 6, 7,
+                                    8, 9, 10, 11, 13,
+                                    15, 17, 19, 23, 27,
+                                    31, 35, 43, 51, 59,
+                                    67, 83, 99, 115, 131,
+                                    163, 195, 227, 258};
 
     qpl::test::random random(0, 0, seed);
     code -= 257;

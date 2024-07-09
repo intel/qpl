@@ -98,7 +98,7 @@ namespace qpl::test
         {
             JobFixture::SetUp();
 
-            uint32_t job_size = sizeof(qpl_job);
+            const uint32_t job_size = sizeof(qpl_job);
 
             m_reference_job_buffer = new uint8_t[job_size];
             memset(m_reference_job_buffer, 0u, job_size);

@@ -34,7 +34,7 @@ qpl_status run_decompress_op(qpl_path_t execution_path) {
     test_factor.seed = 0;
     test_factor.type = NO_ERR_FIXED_BLOCK;
 
-    gz_generator::InflateGenerator data_generator;
+    const gz_generator::InflateGenerator data_generator;
 
     generator_status = gz_generator::InflateGenerator::generate(encoded_data_buffer,
                                                                 decoded_data_buffer,
@@ -280,7 +280,7 @@ qpl_status run_expand_op(qpl_path_t execution_path) {
 
     std::vector<uint8_t> source    = {1, 2, 3, 4, 5};
     std::vector<uint8_t> destination(source_size * 4, 0);
-    std::vector<uint8_t> reference = {1, 0, 0, 2, 3, 4, 0, 5};
+    const std::vector<uint8_t> reference = {1, 0, 0, 2, 3, 4, 0, 5};
 
     std::unique_ptr<uint8_t[]> job_buffer;
     uint32_t   size = 0;

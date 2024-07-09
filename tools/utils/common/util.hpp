@@ -68,7 +68,7 @@ namespace qpl::test
 
     static std::ostream & operator<<(std::ostream &strm, hw_accelerator_status const &status_ex)
     {
-        ::qpl_test_hw_accelerator_status status = status_ex;
+        const ::qpl_test_hw_accelerator_status status = status_ex;
         strm << status;
         switch(status)
         {
@@ -104,7 +104,7 @@ namespace qpl::test
     }
 
     static uint32_t bits_to_bytes(uint32_t bits_count) {
-        uint32_t bytes_count = (bits_count + max_bit_index) >> bit_to_byte_shift_offset;
+        const uint32_t bytes_count = (bits_count + max_bit_index) >> bit_to_byte_shift_offset;
         return bytes_count;
     }
 
@@ -305,7 +305,7 @@ namespace qpl::test
      * in ptr_in buffer.
     */
     static inline void align_ptr(size_t alignment, void* ptr_in, void** aligned_ptr_out) {
-        std::uintptr_t mask = ~(std::uintptr_t)(alignment - 1U);
+        const std::uintptr_t mask = ~(std::uintptr_t)(alignment - 1U);
         *aligned_ptr_out = (void *)(((std::uintptr_t)ptr_in + alignment - 1U) & mask);
     }
 

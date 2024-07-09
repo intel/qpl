@@ -66,7 +66,7 @@ auto compress_stream(stream_t stream) -> std::vector<uint8_t> {
     status = qpl_execute_job(deflate_job_ptr);
 
     if (QPL_STS_OK != status) {
-        std::string error_message = "Compression returned " + std::to_string(status) + " status\n";
+        const std::string error_message = "Compression returned " + std::to_string(status) + " status\n";
         throw std::runtime_error(error_message);
     }
 

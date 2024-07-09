@@ -29,7 +29,7 @@ public:
         try
         {
             // Prepare crc64
-            ops::crc64_params_t params(data, data.buffer.size(), type);
+            const ops::crc64_params_t params(data, data.buffer.size(), type);
             std::vector<ops::crc64_t<api, path>> operations;
 
             // Measuring loop
@@ -59,7 +59,7 @@ BENCHMARK_SET_DELAYED(crc64)
         return;
 
     std::vector<std::uint32_t>  block_sizes;
-    std::vector<crc_type_e>     crc_types{crc_type_e::crc32_gzip, crc_type_e::crc32_wimax, crc_type_e::crc32_iscsi, crc_type_e::T10DIF, crc_type_e::crc16_ccitt, crc_type_e::crc64};
+    const std::vector<crc_type_e> crc_types{crc_type_e::crc32_gzip, crc_type_e::crc32_wimax, crc_type_e::crc32_iscsi, crc_type_e::T10DIF, crc_type_e::crc16_ccitt, crc_type_e::crc64};
 
     auto dataset = data::read_dataset(cmd::FLAGS_dataset);
     for(auto &data : dataset)

@@ -15,8 +15,8 @@
 qpl::test::random_base::random_base(double mpy, double add, uint32_t seed)
 : s1n3(41U), s1n2(18467U), s1n1(6334U), c(1U), s2n1(seed), m_seed(seed), m_mpy(mpy), m_add(add)
 {
-   double val1 = -m_mpy + m_add;
-   double val2 = +m_mpy + m_add;
+   const double val1 = -m_mpy + m_add;
+   const double val2 = +m_mpy + m_add;
    m_valMin = std::min( val1, val2 );
    m_valMax = std::max( val1, val2 );
 
@@ -53,7 +53,7 @@ double qpl::test::random_base::gen()
    }
    s1n3 = s1n2; s1n2 = s1n1; s1n1 = s1;
    /// int casting is important
-   int s2 = 69069 * s2n1 + 1013904243;
+   const int s2 = 69069 * s2n1 + 1013904243;
    s2n1 = s2;
    //return m_mpy * 0.4656613e-9 * ( s1 + s2 ) + m_add;
    double result = cnst2in31 * ( s1 + s2 ) * m_mpy + m_add;

@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) { //NOLINT(bugprone-exception-escape)
 
     std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
 
-    int status = RUN_ALL_TESTS();
+    const int status = RUN_ALL_TESTS();
 
     std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
 

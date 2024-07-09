@@ -36,7 +36,7 @@
 
 std::unique_ptr<std::stringstream> gz_generator::InflateGenerator::getStreamDescription(TestFactor &testFactor)
 {
-    Gen32u seed = testFactor.seed;
+    const Gen32u seed = testFactor.seed;
 
     switch (testFactor.type)
     {
@@ -272,7 +272,7 @@ GenStatus gz_generator::InflateGenerator::generate(std::vector<Gen8u> &pBinaryDa
     try
     {
         // Get stream description
-        std::unique_ptr<std::stringstream> config = getStreamDescription(factor);
+        const std::unique_ptr<std::stringstream> config = getStreamDescription(factor);
 
         // Stream generation
         gen_c dataGenerator(config.get(), &pBinaryData, &pReferenceData);

@@ -13,7 +13,7 @@
 
 std::unique_ptr<std::stringstream> gz_generator::IndexGenerator::getStreamDescription(TestFactor &testFactor)
 {
-    Gen32u seed = testFactor.seed;
+    const Gen32u seed = testFactor.seed;
     SpecialTestOptions options = testFactor.specialTestOptions;
 
     switch (testFactor.type)
@@ -69,7 +69,7 @@ GenStatus gz_generator::IndexGenerator::generate(std::vector<Gen8u> &pBinaryData
     try
     {
         // Get stream description
-        std::unique_ptr<std::stringstream> config = getStreamDescription(factor);
+        const std::unique_ptr<std::stringstream> config = getStreamDescription(factor);
 
         // Stream generation
         gen_c dataGenerator(config.get(), &pBinaryData, &pReferenceData);

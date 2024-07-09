@@ -144,7 +144,7 @@ std::vector<Gen32u> gz_generator::HuffmanOnlyNoErrorConfigurator::computeHuffman
 
     for (Gen32u i = 0U; i < pLiteralLengthsTable.size(); i++)
     {
-        Gen32u literalLength = pLiteralLengthsTable[i];
+        const Gen32u literalLength = pLiteralLengthsTable[i];
 
         if ( 0U == literalLength)
         {

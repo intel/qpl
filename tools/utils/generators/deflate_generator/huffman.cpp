@@ -83,16 +83,16 @@ namespace gz_generator
             return m_d_codes[sym] >> 24;
         }
 
-        uint32_t msb            = bsr(dist);
-        uint32_t num_extra_bits = (msb < N) ? 0U : msb - N;
-        uint32_t extra_bits     = dist & ((1 << num_extra_bits) - 1U);
+        const uint32_t msb            = bsr(dist);
+        const uint32_t num_extra_bits = (msb < N) ? 0U : msb - N;
+        const uint32_t extra_bits     = dist & ((1 << num_extra_bits) - 1U);
         dist >>= num_extra_bits;
         sym = dist + (num_extra_bits << N);
         //        assert(sym < NUM_D_CODES);
         //    if (p_code)
         *p_code = (m_d_codes[sym] & 0xFFFF) |
                   (extra_bits << (m_d_codes[sym] >> 24));
-        uint32_t len = (m_d_codes[sym] >> 24) + num_extra_bits;
+        const uint32_t len = (m_d_codes[sym] >> 24) + num_extra_bits;
         return len;
     }
 
