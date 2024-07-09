@@ -28,7 +28,7 @@ namespace qpl::ml::compression {
 /**
  * Size of internal buffer for the isal level buffer
  */
-constexpr const uint32_t isal_level_buffer_size = 348160u;
+constexpr const uint32_t isal_level_buffer_size = 348160U;
 
 template <>
 class deflate_state<execution_path_t::software> final : public compression_stream {
@@ -121,9 +121,9 @@ protected:
     BitBuf2                *bit_buffer_ptr          = nullptr;
     bool                   start_new_block_         = false;
     uint8_t                *source_begin_ptr_       = nullptr;
-    uint32_t               source_size_             = 0;
-    uint32_t               ignore_start_bits_       = 0;
-    uint32_t               total_bytes_written_     = 0;
+    uint32_t               source_size_             = 0U;
+    uint32_t               ignore_start_bits_       = 0U;
+    uint32_t               total_bytes_written_     = 0U;
 
     // Verification
     bool                   is_verification_enabled_   = false;

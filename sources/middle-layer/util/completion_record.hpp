@@ -62,7 +62,7 @@ noexcept -> other::crc_operation_result_t {
     auto *const analytic_completion_record = reinterpret_cast<HW_PATH_VOLATILE hw_iaa_completion_record *>(completion_record_ptr);
 
     crc_operation_result.status_code_ = convert_status_iaa_to_qpl(completion_record_ptr);
-    crc_operation_result.crc_ = (static_cast<uint64_t>(analytic_completion_record->sum_agg) << 32u)
+    crc_operation_result.crc_ = (static_cast<uint64_t>(analytic_completion_record->sum_agg) << 32U)
                                 | static_cast<uint64_t>(analytic_completion_record->max_last_agg);
 
     return crc_operation_result;

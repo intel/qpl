@@ -19,13 +19,13 @@
 
 namespace qpl::ml::util {
 
-constexpr uint32_t most_significant_16_bits  = 0xffff0000;
-constexpr uint32_t least_significant_16_bits = 0xffff;
-constexpr uint32_t adler32_mod               = 65521u;
+constexpr uint32_t most_significant_16_bits  = 0xffff0000U;
+constexpr uint32_t least_significant_16_bits = 0xffffU;
+constexpr uint32_t adler32_mod               = 65521U;
 
 struct checksum_accumulator {
-    uint32_t crc32   = 0;
-    uint32_t adler32 = 0;
+    uint32_t crc32   = 0U;
+    uint32_t adler32 = 0U;
 };
 
 /**

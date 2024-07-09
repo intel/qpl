@@ -146,7 +146,7 @@ static inline auto call_scan_sw(input_stream_t &input_stream,
     auto corrected_param_high = correct_input_param(input_bit_width, param_high);
 
     auto aggregates_table    = core_sw::dispatcher::kernels_dispatcher::get_instance().get_aggregates_table();
-    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1u);
+    auto aggregates_index    = core_sw::dispatcher::get_aggregates_index(1U);
     auto aggregates_callback = (input_stream.are_aggregates_disabled()) ?
                                 &aggregates_empty_callback :
                                 aggregates_table[aggregates_index];
@@ -213,7 +213,7 @@ static inline auto call_scan_sw(input_stream_t &input_stream,
     operation_result.aggregates_       = aggregates;
     operation_result.checksums_.crc32_ = input_stream.crc_checksum();
     operation_result.checksums_.xor_   = input_stream.xor_checksum();
-    operation_result.last_bit_offset_  = (1u == output_bit_width) ? number_of_elements & max_bit_index : 0u;
+    operation_result.last_bit_offset_  = (1U == output_bit_width) ? number_of_elements & max_bit_index : 0U;
     operation_result.output_bytes_     = output_stream.bytes_written();
 
     return operation_result;
@@ -224,7 +224,7 @@ constexpr static inline auto own_get_scan_range(const uint32_t low_limit,
                                                 const uint32_t high_limit,
                                                 const uint32_t element_bit_width) noexcept -> scan_range_t {
     scan_range_t   range{};
-    const auto     range_mask = (uint32_t) ((1ULL << element_bit_width) - 1u);
+    const auto     range_mask = (uint32_t) ((1ULL << element_bit_width) - 1U);
     const uint32_t param_low  = low_limit & range_mask;
 
     if constexpr (comparator == equals || comparator == not_equals) {
@@ -233,17 +233,17 @@ constexpr static inline auto own_get_scan_range(const uint32_t low_limit,
     }
 
     if constexpr (comparator == less_equals) {
-        range.low  = 0;
+        range.low  = 0U;
         range.high = param_low;
     }
 
     if constexpr (comparator == less_than) {
-        if (0 == param_low) {
-            range.low  = 1;
-            range.high = 0;
+        if (0U == param_low) {
+            range.low  = 1U;
+            range.high = 0U;
         } else {
-            range.low  = 0;
-            range.high = param_low - 1;
+            range.low  = 0U;
+            range.high = param_low - 1U;
         }
     }
 
@@ -254,10 +254,10 @@ constexpr static inline auto own_get_scan_range(const uint32_t low_limit,
 
     if constexpr (comparator == greater_than) {
         if (param_low == range_mask) {
-            range.low  = 1;
-            range.high = 0;
+            range.low  = 1U;
+            range.high = 0U;
         } else {
-            range.low  = param_low + 1;
+            range.low  = param_low + 1U;
             range.high = std::numeric_limits<uint32_t>::max();
         }
     }
@@ -316,7 +316,7 @@ auto call_scan_multidescriptor(input_stream_t &input_stream,
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE reference_completion_record{};
     hw_descriptor HW_PATH_ALIGN_STRUCTURE                         reference_descriptor{};
 
-    constexpr uint32_t number_of_descriptors = 8;
+    constexpr uint32_t number_of_descriptors = 8U;
     alignas(HW_PATH_STRUCTURES_REQUIRED_ALIGN) std::array<hw_completion_record, number_of_descriptors> completion_records{};
     alignas(HW_PATH_STRUCTURES_REQUIRED_ALIGN) std::array<hw_descriptor, number_of_descriptors> descriptors{};
 

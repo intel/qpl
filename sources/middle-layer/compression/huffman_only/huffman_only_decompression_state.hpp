@@ -19,7 +19,7 @@ namespace qpl::ml::compression {
 template <execution_path_t path>
 class huffman_only_decompression_state;
 
-constexpr uint32_t huffman_only_lookup_table_size = 0xFFFF;
+constexpr uint32_t huffman_only_lookup_table_size = 0xFFFFU;
 
 template <>
 class huffman_only_decompression_state<execution_path_t::software> {
@@ -35,7 +35,7 @@ public:
 
     explicit huffman_only_decompression_state(const qpl::ml::util::linear_allocator &allocator) {
         // Allocate internal buffers
-        state_ = allocator.allocate<internal_state_fields_t, qpl::ml::util::memory_block_t::not_aligned>(1u);
+        state_ = allocator.allocate<internal_state_fields_t, qpl::ml::util::memory_block_t::not_aligned>(1U);
 
         lookup_table_ptr_ = allocator.allocate<uint8_t, qpl::ml::util::memory_block_t::not_aligned>(
                 huffman_only_lookup_table_size);
@@ -44,10 +44,10 @@ public:
         state_->current_source_ptr      = nullptr;
         state_->current_destination_ptr = nullptr;
 
-        state_->source_available      = 0;
-        state_->destination_available = 0;
+        state_->source_available      = 0U;
+        state_->destination_available = 0U;
 
-        state_->crc_value = 0;
+        state_->crc_value = 0U;
     };
 
     template <class iterator_t>
@@ -90,11 +90,11 @@ private:
 template <>
 class huffman_only_decompression_state<execution_path_t::hardware> {
 public:
-    uint8_t ignore_end_bits = 0;
+    uint8_t ignore_end_bits = 0U;
 
     explicit huffman_only_decompression_state(const qpl::ml::util::linear_allocator &allocator) {
-        descriptor_        = allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>(1u);
-        completion_record_ = allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>(1u);
+        descriptor_        = allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>(1U);
+        completion_record_ = allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>(1U);
     };
 
     template <class iterator_t>
@@ -136,8 +136,8 @@ private:
     hw_iaa_aecs_analytic                  *decompress_aecs_   = nullptr;
     bool                                   is_gen1_hw_        = true;
 
-    uint32_t                              input_size_         = 0u;
-    uint32_t             crc_                                 = 0u;
+    uint32_t                              input_size_         = 0U;
+    uint32_t             crc_                                 = 0U;
     endianness_t         endianness_                          = endianness_t::little_endian;
 };
 

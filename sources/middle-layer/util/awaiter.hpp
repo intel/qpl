@@ -32,7 +32,7 @@ public:
      */
     explicit awaiter(volatile void *address,
                      uint8_t initial_value,
-                     uint32_t period = 200) noexcept;
+                     uint32_t period = 200U) noexcept;
 
     /**
      * @brief Destructor that performs actual wait
@@ -43,9 +43,9 @@ public:
 
 private:
     volatile uint8_t *address_ptr_  = nullptr;  /**< Pointer to memory that should be asynchronously changed */
-    uint32_t         period_        = 0u;       /**< Number of clocks between checks */
-    uint8_t          initial_value_ = 0u;       /**< Value to compare with */
-    uint32_t         idle_state_    = 0u;       /**< State for CPU wait control */
+    uint32_t         period_        = 0U;       /**< Number of clocks between checks */
+    uint8_t          initial_value_ = 0U;       /**< Value to compare with */
+    uint32_t         idle_state_    = 0U;       /**< State for CPU wait control */
 };
 
 }

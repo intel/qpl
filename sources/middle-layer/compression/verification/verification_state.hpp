@@ -73,11 +73,11 @@ public:
 
 private:
     inline void reset() noexcept {
-        verify_state_ptr->state_ptr.disable_multisymbol_lookup_table = 1u;
+        verify_state_ptr->state_ptr.disable_multisymbol_lookup_table = 1U;
     }
 
     explicit verify_state(const qpl::ml::util::linear_allocator &allocator) {
-        verify_state_ptr = allocator.allocate<state_buffer, qpl::ml::util::memory_block_t::not_aligned>(1u);
+        verify_state_ptr = allocator.allocate<state_buffer, qpl::ml::util::memory_block_t::not_aligned>(1U);
         verify_state_ptr->decompression_buffer_ptr  = allocator.allocate<uint8_t, util::memory_block_t::not_aligned>(32_kb);
         verify_state_ptr->decompression_buffer_size = 32_kb;
     };
@@ -122,7 +122,7 @@ inline auto verify_state<execution_path_t::software>::decompress_table(uint8_t *
     verify_state_ptr->state_ptr.read_in        = 0;
     verify_state_ptr->state_ptr.read_in_length = 0;
     verify_state_ptr->state_ptr.next_in        = deflate_header_ptr;
-    verify_state_ptr->state_ptr.avail_in       = (deflate_header_bits + 7u) >> 3;
+    verify_state_ptr->state_ptr.avail_in       = (deflate_header_bits + 7U) >> 3;
 
     auto status = read_header_stateful(verify_state_ptr->state_ptr);
     MAYBE_UNUSED(status);

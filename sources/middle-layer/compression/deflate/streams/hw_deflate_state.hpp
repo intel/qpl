@@ -75,15 +75,15 @@ protected:
     qpl_dictionary                *dictionary_                   = nullptr;
     bool                          start_new_block                = false;
     util::multitask_status        processing_step                = util::multitask_status::ready;
-    uint32_t                      prev_written_indexes           = 0u; // todo align with SW
+    uint32_t                      prev_written_indexes           = 0U; // todo align with SW
 
 
     /**
      * @brief Meta data for deflate.
      */
     struct meta_data {
-        uint8_t                  aecs_index        = 0u; /**< AECS read index for deflate AECS */
-        uint32_t                 stored_bits       = 0u; /**< @todo */
+        uint8_t                  aecs_index        = 0U; /**< AECS read index for deflate AECS */
+        uint32_t                 stored_bits       = 0U; /**< @todo */
         hw_huffman_code          eob_code          = {}; /**< @todo */
         hw_iaa_aecs_compress     *aecs_            = nullptr;
                                                          /**< Pointer to the AECS. The memory being referenced is
@@ -93,8 +93,8 @@ protected:
                                                               indicate which half should be read */
         hw_iaa_mini_block_size_t mini_block_size_  = static_cast<hw_iaa_mini_block_size_t>(mini_block_size_none);
                                                          /**< @todo */
-        uint32_t                 prologue_size_    = 0u; /**< @todo */
-        uint8_t                  verify_aecs_index = 0u; /**< AECS read index for verify AECS */
+        uint32_t                 prologue_size_    = 0U; /**< @todo */
+        uint8_t                  verify_aecs_index = 0U; /**< AECS read index for verify AECS */
         uint32_t                 aecs_size         = HW_AECS_COMPRESS_WITH_HT;
                                                          /**< The actual compress AECS size, which includes any dictionary used.
                                                               This size will be used as the Source 2 transfer size. The default
@@ -112,7 +112,7 @@ protected:
         meta_data_           = allocator.allocate<deflate_state<execution_path_t::hardware>::meta_data>();
         compress_descriptor_ = allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>();
         completion_record_   = allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>();
-        meta_data_->aecs_    = allocator.allocate<hw_iaa_aecs_compress, qpl::ml::util::memory_block_t::aligned_64u>(2u);
+        meta_data_->aecs_    = allocator.allocate<hw_iaa_aecs_compress, qpl::ml::util::memory_block_t::aligned_64u>(2U);
 
         hw_iaa_descriptor_init_compress_body(compress_descriptor_);
     }
@@ -141,7 +141,7 @@ inline void deflate_state<execution_path_t::hardware>::set_output_prologue(uint3
 
 inline void deflate_state<execution_path_t::hardware>::allocate_verification_state() noexcept {
     verify_descriptor_ = allocator_.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>();
-    aecs_verify_       = allocator_.allocate<hw_iaa_aecs_analytic, qpl::ml::util::memory_block_t::aligned_64u>(2u);
+    aecs_verify_       = allocator_.allocate<hw_iaa_aecs_analytic, qpl::ml::util::memory_block_t::aligned_64u>(2U);
 
     hw_iaa_descriptor_init_compress_verification(verify_descriptor_);
 }

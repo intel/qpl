@@ -76,12 +76,12 @@ public:
 private:
     queues_container_t working_queues_   = {};    /**< Set of available HW working queues */
     opcfg_container_t  op_configs_       = {};    /**< Array of OPCFG register content for each available HW working queue */
-    uint32_t           queue_count_      = 0u;    /**< Number of working queues that are available */
-    uint64_t           gen_cap_register_ = 0u;    /**< GENCAP register content */
-    uint64_t           iaa_cap_register_ = 0u;    /**< IAACAP register content */
-    uint64_t           numa_node_id_     = 0u;    /**< NUMA node id of the device */
-    uint32_t           version_major_    = 0u;    /**< Major version of discovered device */
-    uint32_t           version_minor_    = 0u;    /**< Minor version of discovered device */
+    uint32_t           queue_count_      = 0U;    /**< Number of working queues that are available */
+    uint64_t           gen_cap_register_ = 0U;    /**< GENCAP register content */
+    uint64_t           iaa_cap_register_ = 0U;    /**< IAACAP register content */
+    uint64_t           numa_node_id_     = 0U;    /**< NUMA node id of the device */
+    uint32_t           version_major_    = 0U;    /**< Major version of discovered device */
+    uint32_t           version_minor_    = 0U;    /**< Minor version of discovered device */
     bool               op_cfg_enabled_   = false; /**< Need to check workqueue's OPCFG register */
 };
 

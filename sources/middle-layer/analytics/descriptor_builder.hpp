@@ -35,7 +35,7 @@ public:
                           uint32_t drop_high_bits) noexcept -> descriptor_builder &;
 
     inline auto decompression(const qpl_decomp_end_proc decompression_rule,
-                              const uint32_t ignore_last_bits = 0u) noexcept -> descriptor_builder & {
+                              const uint32_t ignore_last_bits = 0U) noexcept -> descriptor_builder & {
         hw_iaa_descriptor_analytic_enable_decompress(&descriptor_, false, ignore_last_bits);
 
         hw_iaa_descriptor_set_inflate_stop_check_rule(&descriptor_,

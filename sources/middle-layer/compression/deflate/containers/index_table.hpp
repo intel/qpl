@@ -11,7 +11,7 @@
 #include <common/defs.hpp>
 
 namespace qpl::ml::compression {
-constexpr uint32_t crc_bit_length = 32u;
+constexpr uint32_t crc_bit_length = 32U;
 
 class index_table_t {
     template <execution_path_t path>
@@ -41,7 +41,7 @@ protected:
     uint32_t  index_table_size_;
 
     uint32_t  current_index_;
-    uint32_t  index_bit_offset = 0u;
+    uint32_t  index_bit_offset = 0U;
 };
 }
 

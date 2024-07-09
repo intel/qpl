@@ -18,9 +18,9 @@ public:
         source_begin_ptr_(source_begin),
         current_source_ptr_(source_begin),
         source_end_ptr_(source_end) {
-        buffer_ = 0u;
-        bits_in_buffer_ = 0u;
-        last_bits_offset_ = 0u;
+        buffer_ = 0U;
+        bits_in_buffer_ = 0U;
+        last_bits_offset_ = 0U;
         is_overflowed_ = false;
         is_big_endian_ = false;
     }
@@ -35,7 +35,7 @@ public:
         is_big_endian_ = false;
     }
 
-    void load_buffer(uint8_t number_of_bits = 64) noexcept;
+    void load_buffer(uint8_t number_of_bits = 64U) noexcept;
 
     auto peek_bits(uint8_t number_of_bits) noexcept -> uint16_t;
 

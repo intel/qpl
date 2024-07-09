@@ -20,7 +20,7 @@
 
 namespace qpl::ml::compression {
 
-constexpr uint32_t OWN_GZIP_HEADER_LENGTH  = 10u;
+constexpr uint32_t OWN_GZIP_HEADER_LENGTH  = 10U;
 
 extern std::array<uint8_t, OWN_GZIP_HEADER_LENGTH> default_gzip_header;
 
@@ -64,7 +64,7 @@ public:
     static inline void write_header_unsafe(const uint8_t *destination_ptr,
                                            uint32_t UNREFERENCED_PARAMETER(size)) noexcept {
         *(uint64_t *) (destination_ptr)      = *(uint64_t *) (&default_gzip_header[0]);
-        *(uint16_t *) (destination_ptr + 8u) = *(uint16_t *) (&default_gzip_header[8]);
+        *(uint16_t *) (destination_ptr + 8U) = *(uint16_t *) (&default_gzip_header[8]);
     }
 
     static inline auto write_header(const uint8_t *destination_ptr, uint32_t size, gzip_header &header) noexcept;
@@ -75,7 +75,7 @@ public:
                                             uint32_t UNREFERENCED_PARAMETER(size),
                                             gzip_trailer &trailer) noexcept {
         *(uint32_t *) (destination_ptr)      = trailer.crc32;
-        *(uint32_t *) (destination_ptr + 4u) = trailer.input_size;
+        *(uint32_t *) (destination_ptr + 4U) = trailer.input_size;
     }
 };
 

@@ -53,16 +53,16 @@ constexpr qpl_ml_status output_format_error                = QPL_STS_OUT_FORMAT_
 }
 
 struct checksums_t {
-    uint32_t crc32_   = 0;
-    uint32_t xor_     = 0;
-    uint32_t adler32_ = 0;
+    uint32_t crc32_   = 0U;
+    uint32_t xor_     = 0U;
+    uint32_t adler32_ = 0U;
 };
 
 struct aggregates_t {
     uint32_t min_value_ = std::numeric_limits<uint32_t>::max();
-    uint32_t max_value_ = 0;
-    uint32_t sum_       = 0;
-    uint32_t index_     = 0;
+    uint32_t max_value_ = 0U;
+    uint32_t sum_       = 0U;
+    uint32_t index_     = 0U;
 };
 
 enum class execution_path_t {
@@ -71,23 +71,23 @@ enum class execution_path_t {
     software
 };
 
-constexpr uint32_t bit_bits_size                = 1;
-constexpr uint32_t byte_bits_size               = 8;
-constexpr uint32_t short_bits_size              = 16;
-constexpr uint32_t int_bits_size                = 32;
-constexpr uint32_t bit_len_to_byte_shift_offset = 3;
-constexpr uint32_t max_bit_index                = 7;
-constexpr uint32_t qpl_1k                       = 1024;
-constexpr uint32_t max_history_size             = 4 * qpl_1k;
+constexpr uint32_t bit_bits_size                = 1U;
+constexpr uint32_t byte_bits_size               = 8U;
+constexpr uint32_t short_bits_size              = 16U;
+constexpr uint32_t int_bits_size                = 32U;
+constexpr uint32_t bit_len_to_byte_shift_offset = 3U;
+constexpr uint32_t max_bit_index                = 7U;
+constexpr uint32_t qpl_1k                       = 1024U;
+constexpr uint32_t max_history_size             = 4U * qpl_1k;
 
 namespace limits {
 constexpr uint32_t max_bit_width    = int_bits_size;
 constexpr uint32_t min_bit_width    = bit_bits_size;
-constexpr uint32_t max_set_size     = 15u;
-constexpr uint32_t set_buf_bit_size = (1u << max_set_size);
+constexpr uint32_t max_set_size     = 15U;
+constexpr uint32_t set_buf_bit_size = (1U << max_set_size);
 constexpr uint32_t set_buf_size     = set_buf_bit_size / byte_bits_size;
 
-static_assert(set_buf_size == 4096u, "Intermediate buffer for size is too small");
+static_assert(set_buf_size == 4096U, "Intermediate buffer for size is too small");
 }
 
 } // namespace qpl::ml

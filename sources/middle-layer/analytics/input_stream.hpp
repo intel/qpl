@@ -30,8 +30,8 @@ public:
 
     struct unpack_result_t {
         uint32_t status            = status_list::ok;
-        uint32_t unpacked_elements = 0;
-        uint32_t unpacked_bytes    = 0;
+        uint32_t unpacked_elements = 0U;
+        uint32_t unpacked_bytes    = 0U;
 
         explicit unpack_result_t(uint32_t status) noexcept
                 : status(status) {
@@ -62,8 +62,8 @@ public:
     };
 
     enum class crc_t : uint32_t {
-        gzip  = 0,
-        iscsi = 1
+        gzip  = 0U,
+        iscsi = 1U
     };
 
     template <analytic_pipeline pipeline>
@@ -85,7 +85,7 @@ public:
     }
 
     [[nodiscard]] inline auto is_processed() const noexcept -> bool {
-        return (current_number_of_elements_ == 0);
+        return (current_number_of_elements_ == 0U);
     }
 
     [[nodiscard]] inline auto is_compressed() const noexcept -> bool {
@@ -112,7 +112,7 @@ public:
 
         auto prologue_size_left = prologue_size_;
 
-        while (prologue_size_left > 0u) {
+        while (prologue_size_left > 0U) {
             auto prologue_part_size = std::min(prologue_size_left, output_buffer.max_elements_count());
 
             auto result = ml::compression::default_decorator::unwrap(
@@ -124,7 +124,7 @@ public:
             if ((QPL_STS_OK != status) && (QPL_STS_MORE_OUTPUT_NEEDED != status)) {
                 return status;
             }
-            if (0u == result.completed_bytes_) {
+            if (0U == result.completed_bytes_) {
                 return QPL_STS_SIZE_ERR;
             }
             prologue_size_left -= result.output_bytes_;
@@ -208,19 +208,19 @@ private:
     uint8_t            *decompress_begin_           = nullptr;
     uint8_t            *decompress_end_             = nullptr;
     uint8_t            *current_decompress_         = nullptr;
-    uint32_t           prev_decompressed_bytes_     = 0u;
+    uint32_t           prev_decompressed_bytes_     = 0U;
     bool               omit_checksums_calculation_  = false;
     bool               omit_aggregates_calculation_ = false;
     bool               is_compressed_               = false;
-    checksums_t        checksums_                   = {0u, 0u};
-    uint32_t           current_source_size_         = 0u;
-    uint32_t           number_of_elements_          = 0u;
-    uint32_t           current_number_of_elements_  = 0u;
-    uint32_t           prologue_size_               = 0u;
-    int32_t            prle_count_                  = 0u;
-    uint32_t           prle_value_                  = 0u;
-    uint32_t           prle_index_                  = 0u;
-    uint8_t            bit_width_                   = 0u;
+    checksums_t        checksums_                   = {0U, 0U};
+    uint32_t           current_source_size_         = 0U;
+    uint32_t           number_of_elements_          = 0U;
+    uint32_t           current_number_of_elements_  = 0U;
+    uint32_t           prologue_size_               = 0U;
+    int32_t            prle_count_                  = 0U;
+    uint32_t           prle_value_                  = 0U;
+    uint32_t           prle_index_                  = 0U;
+    uint8_t            bit_width_                   = 0U;
     crc_t              crc_type_                    = crc_t::gzip;
     stream_format_t    stream_format_               = stream_format_t::le_format;
     compression_meta_t compression_meta_            = {};
@@ -249,7 +249,7 @@ public:
 
     inline auto compressed(bool value,
                            qpl_decomp_end_proc end_strategy = qpl_stop_and_check_for_bfinal_eob,
-                           uint32_t ignore_last_bits = 0) noexcept -> builder & {
+                           uint32_t ignore_last_bits = 0U) noexcept -> builder & {
         stream_.is_compressed_    = value;
         stream_.compression_meta_ = {end_strategy, ignore_last_bits};
 

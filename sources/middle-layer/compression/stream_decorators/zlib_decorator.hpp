@@ -68,7 +68,7 @@ public:
 
     static inline void write_header_unsafe(const uint8_t *destination_ptr) noexcept {
         *(uint8_t *) (destination_ptr)      = default_zlib_header[0];
-        *(uint8_t *) (destination_ptr + 1u) = default_zlib_header[1];
+        *(uint8_t *) (destination_ptr + 1U) = default_zlib_header[1];
     }
 
     static inline void write_trailer_unsafe(const uint8_t *destination_ptr,

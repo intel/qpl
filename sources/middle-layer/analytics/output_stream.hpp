@@ -90,13 +90,13 @@ private:
     bool                                  is_force_array_           = false;
     stream_format_t                       stream_format_            = stream_format_t::le_format;
     output_bit_width_format_t             bit_width_format_         = output_bit_width_format_t::same_as_input;
-    uint32_t                              start_bit_                = 0u;
-    uint32_t                              current_output_index_     = 0u;
-    uint32_t                              initial_output_index_     = 0u;
-    uint8_t                               actual_bit_width_         = 0u;
-    uint8_t                               input_buffer_bit_width_   = 0u;
-    uint32_t                              elements_written_         = 0u;
-    size_t                                capacity_                 = 0u;
+    uint32_t                              start_bit_                = 0U;
+    uint32_t                              current_output_index_     = 0U;
+    uint32_t                              initial_output_index_     = 0U;
+    uint8_t                               actual_bit_width_         = 0U;
+    uint8_t                               input_buffer_bit_width_   = 0U;
+    uint32_t                              elements_written_         = 0U;
+    size_t                                capacity_                 = 0U;
 };
 
 template <output_stream_type_t stream_type>
@@ -119,9 +119,9 @@ public:
         stream_.input_buffer_bit_width_ = bit_width;
 
         if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_) {
-            stream_.actual_bit_width_ = (bit_width) ? bit_width : 32u; // @todo Add PRLE Support
+            stream_.actual_bit_width_ = (bit_width) ? bit_width : 32U; // @todo Add PRLE Support
         } else {
-            stream_.actual_bit_width_ = 1u << (static_cast<uint32_t>(stream_.bit_width_format_) + 2u);
+            stream_.actual_bit_width_ = 1U << (static_cast<uint32_t>(stream_.bit_width_format_) + 2U);
         }
 
         return *this;
@@ -181,7 +181,7 @@ public:
 
             if constexpr(stream_type == array_stream) {
                 if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_
-                    || stream_.input_buffer_bit_width_ > 1) {
+                    || stream_.input_buffer_bit_width_ > 1U) {
                     stream_.current_output_index_ = core_sw::dispatcher::get_pack_bits_index(is_output_be,
                                                                                              stream_.input_buffer_bit_width_,
                                                                                              static_cast<uint32_t>(stream_.bit_width_format_));

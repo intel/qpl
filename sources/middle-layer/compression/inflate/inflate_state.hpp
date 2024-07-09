@@ -93,7 +93,7 @@ public:
     static constexpr auto execution_path = execution_path_t::software;
 
     // todo make private
-    access_properties access_properties_ = {false, 0u, 0u};
+    access_properties access_properties_ = {false, 0U, 0U};
 
     inflate_state() noexcept = default;
 
@@ -104,7 +104,7 @@ private:
     qpl_dictionary         *dictionary_ptr   = nullptr;
 
     explicit inflate_state(const util::linear_allocator &allocator) {
-        inflate_state_ = allocator.allocate<isal_inflate_state, util::memory_block_t::not_aligned>(1u);
+        inflate_state_ = allocator.allocate<isal_inflate_state, util::memory_block_t::not_aligned>(1U);
     };
 
 
@@ -130,19 +130,19 @@ private:
     }
 
     inline void inflate_state_skip_start_bits(uint32_t number_of_bits, bool force_load) noexcept {
-        if ((0u != number_of_bits || force_load) && (0u < inflate_state_->avail_in)) {
+        if ((0U != number_of_bits || force_load) && (0U < inflate_state_->avail_in)) {
             // Load new byte to ISA-L inflate state
             inflate_state_->read_in = *(inflate_state_->next_in++);
             inflate_state_->avail_in--;
-            inflate_state_->read_in_length = 8u;
+            inflate_state_->read_in_length = 8U;
 
             // Fulfill inflate byte buffer
             while (inflate_state_->read_in_length < 64 &&
-                   inflate_state_->avail_in > 1u) {
+                   inflate_state_->avail_in > 1U) {
                 inflate_state_->read_in |=
                         ((uint64_t) *(inflate_state_->next_in++)) << (uint32_t) (inflate_state_->read_in_length);
                 inflate_state_->avail_in--;
-                inflate_state_->read_in_length += 8u;
+                inflate_state_->read_in_length += 8U;
             }
 
             // Update actual number of bits
@@ -162,7 +162,7 @@ public:
             state.reset();
         }
         state.processing_step                     = util::multitask_status::multi_chunk_first_chunk;
-        state.execution_state_ptr->aecs_index     = 0u;
+        state.execution_state_ptr->aecs_index     = 0U;
         state.decompression_state_ptr->block_type = deflate_block_type_e::undefined;
 
         return state;
@@ -173,7 +173,7 @@ public:
     };
 
     ~inflate_state() {
-        this->execution_state_ptr->aecs_index ^= 1u;
+        this->execution_state_ptr->aecs_index ^= 1U;
     }
 
     [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {
@@ -250,16 +250,16 @@ private:
 
     struct {
         uint8_t  *next_out = nullptr;
-        uint32_t avail_out = 0u;
+        uint32_t avail_out = 0U;
         uint8_t  *next_in  = nullptr;
-        uint32_t avail_in  = 0u;
-        uint32_t crc       = 0u;
+        uint32_t avail_in  = 0U;
+        uint32_t crc       = 0U;
     } inflate_state_;
 
     bool flush_enabled_ = false;
 
     util::multitask_status     processing_step           = util::multitask_status::ready;
-    access_properties          access_properties_        = {false, 0u, 0u};
+    access_properties          access_properties_        = {false, 0U, 0U};
     end_processing_condition_t end_processing_condition_ = stop_and_check_for_bfinal_eob;
 
     struct execution_state {
@@ -275,10 +275,10 @@ private:
     decompression_state_t *decompression_state_ptr;
 
     explicit inflate_state(const util::linear_allocator &allocator) : allocator_(allocator) {
-        execution_state_ptr     = allocator.allocate<execution_state>(1u);
+        execution_state_ptr     = allocator.allocate<execution_state>(1U);
         decompression_state_ptr = allocator.allocate<decompression_state_t>(1);
-        descriptor_             = allocator.allocate<hw_descriptor, util::memory_block_t::aligned_64u>(1u);
-        completion_record_      = allocator.allocate<hw_completion_record, util::memory_block_t::aligned_64u>(1u);
+        descriptor_             = allocator.allocate<hw_descriptor, util::memory_block_t::aligned_64u>(1U);
+        completion_record_      = allocator.allocate<hw_completion_record, util::memory_block_t::aligned_64u>(1U);
     };
 
     inline void initialize_random_access(hw_iaa_aecs_analytic *aecs_ptr,
@@ -340,7 +340,7 @@ inline auto inflate_state<execution_path_t::software>::decompress_table(decompre
                reinterpret_cast<uint8_t *>(&inflate_state_->dist_huff_code));
 
     inflate_state_->eob_code_and_len = canned_table_ptr->eob_code_and_len;
-    inflate_state_->bfinal           = (canned_table_ptr->is_final_block) ? 1u : 0u;
+    inflate_state_->bfinal           = (canned_table_ptr->is_final_block) ? 1U : 0U;
 
     return *this;
 }
@@ -542,7 +542,7 @@ inline auto inflate_state<execution_path_t::hardware>::dictionary(qpl_dictionary
 */
 template <>
 [[nodiscard]] inline auto inflate_state<execution_path_t::hardware>::build_descriptor<inflate_mode_t::inflate_default>() noexcept -> hw_descriptor * {
-    decompress_aecs_ = allocator_.allocate<hw_iaa_aecs_analytic, util::memory_block_t::aligned_64u>(2u);
+    decompress_aecs_ = allocator_.allocate<hw_iaa_aecs_analytic, util::memory_block_t::aligned_64u>(2U);
 
     auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_decompress_access_lookup_table[processing_step] |
                                                                 execution_state_ptr->aecs_index);
@@ -624,7 +624,7 @@ template <>
     hw_iaa_aecs_decompress_state_set_aecs_format(&header_aecs_ptr->inflate_options,
                                                  !is_gen1_hw_);
 
-    if (0u != access_properties_.ignore_start_bits) {
+    if (0U != access_properties_.ignore_start_bits) {
         core_sw::util::set_zeros(reinterpret_cast<uint8_t *>(header_aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
         aecs_policy = static_cast<hw_iaa_aecs_access_policy>(hw_aecs_access_read | hw_aecs_toggle_rw);
 
@@ -657,7 +657,7 @@ template <>
 
     hw_iaa_aecs_decompress_clean_input_accumulator(&decompress_aecs_->inflate_options);
 
-    if (0u != access_properties_.ignore_start_bits) {
+    if (0U != access_properties_.ignore_start_bits) {
         initialize_random_access(decompress_aecs_,
                                  descriptor_,
                                  inflate_state_.next_in,
@@ -722,7 +722,7 @@ inline void inflate_state<execution_path_t::hardware>::initialize_random_access(
                                                                                 uint8_t *source_ptr,
                                                                                 uint32_t source_size,
                                                                                 access_properties properties) {
-    aecs_ptr->inflate_options.idx_bit_offset = 7u & access_properties_.ignore_start_bits;
+    aecs_ptr->inflate_options.idx_bit_offset = 7U & access_properties_.ignore_start_bits;
 
     hw_iaa_aecs_decompress_set_input_accumulator(&aecs_ptr->inflate_options,
                                                  source_ptr,

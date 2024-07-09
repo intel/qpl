@@ -169,7 +169,7 @@ inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::
 
 inline auto huffman_only_compression_state_builder<execution_path_t::hardware>::crc_seed(uint32_t seed)
 noexcept -> huffman_only_compression_state_builder & {
-    hw_iaa_aecs_compress_set_checksums(stream_.compress_aecs_, seed, 0u);
+    hw_iaa_aecs_compress_set_checksums(stream_.compress_aecs_, seed, 0U);
 
     return *this;
 }
@@ -191,7 +191,7 @@ noexcept -> huffman_only_compression_state_builder & {
 
         hw_iaa_descriptor_init_statistic_collector(stream_.descriptor_collect_statistic_,
                                                    nullptr, // Will be set later
-                                                   0u,  // Will be set later,
+                                                   0U,  // Will be set later,
                                                    &stream_.compress_aecs_->histogram);
 
         hw_iaa_descriptor_compress_set_huffman_only_mode(stream_.descriptor_collect_statistic_);

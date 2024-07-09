@@ -175,9 +175,9 @@ public:
         common_type builder(allocator);
 
         builder.state_.processing_step = util::multitask_status::multi_chunk_first_chunk;
-        builder.state_.meta_data_->aecs_index        = 0u;
-        builder.state_.meta_data_->prologue_size_    = 0u;
-        builder.state_.meta_data_->verify_aecs_index = 0u;
+        builder.state_.meta_data_->aecs_index        = 0U;
+        builder.state_.meta_data_->prologue_size_    = 0U;
+        builder.state_.meta_data_->verify_aecs_index = 0U;
 
         hw_iaa_aecs_compress_clean_accumulator(builder.state_.meta_data_->aecs_);
 
@@ -338,8 +338,8 @@ inline auto deflate_state_builder<execution_path_t::hardware>::verify(bool value
         hw_iaa_aecs_compress_set_deflate_huffman_table(actual_aecs,
                                                        reinterpret_cast<const void *>(fixed_literals_table),
                                                        reinterpret_cast<const void *>(fixed_offsets_table));
-        state_.meta_data_->eob_code.code   = 0u;
-        state_.meta_data_->eob_code.length = 7u;
+        state_.meta_data_->eob_code.code   = 0U;
+        state_.meta_data_->eob_code.length = 7U;
     }
 
     return state_;

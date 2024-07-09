@@ -82,7 +82,7 @@ inline uint32_t reverse_bits<uint32_t>(uint32_t x) {
 }
 
 static inline uint16_t reverse_bits(uint16_t code, const uint32_t length) {
-    code = (reversed_bits_table[code & 0x00FF] << 8u) | (reversed_bits_table[code >> 8u]);
+    code = (reversed_bits_table[code & 0x00FF] << 8U) | (reversed_bits_table[code >> 8U]);
 
     return (code >> (16 - length));
 }

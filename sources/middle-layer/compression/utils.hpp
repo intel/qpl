@@ -12,7 +12,7 @@
 
 namespace qpl::ml::compression {
 static inline auto bytes_per_mini_block(const mini_block_size_t mini_block_size) noexcept -> uint32_t {
-    return 1u << (mini_block_size + minimal_mini_block_size_power);
+    return 1U << (mini_block_size + minimal_mini_block_size_power);
 }
 
 static inline auto get_complete_mini_blocks_number(const uint32_t source_size,
@@ -24,25 +24,25 @@ static inline auto get_complete_mini_blocks_number(const uint32_t source_size,
 
 static inline auto reset_inflate_state(isal_inflate_state *state) {
     state->block_state            = ISAL_BLOCK_NEW_HDR;
-    state->dict_length            = 0;
-    state->bfinal                 = 0;
-    state->hist_bits              = 0;
+    state->dict_length            = 0U;
+    state->bfinal                 = 0U;
+    state->hist_bits              = 0U;
     state->tmp_in_size            = 0;
     state->wrapper_flag           = 0;
-    state->read_in                = 0;
+    state->read_in                = 0U;
     state->read_in_length         = 0;
     state->tmp_out_valid          = 0;
     state->tmp_out_processed      = 0;
-    state->crc                    = 0;
-    state->crc_flag               = 0;
+    state->crc                    = 0U;
+    state->crc_flag               = 0U;
     state->count                  = 0;
     state->write_overflow_lits    = 0;
     state->write_overflow_len     = 0;
     state->copy_overflow_length   = 0;
     state->copy_overflow_distance = 0;
-    state->mini_block_size        = 0;
-    state->eob_code_and_len       = 0;
-    state->decomp_end_proc        = 0;
+    state->mini_block_size        = 0U;
+    state->eob_code_and_len       = 0U;
+    state->decomp_end_proc        = 0U;
 }
 
 } // namespace qpl::ml::compression

@@ -26,8 +26,8 @@ namespace qpl::ml::compression {
  *
  * Code is not bit-reversed, stored in LE
  */
-constexpr uint32_t hw_compression_huffman_table_size = 1u;
-constexpr uint32_t deflate_header_size = 218u;
+constexpr uint32_t hw_compression_huffman_table_size = 1U;
+constexpr uint32_t deflate_header_size = 218U;
 
 /**
  * @brief Structure that represents hardware compression table

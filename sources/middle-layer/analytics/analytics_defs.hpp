@@ -21,10 +21,10 @@ enum class stream_format_t {
 
 // Output stream supports the following output bit width formats:
 enum class output_bit_width_format_t : uint32_t {
-    same_as_input = 0, // Input bit width is same as input stream bit width
-    bits_8        = 1, // 8 bits
-    bits_16       = 2, // 16 bits
-    bits_32       = 3  // 32 bits
+    same_as_input = 0U, // Input bit width is same as input stream bit width
+    bits_8        = 1U, // 8 bits
+    bits_16       = 2U, // 16 bits
+    bits_32       = 3U  // 32 bits
 };
 
 enum class analytic_pipeline {
@@ -35,9 +35,9 @@ enum class analytic_pipeline {
 };
 
 struct analytic_operation_result_t {
-    uint32_t     status_code_     = 0u;
-    uint32_t     output_bytes_    = 0u;
-    uint8_t      last_bit_offset_ = 0u;
+    uint32_t     status_code_     = 0U;
+    uint32_t     output_bytes_    = 0U;
+    uint8_t      last_bit_offset_ = 0U;
     aggregates_t aggregates_;
     checksums_t  checksums_;
 };

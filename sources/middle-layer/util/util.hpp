@@ -20,15 +20,15 @@ namespace qpl::ml {
  * @return number of kilobytes
  */
 constexpr auto operator "" _kb(unsigned long long value) -> uint32_t {
-    return static_cast<uint32_t>(value * 1024u);
+    return static_cast<uint32_t>(value * 1024U);
 }
 
 namespace util {
 
-constexpr const uint32_t default_alignment = 64;
+constexpr const uint32_t default_alignment = 64U;
 
 [[nodiscard]] constexpr auto align_size(size_t size, uint32_t align = default_alignment) noexcept -> size_t {
-    return (((static_cast<uint32_t>(size)) + (align) - 1) & ~((align) - 1));
+    return (((static_cast<uint32_t>(size)) + (align) - 1U) & ~((align) - 1U));
 }
 
 static inline auto round_to_nearest_multiple(uint32_t number_to_round, uint32_t multiple) {
@@ -51,9 +51,9 @@ constexpr auto is_random_access_iterator_v() -> bool {
 }
 
 inline uint32_t bit_width_to_bits(const uint32_t value) noexcept {
-    if (value > 0 && value <= 8) {
+    if (value > 0U && value <= 8U) {
         return byte_bits_size;
-    } else if (value > 8 && value <= 16) {
+    } else if (value > 8U && value <= 16U) {
         return short_bits_size;
     } else {
         return int_bits_size;
@@ -61,12 +61,12 @@ inline uint32_t bit_width_to_bits(const uint32_t value) noexcept {
 }
 
 inline uint32_t bit_width_to_bytes(const uint32_t value) noexcept {
-    return std::min(1u << ((value - 1u) >> 3u), 4u);
+    return std::min(1U << ((value - 1U) >> 3U), 4U);
 }
 
 inline uint32_t bit_to_byte(const uint32_t value) noexcept {
     if (value > std::numeric_limits<uint32_t>::max() - max_bit_index) {
-        return 1u << 29u;
+        return 1U << 29U;
     }
 
     const uint32_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
@@ -76,7 +76,7 @@ inline uint32_t bit_to_byte(const uint32_t value) noexcept {
 
 inline size_t bit_to_byte(const size_t value) noexcept {
     if (value > std::numeric_limits<size_t>::max() - max_bit_index) {
-        return 1llu << 61u;
+        return 1LLU << 61U;
     }
 
     const size_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
@@ -108,27 +108,27 @@ inline uint16_t revert_bits<uint16_t>(uint16_t value) noexcept {
 
 template <class mask_type, uint32_t number_of_bits>
 constexpr mask_type build_mask() {
-    if constexpr (std::is_same<mask_type, uint8_t>::value && number_of_bits <= 8u) {
-        return static_cast<uint8_t>(1u << number_of_bits) - 1;
-    } else if constexpr (std::is_same<mask_type, uint16_t>::value && number_of_bits <= 16u) {
-        return static_cast<uint16_t>(1u << number_of_bits) - 1;
-    } else if constexpr (std::is_same<mask_type, uint32_t>::value && number_of_bits <= 32u) {
-        return static_cast<uint32_t>(1u << number_of_bits) - 1;
-    } else if constexpr (std::is_same<mask_type, uint64_t>::value && number_of_bits <= 64u) {
-        return static_cast<uint64_t>(1ull << number_of_bits) - 1;
+    if constexpr (std::is_same<mask_type, uint8_t>::value && number_of_bits <= 8U) {
+        return static_cast<uint8_t>(1U << number_of_bits) - 1;
+    } else if constexpr (std::is_same<mask_type, uint16_t>::value && number_of_bits <= 16U) {
+        return static_cast<uint16_t>(1U << number_of_bits) - 1;
+    } else if constexpr (std::is_same<mask_type, uint32_t>::value && number_of_bits <= 32U) {
+        return static_cast<uint32_t>(1U << number_of_bits) - 1;
+    } else if constexpr (std::is_same<mask_type, uint64_t>::value && number_of_bits <= 64U) {
+        return static_cast<uint64_t>(1ULL << number_of_bits) - 1;
     }
 }
 
 template <class mask_type>
 mask_type build_mask(uint32_t number_of_bits) {
     if constexpr (std::is_same<mask_type, uint8_t>::value) {
-        return static_cast<uint8_t>(1u << number_of_bits) - 1;
+        return static_cast<uint8_t>(1U << number_of_bits) - 1;
     } else if constexpr (std::is_same<mask_type, uint16_t>::value) {
-        return static_cast<uint16_t>(1u << number_of_bits) - 1;
+        return static_cast<uint16_t>(1U << number_of_bits) - 1;
     } else if constexpr (std::is_same<mask_type, uint32_t>::value) {
-        return static_cast<uint32_t>(1u << number_of_bits) - 1;
+        return static_cast<uint32_t>(1U << number_of_bits) - 1;
     } else if constexpr (std::is_same<mask_type, uint64_t>::value) {
-        return static_cast<uint64_t>(1ull << number_of_bits) - 1;
+        return static_cast<uint64_t>(1ULL << number_of_bits) - 1;
     }
 }
 

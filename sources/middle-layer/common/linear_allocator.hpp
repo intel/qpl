@@ -30,7 +30,7 @@ public:
     }
 
     template <class T, memory_block_t align = memory_block_t::not_aligned>
-    [[nodiscard]] inline auto allocate(size_t n = 1u) const noexcept -> T * {
+    [[nodiscard]] inline auto allocate(size_t n = 1U) const noexcept -> T * {
         uint8_t *ptr     = buffer_.data();
         void    *new_ptr = ptr;
 
@@ -40,7 +40,7 @@ public:
 
             auto capacity = buffer_.capacity();
 
-            if (std::align(64u, byte_size, new_ptr, capacity)) {
+            if (std::align(64U, byte_size, new_ptr, capacity)) {
                 byte_size += std::distance(ptr, reinterpret_cast<uint8_t *>(new_ptr));
             }
             else {

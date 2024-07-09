@@ -23,25 +23,25 @@ enum class compression_algorithm_e : uint8_t {
 };
 
 struct decompression_operation_result_t {
-    uint32_t    status_code_     = 0u;
-    uint32_t    output_bytes_    = 0u;
-    uint32_t    completed_bytes_ = 0u;
+    uint32_t    status_code_     = 0U;
+    uint32_t    output_bytes_    = 0U;
+    uint32_t    completed_bytes_ = 0U;
     checksums_t checksums_       = {};
 };
 
 struct compression_operation_result_t {
-    uint32_t    status_code_     = 0u;
-    uint32_t    output_bytes_    = 0u;
-    uint32_t    completed_bytes_ = 0u;
-    uint32_t    indexes_written_ = 0u;
-    uint32_t    last_bit_offset  = 0u;
+    uint32_t    status_code_     = 0U;
+    uint32_t    output_bytes_    = 0U;
+    uint32_t    completed_bytes_ = 0U;
+    uint32_t    indexes_written_ = 0U;
+    uint32_t    last_bit_offset  = 0U;
     checksums_t checksums_       = {};
 };
 
 struct verification_pass_result_t {
-    uint32_t    status_code_     = 0u;
-    uint32_t    indexes_written_ = 0u;
-    uint32_t    completed_bytes_ = 0u;
+    uint32_t    status_code_     = 0U;
+    uint32_t    indexes_written_ = 0U;
+    uint32_t    completed_bytes_ = 0U;
     checksums_t checksums_       = {};
 };
 
