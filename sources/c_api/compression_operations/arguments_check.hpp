@@ -106,8 +106,8 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_
         return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
     }
 
-    constexpr auto USER_HUFFMAN_TABLE_USED = 1u;
-    constexpr auto NO_USER_HUFFMAN_TABLE   = 0u;
+    constexpr auto USER_HUFFMAN_TABLE_USED = 1U;
+    constexpr auto NO_USER_HUFFMAN_TABLE   = 0U;
 
     auto *compression_state = reinterpret_cast<own_compression_state_t *>(job_ptr->data_ptr.compress_state_ptr);
 
@@ -162,7 +162,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qp
         // Check ignore bits fields
         // BE16 format processes a 16-bit word at a time, so
         // ignored bits may be up to 15
-        if (job_ptr->ignore_start_bits > 15u || job_ptr->ignore_end_bits > 15u) {
+        if (job_ptr->ignore_start_bits > 15U || job_ptr->ignore_end_bits > 15U) {
             return QPL_STS_INVALID_PARAM_ERR;
         }
 
@@ -170,7 +170,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qp
         // Huffman only decompression with BE16 format cannot work if ignore_end_bits is greater than 7
         if (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware) {
             // Check availability of the ignore end bits extension bit
-            if (job_ptr->ignore_end_bits > 7u && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
+            if (job_ptr->ignore_end_bits > 7U && !qpl::ml::util::are_iaa_gen_2_min_capabilities_present()) {
                 return QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR;
             }
         }
@@ -181,7 +181,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qp
         }
 
     // Check ignore bits fields for normal format
-    } else if (job_ptr->ignore_start_bits > 7u || job_ptr->ignore_end_bits > 7u) {
+    } else if (job_ptr->ignore_start_bits > 7U || job_ptr->ignore_end_bits > 7U) {
        return QPL_STS_INVALID_PARAM_ERR;
     }
 

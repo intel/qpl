@@ -24,7 +24,7 @@ inline qpl_status validate_analytic_buffers(const qpl_job *const job_ptr) noexce
         return QPL_STS_NULL_PTR_ERR;
     }
 
-    if (0u == job_ptr->available_in || 0u == job_ptr->available_out || 0u == job_ptr->num_input_elements) {
+    if (0U == job_ptr->available_in || 0U == job_ptr->available_out || 0U == job_ptr->num_input_elements) {
         return QPL_STS_SIZE_ERR;
     }
 
@@ -97,7 +97,7 @@ static inline qpl_status bad_arguments_check(const qpl_job *const job_ptr) {
     }
 
     if (false == source_bit_width_is_unknown &&
-        (source_bit_width < 1u || source_bit_width > 32u)) {
+        (source_bit_width < 1U || source_bit_width > 32U)) {
         return QPL_STS_BIT_WIDTH_ERR;
     }
 
@@ -116,7 +116,7 @@ using namespace qpl::ml;
 template <>
 inline qpl_status bad_arguments_check<qpl_operation::qpl_op_select>(const qpl_job *const job_ptr) noexcept {
     QPL_BADARG_RET((qpl_op_select != job_ptr->op), QPL_STS_OPERATION_ERR)
-    QPL_BADARG_RET((1u != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR)
+    QPL_BADARG_RET((1U != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR)
 
     QPL_BADARG_RET(job_ptr->initial_output_index, QPL_STS_INVALID_PARAM_ERR);
 
@@ -130,13 +130,13 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_select>(const qpl_jo
     QPL_BADARG_RET((expected_mask_byte_length > job_ptr->available_src2), QPL_STS_SRC_IS_SHORT_ERR)
 
     if ((qpl_ow_nom != job_ptr->out_bit_width) &&
-        (1u == job_ptr->src1_bit_width)) {
+        (1U == job_ptr->src1_bit_width)) {
         uint32_t max_possible_index = OWN_MAX_32U;
         if (qpl_ow_32 != job_ptr->out_bit_width) {
             max_possible_index = (qpl_ow_8 == job_ptr->out_bit_width) ? 0xFF : OWN_MAX_16U;
         }
 
-        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1u)
+        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1U)
             > (uint64_t) max_possible_index) {
             return QPL_STS_OUTPUT_OVERFLOW_ERR;
         }
@@ -148,7 +148,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_select>(const qpl_jo
 template <>
 inline qpl_status bad_arguments_check<qpl_operation::qpl_op_expand>(const qpl_job *const job_ptr) noexcept {
     QPL_BADARG_RET((qpl_op_expand != job_ptr->op), QPL_STS_OPERATION_ERR);
-    QPL_BADARG_RET((1u != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR);
+    QPL_BADARG_RET((1U != job_ptr->src2_bit_width), QPL_STS_BIT_WIDTH_ERR);
 
     QPL_BADARG_RET(job_ptr->initial_output_index, QPL_STS_INVALID_PARAM_ERR);
 
@@ -171,13 +171,13 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_extract>(const qpl_j
     }
 
     if ((qpl_ow_nom != job_ptr->out_bit_width) &&
-        (1u == job_ptr->src1_bit_width)) {
+        (1U == job_ptr->src1_bit_width)) {
         uint32_t max_possible_index = OWN_MAX_32U;
         if (qpl_ow_32 != job_ptr->out_bit_width) {
             max_possible_index = (qpl_ow_8 == job_ptr->out_bit_width) ? 0xFF : OWN_MAX_16U;
         }
 
-        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1u)
+        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1U)
             > (uint64_t) max_possible_index) {
             return QPL_STS_OUTPUT_OVERFLOW_ERR;
         }
@@ -209,7 +209,7 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_scan_eq>(const qpl_j
             max_possible_index = (qpl_ow_8 == job_ptr->out_bit_width) ? 0xFF : OWN_MAX_16U;
         }
 
-        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1u)
+        if (((uint64_t) job_ptr->initial_output_index + (uint64_t) job_ptr->num_input_elements - 1U)
             > (uint64_t) max_possible_index) {
             return QPL_STS_OUTPUT_OVERFLOW_ERR;
         }

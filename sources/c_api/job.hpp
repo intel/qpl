@@ -179,10 +179,10 @@ static inline bool is_force_array_output_supported(const qpl_job *const job_ptr)
 // ------ JOB SETTERS ------ //
 template <qpl_operation operation_type>
 static inline void reset(qpl_job *const qpl_job_ptr) noexcept {
-    qpl_job_ptr->total_in        = 0u;
-    qpl_job_ptr->total_out       = 0u;
-    qpl_job_ptr->crc             = 0u;
-    qpl_job_ptr->idx_num_written = 0u;
+    qpl_job_ptr->total_in        = 0U;
+    qpl_job_ptr->total_out       = 0U;
+    qpl_job_ptr->crc             = 0U;
+    qpl_job_ptr->idx_num_written = 0U;
 }
 
 /**

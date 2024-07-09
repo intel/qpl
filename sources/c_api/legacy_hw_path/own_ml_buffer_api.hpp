@@ -39,7 +39,7 @@ static inline void own_qpl_buffer_fill(qpl_buffer *const buffer_ptr,
 }
 
 static inline bool own_qpl_buffer_is_empty(const qpl_buffer *const buffer_ptr) {
-    return 0u == buffer_ptr->actual_bytes;
+    return 0U == buffer_ptr->actual_bytes;
 }
 
 static inline bool own_qpl_buffer_touch(const qpl_buffer *const buffer_ptr,

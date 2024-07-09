@@ -42,27 +42,27 @@ extern "C" {
 /**
  * Maximum number of unpacked elements
  */
-#define OWN_MAX_ELEMENTS 4096u
+#define OWN_MAX_ELEMENTS 4096U
 
 /**
  * Unpack buffer size, +1u
  */
-#define OWN_UNPACK_BUF_SIZE ((OWN_MAX_ELEMENTS + 1u) * sizeof(uint32_t))
+#define OWN_UNPACK_BUF_SIZE ((OWN_MAX_ELEMENTS + 1U) * sizeof(uint32_t))
 
 /**
  * Inflate buffer size
  */
-#define OWN_INFLATE_BUF_SIZE 32768u
+#define OWN_INFLATE_BUF_SIZE 32768U
 
 /**
  * Max supported bit_width for set operations
  */
-#define OWN_MAX_SET_SIZE 15u
+#define OWN_MAX_SET_SIZE 15U
 
 /**
  * Find unique/Set membership buffer size - 2^OWN_MAX_SET_SIZE
  */
-#define OWN_SET_BUF_SIZE (1u << OWN_MAX_SET_SIZE)
+#define OWN_SET_BUF_SIZE (1U << OWN_MAX_SET_SIZE)
 
 /**
  * Expand src2 unpack buffer size - MAX_ELEMENTS in bytes
