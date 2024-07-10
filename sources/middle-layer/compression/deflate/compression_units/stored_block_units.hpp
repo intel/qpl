@@ -19,7 +19,7 @@ auto write_stored_blocks(uint8_t *source_ptr,
                          uint8_t *output_ptr,
                          uint32_t output_max_size,
                          uint32_t start_bit_offset,
-                         bool is_final) noexcept -> uint32_t;
+                         bool is_final) noexcept -> int64_t;
 
 auto write_stored_block_header(deflate_state<execution_path_t::software> &stream,
                                compression_state_t &state) noexcept -> qpl_ml_status;

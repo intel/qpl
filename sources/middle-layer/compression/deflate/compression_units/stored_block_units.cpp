@@ -23,17 +23,22 @@ typedef struct {
     uint16_t negative_length;
 } stored_block_header_t;
 
+
+/**
+ * @brief Write stored block header
+ * @note In case when size to be written is bigger than the available output buffer, function will return -1 and reset input as it was before.
+ */
 static auto write_stored_block(uint8_t *source_ptr,
                                uint16_t source_size,
                                uint8_t *output_begin_ptr,
                                uint32_t output_max_size,
                                uint32_t start_bit_offset,
-                               bool is_final = false) noexcept -> uint32_t {
+                               bool is_final = false) noexcept -> int64_t {
     // Write deflate header
-    const uint16_t header              = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
-    const uint16_t header_mask         = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
-    uint8_t  *current_output_ptr = output_begin_ptr;
-    uint32_t output_size         = output_max_size;
+    const uint16_t header       = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
+    const uint16_t header_mask  = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
+    uint8_t *current_output_ptr = output_begin_ptr;
+    int64_t  output_size        = output_max_size;
 
     if (start_bit_offset <= OWN_MAX_BIT_INDEX - OWN_DEFLATE_HEADER_MARKER_BIT_SIZE) {
         *current_output_ptr &= ~header_mask;
@@ -56,6 +61,15 @@ static auto write_stored_block(uint8_t *source_ptr,
     current_output_ptr += sizeof(stored_block_header_t);
     output_size -= sizeof(stored_block_header_t);
 
+    // Size of the last copy
+    output_size -= source_size;
+
+    // If output buffer is not enough, return -1 and reset input as it was before
+    if (output_size < 0) {
+        current_output_ptr = output_begin_ptr;
+        return -1;
+    }
+
     // Write raw data
     core_sw::util::copy(source_ptr, source_ptr + source_size, current_output_ptr);
 
@@ -64,12 +78,16 @@ static auto write_stored_block(uint8_t *source_ptr,
     return static_cast<uint32_t>(current_output_ptr - output_begin_ptr);
 }
 
+/**
+ * @brief Write stored blocks
+ * @note In case when size to be written is bigger than the available output buffer, function will return -1 and reset input as it was before.
+ */
 auto write_stored_blocks(uint8_t *source_ptr,
                          uint32_t source_size,
                          uint8_t *output_ptr,
                          uint32_t output_max_size,
                          uint32_t start_bit_offset,
-                         bool is_final) noexcept -> uint32_t {
+                         bool is_final) noexcept -> int64_t {
     auto chunks_count = source_size / stored_block_max_length;
     auto *output_begin_ptr = output_ptr;
     auto last_chunk_size = source_size % stored_block_max_length;
@@ -82,11 +100,15 @@ auto write_stored_blocks(uint8_t *source_ptr,
                                                 output_max_size,
                                                 start_bit_offset,
                                                 (is_last) ? is_final : false);
-
-        source_ptr      += stored_block_max_length;
-        output_ptr      += written_bytes;
-        output_max_size -= written_bytes;
-        start_bit_offset = 0U;
+        if (written_bytes < 0) {
+            return -1;
+        }
+        else {
+            source_ptr      += stored_block_max_length;
+            output_ptr      += static_cast<uint32_t>(written_bytes);
+            output_max_size -= static_cast<uint32_t>(written_bytes);
+            start_bit_offset = 0U;
+        }
     }
 
     if (last_chunk_size) {
@@ -96,9 +118,13 @@ auto write_stored_blocks(uint8_t *source_ptr,
                                                 output_max_size,
                                                 start_bit_offset,
                                                 is_final);
-
-        output_ptr      += written_bytes;
-        output_max_size -= written_bytes;
+        if (written_bytes < 0) {
+            return -1;
+        }
+        else {
+            output_ptr      += static_cast<uint32_t>(written_bytes);
+            output_max_size -= static_cast<uint32_t>(written_bytes);
+        }
     }
 
     return static_cast<uint32_t>(output_ptr - output_begin_ptr);
@@ -295,12 +321,20 @@ auto write_stored_block(deflate_state<execution_path_t::hardware> &state) noexce
     }
 
     // Write stored blocks
-    bytes_written += write_stored_blocks(input_ptr,
-                                         input_size,
-                                         output_ptr,
-                                         output_size,
-                                         actual_bits_in_aecs & 7U,
-                                         state.is_last_chunk());
+    int64_t stored_block_bytes = write_stored_blocks(input_ptr,
+                                                     input_size,
+                                                     output_ptr,
+                                                     output_size,
+                                                     actual_bits_in_aecs & 7U,
+                                                     state.is_last_chunk());
+
+    if (stored_block_bytes < 0) {
+        result.status_code_ = status_list::more_output_needed;
+        return result;
+    }
+    else {
+        bytes_written += static_cast<uint32_t>(stored_block_bytes); // safe as we either return uint32_t or -1
+    }
 
     // Calculate checksums
     uint32_t crc = 0U, xor_checksum = 0U;
@@ -359,24 +393,31 @@ auto recover_and_write_stored_blocks(deflate_state<execution_path_t::software> &
         return status_list::more_output_needed;
     }
 
-    auto result = write_stored_blocks(stream.isal_stream_ptr_->next_in,
-                                      stream.isal_stream_ptr_->avail_in,
-                                      stream.isal_stream_ptr_->next_out,
-                                      stream.isal_stream_ptr_->avail_out,
-                                      0U,
-                                      stream.is_last_chunk());
+    int64_t stored_block_bytes = write_stored_blocks(stream.isal_stream_ptr_->next_in,
+                                                     stream.isal_stream_ptr_->avail_in,
+                                                     stream.isal_stream_ptr_->next_out,
+                                                     stream.isal_stream_ptr_->avail_out,
+                                                     0U,
+                                                     stream.is_last_chunk());
 
-    stream.isal_stream_ptr_->next_out  += result;
-    stream.isal_stream_ptr_->avail_out -= result;
-    stream.isal_stream_ptr_->total_out += result;
+    if (stored_block_bytes < 0) {
+        return status_list::more_output_needed;
+    }
+    else {
+        int32_t result = static_cast<int32_t>(stored_block_bytes); // safe as we either return uint32_t or -1
 
-    stream.isal_stream_ptr_->next_in  += stream.isal_stream_ptr_->avail_in;
-    stream.isal_stream_ptr_->total_in += stream.isal_stream_ptr_->avail_in;
-    stream.isal_stream_ptr_->avail_in = 0U;
+        stream.isal_stream_ptr_->next_out  += result;
+        stream.isal_stream_ptr_->avail_out -= result;
+        stream.isal_stream_ptr_->total_out += result;
 
-    state = compression_state_t::finish_compression_process;
+        stream.isal_stream_ptr_->next_in  += stream.isal_stream_ptr_->avail_in;
+        stream.isal_stream_ptr_->total_in += stream.isal_stream_ptr_->avail_in;
+        stream.isal_stream_ptr_->avail_in = 0U;
 
-    return status_list::ok;
+        state = compression_state_t::finish_compression_process;
+
+        return status_list::ok;
+    }
 }
 
 } // namespace qpl::ml::compression
