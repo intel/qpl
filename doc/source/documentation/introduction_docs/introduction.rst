@@ -197,33 +197,52 @@ system resources utilization:
    option ``-DLOG_HW_INIT=ON``, which prints diagnostic message about accelerator initialization,
    execution path, and other useful information.
 
-.. _library_numa_support_reference_link:
+.. _library_device_selection_reference_link:
 
-NUMA Support
-============
+Devices Selection and NUMA Support
+==================================
 
-Intel QPL is NUMA aware and respects the NUMA node ID of the calling
-thread. If a user needs to use a device from a specific node, it can be
-done in two ways:
+To select a device for execution, Intel QPL uses the dispatcher
+that detects all configured devices and work queues on the system and selects
+the most appropriate device for the requested operation.
 
--  Pin thread that performs submissions to the specific NUMA, the
-   library will use devices only from this node.
+When selecting a device for executing the requested operation, the dispatcher considers the following:
 
-   .. code-block:: shell
+- Device capabilities (e.g., supported operations).
+- Device configuration (e.g., max transfer size).
+- Device state (e.g., device is busy or not).
+- Device NUMA node ID (in case of NUMA-aware selection, see below for details).
 
-      numactl --cpunodebind <numa_id> --membind <numa_id> /path/to/executable
+Intel QPL supports NUMA-aware device selection.
+If the user wants to select devices only from a specific NUMA node,
+they can set the NUMA ID parameter of the job to the specific node ID:
 
--  Set NUMA ID parameter of the job to the specific node ID, then
-   devices will be selected only from this node.
+.. code-block:: cpp
+   :emphasize-lines: 2
 
-   .. code-block:: cpp
-      :emphasize-lines: 2
+   qpl_job *qpl_job_ptr;
+   job->numa_id = <int32_t>;
 
-      qpl_job *qpl_job_ptr;
-      job->numa_id = <int32_t>;
+By default (i.e., when ``job->numa_id`` is set to default ``-1`` value),
+the library selects devices from any NUMA node within the socket of the calling thread.
 
-Load balancer of the library does not cross a detected or specified NUMA
-boundary. Users are responsible for balancing workloads between different nodes.
+.. attention::
+   The library behavior changed starting from Intel QPL 1.6.0.
+   Previously, the library only selected devices from the NUMA node of the calling thread
+   and the flags :c:macro:`QPL_DEVICE_NUMA_ID_ANY`, :c:macro:`QPL_DEVICE_NUMA_ID_SOCKET`,
+   and :c:macro:`QPL_DEVICE_NUMA_ID_CURRENT` were not available.
+
+Starting from Intel QPL 1.6.0 release, the library can be configured to select devices
+from a NUMA node of the calling thread or to use any available device from the system.
+To configure the behavior of the device dispatcher, use the following environment variables:
+
+- :c:macro:`QPL_DEVICE_NUMA_ID_ANY` to select any device available on the system.
+- :c:macro:`QPL_DEVICE_NUMA_ID_SOCKET` to select devices from any NUMA node within the socket of the calling thread
+  (e.g., when jobs need to be reset to the default value).
+- :c:macro:`QPL_DEVICE_NUMA_ID_CURRENT` to select devices from the NUMA node of the calling thread.
+
+.. note::
+   To bind the library to a specific NUMA node, ``numactl --cpunodebind <numa_id> --membind <numa_id> /path/to/executable`` can be used.
 
 .. _library_page_fault_handling_reference_link:
 

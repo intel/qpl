@@ -88,20 +88,21 @@ Executing using Accelerators
 Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>`
 and :ref:`configure accelerator <accelerator_configuration_reference_link>` before executing using accelerator.
 
-Benchmark Framework does not allow executing on a specific Intel IAA instance,
-however, it is possible to control the number of instances used by the benchmark.
-By default, Intel QPL respect the NUMA boundary and will use Intel IAA instances
-located on the NUMA node of the calling process.
+Benchmark Framework does not support choosing a specific Intel IAA instance for execution and, by default, does not set :c:member:`qpl_job.numa_id` value.
 
-Alternatively, you can explicitly specify the NUMA node for execution,
-use the appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
-or add ``--node=<numa_id>`` to the execution command.
+If the Intel QPL version is **`< 1.6.0`**, the library will auto-detect the NUMA node of the calling process
+and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same **NUMA node**.
+
+If the Intel QPL version is **`>= 1.6.0`**, the library will use the Intel IAA device(s) located on the **socket** of the calling thread.
+
+To set :c:member:`qpl_job.numa_id`, add the  ``--node=<numa_id>`` option to the execution command.
+
+For more details on possible values and how to configure device selection mechanism of Intel QPL,
+refer to :ref:`library_device_selection_reference_link` section.
 
 .. attention::
 
-    It is the user's responsibility to configure the accelerator and ensure device(s) availability on the NUMA node.
-
-    Refer to the :ref:`library_numa_support_reference_link` section for more details.
+    It is the user's responsibility to configure the accelerator and ensure the availability of the device(s).
 
 Latency Tests
 =============
