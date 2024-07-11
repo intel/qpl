@@ -77,6 +77,8 @@ public:
 
     [[nodiscard]] auto get_operation_supported_on_wq(const uint32_t wq_idx, const uint32_t operation) const noexcept -> bool;
 
+    [[nodiscard]] auto get_engine_count() const noexcept -> uint32_t;
+
 private:
     queues_container_t working_queues_   = {};    /**< Set of available HW working queues */
     opcfg_container_t  op_configs_       = {};    /**< Array of OPCFG register content for each available HW working queue */
@@ -86,6 +88,7 @@ private:
     uint32_t           version_major_    = 0U;    /**< Major version of discovered device */
     uint32_t           version_minor_    = 0U;    /**< Minor version of discovered device */
     bool               op_cfg_enabled_   = false; /**< Need to check workqueue's OPCFG register */
+    uint32_t           engine_count_     = 0U;    /**< Number of engines */
 };
 
 }

@@ -130,6 +130,13 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
         });
     }
 
+    auto *eng_ptr = qpl_test_accfg_engine_get_first(device_ptr);
+    engine_count_ = 0;
+    while (nullptr != eng_ptr) {
+        engine_count_ += (qpl_test_accfg_engine_get_group_id(eng_ptr) != -1)? 1 : 0;
+        eng_ptr = qpl_test_accfg_engine_get_next(eng_ptr);
+    }
+
     // Logic for op_cfg_enabled_ value
     op_cfg_enabled_ = working_queues_[0].get_op_configuration_support();
 
@@ -152,6 +159,10 @@ auto hw_device::begin() const noexcept -> queues_container_t::const_iterator {
 
 auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
     return working_queues_.cbegin() + queue_count_;
+}
+
+auto hw_device::get_engine_count() const noexcept -> uint32_t {
+    return engine_count_;
 }
 
 }

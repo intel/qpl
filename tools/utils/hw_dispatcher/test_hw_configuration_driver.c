@@ -35,11 +35,15 @@ static qpl_test_desc_t qpl_test_functions_table[] = {
         {NULL, "accfg_device_get_iaa_cap"},
         {NULL, "accfg_wq_get_first"},
         {NULL, "accfg_wq_get_next"},
-        {NULL, "accfg_wq_get_state"},
-        {NULL, "accfg_wq_get_priority"},
         {NULL, "accfg_wq_get_mode"},
+        {NULL, "accfg_wq_get_size"},
+        {NULL, "accfg_wq_get_priority"},
+        {NULL, "accfg_wq_get_state"},
         {NULL, "accfg_wq_get_user_dev_path"},
         {NULL, "accfg_wq_get_op_config"},
+        {NULL, "accfg_engine_get_first"},
+        {NULL, "accfg_engine_get_next"},
+        {NULL, "accfg_engine_get_group_id"},
 
         // Terminate list/init
         {NULL, NULL}
@@ -131,26 +135,43 @@ accfg_wq *qpl_test_accfg_wq_get_next(accfg_wq *wq) {
     return ((accfg_wq_get_next_ptr) qpl_test_functions_table[10].function)(wq);
 }
 
-enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq) {
-    return ((accfg_wq_get_state_ptr) qpl_test_functions_table[11].function)(wq);
+enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq) {
+    return ((accfg_wq_get_mode_ptr) qpl_test_functions_table[11].function)(wq);
+}
+
+uint64_t qpl_test_accfg_wq_get_size(accfg_wq *wq) {
+    return ((accfg_wq_get_size_ptr) qpl_test_functions_table[12].function)(wq);
 }
 
 int qpl_test_accfg_wq_get_priority(accfg_wq *wq) {
-    return ((accfg_wq_get_priority_ptr) qpl_test_functions_table[12].function)(wq);
+    return ((accfg_wq_get_priority_ptr) qpl_test_functions_table[13].function)(wq);
 }
 
-enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq) {
-    return ((accfg_wq_get_mode_ptr) qpl_test_functions_table[13].function)(wq);
+enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq) {
+    return ((accfg_wq_get_state_ptr) qpl_test_functions_table[14].function)(wq);
 }
 
 int qpl_test_accfg_wq_get_user_dev_path(accfg_wq *wq, char *buf, size_t size) {
-    return ((accfg_wq_get_user_dev_path_ptr) qpl_test_functions_table[14].function)(wq, buf, size);
+    return ((accfg_wq_get_user_dev_path_ptr) qpl_test_functions_table[15].function)(wq, buf, size);
 }
 
 int qpl_test_accfg_wq_get_op_config(accfg_wq *wq, accfg_opcfg *op_config) {
-    if (qpl_test_functions_table[15].function == NULL) return 1;
-    return ((accfg_wq_get_op_config_ptr) qpl_test_functions_table[15].function)(wq, op_config);
+    if (qpl_test_functions_table[16].function == NULL) return 1;
+    return ((accfg_wq_get_op_config_ptr) qpl_test_functions_table[16].function)(wq, op_config);
 }
+
+accfg_eng *qpl_test_accfg_engine_get_first(accfg_dev *device) {
+    return ((accfg_engine_get_first_ptr) qpl_test_functions_table[17].function)(device);
+}
+
+accfg_eng *qpl_test_accfg_engine_get_next(accfg_eng *engine) {
+    return ((accfg_engine_get_next_ptr) qpl_test_functions_table[18].function)(engine);
+}
+
+int qpl_test_accfg_engine_get_group_id(accfg_eng *engine) {
+    return ((accfg_engine_get_group_id_ptr) qpl_test_functions_table[19].function)(engine);
+}
+
 
 /* ------ Internal functions implementation ------ */
 
@@ -251,16 +272,20 @@ accfg_wq *qpl_test_accfg_wq_get_next(accfg_wq *wq) {
     return accfg_wq_get_next(wq);
 }
 
-enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq) {
-    return accfg_wq_get_state(wq);
+enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq) {
+    return accfg_wq_get_mode(wq);
+}
+
+uint64_t qpl_test_accfg_wq_get_size(accfg_wq *wq) {
+    return accfg_wq_get_size(wq);
 }
 
 int qpl_test_accfg_wq_get_priority(accfg_wq *wq){
     return accfg_wq_get_priority(wq);
 }
 
-enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq) {
-    return accfg_wq_get_mode(wq);
+enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq) {
+    return accfg_wq_get_state(wq);
 }
 
 int qpl_test_accfg_wq_get_user_dev_path(accfg_wq *wq, char *buf, size_t size) {
@@ -269,6 +294,18 @@ int qpl_test_accfg_wq_get_user_dev_path(accfg_wq *wq, char *buf, size_t size) {
 
 int qpl_test_accfg_wq_get_op_config(accfg_wq *wq, accfg_opcfg *op_config) {
     return accfg_wq_get_op_config(wq, op_config);
+}
+
+accfg_eng *qpl_test_accfg_engine_get_first(accfg_dev *device) {
+    return accfg_engine_get_first(device);
+}
+
+accfg_eng *qpl_test_accfg_engine_get_next(accfg_eng *engine) {
+    return accfg_engine_get_next(engine);
+}
+
+int qpl_test_accfg_engine_get_group_id(accfg_eng *engine) {
+    return accfg_engine_get_group_id(engine);
 }
 
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG

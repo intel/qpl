@@ -65,11 +65,18 @@ struct accfg_wq;
 struct accfg_wq *accfg_wq_get_first(struct accfg_device *device);
 struct accfg_wq *accfg_wq_get_next(struct accfg_wq *wq);
 enum accfg_wq_mode accfg_wq_get_mode(struct accfg_wq *wq);
+uint64_t accfg_wq_get_size(struct accfg_wq *wq);
 int accfg_wq_get_priority(struct accfg_wq *wq);
 enum accfg_wq_state accfg_wq_get_state(struct accfg_wq *wq);
 int accfg_wq_get_user_dev_path(struct accfg_wq *wq, char *buf, size_t size);
 int accfg_wq_get_op_config(struct accfg_wq *wq,
 struct accfg_op_config *op_config);
+
+/* libaccfg function for engine */
+struct accfg_engine;
+struct accfg_engine *accfg_engine_get_first(struct accfg_device *device);
+struct accfg_engine *accfg_engine_get_next(struct accfg_engine *engine);
+int accfg_engine_get_group_id(struct accfg_engine *engine);
 
 #ifdef __cplusplus
 } /* extern "C" */

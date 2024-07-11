@@ -42,6 +42,7 @@ typedef struct {
 typedef struct accfg_ctx        accfg_ctx;
 typedef struct accfg_device     accfg_dev;
 typedef struct accfg_wq         accfg_wq;
+typedef struct accfg_engine     accfg_eng;
 
 typedef struct accfg_op_config  accfg_opcfg;
 
@@ -82,15 +83,24 @@ typedef accfg_wq *              (*accfg_wq_get_first_ptr)(accfg_dev *device);
 
 typedef accfg_wq *              (*accfg_wq_get_next_ptr)(accfg_wq *wq);
 
-typedef enum accfg_wq_state     (*accfg_wq_get_state_ptr)(accfg_wq *wq);
+typedef enum accfg_wq_mode      (*accfg_wq_get_mode_ptr)(accfg_wq *wq);
+
+typedef uint64_t                (*accfg_wq_get_size_ptr)(accfg_wq *wq);
 
 typedef int                     (*accfg_wq_get_priority_ptr)(accfg_wq *wq);
 
-typedef enum accfg_wq_mode      (*accfg_wq_get_mode_ptr)(accfg_wq *wq);
+typedef enum accfg_wq_state     (*accfg_wq_get_state_ptr)(accfg_wq *wq);
 
 typedef int                     (*accfg_wq_get_user_dev_path_ptr)(accfg_wq *wq, char *buf, size_t size);
 
 typedef int                     (*accfg_wq_get_op_config_ptr)(accfg_wq *wq, accfg_opcfg *op_config);
+
+typedef accfg_eng *             (*accfg_engine_get_first_ptr)(accfg_dev *device);
+
+typedef accfg_eng *             (*accfg_engine_get_next_ptr)(accfg_eng *engine);
+
+typedef int                     (*accfg_engine_get_group_id_ptr)(accfg_eng *engine);
+
 
 #else  //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
 #ifdef __cplusplus
@@ -100,6 +110,7 @@ extern "C" {
 typedef struct accfg_ctx        accfg_ctx;
 typedef struct accfg_device     accfg_dev;
 typedef struct accfg_wq         accfg_wq;
+typedef struct accfg_engine     accfg_eng;
 
 typedef struct accfg_op_config  accfg_opcfg;
 
@@ -130,15 +141,23 @@ accfg_wq *qpl_test_accfg_wq_get_first(accfg_dev *device);
 
 accfg_wq *qpl_test_accfg_wq_get_next(accfg_wq *wq);
 
-enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq);
+enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq);
+
+uint64_t qpl_test_accfg_wq_get_size(accfg_wq *wq);
 
 int qpl_test_accfg_wq_get_priority(accfg_wq *wq);
 
-enum accfg_wq_mode qpl_test_accfg_wq_get_mode(accfg_wq *wq);
+enum accfg_wq_state qpl_test_accfg_wq_get_state(accfg_wq *wq);
 
 int qpl_test_accfg_wq_get_user_dev_path(accfg_wq *wq, char *buf, size_t size);
 
 int qpl_test_accfg_wq_get_op_config(accfg_wq *wq, accfg_opcfg *op_config);
+
+accfg_eng *qpl_test_accfg_engine_get_first(accfg_dev *device);
+
+accfg_eng *qpl_test_accfg_engine_get_next(accfg_eng *engine);
+
+int qpl_test_accfg_engine_get_group_id(accfg_eng *engine);
 
 #ifdef __cplusplus
 }

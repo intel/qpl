@@ -48,6 +48,8 @@ public:
 
     [[nodiscard]] auto get_op_config_register() const noexcept -> op_config_register_t;
 
+    [[nodiscard]] auto get_size() const noexcept -> uint64_t;
+
     void set_portal_ptr(void *portal_ptr) noexcept;
 
     virtual ~hw_queue() noexcept;
@@ -59,6 +61,7 @@ private:
     mutable std::atomic<uint64_t> portal_offset_   = 0U;               /**< Portal for enqcmd (mod page size)*/
     bool                          op_cfg_enabled_  = false;
     op_config_register_t          op_cfg_register_ = {};               /**< OPCFG register content */
+    uint64_t                      size_            = 0U;               /**< Size of queue */
 };
 
 }

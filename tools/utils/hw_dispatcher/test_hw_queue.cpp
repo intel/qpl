@@ -87,6 +87,7 @@ auto hw_queue::initialize_new_queue(void *wq_descriptor_ptr) noexcept -> qpl_tes
     }
 
     priority_       = qpl_test_accfg_wq_get_priority(work_queue_ptr);
+    size_           = qpl_test_accfg_wq_get_size(work_queue_ptr);
 
     accfg_op_config op_cfg;
     const int32_t get_op_cfg_status = qpl_test_accfg_wq_get_op_config(work_queue_ptr, &op_cfg);
@@ -116,5 +117,10 @@ auto hw_queue::get_op_configuration_support() const noexcept -> bool {
 auto hw_queue::get_op_config_register() const noexcept -> op_config_register_t {
     return op_cfg_register_;
 }
+
+auto hw_queue::get_size() const noexcept -> uint64_t {
+    return size_;
+}
+
 }
 #endif //__linux__
