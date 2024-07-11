@@ -191,6 +191,27 @@ extern "C" {
 */
 #define QPL_FLAG_FORCE_ARRAY_OUTPUT 0x00800000U
 
+/* NUMA support flags */
+
+/**
+ * Internal mechanism for Intel® In-Memory Analytics Accelerator (Intel® IAA) instance selection will respect socket boundary.
+ * Only instances from the same socket as the calling thread could be used for execution.
+ * @note This is the default behavior for Intel QPL starting from version 1.6.0.
+ */
+#define QPL_DEVICE_NUMA_ID_SOCKET  -1
+
+/**
+ * Internal mechanism for Intel IAA instance selection will respect NUMA boundary.
+ * Only instances from the NUMA node of the calling thread could be used for execution.
+ * @note This is the default behavior for Intel QPL prior to version 1.6.0.
+ */
+#define QPL_DEVICE_NUMA_ID_CURRENT -2
+
+/**
+ * Any Intel IAA instance on the system could be used for execution. NUMA boundary is ignored.
+ */
+#define QPL_DEVICE_NUMA_ID_ANY     -3
+
 /** @} */
 
 /**

@@ -43,6 +43,8 @@ public:
 
     [[nodiscard]] auto numa_id() const noexcept -> uint64_t;
 
+    [[nodiscard]] auto socket_id() const noexcept -> uint64_t;
+
     [[nodiscard]] auto begin() const noexcept -> queues_container_t::const_iterator;
 
     [[nodiscard]] auto end() const noexcept -> queues_container_t::const_iterator;
@@ -73,6 +75,8 @@ public:
 
     [[nodiscard]] auto get_load_partial_aecs_support() const noexcept -> bool;
 
+    [[nodiscard]] auto is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool;
+
 private:
     queues_container_t working_queues_   = {};    /**< Set of available HW working queues */
     opcfg_container_t  op_configs_       = {};    /**< Array of OPCFG register content for each available HW working queue */
@@ -83,6 +87,7 @@ private:
     uint32_t           version_major_    = 0U;    /**< Major version of discovered device */
     uint32_t           version_minor_    = 0U;    /**< Minor version of discovered device */
     bool               op_cfg_enabled_   = false; /**< Need to check workqueue's OPCFG register */
+    uint64_t           socket_id_        = 0u;    /**< Socket id of the device */
 };
 
 #endif

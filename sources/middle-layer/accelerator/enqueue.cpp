@@ -12,42 +12,24 @@
 #include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
-#include "dispatcher/numa.hpp"
 
-extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t device_numa_id) {
+extern "C" hw_accelerator_status hw_enqueue_descriptor(void *desc_ptr, int32_t user_specified_numa_id) {
     hw_accelerator_status result = HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
 
 #if defined( __linux__ )
-    static auto                               &dispatcher  = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    static const auto                         device_count = dispatcher.device_count();
-    static thread_local std::uint32_t         device_idx   = 0;
+    static auto                       &dispatcher  = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    static const auto                 device_count = dispatcher.device_count();
+    static thread_local std::uint32_t device_idx   = 0;
 
     if (device_count == 0) {
         return HW_ACCELERATOR_WORK_QUEUES_NOT_AVAILABLE;
     }
 
-    const int32_t numa_id = (device_numa_id == -1) ? qpl::ml::util::get_numa_id()
-                                             : device_numa_id;
-
     for (uint64_t try_count = 0U; try_count < device_count; ++try_count) {
         const auto &device = dispatcher.device(device_idx);
         device_idx = (device_idx+1) % device_count;
 
-        /*
-         * the purpose of the check below is to ensure that job would be
-         * launched on the device requested by user, meaning
-         * if user specified device_numa_id, we check that the program is
-         * indeed run on the requested NUMA node
-         *
-         * explanation regarding (device.numa_id() != (uint64_t)(-1)):
-         * accfg_device_get_numa_node() at sources/middle-layer/dispatcher/hw_device.cpp
-         * currently returns -1 in case of VM and/or when NUMA is not configured,
-         * here is the temporary w/a, so that we don't exit in this case,
-         * but just use current device
-         *
-         * @todo address w/a and remove (device.numa_id() != (uint64_t)(-1)) check
-         */
-        if ((device.numa_id() != (uint64_t)numa_id) && (device.numa_id() != (uint64_t)(-1))) {
+        if (!device.is_matching_user_numa_policy(user_specified_numa_id)) {
             continue;
         }
 

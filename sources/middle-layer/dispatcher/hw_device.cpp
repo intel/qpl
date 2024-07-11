@@ -13,6 +13,8 @@
 #include "hw_device.hpp"
 #include "hw_descriptors_api.h"
 
+#include "util/topology.hpp"
+
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
 #include "hw_configuration_driver.h"
 #else //DYNAMIC_LOADING_LIBACCEL_CONFIG=OFF
@@ -177,9 +179,11 @@ auto hw_device::initialize_new_device(descriptor_t *device_descriptor_ptr) noexc
 
     gen_cap_register_ = accfg_device_get_gen_cap(device_ptr);
     numa_node_id_     = accfg_device_get_numa_node(device_ptr);
+    socket_id_        = qpl::ml::util::get_socket_id(numa_node_id_);
 
     DIAG("%5s: version: %d.%d\n", name_ptr, version_major_, version_minor_);
     DIAG("%5s: numa: %" PRIu64 "\n", name_ptr, numa_node_id_);
+    DIAG("%5s: socket: %" PRIu64 "\n", name_ptr, socket_id_);
     DIAG("%5s: GENCAP: %" PRIu64 "\n", name_ptr, gen_cap_register_);
     DIAG("%5s: GENCAP: block on fault support:              %d\n",          name_ptr, get_block_on_fault_available());
     DIAG("%5s: GENCAP: overlapping copy support:            %d\n",          name_ptr, get_overlapping_available());
@@ -274,6 +278,10 @@ auto hw_device::numa_id() const noexcept -> uint64_t {
     return numa_node_id_;
 }
 
+auto hw_device::socket_id() const noexcept -> uint64_t {
+    return socket_id_;
+}
+
 auto hw_device::begin() const noexcept -> queues_container_t::const_iterator {
     return working_queues_.cbegin();
 }
@@ -282,6 +290,37 @@ auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
     return working_queues_.cbegin() + queue_count_;
 }
 
+/**
+ * @brief Function to check if the device is matching the user-specified NUMA policy.
+ * User specified value could be one of the following:
+ * - QPL_DEVICE_NUMA_ID_ANY
+ * - QPL_DEVICE_NUMA_ID_CURRENT
+ * - QPL_DEVICE_NUMA_ID_SOCKET
+ * or NUMA node id
+ */
+auto hw_device::is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool {
+    // If the device is not NUMA-aware or user specifies any NUMA id, then we can't check NUMA policy
+    // and, in this case, we will be using the device for execution.
+    if (numa_node_id_ == (uint64_t)(-1) || user_specified_numa_id == QPL_DEVICE_NUMA_ID_ANY) {
+        return true;
+    }
+
+    if (user_specified_numa_id >= 0) { // user specified NUMA node id
+        return (numa_node_id_ == (uint64_t)(user_specified_numa_id));
+    }
+
+    if (user_specified_numa_id == QPL_DEVICE_NUMA_ID_CURRENT) {
+        return (numa_node_id_ == (uint64_t)qpl::ml::util::get_numa_id());
+    }
+
+    if (user_specified_numa_id == QPL_DEVICE_NUMA_ID_SOCKET) {
+        return (numa_node_id_ == (uint64_t)qpl::ml::util::get_numa_id()
+                || socket_id_ == qpl::ml::util::get_socket_id());
+    }
+
+    return false;
 }
+
+} // namespace qpl::ml::dispatcher
 
 #endif //__linux__

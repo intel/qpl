@@ -36,6 +36,10 @@ else()
     target_link_libraries(qpl PRIVATE "$<$<PLATFORM_ID:Linux>:accel-config>")
 endif()
 
+# C++ filesystem library (used in middle-layer) requires additional linking for older GNU/Clang
+target_link_libraries(qpl PRIVATE $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.1>>:stdc++fs>)
+target_link_libraries(qpl PRIVATE $<$<AND:$<CXX_COMPILER_ID:Clang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:c++fs>)
+
 set_target_properties(qpl PROPERTIES VERSION   ${QPL_SHARED_LIB_VERSION})
 set_target_properties(qpl PROPERTIES SOVERSION ${QPL_SHARED_LIB_SOVERSION})
 
