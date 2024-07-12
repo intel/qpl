@@ -9,7 +9,7 @@
 Quick Start
 ###########
 
-In order to start using Benchmarks Framework, resolve all prerequisites and build the library,.
+In order to start using Benchmarks Framework, resolve all prerequisites and build the Intel® Query Processing Library (Intel® QPL).
 To do so, refer to the :ref:`Installation page <building_library_build_reference_link>`.
 
 The example below demonstrates running Deflate using Fixed block on accelerator using synchronous execution.
@@ -22,16 +22,17 @@ The example below demonstrates running Deflate using Fixed block on accelerator 
 
 .. attention::
 
-    By default Benchmarks do not set :c:member:`qpl_job.numa_id` value, so the library will auto detect NUMA node
-    of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.
+    By default Benchmarks do not set :c:member:`qpl_job.numa_id` value.
 
-    If you need to specify NUMA node for execution of this example,
-    use appropriate NUMA policy (for instance, ``numactl --cpunodebind <numa_id> --membind <numa_id>``)
-    or add ``--node=<numa_id>`` to execution command.
+    If the Intel QPL version is **`< 1.6.0`**, the library will auto-detect the NUMA node of the calling process
+    and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same **NUMA node**.
 
-    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
+    If the Intel QPL version is **`>= 1.6.0`**, the library will use the Intel IAA device(s) located on the **socket** of the calling thread.
 
-    Refer to :ref:`library_numa_support_reference_link` section for more details.
+    To set :c:member:`qpl_job.numa_id`, add the  ``--node=<numa_id>`` option to the execution command.
+
+    For more details on possible values and how to configure device selection mechanism of Intel QPL,
+    refer to :ref:`library_device_selection_reference_link` section.
 
 .. code-block:: shell
 

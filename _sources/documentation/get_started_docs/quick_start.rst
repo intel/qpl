@@ -101,15 +101,14 @@ To run the example on the ``Hardware Path`` (see :ref:`library_execution_paths_r
 
 .. attention::
 
-    In the example above we do not set :c:member:`qpl_job.numa_id` value, so the library will auto detect NUMA node
-    of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.
+    In the example above we do not set :c:member:`qpl_job.numa_id` value.
 
-    Alternatively, user can set :c:member:`qpl_job.numa_id` and set matching ``numactl`` policy to ensure
-    that the calling process will be located on the same NUMA node as specified with ``numa_id``.
+    If Intel QPL version is **`< 1.6.0`**, the library will auto-detect NUMA node of the calling process
+    and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same **NUMA node**.
 
-    It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.
+    If Intel QPL version is **`>= 1.6.0`**, the library will use Intel IAA device(s) located on the **socket** of the calling thread.
 
-    Refer to :ref:`library_numa_support_reference_link` section for more details.
+    Refer to :ref:`library_device_selection_reference_link` section for more details.
 
 To run the example on the ``Software Path`` (see :ref:`library_execution_paths_reference_link`), use:
 

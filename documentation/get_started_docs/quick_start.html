@@ -579,12 +579,11 @@ or specify the location of <code class="docutils literal notranslate"><span clas
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>In the example above we do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value, so the library will auto detect NUMA node
-of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.</p>
-<p>Alternatively, user can set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> and set matching <code class="docutils literal notranslate"><span class="pre">numactl</span></code> policy to ensure
-that the calling process will be located on the same NUMA node as specified with <code class="docutils literal notranslate"><span class="pre">numa_id</span></code>.</p>
-<p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.</p>
-<p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
+<p>In the example above we do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value.</p>
+<p>If Intel QPL version is <strong>`&lt; 1.6.0`</strong>, the library will auto-detect NUMA node of the calling process
+and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same <strong>NUMA node</strong>.</p>
+<p>If Intel QPL version is <strong>`&gt;= 1.6.0`</strong>, the library will use Intel IAA device(s) located on the <strong>socket</strong> of the calling thread.</p>
+<p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-device-selection-reference-link"><span class="std std-ref">Devices Selection and NUMA Support</span></a> section for more details.</p>
 </div>
 <p>To run the example on the <code class="docutils literal notranslate"><span class="pre">Software</span> <span class="pre">Path</span></code> (see <a class="reference internal" href="../introduction_docs/introduction.html#library-execution-paths-reference-link"><span class="std std-ref">Execution Paths</span></a>), use:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./compression_example<span class="w"> </span>software_path

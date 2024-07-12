@@ -428,7 +428,7 @@ document.write(`
 <div></div></blockquote>
 <section id="quick-start">
 <span id="library-benchmarking-quick-start-link"></span><h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h1>
-<p>In order to start using Benchmarks Framework, resolve all prerequisites and build the library,.
+<p>In order to start using Benchmarks Framework, resolve all prerequisites and build the Intel® Query Processing Library (Intel® QPL).
 To do so, refer to the <a class="reference internal" href="../get_started_docs/installation.html#building-library-build-reference-link"><span class="std std-ref">Installation page</span></a>.</p>
 <p>The example below demonstrates running Deflate using Fixed block on accelerator using synchronous execution.</p>
 <div class="admonition warning">
@@ -439,13 +439,13 @@ before executing the example.</p>
 </div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>By default Benchmarks do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value, so the library will auto detect NUMA node
-of the calling process and use Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same node.</p>
-<p>If you need to specify NUMA node for execution of this example,
-use appropriate NUMA policy (for instance, <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span></code>)
-or add <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> to execution command.</p>
-<p>It is user responsibility to configure accelerator and ensure device(s) availability on the NUMA node.</p>
-<p>Refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-numa-support-reference-link"><span class="std std-ref">NUMA Support</span></a> section for more details.</p>
+<p>By default Benchmarks do not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value.</p>
+<p>If the Intel QPL version is <strong>`&lt; 1.6.0`</strong>, the library will auto-detect the NUMA node of the calling process
+and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same <strong>NUMA node</strong>.</p>
+<p>If the Intel QPL version is <strong>`&gt;= 1.6.0`</strong>, the library will use the Intel IAA device(s) located on the <strong>socket</strong> of the calling thread.</p>
+<p>To set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a>, add the  <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> option to the execution command.</p>
+<p>For more details on possible values and how to configure device selection mechanism of Intel QPL,
+refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-device-selection-reference-link"><span class="std std-ref">Devices Selection and NUMA Support</span></a> section.</p>
 </div>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./&lt;install_dir&gt;/bin/qpl_benchmarks<span class="w"> </span>--dataset<span class="o">=</span>&lt;dataset_dir&gt;/<span class="w"> </span>--benchmark_filter<span class="o">=</span><span class="s2">&quot;deflate.*:iaa.*:sync.*:fixed.*&quot;</span><span class="w"> </span>--benchmark_min_time<span class="o">=</span><span class="m">0</span>.1s<span class="w"> </span>--block_size<span class="o">=</span><span class="m">0</span>
 </pre></div>

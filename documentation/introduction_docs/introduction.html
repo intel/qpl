@@ -430,7 +430,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-features">Library Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#devices-selection-and-numa-support">Devices Selection and NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-configured-accelerator-properties-in-user-application">Getting Configured Accelerator Properties in User Application</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
@@ -617,28 +617,47 @@ option <code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INI
 execution path, and other useful information.</p>
 </div>
 </section>
-<section id="numa-support">
-<span id="library-numa-support-reference-link"></span><h3>NUMA Support<a class="headerlink" href="#numa-support" title="Link to this heading">#</a></h3>
-<p>Intel QPL is NUMA aware and respects the NUMA node ID of the calling
-thread. If a user needs to use a device from a specific node, it can be
-done in two ways:</p>
-<ul>
-<li><p>Pin thread that performs submissions to the specific NUMA, the
-library will use devices only from this node.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>numactl<span class="w"> </span>--cpunodebind<span class="w"> </span>&lt;numa_id&gt;<span class="w"> </span>--membind<span class="w"> </span>&lt;numa_id&gt;<span class="w"> </span>/path/to/executable
-</pre></div>
-</div>
-</li>
-<li><p>Set NUMA ID parameter of the job to the specific node ID, then
-devices will be selected only from this node.</p>
+<section id="devices-selection-and-numa-support">
+<span id="library-device-selection-reference-link"></span><h3>Devices Selection and NUMA Support<a class="headerlink" href="#devices-selection-and-numa-support" title="Link to this heading">#</a></h3>
+<p>To select a device for execution, Intel QPL uses the dispatcher
+that detects all configured devices and work queues on the system and selects
+the most appropriate device for the requested operation.</p>
+<p>When selecting a device for executing the requested operation, the dispatcher considers the following:</p>
+<ul class="simple">
+<li><p>Device capabilities (e.g., supported operations).</p></li>
+<li><p>Device configuration (e.g., max transfer size).</p></li>
+<li><p>Device state (e.g., device is busy or not).</p></li>
+<li><p>Device NUMA node ID (in case of NUMA-aware selection, see below for details).</p></li>
+</ul>
+<p>Intel QPL supports NUMA-aware device selection.
+If the user wants to select devices only from a specific NUMA node,
+they can set the NUMA ID parameter of the job to the specific node ID:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="n">qpl_job_ptr</span><span class="p">;</span>
 <span class="hll"><span class="n">job</span><span class="o">-&gt;</span><span class="n">numa_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">int32_t</span><span class="o">&gt;</span><span class="p">;</span>
 </span></pre></div>
 </div>
-</li>
+<p>By default (i.e., when <code class="docutils literal notranslate"><span class="pre">job-&gt;numa_id</span></code> is set to default <code class="docutils literal notranslate"><span class="pre">-1</span></code> value),
+the library selects devices from any NUMA node within the socket of the calling thread.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The library behavior changed starting from Intel QPL 1.6.0.
+Previously, the library only selected devices from the NUMA node of the calling thread
+and the flags <a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_ANY" title="QPL_DEVICE_NUMA_ID_ANY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_ANY</span></code></a>, <a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_SOCKET" title="QPL_DEVICE_NUMA_ID_SOCKET"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_SOCKET</span></code></a>,
+and <a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_CURRENT" title="QPL_DEVICE_NUMA_ID_CURRENT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_CURRENT</span></code></a> were not available.</p>
+</div>
+<p>Starting from Intel QPL 1.6.0 release, the library can be configured to select devices
+from a NUMA node of the calling thread or to use any available device from the system.
+To configure the behavior of the device dispatcher, use the following environment variables:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_ANY" title="QPL_DEVICE_NUMA_ID_ANY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_ANY</span></code></a> to select any device available on the system.</p></li>
+<li><p><a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_SOCKET" title="QPL_DEVICE_NUMA_ID_SOCKET"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_SOCKET</span></code></a> to select devices from any NUMA node within the socket of the calling thread
+(e.g., when jobs need to be reset to the default value).</p></li>
+<li><p><a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_CURRENT" title="QPL_DEVICE_NUMA_ID_CURRENT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_CURRENT</span></code></a> to select devices from the NUMA node of the calling thread.</p></li>
 </ul>
-<p>Load balancer of the library does not cross a detected or specified NUMA
-boundary. Users are responsible for balancing workloads between different nodes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To bind the library to a specific NUMA node, <code class="docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">--cpunodebind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">--membind</span> <span class="pre">&lt;numa_id&gt;</span> <span class="pre">/path/to/executable</span></code> can be used.</p>
+</div>
 </section>
 <section id="page-faults-handling">
 <span id="library-page-fault-handling-reference-link"></span><h3>Page Faults Handling<a class="headerlink" href="#page-faults-handling" title="Link to this heading">#</a></h3>
@@ -751,7 +770,7 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-features">Library Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-support">NUMA Support</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#devices-selection-and-numa-support">Devices Selection and NUMA Support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#page-faults-handling">Page Faults Handling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-configured-accelerator-properties-in-user-application">Getting Configured Accelerator Properties in User Application</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
