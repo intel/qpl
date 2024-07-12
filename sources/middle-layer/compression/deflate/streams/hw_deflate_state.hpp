@@ -75,6 +75,8 @@ protected:
     qpl_dictionary                *dictionary_                   = nullptr;
     bool                          start_new_block                = false;
     util::multitask_status        processing_step                = util::multitask_status::ready;
+    hw_multidescriptor_status     multi_desc_status              = qpl_none_completed; /**< Steps that are completed and to be skipped in resubmitted
+                                                                                            jobs in case of QPL_STS_QUEUES_ARE_BUSY_ERR */
     uint32_t                      prev_written_indexes           = 0U; // todo align with SW
 
 
@@ -108,13 +110,15 @@ protected:
 
     const util::linear_allocator &allocator_;
 
-    explicit deflate_state(const qpl::ml::util::linear_allocator &allocator) : allocator_(allocator) {
+    explicit deflate_state(const qpl::ml::util::linear_allocator &allocator, bool init_compress_body) : allocator_(allocator) {
         meta_data_           = allocator.allocate<deflate_state<execution_path_t::hardware>::meta_data>();
         compress_descriptor_ = allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>();
         completion_record_   = allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>();
         meta_data_->aecs_    = allocator.allocate<hw_iaa_aecs_compress, qpl::ml::util::memory_block_t::aligned_64u>(2U);
 
-        hw_iaa_descriptor_init_compress_body(compress_descriptor_);
+        if (init_compress_body) {
+            hw_iaa_descriptor_init_compress_body(compress_descriptor_);
+        }
     }
 };
 

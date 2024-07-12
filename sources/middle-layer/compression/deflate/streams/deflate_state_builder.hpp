@@ -9,6 +9,7 @@
 
 #include "type_traits"
 
+#include "job.hpp"
 #include "util/checksum.hpp"
 #include "compression/deflate/utils/compression_defs.hpp"
 #include "compression/huffman_table/deflate_huffman_table.hpp"
@@ -27,6 +28,7 @@
 #include "hw_descriptors_api.h"
 #include "hw_aecs_api.h"
 #include "hw_deflate_state.hpp"
+#include "hw_definitions.h"
 
 extern "C" const uint32_t fixed_literals_table[];
 extern "C" const uint32_t fixed_offsets_table[];
@@ -57,6 +59,10 @@ public:
         return common_type(allocator);
     };
 
+    static auto restore_with_init(const util::linear_allocator &allocator) noexcept -> common_type {
+        return common_type(allocator);
+    };
+
     auto compression_level(compression_level_t level) noexcept -> common_type &;
 
     auto start_new_block(bool value) noexcept -> common_type &;
@@ -70,6 +76,8 @@ public:
     }
 
     auto output(uint8_t *buffer_ptr, uint32_t buffer_size) noexcept -> common_type &;
+
+    auto multidescriptor_status(const qpl_job *const job_ptr) noexcept -> common_type &;
 
     auto terminate(bool value) noexcept -> common_type & {
         stream_.chunk_type_.is_last = value;
@@ -172,7 +180,8 @@ class deflate_state_builder<execution_path_t::hardware> {
 public:
 
     static auto create(const util::linear_allocator &allocator) noexcept -> common_type {
-        common_type builder(allocator);
+        bool init_compress_body = true;
+        common_type builder(allocator, init_compress_body);
 
         builder.state_.processing_step = util::multitask_status::multi_chunk_first_chunk;
         builder.state_.meta_data_->aecs_index        = 0U;
@@ -185,7 +194,13 @@ public:
     }
 
     static auto restore(const util::linear_allocator &allocator) noexcept -> common_type {
-        return common_type(allocator);
+        bool init_compress_body = false;
+        return common_type(allocator, init_compress_body);
+    };
+
+    static auto restore_with_init(const util::linear_allocator &allocator) noexcept -> common_type {
+        bool init_compress_body = true;
+        return common_type(allocator, init_compress_body);
     };
 
     inline auto compression_level(compression_level_t level) noexcept -> common_type &;
@@ -215,12 +230,14 @@ public:
 
     inline auto verify(bool value) noexcept -> common_type &;
 
+    inline auto multidescriptor_status(const qpl_job *const job_ptr) noexcept -> common_type &;
+
 protected:
     state_type                            state_;
     const qpl::ml::util::linear_allocator &allocator_;
 
 private:
-    explicit deflate_state_builder(const qpl::ml::util::linear_allocator &allocator) noexcept : state_(allocator), allocator_(allocator) {
+    explicit deflate_state_builder(const qpl::ml::util::linear_allocator &allocator, bool init_compress_body) noexcept : state_(allocator, init_compress_body), allocator_(allocator) {
         // No actions required
     }
 };
@@ -327,6 +344,16 @@ inline auto deflate_state_builder<execution_path_t::hardware>::verify(bool value
     }
 
     return *reinterpret_cast<common_type *>(this);
+}
+
+inline auto deflate_state_builder<execution_path_t::hardware>::multidescriptor_status(const qpl_job *const job_ptr) noexcept -> common_type & {
+    auto hw_state = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
+
+    // Disable gzip/zlib, multi-chunk for saving multi-descriptor status before they are enabled and tested
+    if (qpl::job::is_single_job(job_ptr) && !(job_ptr->flags & (QPL_FLAG_GZIP_MODE | QPL_FLAG_ZLIB_MODE))) {
+        state_.multi_desc_status = hw_state->multi_desc_status;
+    }
+    return *this;
 }
 
 [[nodiscard]] inline auto deflate_state_builder<execution_path_t::hardware>::build() noexcept -> state_type {

@@ -45,6 +45,7 @@ void inline job::update<operation_result_t>(qpl_job *job_ptr, operation_result_t
     job::update_output_stream(job_ptr, result.output_bytes_, result.last_bit_offset);
     job::update_checksums(job_ptr, result.checksums_.crc32_, result.checksums_.xor_);
     job::update_adler32(job_ptr, result.checksums_.adler32_);
+    job::update_multidescriptor_status(job_ptr, result.multi_desc_status);
 
     if (job::is_indexing_enabled(job_ptr)) {
         job::update_index_table(job_ptr, result.indexes_written_);
@@ -130,9 +131,21 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept {
         }
 
     } else { // Deflate Mode
-        auto builder = (job_ptr->flags & QPL_FLAG_FIRST) ?
+        auto hw_state = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
+
+        auto builder = ((job_ptr->flags & QPL_FLAG_FIRST) && job::is_no_descriptor_completed(job_ptr)) ?
                        deflate_state_builder<path>::create(allocator) :
-                       deflate_state_builder<path>::restore(allocator);
+                       ((qpl::ml::execution_path_t::software != path && hw_state->multi_desc_status == qpl_none_completed) ?
+                       deflate_state_builder<path>::restore_with_init(allocator) :
+                       deflate_state_builder<path>::restore(allocator));
+
+        // If HW path gets QPL_STS_QUEUES_ARE_BUSY_ERR, save the multidescriptor status
+        // and expect application to resubmit the job.
+        // If auto path gets QPL_STS_QUEUES_ARE_BUSY_ERR, it will fall back to host,
+        // so no need to save the status.
+        if (qpl::ml::execution_path_t::hardware == path) {
+            builder.multidescriptor_status(job_ptr);
+        }
 
         builder.output(job_ptr->next_out_ptr, job_ptr->available_out)
                .compression_level(static_cast<compression_level_t>(job_ptr->level))

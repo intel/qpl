@@ -155,6 +155,15 @@ HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
 } hw_iaa_analytics_descriptor;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 
+
+/**
+ * @brief List of possible statuses of a multidescriptor job
+ */
+typedef enum {
+    qpl_none_completed          = 0U,   /**< No descriptor is completed in a multidescriptor job */
+    qpl_stats_collect_completed = 1U,   /**< Statistics Collection is completed */
+} hw_multidescriptor_status;
+
 #ifdef __cplusplus
 }
 #endif

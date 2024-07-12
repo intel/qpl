@@ -12,6 +12,7 @@
 #ifndef QPL_UTIL_JOB_API_SERVICE_H_
 #define QPL_UTIL_JOB_API_SERVICE_H_
 
+#include "hw_definitions.h"
 #include "common/defs.hpp"
 #include "qpl/c_api/job.h"
 #include "compression_operations/compression_state_t.h"
@@ -176,6 +177,19 @@ static inline bool is_force_array_output_supported(const qpl_job *const job_ptr)
     return false;
 }
 
+/**
+ * @brief Check if no descriptor has been completed. Some descriptors may be completed
+ * in a multi-descriptor job when previous submission gets QPL_STS_QUEUES_ARE_BUSY_ERR
+*/
+static inline bool is_no_descriptor_completed(const qpl_job *const job_ptr) {
+    if (qpl_path_software == job_ptr->data_ptr.path) {
+        return true;
+    } else {
+        auto *hw_state = (qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr;
+        return hw_state->multi_desc_status == qpl_none_completed;
+    }
+}
+
 // ------ JOB SETTERS ------ //
 template <qpl_operation operation_type>
 static inline void reset(qpl_job *const qpl_job_ptr) noexcept {
@@ -200,6 +214,17 @@ static inline void update_checksums(qpl_job *const qpl_job_ptr,
 */
 static inline void update_crc(qpl_job *const qpl_job_ptr, uint64_t crc64) noexcept {
     qpl_job_ptr->crc64 = crc64;
+}
+
+static inline void update_multidescriptor_status(qpl_job *const qpl_job_ptr, hw_multidescriptor_status multi_desc_status) noexcept {
+    if (qpl_job_ptr->data_ptr.path != qpl_path_software) {
+
+        // Disable gzip/zlib, multi-chunk for saving multi-descriptor status before they are enabled and tested
+        if (is_single_job(qpl_job_ptr) && !(qpl_job_ptr->flags & (QPL_FLAG_GZIP_MODE | QPL_FLAG_ZLIB_MODE))) {
+            auto *state = (qpl_hw_state *) qpl_job_ptr->data_ptr.hw_state_ptr;
+            state->multi_desc_status = multi_desc_status;
+        }
+    }
 }
 
 /**

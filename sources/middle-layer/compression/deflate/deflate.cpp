@@ -249,77 +249,78 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
 
     // Collect statistic
     if (state.collect_statistic_descriptor_) { // Dynamic mode used
-        if (is_hw_2_pass_header_gen) {
-            hw_iaa_descriptor_init_statistic_collector_with_header_gen(state.collect_statistic_descriptor_,
-                                                       source_begin_ptr, source_size,
-                                                       state.meta_data_->aecs_, actual_aecs, state.is_last_chunk(), state.is_first_chunk());
-            hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
-                                                           state.meta_data_->mini_block_size_);
+        if (state.multi_desc_status == qpl_none_completed) {
+            if (is_hw_2_pass_header_gen) {
+                hw_iaa_descriptor_init_statistic_collector_with_header_gen(state.collect_statistic_descriptor_,
+                                                           source_begin_ptr, source_size,
+                                                           state.meta_data_->aecs_, actual_aecs, state.is_last_chunk(), state.is_first_chunk());
+                hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
+                                                               state.meta_data_->mini_block_size_);
 
-            /* Append EOB so that EOB will have a Huffman code */
-            hw_iaa_descriptor_compress_set_termination_rule(state.collect_statistic_descriptor_,
+                /* Append EOB so that EOB will have a Huffman code */
+                hw_iaa_descriptor_compress_set_termination_rule(state.collect_statistic_descriptor_,
+                                                                hw_iaa_terminator_t::end_of_block);
+
+                // Setup dictionary in statistics collection descriptor
+                if (dictionary) {
+                    const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
+                    const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
+                    const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+
+                    hw_iaa_descriptor_compress_setup_dictionary(state.collect_statistic_descriptor_,
+                                                                dict_size_in_aecs,
+                                                                dictionary_data_ptr,
+                                                                dictionary->aecs_raw_dictionary_offset,
+                                                                state.meta_data_->aecs_,
+                                                                state.meta_data_->aecs_index,
+                                                                state.meta_data_->aecs_size,
+                                                                load_dictionary_val);
+                }
+
+                // The 1st pass will generate Huffman table and deflate header
+                result = util::process_descriptor<compression_operation_result_t,
+                                                  util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
+                                                                                state.completion_record_);
+
+                if (result.status_code_) {
+                    return result;
+                }
+
+                // Invert the AECS toggle for compress because src2 is written as AECS
+                state.meta_data_->aecs_index ^= 1U;
+                actual_aecs = state.meta_data_->aecs_index;
+
+            } else if (!is_hw_header_gen_supported) {
+                hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
+                if (!actual_aecs_ptr) {
+                    result.status_code_ = status_list::internal_error;
+                    return result;
+                }
+                // If header generation is not supported, the software will compute the Huffman table
+                // based on statistics generated in the 1st pass
+                hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
+                                                           source_begin_ptr, source_size,
+                                                           &actual_aecs_ptr->histogram);
+                hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
+                                                               state.meta_data_->mini_block_size_);
+
+                result = util::process_descriptor<compression_operation_result_t,
+                                                  util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
+                                                                                state.completion_record_);
+
+                if (result.status_code_) {
+                    return result;
+                }
+
+                hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(actual_aecs_ptr,
+                                                                                 &actual_aecs_ptr->histogram,
+                                                                                 state.is_last_chunk());
+            }
+
+            /* For dynamic mode, append EOB after final token in the compression descriptor */
+            hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
                                                             hw_iaa_terminator_t::end_of_block);
-
-            // Setup dictionary in statistics collection descriptor
-            if (dictionary) {
-                const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
-                const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
-                const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
-
-                hw_iaa_descriptor_compress_setup_dictionary(state.collect_statistic_descriptor_,
-                                                            dict_size_in_aecs,
-                                                            dictionary_data_ptr,
-                                                            dictionary->aecs_raw_dictionary_offset,
-                                                            state.meta_data_->aecs_,
-                                                            state.meta_data_->aecs_index,
-                                                            state.meta_data_->aecs_size,
-                                                            load_dictionary_val);
-            }
-
-            // The 1st pass will generate Huffman table and deflate header
-            result = util::process_descriptor<compression_operation_result_t,
-                                              util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
-                                                                            state.completion_record_);
-
-            if (result.status_code_) {
-                return result;
-            }
-
-            // Invert the AECS toggle for compress because src2 is written as AECS
-            state.meta_data_->aecs_index ^= 1U;
-            actual_aecs = state.meta_data_->aecs_index;
-
-        } else if (!is_hw_header_gen_supported) {
-            hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
-            if (!actual_aecs_ptr) {
-                result.status_code_ = status_list::internal_error;
-                return result;
-            }
-            // If header generation is not supported, the software will compute the Huffman table
-            // based on statistics generated in the 1st pass
-            hw_iaa_descriptor_init_statistic_collector(state.collect_statistic_descriptor_,
-                                                       source_begin_ptr, source_size,
-                                                       &actual_aecs_ptr->histogram);
-            hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
-                                                           state.meta_data_->mini_block_size_);
-
-            result = util::process_descriptor<compression_operation_result_t,
-                                              util::execution_mode_t::sync>(state.collect_statistic_descriptor_,
-                                                                            state.completion_record_);
-
-            if (result.status_code_) {
-                return result;
-            }
-
-            hw_iaa_aecs_compress_write_deflate_dynamic_header_from_histogram(actual_aecs_ptr,
-                                                                             &actual_aecs_ptr->histogram,
-                                                                             state.is_last_chunk());
         }
-
-        /* For dynamic mode, append EOB after final token in the compression descriptor */
-        hw_iaa_descriptor_compress_set_termination_rule(state.compress_descriptor_,
-                                                        hw_iaa_terminator_t::end_of_block);
-
     } else { // Static or fixed mode used
         if (state.is_first_chunk() || state.start_new_block) {
             hw_iaa_aecs_compress *actual_aecs_ptr = hw_iaa_aecs_compress_get_aecs_ptr(state.meta_data_->aecs_, actual_aecs, state.meta_data_->aecs_size);
@@ -363,49 +364,60 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(deflat
         }
     }
 
-    auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_compress_access_lookup_table[state.processing_step] |
-                                                                actual_aecs);
+    // Prepare compression descriptor only if previous submission(s) have not done this
+    if (state.multi_desc_status == qpl_none_completed) {
+        auto access_policy = static_cast<hw_iaa_aecs_access_policy>(util::aecs_compress_access_lookup_table[state.processing_step] |
+                                                                    actual_aecs);
 
-    hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, source_begin_ptr, source_size);
+        hw_iaa_descriptor_set_input_buffer(state.compress_descriptor_, source_begin_ptr, source_size);
 
-    if (is_hw_1_pass_header_gen) {
-        hw_iaa_descriptor_set_1_pass_header_gen(state.compress_descriptor_,
-                                                state.meta_data_->aecs_,
-                                                actual_aecs,
-                                                state.is_last_chunk(),
-                                                state.is_first_chunk());
-    } else {
-        hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
-                                            state.meta_data_->aecs_,
-                                            access_policy,
-                                            !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
-    }
-
-    // Setup dictionary in compression descriptor
-    if (dictionary) {
-        const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
-        const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
-        const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
-
-        hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
-                                                    dict_size_in_aecs,
-                                                    dictionary_data_ptr,
-                                                    dictionary->aecs_raw_dictionary_offset,
+        if (is_hw_1_pass_header_gen) {
+            hw_iaa_descriptor_set_1_pass_header_gen(state.compress_descriptor_,
                                                     state.meta_data_->aecs_,
-                                                    state.meta_data_->aecs_index,
-                                                    state.meta_data_->aecs_size,
-                                                    load_dictionary_val);
-    }
-
-    result = util::process_descriptor<compression_operation_result_t,
-             util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
-
-    if (result.status_code_ == status_list::destination_is_short_error) {
-        // There can't be multiple stored blocks while indexing
-        if (source_size >= 64_kb && state.meta_data_->mini_block_size_) {
-            result.status_code_ = status_list::index_generation_error;
+                                                    actual_aecs,
+                                                    state.is_last_chunk(),
+                                                    state.is_first_chunk());
         } else {
-            result = write_stored_block(state);
+            hw_iaa_descriptor_compress_set_aecs(state.compress_descriptor_,
+                                                state.meta_data_->aecs_,
+                                                access_policy,
+                                                !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
+        }
+
+        // Setup dictionary in compression descriptor
+        if (dictionary) {
+            const uint32_t dict_size_in_aecs         = get_dictionary_size_in_aecs(*dictionary);
+            const uint8_t *const dictionary_data_ptr = get_dictionary_data(*dictionary);
+            const uint8_t load_dictionary_val              = get_load_dictionary_flag(*dictionary);
+
+            hw_iaa_descriptor_compress_setup_dictionary(state.compress_descriptor_,
+                                                        dict_size_in_aecs,
+                                                        dictionary_data_ptr,
+                                                        dictionary->aecs_raw_dictionary_offset,
+                                                        state.meta_data_->aecs_,
+                                                        state.meta_data_->aecs_index,
+                                                        state.meta_data_->aecs_size,
+                                                        load_dictionary_val);
+        }
+     }
+
+     // Submit compression descriptor if previous submission(s) fail to submit successfully
+     if (state.multi_desc_status == qpl_none_completed || state.multi_desc_status == qpl_stats_collect_completed) {
+        result = util::process_descriptor<compression_operation_result_t,
+                 util::execution_mode_t::sync>(state.compress_descriptor_, state.completion_record_);
+
+        if (result.status_code_ == status_list::destination_is_short_error) {
+            // There can't be multiple stored blocks while indexing
+            if (source_size >= 64_kb && state.meta_data_->mini_block_size_) {
+                result.status_code_ = status_list::index_generation_error;
+            } else {
+                result = write_stored_block(state);
+            }
+        }
+
+        if (result.status_code_ == QPL_STS_QUEUES_ARE_BUSY_ERR) {
+            result.multi_desc_status = qpl_stats_collect_completed;
+            state.multi_desc_status  = qpl_stats_collect_completed;
         }
     }
 
