@@ -10,6 +10,7 @@
 #include <cpuid.h>
 #include <filesystem>
 #include <fstream>
+#include <utility>
 
 #endif
 
@@ -126,7 +127,7 @@ int get_pkg_id_of_cpu(std::filesystem::path const& root, int cpu) {
 
     if (!std::filesystem::exists(cpu_path)) { return -1; }
 
-    auto package_path = cpu_path; package_path.append("topology/physical_package_id");
+    auto package_path = std::move(cpu_path); package_path.append("topology/physical_package_id");
 
     if (!std::filesystem::exists(package_path)) { return -1; }
 
@@ -152,7 +153,7 @@ int get_first_cpu_from_node(std::filesystem::path const& root, int node) {
 
     if (!std::filesystem::exists(node_path)) { return -1; }
 
-    std::filesystem::path cpulist(node_path); cpulist.append("cpulist");
+    std::filesystem::path cpulist(std::move(node_path)); cpulist.append("cpulist");
 
     int min_cpu = -1, max_cpu;
 
