@@ -124,7 +124,6 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_nominal) {
 // If flag is set, force array output modification is not supported, QPL_STS_NOT_SUPPORTED_MODE_ERR is expected
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_not_supported) {
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == true, "Force array output modification is supported. Skip the test.");
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
 
     std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
     std::array<uint8_t, MASK_ARRAY_SIZE>        mask{};

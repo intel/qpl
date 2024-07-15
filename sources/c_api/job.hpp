@@ -170,7 +170,7 @@ static inline bool is_sw_fallback_supported(const qpl_job *const qpl_job_ptr, qp
 // Check if Force Array Output Modification is supported
 static inline bool is_force_array_output_supported(const qpl_job *const job_ptr) noexcept {
     // Check if job_ptr and hw_state_ptr are not null
-    if (job_ptr != nullptr && job_ptr->data_ptr.hw_state_ptr != nullptr && ((qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr) != nullptr){
+    if (job_ptr != nullptr && job_ptr->data_ptr.path != qpl_path_software && job_ptr->data_ptr.hw_state_ptr != nullptr) {
         // Check if force array output modification is supported
         return ((qpl_hw_state *) job_ptr->data_ptr.hw_state_ptr)->accel_context.device_properties.force_array_output_mod_available;
     }
