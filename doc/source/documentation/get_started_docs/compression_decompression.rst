@@ -55,6 +55,12 @@ Compression with Dictionary
 .. literalinclude:: ../../../../examples/low-level-api/compression_with_dictionary_example.cpp
     :language: cpp
 
+Mixing Paths For Compression and Decompression with Dictionary
+==============================================================
+
+.. literalinclude:: ../../../../examples/low-level-api/mix_paths_comp_decomp_w_dict_example.cpp
+    :language: cpp
+
 .. _multi_chunk_compression_with_fixed_block_reference_link:
 
 Multi-chunk Compression with Fixed Block
