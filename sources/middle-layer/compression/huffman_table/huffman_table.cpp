@@ -9,8 +9,8 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include "memory"
-#include "array" // std::array
+#include <memory>
+#include <array> // std::array
 #include <cstring>
 
 #include "huffman_table.hpp"

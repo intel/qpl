@@ -7,7 +7,7 @@
 #ifndef QPL_MIDDLE_LAYER_COMPRESSION_STREAMS_COMPRESSION_STREAM_BUILDER_HPP
 #define QPL_MIDDLE_LAYER_COMPRESSION_STREAMS_COMPRESSION_STREAM_BUILDER_HPP
 
-#include "type_traits"
+#include <type_traits>
 
 #include "job.hpp"
 #include "util/checksum.hpp"

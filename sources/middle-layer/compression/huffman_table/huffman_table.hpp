@@ -9,7 +9,7 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include "memory"
+#include <memory>
 #include "common/defs.hpp"
 #include "compression/compression_defs.hpp"
 #include "qpl/c_api/statistics.h"

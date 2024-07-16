@@ -13,7 +13,7 @@
 #define QPL_TESTS_GENERATORS_INCLUDE_FORMAT_GENERATOR_HPP_
 
 #include "stdint.h"
-#include "vector"
+#include <vector>
 
 namespace qpl::test {
     class format_generator {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "algorithm"
+#include <algorithm>
 
 // tests_common
 #include "operation_test.hpp"

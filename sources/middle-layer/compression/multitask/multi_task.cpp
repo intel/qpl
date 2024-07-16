@@ -9,7 +9,7 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include "array"
+#include <array>
 #include "hw_aecs_api.h"
 
 namespace qpl::ml::util {

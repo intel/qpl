@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "iostream"
-#include "algorithm"
+#include <iostream>
+#include <algorithm>
 #include "format_generator.hpp"
 #include "source_provider.hpp"
 #include "random_generator.h"

@@ -12,10 +12,10 @@
 #ifndef QPL_TESTS_THREAD_TESTS_STRESS_COMMAND_LINE_HPP_
 #define QPL_TESTS_THREAD_TESTS_STRESS_COMMAND_LINE_HPP_
 
-#include "variant"
-#include "map"
-#include "optional"
-#include "string"
+#include <variant>
+#include <map>
+#include <optional>
+#include <string>
 #include <cstdint>
 
 namespace qpl::test {

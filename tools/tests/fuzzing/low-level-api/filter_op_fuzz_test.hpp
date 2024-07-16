@@ -5,8 +5,8 @@
  ******************************************************************************/
 
 #include "qpl/qpl.h"
-#include "vector"
-#include "memory"
+#include <vector>
+#include <memory>
 
 enum scan_comparator {
     not_in_range      = 0u,

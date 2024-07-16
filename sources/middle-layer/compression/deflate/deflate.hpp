@@ -13,7 +13,7 @@
 #ifndef QPL_MIDDLE_LAYER_COMPRESSION_DEFLATE_DEFLATE_HPP
 #define QPL_MIDDLE_LAYER_COMPRESSION_DEFLATE_DEFLATE_HPP
 
-#include "type_traits"
+#include <type_traits>
 
 #include "common/defs.hpp"
 #include "compression/compression_defs.hpp"

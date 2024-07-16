@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
-#include "array"
-#include "vector"
+#include <array>
+#include <vector>
 #include "gtest/gtest.h"
 
 #include "qpl_test_environment.hpp"
