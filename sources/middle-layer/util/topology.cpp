@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <utility>
+#include <sstream>
 
 #endif
 
