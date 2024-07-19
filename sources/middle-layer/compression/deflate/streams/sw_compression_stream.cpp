@@ -9,6 +9,7 @@
 #include "simple_memory_ops.hpp"
 #include "util/util.hpp"
 #include "deflate_hash_table.h"
+#include <algorithm>
 
 namespace qpl::ml::compression {
 void deflate_state<execution_path_t::software>::set_source(uint8_t *begin, uint32_t size) noexcept {
@@ -69,9 +70,7 @@ void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
         if ((isal_stream_ptr_->total_in & 0xFFFF) == 0) {
             memset(hash_table, 0, hash_table_size);
         } else {
-            for (uint32_t i = 0; i < hash_table_size / 2; i++) {
-                hash_table[i] = static_cast<uint16_t>(isal_stream_ptr_->total_in);
-            }
+            std::fill_n(hash_table, hash_table_size / 2, static_cast<uint16_t>(isal_stream_ptr_->total_in));
         }
     }
 }

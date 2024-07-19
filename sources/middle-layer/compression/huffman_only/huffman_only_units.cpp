@@ -13,6 +13,7 @@
 #include "bitbuf2.h"
 
 #include "compression/deflate/containers/huffman_table.hpp"
+#include <algorithm>
 
 namespace qpl::ml::compression {
 
@@ -195,9 +196,9 @@ auto convert_output_to_big_endian(huffman_only_state<execution_path_t::software>
                                                                 stream.isal_stream_ptr_->total_out);
 
     // Main cycle
-    for (uint32_t i = 0; i < actual_length; i++) {
-        array_ptr[i] = reverse_bits(array_ptr[i], 16);
-    }
+    std::transform(array_ptr, array_ptr + actual_length, array_ptr, [&](uint32_t val) {
+        return reverse_bits(val, 16);
+    });
 
     // Check if the last byte should be bit reversed (in case of odd stream length)
     if (stream.isal_stream_ptr_->total_out % 2 == 1) {
