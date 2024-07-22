@@ -9,8 +9,8 @@
  * @brief @ref hw_get_job_size API implementation
  */
 
-#include "own_defs.h"
 #include "hardware_state.h"
+#include "own_defs.h"
 
 QPL_FUN(uint32_t, hw_get_job_size, ()) {
     uint32_t size = 0U;

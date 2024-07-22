@@ -12,7 +12,7 @@
 #ifndef QPL_SERIALIZATION__HPP_
 #define QPL_SERIALIZATION__HPP_
 
-#include "qpl/c_api/serialization.h"
 #include "qpl/c_api/huffman_table.h"
+#include "qpl/c_api/serialization.h"
 
 #endif // QPL_SERIALIZATION__HPP_

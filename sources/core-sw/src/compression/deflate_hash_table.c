@@ -11,14 +11,15 @@
 
 /* ------ Includes ------ */
 
-#include "qplc_memop.h"
 #include "deflate_hash_table.h"
+
 #include "own_qplc_defs.h"
+#include "qplc_memop.h"
 
 /**
  * Values of uninitialized index in hash table
  */
-#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFU
+#define OWN_UNINITIALIZED_INDEX     0xFFFFFFFFU
 #define OWN_UNINITIALIZED_INDEX_32u 0x80000000U
 
 /**
@@ -27,19 +28,16 @@
 
 /* ------ Own functions implementation ------ */
 
-OWN_QPLC_FUN(void, deflate_hash_table_reset,(deflate_hash_table_t *const hash_table_ptr)) {
-    CALL_CORE_FUN(qplc_set_32u)((uint32_t) OWN_UNINITIALIZED_INDEX_32u,
-                                (uint32_t *) hash_table_ptr->hash_table_ptr,
-                                OWN_HIGH_HASH_TABLE_SIZE);
+OWN_QPLC_FUN(void, deflate_hash_table_reset, (deflate_hash_table_t* const hash_table_ptr)) {
+    CALL_CORE_FUN(qplc_set_32u)
+    ((uint32_t)OWN_UNINITIALIZED_INDEX_32u, (uint32_t*)hash_table_ptr->hash_table_ptr, OWN_HIGH_HASH_TABLE_SIZE);
 
-    CALL_CORE_FUN(qplc_zero_8u)((uint8_t *) hash_table_ptr->hash_story_ptr,
-                                OWN_HIGH_HASH_TABLE_SIZE * 4U);
+    CALL_CORE_FUN(qplc_zero_8u)((uint8_t*)hash_table_ptr->hash_story_ptr, OWN_HIGH_HASH_TABLE_SIZE * 4U);
 }
 
 #if PLATFORM < K0
 
-void own_deflate_hash_table_update(deflate_hash_table_t *const hash_table_ptr,
-                                   const uint32_t new_index,
+void own_deflate_hash_table_update(deflate_hash_table_t* const hash_table_ptr, const uint32_t new_index,
                                    const uint32_t hash_value) {
     // Variables
     const uint32_t current_index = hash_table_ptr->hash_table_ptr[hash_value];

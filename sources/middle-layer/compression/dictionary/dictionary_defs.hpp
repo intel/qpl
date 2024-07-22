@@ -12,8 +12,8 @@
 #ifndef QPL_COMPRESSION_DICTIONARY_DICTIONARY_DEFS_HPP_
 #define QPL_COMPRESSION_DICTIONARY_DICTIONARY_DEFS_HPP_
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 constexpr int dict_none = -1;
 
@@ -35,14 +35,14 @@ enum class hardware_dictionary_level {
 };
 
 struct qpl_dictionary {
-    software_compression_level sw_level;                   /* Software compression level */
-    hardware_dictionary_level  hw_dict_level;              /* Hardware compression level */
-    size_t                     raw_dictionary_size;        /* Raw dictionary size */
-    uint32_t                   aecs_raw_dictionary_offset; /* Offset of raw dictionary in @ref hw_iaa_aecs_compress dictionary section */
-    uint32_t                   dictionary_id;              /* Dictionary ID */
-    uint32_t                   raw_dictionary_offset;      /* Raw dictionary offset in @ref qpl_dictionary buffer */
-    uint32_t                   hw_hash_table_offset;       /* HW hash table offset in @ref qpl_dictionary buffer */
-    uint32_t                   sw_hash_table_offset;       /* SW hash table offset in @ref qpl_dictionary buffer */
+    software_compression_level sw_level;            /* Software compression level */
+    hardware_dictionary_level  hw_dict_level;       /* Hardware compression level */
+    size_t                     raw_dictionary_size; /* Raw dictionary size */
+    uint32_t aecs_raw_dictionary_offset; /* Offset of raw dictionary in @ref hw_iaa_aecs_compress dictionary section */
+    uint32_t dictionary_id;              /* Dictionary ID */
+    uint32_t raw_dictionary_offset;      /* Raw dictionary offset in @ref qpl_dictionary buffer */
+    uint32_t hw_hash_table_offset;       /* HW hash table offset in @ref qpl_dictionary buffer */
+    uint32_t sw_hash_table_offset;       /* SW hash table offset in @ref qpl_dictionary buffer */
 };
 
 // namespace qpl::ml::compression {

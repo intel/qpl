@@ -15,15 +15,16 @@
 
 /* ------ Includes ------ */
 
+#include "bit_writer.h"
 #include "crc.h"
 #include "deflate_defs.h"
-#include "bit_writer.h"
 #include "deflate_hash_table.h"
 #include "deflate_histogram.h"
 #include "own_deflate_job.h"
 #include "qplc_compression_consts.h"
 
-#define OWN_CRC32(buf, len, init_crc, ...) ((0, ##__VA_ARGS__) ? qpl_crc32_iscsi(buf, len, init_crc) : qpl_crc32_gzip_refl(init_crc, buf, len))
+#define OWN_CRC32(buf, len, init_crc, ...) \
+    ((0, ##__VA_ARGS__) ? qpl_crc32_iscsi(buf, len, init_crc) : qpl_crc32_gzip_refl(init_crc, buf, len))
 
 /* ------ Internal functions API ------ */
 
@@ -37,10 +38,10 @@
  *
  * @return @link own_match @endlink with information about the best match using "lazy" logic from Zlib
  */
-static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t *const hash_table_ptr,
-                                                      const uint8_t *const lower_bound_ptr,
-                                                      const uint8_t *const string_ptr,
-                                                      const uint8_t *const upper_bound_ptr);
+static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t* const hash_table_ptr,
+                                                      const uint8_t* const              lower_bound_ptr,
+                                                      const uint8_t* const              string_ptr,
+                                                      const uint8_t* const              upper_bound_ptr);
 
 /**
  * @brief Finds the longest match using two hash-tables with hash-chain approach
@@ -52,10 +53,9 @@ static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t
  *
  * @return @link own_match @endlink with information about the best match using hash-chain approach
  */
-static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *const hash_table_ptr,
-                                                 const uint8_t *const lower_bound_ptr,
-                                                 const uint8_t *const string_ptr,
-                                                 const uint8_t *const upper_bound_ptr);
+static inline deflate_match_t own_get_best_match(const deflate_hash_table_t* const hash_table_ptr,
+                                                 const uint8_t* const lower_bound_ptr, const uint8_t* const string_ptr,
+                                                 const uint8_t* const upper_bound_ptr);
 
 /**
  * @brief Compares two given strings and returns length of the match
@@ -66,9 +66,8 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
  *
  * @return length of the match
  */
-static inline uint32_t own_compare_strings(const uint8_t *const first_ptr,
-                                           const uint8_t *const second_ptr,
-                                           const uint8_t *const upper_bound_ptr);
+static inline uint32_t own_compare_strings(const uint8_t* const first_ptr, const uint8_t* const second_ptr,
+                                           const uint8_t* const upper_bound_ptr);
 
 #ifdef SCORE_FUNCTION
 
@@ -80,25 +79,24 @@ static inline uint32_t own_get_offset_extra_bits(uint32_t offset);
 
 /* ------ Internal functions implementation ------ */
 
-static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t *const hash_table_ptr,
-                                                      const uint8_t *const lower_bound_ptr,
-                                                      const uint8_t *const string_ptr,
-                                                      const uint8_t *const upper_bound_ptr) {
+static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t* const hash_table_ptr,
+                                                      const uint8_t* const              lower_bound_ptr,
+                                                      const uint8_t* const              string_ptr,
+                                                      const uint8_t* const              upper_bound_ptr) {
     // Variables
-    const uint8_t *current_ptr = string_ptr + 1U;
+    const uint8_t* current_ptr = string_ptr + 1U;
 
     // Getting initial matches for "lazy matching" logic from Zlib
-    deflate_match_t longest_match      = own_get_best_match(hash_table_ptr, lower_bound_ptr, string_ptr, upper_bound_ptr);
-    deflate_match_t next_longest_match = own_get_best_match(hash_table_ptr, lower_bound_ptr, current_ptr, upper_bound_ptr);
+    deflate_match_t longest_match = own_get_best_match(hash_table_ptr, lower_bound_ptr, string_ptr, upper_bound_ptr);
+    deflate_match_t next_longest_match =
+            own_get_best_match(hash_table_ptr, lower_bound_ptr, current_ptr, upper_bound_ptr);
 
     // Searching for the longest match
 #ifdef SCORE_FUNCTION
-    while (longest_match.score < next_longest_match.score &&
-           longest_match.length < hash_table_ptr->lazy_match &&
+    while (longest_match.score < next_longest_match.score && longest_match.length < hash_table_ptr->lazy_match &&
            current_ptr < upper_bound_ptr) {
 #else
-    while (longest_match.length < next_longest_match.length &&
-           longest_match.length < hash_table_ptr->lazy_match &&
+    while (longest_match.length < next_longest_match.length && longest_match.length < hash_table_ptr->lazy_match &&
            current_ptr < upper_bound_ptr) {
 #endif
         // Shifting to next 4 bytes
@@ -113,31 +111,29 @@ static inline deflate_match_t own_get_lazy_best_match(const deflate_hash_table_t
 }
 
 // TODO logic should be simplified
-static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *const hash_table_ptr,
-                                                 const uint8_t *const lower_bound_ptr,
-                                                 const uint8_t *const string_ptr,
-                                                 const uint8_t *const upper_bound_ptr) {
+static inline deflate_match_t own_get_best_match(const deflate_hash_table_t* const hash_table_ptr,
+                                                 const uint8_t* const lower_bound_ptr, const uint8_t* const string_ptr,
+                                                 const uint8_t* const upper_bound_ptr) {
     // Variables
-    const uint32_t hash_value = OWN_CRC32(string_ptr, QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION, 0) & hash_table_ptr->hash_mask;
+    const uint32_t hash_value =
+            OWN_CRC32(string_ptr, QPLC_DEFLATE_BYTES_FOR_HASH_CALCULATION, 0) & hash_table_ptr->hash_mask;
 
-    uint32_t        index                      = hash_table_ptr->hash_table_ptr[hash_value];
-    uint8_t         *current_match_ptr         = (uint8_t *) (lower_bound_ptr + index);
-    uint32_t        match_length               = 0U;
-    uint32_t        attempt_number             = 0U;
+    uint32_t index             = hash_table_ptr->hash_table_ptr[hash_value];
+    uint8_t* current_match_ptr = (uint8_t*)(lower_bound_ptr + index);
+    uint32_t match_length      = 0U;
+    uint32_t attempt_number    = 0U;
 #ifdef SCORE_FUNCTION
-    uint32_t        match_score                = 0U;
+    uint32_t match_score = 0U;
 #endif
     uint32_t        current_number_of_attempts = hash_table_ptr->attempts;
-    deflate_match_t best_match                 = {
-            .index = (uint32_t) (current_match_ptr - lower_bound_ptr),
-            .length = match_length,
-            .offset = (uint32_t) (string_ptr - current_match_ptr),
-            .hash = hash_value,
+    deflate_match_t best_match                 = {.index  = (uint32_t)(current_match_ptr - lower_bound_ptr),
+                                                  .length = match_length,
+                                                  .offset = (uint32_t)(string_ptr - current_match_ptr),
+                                                  .hash   = hash_value,
 #ifdef SCORE_FUNCTION
-            .score = match_score,
+                                  .score = match_score,
 #endif
-            .match_source_ptr = (uint8_t *) string_ptr
-    };
+                                  .match_source_ptr = (uint8_t*)string_ptr};
 
     if (index == OWN_UNINITIALIZED_INDEX || best_match.offset > QPLC_DEFLATE_MAXIMAL_OFFSET) {
         // This was the first time we have faced this hash value
@@ -152,7 +148,7 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
 
     best_match.index  = index;
     best_match.length = match_length;
-    best_match.offset = (uint32_t) (string_ptr - current_match_ptr);
+    best_match.offset = (uint32_t)(string_ptr - current_match_ptr);
 #ifdef SCORE_FUNCTION
     best_match.score = match_score;
 #endif
@@ -168,13 +164,10 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
 
     index = hash_table_ptr->hash_story_ptr[index & hash_table_ptr->hash_mask];
 
-    while (index != OWN_UNINITIALIZED_INDEX &&
-           attempt_number < current_number_of_attempts) {
-        if ((string_ptr - (lower_bound_ptr + index)) > QPLC_DEFLATE_MAXIMAL_OFFSET) {
-            break;
-        }
+    while (index != OWN_UNINITIALIZED_INDEX && attempt_number < current_number_of_attempts) {
+        if ((string_ptr - (lower_bound_ptr + index)) > QPLC_DEFLATE_MAXIMAL_OFFSET) { break; }
 
-        current_match_ptr = (uint8_t *) (lower_bound_ptr + index);
+        current_match_ptr = (uint8_t*)(lower_bound_ptr + index);
         match_length      = own_compare_strings(current_match_ptr, string_ptr, upper_bound_ptr);
 #ifdef SCORE_FUNCTION
         match_score = own_score_function(match_length, string_ptr - current_match_ptr);
@@ -191,11 +184,9 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
 #ifdef SCORE_FUNCTION
             best_match.score = match_score;
 #endif
-            best_match.offset = (uint32_t) (string_ptr - current_match_ptr);
+            best_match.offset = (uint32_t)(string_ptr - current_match_ptr);
 
-            if (best_match.length >= 258U) {
-                break;
-            }
+            if (best_match.length >= 258U) { break; }
         }
 
         // Going to next iteration
@@ -206,20 +197,16 @@ static inline deflate_match_t own_get_best_match(const deflate_hash_table_t *con
     return best_match;
 }
 
-static inline uint32_t own_compare_strings(const uint8_t *const first_ptr,
-                                           const uint8_t *const second_ptr,
-                                           const uint8_t *const upper_bound_ptr) {
+static inline uint32_t own_compare_strings(const uint8_t* const first_ptr, const uint8_t* const second_ptr,
+                                           const uint8_t* const upper_bound_ptr) {
     // Variables
     uint32_t match_length = 0U;
 
     // Main cycle
-    if (first_ptr >= second_ptr) {
-        return match_length;
-    }
+    if (first_ptr >= second_ptr) { return match_length; }
 
-    while ((first_ptr[match_length] == second_ptr[match_length]) &&
-        (second_ptr + match_length < upper_bound_ptr) &&
-        match_length <= 257U) {
+    while ((first_ptr[match_length] == second_ptr[match_length]) && (second_ptr + match_length < upper_bound_ptr) &&
+           match_length <= 257U) {
         match_length++;
     }
 
@@ -236,41 +223,34 @@ static inline uint32_t own_compare_strings(const uint8_t *const first_ptr,
  */
 #define OWN_STUB_PREDICATE own_deflate_job_predicate_stub
 
-void own_deflate_job_callback_stub(own_deflate_job *UNREFERENCED_PARAMETER(job_ptr)) {
+void own_deflate_job_callback_stub(own_deflate_job* UNREFERENCED_PARAMETER(job_ptr)) {
     // This is just a stub
 }
 
-uint8_t own_deflate_job_predicate_stub(own_deflate_job *const UNREFERENCED_PARAMETER(job_ptr)) {
+uint8_t own_deflate_job_predicate_stub(own_deflate_job* const UNREFERENCED_PARAMETER(job_ptr)) {
     // This is just a stub
     return 1U;
 }
 
-void own_update_deflate_histogram_high_level(own_deflate_job *deflate_job_ptr) {
-    own_deflate_job_perform(deflate_job_ptr,
-                            own_get_lazy_best_match,
-                            own_deflate_job_process_literals_no_instructions,
-                            own_deflate_job_process_match_no_instructions,
-                            OWN_STUB_PREDICATE,
-                            OWN_STUB_CALLBACK);
+void own_update_deflate_histogram_high_level(own_deflate_job* deflate_job_ptr) {
+    own_deflate_job_perform(deflate_job_ptr, own_get_lazy_best_match, own_deflate_job_process_literals_no_instructions,
+                            own_deflate_job_process_match_no_instructions, OWN_STUB_PREDICATE, OWN_STUB_CALLBACK);
 }
 
 #ifdef SCORE_FUNCTION
 
-static inline uint32_t own_score_function(const uint32_t length, const uint32_t offset)
-{
+static inline uint32_t own_score_function(const uint32_t length, const uint32_t offset) {
     const uint32_t score = length * 8u - own_get_offset_extra_bits(offset);
 
     return length == 0u ? 0u : score;
 }
 
-static int bsr(int val)
-{
+static int bsr(int val) {
     if (val == 0) return 0;
     return (31 - __builtin_clz(val));
 }
 
-static inline uint32_t own_get_offset_extra_bits(const uint32_t offset)
-{
+static inline uint32_t own_get_offset_extra_bits(const uint32_t offset) {
     return offset < 5u ? 0u : (bsr(offset - 1u) - 1u);
 }
 

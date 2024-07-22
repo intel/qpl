@@ -13,11 +13,11 @@
 extern "C" {
 #endif
 
-#define OWN_BYTES_FOR_HASH_CALCULATION 4U     /**> Number of bytes that is used for hash calculation*/
-#define OWN_MINIMAL_MATCH_LENGTH 4U           /**> Minimal match length used during match search */
-#define OWN_MAXIMAL_OFFSET 4096U              /**> Maximal offset for match */
-#define OWN_UNINITIALIZED_INDEX 0xFFFFFFFFU   /**> Value of uninitialized index in hash table*/
-#define LITERAL_DISTANCE_IN_ICF 30
+#define OWN_BYTES_FOR_HASH_CALCULATION 4U          /**> Number of bytes that is used for hash calculation*/
+#define OWN_MINIMAL_MATCH_LENGTH       4U          /**> Minimal match length used during match search */
+#define OWN_MAXIMAL_OFFSET             4096U       /**> Maximal offset for match */
+#define OWN_UNINITIALIZED_INDEX        0xFFFFFFFFU /**> Value of uninitialized index in hash table*/
+#define LITERAL_DISTANCE_IN_ICF        30
 
 /**
  * @brief Internal structure that contains information about found match
@@ -54,15 +54,15 @@ typedef struct {
     /**
      * Pointer to the match in the text
      */
-    uint8_t *match_source_ptr;
+    uint8_t* match_source_ptr;
 } deflate_match_t;
 
 typedef struct deflate_icf deflate_icf;
 
 struct deflate_icf_stream {
-    deflate_icf *begin_ptr;
-    deflate_icf *next_ptr;
-    deflate_icf *end_ptr;
+    deflate_icf* begin_ptr;
+    deflate_icf* next_ptr;
+    deflate_icf* end_ptr;
 };
 
 #ifdef __cplusplus

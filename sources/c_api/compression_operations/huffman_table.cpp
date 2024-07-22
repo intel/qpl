@@ -9,19 +9,18 @@
  *  Job API (public C API)
  */
 
+#include "huffman_table.hpp"
+
+#include "compression/huffman_table/huffman_table.hpp"
+#include "compression/huffman_table/huffman_table_utils.hpp"
+#include "own_checkers.h"
 #include "simple_memory_ops.hpp"
 #include "util/checkers.hpp"
-#include "own_checkers.h"
-#include "huffman_table.hpp"
-#include "compression/huffman_table/huffman_table_utils.hpp"
-#include "compression/huffman_table/huffman_table.hpp"
 
 extern "C" {
 
-qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
-                                            const qpl_path_t path,
-                                            const allocator_t allocator,
-                                            qpl_huffman_table_t *huffman_table) {
+qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type, const qpl_path_t path,
+                                            const allocator_t allocator, qpl_huffman_table_t* huffman_table) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(huffman_table))
@@ -31,17 +30,14 @@ qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
     const allocator_t table_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_t<compression_algorithm_e::deflate>);
-    auto buffer = table_allocator.allocator(allocated_size);
+    auto buffer         = table_allocator.allocator(allocated_size);
 
-    if (!buffer) {
-        return QPL_STS_OBJECT_ALLOCATION_ERR;
-    }
+    if (!buffer) { return QPL_STS_OBJECT_ALLOCATION_ERR; }
 
-    huffman_table_t<compression_algorithm_e::deflate>* huffman_table_ptr = new (buffer) huffman_table_t<compression_algorithm_e::deflate>();
+    huffman_table_t<compression_algorithm_e::deflate>* huffman_table_ptr =
+            new (buffer) huffman_table_t<compression_algorithm_e::deflate>();
 
-    auto status = huffman_table_ptr->create((huffman_table_type_e) type,
-                                            (execution_path_t) path,
-                                            (allocator_t) allocator);
+    auto status = huffman_table_ptr->create((huffman_table_type_e)type, (execution_path_t)path, (allocator_t)allocator);
     if (status != status_list::ok) {
         std::destroy_at(huffman_table_ptr);
         table_allocator.deallocator(buffer);
@@ -55,10 +51,8 @@ qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type,
-                                         const qpl_path_t path,
-                                         const allocator_t allocator,
-                                         qpl_huffman_table_t *huffman_table) {
+qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type, const qpl_path_t path,
+                                         const allocator_t allocator, qpl_huffman_table_t* huffman_table) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(huffman_table))
@@ -70,17 +64,14 @@ qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type,
     const allocator_t table_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_t<compression_algorithm_e::huffman_only>);
-    auto buffer = table_allocator.allocator(allocated_size);
+    auto buffer         = table_allocator.allocator(allocated_size);
 
-    if (!buffer) {
-        return QPL_STS_OBJECT_ALLOCATION_ERR;
-    }
+    if (!buffer) { return QPL_STS_OBJECT_ALLOCATION_ERR; }
 
-    huffman_table_t<compression_algorithm_e::huffman_only>* huffman_table_ptr = new (buffer) huffman_table_t<compression_algorithm_e::huffman_only>();
+    huffman_table_t<compression_algorithm_e::huffman_only>* huffman_table_ptr =
+            new (buffer) huffman_table_t<compression_algorithm_e::huffman_only>();
 
-    auto status = huffman_table_ptr->create((huffman_table_type_e) type,
-                                            (execution_path_t) path,
-                                            (allocator_t) allocator);
+    auto status = huffman_table_ptr->create((huffman_table_type_e)type, (execution_path_t)path, (allocator_t)allocator);
     if (status != status_list::ok) {
         std::destroy_at(huffman_table_ptr);
         table_allocator.deallocator(buffer);
@@ -102,14 +93,14 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table) {
     auto meta = reinterpret_cast<huffman_table_meta_t*>(table);
 
     if (meta->algorithm == compression_algorithm_e::deflate) {
-        auto table_impl       = reinterpret_cast<huffman_table_t<compression_algorithm_e::deflate>*>(table);
-        const allocator_t allocator = table_impl->get_internal_allocator();
+        auto              table_impl = reinterpret_cast<huffman_table_t<compression_algorithm_e::deflate>*>(table);
+        const allocator_t allocator  = table_impl->get_internal_allocator();
 
         std::destroy_at(table_impl);
         allocator.deallocator(table);
     } else if (meta->algorithm == compression_algorithm_e::huffman_only) {
-        auto table_impl       = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(table);
-        const allocator_t allocator = table_impl->get_internal_allocator();
+        auto              table_impl = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(table);
+        const allocator_t allocator  = table_impl->get_internal_allocator();
 
         std::destroy_at(table_impl);
         allocator.deallocator(table);
@@ -118,17 +109,14 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table) {
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
-                                                 const qpl_histogram *const histogram_ptr) {
+qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table, const qpl_histogram* const histogram_ptr) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(table, histogram_ptr));
 
-    QPL_BADARG_RET(histogram_ptr->reserved_literal_lengths[0] ||
-                   histogram_ptr->reserved_literal_lengths[1] ||
-                   histogram_ptr->reserved_distances[0] ||
-                   histogram_ptr->reserved_distances[1],
+    QPL_BADARG_RET(histogram_ptr->reserved_literal_lengths[0] || histogram_ptr->reserved_literal_lengths[1] ||
+                           histogram_ptr->reserved_distances[0] || histogram_ptr->reserved_distances[1],
                    QPL_STS_INVALID_PARAM_ERR);
 
     auto meta = reinterpret_cast<huffman_table_meta_t*>(table);
@@ -146,8 +134,7 @@ qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
-                                                const qpl_huffman_triplet *const triplet_ptr,
+qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table, const qpl_huffman_triplet* const triplet_ptr,
                                                 const uint32_t triplet_count) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
@@ -157,21 +144,19 @@ qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
     auto meta = reinterpret_cast<huffman_table_meta_t*>(table);
 
     QPL_BADARG_RET(meta->flags & QPL_DEFLATE_REPRESENTATION, QPL_STS_INVALID_HUFFMAN_TABLE_ERR);
-    QPL_BADARG_RET(meta->flags & QPL_HUFFMAN_ONLY_REPRESENTATION && triplet_count != 256,
-                   QPL_STS_SIZE_ERR);
+    QPL_BADARG_RET(meta->flags & QPL_HUFFMAN_ONLY_REPRESENTATION && triplet_count != 256, QPL_STS_SIZE_ERR);
 
     if (meta->algorithm == compression_algorithm_e::huffman_only) {
         auto table_impl = reinterpret_cast<huffman_table_t<compression_algorithm_e::huffman_only>*>(table);
 
-        return static_cast<qpl_status>(table_impl->init(reinterpret_cast<const qpl_triplet *>(triplet_ptr),
-                                                        triplet_count));
+        return static_cast<qpl_status>(
+                table_impl->init(reinterpret_cast<const qpl_triplet*>(triplet_ptr), triplet_count));
     }
 
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
-                                             const qpl_huffman_table_t other) {
+qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table, const qpl_huffman_table_t other) {
 
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
@@ -202,8 +187,7 @@ qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
     return QPL_STS_OK;
 }
 
-qpl_status qpl_huffman_table_get_type(qpl_huffman_table_t table,
-                                      qpl_huffman_table_type_e *const type_ptr) {
+qpl_status qpl_huffman_table_get_type(qpl_huffman_table_t table, qpl_huffman_table_type_e* const type_ptr) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
@@ -217,7 +201,7 @@ qpl_status qpl_huffman_table_get_type(qpl_huffman_table_t table,
 }
 
 // Delete after refactoring
-qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl_huffman_table_t table) {
+qpl_compression_huffman_table* own_huffman_table_get_compression_table(const qpl_huffman_table_t table) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
@@ -228,7 +212,7 @@ qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl
 
         auto c_table = table_impl->compression_huffman_table<execution_path_t::software>();
 
-        return reinterpret_cast<qpl_compression_huffman_table *>(c_table);
+        return reinterpret_cast<qpl_compression_huffman_table*>(c_table);
     }
 
     if (meta->algorithm == compression_algorithm_e::huffman_only) {
@@ -236,14 +220,14 @@ qpl_compression_huffman_table *own_huffman_table_get_compression_table(const qpl
 
         auto c_table = table_impl->compression_huffman_table<execution_path_t::software>();
 
-        return reinterpret_cast<qpl_compression_huffman_table *>(c_table);
+        return reinterpret_cast<qpl_compression_huffman_table*>(c_table);
     }
 
     return nullptr;
 }
 
 //
-qpl_decompression_huffman_table *own_huffman_table_get_decompression_table(const qpl_huffman_table_t table) {
+qpl_decompression_huffman_table* own_huffman_table_get_decompression_table(const qpl_huffman_table_t table) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
@@ -254,7 +238,7 @@ qpl_decompression_huffman_table *own_huffman_table_get_decompression_table(const
 
         auto d_table = table_impl->decompression_huffman_table<execution_path_t::software>();
 
-        return reinterpret_cast<qpl_decompression_huffman_table *>(d_table);
+        return reinterpret_cast<qpl_decompression_huffman_table*>(d_table);
     }
 
     if (meta->algorithm == compression_algorithm_e::huffman_only) {
@@ -262,10 +246,9 @@ qpl_decompression_huffman_table *own_huffman_table_get_decompression_table(const
 
         auto d_table = table_impl->decompression_huffman_table<execution_path_t::software>();
 
-        return reinterpret_cast<qpl_decompression_huffman_table *>(d_table);
+        return reinterpret_cast<qpl_decompression_huffman_table*>(d_table);
     }
 
     return nullptr;
 }
-
 }

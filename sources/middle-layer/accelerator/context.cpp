@@ -13,7 +13,7 @@
  * @{
  */
 
-#if defined( __linux__ )
+#if defined(__linux__)
 
 #include "libaccel_config.h"
 
@@ -23,10 +23,9 @@
 #include "accelerator/hw_accelerator_api.h"
 #include "dispatcher/hw_dispatcher.hpp"
 
-extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_context *const accel_context_ptr) {
-    static auto &dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
-    if (!accel_context_ptr)
-        return HW_ACCELERATOR_NULL_PTR_ERR;
+extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_context* const accel_context_ptr) {
+    static auto& dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (!accel_context_ptr) return HW_ACCELERATOR_NULL_PTR_ERR;
 
     if (dispatcher.is_hw_support()) {
         dispatcher.fill_hw_context(accel_context_ptr);
@@ -37,6 +36,7 @@ extern "C" hw_accelerator_status hw_accelerator_get_context(hw_accelerator_conte
     return dispatcher.get_hw_init_status();
 }
 
-extern "C" hw_accelerator_status hw_accelerator_finalize(hw_accelerator_context *const UNREFERENCED_PARAMETER(accel_context_ptr)) {
+extern "C" hw_accelerator_status
+hw_accelerator_finalize(hw_accelerator_context* const UNREFERENCED_PARAMETER(accel_context_ptr)) {
     return HW_ACCELERATOR_STATUS_OK;
 }

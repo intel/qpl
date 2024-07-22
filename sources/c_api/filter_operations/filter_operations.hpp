@@ -122,7 +122,7 @@ namespace qpl {
  * @snippet low-level-api/scan_for_elements_in_range_example.cpp QPL_LOW_LEVEL_SCAN_FOR_ELEMENTS_IN_RANGE_EXAMPLE
  *
  */
-uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_size);
+uint32_t perform_scan(qpl_job* job_ptr, uint8_t* buffer_ptr, uint32_t buffer_size);
 
 /**
  * @brief Extracts a sub-vector from the `Source` starting from index param_low and finishing at index param_high
@@ -184,7 +184,7 @@ uint32_t perform_scan(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_siz
  * @snippet low-level-api/extract_example.cpp QPL_LOW_LEVEL_EXTRACT_EXAMPLE
  *
  */
-uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_size);
+uint32_t perform_extract(qpl_job* job_ptr, uint8_t* buffer_ptr, uint32_t buffer_size);
 
 /**
  * @brief Expands `Source` with using `Mask Stream` (bit-stream). `Mask Stream` modifies an output
@@ -255,12 +255,8 @@ uint32_t perform_extract(qpl_job *job_ptr, uint8_t *buffer_ptr, uint32_t buffer_
  * @snippet low-level-api/expand_example.cpp QPL_LOW_LEVEL_EXPAND_EXAMPLE
  *
  */
-uint32_t perform_expand(qpl_job *job_ptr,
-                        uint8_t *unpack_buffer_ptr,
-                        uint32_t unpack_buffer_size,
-                        uint8_t *output_buffer_ptr,
-                        uint32_t output_buffer_size,
-                        uint8_t *mask_buffer_ptr,
+uint32_t perform_expand(qpl_job* job_ptr, uint8_t* unpack_buffer_ptr, uint32_t unpack_buffer_size,
+                        uint8_t* output_buffer_ptr, uint32_t output_buffer_size, uint8_t* mask_buffer_ptr,
                         uint32_t mask_buffer_size);
 
 /**
@@ -328,12 +324,8 @@ uint32_t perform_expand(qpl_job *job_ptr,
  * @snippet low-level-api/select_example.cpp QPL_LOW_LEVEL_SELECT_EXAMPLE
  *
  */
-uint32_t perform_select(qpl_job *job_ptr,
-                        uint8_t *unpack_buffer_ptr,
-                        uint32_t unpack_buffer_size,
-                        uint8_t *output_buffer_ptr,
-                        uint32_t output_buffer_size,
-                        uint8_t *mask_buffer_ptr,
+uint32_t perform_select(qpl_job* job_ptr, uint8_t* unpack_buffer_ptr, uint32_t unpack_buffer_size,
+                        uint8_t* output_buffer_ptr, uint32_t output_buffer_size, uint8_t* mask_buffer_ptr,
                         uint32_t mask_buffer_size);
 
 } // namespace qpl

@@ -11,12 +11,13 @@
  * @defgroup MIDDLE_LAYER_API Private API: Middle Layer API
  */
 
-#include "qpl/c_api/status.h"
-#include "qpl/c_api/defs.h"
-#include <limits>
+#include <algorithm>
 #include <cstdint>
 #include <iterator>
-#include <algorithm>
+#include <limits>
+
+#include "qpl/c_api/defs.h"
+#include "qpl/c_api/status.h"
 
 namespace qpl::ml {
 
@@ -50,7 +51,7 @@ constexpr qpl_ml_status buffers_overlap                    = QPL_STS_BUFFER_OVER
 constexpr qpl_ml_status compression_reference_before_start = QPL_STS_REF_BEFORE_START_ERR;
 constexpr qpl_ml_status output_format_error                = QPL_STS_OUT_FORMAT_ERR;
 
-}
+} // namespace status_list
 
 struct checksums_t {
     uint32_t crc32_   = 0U;
@@ -65,11 +66,7 @@ struct aggregates_t {
     uint32_t index_     = 0U;
 };
 
-enum class execution_path_t {
-    auto_detect,
-    hardware,
-    software
-};
+enum class execution_path_t { auto_detect, hardware, software };
 
 constexpr uint32_t bit_bits_size                = 1U;
 constexpr uint32_t byte_bits_size               = 8U;
@@ -88,7 +85,7 @@ constexpr uint32_t set_buf_bit_size = (1U << max_set_size);
 constexpr uint32_t set_buf_size     = set_buf_bit_size / byte_bits_size;
 
 static_assert(set_buf_size == 4096U, "Intermediate buffer for size is too small");
-}
+} // namespace limits
 
 } // namespace qpl::ml
 

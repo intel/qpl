@@ -5,8 +5,11 @@
  ******************************************************************************/
 
 #include "huff_codes.h"
-#include "huffman.h"
+
 #include "flatten_ll.h"
+#include "huffman.h"
+
+// clang-format off
 
 /* The order code length codes are written in the dynamic code header. This is
  * defined in RFC 1951 page 13 */
@@ -576,27 +579,31 @@ static struct hufftables_icf static_hufftables = {
                {{{.code_and_extra = 0x000,.length2 = 0x0}}}}
 };
 
+// clang-format on
+
 struct slver {
     uint16_t snum;
-    uint8_t ver;
-    uint8_t core;
+    uint8_t  ver;
+    uint8_t  core;
 };
 
 /* Version info */
 struct slver isal_update_histogram_slver_00010085;
-struct slver isal_update_histogram_slver = { 0x0085, 0x01, 0x00 };
+struct slver isal_update_histogram_slver = {0x0085, 0x01, 0x00};
 
 struct slver qpl_isal_create_hufftables_slver_00010086;
-struct slver qpl_isal_create_hufftables_slver = { 0x0086, 0x01, 0x00 };
+struct slver qpl_isal_create_hufftables_slver = {0x0086, 0x01, 0x00};
 
 struct slver qpl_isal_create_hufftables_subset_slver_00010087;
-struct slver qpl_isal_create_hufftables_subset_slver = { 0x0087, 0x01, 0x00 };
+struct slver qpl_isal_create_hufftables_subset_slver = {0x0087, 0x01, 0x00};
 
-extern uint32_t qpl_build_huff_tree(struct heap_tree *heap, uint64_t heap_size, uint64_t node_ptr);
-extern void qpl_build_heap(uint64_t * heap, uint64_t heap_size);
+extern uint32_t qpl_build_huff_tree(struct heap_tree* heap, uint64_t heap_size, uint64_t node_ptr);
+extern void     qpl_build_heap(uint64_t* heap, uint64_t heap_size);
 
 static uint32_t convert_dist_to_dist_sym(uint32_t dist);
 static uint32_t convert_length_to_len_sym(uint32_t length);
+
+// clang-format off
 
 static const uint8_t bitrev8[0x100] = {
     0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0,
@@ -633,39 +640,36 @@ static const uint8_t bitrev8[0x100] = {
     0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF
 };
 
+// clang-format on
+
 // bit reverse low order LENGTH bits in code, and return result in low order bits
-static inline uint16_t bit_reverse(uint16_t code, uint32_t length)
-{
+static inline uint16_t bit_reverse(uint16_t code, uint32_t length) {
     code = (bitrev8[code & 0x00FF] << 8) | (bitrev8[code >> 8]);
     return (code >> (16 - length));
 }
 
-void qpl_isal_update_histogram_base(uint8_t * start_stream, int length,
-                struct isal_huff_histogram *histogram)
-{
-    uint32_t literal = 0U, hash = 0U;
-    uint16_t seen = 0U, *last_seen = histogram->hash_table;
-    uint8_t *current = NULL, *next_hash = NULL, *end = NULL;
-    uint32_t match_length = 0U;
-    uint32_t dist = 0U;
-    uint64_t *lit_len_histogram = histogram->lit_len_histogram;
-    uint64_t *dist_histogram = histogram->dist_histogram;
+void qpl_isal_update_histogram_base(uint8_t* start_stream, int length, struct isal_huff_histogram* histogram) {
+    uint32_t  literal = 0U, hash = 0U;
+    uint16_t  seen = 0U, *last_seen = histogram->hash_table;
+    uint8_t * current = NULL, *next_hash = NULL, *end = NULL;
+    uint32_t  match_length      = 0U;
+    uint32_t  dist              = 0U;
+    uint64_t* lit_len_histogram = histogram->lit_len_histogram;
+    uint64_t* dist_histogram    = histogram->dist_histogram;
 
-    if (length <= 0)
-        return;
-    uint8_t *end_stream = start_stream + length;
+    if (length <= 0) return;
+    uint8_t* end_stream = start_stream + length;
 
-    memset(last_seen, 0, sizeof(histogram->hash_table));	/* Initialize last_seen to be 0. */
+    memset(last_seen, 0, sizeof(histogram->hash_table)); /* Initialize last_seen to be 0. */
     for (current = start_stream; current < end_stream - 3; current++) {
-        literal = load_u32(current);
-        hash = compute_hash(literal) & LVL0_HASH_MASK;
-        seen = last_seen[hash];
+        literal         = load_u32(current);
+        hash            = compute_hash(literal) & LVL0_HASH_MASK;
+        seen            = last_seen[hash];
         last_seen[hash] = (current - start_stream) & 0xFFFF;
-        dist = (current - start_stream - seen) & 0xFFFF;
+        dist            = (current - start_stream - seen) & 0xFFFF;
         if (dist - 1 < D - 1) {
             assert(start_stream <= current - dist);
-            match_length =
-                compare258(current - dist, current, end_stream - current);
+            match_length = compare258(current - dist, current, end_stream - current);
             if (match_length >= SHORTEST_MATCH) {
                 next_hash = current;
 #ifdef ISAL_LIMIT_HASH_UPDATE
@@ -673,18 +677,16 @@ void qpl_isal_update_histogram_base(uint8_t * start_stream, int length,
 #else
                 end = next_hash + match_length;
 #endif
-                if (end > end_stream - 3)
-                    end = end_stream - 3;
+                if (end > end_stream - 3) end = end_stream - 3;
                 next_hash++;
                 for (; next_hash < end; next_hash++) {
-                    literal = load_u32(next_hash);
-                    hash = compute_hash(literal) & LVL0_HASH_MASK;
+                    literal         = load_u32(next_hash);
+                    hash            = compute_hash(literal) & LVL0_HASH_MASK;
                     last_seen[hash] = (next_hash - start_stream) & 0xFFFF;
                 }
 
                 dist_histogram[convert_dist_to_dist_sym(dist)] += 1;
-                lit_len_histogram[convert_length_to_len_sym(match_length)] +=
-                    1;
+                lit_len_histogram[convert_length_to_len_sym(match_length)] += 1;
                 current += match_length - 1;
                 continue;
             }
@@ -701,8 +703,7 @@ void qpl_isal_update_histogram_base(uint8_t * start_stream, int length,
 /**
  * @brief  Returns the deflate symbol value for a look back distance.
  */
-static uint32_t convert_dist_to_dist_sym(uint32_t dist)
-{
+static uint32_t convert_dist_to_dist_sym(uint32_t dist) {
     assert(dist <= 32768 && dist > 0);
     if (dist <= 32768) {
         uint32_t msb = dist > 4 ? bsr(dist - 1) - 2 : 0;
@@ -715,8 +716,7 @@ static uint32_t convert_dist_to_dist_sym(uint32_t dist)
 /**
  * @brief  Returns the deflate symbol value for a repeat length.
  */
-static uint32_t convert_length_to_len_sym(uint32_t length)
-{
+static uint32_t convert_length_to_len_sym(uint32_t length) {
     assert(length > 2 && length < 259);
 
     /* Based on tables on page 11 in RFC 1951 */
@@ -740,17 +740,13 @@ static uint32_t convert_length_to_len_sym(uint32_t length)
 // and bl_count is the count of the lengths
 
 /* Init heap with the histogram, and return the histogram size */
-static inline uint32_t init_heap32(struct heap_tree *heap_space, uint32_t * histogram,
-                   uint32_t hist_size)
-{
+static inline uint32_t init_heap32(struct heap_tree* heap_space, uint32_t* histogram, uint32_t hist_size) {
     uint32_t heap_size = 0U;
 
     memset(heap_space, 0, sizeof(struct heap_tree));
 
     for (uint32_t i = 0; i < hist_size; i++) {
-        if (histogram[i] != 0)
-            heap_space->heap[++heap_size] =
-                (((uint64_t) histogram[i]) << FREQ_SHIFT) | i;
+        if (histogram[i] != 0) heap_space->heap[++heap_size] = (((uint64_t)histogram[i]) << FREQ_SHIFT) | i;
     }
 
     // make sure heap has at least two elements in it
@@ -758,7 +754,7 @@ static inline uint32_t init_heap32(struct heap_tree *heap_space, uint32_t * hist
         if (heap_size == 0) {
             heap_space->heap[1] = 1ULL << FREQ_SHIFT;
             heap_space->heap[2] = (1ULL << FREQ_SHIFT) | 1;
-            heap_size = 2;
+            heap_size           = 2;
         } else {
             // heap size == 1
             if (histogram[0] == 0)
@@ -774,16 +770,13 @@ static inline uint32_t init_heap32(struct heap_tree *heap_space, uint32_t * hist
     return heap_size;
 }
 
-static inline uint32_t init_heap64(struct heap_tree *heap_space, uint64_t * histogram,
-                   uint64_t hist_size)
-{
+static inline uint32_t init_heap64(struct heap_tree* heap_space, uint64_t* histogram, uint64_t hist_size) {
     uint32_t heap_size = 0U;
 
     memset(heap_space, 0, sizeof(struct heap_tree));
 
     for (uint32_t i = 0; i < hist_size; i++) {
-        if (histogram[i] != 0)
-            heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
+        if (histogram[i] != 0) heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
     }
 
     // make sure heap has at least two elements in it
@@ -791,7 +784,7 @@ static inline uint32_t init_heap64(struct heap_tree *heap_space, uint64_t * hist
         if (heap_size == 0) {
             heap_space->heap[1] = 1ULL << FREQ_SHIFT;
             heap_space->heap[2] = (1ULL << FREQ_SHIFT) | 1;
-            heap_size = 2;
+            heap_size           = 2;
         } else {
             // heap size == 1
             if (histogram[0] == 0)
@@ -807,17 +800,14 @@ static inline uint32_t init_heap64(struct heap_tree *heap_space, uint64_t * hist
     return heap_size;
 }
 
-static inline uint32_t init_heap64_semi_complete(struct heap_tree *heap_space,
-                         uint64_t * histogram, uint64_t hist_size,
-                         uint64_t complete_start)
-{
+static inline uint32_t init_heap64_semi_complete(struct heap_tree* heap_space, uint64_t* histogram, uint64_t hist_size,
+                                                 uint64_t complete_start) {
     uint32_t heap_size = 0U, i = 0U;
 
     memset(heap_space, 0, sizeof(struct heap_tree));
 
     for (i = 0; i < complete_start; i++) {
-        if (histogram[i] != 0)
-            heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
+        if (histogram[i] != 0) heap_space->heap[++heap_size] = ((histogram[i]) << FREQ_SHIFT) | i;
     }
 
     for (; i < hist_size; i++)
@@ -828,7 +818,7 @@ static inline uint32_t init_heap64_semi_complete(struct heap_tree *heap_space,
         if (heap_size == 0) {
             heap_space->heap[1] = 1ULL << FREQ_SHIFT;
             heap_space->heap[2] = (1ULL << FREQ_SHIFT) | 1;
-            heap_size = 2;
+            heap_size           = 2;
         } else {
             // heap size == 1
             if (histogram[0] == 0)
@@ -844,9 +834,7 @@ static inline uint32_t init_heap64_semi_complete(struct heap_tree *heap_space,
     return heap_size;
 }
 
-static inline uint32_t init_heap64_complete(struct heap_tree *heap_space, uint64_t * histogram,
-                        uint64_t hist_size)
-{
+static inline uint32_t init_heap64_complete(struct heap_tree* heap_space, uint64_t* histogram, uint64_t hist_size) {
     uint32_t heap_size = 0U;
 
     memset(heap_space, 0, sizeof(struct heap_tree));
@@ -859,12 +847,11 @@ static inline uint32_t init_heap64_complete(struct heap_tree *heap_space, uint64
     return heap_size;
 }
 
-static inline uint32_t fix_code_lens(struct heap_tree *heap_space, uint32_t root_node,
-                     uint32_t * bl_count, uint32_t max_code_len)
-{
-    struct tree_node *tree = heap_space->tree;
-    uint64_t *code_len_count = heap_space->code_len_count;
-    uint32_t i = 0U, k = 0U, child = 0U, depth = 0U, code_len = 0U;
+static inline uint32_t fix_code_lens(struct heap_tree* heap_space, uint32_t root_node, uint32_t* bl_count,
+                                     uint32_t max_code_len) {
+    struct tree_node* tree           = heap_space->tree;
+    uint64_t*         code_len_count = heap_space->code_len_count;
+    uint32_t          i = 0U, k = 0U, child = 0U, depth = 0U, code_len = 0U;
 
     // compute code lengths and code length counts
     uint32_t j = root_node;
@@ -873,11 +860,11 @@ static inline uint32_t fix_code_lens(struct heap_tree *heap_space, uint32_t root
         if (child > MAX_HISTHEAP_SIZE) {
             depth = 1 + tree[i].depth;
 
-            tree[child].depth = depth;
+            tree[child].depth     = depth;
             tree[child - 1].depth = depth;
         } else {
             tree[j++] = tree[i];
-            depth = tree[i].depth;
+            depth     = tree[i].depth;
             while (code_len < depth) {
                 code_len++;
                 code_len_count[code_len] = 0;
@@ -890,15 +877,13 @@ static inline uint32_t fix_code_lens(struct heap_tree *heap_space, uint32_t root
         while (code_len > max_code_len) {
             assert(code_len_count[code_len] > 1);
             for (i = max_code_len - 1; i != 0; i--)
-                if (code_len_count[i] != 0)
-                    break;
+                if (code_len_count[i] != 0) break;
             assert(i != 0);
             code_len_count[i]--;
             code_len_count[i + 1] += 2;
             code_len_count[code_len - 1]++;
             code_len_count[code_len] -= 2;
-            if (code_len_count[code_len] == 0)
-                code_len--;
+            if (code_len_count[code_len] == 0) code_len--;
         }
 
         bl_count[0] = 0;
@@ -907,11 +892,13 @@ static inline uint32_t fix_code_lens(struct heap_tree *heap_space, uint32_t root
         for (; i <= max_code_len; i++)
             bl_count[i] = 0;
 
-        for (k = 1; code_len_count[k] == 0; k++) ;
+        for (k = 1; code_len_count[k] == 0; k++)
+            ;
         for (i = root_node; i < j; i++) {
             tree[i].depth = k;
             code_len_count[k]--;
-            for (; code_len_count[k] == 0; k++) ;
+            for (; code_len_count[k] == 0; k++)
+                ;
         }
     } else {
         bl_count[0] = 0;
@@ -922,15 +909,12 @@ static inline uint32_t fix_code_lens(struct heap_tree *heap_space, uint32_t root
     }
 
     return j;
-
 }
 
-static inline void
-gen_huff_code_lens(struct heap_tree *heap_space, uint32_t heap_size, uint32_t * bl_count,
-           struct huff_code *codes, uint32_t codes_count, uint32_t max_code_len)
-{
-    struct tree_node *tree = heap_space->tree;
-    uint32_t root_node = HEAP_TREE_NODE_START;
+static inline void gen_huff_code_lens(struct heap_tree* heap_space, uint32_t heap_size, uint32_t* bl_count,
+                                      struct huff_code* codes, uint32_t codes_count, uint32_t max_code_len) {
+    struct tree_node* tree      = heap_space->tree;
+    uint32_t          root_node = HEAP_TREE_NODE_START;
 
     root_node = qpl_build_huff_tree(heap_space, heap_size, root_node);
 
@@ -939,7 +923,6 @@ gen_huff_code_lens(struct heap_tree *heap_space, uint32_t heap_size, uint32_t * 
     memset(codes, 0, codes_count * sizeof(*codes));
     for (uint32_t node_ptr = root_node; node_ptr < end_node; node_ptr++)
         codes[tree[node_ptr].child].length = tree[node_ptr].depth;
-
 }
 
 /**
@@ -950,9 +933,7 @@ gen_huff_code_lens(struct heap_tree *heap_space, uint32_t heap_size, uint32_t * 
  * @param table_length: The length of table.
  * @param count: a histogram representing the number of occurrences of codes of a given length
  */
-static inline uint32_t set_huff_codes(struct huff_code *huff_code_table, int table_length,
-                      uint32_t * count)
-{
+static inline uint32_t set_huff_codes(struct huff_code* huff_code_table, int table_length, uint32_t* count) {
     /* Uses the algorithm mentioned in the deflate standard, Rfc 1951. */
     uint16_t code = 0;
     uint16_t next_code[MAX_HUFF_TREE_DEPTH + 1];
@@ -965,9 +946,7 @@ static inline uint32_t set_huff_codes(struct huff_code *huff_code_table, int tab
 
     for (int i = 0; i < table_length; i++) {
         if (huff_code_table[i].length != 0) {
-            huff_code_table[i].code =
-                bit_reverse(next_code[huff_code_table[i].length],
-                    huff_code_table[i].length);
+            huff_code_table[i].code = bit_reverse(next_code[huff_code_table[i].length], huff_code_table[i].length);
             next_code[huff_code_table[i].length] += 1;
             max_code = i;
         }
@@ -981,22 +960,21 @@ static inline uint32_t set_huff_codes(struct huff_code *huff_code_table, int tab
 // 23:16 code length
 // 15:0  code value in low order bits
 // returns max code value
-static inline uint32_t set_dist_huff_codes(struct huff_code *codes, uint32_t * bl_count)
-{
-    uint32_t code = 0U, code_len = 0U;
-    uint32_t next_code[MAX_DEFLATE_CODE_LEN + 1];
-    uint32_t max_code = 0;
+static inline uint32_t set_dist_huff_codes(struct huff_code* codes, uint32_t* bl_count) {
+    uint32_t       code = 0U, code_len = 0U;
+    uint32_t       next_code[MAX_DEFLATE_CODE_LEN + 1];
+    uint32_t       max_code  = 0;
     const uint32_t num_codes = DIST_LEN;
 
     code = bl_count[0] = 0;
     for (uint32_t bits = 1; bits <= MAX_HUFF_TREE_DEPTH; bits++) {
-        code = (code + bl_count[bits - 1]) << 1;
+        code            = (code + bl_count[bits - 1]) << 1;
         next_code[bits] = code;
     }
     for (uint32_t i = 0; i < num_codes; i++) {
         code_len = codes[i].length;
         if (code_len != 0) {
-            codes[i].code = bit_reverse(next_code[code_len], code_len);
+            codes[i].code            = bit_reverse(next_code[code_len], code_len);
             codes[i].extra_bit_count = dist_code_extra_bits[i];
             next_code[code_len] += 1;
             max_code = i;
@@ -1018,18 +996,15 @@ static inline uint32_t set_dist_huff_codes(struct huff_code *codes, uint32_t * b
  * @param hlit: Length of literal/length table minus 257.
  * @param hdist: Length of distance table minus 1.
  */
-static int create_huffman_header(struct BitBuf2 *header_bitbuf,
-                 struct huff_code *lookup_table,
-                 struct rl_code *huffman_rep,
-                 uint16_t huffman_rep_length, uint32_t end_of_block,
-                 uint32_t hclen, uint32_t hlit, uint32_t hdist)
-{
+static int create_huffman_header(struct BitBuf2* header_bitbuf, struct huff_code* lookup_table,
+                                 struct rl_code* huffman_rep, uint16_t huffman_rep_length, uint32_t end_of_block,
+                                 uint32_t hclen, uint32_t hlit, uint32_t hdist) {
     /* hlit, hdist, hclen are as defined in the deflate standard, head is the
      * first three deflate header bits.*/
-    uint64_t bit_count = buffer_bits_used(header_bitbuf);
+    uint64_t         bit_count = buffer_bits_used(header_bitbuf);
     struct huff_code huffman_value;
-    const uint32_t extra_bits[3] = { 2, 3, 7 };
-    uint64_t data = (end_of_block ? 5 : 4) | (hlit << 3) | (hdist << 8) | (hclen << 13);
+    const uint32_t   extra_bits[3] = {2, 3, 7};
+    uint64_t         data          = (end_of_block ? 5 : 4) | (hlit << 3) | (hdist << 8) | (hclen << 13);
 
     data |= ((lookup_table[code_length_code_order[0]].length) << DYN_HDR_START_LEN);
     write_bits(header_bitbuf, data, DYN_HDR_START_LEN + 3);
@@ -1042,12 +1017,11 @@ static int create_huffman_header(struct BitBuf2 *header_bitbuf,
     for (int i = 0; i < huffman_rep_length; i++) {
         huffman_value = lookup_table[huffman_rep[i].code];
 
-        write_bits(header_bitbuf, (uint64_t) huffman_value.code,
-               (uint32_t) huffman_value.length);
+        write_bits(header_bitbuf, (uint64_t)huffman_value.code, (uint32_t)huffman_value.length);
 
         if (huffman_rep[i].code > 15) {
-            write_bits(header_bitbuf, (uint64_t) huffman_rep[i].extra_bits,
-                   (uint32_t) extra_bits[huffman_rep[i].code - 16]);
+            write_bits(header_bitbuf, (uint64_t)huffman_rep[i].extra_bits,
+                       (uint32_t)extra_bits[huffman_rep[i].code - 16]);
         }
     }
     bit_count = buffer_bits_used(header_bitbuf) - bit_count;
@@ -1065,13 +1039,11 @@ static int create_huffman_header(struct BitBuf2 *header_bitbuf,
  * @param end_of_block: Value determining whether end of block header is produced or not;
  * 0 corresponds to not end of block and all other inputs correspond to end of block.
  */
-static inline int create_header(struct BitBuf2 *header_bitbuf, struct rl_code *huffman_rep,
-                uint32_t length, uint64_t * histogram, uint32_t hlit,
-                uint32_t hdist, uint32_t end_of_block)
-{
-    int i = 0;
+static inline int create_header(struct BitBuf2* header_bitbuf, struct rl_code* huffman_rep, uint32_t length,
+                                uint64_t* histogram, uint32_t hlit, uint32_t hdist, uint32_t end_of_block) {
+    int              i = 0;
     struct heap_tree heap_space;
-    uint32_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
+    uint32_t         code_len_count[MAX_HUFF_TREE_DEPTH + 1];
     struct huff_code lookup_table[HUFF_LEN];
 
     /* hlit, hdist, and hclen are defined in RFC 1951 page 13 */
@@ -1079,31 +1051,26 @@ static inline int create_header(struct BitBuf2 *header_bitbuf, struct rl_code *h
 
     /* Create a huffman tree to encode run length encoded representation. */
     uint32_t heap_size = init_heap64(&heap_space, histogram, HUFF_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-                (struct huff_code *)lookup_table, HUFF_LEN, 7);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lookup_table, HUFF_LEN, 7);
     set_huff_codes(lookup_table, HUFF_LEN, code_len_count);
 
     /* Calculate hclen */
-    for (i = CODE_LEN_CODES - 1; i > 3; i--)	/* i must be at least 4 */
-        if (lookup_table[code_length_code_order[i]].length != 0)
-            break;
+    for (i = CODE_LEN_CODES - 1; i > 3; i--) /* i must be at least 4 */
+        if (lookup_table[code_length_code_order[i]].length != 0) break;
 
     hclen = i - 3;
 
     /* Generate actual header. */
-    uint64_t bit_count = create_huffman_header(header_bitbuf, lookup_table, huffman_rep,
-                      length, end_of_block, hclen, hlit, hdist);
+    uint64_t bit_count =
+            create_huffman_header(header_bitbuf, lookup_table, huffman_rep, length, end_of_block, hclen, hlit, hdist);
 
     return bit_count;
 }
 
-static inline
-    struct rl_code *write_rl(struct rl_code *pout, uint16_t last_len, uint32_t run_len,
-                 uint64_t * counts)
-{
+static inline struct rl_code* write_rl(struct rl_code* pout, uint16_t last_len, uint32_t run_len, uint64_t* counts) {
     if (last_len == 0) {
         while (run_len > 138) {
-            pout->code = 18;
+            pout->code       = 18;
             pout->extra_bits = 138 - 11;
             pout++;
             run_len -= 138;
@@ -1111,39 +1078,39 @@ static inline
         }
         // 1 <= run_len <= 138
         if (run_len > 10) {
-            pout->code = 18;
+            pout->code       = 18;
             pout->extra_bits = run_len - 11;
             pout++;
             counts[18]++;
         } else if (run_len > 2) {
-            pout->code = 17;
+            pout->code       = 17;
             pout->extra_bits = run_len - 3;
             pout++;
             counts[17]++;
         } else if (run_len == 1) {
-            pout->code = 0;
+            pout->code       = 0;
             pout->extra_bits = 0;
             pout++;
             counts[0]++;
         } else {
             assert(run_len == 2);
-            pout[0].code = 0;
+            pout[0].code       = 0;
             pout[0].extra_bits = 0;
-            pout[1].code = 0;
+            pout[1].code       = 0;
             pout[1].extra_bits = 0;
             pout += 2;
             counts[0] += 2;
         }
     } else {
         // last_len != 0
-        pout->code = last_len;
+        pout->code       = last_len;
         pout->extra_bits = 0;
         pout++;
         counts[last_len]++;
         run_len--;
         if (run_len != 0) {
             while (run_len > 6) {
-                pout->code = 16;
+                pout->code       = 16;
                 pout->extra_bits = 6 - 3;
                 pout++;
                 run_len -= 6;
@@ -1151,25 +1118,25 @@ static inline
             }
             // 1 <= run_len <= 6
             switch (run_len) {
-            case 1:
-                pout->code = last_len;
-                pout->extra_bits = 0;
-                pout++;
-                counts[last_len]++;
-                break;
-            case 2:
-                pout[0].code = last_len;
-                pout[0].extra_bits = 0;
-                pout[1].code = last_len;
-                pout[1].extra_bits = 0;
-                pout += 2;
-                counts[last_len] += 2;
-                break;
-            default:	// 3...6
-                pout->code = 16;
-                pout->extra_bits = run_len - 3;
-                pout++;
-                counts[16]++;
+                case 1:
+                    pout->code       = last_len;
+                    pout->extra_bits = 0;
+                    pout++;
+                    counts[last_len]++;
+                    break;
+                case 2:
+                    pout[0].code       = last_len;
+                    pout[0].extra_bits = 0;
+                    pout[1].code       = last_len;
+                    pout[1].extra_bits = 0;
+                    pout += 2;
+                    counts[last_len] += 2;
+                    break;
+                default: // 3...6
+                    pout->code       = 16;
+                    pout->extra_bits = run_len - 3;
+                    pout++;
+                    counts[16]++;
             }
         }
     }
@@ -1182,13 +1149,11 @@ static inline
 // 4:0  code (0...18)
 // 15:8 Extra bits (0...127)
 // returns number of symbols in out
-static inline uint32_t rl_encode(uint16_t * codes, uint32_t num_codes, uint64_t * counts,
-                 struct rl_code *out)
-{
-    uint16_t len = 0U;
-    struct rl_code *pout = out;
-    uint16_t last_len = codes[0];
-    uint32_t run_len = 1;
+static inline uint32_t rl_encode(uint16_t* codes, uint32_t num_codes, uint64_t* counts, struct rl_code* out) {
+    uint16_t        len      = 0U;
+    struct rl_code* pout     = out;
+    uint16_t        last_len = codes[0];
+    uint32_t        run_len  = 1;
 
     for (uint32_t i = 1; i < num_codes; i++) {
         len = codes[i];
@@ -1196,13 +1161,13 @@ static inline uint32_t rl_encode(uint16_t * codes, uint32_t num_codes, uint64_t 
             run_len++;
             continue;
         }
-        pout = write_rl(pout, last_len, run_len, counts);
+        pout     = write_rl(pout, last_len, run_len, counts);
         last_len = len;
-        run_len = 1;
+        run_len  = 1;
     }
     pout = write_rl(pout, last_len, run_len, counts);
 
-    return (uint32_t) (pout - out);
+    return (uint32_t)(pout - out);
 }
 
 /**
@@ -1212,11 +1177,10 @@ static inline uint32_t rl_encode(uint16_t * codes, uint32_t num_codes, uint64_t 
  * @param length: the length of hufftable
  * @param hufftable: a huffman lookup table
  */
-static void create_code_tables(uint16_t * code_table, uint8_t * code_length_table,
-                   uint32_t length, struct huff_code *hufftable)
-{
+static void create_code_tables(uint16_t* code_table, uint8_t* code_length_table, uint32_t length,
+                               struct huff_code* hufftable) {
     for (uint32_t i = 0; i < length; i++) {
-        code_table[i] = hufftable[i].code;
+        code_table[i]        = hufftable[i].code;
         code_length_table[i] = hufftable[i].length;
     }
 }
@@ -1229,10 +1193,8 @@ static void create_code_tables(uint16_t * code_table, uint8_t * code_length_tabl
  * @param length: the length of lit_len_hufftable
  * @param lit_len_hufftable: a literal/length huffman lookup table
  */
-static void create_packed_len_table(uint32_t * packed_table,
-                    struct huff_code *lit_len_hufftable)
-{
-    int count = 0;
+static void create_packed_len_table(uint32_t* packed_table, struct huff_code* lit_len_hufftable) {
+    int      count            = 0;
     uint16_t extra_bits_count = 0U;
 
     /* Gain extra bits is the next place where the number of extra bits in
@@ -1241,12 +1203,10 @@ static void create_packed_len_table(uint32_t * packed_table,
 
     for (int i = 257; i < LIT_LEN - 1; i++) {
         for (uint16_t extra_bits = 0; extra_bits < (1 << extra_bits_count); extra_bits++) {
-            if (count > 254)
-                break;
-            packed_table[count++] =
-                (extra_bits << (lit_len_hufftable[i].length + LENGTH_BITS)) |
-                (lit_len_hufftable[i].code << LENGTH_BITS) |
-                (lit_len_hufftable[i].length + extra_bits_count);
+            if (count > 254) break;
+            packed_table[count++] = (extra_bits << (lit_len_hufftable[i].length + LENGTH_BITS)) |
+                                    (lit_len_hufftable[i].code << LENGTH_BITS) |
+                                    (lit_len_hufftable[i].length + extra_bits_count);
         }
 
         if (i == gain_extra_bits) {
@@ -1255,8 +1215,8 @@ static void create_packed_len_table(uint32_t * packed_table,
         }
     }
 
-    packed_table[count] = (lit_len_hufftable[LIT_LEN - 1].code << LENGTH_BITS) |
-        (lit_len_hufftable[LIT_LEN - 1].length);
+    packed_table[count] =
+            (lit_len_hufftable[LIT_LEN - 1].code << LENGTH_BITS) | (lit_len_hufftable[LIT_LEN - 1].length);
 }
 
 /**
@@ -1267,10 +1227,8 @@ static void create_packed_len_table(uint32_t * packed_table,
  * @param length: the length of lit_len_hufftable
  * @param dist_hufftable: a distance huffman lookup table
  */
-static void create_packed_dist_table(uint32_t * packed_table, uint32_t length,
-                     struct huff_code *dist_hufftable)
-{
-    uint32_t count = 0U;
+static void create_packed_dist_table(uint32_t* packed_table, uint32_t length, struct huff_code* dist_hufftable) {
+    uint32_t count            = 0U;
     uint16_t extra_bits_count = 0U;
 
     /* Gain extra bits is the next place where the number of extra bits in
@@ -1279,14 +1237,11 @@ static void create_packed_dist_table(uint32_t * packed_table, uint32_t length,
 
     for (int i = 0; i < DIST_LEN; i++) {
         for (uint16_t extra_bits = 0; extra_bits < (1 << extra_bits_count); extra_bits++) {
-            if (count >= length)
-                return;
+            if (count >= length) return;
 
-            packed_table[count++] =
-                (extra_bits << (dist_hufftable[i].length + LENGTH_BITS)) |
-                (dist_hufftable[i].code << LENGTH_BITS) |
-                (dist_hufftable[i].length + extra_bits_count);
-
+            packed_table[count++] = (extra_bits << (dist_hufftable[i].length + LENGTH_BITS)) |
+                                    (dist_hufftable[i].code << LENGTH_BITS) |
+                                    (dist_hufftable[i].length + extra_bits_count);
         }
 
         if (i == gain_extra_bits) {
@@ -1303,18 +1258,15 @@ static void create_packed_dist_table(uint32_t * packed_table, uint32_t length,
  * @param dist_hufftable: distance huffman code
  * @returns Returns 0 if the table is usable
  */
-static int are_hufftables_useable(struct huff_code *lit_len_hufftable,
-                  struct huff_code *dist_hufftable)
-{
+static int are_hufftables_useable(struct huff_code* lit_len_hufftable, struct huff_code* dist_hufftable) {
     int max_lit_code_len = 0, max_len_code_len = 0, max_dist_code_len = 0;
     int dist_extra_bits = 0, len_extra_bits = 0;
     int gain_dist_extra_bits = DIST_EXTRA_BITS_START;
-    int gain_len_extra_bits = LEN_EXTRA_BITS_START;
-    int i = 0;
+    int gain_len_extra_bits  = LEN_EXTRA_BITS_START;
+    int i                    = 0;
 
     for (i = 0; i < LIT_LEN; i++)
-        if (lit_len_hufftable[i].length > max_lit_code_len)
-            max_lit_code_len = lit_len_hufftable[i].length;
+        if (lit_len_hufftable[i].length > max_lit_code_len) max_lit_code_len = lit_len_hufftable[i].length;
 
     for (i = 257; i < LIT_LEN - 1; i++) {
         if (lit_len_hufftable[i].length + len_extra_bits > max_len_code_len)
@@ -1344,58 +1296,51 @@ static int are_hufftables_useable(struct huff_code *lit_len_hufftable,
     return (max_code_len > MAX_BITBUF_BIT_WRITE);
 }
 
-int qpl_isal_create_hufftables(struct isal_hufftables *hufftables,
-               struct isal_huff_histogram *histogram)
-{
+int qpl_isal_create_hufftables(struct isal_hufftables* hufftables, struct isal_huff_histogram* histogram) {
     struct huff_code lit_huff_table[LIT_LEN], dist_huff_table[DIST_LEN];
-    int max_dist = convert_dist_to_dist_sym(IGZIP_HIST_SIZE);
+    int              max_dist = convert_dist_to_dist_sym(IGZIP_HIST_SIZE);
     struct heap_tree heap_space;
-    uint32_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
-    struct BitBuf2 header_bitbuf;
-    uint16_t combined_table[LIT_LEN + DIST_LEN];
-    uint64_t count_histogram[HUFF_LEN];
-    struct rl_code rl_huff[LIT_LEN + DIST_LEN];
-    uint32_t rl_huff_len = 0U;
+    uint32_t         code_len_count[MAX_HUFF_TREE_DEPTH + 1];
+    struct BitBuf2   header_bitbuf;
+    uint16_t         combined_table[LIT_LEN + DIST_LEN];
+    uint64_t         count_histogram[HUFF_LEN];
+    struct rl_code   rl_huff[LIT_LEN + DIST_LEN];
+    uint32_t         rl_huff_len = 0U;
 
-    uint32_t *dist_table = hufftables->dist_table;
-    uint32_t *len_table = hufftables->len_table;
-    uint16_t *lit_table = hufftables->lit_table;
-    uint16_t *dcodes = hufftables->dcodes;
-    uint8_t *lit_table_sizes = hufftables->lit_table_sizes;
-    uint8_t *dcodes_sizes = hufftables->dcodes_sizes;
-    uint64_t *lit_len_histogram = histogram->lit_len_histogram;
-    uint64_t *dist_histogram = histogram->dist_histogram;
+    uint32_t* dist_table        = hufftables->dist_table;
+    uint32_t* len_table         = hufftables->len_table;
+    uint16_t* lit_table         = hufftables->lit_table;
+    uint16_t* dcodes            = hufftables->dcodes;
+    uint8_t*  lit_table_sizes   = hufftables->lit_table_sizes;
+    uint8_t*  dcodes_sizes      = hufftables->dcodes_sizes;
+    uint64_t* lit_len_histogram = histogram->lit_len_histogram;
+    uint64_t* dist_histogram    = histogram->dist_histogram;
 
     memset(hufftables, 0, sizeof(struct isal_hufftables));
 
     uint32_t heap_size = init_heap64_complete(&heap_space, lit_len_histogram, LIT_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-               (struct huff_code *)lit_huff_table, LIT_LEN, MAX_DEFLATE_CODE_LEN);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lit_huff_table, LIT_LEN,
+                       MAX_DEFLATE_CODE_LEN);
     uint32_t max_lit_len_sym = set_huff_codes(lit_huff_table, LIT_LEN, code_len_count);
 
     heap_size = init_heap64_complete(&heap_space, dist_histogram, DIST_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-               (struct huff_code *)dist_huff_table, max_dist,
-               MAX_DEFLATE_CODE_LEN);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)dist_huff_table, max_dist,
+                       MAX_DEFLATE_CODE_LEN);
     uint32_t max_dist_sym = set_huff_codes(dist_huff_table, DIST_LEN, code_len_count);
 
     if (are_hufftables_useable(lit_huff_table, dist_huff_table)) {
         heap_size = init_heap64_complete(&heap_space, lit_len_histogram, LIT_LEN);
-        gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-                   (struct huff_code *)lit_huff_table, LIT_LEN,
-                   MAX_SAFE_LIT_CODE_LEN);
+        gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lit_huff_table, LIT_LEN,
+                           MAX_SAFE_LIT_CODE_LEN);
         max_lit_len_sym = set_huff_codes(lit_huff_table, LIT_LEN, code_len_count);
 
         heap_size = init_heap64_complete(&heap_space, dist_histogram, DIST_LEN);
-        gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-                   (struct huff_code *)dist_huff_table, max_dist,
-                   MAX_SAFE_DIST_CODE_LEN);
+        gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)dist_huff_table, max_dist,
+                           MAX_SAFE_DIST_CODE_LEN);
         max_dist_sym = set_huff_codes(dist_huff_table, DIST_LEN, code_len_count);
-
     }
 
-    create_code_tables(dcodes, dcodes_sizes, DIST_LEN - DCODE_OFFSET,
-               dist_huff_table + DCODE_OFFSET);
+    create_code_tables(dcodes, dcodes_sizes, DIST_LEN - DCODE_OFFSET, dist_huff_table + DCODE_OFFSET);
 
     create_code_tables(lit_table, lit_table_sizes, IGZIP_LIT_TABLE_SIZE, lit_huff_table);
 
@@ -1405,7 +1350,7 @@ int qpl_isal_create_hufftables(struct isal_hufftables *hufftables,
     set_buf(&header_bitbuf, hufftables->deflate_hdr, sizeof(hufftables->deflate_hdr));
     init(&header_bitbuf);
 
-    uint32_t hlit = max_lit_len_sym - 256;
+    uint32_t hlit  = max_lit_len_sym - 256;
     uint32_t hdist = max_dist_sym;
 
     /* Run length encode the length and distance huffman codes */
@@ -1415,87 +1360,73 @@ int qpl_isal_create_hufftables(struct isal_hufftables *hufftables,
     for (uint32_t i = 0; i < 1 + hdist; i++)
         combined_table[i + hlit + 257] = dist_huff_table[i].length;
 #ifndef QPL_LIB
-    rl_huff_len =
-        rl_encode(combined_table, hlit + 257 + hdist + 1, count_histogram, rl_huff);
+    rl_huff_len = rl_encode(combined_table, hlit + 257 + hdist + 1, count_histogram, rl_huff);
 #else
     // The following code calls rle encoding function twice, so literal/length and distance
     // Code lengths will be encoded independently and distance length codes won't span literal/lengths.
 
     // Perform RLE for literal/length length codes
-    rl_huff_len =
-        rl_encode(combined_table, hlit + 257 + 1, count_histogram, rl_huff);
+    rl_huff_len = rl_encode(combined_table, hlit + 257 + 1, count_histogram, rl_huff);
 
     // Perform RLE for distance length codes
-    rl_huff_len +=
-        rl_encode(combined_table + hlit + 257 + 1, hdist, count_histogram, rl_huff + rl_huff_len);
+    rl_huff_len += rl_encode(combined_table + hlit + 257 + 1, hdist, count_histogram, rl_huff + rl_huff_len);
 #endif
 
     /* Create header */
-    uint64_t bit_count =
-        create_header(&header_bitbuf, rl_huff, rl_huff_len,
-              count_histogram, hlit, hdist, LAST_BLOCK);
+    uint64_t bit_count = create_header(&header_bitbuf, rl_huff, rl_huff_len, count_histogram, hlit, hdist, LAST_BLOCK);
     flush(&header_bitbuf);
 
-    hufftables->deflate_hdr_count = bit_count / 8;
+    hufftables->deflate_hdr_count      = bit_count / 8;
     hufftables->deflate_hdr_extra_bits = bit_count % 8;
 
     return 0;
 }
 
-int qpl_isal_create_hufftables_subset(struct isal_hufftables *hufftables,
-                  struct isal_huff_histogram *histogram)
-{
+int qpl_isal_create_hufftables_subset(struct isal_hufftables* hufftables, struct isal_huff_histogram* histogram) {
     struct huff_code lit_huff_table[LIT_LEN], dist_huff_table[DIST_LEN];
-    int max_dist = convert_dist_to_dist_sym(IGZIP_HIST_SIZE);
+    int              max_dist = convert_dist_to_dist_sym(IGZIP_HIST_SIZE);
     struct heap_tree heap_space;
-    uint32_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
-    struct BitBuf2 header_bitbuf;
-    uint16_t combined_table[LIT_LEN + DIST_LEN];
-    uint64_t count_histogram[HUFF_LEN];
-    struct rl_code rl_huff[LIT_LEN + DIST_LEN];
-    uint32_t rl_huff_len = 0U;
+    uint32_t         code_len_count[MAX_HUFF_TREE_DEPTH + 1];
+    struct BitBuf2   header_bitbuf;
+    uint16_t         combined_table[LIT_LEN + DIST_LEN];
+    uint64_t         count_histogram[HUFF_LEN];
+    struct rl_code   rl_huff[LIT_LEN + DIST_LEN];
+    uint32_t         rl_huff_len = 0U;
 
-    uint32_t *dist_table = hufftables->dist_table;
-    uint32_t *len_table = hufftables->len_table;
-    uint16_t *lit_table = hufftables->lit_table;
-    uint16_t *dcodes = hufftables->dcodes;
-    uint8_t *lit_table_sizes = hufftables->lit_table_sizes;
-    uint8_t *dcodes_sizes = hufftables->dcodes_sizes;
-    uint64_t *lit_len_histogram = histogram->lit_len_histogram;
-    uint64_t *dist_histogram = histogram->dist_histogram;
+    uint32_t* dist_table        = hufftables->dist_table;
+    uint32_t* len_table         = hufftables->len_table;
+    uint16_t* lit_table         = hufftables->lit_table;
+    uint16_t* dcodes            = hufftables->dcodes;
+    uint8_t*  lit_table_sizes   = hufftables->lit_table_sizes;
+    uint8_t*  dcodes_sizes      = hufftables->dcodes_sizes;
+    uint64_t* lit_len_histogram = histogram->lit_len_histogram;
+    uint64_t* dist_histogram    = histogram->dist_histogram;
 
     memset(hufftables, 0, sizeof(struct isal_hufftables));
 
-    uint32_t heap_size =
-        init_heap64_semi_complete(&heap_space, lit_len_histogram, LIT_LEN,
-                      ISAL_DEF_LIT_SYMBOLS);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-               (struct huff_code *)lit_huff_table, LIT_LEN, MAX_DEFLATE_CODE_LEN);
+    uint32_t heap_size = init_heap64_semi_complete(&heap_space, lit_len_histogram, LIT_LEN, ISAL_DEF_LIT_SYMBOLS);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lit_huff_table, LIT_LEN,
+                       MAX_DEFLATE_CODE_LEN);
     uint32_t max_lit_len_sym = set_huff_codes(lit_huff_table, LIT_LEN, code_len_count);
 
     heap_size = init_heap64_complete(&heap_space, dist_histogram, DIST_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-               (struct huff_code *)dist_huff_table, max_dist,
-               MAX_DEFLATE_CODE_LEN);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)dist_huff_table, max_dist,
+                       MAX_DEFLATE_CODE_LEN);
     uint32_t max_dist_sym = set_huff_codes(dist_huff_table, DIST_LEN, code_len_count);
 
     if (are_hufftables_useable(lit_huff_table, dist_huff_table)) {
         heap_size = init_heap64_complete(&heap_space, lit_len_histogram, LIT_LEN);
-        gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-                   (struct huff_code *)lit_huff_table, LIT_LEN,
-                   MAX_SAFE_LIT_CODE_LEN);
+        gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lit_huff_table, LIT_LEN,
+                           MAX_SAFE_LIT_CODE_LEN);
         max_lit_len_sym = set_huff_codes(lit_huff_table, LIT_LEN, code_len_count);
 
         heap_size = init_heap64_complete(&heap_space, dist_histogram, DIST_LEN);
-        gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-                   (struct huff_code *)dist_huff_table, max_dist,
-                   MAX_SAFE_DIST_CODE_LEN);
+        gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)dist_huff_table, max_dist,
+                           MAX_SAFE_DIST_CODE_LEN);
         max_dist_sym = set_huff_codes(dist_huff_table, DIST_LEN, code_len_count);
-
     }
 
-    create_code_tables(dcodes, dcodes_sizes, DIST_LEN - DCODE_OFFSET,
-               dist_huff_table + DCODE_OFFSET);
+    create_code_tables(dcodes, dcodes_sizes, DIST_LEN - DCODE_OFFSET, dist_huff_table + DCODE_OFFSET);
 
     create_code_tables(lit_table, lit_table_sizes, IGZIP_LIT_TABLE_SIZE, lit_huff_table);
 
@@ -1505,7 +1436,7 @@ int qpl_isal_create_hufftables_subset(struct isal_hufftables *hufftables,
     set_buf(&header_bitbuf, hufftables->deflate_hdr, sizeof(hufftables->deflate_hdr));
     init(&header_bitbuf);
 
-    uint32_t hlit = max_lit_len_sym - 256;
+    uint32_t hlit  = max_lit_len_sym - 256;
     uint32_t hdist = max_dist_sym;
 
     /* Run length encode the length and distance huffman codes */
@@ -1514,69 +1445,64 @@ int qpl_isal_create_hufftables_subset(struct isal_hufftables *hufftables,
         combined_table[i] = lit_huff_table[i].length;
     for (uint32_t i = 0; i < 1 + hdist; i++)
         combined_table[i + hlit + 257] = dist_huff_table[i].length;
-    rl_huff_len =
-        rl_encode(combined_table, hlit + 257 + hdist + 1, count_histogram, rl_huff);
+    rl_huff_len = rl_encode(combined_table, hlit + 257 + hdist + 1, count_histogram, rl_huff);
 
     /* Create header */
-    uint64_t bit_count =
-        create_header(&header_bitbuf, rl_huff, rl_huff_len,
-              count_histogram, hlit, hdist, LAST_BLOCK);
+    uint64_t bit_count = create_header(&header_bitbuf, rl_huff, rl_huff_len, count_histogram, hlit, hdist, LAST_BLOCK);
     flush(&header_bitbuf);
 
-    hufftables->deflate_hdr_count = bit_count / 8;
+    hufftables->deflate_hdr_count      = bit_count / 8;
     hufftables->deflate_hdr_extra_bits = bit_count % 8;
 
     return 0;
 }
 
-static void expand_hufftables_icf(struct hufftables_icf *hufftables)
-{
-    uint32_t len = 0U, code = 0U;
-    struct huff_code orig[21];
-    struct huff_code *lit_len_codes = hufftables->lit_len_table;
-    struct huff_code *dist_codes = hufftables->dist_table;
+static void expand_hufftables_icf(struct hufftables_icf* hufftables) {
+    uint32_t          len = 0U, code = 0U;
+    struct huff_code  orig[21];
+    struct huff_code* lit_len_codes = hufftables->lit_len_table;
+    struct huff_code* dist_codes    = hufftables->dist_table;
 
     for (uint32_t i = 0; i < 21; i++)
         orig[i] = lit_len_codes[i + 265];
 
-    struct huff_code *p_code = &lit_len_codes[265];
+    struct huff_code* p_code = &lit_len_codes[265];
 
     uint32_t i = 0;
     for (uint32_t eb = 1; eb < 6; eb++) {
         for (uint32_t k = 0; k < 4; k++) {
-            len = orig[i].length;
+            len  = orig[i].length;
             code = orig[i++].code;
             for (uint32_t j = 0; j < (1U << eb); j++) {
                 p_code->code_and_extra = code | (j << len);
-                p_code->length = len + eb;
+                p_code->length         = len + eb;
                 p_code++;
             }
-        }		// end for k
-    }			// end for eb
+        } // end for k
+    }     // end for eb
     // fix up last record
     p_code[-1] = orig[i];
 
     dist_codes[DIST_LEN].code_and_extra = 0;
-    dist_codes[DIST_LEN].length = 0;
+    dist_codes[DIST_LEN].length         = 0;
 }
 
 #if defined(QPL_LIB)
-int qpl_isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
-                                         struct isal_huff_histogram *histogram) {
+int qpl_isal_create_hufftables_literals_only(struct isal_hufftables*     hufftables,
+                                             struct isal_huff_histogram* histogram) {
     struct huff_code lit_huff_table[QPL_HUFFMAN_ONLY_TOKENS_COUNT];
     struct heap_tree heap_space;
-    uint32_t code_len_count[MAX_HUFF_TREE_DEPTH + 1];
+    uint32_t         code_len_count[MAX_HUFF_TREE_DEPTH + 1];
 
-    uint16_t *lit_table = hufftables->lit_table;
-    uint8_t *lit_table_sizes = hufftables->lit_table_sizes;
-    uint64_t *lit_len_histogram = histogram->lit_len_histogram;
+    uint16_t* lit_table         = hufftables->lit_table;
+    uint8_t*  lit_table_sizes   = hufftables->lit_table_sizes;
+    uint64_t* lit_len_histogram = histogram->lit_len_histogram;
 
     memset(hufftables, 0, sizeof(struct isal_hufftables));
 
-    uint32_t heap_size =
-        init_heap64_complete(&heap_space, lit_len_histogram, QPL_HUFFMAN_ONLY_TOKENS_COUNT);
-    gen_huff_code_lens(&heap_space, heap_size, code_len_count,
-               (struct huff_code *)lit_huff_table, QPL_HUFFMAN_ONLY_TOKENS_COUNT, MAX_DEFLATE_CODE_LEN);
+    uint32_t heap_size = init_heap64_complete(&heap_space, lit_len_histogram, QPL_HUFFMAN_ONLY_TOKENS_COUNT);
+    gen_huff_code_lens(&heap_space, heap_size, code_len_count, (struct huff_code*)lit_huff_table,
+                       QPL_HUFFMAN_ONLY_TOKENS_COUNT, MAX_DEFLATE_CODE_LEN);
     set_huff_codes(lit_huff_table, QPL_HUFFMAN_ONLY_TOKENS_COUNT, code_len_count);
 
     create_code_tables(lit_table, lit_table_sizes, QPL_HUFFMAN_ONLY_TOKENS_COUNT, lit_huff_table);
@@ -1585,47 +1511,42 @@ int qpl_isal_create_hufftables_literals_only(struct isal_hufftables *hufftables,
 }
 #endif
 
-uint64_t
-qpl_create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
-              struct isal_mod_hist *hist, uint32_t end_of_block)
-{
-    uint32_t bl_count[MAX_DEFLATE_CODE_LEN + 1];
+uint64_t qpl_create_hufftables_icf(struct BitBuf2* bb, struct hufftables_icf* hufftables, struct isal_mod_hist* hist,
+                                   uint32_t end_of_block) {
+    uint32_t         bl_count[MAX_DEFLATE_CODE_LEN + 1];
     struct heap_tree heap_space;
-    struct rl_code cl_tokens[LIT_LEN + DIST_LEN];
-    uint32_t num_cl_tokens = 0U;
-    uint64_t cl_counts[CODE_LEN_CODES];
-    uint16_t combined_table[LIT_LEN + DIST_LEN];
-    uint32_t i = 0U;
-    uint64_t compressed_len = 0;
-    uint64_t static_compressed_len = 3;	/* The static header size */
-    struct BitBuf2 bb_tmp;
+    struct rl_code   cl_tokens[LIT_LEN + DIST_LEN];
+    uint32_t         num_cl_tokens = 0U;
+    uint64_t         cl_counts[CODE_LEN_CODES];
+    uint16_t         combined_table[LIT_LEN + DIST_LEN];
+    uint32_t         i                     = 0U;
+    uint64_t         compressed_len        = 0;
+    uint64_t         static_compressed_len = 3; /* The static header size */
+    struct BitBuf2   bb_tmp;
 
-    struct huff_code *ll_codes = hufftables->lit_len_table;
-    struct huff_code *d_codes = hufftables->dist_table;
-    uint32_t *ll_hist = hist->ll_hist;
-    uint32_t *d_hist = hist->d_hist;
-    struct huff_code *static_ll_codes = static_hufftables.lit_len_table;
-    struct huff_code *static_d_codes = static_hufftables.dist_table;
+    struct huff_code* ll_codes        = hufftables->lit_len_table;
+    struct huff_code* d_codes         = hufftables->dist_table;
+    uint32_t*         ll_hist         = hist->ll_hist;
+    uint32_t*         d_hist          = hist->d_hist;
+    struct huff_code* static_ll_codes = static_hufftables.lit_len_table;
+    struct huff_code* static_d_codes  = static_hufftables.dist_table;
 
     memcpy(&bb_tmp, bb, sizeof(struct BitBuf2));
 
     qpl_flatten_ll(hist->ll_hist);
 
     // make sure EOB is present
-    if (ll_hist[256] == 0)
-        ll_hist[256] = 1;
+    if (ll_hist[256] == 0) ll_hist[256] = 1;
 
     uint32_t heap_size = init_heap32(&heap_space, ll_hist, LIT_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, bl_count,
-               ll_codes, LIT_LEN, MAX_DEFLATE_CODE_LEN);
+    gen_huff_code_lens(&heap_space, heap_size, bl_count, ll_codes, LIT_LEN, MAX_DEFLATE_CODE_LEN);
     uint32_t max_ll_code = set_huff_codes(ll_codes, LIT_LEN, bl_count);
 
     heap_size = init_heap32(&heap_space, d_hist, DIST_LEN);
-    gen_huff_code_lens(&heap_space, heap_size, bl_count, d_codes,
-               DIST_LEN, MAX_DEFLATE_CODE_LEN);
+    gen_huff_code_lens(&heap_space, heap_size, bl_count, d_codes, DIST_LEN, MAX_DEFLATE_CODE_LEN);
     uint32_t max_d_code = set_dist_huff_codes(d_codes, bl_count);
 
-    assert(max_ll_code >= 256);	// must be EOB code
+    assert(max_ll_code >= 256); // must be EOB code
     assert(max_d_code != 0);
 
     /* Run length encode the length and distance huffman codes */
@@ -1639,26 +1560,21 @@ qpl_create_hufftables_icf(struct BitBuf2 *bb, struct hufftables_icf *hufftables,
 
     for (; i < max_ll_code + 1; i++) {
         combined_table[i] = ll_codes[i].length;
-        compressed_len +=
-            (ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t) ll_hist[i];
-        static_compressed_len +=
-            (static_ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t) ll_hist[i];
+        compressed_len += (ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t)ll_hist[i];
+        static_compressed_len += (static_ll_codes[i].length + len_code_extra_bits[i - 257]) * (uint64_t)ll_hist[i];
     }
 
     for (i = 0; i < max_d_code + 1; i++) {
         combined_table[i + max_ll_code + 1] = d_codes[i].length;
-        compressed_len += (d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t) d_hist[i];
-        static_compressed_len +=
-            (static_d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t) d_hist[i];
+        compressed_len += (d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t)d_hist[i];
+        static_compressed_len += (static_d_codes[i].length + dist_code_extra_bits[i]) * (uint64_t)d_hist[i];
     }
 
     if (static_compressed_len > compressed_len) {
-        num_cl_tokens = rl_encode(combined_table, max_ll_code + max_d_code + 2,
-                      cl_counts, cl_tokens);
+        num_cl_tokens = rl_encode(combined_table, max_ll_code + max_d_code + 2, cl_counts, cl_tokens);
 
         /* Create header */
-        create_header(bb, cl_tokens, num_cl_tokens, cl_counts, max_ll_code - 256,
-                  max_d_code, end_of_block);
+        create_header(bb, cl_tokens, num_cl_tokens, cl_counts, max_ll_code - 256, max_d_code, end_of_block);
         compressed_len += 8 * buffer_used(bb) + bb->m_bit_count;
     }
 

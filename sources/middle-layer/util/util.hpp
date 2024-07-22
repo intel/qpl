@@ -19,7 +19,7 @@ namespace qpl::ml {
  * @param value integer to convert
  * @return number of kilobytes
  */
-constexpr auto operator "" _kb(unsigned long long value) -> uint32_t {
+constexpr auto operator"" _kb(unsigned long long value) -> uint32_t {
     return static_cast<uint32_t>(value * 1024U);
 }
 
@@ -28,7 +28,7 @@ namespace util {
 constexpr const uint32_t default_alignment = 64U;
 
 [[nodiscard]] constexpr auto align_size(size_t size, uint32_t align = default_alignment) noexcept -> size_t {
-    return (((static_cast<uint32_t>(size)) + (align) - 1U) & ~((align) - 1U));
+    return (((static_cast<uint32_t>(size)) + (align)-1U) & ~((align)-1U));
 }
 
 static inline auto round_to_nearest_multiple(uint32_t number_to_round, uint32_t multiple) {
@@ -41,9 +41,8 @@ static inline auto round_to_nearest_multiple(uint32_t number_to_round, uint32_t 
 template <class iterator_t>
 constexpr auto is_random_access_iterator_v() -> bool {
     if constexpr ((!std::is_same<typename std::iterator_traits<iterator_t>::iterator_category,
-                                 std::random_access_iterator_tag>::value
-                  )
-                  || (!std::is_same<typename std::iterator_traits<iterator_t>::value_type, uint8_t>::value)) {
+                                 std::random_access_iterator_tag>::value) ||
+                  (!std::is_same<typename std::iterator_traits<iterator_t>::value_type, uint8_t>::value)) {
         return false;
     } else {
         return true;
@@ -65,9 +64,7 @@ inline uint32_t bit_width_to_bytes(const uint32_t value) noexcept {
 }
 
 inline uint32_t bit_to_byte(const uint32_t value) noexcept {
-    if (value > std::numeric_limits<uint32_t>::max() - max_bit_index) {
-        return 1U << 29U;
-    }
+    if (value > std::numeric_limits<uint32_t>::max() - max_bit_index) { return 1U << 29U; }
 
     const uint32_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
 
@@ -75,9 +72,7 @@ inline uint32_t bit_to_byte(const uint32_t value) noexcept {
 }
 
 inline size_t bit_to_byte(const size_t value) noexcept {
-    if (value > std::numeric_limits<size_t>::max() - max_bit_index) {
-        return 1LLU << 61U;
-    }
+    if (value > std::numeric_limits<size_t>::max() - max_bit_index) { return 1LLU << 61U; }
 
     const size_t bytes = (((value) + max_bit_index) >> bit_len_to_byte_shift_offset);
 
@@ -99,7 +94,7 @@ inline uint16_t revert_bits<uint16_t>(uint16_t value) noexcept {
         uint8_t  ubyte[2];
     } y, z;
 
-    y.uint = value;
+    y.uint     = value;
     z.ubyte[0] = revert_bits(y.ubyte[1]);
     z.ubyte[1] = revert_bits(y.ubyte[0]);
 

@@ -20,21 +20,19 @@ namespace qpl::ml::compression {
 
 class default_decorator {
 public:
-    template <class F, class state_t, class ...arguments>
-    static auto unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t {
+    template <class F, class state_t, class... arguments>
+    static auto unwrap(F function, state_t& state, arguments... args) noexcept -> decompression_operation_result_t {
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #endif
-        uint8_t *saved_output_ptr = state.get_output_data(); //state.get_output_buffer;
+        uint8_t* saved_output_ptr = state.get_output_data(); //state.get_output_buffer;
 #if defined(__GNUC__) && !defined(__clang__)
 #pragma GCC diagnostic pop
 #endif
         auto result = function(state, args...);
 
-        if (result.status_code_) {
-            return result;
-        }
+        if (result.status_code_) { return result; }
 
         auto crc = state.get_crc();
 
@@ -51,12 +49,12 @@ public:
         return result;
     }
 
-    template <class F, class state_t, class ...arguments>
-    static auto wrap(F function, state_t &state, arguments... args) noexcept -> compression_operation_result_t {
+    template <class F, class state_t, class... arguments>
+    static auto wrap(F function, state_t& state, arguments... args) noexcept -> compression_operation_result_t {
         return function(state, args...);
     }
 };
 
-}
+} // namespace qpl::ml::compression
 
 #endif //QPL_DEFAULT_DECORATOR_HPP_

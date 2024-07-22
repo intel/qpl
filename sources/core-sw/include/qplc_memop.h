@@ -30,12 +30,11 @@
 extern "C" {
 #endif
 
-typedef void (*qplc_copy_t_ptr)(const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length);
+typedef void (*qplc_copy_t_ptr)(const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length);
 
-typedef void (*qplc_zero_t_ptr)(uint8_t *dst_ptr, uint32_t length);
+typedef void (*qplc_zero_t_ptr)(uint8_t* dst_ptr, uint32_t length);
 
 typedef void (*qplc_move_t_ptr)(const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length);
-
 
 /**
  * @name qplc_set_<input-output bit-width>
@@ -50,11 +49,11 @@ typedef void (*qplc_move_t_ptr)(const uint8_t* src_ptr, uint8_t* dst_ptr, uint32
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_set_8u, (uint8_t value, uint8_t * dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_set_8u, (uint8_t value, uint8_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_set_16u, (uint16_t value, uint16_t * dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_set_16u, (uint16_t value, uint16_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_set_32u, (uint32_t value, uint32_t * dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_set_32u, (uint32_t value, uint32_t* dst_ptr, uint32_t length))
 /** @} */
 
 /**
@@ -70,11 +69,11 @@ OWN_QPLC_API(void, qplc_set_32u, (uint32_t value, uint32_t * dst_ptr, uint32_t l
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_copy_16u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_copy_16u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_copy_32u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_copy_32u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length))
 /** @} */
 
 /**
@@ -89,7 +88,7 @@ OWN_QPLC_API(void, qplc_copy_32u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uin
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length))
 /** @} */
 
 /**
@@ -105,11 +104,11 @@ OWN_QPLC_API(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length))
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_move_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_move_16u, (const uint16_t *src_ptr, uint16_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_move_16u, (const uint16_t* src_ptr, uint16_t* dst_ptr, uint32_t length))
 
-OWN_QPLC_API(void, qplc_move_32u, (const uint32_t *src_ptr, uint32_t *dst_ptr, uint32_t length))
+OWN_QPLC_API(void, qplc_move_32u, (const uint32_t* src_ptr, uint32_t* dst_ptr, uint32_t length))
 /** @} */
 
 #ifdef __cplusplus

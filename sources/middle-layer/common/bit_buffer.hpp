@@ -12,27 +12,23 @@
 namespace qpl::ml {
 class bit_reader {
 public:
-    template<typename input_iterator>
-    bit_reader(const input_iterator source_begin,
-               const input_iterator source_end) :
-        source_begin_ptr_(source_begin),
-        current_source_ptr_(source_begin),
-        source_end_ptr_(source_end) {
-        buffer_ = 0U;
-        bits_in_buffer_ = 0U;
+    template <typename input_iterator>
+    bit_reader(const input_iterator source_begin, const input_iterator source_end)
+        : source_begin_ptr_(source_begin), current_source_ptr_(source_begin), source_end_ptr_(source_end) {
+        buffer_           = 0U;
+        bits_in_buffer_   = 0U;
         last_bits_offset_ = 0U;
-        is_overflowed_ = false;
-        is_big_endian_ = false;
+        is_overflowed_    = false;
+        is_big_endian_    = false;
     }
 
-    template<typename input_iterator>
-    void set_source(const input_iterator source_begin,
-                    const input_iterator source_end) noexcept {
-        source_begin_ptr_ = source_begin;
+    template <typename input_iterator>
+    void set_source(const input_iterator source_begin, const input_iterator source_end) noexcept {
+        source_begin_ptr_   = source_begin;
         current_source_ptr_ = source_begin;
-        source_end_ptr_ = source_end;
-        is_overflowed_ = false;
-        is_big_endian_ = false;
+        source_end_ptr_     = source_end;
+        is_overflowed_      = false;
+        is_big_endian_      = false;
     }
 
     void load_buffer(uint8_t number_of_bits = 64U) noexcept;
@@ -54,17 +50,17 @@ public:
     void set_big_endian(bool is_big_endian) noexcept;
 
 private:
-    const uint8_t *source_begin_ptr_;
-    const uint8_t *current_source_ptr_;
-    const uint8_t *source_end_ptr_;
+    const uint8_t* source_begin_ptr_;
+    const uint8_t* current_source_ptr_;
+    const uint8_t* source_end_ptr_;
 
-    uint8_t last_bits_offset_;
+    uint8_t  last_bits_offset_;
     uint64_t buffer_;
     uint8_t  bits_in_buffer_;
 
     bool is_overflowed_;
     bool is_big_endian_;
 };
-}
+} // namespace qpl::ml
 
 #endif // QPL_ML_COMMON_BIT_BUFFER_HPP

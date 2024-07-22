@@ -25,15 +25,10 @@
 extern "C" {
 #endif
 
-typedef uint64_t (*qplc_crc64_t_ptr)(const uint8_t *src_ptr,
-                                     uint32_t length,
-                                     uint64_t polynomial,
-                                     uint8_t be_flag,
+typedef uint64_t (*qplc_crc64_t_ptr)(const uint8_t* src_ptr, uint32_t length, uint64_t polynomial, uint8_t be_flag,
                                      uint8_t inversion_flag);
 
-typedef uint32_t (*qplc_xor_checksum_t_ptr)(const uint8_t *buf,
-                                            uint32_t len,
-                                            uint32_t init_xor);
+typedef uint32_t (*qplc_xor_checksum_t_ptr)(const uint8_t* buf, uint32_t len, uint32_t init_xor);
 
 /**
 * @brief XOR checksum calculation for data buffer
@@ -44,9 +39,7 @@ typedef uint32_t (*qplc_xor_checksum_t_ptr)(const uint8_t *buf,
 *
 * @return XOR checksum value
 */
-OWN_QPLC_API(uint32_t, qplc_xor_checksum_8u, (const uint8_t* buf,
-        uint32_t len,
-        uint32_t init_xor))
+OWN_QPLC_API(uint32_t, qplc_xor_checksum_8u, (const uint8_t* buf, uint32_t len, uint32_t init_xor))
 
 /*
  * @brief CRC64 checksum calculation for data buffer
@@ -63,11 +56,8 @@ OWN_QPLC_API(uint32_t, qplc_xor_checksum_8u, (const uint8_t* buf,
  *
  * @return CRC64 checksum value
  */
-OWN_QPLC_API(uint64_t, qplc_crc64, (const uint8_t *src_ptr,
-        uint32_t length,
-        uint64_t polynomial,
-        uint8_t be_flag,
-        uint8_t inversion_flag))
+OWN_QPLC_API(uint64_t, qplc_crc64,
+             (const uint8_t* src_ptr, uint32_t length, uint64_t polynomial, uint8_t be_flag, uint8_t inversion_flag))
 
 #ifdef __cplusplus
 }

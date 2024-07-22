@@ -9,13 +9,15 @@
  *  Serialization API for Huffman table
  */
 
-#include "qpl/c_api/huffman_table.h"
 #include "huffman_table_serialization.hpp"
+
+#include "qpl/c_api/huffman_table.h"
+
 #include "compression/huffman_table/huffman_table.hpp"
-#include "compression/huffman_table/serialization_utils.hpp"
 #include "compression/huffman_table/huffman_table_utils.hpp" // qpl_{de}compression_huffman_table
-#include "util/checkers.hpp" // OWN_QPL_CHECK_STATUS
+#include "compression/huffman_table/serialization_utils.hpp"
 #include "own_checkers.h"    // QPL_BADARG_RET
+#include "util/checkers.hpp" // OWN_QPL_CHECK_STATUS
 
 extern "C" {
 
@@ -36,9 +38,8 @@ extern "C" {
 /**
  * @brief Function to get size of the table to be serialized.
  */
-qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table,
-                                                 const serialization_options_t options,
-                                                 size_t *const size_ptr) {
+qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table, const serialization_options_t options,
+                                                 size_t* const size_ptr) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
@@ -46,12 +47,10 @@ qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(size_ptr))
     QPL_BADARG_RET(options.format > serialization_raw, QPL_STS_SERIALIZATION_FORMAT_ERROR)
 
-    if (options.format != serialization_raw)
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    if (options.format != serialization_raw) return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
     auto meta_ptr = reinterpret_cast<huffman_table_meta_t*>(table);
-    if (meta_ptr->algorithm != compression_algorithm_e::deflate)
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    if (meta_ptr->algorithm != compression_algorithm_e::deflate) return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
     // obtain size for storing meta data
     size_t meta_size = 0;
@@ -65,16 +64,11 @@ qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table
     // obtain size for for storing compression/decompression tables
     size_t tables_size = 0;
     switch (meta_ptr->type) {
-        case huffman_table_type_e::compression:
-            tables_size += sizeof(qpl_compression_huffman_table);
-            break;
+        case huffman_table_type_e::compression: tables_size += sizeof(qpl_compression_huffman_table); break;
 
-        case huffman_table_type_e::decompression:
-            tables_size += sizeof(qpl_decompression_huffman_table);
-            break;
+        case huffman_table_type_e::decompression: tables_size += sizeof(qpl_decompression_huffman_table); break;
 
-        default:
-            tables_size += sizeof(qpl_compression_huffman_table) + sizeof(qpl_decompression_huffman_table);
+        default: tables_size += sizeof(qpl_compression_huffman_table) + sizeof(qpl_decompression_huffman_table);
     }
 
     *size_ptr = meta_size + tables_size;
@@ -85,31 +79,25 @@ qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table
 /**
  * @brief Function that serializes Huffman table and store the result into a buffer.
  */
-qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
-                                       uint8_t *const stream_buffer,
-                                       const size_t stream_buffer_size,
-                                       const serialization_options_t options) {
+qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table, uint8_t* const stream_buffer,
+                                       const size_t stream_buffer_size, const serialization_options_t options) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(table))
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(stream_buffer))
     QPL_BADARG_RET(options.format > serialization_raw, QPL_STS_SERIALIZATION_FORMAT_ERROR)
-    if (stream_buffer_size == 0)
-        return QPL_STS_SIZE_ERR;
+    if (stream_buffer_size == 0) return QPL_STS_SIZE_ERR;
 
-    if (options.format != serialization_raw)
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    if (options.format != serialization_raw) return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
     auto meta_ptr = reinterpret_cast<huffman_table_meta_t*>(table);
-    if (meta_ptr->algorithm != compression_algorithm_e::deflate)
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
+    if (meta_ptr->algorithm != compression_algorithm_e::deflate) return QPL_STS_NOT_SUPPORTED_MODE_ERR;
 
     size_t reqd_stream_buffer_size = 0U;
     qpl_huffman_table_get_serialized_size(table, options, &reqd_stream_buffer_size);
 
-    if(stream_buffer_size < reqd_stream_buffer_size)
-        return QPL_STS_SIZE_ERR;
+    if (stream_buffer_size < reqd_stream_buffer_size) return QPL_STS_SIZE_ERR;
 
     // todo: move impl to a special namespace to reflect meta struct version,
     // to accommodate future implementations
@@ -138,30 +126,25 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
  * @brief Function that creates and initializes Huffman table using the memory buffer,
  * that stores previously serialized table.
  */
-qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
-                                         const size_t stream_buffer_size,
-                                         allocator_t allocator,
-                                         qpl_huffman_table_t *table_ptr) {
+qpl_status qpl_huffman_table_deserialize(const uint8_t* const stream_buffer, const size_t stream_buffer_size,
+                                         allocator_t allocator, qpl_huffman_table_t* table_ptr) {
     using namespace qpl::ml;
     using namespace qpl::ml::compression;
 
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(table_ptr))
     OWN_QPL_CHECK_STATUS(bad_argument::check_for_nullptr(stream_buffer))
-    if (stream_buffer_size == 0)
-        return QPL_STS_SIZE_ERR;
+    if (stream_buffer_size == 0) return QPL_STS_SIZE_ERR;
 
     const allocator_t meta_allocator = details::get_allocator(allocator);
 
     auto allocated_size = sizeof(huffman_table_meta_t);
-    auto buffer = meta_allocator.allocator(allocated_size);
+    auto buffer         = meta_allocator.allocator(allocated_size);
 
-    if (!buffer) {
-        return QPL_STS_OBJECT_ALLOCATION_ERR;
-    }
+    if (!buffer) { return QPL_STS_OBJECT_ALLOCATION_ERR; }
 
     // Temporary meta structure to get information required for creation
     // and initialization of the Huffman table, will be discarded at the end
-    huffman_table_meta_t *meta_ptr = new (buffer) huffman_table_meta_t();
+    huffman_table_meta_t* meta_ptr = new (buffer) huffman_table_meta_t();
 
     // todo: move impl to a special namespace to reflect meta struct version,
     // to accommodate future implementations
@@ -180,16 +163,12 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
     // creation
     qpl_status status = QPL_STS_OK;
     if (meta_ptr->algorithm == compression_algorithm_e::deflate) {
-        status = qpl_deflate_huffman_table_create((qpl_huffman_table_type_e) meta_ptr->type,
-                                                  (qpl_path_t) meta_ptr->path,
-                                                  allocator,
-                                                  table_ptr);
+        status = qpl_deflate_huffman_table_create((qpl_huffman_table_type_e)meta_ptr->type, (qpl_path_t)meta_ptr->path,
+                                                  allocator, table_ptr);
     }
     if (meta_ptr->algorithm == compression_algorithm_e::huffman_only) {
-        status = qpl_huffman_only_table_create((qpl_huffman_table_type_e) meta_ptr->type,
-                                               (qpl_path_t) meta_ptr->path,
-                                               allocator,
-                                               table_ptr);
+        status = qpl_huffman_only_table_create((qpl_huffman_table_type_e)meta_ptr->type, (qpl_path_t)meta_ptr->path,
+                                               allocator, table_ptr);
     }
     if (status != QPL_STS_OK) {
         std::destroy_at(meta_ptr);
@@ -218,5 +197,4 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t *const stream_buffer,
 
     return status;
 }
-
 }

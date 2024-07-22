@@ -33,23 +33,14 @@
 extern "C" {
 #endif
 
-typedef void (*qplc_pack_bits_t_ptr)(const uint8_t *src_ptr,
-                                     uint32_t num_elements,
-                                     uint8_t *dst_ptr,
+typedef void (*qplc_pack_bits_t_ptr)(const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr,
                                      uint32_t start_bit);
 
-typedef qplc_status_t (*qplc_pack_vector_t_ptr)(const uint8_t *src_ptr,
-                                                uint32_t num_elements,
-                                                uint8_t **dst_ptr,
-                                                uint32_t start_bit_or_dst_length,
-                                                uint32_t *index_ptr);
+typedef qplc_status_t (*qplc_pack_vector_t_ptr)(const uint8_t* src_ptr, uint32_t num_elements, uint8_t** dst_ptr,
+                                                uint32_t start_bit_or_dst_length, uint32_t* index_ptr);
 
-typedef qplc_status_t (*qplc_pack_index_t_ptr)(const uint8_t *src_ptr,
-                                               uint32_t num_elements,
-                                               uint8_t **pp_dst,
-                                               uint32_t dst_length,
-                                               uint32_t *index_ptr);
-
+typedef qplc_status_t (*qplc_pack_index_t_ptr)(const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst,
+                                               uint32_t dst_length, uint32_t* index_ptr);
 
 /**
  * @name qplc_pack_<byte order><input bit-width><output bit-width>
@@ -68,374 +59,227 @@ typedef qplc_status_t (*qplc_pack_index_t_ptr)(const uint8_t *src_ptr,
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_pack_8u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u2u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u3u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u4u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u5u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u6u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u7u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u8u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u9u, (const uint8_t *src_ptr,
-        uint32_t num_elements, uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u10u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u11u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u12u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u13u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u14u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u15u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u17u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u18u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u19u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u20u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u21u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u22u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u23u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u24u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u25u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u26u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u27u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u28u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u29u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u30u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u31u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_32u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_8u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_16u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u2u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u3u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u4u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u5u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u6u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u7u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u8u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u9u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u10u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u11u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u12u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u13u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u14u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u15u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u1u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u17u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u18u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u19u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u20u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u21u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u22u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u23u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u24u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u25u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u26u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u27u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u28u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u29u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u30u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u31u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_32u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_8u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
-
-OWN_QPLC_API(void, qplc_pack_be_16u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t *dst_ptr,
-        uint32_t start_bit))
+OWN_QPLC_API(void, qplc_pack_8u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u2u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u3u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u4u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u5u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u6u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u7u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u8u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u9u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u10u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u11u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u12u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u13u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u14u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u15u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u17u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u18u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u19u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u20u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u21u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u22u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u23u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u24u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u25u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u26u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u27u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u28u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u29u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u30u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u31u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_32u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_8u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_16u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u2u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u3u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u4u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u5u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u6u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u7u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u8u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u9u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u10u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u11u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u12u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u13u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u14u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u15u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u1u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u17u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u18u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u19u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u20u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u21u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u22u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u23u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u24u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u25u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u26u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u27u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u28u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u29u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u30u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u31u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_32u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_8u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
+
+OWN_QPLC_API(void, qplc_pack_be_16u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit))
 /** @} */
 
 /**
@@ -458,47 +302,33 @@ OWN_QPLC_API(void, qplc_pack_be_16u32u, (const uint8_t *src_ptr,
  *
  * @{
  */
-OWN_QPLC_API(qplc_status_t, qplc_pack_bits_nu, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **dst_ptr,
-        uint32_t start_bit,
-        uint32_t *pack_index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_bits_nu,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** dst_ptr, uint32_t start_bit,
+              uint32_t* pack_index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **pp_dst,
-        uint32_t dst_length,
-        uint32_t *index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
+              uint32_t* index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **pp_dst,
-        uint32_t dst_length,
-        uint32_t *index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
+              uint32_t* index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **pp_dst,
-        uint32_t dst_length,
-        uint32_t *index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_index_8u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
+              uint32_t* index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_bits_be_nu, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **dst_ptr,
-        uint32_t start_bit,
-        uint32_t *pack_index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_bits_be_nu,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** dst_ptr, uint32_t start_bit,
+              uint32_t* pack_index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_index_be_8u16u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **pp_dst,
-        uint32_t dst_length,
-        uint32_t *index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_index_be_8u16u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
+              uint32_t* index_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_pack_index_be_8u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint8_t **pp_dst,
-        uint32_t dst_length,
-        uint32_t *index_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_pack_index_be_8u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
+              uint32_t* index_ptr))
 /** @} */
 
 #ifdef __cplusplus

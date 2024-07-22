@@ -7,17 +7,14 @@
 #ifndef ANALYTIC_DEFS_HPP
 #define ANALYTIC_DEFS_HPP
 
-#include "common/defs.hpp"
-#include <cstdint>
 #include <climits>
+#include <cstdint>
+
+#include "common/defs.hpp"
 
 namespace qpl::ml::analytics {
 
-enum class stream_format_t {
-    le_format,
-    be_format,
-    prle_format
-};
+enum class stream_format_t { le_format, be_format, prle_format };
 
 // Output stream supports the following output bit width formats:
 enum class output_bit_width_format_t : uint32_t {
@@ -27,12 +24,7 @@ enum class output_bit_width_format_t : uint32_t {
     bits_32       = 3U  // 32 bits
 };
 
-enum class analytic_pipeline {
-    simple,
-    prle,
-    inflate,
-    inflate_prle
-};
+enum class analytic_pipeline { simple, prle, inflate, inflate_prle };
 
 struct analytic_operation_result_t {
     uint32_t     status_code_     = 0U;
@@ -42,12 +34,12 @@ struct analytic_operation_result_t {
     checksums_t  checksums_;
 };
 
-void inline aggregates_empty_callback(const uint8_t *UNREFERENCED_PARAMETER(src_ptr),
-                                      uint32_t UNREFERENCED_PARAMETER(length),
-                                      uint32_t *UNREFERENCED_PARAMETER(min_value_ptr),
-                                      uint32_t *UNREFERENCED_PARAMETER(max_value_ptr),
-                                      uint32_t *UNREFERENCED_PARAMETER(sum_ptr),
-                                      uint32_t *UNREFERENCED_PARAMETER(index_ptr)) {
+void inline aggregates_empty_callback(const uint8_t* UNREFERENCED_PARAMETER(src_ptr),
+                                      uint32_t       UNREFERENCED_PARAMETER(length),
+                                      uint32_t*      UNREFERENCED_PARAMETER(min_value_ptr),
+                                      uint32_t*      UNREFERENCED_PARAMETER(max_value_ptr),
+                                      uint32_t*      UNREFERENCED_PARAMETER(sum_ptr),
+                                      uint32_t*      UNREFERENCED_PARAMETER(index_ptr)) {
     // Don't do anything, this is just a stub
 }
 

@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "qplc_defines.h"
-#include "qplc_scan.h"
-#include "qplc_extract.h"
-#include "qplc_select.h"
-#include "qplc_expand.h"
-#include "qplc_unpack.h"
-#include "qplc_pack.h"
-#include "qplc_memop.h"
 #include "qplc_aggregates.h"
 #include "qplc_checksum.h"
+#include "qplc_defines.h"
+#include "qplc_expand.h"
+#include "qplc_extract.h"
+#include "qplc_memop.h"
+#include "qplc_pack.h"
+#include "qplc_scan.h"
+#include "qplc_select.h"
+#include "qplc_unpack.h"
 
 #ifndef OWN_QPL_CORE_API_H_
 #define OWN_QPL_CORE_API_H_
@@ -69,71 +69,38 @@ extern "C" {
  *      - n/a (void).
  */
 static const qplc_unpack_bits_t_ptr qplc_unpack_bits_array[] = {
-        CALL_CORE_FUN(qplc_unpack_1u8u),
-        CALL_CORE_FUN(qplc_unpack_2u8u),
-        CALL_CORE_FUN(qplc_unpack_3u8u),
-        CALL_CORE_FUN(qplc_unpack_4u8u),
-        CALL_CORE_FUN(qplc_unpack_5u8u),
-        CALL_CORE_FUN(qplc_unpack_6u8u),
-        CALL_CORE_FUN(qplc_unpack_7u8u),
-        CALL_CORE_FUN(qplc_unpack_8u8u),
-        CALL_CORE_FUN(qplc_unpack_9u16u),
-        CALL_CORE_FUN(qplc_unpack_10u16u),
-        CALL_CORE_FUN(qplc_unpack_11u16u),
-        CALL_CORE_FUN(qplc_unpack_12u16u),
-        CALL_CORE_FUN(qplc_unpack_13u16u),
-        CALL_CORE_FUN(qplc_unpack_14u16u),
-        CALL_CORE_FUN(qplc_unpack_15u16u),
-        CALL_CORE_FUN(qplc_unpack_16u16u),
-        CALL_CORE_FUN(qplc_unpack_17u32u),
-        CALL_CORE_FUN(qplc_unpack_18u32u),
-        CALL_CORE_FUN(qplc_unpack_19u32u),
-        CALL_CORE_FUN(qplc_unpack_20u32u),
-        CALL_CORE_FUN(qplc_unpack_21u32u),
-        CALL_CORE_FUN(qplc_unpack_22u32u),
-        CALL_CORE_FUN(qplc_unpack_23u32u),
-        CALL_CORE_FUN(qplc_unpack_24u32u),
-        CALL_CORE_FUN(qplc_unpack_25u32u),
-        CALL_CORE_FUN(qplc_unpack_26u32u),
-        CALL_CORE_FUN(qplc_unpack_27u32u),
-        CALL_CORE_FUN(qplc_unpack_28u32u),
-        CALL_CORE_FUN(qplc_unpack_29u32u),
-        CALL_CORE_FUN(qplc_unpack_30u32u),
-        CALL_CORE_FUN(qplc_unpack_31u32u),
-        CALL_CORE_FUN(qplc_unpack_32u32u),
-        CALL_CORE_FUN(qplc_unpack_be_1u8u),
-        CALL_CORE_FUN(qplc_unpack_be_2u8u),
-        CALL_CORE_FUN(qplc_unpack_be_3u8u),
-        CALL_CORE_FUN(qplc_unpack_be_4u8u),
-        CALL_CORE_FUN(qplc_unpack_be_5u8u),
-        CALL_CORE_FUN(qplc_unpack_be_6u8u),
-        CALL_CORE_FUN(qplc_unpack_be_7u8u),
-        CALL_CORE_FUN(qplc_unpack_be_8u8u),
-        CALL_CORE_FUN(qplc_unpack_be_9u16u),
-        CALL_CORE_FUN(qplc_unpack_be_10u16u),
-        CALL_CORE_FUN(qplc_unpack_be_11u16u),
-        CALL_CORE_FUN(qplc_unpack_be_12u16u),
-        CALL_CORE_FUN(qplc_unpack_be_13u16u),
-        CALL_CORE_FUN(qplc_unpack_be_14u16u),
-        CALL_CORE_FUN(qplc_unpack_be_15u16u),
-        CALL_CORE_FUN(qplc_unpack_be_16u16u),
-        CALL_CORE_FUN(qplc_unpack_be_17u32u),
-        CALL_CORE_FUN(qplc_unpack_be_18u32u),
-        CALL_CORE_FUN(qplc_unpack_be_19u32u),
-        CALL_CORE_FUN(qplc_unpack_be_20u32u),
-        CALL_CORE_FUN(qplc_unpack_be_21u32u),
-        CALL_CORE_FUN(qplc_unpack_be_22u32u),
-        CALL_CORE_FUN(qplc_unpack_be_23u32u),
-        CALL_CORE_FUN(qplc_unpack_be_24u32u),
-        CALL_CORE_FUN(qplc_unpack_be_25u32u),
-        CALL_CORE_FUN(qplc_unpack_be_26u32u),
-        CALL_CORE_FUN(qplc_unpack_be_27u32u),
-        CALL_CORE_FUN(qplc_unpack_be_28u32u),
-        CALL_CORE_FUN(qplc_unpack_be_29u32u),
-        CALL_CORE_FUN(qplc_unpack_be_30u32u),
-        CALL_CORE_FUN(qplc_unpack_be_31u32u),
-        CALL_CORE_FUN(qplc_unpack_be_32u32u)
-};
+        CALL_CORE_FUN(qplc_unpack_1u8u),      CALL_CORE_FUN(qplc_unpack_2u8u),
+        CALL_CORE_FUN(qplc_unpack_3u8u),      CALL_CORE_FUN(qplc_unpack_4u8u),
+        CALL_CORE_FUN(qplc_unpack_5u8u),      CALL_CORE_FUN(qplc_unpack_6u8u),
+        CALL_CORE_FUN(qplc_unpack_7u8u),      CALL_CORE_FUN(qplc_unpack_8u8u),
+        CALL_CORE_FUN(qplc_unpack_9u16u),     CALL_CORE_FUN(qplc_unpack_10u16u),
+        CALL_CORE_FUN(qplc_unpack_11u16u),    CALL_CORE_FUN(qplc_unpack_12u16u),
+        CALL_CORE_FUN(qplc_unpack_13u16u),    CALL_CORE_FUN(qplc_unpack_14u16u),
+        CALL_CORE_FUN(qplc_unpack_15u16u),    CALL_CORE_FUN(qplc_unpack_16u16u),
+        CALL_CORE_FUN(qplc_unpack_17u32u),    CALL_CORE_FUN(qplc_unpack_18u32u),
+        CALL_CORE_FUN(qplc_unpack_19u32u),    CALL_CORE_FUN(qplc_unpack_20u32u),
+        CALL_CORE_FUN(qplc_unpack_21u32u),    CALL_CORE_FUN(qplc_unpack_22u32u),
+        CALL_CORE_FUN(qplc_unpack_23u32u),    CALL_CORE_FUN(qplc_unpack_24u32u),
+        CALL_CORE_FUN(qplc_unpack_25u32u),    CALL_CORE_FUN(qplc_unpack_26u32u),
+        CALL_CORE_FUN(qplc_unpack_27u32u),    CALL_CORE_FUN(qplc_unpack_28u32u),
+        CALL_CORE_FUN(qplc_unpack_29u32u),    CALL_CORE_FUN(qplc_unpack_30u32u),
+        CALL_CORE_FUN(qplc_unpack_31u32u),    CALL_CORE_FUN(qplc_unpack_32u32u),
+        CALL_CORE_FUN(qplc_unpack_be_1u8u),   CALL_CORE_FUN(qplc_unpack_be_2u8u),
+        CALL_CORE_FUN(qplc_unpack_be_3u8u),   CALL_CORE_FUN(qplc_unpack_be_4u8u),
+        CALL_CORE_FUN(qplc_unpack_be_5u8u),   CALL_CORE_FUN(qplc_unpack_be_6u8u),
+        CALL_CORE_FUN(qplc_unpack_be_7u8u),   CALL_CORE_FUN(qplc_unpack_be_8u8u),
+        CALL_CORE_FUN(qplc_unpack_be_9u16u),  CALL_CORE_FUN(qplc_unpack_be_10u16u),
+        CALL_CORE_FUN(qplc_unpack_be_11u16u), CALL_CORE_FUN(qplc_unpack_be_12u16u),
+        CALL_CORE_FUN(qplc_unpack_be_13u16u), CALL_CORE_FUN(qplc_unpack_be_14u16u),
+        CALL_CORE_FUN(qplc_unpack_be_15u16u), CALL_CORE_FUN(qplc_unpack_be_16u16u),
+        CALL_CORE_FUN(qplc_unpack_be_17u32u), CALL_CORE_FUN(qplc_unpack_be_18u32u),
+        CALL_CORE_FUN(qplc_unpack_be_19u32u), CALL_CORE_FUN(qplc_unpack_be_20u32u),
+        CALL_CORE_FUN(qplc_unpack_be_21u32u), CALL_CORE_FUN(qplc_unpack_be_22u32u),
+        CALL_CORE_FUN(qplc_unpack_be_23u32u), CALL_CORE_FUN(qplc_unpack_be_24u32u),
+        CALL_CORE_FUN(qplc_unpack_be_25u32u), CALL_CORE_FUN(qplc_unpack_be_26u32u),
+        CALL_CORE_FUN(qplc_unpack_be_27u32u), CALL_CORE_FUN(qplc_unpack_be_28u32u),
+        CALL_CORE_FUN(qplc_unpack_be_29u32u), CALL_CORE_FUN(qplc_unpack_be_30u32u),
+        CALL_CORE_FUN(qplc_unpack_be_31u32u), CALL_CORE_FUN(qplc_unpack_be_32u32u)};
 
 /**
  * @brief Packing input data in 8u, 16u or 32u integers format to integers of any-bit-width, LE or BE.
@@ -153,78 +120,31 @@ static const qplc_unpack_bits_t_ptr qplc_unpack_bits_array[] = {
  *      - n/a (void).
  */
 static const qplc_pack_bits_t_ptr qplc_pack_bits_array[] = {
-        CALL_CORE_FUN(qplc_pack_8u1u),
-        CALL_CORE_FUN(qplc_pack_8u2u),
-        CALL_CORE_FUN(qplc_pack_8u3u),
-        CALL_CORE_FUN(qplc_pack_8u4u),
-        CALL_CORE_FUN(qplc_pack_8u5u),
-        CALL_CORE_FUN(qplc_pack_8u6u),
-        CALL_CORE_FUN(qplc_pack_8u7u),
-        CALL_CORE_FUN(qplc_pack_8u8u),
-        CALL_CORE_FUN(qplc_pack_16u9u),
-        CALL_CORE_FUN(qplc_pack_16u10u),
-        CALL_CORE_FUN(qplc_pack_16u11u),
-        CALL_CORE_FUN(qplc_pack_16u12u),
-        CALL_CORE_FUN(qplc_pack_16u13u),
-        CALL_CORE_FUN(qplc_pack_16u14u),
-        CALL_CORE_FUN(qplc_pack_16u15u),
-        CALL_CORE_FUN(qplc_pack_16u16u),
-        CALL_CORE_FUN(qplc_pack_32u17u),
-        CALL_CORE_FUN(qplc_pack_32u18u),
-        CALL_CORE_FUN(qplc_pack_32u19u),
-        CALL_CORE_FUN(qplc_pack_32u20u),
-        CALL_CORE_FUN(qplc_pack_32u21u),
-        CALL_CORE_FUN(qplc_pack_32u22u),
-        CALL_CORE_FUN(qplc_pack_32u23u),
-        CALL_CORE_FUN(qplc_pack_32u24u),
-        CALL_CORE_FUN(qplc_pack_32u25u),
-        CALL_CORE_FUN(qplc_pack_32u26u),
-        CALL_CORE_FUN(qplc_pack_32u27u),
-        CALL_CORE_FUN(qplc_pack_32u28u),
-        CALL_CORE_FUN(qplc_pack_32u29u),
-        CALL_CORE_FUN(qplc_pack_32u30u),
-        CALL_CORE_FUN(qplc_pack_32u31u),
-        CALL_CORE_FUN(qplc_pack_32u32u),
-        CALL_CORE_FUN(qplc_pack_8u16u),
-        CALL_CORE_FUN(qplc_pack_8u32u),
-        CALL_CORE_FUN(qplc_pack_16u32u),
+        CALL_CORE_FUN(qplc_pack_8u1u), CALL_CORE_FUN(qplc_pack_8u2u), CALL_CORE_FUN(qplc_pack_8u3u),
+        CALL_CORE_FUN(qplc_pack_8u4u), CALL_CORE_FUN(qplc_pack_8u5u), CALL_CORE_FUN(qplc_pack_8u6u),
+        CALL_CORE_FUN(qplc_pack_8u7u), CALL_CORE_FUN(qplc_pack_8u8u), CALL_CORE_FUN(qplc_pack_16u9u),
+        CALL_CORE_FUN(qplc_pack_16u10u), CALL_CORE_FUN(qplc_pack_16u11u), CALL_CORE_FUN(qplc_pack_16u12u),
+        CALL_CORE_FUN(qplc_pack_16u13u), CALL_CORE_FUN(qplc_pack_16u14u), CALL_CORE_FUN(qplc_pack_16u15u),
+        CALL_CORE_FUN(qplc_pack_16u16u), CALL_CORE_FUN(qplc_pack_32u17u), CALL_CORE_FUN(qplc_pack_32u18u),
+        CALL_CORE_FUN(qplc_pack_32u19u), CALL_CORE_FUN(qplc_pack_32u20u), CALL_CORE_FUN(qplc_pack_32u21u),
+        CALL_CORE_FUN(qplc_pack_32u22u), CALL_CORE_FUN(qplc_pack_32u23u), CALL_CORE_FUN(qplc_pack_32u24u),
+        CALL_CORE_FUN(qplc_pack_32u25u), CALL_CORE_FUN(qplc_pack_32u26u), CALL_CORE_FUN(qplc_pack_32u27u),
+        CALL_CORE_FUN(qplc_pack_32u28u), CALL_CORE_FUN(qplc_pack_32u29u), CALL_CORE_FUN(qplc_pack_32u30u),
+        CALL_CORE_FUN(qplc_pack_32u31u), CALL_CORE_FUN(qplc_pack_32u32u), CALL_CORE_FUN(qplc_pack_8u16u),
+        CALL_CORE_FUN(qplc_pack_8u32u), CALL_CORE_FUN(qplc_pack_16u32u),
         // BE starts here
-        CALL_CORE_FUN(qplc_pack_be_8u1u),
-        CALL_CORE_FUN(qplc_pack_be_8u2u),
-        CALL_CORE_FUN(qplc_pack_be_8u3u),
-        CALL_CORE_FUN(qplc_pack_be_8u4u),
-        CALL_CORE_FUN(qplc_pack_be_8u5u),
-        CALL_CORE_FUN(qplc_pack_be_8u6u),
-        CALL_CORE_FUN(qplc_pack_be_8u7u),
-        CALL_CORE_FUN(qplc_pack_be_8u8u),
-        CALL_CORE_FUN(qplc_pack_be_16u9u),
-        CALL_CORE_FUN(qplc_pack_be_16u10u),
-        CALL_CORE_FUN(qplc_pack_be_16u11u),
-        CALL_CORE_FUN(qplc_pack_be_16u12u),
-        CALL_CORE_FUN(qplc_pack_be_16u13u),
-        CALL_CORE_FUN(qplc_pack_be_16u14u),
-        CALL_CORE_FUN(qplc_pack_be_16u15u),
-        CALL_CORE_FUN(qplc_pack_be_16u16u),
-        CALL_CORE_FUN(qplc_pack_be_32u17u),
-        CALL_CORE_FUN(qplc_pack_be_32u18u),
-        CALL_CORE_FUN(qplc_pack_be_32u19u),
-        CALL_CORE_FUN(qplc_pack_be_32u20u),
-        CALL_CORE_FUN(qplc_pack_be_32u21u),
-        CALL_CORE_FUN(qplc_pack_be_32u22u),
-        CALL_CORE_FUN(qplc_pack_be_32u23u),
-        CALL_CORE_FUN(qplc_pack_be_32u24u),
-        CALL_CORE_FUN(qplc_pack_be_32u25u),
-        CALL_CORE_FUN(qplc_pack_be_32u26u),
-        CALL_CORE_FUN(qplc_pack_be_32u27u),
-        CALL_CORE_FUN(qplc_pack_be_32u28u),
-        CALL_CORE_FUN(qplc_pack_be_32u29u),
-        CALL_CORE_FUN(qplc_pack_be_32u30u),
-        CALL_CORE_FUN(qplc_pack_be_32u31u),
-        CALL_CORE_FUN(qplc_pack_be_32u32u),
-        CALL_CORE_FUN(qplc_pack_be_8u16u),
-        CALL_CORE_FUN(qplc_pack_be_8u32u),
-        CALL_CORE_FUN(qplc_pack_be_16u32u)
-};
+        CALL_CORE_FUN(qplc_pack_be_8u1u), CALL_CORE_FUN(qplc_pack_be_8u2u), CALL_CORE_FUN(qplc_pack_be_8u3u),
+        CALL_CORE_FUN(qplc_pack_be_8u4u), CALL_CORE_FUN(qplc_pack_be_8u5u), CALL_CORE_FUN(qplc_pack_be_8u6u),
+        CALL_CORE_FUN(qplc_pack_be_8u7u), CALL_CORE_FUN(qplc_pack_be_8u8u), CALL_CORE_FUN(qplc_pack_be_16u9u),
+        CALL_CORE_FUN(qplc_pack_be_16u10u), CALL_CORE_FUN(qplc_pack_be_16u11u), CALL_CORE_FUN(qplc_pack_be_16u12u),
+        CALL_CORE_FUN(qplc_pack_be_16u13u), CALL_CORE_FUN(qplc_pack_be_16u14u), CALL_CORE_FUN(qplc_pack_be_16u15u),
+        CALL_CORE_FUN(qplc_pack_be_16u16u), CALL_CORE_FUN(qplc_pack_be_32u17u), CALL_CORE_FUN(qplc_pack_be_32u18u),
+        CALL_CORE_FUN(qplc_pack_be_32u19u), CALL_CORE_FUN(qplc_pack_be_32u20u), CALL_CORE_FUN(qplc_pack_be_32u21u),
+        CALL_CORE_FUN(qplc_pack_be_32u22u), CALL_CORE_FUN(qplc_pack_be_32u23u), CALL_CORE_FUN(qplc_pack_be_32u24u),
+        CALL_CORE_FUN(qplc_pack_be_32u25u), CALL_CORE_FUN(qplc_pack_be_32u26u), CALL_CORE_FUN(qplc_pack_be_32u27u),
+        CALL_CORE_FUN(qplc_pack_be_32u28u), CALL_CORE_FUN(qplc_pack_be_32u29u), CALL_CORE_FUN(qplc_pack_be_32u30u),
+        CALL_CORE_FUN(qplc_pack_be_32u31u), CALL_CORE_FUN(qplc_pack_be_32u32u), CALL_CORE_FUN(qplc_pack_be_8u16u),
+        CALL_CORE_FUN(qplc_pack_be_8u32u), CALL_CORE_FUN(qplc_pack_be_16u32u)};
 
 /*------- End qplc_api.h -------*/
 

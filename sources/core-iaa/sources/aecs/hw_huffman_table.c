@@ -24,11 +24,11 @@
  * @todo
  */
 typedef struct {
-    uint64_t bits;         /**< @todo */
-    uint8_t  *out_buf;     /**< @todo */
-    uint8_t  *start_buf;   /**< @todo */
-    uint8_t  *end_buf;     /**< @todo */
-    uint32_t bit_count;    /**< @todo */
+    uint64_t bits;      /**< @todo */
+    uint8_t* out_buf;   /**< @todo */
+    uint8_t* start_buf; /**< @todo */
+    uint8_t* end_buf;   /**< @todo */
+    uint32_t bit_count; /**< @todo */
 } bitbuf2;
 
 extern const uint8_t own_reversed_bits_table[];
@@ -47,22 +47,18 @@ static inline uint16_t own_bit_reverse(uint16_t code, const uint32_t length) {
  * @param[in]  idx       shift parameter
  *
  */
-static void hw_heapify64(uint64_t *heap_ptr, uint32_t len, uint32_t idx) {
+static void hw_heapify64(uint64_t* heap_ptr, uint32_t len, uint32_t idx) {
     uint32_t child = 0U;
-    uint64_t tmp = 0U;
+    uint64_t tmp   = 0U;
 
     while ((child = 2U * idx) <= len) {
-        if (heap_ptr[child] > heap_ptr[child + 1U]) {
-            child++;
-        }
-        if (heap_ptr[idx] <= heap_ptr[child]) {
-            break;
-        }
+        if (heap_ptr[child] > heap_ptr[child + 1U]) { child++; }
+        if (heap_ptr[idx] <= heap_ptr[child]) { break; }
         // Swap idx and child
-        tmp = heap_ptr[idx];
+        tmp             = heap_ptr[idx];
         heap_ptr[idx]   = heap_ptr[child];
         heap_ptr[child] = tmp;
-        idx = child;
+        idx             = child;
     }
 }
 
@@ -73,7 +69,7 @@ static void hw_heapify64(uint64_t *heap_ptr, uint32_t len, uint32_t idx) {
  * @param[in]  len       array size
  *
  */
-static void hw_build_heap64(uint64_t *heap_ptr, uint32_t len) {
+static void hw_build_heap64(uint64_t* heap_ptr, uint32_t len) {
     uint32_t idx = 0U;
 
     heap_ptr[len + 1U] = UINT64_MAX;
@@ -97,43 +93,38 @@ static void hw_build_heap64(uint64_t *heap_ptr, uint32_t len) {
  * @param[in]   max_code_len   maximum Huffman code length
  *
  */
-void hw_create_huff_tree(uint32_t *histogram_ptr,
-                         uint32_t hist_size,
-                         uint32_t *bl_count_ptr,
-                         uint32_t *codes_ptr,
+void hw_create_huff_tree(uint32_t* histogram_ptr, uint32_t hist_size, uint32_t* bl_count_ptr, uint32_t* codes_ptr,
                          uint32_t max_code_len) {
-    uint64_t heap[HEAP_SIZE];
-    uint64_t *heap_freq_ptr = (uint64_t *) (4U + (uint8_t *) &heap[0]);
-    uint32_t heap_size      = 0U;
-    uint32_t idx            = 0U;
-    uint32_t jdx            = 0U;
-    uint32_t kdx            = 0U;
-    uint32_t child          = 0U;
-    uint32_t d1             = 0U;
-    uint32_t d2             = 0U;
-    uint32_t code_len       = 0U;
-    uint64_t h1             = 0U;
-    uint64_t h2             = 0U;
-    uint64_t h_new          = 0U;
-    uint32_t node_ptr       = NODE_START;
+    uint64_t  heap[HEAP_SIZE];
+    uint64_t* heap_freq_ptr = (uint64_t*)(4U + (uint8_t*)&heap[0]);
+    uint32_t  heap_size     = 0U;
+    uint32_t  idx           = 0U;
+    uint32_t  jdx           = 0U;
+    uint32_t  kdx           = 0U;
+    uint32_t  child         = 0U;
+    uint32_t  d1            = 0U;
+    uint32_t  d2            = 0U;
+    uint32_t  code_len      = 0U;
+    uint64_t  h1            = 0U;
+    uint64_t  h2            = 0U;
+    uint64_t  h_new         = 0U;
+    uint32_t  node_ptr      = NODE_START;
 
     heap_size = 0U;
 
-    for (idx       = 0U; idx < hist_size; idx++) {
-        if (histogram_ptr[idx] != 0U) {
-            heap[++heap_size] = (((uint64_t) histogram_ptr[idx]) << FREQ_SHIFT) | idx;
-        }
+    for (idx = 0U; idx < hist_size; idx++) {
+        if (histogram_ptr[idx] != 0U) { heap[++heap_size] = (((uint64_t)histogram_ptr[idx]) << FREQ_SHIFT) | idx; }
     }
 
     // make sure heap has at least two elements in it
     if (2U > heap_size) {
         if (0U == heap_size) {
-            heap[1] = OWN_ONE_64U << FREQ_SHIFT;
-            heap[2] = (OWN_ONE_64U << FREQ_SHIFT) | 1U;
+            heap[1]   = OWN_ONE_64U << FREQ_SHIFT;
+            heap[2]   = (OWN_ONE_64U << FREQ_SHIFT) | 1U;
             heap_size = 2U;
         } else {
             // heap size == 1
-            heap[2] = (0U == histogram_ptr[0]) ? OWN_ONE_64U << FREQ_SHIFT : (OWN_ONE_64U << FREQ_SHIFT) | 1U;
+            heap[2]   = (0U == histogram_ptr[0]) ? OWN_ONE_64U << FREQ_SHIFT : (OWN_ONE_64U << FREQ_SHIFT) | 1U;
             heap_size = 2U;
         }
     }
@@ -141,41 +132,39 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
     hw_build_heap64(heap, heap_size);
 
     do {
-        h1 = heap[1];
+        h1                = heap[1];
         heap[1]           = heap[heap_size];
         heap[heap_size--] = UINT64_MAX;
         hw_heapify64(heap, heap_size, 1U);
 
-        h2 = heap[1];
-        heap[node_ptr]      = (uint32_t) h1;
-        heap[node_ptr - 1U] = (uint32_t) h2;
+        h2                  = heap[1];
+        heap[node_ptr]      = (uint32_t)h1;
+        heap[node_ptr - 1U] = (uint32_t)h2;
 
         h_new = (h1 + h2) & FREQ_MASK_HI;
-        d1    = (uint32_t) h1;
-        d2    = (uint32_t) h2;
-        if (d1 > d2) {
-            h2 = h1;
-        }
+        d1    = (uint32_t)h1;
+        d2    = (uint32_t)h2;
+        if (d1 > d2) { h2 = h1; }
         h_new |= node_ptr | ((h2 + DEPTH_1) & DEPTH_MASK_HI);
 
         node_ptr -= 2U;
         heap[1] = h_new;
         hw_heapify64(heap, heap_size, 1U);
     } while (heap_size > 1U);
-    heap[node_ptr] = (uint32_t) heap[1];
+    heap[node_ptr] = (uint32_t)heap[1];
 
     // compute code lengths and code length counts
     code_len = 0U;
     jdx      = node_ptr;
     for (idx = node_ptr; idx <= NODE_START; idx++) {
-        child = (uint16_t) heap[idx];
+        child = (uint16_t)heap[idx];
         if (MAX_HEAP < child) {
-            d1 = 1U + *(uint32_t *) &(heap_freq_ptr[idx]);
-            *(uint32_t *) &(heap_freq_ptr[child])      = d1;
-            *(uint32_t *) &(heap_freq_ptr[child - 1U]) = d1;
+            d1                                       = 1U + *(uint32_t*)&(heap_freq_ptr[idx]);
+            *(uint32_t*)&(heap_freq_ptr[child])      = d1;
+            *(uint32_t*)&(heap_freq_ptr[child - 1U]) = d1;
         } else {
             heap[jdx++] = heap[idx];
-            d1 = *(uint32_t *) &(heap_freq_ptr[idx]);
+            d1          = *(uint32_t*)&(heap_freq_ptr[idx]);
             while (code_len < d1) {
                 code_len++;
                 heap[code_len] = 0U;
@@ -187,46 +176,40 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
     if (code_len > max_code_len) {
         while (code_len > max_code_len) {
             for (idx = max_code_len - 1U; idx != 0U; idx--) {
-                if (0U != heap[idx]) {
-                    break;
-                }
+                if (0U != heap[idx]) { break; }
             }
             heap[idx]--;
             heap[idx + 1U] += 2U;
             heap[code_len - 1U]++;
             heap[code_len] -= 2U;
-            if (0U == heap[code_len]) {
-                code_len--;
-            }
+            if (0U == heap[code_len]) { code_len--; }
         }
 
         for (idx = 1U; idx <= code_len; idx++) {
-            bl_count_ptr[idx] = (uint32_t) (heap[idx]);
+            bl_count_ptr[idx] = (uint32_t)(heap[idx]);
         }
         for (; idx <= max_code_len; idx++) {
             bl_count_ptr[idx] = 0U;
         }
-        for (kdx = 1U; heap[kdx] == 0U; kdx++) {
-        }
+        for (kdx = 1U; heap[kdx] == 0U; kdx++) {}
         for (idx = node_ptr; idx < jdx; idx++) {
-            *(uint32_t *) &(heap_freq_ptr[idx]) = kdx;
+            *(uint32_t*)&(heap_freq_ptr[idx]) = kdx;
             heap[kdx]--;
-            for (; heap[kdx] == 0U; kdx++) {
-            }
+            for (; heap[kdx] == 0U; kdx++) {}
         }
     } else {
         for (idx = 1U; idx <= code_len; idx++) {
-            bl_count_ptr[idx] = (uint32_t) (heap[idx]);
+            bl_count_ptr[idx] = (uint32_t)(heap[idx]);
         }
         for (; idx <= max_code_len; idx++) {
             bl_count_ptr[idx] = 0U;
         }
     }
 
-    call_c_set_zeros_uint8_t((uint8_t *) codes_ptr, hist_size * sizeof(*codes_ptr));
+    call_c_set_zeros_uint8_t((uint8_t*)codes_ptr, hist_size * sizeof(*codes_ptr));
     for (idx = node_ptr; idx < jdx; idx++) {
-        h1 = heap[idx];
-        codes_ptr[(uint32_t) h1] = (uint32_t) (h1 >> 32U);
+        h1                      = heap[idx];
+        codes_ptr[(uint32_t)h1] = (uint32_t)(h1 >> 32U);
     }
 }
 
@@ -245,7 +228,8 @@ void hw_create_huff_tree(uint32_t *histogram_ptr,
  * @param[out]  max_code_ptr  pointer to calculated max code value. Can be set to NULL to ignore max code value
  *
  */
-void hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_count_ptr, uint32_t max_code_len, uint32_t *max_code_ptr) {
+void hw_compute_codes(uint32_t* codes_ptr, uint32_t num_codes, uint32_t* bl_count_ptr, uint32_t max_code_len,
+                      uint32_t* max_code_ptr) {
     uint32_t next_code[MAX_CODE_LEN + 1U];
     uint32_t code     = 0U;
     uint32_t max_code = 0U;
@@ -253,11 +237,11 @@ void hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_coun
     bl_count_ptr[0] = 0U;
 
     for (uint32_t bits = 1U; bits <= max_code_len; bits++) {
-        code = (code + bl_count_ptr[bits - 1U]) << 1U;
+        code            = (code + bl_count_ptr[bits - 1U]) << 1U;
         next_code[bits] = code;
     }
 
-    for (uint32_t idx  = 0U; idx < num_codes; idx++) {
+    for (uint32_t idx = 0U; idx < num_codes; idx++) {
         code = codes_ptr[idx];
         if (0U != code) {
             codes_ptr[idx] = (code << 15U) | next_code[code];
@@ -267,16 +251,14 @@ void hw_compute_codes(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *bl_coun
     }
 
     // if max_code is needed, return it.
-    if (max_code_ptr) {
-        *max_code_ptr = max_code;
-    }
+    if (max_code_ptr) { *max_code_ptr = max_code; }
 }
 
 /**
  *  @brief helper run-length encoding
  *  @todo
  */
-static uint16_t *hw_write_rl(uint16_t *out_ptr, uint16_t last_len, uint32_t run_len, uint32_t *counts_ptr) {
+static uint16_t* hw_write_rl(uint16_t* out_ptr, uint16_t last_len, uint32_t run_len, uint32_t* counts_ptr) {
     if (0U == last_len) {
         while (138U < run_len) {
             *out_ptr++ = 18U | ((138U - 11U) << 8U);
@@ -342,18 +324,18 @@ static uint16_t *hw_write_rl(uint16_t *out_ptr, uint16_t last_len, uint32_t run_
  * @return number of symbols in dst_ptr
  *
  */
-uint32_t hw_rl_encode(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *counts_ptr, uint16_t *dst_ptr) {
-    uint32_t idx      = 0U;
-    uint32_t run_len  = 0U;
-    uint16_t *out_ptr = NULL;
-    uint16_t last_len = 0U;
-    uint16_t len      = 0U;
+uint32_t hw_rl_encode(uint32_t* codes_ptr, uint32_t num_codes, uint32_t* counts_ptr, uint16_t* dst_ptr) {
+    uint32_t  idx      = 0U;
+    uint32_t  run_len  = 0U;
+    uint16_t* out_ptr  = NULL;
+    uint16_t  last_len = 0U;
+    uint16_t  len      = 0U;
 
     out_ptr  = dst_ptr;
-    last_len = (uint16_t) (codes_ptr[0] >> 15U);
+    last_len = (uint16_t)(codes_ptr[0] >> 15U);
     run_len  = 1U;
     for (idx = 1U; idx < num_codes; idx++) {
-        len = (uint16_t) (codes_ptr[idx] >> 15U);
+        len = (uint16_t)(codes_ptr[idx] >> 15U);
         if (len == last_len) {
             run_len++;
             continue;
@@ -362,9 +344,9 @@ uint32_t hw_rl_encode(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *counts_
         last_len = len;
         run_len  = 1;
     }
-    out_ptr  = hw_write_rl(out_ptr, last_len, run_len, counts_ptr);
+    out_ptr = hw_write_rl(out_ptr, last_len, run_len, counts_ptr);
 
-    return (uint32_t) (out_ptr - dst_ptr);
+    return (uint32_t)(out_ptr - dst_ptr);
 }
 
 /**
@@ -372,7 +354,7 @@ uint32_t hw_rl_encode(uint32_t *codes_ptr, uint32_t num_codes, uint32_t *counts_
  * @todo
  *
  */
-static void hw_bitbuf_2_write(bitbuf2 *bb_ptr, uint64_t code, uint32_t code_len) {
+static void hw_bitbuf_2_write(bitbuf2* bb_ptr, uint64_t code, uint32_t code_len) {
     uint32_t bit_count = 0U;
     uint32_t bytes     = 0U;
     uint32_t bits      = 0U;
@@ -381,10 +363,10 @@ static void hw_bitbuf_2_write(bitbuf2 *bb_ptr, uint64_t code, uint32_t code_len)
     code <<= bit_count;
     bb_ptr->bits |= code;
     bit_count += code_len;
-    *(uint64_t *) (bb_ptr->out_buf) = bb_ptr->bits;
-    bytes = bit_count >> 3U;
+    *(uint64_t*)(bb_ptr->out_buf) = bb_ptr->bits;
+    bytes                         = bit_count >> 3U;
     bb_ptr->out_buf += bytes;
-    bits = bytes * 8U;
+    bits              = bytes * 8U;
     bb_ptr->bit_count = bit_count - bits;
     bb_ptr->bits >>= bits;
 }
@@ -393,43 +375,40 @@ static void hw_bitbuf_2_write(bitbuf2 *bb_ptr, uint64_t code, uint32_t code_len)
  * @brief Helper for creating deflate header
  * @todo
  */
-static uint32_t hw_bitbuf_2_bits_written(bitbuf2 *bb_ptr) {
-    return (8U * (uint32_t) (bb_ptr->out_buf - bb_ptr->start_buf) + bb_ptr->bit_count);
+static uint32_t hw_bitbuf_2_bits_written(bitbuf2* bb_ptr) {
+    return (8U * (uint32_t)(bb_ptr->out_buf - bb_ptr->start_buf) + bb_ptr->bit_count);
 }
 
 /**
  * @brief Helper for creating deflate header
  * @todo
  */
-static void hw_bitbuf_2_flush(bitbuf2 *bb_ptr) {
+static void hw_bitbuf_2_flush(bitbuf2* bb_ptr) {
     uint32_t bit_count = 0U;
     uint32_t bytes     = 0U;
 
     bit_count = bb_ptr->bit_count;
     if (bit_count != 0U) {
-        bytes = (bit_count + 7U) / 8U;
-        *(uint64_t *) (bb_ptr->out_buf) = bb_ptr->bits;
+        bytes                         = (bit_count + 7U) / 8U;
+        *(uint64_t*)(bb_ptr->out_buf) = bb_ptr->bits;
         bb_ptr->out_buf += bytes;
-        bb_ptr->bit_count               = 0U;
-        bb_ptr->bits                    = 0U;
+        bb_ptr->bit_count = 0U;
+        bb_ptr->bits      = 0U;
     }
 }
 
 /**
  * @todo
  */
-static const uint32_t cl_perm[19] = {16U, 17U, 18U, 0U, 8U, 7U, 9U, 6U, 10U, 5U, 11U, 4U, 12U, 3U, 13U, 2U, 14U, 1U, 15U};
+static const uint32_t cl_perm[19] = {16U, 17U, 18U, 0U, 8U,  7U, 9U,  6U, 10U, 5U,
+                                     11U, 4U,  12U, 3U, 13U, 2U, 14U, 1U, 15U};
 
 /**
  * @brief helper to create deflate header
  * @todo
  */
-uint32_t hw_create_header(bitbuf2 *bb_ptr,
-                          uint32_t *ll_codes_ptr,
-                          uint32_t num_ll_codes,
-                          uint32_t *d_codes_ptr,
-                          uint32_t num_d_codes,
-                          uint32_t end_of_block) {
+uint32_t hw_create_header(bitbuf2* bb_ptr, uint32_t* ll_codes_ptr, uint32_t num_ll_codes, uint32_t* d_codes_ptr,
+                          uint32_t num_d_codes, uint32_t end_of_block) {
     uint32_t       cl_counts[19];
     uint32_t       idx           = 0U;
     uint32_t       num_cl_tokens = 0U;
@@ -437,14 +416,14 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
     uint32_t       code          = 0U;
     uint32_t       bit_count     = 0U;
     uint16_t       cl_tokens[286U + 30U];
-    uint16_t       token         = 0U;
-    uint16_t       len           = 0U;
+    uint16_t       token = 0U;
+    uint16_t       len   = 0U;
     uint32_t       bl_count[MAX_CODE_LEN + 1U];
     uint32_t       cl_codes[19];
     uint64_t       data          = 0U;
     const uint32_t extra_bits[3] = {2U, 3U, 7U};
 
-    call_c_set_zeros_uint8_t((uint8_t *) cl_counts, sizeof(cl_counts));
+    call_c_set_zeros_uint8_t((uint8_t*)cl_counts, sizeof(cl_counts));
     num_cl_tokens = hw_rl_encode(ll_codes_ptr, num_ll_codes, cl_counts, cl_tokens);
     num_cl_tokens += hw_rl_encode(d_codes_ptr, num_d_codes, cl_counts, cl_tokens + num_cl_tokens);
 
@@ -455,7 +434,7 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
     code = bl_count[0] = 0U;
 
     for (idx = 1U; idx <= MAX_BL_CODE_LEN; idx++) {
-        code = (code + bl_count[idx - 1U]) << 1U;
+        code           = (code + bl_count[idx - 1U]) << 1U;
         next_code[idx] = code;
     }
     for (idx = 0U; idx < 19U; idx++) {
@@ -466,34 +445,28 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
         }
     }
     for (max_cl_code = 18U; max_cl_code >= 4U; max_cl_code--) {
-        if (0 != cl_codes[cl_perm[max_cl_code]]) {
-            break;
-        }
+        if (0 != cl_codes[cl_perm[max_cl_code]]) { break; }
     }
     // 3 <= max_cl_code <= 18  (4 <= num_cl_code <= 19)
 
     bit_count = hw_bitbuf_2_bits_written(bb_ptr);
     // Actually write header
-    data      = (end_of_block ? 5U : 4U) |
-                ((num_ll_codes - 257U) << 3U) |
-                ((num_d_codes - 1U) << (3U + 5U)) |
-                ((max_cl_code - 3U) << (3U + 5U + 5U));
+    data = (end_of_block ? 5U : 4U) | ((num_ll_codes - 257U) << 3U) | ((num_d_codes - 1U) << (3U + 5U)) |
+           ((max_cl_code - 3U) << (3U + 5U + 5U));
     // Write the first CL code here, because bitbuf2Write can only safely write up to 56 bits
     data |= (cl_codes[cl_perm[0]] >> 24U) << (3U + 5U + 5U + 4U);
     hw_bitbuf_2_write(bb_ptr, data, 3U + 5U + 5U + 4U + 3U);
-    data     = 0U;
+    data = 0U;
     for (idx = max_cl_code; idx >= 1U; idx--) {
         data = (data << 3U) | (cl_codes[cl_perm[idx]] >> 24U);
     }
     hw_bitbuf_2_write(bb_ptr, data, 3U * (max_cl_code));
-    for (idx  = 0U; idx < num_cl_tokens; idx++) {
+    for (idx = 0U; idx < num_cl_tokens; idx++) {
         token = cl_tokens[idx];
         len   = token & 0x1FU;
         code  = cl_codes[len];
         hw_bitbuf_2_write(bb_ptr, code & 0xFFFFU, code >> 24U);
-        if (len > 15U) {
-            hw_bitbuf_2_write(bb_ptr, token >> 8U, extra_bits[len - 16]);
-        }
+        if (len > 15U) { hw_bitbuf_2_write(bb_ptr, token >> 8U, extra_bits[len - 16]); }
     }
     bit_count = hw_bitbuf_2_bits_written(bb_ptr) - bit_count;
 
@@ -514,13 +487,8 @@ uint32_t hw_create_header(bitbuf2 *bb_ptr,
  * @return Number of valid bits in output accumulator
  *
  */
-uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
-                               uint32_t *d_codes_ptr,
-                               uint8_t *out_accum_ptr,
-                               uint32_t oa_size,
-                               uint32_t oa_valid_bits,
-                               uint32_t *ll_hist_ptr,
-                               uint32_t *d_hist_ptr) {
+uint32_t hw_create_huff_tables(uint32_t* ll_codes_ptr, uint32_t* d_codes_ptr, uint8_t* out_accum_ptr, uint32_t oa_size,
+                               uint32_t oa_valid_bits, uint32_t* ll_hist_ptr, uint32_t* d_hist_ptr) {
     uint32_t       bl_count[MAX_CODE_LEN + 1U];
     uint32_t       max_ll_code = 0U;
     uint32_t       max_d_code  = 0U;
@@ -529,12 +497,10 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
     uint32_t       byte_off    = 0U;
     const uint32_t eob         = 0U;
     bitbuf2        bb_ptr;
-    uint32_t       excess      = 0U;
+    uint32_t       excess = 0U;
 
     // Make sure EOB is present
-    if (ll_hist_ptr[256] == 0U) {
-        ll_hist_ptr[256] = 1U;
-    }
+    if (ll_hist_ptr[256] == 0U) { ll_hist_ptr[256] = 1U; }
 
     hw_create_huff_tree(ll_hist_ptr, 286U, bl_count, ll_codes_ptr, MAX_CODE_LEN);
     hw_compute_codes(ll_codes_ptr, 286U, bl_count, MAX_CODE_LEN, &max_ll_code);
@@ -546,9 +512,9 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
     out_accum_ptr += byte_off;
     oa_size -= byte_off;
     // Excess bits
-    excess   = bit_off & ~7U;
+    excess = bit_off & ~7U;
 
-    bb_ptr.bits      = (*(uint64_t *) out_accum_ptr >> excess) & ((1U << (bit_off & 7U)) - 1U);
+    bb_ptr.bits      = (*(uint64_t*)out_accum_ptr >> excess) & ((1U << (bit_off & 7U)) - 1U);
     bb_ptr.bit_count = bit_off - excess;
     excess /= 8U;
     bb_ptr.start_buf = bb_ptr.out_buf = out_accum_ptr + excess;
@@ -569,7 +535,7 @@ uint32_t hw_create_huff_tables(uint32_t *ll_codes_ptr,
  * @param[in]   ll_hist_ptr   pointer to literal/length histogram
  *
  */
-void hw_create_huff_tables_no_hdr(uint32_t *ll_codes_ptr, uint32_t *ll_hist_ptr) {
+void hw_create_huff_tables_no_hdr(uint32_t* ll_codes_ptr, uint32_t* ll_hist_ptr) {
     uint32_t bl_count[MAX_CODE_LEN + 1U];
 
     hw_create_huff_tree(ll_hist_ptr, 286U, bl_count, ll_codes_ptr, MAX_CODE_LEN);

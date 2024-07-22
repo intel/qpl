@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
- /**
+/**
   * @brief Contains implementation of functions for Intel® Query Processing Library (Intel® QPL)
   * memory group functions
   *
@@ -23,8 +23,7 @@
 
 // ********************** Zero ****************************** //
 
-OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t* dst_ptr, uint32_t length))
-{
+OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
     uint32_t length_64u = length / sizeof(uint64_t);
 
     uint64_t* data_64u_ptr = (uint64_t*)dst_ptr;
@@ -57,13 +56,10 @@ OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t* dst_ptr, uint32_t length))
         dst_ptr += 2;
     }
 
-    if (remaining_bytes) {
-        *dst_ptr = 0u;
-    }
+    if (remaining_bytes) { *dst_ptr = 0u; }
 }
 
-OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t* dst_ptr, uint32_t len))
-{
+OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t * dst_ptr, uint32_t len)) {
     uint32_t length_512u = len / sizeof(__m512i);
     while (length_512u > 0) {
         _mm512_storeu_si512(dst_ptr, _mm512_setzero_si512());
@@ -75,20 +71,17 @@ OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t* dst_ptr, uint32_t len
     own_zero_8u(dst_ptr, remaining_bytes);
 }
 
-OWN_QPLC_INLINE(uint32_t, own_get_align, (uint64_t ptr))
-{
+OWN_QPLC_INLINE(uint32_t, own_get_align, (uint64_t ptr)) {
     uint64_t aligned_ptr = (ptr + 63u) & ~63LLu;
     return (uint32_t)(aligned_ptr - ptr);
 }
 
-OWN_QPLC_INLINE(void, k0_qplc_zero_8u_tail, (uint8_t* dst_ptr, uint32_t len))
-{
+OWN_QPLC_INLINE(void, k0_qplc_zero_8u_tail, (uint8_t * dst_ptr, uint32_t len)) {
     __mmask64 store_mask = (1LLu << len) - 1u;
     _mm512_mask_storeu_epi8(dst_ptr, store_mask, _mm512_setzero_si512());
 }
 
-OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length))
-{
+OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
     if (length < 4096u) {
         k0_qplc_zero_8u_unaligned(dst_ptr, length);
         return;
@@ -111,9 +104,9 @@ OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length))
     k0_qplc_zero_8u_tail(dst_ptr, remaining_bytes);
 }
 
-OWN_QPLC_INLINE(void, own_copy_8u_unrolled, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length)) {
-    const uint64_t *src_64u_ptr = (uint64_t *)src_ptr;
-    uint64_t *dst_64u_ptr = (uint64_t *)dst_ptr;
+OWN_QPLC_INLINE(void, own_copy_8u_unrolled, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
+    const uint64_t* src_64u_ptr = (uint64_t*)src_ptr;
+    uint64_t*       dst_64u_ptr = (uint64_t*)dst_ptr;
 
     uint32_t length_64u = length / sizeof(uint64_t);
     uint32_t tail_start = length_64u * sizeof(uint64_t);
@@ -138,7 +131,7 @@ OWN_QPLC_INLINE(void, own_copy_8u_unrolled, (const uint8_t *src_ptr, uint8_t *ds
     }
 }
 
-OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length)) {
+OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
     if (length < 64u) {
         own_copy_8u_unrolled(src_ptr, dst_ptr, length);
         return;
@@ -147,24 +140,24 @@ OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, ui
     // SIMD512 intrinsic code here is slower than AVX2 intrinsic code
     // TODO: add version with stream for big sizes and calculate cache
     uint32_t length256u = length / sizeof(__m256i);
-    uint32_t tail = length % sizeof(__m256i);
+    uint32_t tail       = length % sizeof(__m256i);
     while (length256u > 3u) {
-        __m256i zmm0 = _mm256_loadu_si256((const __m256i *)src_ptr);
-        __m256i zmm1 = _mm256_loadu_si256((const __m256i *)(src_ptr + 32u));
-        __m256i zmm2 = _mm256_loadu_si256((const __m256i *)(src_ptr + 64u));
-        __m256i zmm3 = _mm256_loadu_si256((const __m256i *)(src_ptr + 96u));
-        _mm256_storeu_si256((__m256i *)dst_ptr, zmm0);
-        _mm256_storeu_si256((__m256i *)(dst_ptr + 32u), zmm1);
-        _mm256_storeu_si256((__m256i *)(dst_ptr + 64u), zmm2);
-        _mm256_storeu_si256((__m256i *)(dst_ptr + 96u), zmm3);
+        __m256i zmm0 = _mm256_loadu_si256((const __m256i*)src_ptr);
+        __m256i zmm1 = _mm256_loadu_si256((const __m256i*)(src_ptr + 32u));
+        __m256i zmm2 = _mm256_loadu_si256((const __m256i*)(src_ptr + 64u));
+        __m256i zmm3 = _mm256_loadu_si256((const __m256i*)(src_ptr + 96u));
+        _mm256_storeu_si256((__m256i*)dst_ptr, zmm0);
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 32u), zmm1);
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 64u), zmm2);
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 96u), zmm3);
         src_ptr += 128u;
         dst_ptr += 128u;
         length256u -= 4;
     }
 
     while (length256u > 0u) {
-        __m256i zmm0 = _mm256_loadu_si256((const __m256i *)src_ptr);
-        _mm256_storeu_si256((__m256i *)dst_ptr, zmm0);
+        __m256i zmm0 = _mm256_loadu_si256((const __m256i*)src_ptr);
+        _mm256_storeu_si256((__m256i*)dst_ptr, zmm0);
         src_ptr += 32u;
         dst_ptr += 32u;
         --length256u;
@@ -174,15 +167,14 @@ OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, ui
 }
 
 OWN_OPT_FUN(void, k0_qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
-    __mmask64   msk64;
+    __mmask64 msk64;
 
     if (length <= 64) {
         if (length) {
             msk64 = (uint64_t)((int64_t)(-1)) >> (64 - length);
             _mm512_mask_storeu_epi8((void*)dst_ptr, msk64, _mm512_maskz_loadu_epi8(msk64, (void const*)src_ptr));
         }
-    }
-    else {
+    } else {
         uint32_t rem;
         if (OWN_QPLC_UINT_PTR(src_ptr) < OWN_QPLC_UINT_PTR(dst_ptr)) {
             src_ptr += length;
@@ -204,14 +196,14 @@ OWN_OPT_FUN(void, k0_qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, ui
             }
             if (rem) {
                 msk64 = (uint64_t)((int64_t)(-1)) << (64 - rem);
-                _mm512_mask_storeu_epi8((void*)(dst_ptr - 64), msk64, _mm512_maskz_loadu_epi8(msk64, (void const*)(src_ptr - 64)));
+                _mm512_mask_storeu_epi8((void*)(dst_ptr - 64), msk64,
+                                        _mm512_maskz_loadu_epi8(msk64, (void const*)(src_ptr - 64)));
             }
-        }
-        else {
+        } else {
             rem = 63 & (uint32_t)((uint64_t)dst_ptr);
             if (rem) {
                 msk64 = (uint64_t)((int64_t)(-1)) >> rem;
-                rem = 64 - rem;
+                rem   = 64 - rem;
                 _mm512_mask_storeu_epi8((void*)dst_ptr, msk64, _mm512_maskz_loadu_epi8(msk64, (void const*)src_ptr));
                 src_ptr += rem;
                 dst_ptr += rem;
@@ -224,7 +216,8 @@ OWN_OPT_FUN(void, k0_qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, ui
             }
             if (rem) {
                 msk64 = (uint64_t)((int64_t)(-1)) >> (64 - rem);
-                _mm512_mask_storeu_epi8((void*)(dst_ptr + length), msk64, _mm512_maskz_loadu_epi8(msk64, (void const*)(src_ptr + length)));
+                _mm512_mask_storeu_epi8((void*)(dst_ptr + length), msk64,
+                                        _mm512_maskz_loadu_epi8(msk64, (void const*)(src_ptr + length)));
             }
         }
     }

@@ -18,10 +18,10 @@
 extern "C" {
 #endif
 
-#if defined( _WIN32 ) || defined ( _WIN64 )
-#define QPL_CORE_STDCALL  __stdcall    /**< Set calling convention (ABI) for Windows (for public API) */
+#if defined(_WIN32) || defined(_WIN64)
+#define QPL_CORE_STDCALL __stdcall /**< Set calling convention (ABI) for Windows (for public API) */
 #else
-#define QPL_CORE_STDCALL               /**< Stdcall is default ABI for Linux */
+#define QPL_CORE_STDCALL /**< Stdcall is default ABI for Linux */
 #endif
 
 #define K0 2
@@ -37,7 +37,7 @@ extern "C" {
 #endif
 
 #define CORE_FUN_NAME_HELPER(a, b) a##b
-#define CORE_FUN_NAME(a, b) CORE_FUN_NAME_HELPER(a, b)
+#define CORE_FUN_NAME(a, b)        CORE_FUN_NAME_HELPER(a, b)
 
 /**
  * @brief Defines public Intel QPL core function API declaration
@@ -55,8 +55,8 @@ extern "C" {
 
 #define CALL_CORE_FUN(name) CORE_FUN_NAME(ARCH, name)
 
-#define OWN_BYTE_BIT_MASK 7U                    /**< Mask for max bit index in a byte */
-#define OWN_BITS_2_BYTE(x) (((x) + 7U) >> 3U)   /**< Convert a number of bits to a number of bytes */
+#define OWN_BYTE_BIT_MASK           7U                 /**< Mask for max bit index in a byte */
+#define OWN_BITS_2_BYTE(x)          (((x) + 7U) >> 3U) /**< Convert a number of bits to a number of bytes */
 #define OWN_BITS_2_BYTE_TRUNCATE(x) ((x) >> 3U) /**< Convert a number of bits to a number of bytes with truncation */
 
 /**

@@ -15,14 +15,14 @@ static inline auto bytes_per_mini_block(const mini_block_size_t mini_block_size)
     return 1U << (mini_block_size + minimal_mini_block_size_power);
 }
 
-static inline auto get_complete_mini_blocks_number(const uint32_t source_size,
+static inline auto get_complete_mini_blocks_number(const uint32_t          source_size,
                                                    const mini_block_size_t mini_block_size) noexcept -> uint32_t {
     const uint32_t power_of_mini_block_size = mini_block_size + minimal_mini_block_size_power;
 
     return (source_size) >> power_of_mini_block_size;
 }
 
-static inline auto reset_inflate_state(isal_inflate_state *state) {
+static inline auto reset_inflate_state(isal_inflate_state* state) {
     state->block_state            = ISAL_BLOCK_NEW_HDR;
     state->dict_length            = 0U;
     state->bfinal                 = 0U;

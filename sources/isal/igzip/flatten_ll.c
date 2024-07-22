@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-
 #include "flatten_ll.h"
 
-void qpl_flatten_ll(uint32_t * ll_hist)
-{
-    uint32_t i = 0U, j = 0U;
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void qpl_flatten_ll(uint32_t* ll_hist) {
+    uint32_t  i = 0U, j = 0U;
     uint32_t *s = ll_hist, x = 0U, *p = NULL;
 
     s[265] += s[266];
@@ -23,7 +22,7 @@ void qpl_flatten_ll(uint32_t * ll_hist)
     s[270] = s[277] + s[278] + s[279] + s[280];
     s[271] = s[281] + s[282] + s[283] + s[284];
     s[272] = s[285] + s[286] + s[287] + s[288];
-    p = s + 289;
+    p      = s + 289;
     for (i = 273; i < 277; i++) {
         x = *(p++);
         for (j = 1; j < 8; j++)

@@ -17,7 +17,7 @@
 // ml
 #include "compression/huffman_table/huffman_table.hpp"
 
-template<qpl::ml::compression::compression_algorithm_e algorithm>
+template <qpl::ml::compression::compression_algorithm_e algorithm>
 auto check_huffman_table_is_correct(qpl_huffman_table_t table) {
     auto meta = reinterpret_cast<qpl::ml::compression::huffman_table_meta_t*>(table);
 
@@ -28,7 +28,7 @@ auto check_huffman_table_is_correct(qpl_huffman_table_t table) {
     }
 }
 
-template<qpl::ml::compression::compression_algorithm_e algorithm>
+template <qpl::ml::compression::compression_algorithm_e algorithm>
 auto use_as_huffman_table(qpl_huffman_table_t table) {
     return reinterpret_cast<qpl::ml::compression::huffman_table_t<algorithm>*>(table);
 }

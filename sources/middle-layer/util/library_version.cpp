@@ -8,12 +8,12 @@
 
 namespace qpl {
 
-auto get_library_version() -> const char * {
+auto get_library_version() -> const char* {
     return QPL_VERSION;
 }
 
-}
+} // namespace qpl
 
-extern "C" const char *qpl_get_library_version() {
+extern "C" const char* qpl_get_library_version() {
     return qpl::get_library_version();
 }

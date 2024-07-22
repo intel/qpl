@@ -38,7 +38,7 @@ namespace qpl::ml::compression {
     return mini_block_size_;
 }
 
-void compression_stream::update_checksum(uint8_t *const begin, uint32_t size) noexcept {
+void compression_stream::update_checksum(uint8_t* const begin, uint32_t size) noexcept {
     checksum_.crc32 = util::crc32_gzip(begin, begin + size, checksum_.crc32);
 }
 

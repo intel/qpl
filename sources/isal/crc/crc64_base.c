@@ -6,6 +6,8 @@
 
 #include "crc64.h"
 
+// clang-format off
+
 static const uint64_t crc64_ecma_refl_table[256] = {
     0x0000000000000000ULL, 0xb32e4cbe03a75f6fULL,
     0xf4843657a840a05bULL, 0x47aa7ae9abe7ff34ULL,
@@ -792,73 +794,69 @@ static const uint64_t crc64_jones_norm_table[256] = {
     0xb972e5c276c2d83dULL, 0x14e137f7e20bed94ULL
 };
 
-uint64_t qpl_crc64_ecma_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
+// clang-format on
+
+uint64_t qpl_crc64_ecma_refl_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
     uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_ecma_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
+        crc          = crc64_ecma_refl_table[(uint8_t)crc ^ byte] ^ (crc >> 8);
     }
 
     return ~crc;
 }
 
-uint64_t qpl_crc64_ecma_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
-    uint64_t  crc = ~seed;
+uint64_t qpl_crc64_ecma_norm_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
+    uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_ecma_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
+        crc          = crc64_ecma_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
     }
 
     return ~crc;
 }
 
-uint64_t qpl_crc64_iso_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
+uint64_t qpl_crc64_iso_refl_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
     uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_iso_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
+        crc          = crc64_iso_refl_table[(uint8_t)crc ^ byte] ^ (crc >> 8);
     }
 
     return ~crc;
 }
 
-uint64_t qpl_crc64_iso_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
+uint64_t qpl_crc64_iso_norm_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
     uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_iso_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
+        crc          = crc64_iso_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
     }
 
     return ~crc;
 }
 
-uint64_t qpl_crc64_jones_refl_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
+uint64_t qpl_crc64_jones_refl_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
     uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_jones_refl_table[(uint8_t) crc ^ byte] ^ (crc >> 8);
+        crc          = crc64_jones_refl_table[(uint8_t)crc ^ byte] ^ (crc >> 8);
     }
 
     return ~crc;
 }
 
-uint64_t qpl_crc64_jones_norm_base(uint64_t seed, const uint8_t * buf, uint64_t len)
-{
+uint64_t qpl_crc64_jones_norm_base(uint64_t seed, const uint8_t* buf, uint64_t len) {
     uint64_t crc = ~seed;
 
     for (uint64_t i = 0U; i < len; i++) {
         uint8_t byte = buf[i];
-        crc = crc64_jones_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
+        crc          = crc64_jones_norm_table[((crc >> 56) ^ byte) & 0xff] ^ (crc << 8);
     }
 
     return ~crc;
@@ -866,24 +864,24 @@ uint64_t qpl_crc64_jones_norm_base(uint64_t seed, const uint8_t * buf, uint64_t 
 
 struct slver {
     unsigned short snum;
-    unsigned char ver;
-    unsigned char core;
+    unsigned char  ver;
+    unsigned char  core;
 };
 
 struct slver qpl_crc64_ecma_refl_base_slver_0000001c;
-struct slver qpl_crc64_ecma_refl_base_slver = { 0x001c, 0x00, 0x00 };
+struct slver qpl_crc64_ecma_refl_base_slver = {0x001c, 0x00, 0x00};
 
 struct slver qpl_crc64_ecma_norm_base_slver_00000019;
-struct slver qpl_crc64_ecma_norm_base_slver = { 0x0019, 0x00, 0x00 };
+struct slver qpl_crc64_ecma_norm_base_slver = {0x0019, 0x00, 0x00};
 
 struct slver qpl_crc64_iso_refl_base_slver_00000022;
-struct slver qpl_crc64_iso_refl_base_slver = { 0x0022, 0x00, 0x00 };
+struct slver qpl_crc64_iso_refl_base_slver = {0x0022, 0x00, 0x00};
 
 struct slver qpl_crc64_iso_norm_base_slver_0000001f;
-struct slver qpl_crc64_iso_norm_base_slver = { 0x001f, 0x00, 0x00 };
+struct slver qpl_crc64_iso_norm_base_slver = {0x001f, 0x00, 0x00};
 
 struct slver qpl_crc64_jones_refl_base_slver_00000028;
-struct slver qpl_crc64_jones_refl_base_slver = { 0x0028, 0x00, 0x00 };
+struct slver qpl_crc64_jones_refl_base_slver = {0x0028, 0x00, 0x00};
 
 struct slver qpl_crc64_jones_norm_base_slver_00000025;
-struct slver qpl_crc64_jones_norm_base_slver = { 0x0025, 0x00, 0x00 };
+struct slver qpl_crc64_jones_norm_base_slver = {0x0025, 0x00, 0x00};

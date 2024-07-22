@@ -13,9 +13,10 @@
 #define QPL_PROJECT_OWN_DEFLATE_JOB_H
 
 #include "qpl/c_api/statistics.h"
-#include "stdbool.h"
-#include "deflate_histogram.h"
+
 #include "bit_writer.h"
+#include "deflate_histogram.h"
+#include "stdbool.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,9 +33,9 @@ typedef struct isal_hufftables isal_huffman_table;
  * @brief Common enumeration that is used for block types definitions
  */
 typedef enum {
-    initial_status = 0U,    /**< Informs that encoding is just starting */
-    final_status   = 1U,    /**< Informs that encoding should be finished */
-    running_status = 2U,    /**< Informs that encoding was already started but is not yet final*/
+    initial_status = 0U, /**< Informs that encoding is just starting */
+    final_status   = 1U, /**< Informs that encoding should be finished */
+    running_status = 2U, /**< Informs that encoding was already started but is not yet final*/
 } own_current_status;
 
 /**
@@ -45,27 +46,27 @@ typedef struct {
     /**
      * Pointer to start of the input bytes that should be encoded
      */
-    uint8_t *lower_bound_ptr;
+    uint8_t* lower_bound_ptr;
 
     /**
      * Pointer to current byte that is being processed
      */
-    uint8_t *current_ptr;
+    uint8_t* current_ptr;
 
     /**
      * Pointer to end of the input bytes that should be encoded
      */
-    uint8_t *upper_bound_ptr;
+    uint8_t* upper_bound_ptr;
 
     /**
      * Pointer to @link own_deflate_histogram @endlink for statistics gathering
      */
-    deflate_histogram_t *histogram_ptr;
+    deflate_histogram_t* histogram_ptr;
 
     /**
      * Pointer to @link isal_huffman_table @endlink for Huffman encoding
      */
-    isal_huffman_table *huffman_table_ptr;
+    isal_huffman_table* huffman_table_ptr;
 
     /**
      * Structure @link own_bit_writer @endlink for writing into output
@@ -101,12 +102,12 @@ typedef struct {
 /**
  * @brief Simple callback that can process information in @link own_deflate_job @endlink
  */
-typedef void (*own_deflate_job_callback)(own_deflate_job *const job_ptr);
+typedef void (*own_deflate_job_callback)(own_deflate_job* const job_ptr);
 
 /**
  * @brief Simple predicate that can perform some simple conditions
  */
-typedef uint8_t (*own_deflate_job_predicate)(own_deflate_job *const job_ptr);
+typedef uint8_t (*own_deflate_job_predicate)(own_deflate_job* const job_ptr);
 
 /**
  * @brief Function type that can be used for matches searching
@@ -118,10 +119,9 @@ typedef uint8_t (*own_deflate_job_predicate)(own_deflate_job *const job_ptr);
  *
  * @return @link own_match @endlink with information about discovered match
  */
-typedef deflate_match_t (*own_deflate_match_finder)(const deflate_hash_table_t *hash_table_ptr,
-                                                    const uint8_t *lower_bound_ptr,
-                                                    const uint8_t *string_ptr,
-                                                    const uint8_t *upper_bound_ptr);
+typedef deflate_match_t (*own_deflate_match_finder)(const deflate_hash_table_t* hash_table_ptr,
+                                                    const uint8_t* lower_bound_ptr, const uint8_t* string_ptr,
+                                                    const uint8_t* upper_bound_ptr);
 
 /**
  * @brief Function type that can be used for literals processing
@@ -130,9 +130,7 @@ typedef deflate_match_t (*own_deflate_match_finder)(const deflate_hash_table_t *
  * @param[in]      upper_bound_ptr  pointer to upper boundary of the processing
  * @param[in]      safe             flag if processing should be done safely or not
  */
-typedef void (*own_deflate_literals_handler)(own_deflate_job *const job_ptr,
-                                             const uint8_t *upper_bound_ptr,
-                                             bool safe);
+typedef void (*own_deflate_literals_handler)(own_deflate_job* const job_ptr, const uint8_t* upper_bound_ptr, bool safe);
 
 /**
  * @brief Function type that can be used for matches processing
@@ -141,8 +139,7 @@ typedef void (*own_deflate_literals_handler)(own_deflate_job *const job_ptr,
  * @param[in]      match             information about found match
  * @param[in]      literals_handler  function that will be used for processing missed literals
  */
-typedef void (*own_deflate_matches_handler)(own_deflate_job *const job_ptr,
-                                            const deflate_match_t match,
+typedef void (*own_deflate_matches_handler)(own_deflate_job* const job_ptr, const deflate_match_t match,
                                             const own_deflate_literals_handler literals_handler);
 
 /* ------ Own functions API ------ */
@@ -153,7 +150,7 @@ typedef void (*own_deflate_matches_handler)(own_deflate_job *const job_ptr,
  * @param[in,out]  job_ptr  pointer to @link own_deflate_job @endlink
  * @param[in]      range    distance on which current_ptr should be moved
  */
-void own_deflate_job_switch_to_next(own_deflate_job *const job_ptr, const uint32_t range);
+void own_deflate_job_switch_to_next(own_deflate_job* const job_ptr, const uint32_t range);
 
 /**
  * @brief Performs common deflate pipeline using given parts for specific tasks
@@ -168,12 +165,10 @@ void own_deflate_job_switch_to_next(own_deflate_job *const job_ptr, const uint32
  * @param[in]      callback          @link own_deflate_job_callback @endlink that will be executed at
  *                                   the end of deflating
  */
-void own_deflate_job_perform(own_deflate_job *const job_ptr,
-                             const own_deflate_match_finder match_finder,
+void own_deflate_job_perform(own_deflate_job* const job_ptr, const own_deflate_match_finder match_finder,
                              const own_deflate_literals_handler literals_handler,
-                             const own_deflate_matches_handler matches_handler,
-                             const own_deflate_job_predicate predicate,
-                             const own_deflate_job_callback callback);
+                             const own_deflate_matches_handler  matches_handler,
+                             const own_deflate_job_predicate predicate, const own_deflate_job_callback callback);
 
 /**
  * @brief Performs statistics gathering in given boundaries for literals, but doesn't update instructions logic field
@@ -184,9 +179,8 @@ void own_deflate_job_perform(own_deflate_job *const job_ptr,
  *
  * @note API of this function should implement @link own_deflate_literals_handler @endlink
  */
-void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job_ptr,
-                                                      const uint8_t *const upper_bound_ptr,
-                                                      bool safe);
+void own_deflate_job_process_literals_no_instructions(own_deflate_job* const job_ptr,
+                                                      const uint8_t* const upper_bound_ptr, bool safe);
 
 /**
  * @brief Performs statistics gathering for the found match could be actually discovered using "lazy" logic
@@ -201,8 +195,7 @@ void own_deflate_job_process_literals_no_instructions(own_deflate_job *const job
  *
  * @note API of this function should implement @link own_deflate_matches_handler @endlink
  */
-void own_deflate_job_process_match_no_instructions(own_deflate_job *const job_ptr,
-                                                   const deflate_match_t match,
+void own_deflate_job_process_match_no_instructions(own_deflate_job* const job_ptr, const deflate_match_t match,
                                                    const own_deflate_literals_handler literals_handler);
 
 /**
@@ -214,8 +207,7 @@ void own_deflate_job_process_match_no_instructions(own_deflate_job *const job_pt
  *
  * @note Sets number of read bytes to zero
  */
-void own_deflate_job_reset_input(own_deflate_job *const job_ptr,
-                                 const uint8_t *const source_ptr,
+void own_deflate_job_reset_input(own_deflate_job* const job_ptr, const uint8_t* const source_ptr,
                                  const uint32_t input_bytes);
 
 /**
@@ -228,18 +220,15 @@ void own_deflate_job_reset_input(own_deflate_job *const job_ptr,
  * @param[in]   output_bytes  number of available output bytes
  * @param[in]   block_status  @link own_current_status @endlink that informs what type of block is being encoded in this job
  */
-void own_initialize_deflate_job(own_deflate_job *const job_ptr,
-                                const uint8_t *const source_ptr,
-                                const uint32_t input_bytes,
-                                const uint8_t *const output_ptr,
-                                const uint32_t output_bytes,
-                                const own_current_status block_status,
+void own_initialize_deflate_job(own_deflate_job* const job_ptr, const uint8_t* const source_ptr,
+                                const uint32_t input_bytes, const uint8_t* const output_ptr,
+                                const uint32_t output_bytes, const own_current_status block_status,
                                 const qpl_statistics_mode statistics_mode);
 
 /**
  * @brief Updates histogram for given @ref own_deflate_job
  */
-void own_update_deflate_histogram_high_level (own_deflate_job *deflate_job_ptr);
+void own_update_deflate_histogram_high_level(own_deflate_job* deflate_job_ptr);
 
 #ifdef __cplusplus
 }

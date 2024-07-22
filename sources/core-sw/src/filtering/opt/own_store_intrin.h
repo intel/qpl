@@ -8,6 +8,7 @@
 #define OWN_STORE_INTRIN_H
 
 #include <stdint.h>
+
 #include "immintrin.h"
 
 // !!!
@@ -24,8 +25,8 @@
  *
  * @return  void
  */
-static inline void own_store_8u_LE_kernel(uint8_t *dst_ptr, __mmask64 data) {
-    *(uint64_t *) dst_ptr = data;
+static inline void own_store_8u_LE_kernel(uint8_t* dst_ptr, __mmask64 data) {
+    *(uint64_t*)dst_ptr = data;
 }
 
 /**
@@ -36,8 +37,8 @@ static inline void own_store_8u_LE_kernel(uint8_t *dst_ptr, __mmask64 data) {
  *
  * @return  void
  */
-static inline void own_store_16u_LE_kernel(uint8_t *dst_ptr, __mmask32 data) {
-    *(uint32_t *) dst_ptr = data;
+static inline void own_store_16u_LE_kernel(uint8_t* dst_ptr, __mmask32 data) {
+    *(uint32_t*)dst_ptr = data;
 }
 
 /**
@@ -49,8 +50,8 @@ static inline void own_store_16u_LE_kernel(uint8_t *dst_ptr, __mmask32 data) {
  * @return  void
  */
 
-static inline void own_store_32u_LE_kernel(uint8_t *dst_ptr, __mmask16 data) {
-    *(uint16_t *) dst_ptr = data;
+static inline void own_store_32u_LE_kernel(uint8_t* dst_ptr, __mmask16 data) {
+    *(uint16_t*)dst_ptr = data;
 }
 
 // ------ LE mask tail ------
@@ -65,14 +66,14 @@ static inline void own_store_32u_LE_kernel(uint8_t *dst_ptr, __mmask16 data) {
  *
  * @return  void
  */
-static inline void own_store_8u_LE_tail_kernel(uint8_t *dst_ptr, __mmask64 data, int align, int length) {
+static inline void own_store_8u_LE_tail_kernel(uint8_t* dst_ptr, __mmask64 data, int align, int length) {
     int      dst_align  = align & 0x7;
-    uint64_t align_mask = (1u << dst_align) - 1; // align 1s, other are 0s
+    uint64_t align_mask = (1u << dst_align) - 1;             // align 1s, other are 0s
     uint64_t data_mask  = ((1u << length) - 1) << dst_align; // align 0s, then length 1s, other are 0s
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask) & 0xFF;
+        dst &= (align_mask)&0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;
@@ -90,14 +91,14 @@ static inline void own_store_8u_LE_tail_kernel(uint8_t *dst_ptr, __mmask64 data,
  *
  * @return  void
  */
-static inline void own_store_16u_LE_tail_kernel(uint8_t *dst_ptr, __mmask32 data, int align, int length) {
+static inline void own_store_16u_LE_tail_kernel(uint8_t* dst_ptr, __mmask32 data, int align, int length) {
     int      dst_align  = align & 0x7;
-    uint32_t align_mask = (1u << dst_align) - 1; // align 1s, other are 0s
+    uint32_t align_mask = (1u << dst_align) - 1;             // align 1s, other are 0s
     uint32_t data_mask  = ((1u << length) - 1) << dst_align; // align 0s, then length 1s, other are 0s
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask) & 0xFF;
+        dst &= (align_mask)&0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;
@@ -116,14 +117,14 @@ static inline void own_store_16u_LE_tail_kernel(uint8_t *dst_ptr, __mmask32 data
  * @return  void
  */
 
-static inline void own_store_32u_LE_tail_kernel(uint8_t *dst_ptr, __mmask16 data, int align, int length) {
+static inline void own_store_32u_LE_tail_kernel(uint8_t* dst_ptr, __mmask16 data, int align, int length) {
     int      dst_align  = align & 0x7;
-    uint16_t align_mask = (1u << dst_align) - 1; // align 1s, other are 0s
+    uint16_t align_mask = (1u << dst_align) - 1;             // align 1s, other are 0s
     uint16_t data_mask  = ((1u << length) - 1) << dst_align; // align 0s, then length 1s, other are 0s
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask) & 0xFF;
+        dst &= (align_mask)&0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;

@@ -24,10 +24,10 @@ template <>
 class verification_state_builder<execution_path_t::software> {
 protected:
     using common_type = verification_state_builder<execution_path_t::software>;
-    using state_type = verify_state<execution_path_t::software>;
+    using state_type  = verify_state<execution_path_t::software>;
 
 public:
-    static auto create(const qpl::ml::util::linear_allocator &allocator) -> common_type {
+    static auto create(const qpl::ml::util::linear_allocator& allocator) -> common_type {
         auto builder = verification_state_builder<execution_path_t::software>(allocator);
         builder.state_.first(true);
         builder.state_.reset();
@@ -39,7 +39,7 @@ public:
         return builder;
     }
 
-    static auto restore(const qpl::ml::util::linear_allocator &allocator) -> common_type {
+    static auto restore(const qpl::ml::util::linear_allocator& allocator) -> common_type {
         auto builder = verification_state_builder<execution_path_t::software>(allocator);
         builder.state_.first(false);
         builder.state_.reset();
@@ -48,19 +48,17 @@ public:
         return builder;
     }
 
-    inline auto build() noexcept -> state_type {
-
-        return state_;
-    }
+    inline auto build() noexcept -> state_type { return state_; }
 
 private:
     state_type state_;
 
-    verification_state_builder(const qpl::ml::util::linear_allocator &allocator) : state_(allocator) {
-        // No actions required
-    };
+    verification_state_builder(const qpl::ml::util::linear_allocator& allocator)
+        : state_(allocator) {
+                  // No actions required
+          };
 };
 
-}
+} // namespace qpl::ml::compression
 
 #endif //QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_VERIFICATION_VERIFICATION_STATE_BUILDER_HPP_

@@ -6,12 +6,12 @@
 
 #if defined(__linux__)
 
-#include <x86intrin.h>
 #include <cpuid.h>
 #include <filesystem>
 #include <fstream>
-#include <utility>
 #include <sstream>
+#include <utility>
+#include <x86intrin.h>
 
 #endif
 
@@ -25,9 +25,7 @@ namespace qpl::ml::util {
 /**
  * @brief Return value of [start, end] bits of input.
 */
-int get_selected_bits(int input,
-                      size_t start,
-                      size_t end) {
+int get_selected_bits(int input, size_t start, size_t end) {
     const int mask = (1 << (end + 1)) - 1;
 
     return (input & mask) >> start;
@@ -42,14 +40,11 @@ int get_selected_bits(int input,
  * Implementation is based on Intel(R) 64 Architecture Topology
  * Enumeration, January 2018.
 */
-int get_cpu_topology_from_apic(unsigned long* smt_id,
-                               unsigned long* core_id,
-                               unsigned long* pkg_id) {
+int get_cpu_topology_from_apic(unsigned long* smt_id, unsigned long* core_id, unsigned long* pkg_id) {
     unsigned int eax, ebx, ecx, edx, subleaf = 0;
 
     // check that the topology info is available
-    if (!__get_cpuid(0x1F, &eax, &ebx, &ecx, &edx))
-        return 1; // topology info is not available
+    if (!__get_cpuid(0x1F, &eax, &ebx, &ecx, &edx)) return 1; // topology info is not available
 
     int level_type = 0, level_shift = 0;
     int was_thread_reported = 0, was_core_reported = 0;
@@ -65,23 +60,21 @@ int get_cpu_topology_from_apic(unsigned long* smt_id,
         level_shift = get_selected_bits(eax, 0, 4);
 
         if (level_type == 1) {
-            smt_mask_width = level_shift;
-            smt_mask = (1UL << level_shift) - 1;
+            smt_mask_width      = level_shift;
+            smt_mask            = (1UL << level_shift) - 1;
             was_thread_reported = 1;
-        }
-        else if (level_type == 2) {
+        } else if (level_type == 2) {
             was_core_reported = 1;
-        }
-        else {
+        } else {
             break;
         }
         subleaf++;
-    } while(1);
+    } while (1);
 
     unsigned long core_plus_smt_mask       = (1UL << level_shift) - 1;
     unsigned long core_plus_smt_mask_width = level_shift;
 
-    unsigned long pkg_mask  = (-1) ^ core_plus_smt_mask;
+    unsigned long pkg_mask = (-1) ^ core_plus_smt_mask;
 
     unsigned long core_mask = 0U;
     if (was_thread_reported && was_core_reported)
@@ -119,7 +112,8 @@ bool read_dashed_list(std::filesystem::path const& root, int* min_value, int* ma
  * @brief Read and return info from physical_package_id for specific cpu<N>.
 */
 int get_pkg_id_of_cpu(std::filesystem::path const& root, int cpu) {
-    auto cpu_path = root; cpu_path.append("cpu");
+    auto cpu_path = root;
+    cpu_path.append("cpu");
     {
         std::stringstream ss;
         ss << "cpu" << cpu;
@@ -128,7 +122,8 @@ int get_pkg_id_of_cpu(std::filesystem::path const& root, int cpu) {
 
     if (!std::filesystem::exists(cpu_path)) { return -1; }
 
-    auto package_path = std::move(cpu_path); package_path.append("topology/physical_package_id");
+    auto package_path = std::move(cpu_path);
+    package_path.append("topology/physical_package_id");
 
     if (!std::filesystem::exists(package_path)) { return -1; }
 
@@ -145,7 +140,8 @@ int get_pkg_id_of_cpu(std::filesystem::path const& root, int cpu) {
  * @brief Read cpulist for specific node<N> and return first cpu from the list.
 */
 int get_first_cpu_from_node(std::filesystem::path const& root, int node) {
-    auto node_path = root; node_path.append("node");
+    auto node_path = root;
+    node_path.append("node");
     {
         std::stringstream ss;
         ss << "node" << node;
@@ -154,7 +150,8 @@ int get_first_cpu_from_node(std::filesystem::path const& root, int node) {
 
     if (!std::filesystem::exists(node_path)) { return -1; }
 
-    std::filesystem::path cpulist(std::move(node_path)); cpulist.append("cpulist");
+    std::filesystem::path cpulist(std::move(node_path));
+    cpulist.append("cpulist");
 
     int min_cpu = -1, max_cpu;
 
@@ -192,9 +189,7 @@ uint64_t get_socket_id() noexcept {
 #if defined(__linux__)
     unsigned long smt_id, core_id, pkg_id;
 
-    if (0 == get_cpu_topology_from_apic(&smt_id, &core_id, &pkg_id)) {
-        return pkg_id;
-    }
+    if (0 == get_cpu_topology_from_apic(&smt_id, &core_id, &pkg_id)) { return pkg_id; }
 #endif
     return (uint64_t)-1;
 }
@@ -208,11 +203,9 @@ uint64_t get_socket_id(int numa_node) noexcept {
     const std::filesystem::path root("/sys/devices/system");
 
     int min_cpu = get_first_cpu_from_node(root, numa_node);
-    if (-1 != min_cpu) {
-        return (uint64_t)get_pkg_id_of_cpu(root, min_cpu);
-    }
+    if (-1 != min_cpu) { return (uint64_t)get_pkg_id_of_cpu(root, min_cpu); }
 #endif
     return (uint64_t)-1;
 }
 
-}
+} // namespace qpl::ml::util

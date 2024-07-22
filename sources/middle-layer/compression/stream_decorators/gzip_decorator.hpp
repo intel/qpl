@@ -12,33 +12,30 @@
 #ifndef QPL_GZIP_DECORATOR_HPP_
 #define QPL_GZIP_DECORATOR_HPP_
 
-#include "compression/inflate/isal_kernels_wrappers.hpp"
-#include "compression/compression_defs.hpp"
-#include "compression/verification/verification_defs.hpp"
 #include "common/defs.hpp"
+#include "compression/compression_defs.hpp"
 #include "compression/deflate/streams/compression_stream.hpp"
+#include "compression/inflate/isal_kernels_wrappers.hpp"
+#include "compression/verification/verification_defs.hpp"
 
 namespace qpl::ml::compression {
 
-constexpr uint32_t OWN_GZIP_HEADER_LENGTH  = 10U;
+constexpr uint32_t OWN_GZIP_HEADER_LENGTH = 10U;
 
 extern std::array<uint8_t, OWN_GZIP_HEADER_LENGTH> default_gzip_header;
 
 namespace gzip_sizes {
 constexpr size_t gzip_header_size  = 10;
 constexpr size_t gzip_trailer_size = 8;
-}
+} // namespace gzip_sizes
 
 class gzip_decorator {
 public:
-    template <class F, class state_t, class ...arguments>
-    static auto unwrap(F function, state_t &state, arguments... args) noexcept -> decompression_operation_result_t;
+    template <class F, class state_t, class... arguments>
+    static auto unwrap(F function, state_t& state, arguments... args) noexcept -> decompression_operation_result_t;
 
     template <class F, class state_t>
-    static auto wrap(F function,
-                     state_t &state,
-                     uint8_t *begin,
-                     const uint32_t current_in_size,
+    static auto wrap(F function, state_t& state, uint8_t* begin, const uint32_t current_in_size,
                      const uint32_t prev_processed_size) noexcept -> compression_operation_result_t;
 
     struct gzip_header {
@@ -49,7 +46,7 @@ public:
         // uint8_t *comment;
         // uint8_t extra_flags;
         uint32_t modification_time;
-        uint8_t os;
+        uint8_t  os;
         uint16_t crc16;
         uint32_t byte_size;
     };
@@ -59,26 +56,27 @@ public:
         uint32_t input_size;
     };
 
-    static auto read_header(const uint8_t *destination_ptr, uint32_t stream_size, gzip_header &header) noexcept -> qpl_ml_status;
+    static auto read_header(const uint8_t* destination_ptr, uint32_t stream_size, gzip_header& header) noexcept
+            -> qpl_ml_status;
 
-    static inline void write_header_unsafe(const uint8_t *destination_ptr,
-                                           uint32_t UNREFERENCED_PARAMETER(size)) noexcept {
-        *(uint64_t *) (destination_ptr)      = *(uint64_t *) (&default_gzip_header[0]);
-        *(uint16_t *) (destination_ptr + 8U) = *(uint16_t *) (&default_gzip_header[8]);
+    static inline void write_header_unsafe(const uint8_t* destination_ptr,
+                                           uint32_t       UNREFERENCED_PARAMETER(size)) noexcept {
+        *(uint64_t*)(destination_ptr)      = *(uint64_t*)(&default_gzip_header[0]);
+        *(uint16_t*)(destination_ptr + 8U) = *(uint16_t*)(&default_gzip_header[8]);
     }
 
-    static inline auto write_header(const uint8_t *destination_ptr, uint32_t size, gzip_header &header) noexcept;
+    static inline auto write_header(const uint8_t* destination_ptr, uint32_t size, gzip_header& header) noexcept;
 
-    static inline auto read_trailer(const uint8_t *destination_ptr, uint32_t size, gzip_trailer &trailer) noexcept -> int32_t;
+    static inline auto read_trailer(const uint8_t* destination_ptr, uint32_t size, gzip_trailer& trailer) noexcept
+            -> int32_t;
 
-    static inline void write_trailer_unsafe(const uint8_t *destination_ptr,
-                                            uint32_t UNREFERENCED_PARAMETER(size),
-                                            gzip_trailer &trailer) noexcept {
-        *(uint32_t *) (destination_ptr)      = trailer.crc32;
-        *(uint32_t *) (destination_ptr + 4U) = trailer.input_size;
+    static inline void write_trailer_unsafe(const uint8_t* destination_ptr, uint32_t UNREFERENCED_PARAMETER(size),
+                                            gzip_trailer& trailer) noexcept {
+        *(uint32_t*)(destination_ptr)      = trailer.crc32;
+        *(uint32_t*)(destination_ptr + 4U) = trailer.input_size;
     }
 };
 
-}
+} // namespace qpl::ml::compression
 
 #endif //QPL_GZIP_DECORATOR_HPP_

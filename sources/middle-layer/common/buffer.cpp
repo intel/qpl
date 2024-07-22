@@ -12,16 +12,16 @@ namespace qpl::ml {
     return static_cast<uint32_t>(std::distance(begin_, end_));
 }
 
-[[nodiscard]] auto buffer_t::data() const noexcept -> uint8_t * {
+[[nodiscard]] auto buffer_t::data() const noexcept -> uint8_t* {
     return begin_;
 }
 
-[[nodiscard]] auto buffer_t::begin() const noexcept -> uint8_t * {
+[[nodiscard]] auto buffer_t::begin() const noexcept -> uint8_t* {
     return begin_;
 }
 
-[[nodiscard]] auto buffer_t::end() const noexcept -> uint8_t * {
+[[nodiscard]] auto buffer_t::end() const noexcept -> uint8_t* {
     return end_;
 }
 
-} // namespace qpl::ml::analytics
+} // namespace qpl::ml

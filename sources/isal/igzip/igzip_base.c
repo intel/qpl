@@ -5,20 +5,18 @@
  ******************************************************************************/
 
 #include <stdint.h>
-#include "igzip_lib.h"
-#include "huffman.h"
-#include "huff_codes.h"
+
 #include "bitbuf2.h"
+#include "huff_codes.h"
+#include "huffman.h"
+#include "igzip_lib.h"
 
 extern const struct isal_hufftables hufftables_default;
 
-static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
-                uint8_t * next_in, uint8_t * end_in)
-{
-    struct isal_zstate *state = &stream->internal_state;
+static inline void update_state(struct isal_zstream* stream, uint8_t* start_in, uint8_t* next_in, uint8_t* end_in) {
+    struct isal_zstate* state = &stream->internal_state;
 
-    if (next_in - start_in > 0)
-        state->has_hist = IGZIP_HIST;
+    if (next_in - start_in > 0) state->has_hist = IGZIP_HIST;
 
     stream->next_in = next_in;
     stream->total_in += next_in - start_in;
@@ -28,33 +26,30 @@ static inline void update_state(struct isal_zstream *stream, uint8_t * start_in,
     stream->total_out += bytes_written;
     stream->next_out += bytes_written;
     stream->avail_out -= bytes_written;
-
 }
 
-void qpl_isal_deflate_body_base(struct isal_zstream *stream)
-{
-    uint32_t literal = 0U, hash = 0U;
-    uint8_t *end = NULL, *next_hash = NULL;
-    uint16_t match_length = 0U;
-    uint32_t dist = 0U;
-    uint64_t code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
-    struct isal_zstate *state = &stream->internal_state;
-    uint16_t *last_seen = state->head;
-    uint8_t *file_start = (uint8_t *) ((uintptr_t) stream->next_in - stream->total_in);
-    uint32_t hist_size = state->dist_mask;
-    uint32_t hash_mask = state->hash_mask;
+void qpl_isal_deflate_body_base(struct isal_zstream* stream) {
+    uint32_t            literal = 0U, hash = 0U;
+    uint8_t *           end = NULL, *next_hash = NULL;
+    uint16_t            match_length = 0U;
+    uint32_t            dist         = 0U;
+    uint64_t            code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
+    struct isal_zstate* state      = &stream->internal_state;
+    uint16_t*           last_seen  = state->head;
+    uint8_t*            file_start = (uint8_t*)((uintptr_t)stream->next_in - stream->total_in);
+    uint32_t            hist_size  = state->dist_mask;
+    uint32_t            hash_mask  = state->hash_mask;
 
     if (stream->avail_in == 0) {
-        if (stream->end_of_stream || stream->flush != NO_FLUSH)
-            state->state = ZSTATE_FLUSH_READ_BUFFER;
+        if (stream->end_of_stream || stream->flush != NO_FLUSH) state->state = ZSTATE_FLUSH_READ_BUFFER;
         return;
     }
 
     set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-    uint8_t *start_in = stream->next_in;
-    uint8_t *end_in = start_in + stream->avail_in;
-    uint8_t *next_in = start_in;
+    uint8_t* start_in = stream->next_in;
+    uint8_t* end_in   = start_in + stream->avail_in;
+    uint8_t* next_in  = start_in;
 
     while (next_in + ISAL_LOOK_AHEAD < end_in) {
 
@@ -63,10 +58,10 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
             return;
         }
 
-        literal = load_u32(next_in);
-        hash = compute_hash(literal) & hash_mask;
-        dist = (next_in - file_start - last_seen[hash]) & 0xFFFF;
-        last_seen[hash] = (uint64_t) (next_in - file_start);
+        literal         = load_u32(next_in);
+        hash            = compute_hash(literal) & hash_mask;
+        dist            = (next_in - file_start - last_seen[hash]) & 0xFFFF;
+        last_seen[hash] = (uint64_t)(next_in - file_start);
 
         /* The -1 are to handle the case when dist = 0 */
 #if defined(QPL_LIB)
@@ -78,7 +73,7 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
 
             match_length = compare258(next_in - dist, next_in, 258);
 #if defined(QPL_LIB)
-            if(match_length > state->mb_mask + 1 - state->max_dist)
+            if (match_length > state->mb_mask + 1 - state->max_dist)
                 match_length = (state->mb_mask + 1 - state->max_dist);
 #endif
             if (match_length >= SHORTEST_MATCH) {
@@ -91,13 +86,12 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
                 next_hash++;
 
                 for (; next_hash < end; next_hash++) {
-                    literal = load_u32(next_hash);
-                    hash = compute_hash(literal) & hash_mask;
-                    last_seen[hash] = (uint64_t) (next_hash - file_start);
+                    literal         = load_u32(next_hash);
+                    hash            = compute_hash(literal) & hash_mask;
+                    last_seen[hash] = (uint64_t)(next_hash - file_start);
                 }
 
-                get_len_code(stream->hufftables, match_length, &code,
-                         &code_len);
+                get_len_code(stream->hufftables, match_length, &code, &code_len);
                 get_dist_code(stream->hufftables, dist, &code2, &code_len2);
 
                 code |= code2 << code_len;
@@ -127,29 +121,26 @@ void qpl_isal_deflate_body_base(struct isal_zstream *stream)
     update_state(stream, start_in, next_in, end_in);
 
     assert(stream->avail_in <= ISAL_LOOK_AHEAD);
-    if (stream->end_of_stream || stream->flush != NO_FLUSH)
-        state->state = ZSTATE_FLUSH_READ_BUFFER;
-
+    if (stream->end_of_stream || stream->flush != NO_FLUSH) state->state = ZSTATE_FLUSH_READ_BUFFER;
 }
 
-void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
-{
-    uint32_t literal = 0U, hash = 0U;
-    uint8_t *end = NULL, *next_hash = NULL;
-    uint16_t match_length = 0U;
-    uint32_t dist = 0U;
-    uint64_t code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
-    struct isal_zstate *state = &stream->internal_state;
-    uint16_t *last_seen = state->head;
-    uint8_t *file_start = (uint8_t *) ((uintptr_t) stream->next_in - stream->total_in);
-    uint32_t hist_size = state->dist_mask;
-    uint32_t hash_mask = state->hash_mask;
+void qpl_isal_deflate_finish_base(struct isal_zstream* stream) {
+    uint32_t            literal = 0U, hash = 0U;
+    uint8_t *           end = NULL, *next_hash = NULL;
+    uint16_t            match_length = 0U;
+    uint32_t            dist         = 0U;
+    uint64_t            code = 0U, code_len = 0U, code2 = 0U, code_len2 = 0U;
+    struct isal_zstate* state      = &stream->internal_state;
+    uint16_t*           last_seen  = state->head;
+    uint8_t*            file_start = (uint8_t*)((uintptr_t)stream->next_in - stream->total_in);
+    uint32_t            hist_size  = state->dist_mask;
+    uint32_t            hash_mask  = state->hash_mask;
 
     set_buf(&state->bitbuf, stream->next_out, stream->avail_out);
 
-    uint8_t *start_in = stream->next_in;
-    uint8_t *end_in = start_in + stream->avail_in;
-    uint8_t *next_in = start_in;
+    uint8_t* start_in = stream->next_in;
+    uint8_t* end_in   = start_in + stream->avail_in;
+    uint8_t* next_in  = start_in;
 
     if (stream->avail_in != 0) {
         while (next_in + 3 < end_in) {
@@ -158,18 +149,17 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
                 return;
             }
 
-            literal = load_u32(next_in);
-            hash = compute_hash(literal) & hash_mask;
-            dist = (next_in - file_start - last_seen[hash]) & 0xFFFF;
-            last_seen[hash] = (uint64_t) (next_in - file_start);
+            literal         = load_u32(next_in);
+            hash            = compute_hash(literal) & hash_mask;
+            dist            = (next_in - file_start - last_seen[hash]) & 0xFFFF;
+            last_seen[hash] = (uint64_t)(next_in - file_start);
 
 #if defined(QPL_LIB)
-            if ((dist - 1 < hist_size) && (dist < state->max_dist)) {	/* The -1 are to handle the case when dist = 0 */
+            if ((dist - 1 < hist_size) && (dist < state->max_dist)) { /* The -1 are to handle the case when dist = 0 */
 #else
-            if (dist - 1 < hist_size) {	/* The -1 are to handle the case when dist = 0 */
+            if (dist - 1 < hist_size) { /* The -1 are to handle the case when dist = 0 */
 #endif
-                match_length =
-                    compare258(next_in - dist, next_in, end_in - next_in);
+                match_length = compare258(next_in - dist, next_in, end_in - next_in);
 #if defined(QPL_LIB)
                 if (match_length > state->mb_mask + 1 - state->max_dist)
                     match_length = (state->mb_mask + 1 - state->max_dist);
@@ -185,16 +175,13 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
                     next_hash++;
 
                     for (; next_hash < end - 3; next_hash++) {
-                        literal = load_u32(next_hash);
-                        hash = compute_hash(literal) & hash_mask;
-                        last_seen[hash] =
-                            (uint64_t) (next_hash - file_start);
+                        literal         = load_u32(next_hash);
+                        hash            = compute_hash(literal) & hash_mask;
+                        last_seen[hash] = (uint64_t)(next_hash - file_start);
                     }
 
-                    get_len_code(stream->hufftables, match_length, &code,
-                             &code_len);
-                    get_dist_code(stream->hufftables, dist, &code2,
-                              &code_len2);
+                    get_len_code(stream->hufftables, match_length, &code, &code_len);
+                    get_dist_code(stream->hufftables, dist, &code2, &code_len2);
 
                     code |= code2 << code_len;
                     code_len += code_len2;
@@ -218,7 +205,6 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
             state->max_dist++;
             state->max_dist &= state->mb_mask;
 #endif
-
         }
 
         while (next_in < end_in) {
@@ -239,10 +225,7 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
     }
 
 #if defined(QPL_LIB)
-    if (!is_full(&state->bitbuf) &&
-        stream->flush != QPL_PARTIAL_FLUSH &&
-        stream->huffman_only_flag != 2U)
-    {
+    if (!is_full(&state->bitbuf) && stream->flush != QPL_PARTIAL_FLUSH && stream->huffman_only_flag != 2U) {
 #else
     if (!is_full(&state->bitbuf)) {
 #endif
@@ -263,18 +246,17 @@ void qpl_isal_deflate_finish_base(struct isal_zstream *stream)
     update_state(stream, start_in, next_in, end_in);
 }
 
-void qpl_isal_deflate_hash_base(uint16_t * hash_table, uint32_t hash_mask,
-                uint32_t current_index, uint8_t * dict, uint32_t dict_len)
-{
-    uint8_t *next_in = dict;
-    uint8_t *end_in  = dict + dict_len - SHORTEST_MATCH;
+void qpl_isal_deflate_hash_base(uint16_t* hash_table, uint32_t hash_mask, uint32_t current_index, uint8_t* dict,
+                                uint32_t dict_len) {
+    uint8_t* next_in = dict;
+    uint8_t* end_in  = dict + dict_len - SHORTEST_MATCH;
     uint32_t literal = 0U;
     uint32_t hash    = 0U;
     uint16_t index   = current_index - dict_len;
 
     while (next_in <= end_in) {
-        literal = load_u32(next_in);
-        hash = compute_hash(literal) & hash_mask;
+        literal          = load_u32(next_in);
+        hash             = compute_hash(literal) & hash_mask;
         hash_table[hash] = index;
         index++;
         next_in++;

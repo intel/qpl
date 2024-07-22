@@ -29,18 +29,11 @@
 extern "C" {
 #endif
 
-typedef qplc_status_t (*qplc_extract_i_t_ptr)(uint8_t *src_dst_ptr,
-                                              uint32_t length,
-                                              uint32_t *index_ptr,
-                                              uint32_t low_value,
-                                              uint32_t high_value);
+typedef qplc_status_t (*qplc_extract_i_t_ptr)(uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr,
+                                              uint32_t low_value, uint32_t high_value);
 
-typedef qplc_status_t (*qplc_extract_t_ptr)(const uint8_t *src_ptr,
-                                            uint8_t *dst_ptr,
-                                            uint32_t length,
-                                            uint32_t *index_ptr,
-                                            uint32_t low_value,
-                                            uint32_t high_value);
+typedef qplc_status_t (*qplc_extract_t_ptr)(const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length,
+                                            uint32_t* index_ptr, uint32_t low_value, uint32_t high_value);
 
 /**
  * @name qplc_extract_<input bit-width><output bit-width>_i
@@ -59,23 +52,14 @@ typedef qplc_status_t (*qplc_extract_t_ptr)(const uint8_t *src_ptr,
  *      - number of extracted elements.
  * @{
  */
-OWN_QPLC_API(qplc_status_t, qplc_extract_8u_i, (uint8_t *src_dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_8u_i,
+             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value))
 
-OWN_QPLC_API(qplc_status_t, qplc_extract_16u_i, (uint8_t *src_dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_16u_i,
+             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value))
 
-OWN_QPLC_API(qplc_status_t, qplc_extract_32u_i, (uint8_t *src_dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_32u_i,
+             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value))
 /** @} */
 
 /**
@@ -96,26 +80,17 @@ OWN_QPLC_API(qplc_status_t, qplc_extract_32u_i, (uint8_t *src_dst_ptr,
  *      - number of extracted elements.
  * @{
  */
-OWN_QPLC_API(qplc_status_t, qplc_extract_8u, (const uint8_t *src_ptr,
-        uint8_t *dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_8u,
+             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value,
+              uint32_t high_value))
 
-OWN_QPLC_API(qplc_status_t, qplc_extract_16u, (const uint8_t *src_ptr,
-        uint8_t *dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_16u,
+             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value,
+              uint32_t high_value))
 
-OWN_QPLC_API(qplc_status_t, qplc_extract_32u, (const uint8_t *src_ptr,
-        uint8_t *dst_ptr,
-        uint32_t length,
-        uint32_t *index_ptr,
-        uint32_t low_value,
-        uint32_t high_value))
+OWN_QPLC_API(qplc_status_t, qplc_extract_32u,
+             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value,
+              uint32_t high_value))
 /** @} */
 
 #ifdef __cplusplus

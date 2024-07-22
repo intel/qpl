@@ -5,8 +5,9 @@
  ******************************************************************************/
 
 #include "util/checksum.hpp"
-#include "igzip_checksums.h"
+
 #include "compression/inflate/isal_kernels_wrappers.hpp"
+#include "igzip_checksums.h"
 
 namespace qpl::ml::util {
 
@@ -24,7 +25,7 @@ namespace qpl::ml::util {
  *
  * Otherwise result is simply the adler32 for the input stream starting at `begin`.
 */
-auto adler32(const uint8_t *const begin, uint32_t size, uint32_t seed) noexcept -> uint32_t {
+auto adler32(const uint8_t* const begin, uint32_t size, uint32_t seed) noexcept -> uint32_t {
     auto old_adler32 = seed;
     auto new_adler32 = seed & least_significant_16_bits;
 
@@ -36,4 +37,4 @@ auto adler32(const uint8_t *const begin, uint32_t size, uint32_t seed) noexcept 
     return (old_adler32 & most_significant_16_bits) | new_adler32;
 }
 
-} // namespace qpl::ml
+} // namespace qpl::ml::util

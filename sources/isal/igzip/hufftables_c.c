@@ -3,22 +3,21 @@
  *
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
-#include <stdint.h>
 #include <igzip_lib.h>
+#include <stdint.h>
 
-#if defined (QPL_LIB)
-const uint8_t gzip_hdr[] = {
-    0x1f, 0x8b, 0x08, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0xff
-};
+#if defined(QPL_LIB)
+const uint8_t gzip_hdr[] = {0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff};
 
 const uint32_t gzip_hdr_bytes = 10;
 const uint32_t gzip_trl_bytes = 8;
 
-const uint8_t zlib_hdr[] = { 0x78, 0x01 };
+const uint8_t zlib_hdr[] = {0x78, 0x01};
 
 const uint32_t zlib_hdr_bytes = 2;
 const uint32_t zlib_trl_bytes = 4;
+
+// clang-format off
 
 struct isal_hufftables hufftables_default = {
 
@@ -8963,3 +8962,5 @@ struct isal_hufftables hufftables_static = {
              0x05, 0x05, 0x05, 0x05}
 #endif
 };
+
+// clang-format on

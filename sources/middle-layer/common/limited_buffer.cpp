@@ -12,7 +12,7 @@ namespace qpl::ml {
     return max_elements_in_buffer_;
 }
 
-[[nodiscard]] auto limited_buffer_t::data() const noexcept -> uint8_t * {
+[[nodiscard]] auto limited_buffer_t::data() const noexcept -> uint8_t* {
     return buffer_t::data() + byte_shift_;
 }
 

@@ -14,28 +14,25 @@
 
 // middle-layer
 #include "accelerator/hw_accelerator_api.h"
-#include "util/hw_status_converting.hpp"
-#include "util/completion_record.hpp"
 #include "util/awaiter.hpp"
+#include "util/completion_record.hpp"
+#include "util/hw_status_converting.hpp"
 
 namespace qpl::ml::util {
 
-enum class execution_mode_t {
-    sync,
-    async
-};
+enum class execution_mode_t { sync, async };
 
 template <typename return_t>
-inline auto wait_descriptor_result(HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr) -> return_t {
+inline auto wait_descriptor_result(HW_PATH_VOLATILE hw_completion_record* const completion_record_ptr) -> return_t {
     awaiter::wait_for(&completion_record_ptr->status, AD_STATUS_INPROG);
 
     return ml::util::completion_record_convert_to_result<return_t>(completion_record_ptr);
 }
 
 template <typename return_t, execution_mode_t mode>
-inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
-                               HW_PATH_VOLATILE hw_completion_record *const completion_record_ptr,
-                               int32_t numa_id = -1) noexcept -> return_t {
+inline auto process_descriptor(hw_descriptor* const                         descriptor_ptr,
+                               HW_PATH_VOLATILE hw_completion_record* const completion_record_ptr,
+                               int32_t                                      numa_id = -1) noexcept -> return_t {
     return_t operation_result;
 
     hw_iaa_descriptor_set_completion_record(descriptor_ptr, completion_record_ptr);
@@ -46,7 +43,7 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
     if constexpr (mode == execution_mode_t::sync) {
         uint32_t status = convert_hw_accelerator_status_to_qpl_status(accel_status); //NOLINT(misc-const-correctness)
         if (status_list::ok != status) {
-            if constexpr(std::is_same<decltype(status), return_t>::value) {
+            if constexpr (std::is_same<decltype(status), return_t>::value) {
                 return status;
             } else {
                 operation_result.status_code_ = status;
@@ -61,33 +58,33 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
         if ((AD_STATUS_READ_PAGE_FAULT == completion_record_ptr->status ||
              AD_STATUS_WRITE_PAGE_FAULT == completion_record_ptr->status)) {
 
-            uint8_t fault_info = 0U; // not in use currently
+            uint8_t  fault_info    = 0U; // not in use currently
             uint64_t fault_address = 0U;
             hw_iaa_completion_record_get_fault_address(completion_record_ptr, &fault_info, &fault_address);
 
             DIAG("Page Fault happened with completion record status equals %d, Fault Address is %p\n",
-                 (int)completion_record_ptr->status, (void *)fault_address);
+                 (int)completion_record_ptr->status, (void*)fault_address);
 
             // If Fault Address is available, try to resubmit the job.
             // TODO: Add logic for figuring out the size of the faulted memory to touch all the related pages.
             // TODO: On 2nd generation, we could additionally check if Fault Address is available via Fault Info.
             if (fault_address != 0U) {
                 if (AD_STATUS_READ_PAGE_FAULT == completion_record_ptr->status) {
-                    volatile char* read_fault_address = (char *)fault_address;
+                    volatile char* read_fault_address = (char*)fault_address;
                     *read_fault_address;
-                }
-                else { // AD_STATUS_WRITE_PAGE_FAULT
-                    volatile char* write_fault_address = (char *)fault_address;
-                    *write_fault_address = *write_fault_address;
+                } else { // AD_STATUS_WRITE_PAGE_FAULT
+                    volatile char* write_fault_address = (char*)fault_address;
+                    *write_fault_address               = *write_fault_address;
                 }
 
                 // Mark completion record as not completed for awaiter
                 completion_record_ptr->status = AD_STATUS_INPROG;
 
-                auto enqueue_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
-                uint32_t status = convert_hw_accelerator_status_to_qpl_status(enqueue_status); //NOLINT(misc-const-correctness)
+                auto     enqueue_status = hw_enqueue_descriptor(descriptor_ptr, numa_id);
+                uint32_t status =
+                        convert_hw_accelerator_status_to_qpl_status(enqueue_status); //NOLINT(misc-const-correctness)
                 if (status_list::ok != status) {
-                    if constexpr(std::is_same<decltype(status), return_t>::value) {
+                    if constexpr (std::is_same<decltype(status), return_t>::value) {
                         return status;
                     } else {
                         operation_result.status_code_ = status;
@@ -100,7 +97,8 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
         }
 
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
-            operation_result.processed_bytes_ = reinterpret_cast<hw_iaa_analytics_descriptor *>(descriptor_ptr)->src1_size;
+            operation_result.processed_bytes_ =
+                    reinterpret_cast<hw_iaa_analytics_descriptor*>(descriptor_ptr)->src1_size;
         }
     } else {
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
@@ -114,10 +112,10 @@ inline auto process_descriptor(hw_descriptor *const descriptor_ptr,
 }
 
 template <typename return_t, uint32_t number_of_descriptors>
-inline auto process_descriptor(std::array<hw_descriptor, number_of_descriptors> &descriptors,
-                               std::array<hw_completion_record, number_of_descriptors> &completion_records,
-                               int32_t numa_id) noexcept -> return_t {
-    return_t operation_result{};
+inline auto process_descriptor(std::array<hw_descriptor, number_of_descriptors>&        descriptors,
+                               std::array<hw_completion_record, number_of_descriptors>& completion_records,
+                               int32_t                                                  numa_id) noexcept -> return_t {
+    return_t operation_result {};
 
     for (uint32_t i = 0; i < descriptors.size(); i++) {
         hw_iaa_descriptor_set_completion_record(&descriptors[i], &completion_records[i]);
@@ -125,18 +123,12 @@ inline auto process_descriptor(std::array<hw_descriptor, number_of_descriptors> 
 
         if constexpr (std::is_same_v<return_t, uint32_t>) {
             operation_result = process_descriptor<uint32_t, execution_mode_t::async>(&descriptors[i],
-                                                                                     &completion_records[i],
-                                                                                     numa_id);
-            if (operation_result != status_list::ok) {
-                return operation_result;
-            }
+                                                                                     &completion_records[i], numa_id);
+            if (operation_result != status_list::ok) { return operation_result; }
         } else {
-            operation_result.status_code_ = process_descriptor<uint32_t, execution_mode_t::async>(&descriptors[i],
-                                                                                                  &completion_records[i],
-                                                                                                  numa_id);
-            if (operation_result.status_code_ != status_list::ok) {
-                return operation_result;
-            }
+            operation_result.status_code_ = process_descriptor<uint32_t, execution_mode_t::async>(
+                    &descriptors[i], &completion_records[i], numa_id);
+            if (operation_result.status_code_ != status_list::ok) { return operation_result; }
         }
     }
 
@@ -148,12 +140,14 @@ inline auto process_descriptor(std::array<hw_descriptor, number_of_descriptors> 
             return operation_result;
         } else {
             operation_result.output_bytes_ += execution_status.output_bytes_;
-            operation_result.last_bit_offset_ = execution_status.last_bit_offset_; // TODO: In case of number_of_elements per descriptor modification should be adapted
+            operation_result.last_bit_offset_ =
+                    execution_status
+                            .last_bit_offset_; // TODO: In case of number_of_elements per descriptor modification should be adapted
         }
     }
     return operation_result;
 }
 
-}
+} // namespace qpl::ml::util
 
 #endif //QPL_DESCRIPTOR_PROCESSING_HPP

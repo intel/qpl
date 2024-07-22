@@ -19,10 +19,7 @@
 
 namespace qpl::ml::analytics {
 
-enum output_stream_type_t {
-    array_stream = 0,
-    bit_stream   = 1
-};
+enum output_stream_type_t { array_stream = 0, bit_stream = 1 };
 
 template <output_stream_type_t output_stream_type>
 class output_stream_t final : public buffer_t {
@@ -31,90 +28,68 @@ public:
 
     output_stream_t() = delete;
 
-    auto perform_pack(const uint8_t *buffer_ptr,
-                      uint32_t elements_count,
-                      bool is_start_bit_used = true) noexcept -> uint32_t;
+    auto perform_pack(const uint8_t* buffer_ptr, uint32_t elements_count, bool is_start_bit_used = true) noexcept
+            -> uint32_t;
 
-    [[nodiscard]] inline auto elements_written() -> uint32_t {
-        return elements_written_;
-    }
+    [[nodiscard]] inline auto elements_written() -> uint32_t { return elements_written_; }
 
-    [[nodiscard]] inline auto bit_width() noexcept -> uint32_t {
-        return actual_bit_width_;
-    }
+    [[nodiscard]] inline auto bit_width() noexcept -> uint32_t { return actual_bit_width_; }
 
-    [[nodiscard]] inline auto stream_format() const noexcept -> stream_format_t {
-        return stream_format_;
-    }
+    [[nodiscard]] inline auto stream_format() const noexcept -> stream_format_t { return stream_format_; }
 
     [[nodiscard]] inline auto bytes_written() const noexcept -> uint32_t {
         return static_cast<uint32_t>(std::distance(data(), destination_current_ptr_));
     }
 
-    [[nodiscard]] auto bytes_available() const noexcept -> uint32_t {
-        return size() - bytes_written();
-    }
+    [[nodiscard]] auto bytes_available() const noexcept -> uint32_t { return size() - bytes_written(); }
 
     [[nodiscard]] auto output_bit_width_format() const noexcept -> output_bit_width_format_t {
         return bit_width_format_;
     }
 
-    [[nodiscard]] auto initial_output_index() const noexcept -> uint32_t {
-        return initial_output_index_;
-    }
+    [[nodiscard]] auto initial_output_index() const noexcept -> uint32_t { return initial_output_index_; }
 
-    [[nodiscard]] auto is_inverted() const noexcept -> uint32_t {
-        return is_inverted_;
-    }
+    [[nodiscard]] auto is_inverted() const noexcept -> uint32_t { return is_inverted_; }
 
-    [[nodiscard]] auto is_force_array() const noexcept -> uint32_t {
-        return is_force_array_;
-    }
+    [[nodiscard]] auto is_force_array() const noexcept -> uint32_t { return is_force_array_; }
 
-    auto invert_data() noexcept -> void {
-        is_inverted_ = !is_inverted_;
-    }
+    auto invert_data() noexcept -> void { is_inverted_ = !is_inverted_; }
 
 protected:
     template <class iterator_t>
-    output_stream_t(iterator_t begin, iterator_t end)
-            : buffer_t(begin, end) {
-
-    }
+    output_stream_t(iterator_t begin, iterator_t end) : buffer_t(begin, end) {}
 
 private:
-    core_sw::dispatcher::pack_index_table_t::value_type pack_index_kernel    = nullptr;
-    uint8_t                               *destination_current_ptr_ = nullptr;
-    bool                                  is_inverted_              = false;
-    bool                                  is_nominal_               = false;
-    bool                                  is_force_array_           = false;
-    stream_format_t                       stream_format_            = stream_format_t::le_format;
-    output_bit_width_format_t             bit_width_format_         = output_bit_width_format_t::same_as_input;
-    uint32_t                              start_bit_                = 0U;
-    uint32_t                              current_output_index_     = 0U;
-    uint32_t                              initial_output_index_     = 0U;
-    uint8_t                               actual_bit_width_         = 0U;
-    uint8_t                               input_buffer_bit_width_   = 0U;
-    uint32_t                              elements_written_         = 0U;
-    size_t                                capacity_                 = 0U;
+    core_sw::dispatcher::pack_index_table_t::value_type pack_index_kernel        = nullptr;
+    uint8_t*                                            destination_current_ptr_ = nullptr;
+    bool                                                is_inverted_             = false;
+    bool                                                is_nominal_              = false;
+    bool                                                is_force_array_          = false;
+    stream_format_t                                     stream_format_           = stream_format_t::le_format;
+    output_bit_width_format_t                           bit_width_format_ = output_bit_width_format_t::same_as_input;
+    uint32_t                                            start_bit_        = 0U;
+    uint32_t                                            current_output_index_   = 0U;
+    uint32_t                                            initial_output_index_   = 0U;
+    uint8_t                                             actual_bit_width_       = 0U;
+    uint8_t                                             input_buffer_bit_width_ = 0U;
+    uint32_t                                            elements_written_       = 0U;
+    size_t                                              capacity_               = 0U;
 };
 
 template <output_stream_type_t stream_type>
 class output_stream_t<stream_type>::builder {
 public:
     template <class iterator_t>
-    builder(iterator_t begin, iterator_t end)
-            : stream_(begin, end) {
-    }
+    builder(iterator_t begin, iterator_t end) : stream_(begin, end) {}
 
-    inline auto stream_format(stream_format_t format) noexcept -> builder & {
+    inline auto stream_format(stream_format_t format) noexcept -> builder& {
 
         stream_.stream_format_ = format;
 
         return *this;
     }
 
-    inline auto bit_format(output_bit_width_format_t format, uint32_t bit_width) noexcept -> builder & {
+    inline auto bit_format(output_bit_width_format_t format, uint32_t bit_width) noexcept -> builder& {
         stream_.bit_width_format_       = format;
         stream_.input_buffer_bit_width_ = bit_width;
 
@@ -127,37 +102,37 @@ public:
         return *this;
     }
 
-    inline auto initial_output_index(uint32_t value) noexcept -> builder & {
+    inline auto initial_output_index(uint32_t value) noexcept -> builder& {
         stream_.initial_output_index_ = value;
 
         return *this;
     }
 
-    inline auto ignore_bits(uint32_t value) noexcept -> builder & {
+    inline auto ignore_bits(uint32_t value) noexcept -> builder& {
         stream_.start_bit_ = value;
 
         return *this;
     }
 
-    inline auto input_bit_width(uint32_t value) noexcept -> builder & {
+    inline auto input_bit_width(uint32_t value) noexcept -> builder& {
         stream_.input_buffer_bit_width_ = value;
 
         return *this;
     }
 
-    inline auto nominal(bool value) noexcept -> builder & {
+    inline auto nominal(bool value) noexcept -> builder& {
         stream_.is_nominal_ = value;
 
         return *this;
     }
 
-    inline auto inverted(bool value) noexcept -> builder & {
+    inline auto inverted(bool value) noexcept -> builder& {
         stream_.is_inverted_ = value;
 
         return *this;
     }
 
-    inline auto force_array(bool value) noexcept -> builder & {
+    inline auto force_array(bool value) noexcept -> builder& {
         stream_.is_force_array_ = value;
 
         return *this;
@@ -167,35 +142,33 @@ public:
     inline auto build() noexcept -> output_stream_t<stream_type> {
         stream_.destination_current_ptr_ = stream_.data();
 
-        if constexpr(path == execution_path_t::software || path == execution_path_t::auto_detect) {
+        if constexpr (path == execution_path_t::software || path == execution_path_t::auto_detect) {
             auto pack_table = core_sw::dispatcher::kernels_dispatcher::get_instance().get_pack_index_table();
-            stream_.capacity_ = (std::distance(stream_.begin(), stream_.end()) * byte_bits_size)
-                                / stream_.actual_bit_width_;
+            stream_.capacity_ =
+                    (std::distance(stream_.begin(), stream_.end()) * byte_bits_size) / stream_.actual_bit_width_;
 
             const bool     is_output_be = (stream_.stream_format_ == stream_format_t::be_format);
-            const uint32_t pack_index   = core_sw::dispatcher::get_pack_index(is_output_be,
-                                                                        static_cast<uint32_t>(stream_.bit_width_format_),
-                                                                        static_cast<uint32_t>(stream_.is_nominal_));
+            const uint32_t pack_index =
+                    core_sw::dispatcher::get_pack_index(is_output_be, static_cast<uint32_t>(stream_.bit_width_format_),
+                                                        static_cast<uint32_t>(stream_.is_nominal_));
 
             stream_.pack_index_kernel = pack_table[pack_index];
 
-            if constexpr(stream_type == array_stream) {
-                if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_
-                    || stream_.input_buffer_bit_width_ > 1U) {
-                    stream_.current_output_index_ = core_sw::dispatcher::get_pack_bits_index(is_output_be,
-                                                                                             stream_.input_buffer_bit_width_,
-                                                                                             static_cast<uint32_t>(stream_.bit_width_format_));
-                }
-                else {
+            if constexpr (stream_type == array_stream) {
+                if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_ ||
+                    stream_.input_buffer_bit_width_ > 1U) {
+                    stream_.current_output_index_ =
+                            core_sw::dispatcher::get_pack_bits_index(is_output_be, stream_.input_buffer_bit_width_,
+                                                                     static_cast<uint32_t>(stream_.bit_width_format_));
+                } else {
                     stream_.current_output_index_ = stream_.initial_output_index_;
                 }
             } else {
                 if (output_bit_width_format_t::same_as_input == stream_.bit_width_format_) {
-                    stream_.current_output_index_ = core_sw::dispatcher::get_pack_bits_index(is_output_be,
-                                                                                             stream_.input_buffer_bit_width_,
-                                                                                             static_cast<uint32_t>(stream_.bit_width_format_));
-                }
-                else {
+                    stream_.current_output_index_ =
+                            core_sw::dispatcher::get_pack_bits_index(is_output_be, stream_.input_buffer_bit_width_,
+                                                                     static_cast<uint32_t>(stream_.bit_width_format_));
+                } else {
                     stream_.current_output_index_ = stream_.initial_output_index_;
                 }
             }

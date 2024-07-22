@@ -28,30 +28,30 @@
 
 #endif
 
-OWN_QPLC_FUN(void, qplc_set_8u, (uint8_t value, uint8_t * dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_set_8u, (uint8_t value, uint8_t* dst_ptr, uint32_t length)) {
     for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
 
-OWN_QPLC_FUN(void, qplc_set_16u, (uint16_t value, uint16_t * dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_set_16u, (uint16_t value, uint16_t* dst_ptr, uint32_t length)) {
     for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
 
-OWN_QPLC_FUN(void, qplc_set_32u, (uint32_t value, uint32_t * dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_set_32u, (uint32_t value, uint32_t* dst_ptr, uint32_t length)) {
     for (uint32_t i = 0U; i < length; i++) {
         dst_ptr[i] = value;
     }
 }
 
-OWN_QPLC_FUN(void, qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_copy_8u)(src_ptr, dst_ptr, length);
 #else
-    const uint64_t *src_64u_ptr = (uint64_t *)src_ptr;
-    uint64_t *dst_64u_ptr = (uint64_t *)dst_ptr;
+    const uint64_t* src_64u_ptr = (uint64_t*)src_ptr;
+    uint64_t*       dst_64u_ptr = (uint64_t*)dst_ptr;
 
     uint32_t length_64u = length / sizeof(uint64_t);
     uint32_t tail_start = length_64u * sizeof(uint64_t);
@@ -77,11 +77,11 @@ OWN_QPLC_FUN(void, qplc_copy_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint
 #endif
 }
 
-OWN_QPLC_FUN(void, qplc_copy_16u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_copy_16u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
     CALL_CORE_FUN(qplc_copy_8u)(src_ptr, dst_ptr, length * sizeof(uint16_t));
 }
 
-OWN_QPLC_FUN(void, qplc_copy_32u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_copy_32u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
     CALL_CORE_FUN(qplc_copy_8u)(src_ptr, dst_ptr, length * sizeof(uint32_t));
 }
 
@@ -91,7 +91,7 @@ OWN_QPLC_FUN(void, qplc_copy_32u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uin
  * @param[in,out]  dst_ptr  pointer to destination byte buffer
  * @param[in]      len      number of bytes to set
  */
-OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_zero_8u)(dst_ptr, length);
 #else
@@ -127,15 +127,13 @@ OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
         dst_ptr += 2;
     }
 
-    if (remaining_bytes) {
-        *dst_ptr = 0U;
-    }
+    if (remaining_bytes) { *dst_ptr = 0U; }
 #endif
 }
 
-OWN_QPLC_FUN(void, qplc_move_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t length )) {
+OWN_QPLC_FUN(void, qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
 #if PLATFORM >= K0
-    CALL_OPT_FUNCTION(k0_qplc_move_8u)(src_ptr,dst_ptr, length);
+    CALL_OPT_FUNCTION(k0_qplc_move_8u)(src_ptr, dst_ptr, length);
 #else
     if (OWN_QPLC_UINT_PTR(src_ptr) < OWN_QPLC_UINT_PTR(dst_ptr)) {
         for (uint32_t i = 0U; i < length; i++) {
@@ -149,10 +147,10 @@ OWN_QPLC_FUN(void, qplc_move_8u, (const uint8_t *src_ptr, uint8_t *dst_ptr, uint
 #endif
 }
 
-OWN_QPLC_FUN(void, qplc_move_16u, (const uint16_t *src_ptr, uint16_t *dst_ptr, uint32_t length )) {
-    CALL_CORE_FUN(qplc_move_8u)((const uint8_t *) src_ptr, (uint8_t *) dst_ptr, length * sizeof(uint16_t));
+OWN_QPLC_FUN(void, qplc_move_16u, (const uint16_t* src_ptr, uint16_t* dst_ptr, uint32_t length)) {
+    CALL_CORE_FUN(qplc_move_8u)((const uint8_t*)src_ptr, (uint8_t*)dst_ptr, length * sizeof(uint16_t));
 }
 
-OWN_QPLC_FUN(void, qplc_move_32u, (const uint32_t *src_ptr, uint32_t *dst_ptr, uint32_t length )) {
-    CALL_CORE_FUN(qplc_move_8u)((const uint8_t *) src_ptr, (uint8_t *) dst_ptr, length * sizeof(uint32_t));
+OWN_QPLC_FUN(void, qplc_move_32u, (const uint32_t* src_ptr, uint32_t* dst_ptr, uint32_t length)) {
+    CALL_CORE_FUN(qplc_move_8u)((const uint8_t*)src_ptr, (uint8_t*)dst_ptr, length * sizeof(uint32_t));
 }

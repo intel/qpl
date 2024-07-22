@@ -15,7 +15,7 @@ extern "C" {
 #endif
 #endif
 
-void qpl_flatten_ll(uint32_t *ll_hist);
+void qpl_flatten_ll(uint32_t* ll_hist);
 
 #ifdef QPL_LIB
 #ifdef __cplusplus

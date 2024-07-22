@@ -13,6 +13,7 @@
 #define QPL_QPLC_HUFFMAN_TABLE_H_
 
 #include <stdint.h>
+
 #include "qplc_compression_consts.h"
 
 #ifdef __cplusplus
@@ -42,8 +43,8 @@ typedef enum {
  * Code is not bit-reversed, stored in LE
  */
 typedef struct {
-    uint32_t literals_matches[QPLC_DEFLATE_LL_TABLE_SIZE];  /**< Huffman table for literals and match lengths */
-    uint32_t offsets[QPLC_DEFLATE_D_TABLE_SIZE];            /**< Huffman table for offsets */
+    uint32_t literals_matches[QPLC_DEFLATE_LL_TABLE_SIZE]; /**< Huffman table for literals and match lengths */
+    uint32_t offsets[QPLC_DEFLATE_D_TABLE_SIZE];           /**< Huffman table for offsets */
 } qplc_huffman_table_default_format;
 
 /**
@@ -86,46 +87,40 @@ typedef struct {
     huffman_table_aecs_format format_stored;
 } qplc_huffman_table_flat_format;
 
-inline uint16_t qplc_huffman_table_get_ll_code(const qplc_huffman_table_default_format *table,
-                                               uint32_t index) {
+inline uint16_t qplc_huffman_table_get_ll_code(const qplc_huffman_table_default_format* table, uint32_t index) {
     const uint16_t code_value = (uint16_t)(table->literals_matches[index] & QPLC_HUFFMAN_CODE_MASK);
 
     return code_value;
 }
 
-inline void qplc_huffman_table_write_ll_code(qplc_huffman_table_default_format *table,
-                                             uint32_t index,
-                                             uint16_t code) {
-    const uint32_t literal_length_value = ((uint32_t) code) & QPLC_HUFFMAN_CODE_MASK;
+inline void qplc_huffman_table_write_ll_code(qplc_huffman_table_default_format* table, uint32_t index, uint16_t code) {
+    const uint32_t literal_length_value = ((uint32_t)code) & QPLC_HUFFMAN_CODE_MASK;
     table->literals_matches[index] |= literal_length_value;
 }
 
-inline void qplc_huffman_table_write_ll_code_length(qplc_huffman_table_default_format *table,
-                                                    uint32_t index,
+inline void qplc_huffman_table_write_ll_code_length(qplc_huffman_table_default_format* table, uint32_t index,
                                                     uint8_t code_length) {
-    const uint32_t code_length_value = ((uint32_t) code_length) & QPLC_HUFFMAN_CODE_LENGTH_MASK;
+    const uint32_t code_length_value = ((uint32_t)code_length) & QPLC_HUFFMAN_CODE_LENGTH_MASK;
     table->literals_matches[index] |= (code_length_value << QPLC_HUFFMAN_CODE_LENGTH_OFFSET);
 }
 
-inline uint8_t qplc_huffman_table_get_ll_code_length(const qplc_huffman_table_default_format *table,
-                                                     uint32_t index) {
-    const uint32_t ll_code    = table->literals_matches[index];
-    const uint8_t code_length = (uint8_t)((ll_code & QPLC_LENGTH_MASK) >> QPLC_HUFFMAN_CODE_LENGTH_OFFSET);
+inline uint8_t qplc_huffman_table_get_ll_code_length(const qplc_huffman_table_default_format* table, uint32_t index) {
+    const uint32_t ll_code     = table->literals_matches[index];
+    const uint8_t  code_length = (uint8_t)((ll_code & QPLC_LENGTH_MASK) >> QPLC_HUFFMAN_CODE_LENGTH_OFFSET);
 
     return code_length;
 }
 
-inline uint16_t qplc_huffman_table_get_offset_code(const qplc_huffman_table_default_format *table,
-                                                   uint32_t index) {
+inline uint16_t qplc_huffman_table_get_offset_code(const qplc_huffman_table_default_format* table, uint32_t index) {
     const uint16_t code_value = (uint16_t)(table->offsets[index] & QPLC_HUFFMAN_CODE_MASK);
 
     return code_value;
 }
 
-inline uint8_t qplc_huffman_table_get_offset_code_length(const qplc_huffman_table_default_format *table,
-                                                         uint32_t index) {
+inline uint8_t qplc_huffman_table_get_offset_code_length(const qplc_huffman_table_default_format* table,
+                                                         uint32_t                                 index) {
     const uint32_t offset_code = table->offsets[index];
-    const uint8_t code_length = (uint8_t)((offset_code & QPLC_LENGTH_MASK) >> QPLC_HUFFMAN_CODE_LENGTH_OFFSET);
+    const uint8_t  code_length = (uint8_t)((offset_code & QPLC_LENGTH_MASK) >> QPLC_HUFFMAN_CODE_LENGTH_OFFSET);
 
     return code_length;
 }

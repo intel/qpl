@@ -9,13 +9,15 @@
 
 #include "igzip_lib.h"
 
-#define LONG_BITS_CHECK 12
+#define LONG_BITS_CHECK  12
 #define SHORT_BITS_CHECK 10
 #if (LONG_BITS_CHECK == ISAL_DECODE_LONG_BITS) && (SHORT_BITS_CHECK == ISAL_DECODE_SHORT_BITS)
-# define ISAL_STATIC_INFLATE_TABLE
+#define ISAL_STATIC_INFLATE_TABLE
 #else
-# warning "Incompatible compile time defines for optimized static inflate table."
+#warning "Incompatible compile time defines for optimized static inflate table."
 #endif
+
+// clang-format off
 
 struct inflate_huff_code_large static_lit_huff_code = {
     .short_code_lookup = {
@@ -2680,5 +2682,7 @@ struct inflate_huff_code_small pregen_dist_huff_code = {
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
         0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000	}
 };
+
+// clang-format on
 
 #endif

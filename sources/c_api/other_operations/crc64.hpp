@@ -13,7 +13,7 @@
 #define QPL_SOURCES_C_API_OTHER_OPERATIONS_CRC64_HPP_
 
 #include "qpl/c_api/defs.h"
-
+#include "qpl/c_api/job.h"
 
 /**
  * @anchor CRC_OPERATION
@@ -41,6 +41,6 @@
  * @snippet low-level-api/crc64_example.cpp QPL_LOW_LEVEL_CRC64_EXAMPLE
  *
  */
-uint32_t perform_crc64(qpl_job *const job_ptr) noexcept;
+uint32_t perform_crc64(qpl_job* const job_ptr) noexcept;
 
 #endif //QPL_SOURCES_C_API_OTHER_OPERATIONS_CRC64_HPP_

@@ -73,14 +73,14 @@ extern "C" {
  * @brief Internal structure for analytics buffers manipulations
  */
 typedef struct {
-    uint32_t inflate_buf_size;    /**< Size of buffer for inflate operation */
-    uint32_t unpack_buf_size;     /**< Size of buffer for unpack operation */
-    uint32_t set_buf_size;        /**< Size of buffer used in select and expand */
-    uint32_t src2_buf_size;       /**< Size of buffer for src2 unpacking in expand operation */
-    uint8_t  *inflate_buf_ptr;    /**< Pointer to inflate buffer */
-    uint8_t  *unpack_buf_ptr;     /**< Pointer to unpack buffer */
-    uint8_t  *set_buf_ptr;        /**< Pointer to buffer used in select and expand */
-    uint8_t  *src2_buf_ptr;       /**< Pointer to src2 buffer for expand */
+    uint32_t inflate_buf_size; /**< Size of buffer for inflate operation */
+    uint32_t unpack_buf_size;  /**< Size of buffer for unpack operation */
+    uint32_t set_buf_size;     /**< Size of buffer used in select and expand */
+    uint32_t src2_buf_size;    /**< Size of buffer for src2 unpacking in expand operation */
+    uint8_t* inflate_buf_ptr;  /**< Pointer to inflate buffer */
+    uint8_t* unpack_buf_ptr;   /**< Pointer to unpack buffer */
+    uint8_t* set_buf_ptr;      /**< Pointer to buffer used in select and expand */
+    uint8_t* src2_buf_ptr;     /**< Pointer to src2 buffer for expand */
 } own_analytics_state_t;
 
 #ifdef __cplusplus

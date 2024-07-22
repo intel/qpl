@@ -7,16 +7,16 @@
 #ifndef MIDDLE_LAYER_COMPRESSION_UTILS_COMPRESSION_TRAITS_HPP
 #define MIDDLE_LAYER_COMPRESSION_UTILS_COMPRESSION_TRAITS_HPP
 
-#include "compression/deflate/utils/compression_defs.hpp"
-#include "compression/deflate/streams/compression_stream.hpp"
 #include "common/defs.hpp"
+#include "compression/deflate/streams/compression_stream.hpp"
+#include "compression/deflate/utils/compression_defs.hpp"
 
 namespace qpl::ml::compression {
 
-template<execution_path_t path>
+template <execution_path_t path>
 class deflate_state;
 
-template<execution_path_t path>
+template <execution_path_t path>
 class deflate_state_builder;
 
 namespace traits {
@@ -52,9 +52,7 @@ struct common_type_for_compression_stream<execution_path_t::hardware> {
 
 template <compression_mode_t mode>
 constexpr auto need_huffman_table_mode() noexcept -> bool {
-    if constexpr(static_mode == mode || canned_mode == mode) {
-        return true;
-    }
+    if constexpr (static_mode == mode || canned_mode == mode) { return true; }
 
     return false;
 }

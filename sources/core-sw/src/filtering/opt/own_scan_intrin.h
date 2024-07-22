@@ -8,9 +8,10 @@
 #define OWN_SCAN_INTRIN_H
 
 #include <stdint.h>
+
 #include "immintrin.h"
 
-static inline __m512i own_unpack_1u_kernel(uint8_t *src_ptr, uint32_t start_bit) {
+static inline __m512i own_unpack_1u_kernel(uint8_t* src_ptr, uint32_t start_bit) {
     __m512i srcmm0, srcmm1;
     srcmm0 = _mm512_loadu_si512(src_ptr);
     srcmm1 = _mm512_loadu_si512(src_ptr + 1u);
@@ -34,9 +35,7 @@ static inline __m512i own_unpack_1u_kernel(uint8_t *src_ptr, uint32_t start_bit)
  *
  * @return    void
  */
-static inline void own_scan_EQ_1u_kernel(uint8_t *src_ptr,
-                                         uint8_t *dst_ptr,
-                                         uint32_t start_bit,
+static inline void own_scan_EQ_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t start_bit,
                                          __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = own_unpack_1u_kernel(src_ptr, start_bit);
@@ -55,7 +54,7 @@ static inline void own_scan_EQ_1u_kernel(uint8_t *src_ptr,
  *
  * @return    void
  */
-static inline void own_scan_aligned_EQ_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_aligned_EQ_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -111,7 +110,7 @@ static inline __mmask16 own_scan_EQ_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_pipeline_GE_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_pipeline_GE_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -167,7 +166,7 @@ static inline __mmask16 own_scan_GE_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_pipeline_GT_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_pipeline_GT_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -223,7 +222,7 @@ static inline __mmask16 own_scan_GT_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_pipeline_LE_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_pipeline_LE_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -280,9 +279,7 @@ static inline __mmask16 own_scan_LE_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_LT_1u_kernel(uint8_t *src_ptr,
-                                         uint8_t *dst_ptr,
-                                         uint32_t start_bit,
+static inline void own_scan_LT_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t start_bit,
                                          __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = own_unpack_1u_kernel(src_ptr, start_bit);
@@ -301,7 +298,7 @@ static inline void own_scan_LT_1u_kernel(uint8_t *src_ptr,
  *
  * @return    void
  */
-static inline void own_scan_pipeline_LT_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_pipeline_LT_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -357,7 +354,7 @@ static inline __mmask16 own_scan_LT_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_pipeline_NE_1u_kernel(uint8_t *src_ptr, uint8_t *dst_ptr, __m512i broadcasted_value) {
+static inline void own_scan_pipeline_NE_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i broadcasted_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
 
@@ -413,9 +410,7 @@ static inline __mmask16 own_scan_NE_32u_kernel(__m512i srcmm, __m512i broadcaste
  *
  * @return    void
  */
-static inline void own_scan_pipeline_REQ_1u_kernel(uint8_t *src_ptr,
-                                                   uint8_t *dst_ptr,
-                                                   __m512i lesser_value,
+static inline void own_scan_pipeline_REQ_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i lesser_value,
                                                    __m512i greater_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);
@@ -482,9 +477,7 @@ static inline __mmask16 own_scan_REQ_32u_kernel(__m512i srcmm, __m512i lesser_va
  *
  * @return    void
  */
-static inline void own_scan_pipeline_RNE_1u_kernel(uint8_t *src_ptr,
-                                                   uint8_t *dst_ptr,
-                                                   __m512i lesser_value,
+static inline void own_scan_pipeline_RNE_1u_kernel(uint8_t* src_ptr, uint8_t* dst_ptr, __m512i lesser_value,
                                                    __m512i greater_value) {
     __m512i srcmm;
     srcmm = _mm512_loadu_si512(src_ptr);

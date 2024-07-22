@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <type_traits>
 
+// clang-format off
+
 constexpr uint8_t reversed_bits_table[0x100] = {
         0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0,
         0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0,
@@ -44,7 +46,9 @@ constexpr uint8_t reversed_bits_table[0x100] = {
         0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF
 };
 
-template<typename value_type>
+// clang-format on
+
+template <typename value_type>
 inline value_type reverse_bits(value_type x) {
     static_assert(std::is_same<value_type, uint8_t>::value);
 
@@ -55,10 +59,10 @@ template <>
 inline uint16_t reverse_bits<uint16_t>(uint16_t x) {
     union {
         uint16_t uint;
-        uint8_t ubyte[2];
+        uint8_t  ubyte[2];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = reverse_bits<uint8_t>(y.ubyte[1]);
     z.ubyte[1] = reverse_bits<uint8_t>(y.ubyte[0]);
 
@@ -72,7 +76,7 @@ inline uint32_t reverse_bits<uint32_t>(uint32_t x) {
         uint8_t  ubyte[4];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = reverse_bits<uint8_t>(y.ubyte[3]);
     z.ubyte[1] = reverse_bits<uint8_t>(y.ubyte[2]);
     z.ubyte[2] = reverse_bits<uint8_t>(y.ubyte[1]);
@@ -87,14 +91,13 @@ static inline uint16_t reverse_bits(uint16_t code, const uint32_t length) {
     return (code >> (16 - length));
 }
 
-
 static inline uint16_t swap_bytes(uint16_t x) {
     union {
         uint16_t uint;
         uint8_t  ubyte[2];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = y.ubyte[1];
     z.ubyte[1] = y.ubyte[0];
 
@@ -107,7 +110,7 @@ static inline uint32_t swap_bytes(uint32_t x) {
         uint8_t  ubyte[4];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = y.ubyte[3];
     z.ubyte[1] = y.ubyte[2];
     z.ubyte[2] = y.ubyte[1];

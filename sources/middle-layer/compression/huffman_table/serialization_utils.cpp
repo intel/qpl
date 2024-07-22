@@ -9,15 +9,16 @@
  *  Middle Layer API (private C++ API)
  */
 
-#include <cstdint>
-#include <cstring>
-#include <cstdlib>
 #include "compression/huffman_table/serialization_utils.hpp"
+
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
 
 namespace qpl::ml::serialization {
 using namespace qpl::ml::compression;
 
-void get_meta_size(const huffman_table_meta_t &meta, size_t *out_size) {
+void get_meta_size(const huffman_table_meta_t& meta, size_t* out_size) {
     size_t meta_size = 0;
 
     meta_size += sizeof(meta.magic_num);
@@ -31,8 +32,8 @@ void get_meta_size(const huffman_table_meta_t &meta, size_t *out_size) {
     *out_size = meta_size;
 }
 
-void serialize_meta(const huffman_table_meta_t &meta, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_meta(const huffman_table_meta_t& meta, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(meta.magic_num));
     write_impl(&dst, &(meta.struct_id));
@@ -43,8 +44,8 @@ void serialize_meta(const huffman_table_meta_t &meta, uint8_t *buffer) {
     write_impl(&dst, &(meta.flags));
 }
 
-void deserialize_meta(const uint8_t * const buffer, huffman_table_meta_t &meta) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_meta(const uint8_t* const buffer, huffman_table_meta_t& meta) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(meta.magic_num));
     read_impl(&src, &(meta.struct_id));
@@ -59,7 +60,7 @@ void deserialize_meta(const uint8_t * const buffer, huffman_table_meta_t &meta) 
    from qpl_(de)compression_huffman_table
 */
 
-size_t flatten_table_size(const qplc_huffman_table_default_format &table) {
+size_t flatten_table_size(const qplc_huffman_table_default_format& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.literals_matches);
@@ -68,7 +69,7 @@ size_t flatten_table_size(const qplc_huffman_table_default_format &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const isal_hufftables &table) {
+size_t flatten_table_size(const isal_hufftables& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.deflate_hdr);
@@ -84,7 +85,7 @@ size_t flatten_table_size(const isal_hufftables &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const hw_compression_huffman_table &table) {
+size_t flatten_table_size(const hw_compression_huffman_table& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.data);
@@ -92,7 +93,7 @@ size_t flatten_table_size(const hw_compression_huffman_table &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const deflate_header &table) {
+size_t flatten_table_size(const deflate_header& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.header_bit_size);
@@ -101,7 +102,7 @@ size_t flatten_table_size(const deflate_header &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const qplc_huffman_table_flat_format &table) {
+size_t flatten_table_size(const qplc_huffman_table_flat_format& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.number_of_codes);
@@ -109,14 +110,12 @@ size_t flatten_table_size(const qplc_huffman_table_flat_format &table) {
     table_size += sizeof(table.first_table_indexes);
 
     table_size += sizeof(table.format_stored);
-    table_size += (table.format_stored == ht_with_mapping_table)
-                  ? sizeof(table.index_to_char)
-                  : sizeof(table.lit_cam);
+    table_size += (table.format_stored == ht_with_mapping_table) ? sizeof(table.index_to_char) : sizeof(table.lit_cam);
 
     return table_size;
 }
 
-size_t flatten_table_size(const hw_decompression_state &table) {
+size_t flatten_table_size(const hw_decompression_state& table) {
     size_t table_size = 0;
 
     // using here actual data size without padding
@@ -126,7 +125,7 @@ size_t flatten_table_size(const hw_decompression_state &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const inflate_huff_code_large &table) {
+size_t flatten_table_size(const inflate_huff_code_large& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.short_code_lookup);
@@ -135,7 +134,7 @@ size_t flatten_table_size(const inflate_huff_code_large &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const inflate_huff_code_small &table) {
+size_t flatten_table_size(const inflate_huff_code_small& table) {
     size_t table_size = 0;
 
     table_size += sizeof(table.short_code_lookup);
@@ -144,7 +143,7 @@ size_t flatten_table_size(const inflate_huff_code_small &table) {
     return table_size;
 }
 
-size_t flatten_table_size(const canned_table &table) {
+size_t flatten_table_size(const canned_table& table) {
     size_t table_size = 0;
 
     table_size += flatten_table_size(table.literal_huffman_codes);
@@ -159,15 +158,15 @@ size_t flatten_table_size(const canned_table &table) {
    from qpl_(de)compression_huffman_table
 */
 
-void serialize_table(const qplc_huffman_table_default_format &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const qplc_huffman_table_default_format& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.literals_matches));
     write_impl(&dst, &(table.offsets));
 }
 
-void serialize_table(const isal_hufftables &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const isal_hufftables& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.deflate_hdr));
     write_impl(&dst, &(table.deflate_hdr_count));
@@ -180,21 +179,21 @@ void serialize_table(const isal_hufftables &table, uint8_t *buffer) {
     write_impl(&dst, &(table.dcodes_sizes));
 }
 
-void serialize_table(const hw_compression_huffman_table &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const hw_compression_huffman_table& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.data));
 }
 
-void serialize_table(const deflate_header &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const deflate_header& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.header_bit_size));
     write_impl(&dst, &(table.data));
 }
 
-void serialize_table(const qplc_huffman_table_flat_format &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const qplc_huffman_table_flat_format& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.number_of_codes));
     write_impl(&dst, &(table.first_codes));
@@ -203,51 +202,52 @@ void serialize_table(const qplc_huffman_table_flat_format &table, uint8_t *buffe
     write_impl(&dst, &(table.format_stored));
     if (table.format_stored == ht_with_mapping_table) {
         write_impl(&dst, &(table.index_to_char));
-    }
-    else {
+    } else {
         write_impl(&dst, &(table.lit_cam));
     }
 }
 
-void serialize_table(const hw_decompression_state &table, uint8_t *buffer) {
+void serialize_table(const hw_decompression_state& table, uint8_t* buffer) {
 
     // using here actual data size without padding
     // see inflate_huffman_table.cpp
     memcpy(buffer, &(table.data), sizeof(table.data) - HW_PATH_STRUCTURES_REQUIRED_ALIGN);
 }
 
-void serialize_table(const inflate_huff_code_large &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const inflate_huff_code_large& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.short_code_lookup));
     write_impl(&dst, &(table.long_code_lookup));
 }
 
-void serialize_table(const inflate_huff_code_small &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const inflate_huff_code_small& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
     write_impl(&dst, &(table.short_code_lookup));
     write_impl(&dst, &(table.long_code_lookup));
 }
 
-void serialize_table(const canned_table &table, uint8_t *buffer) {
-    uint8_t *dst = buffer; // adding an offset internally
+void serialize_table(const canned_table& table, uint8_t* buffer) {
+    uint8_t* dst = buffer; // adding an offset internally
 
-    serialize_table(table.literal_huffman_codes, dst);  dst += flatten_table_size(table.literal_huffman_codes);
-    serialize_table(table.distance_huffman_codes, dst); dst += flatten_table_size(table.distance_huffman_codes);
+    serialize_table(table.literal_huffman_codes, dst);
+    dst += flatten_table_size(table.literal_huffman_codes);
+    serialize_table(table.distance_huffman_codes, dst);
+    dst += flatten_table_size(table.distance_huffman_codes);
     write_impl(&dst, &(table.eob_code_and_len));
     write_impl(&dst, &(table.is_final_block));
 }
 
-void deserialize_table(const uint8_t * const buffer, qplc_huffman_table_default_format &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_default_format& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.literals_matches));
     read_impl(&src, &(table.offsets));
 }
 
-void deserialize_table(const uint8_t * const buffer, isal_hufftables &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, isal_hufftables& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.deflate_hdr));
     read_impl(&src, &(table.deflate_hdr_count));
@@ -260,21 +260,21 @@ void deserialize_table(const uint8_t * const buffer, isal_hufftables &table) {
     read_impl(&src, &(table.dcodes_sizes));
 }
 
-void deserialize_table(const uint8_t * const buffer, hw_compression_huffman_table &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, hw_compression_huffman_table& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.data));
 }
 
-void deserialize_table(const uint8_t * const buffer, deflate_header &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, deflate_header& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.header_bit_size));
     read_impl(&src, &(table.data));
 }
 
-void deserialize_table(const uint8_t * const buffer, qplc_huffman_table_flat_format &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_flat_format& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.number_of_codes));
     read_impl(&src, &(table.first_codes));
@@ -283,40 +283,41 @@ void deserialize_table(const uint8_t * const buffer, qplc_huffman_table_flat_for
     read_impl(&src, &(table.format_stored));
     if (table.format_stored == ht_with_mapping_table) {
         read_impl(&src, &(table.index_to_char));
-    }
-    else {
+    } else {
         read_impl(&src, &(table.lit_cam));
     }
 }
 
-void deserialize_table(const uint8_t * const buffer, hw_decompression_state &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, hw_decompression_state& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     // using here actual data size without padding
     // see inflate_huffman_table.cpp
     memcpy(&(table.data), src, sizeof(table.data) - HW_PATH_STRUCTURES_REQUIRED_ALIGN);
 }
 
-void deserialize_table(const uint8_t * const buffer, inflate_huff_code_large &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, inflate_huff_code_large& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.short_code_lookup));
     read_impl(&src, &(table.long_code_lookup));
 }
 
-void deserialize_table(const uint8_t * const buffer, inflate_huff_code_small &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, inflate_huff_code_small& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.short_code_lookup));
     read_impl(&src, &(table.long_code_lookup));
 }
 
-void deserialize_table(const uint8_t * const buffer, canned_table &table) {
-    uint8_t *src = const_cast<uint8_t *>(buffer); // adding an offset internally
+void deserialize_table(const uint8_t* const buffer, canned_table& table) {
+    uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
-    deserialize_table(src, table.literal_huffman_codes);  src += flatten_table_size(table.literal_huffman_codes);
-    deserialize_table(src, table.distance_huffman_codes); src += flatten_table_size(table.distance_huffman_codes);
+    deserialize_table(src, table.literal_huffman_codes);
+    src += flatten_table_size(table.literal_huffman_codes);
+    deserialize_table(src, table.distance_huffman_codes);
+    src += flatten_table_size(table.distance_huffman_codes);
     read_impl(&src, &(table.eob_code_and_len));
     read_impl(&src, &(table.is_final_block));
 }
-}
+} // namespace qpl::ml::serialization

@@ -21,18 +21,15 @@ enum class memory_block_t {
 
 class linear_allocator {
 public:
-    linear_allocator(allocation_buffer_t &buffer) : buffer_(buffer) {
-    };
+    linear_allocator(allocation_buffer_t& buffer) : buffer_(buffer) {};
 
     template <class U>
-    constexpr linear_allocator(const linear_allocator &allocator) noexcept
-            :buffer_(allocator.buffer_) {
-    }
+    constexpr linear_allocator(const linear_allocator& allocator) noexcept : buffer_(allocator.buffer_) {}
 
     template <class T, memory_block_t align = memory_block_t::not_aligned>
-    [[nodiscard]] inline auto allocate(size_t n = 1U) const noexcept -> T * {
-        uint8_t *ptr     = buffer_.data();
-        void    *new_ptr = ptr;
+    [[nodiscard]] inline auto allocate(size_t n = 1U) const noexcept -> T* {
+        uint8_t* ptr     = buffer_.data();
+        void*    new_ptr = ptr;
 
         auto byte_size = sizeof(T) * n;
 
@@ -41,9 +38,8 @@ public:
             auto capacity = buffer_.capacity();
 
             if (std::align(64U, byte_size, new_ptr, capacity)) {
-                byte_size += std::distance(ptr, reinterpret_cast<uint8_t *>(new_ptr));
-            }
-            else {
+                byte_size += std::distance(ptr, reinterpret_cast<uint8_t*>(new_ptr));
+            } else {
                 // if it is not possible to align memory,
                 // set output to nullptr and not shift buffer
                 new_ptr   = nullptr;
@@ -53,23 +49,23 @@ public:
 
         buffer_.shift_data(byte_size);
 
-        return reinterpret_cast<T *>(new_ptr);
+        return reinterpret_cast<T*>(new_ptr);
     }
 
 private:
-    allocation_buffer_t &buffer_;
+    allocation_buffer_t& buffer_;
 };
 
 template <class T, class U>
-bool operator==(const linear_allocator &, const linear_allocator &) {
+bool operator==(const linear_allocator&, const linear_allocator&) {
     return false;
 }
 
 template <class T, class U>
-bool operator!=(const linear_allocator &, const linear_allocator &) {
+bool operator!=(const linear_allocator&, const linear_allocator&) {
     return true;
 }
 
-}
+} // namespace qpl::ml::util
 
 #endif //QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_CONTAINERS_BUFFER_HPP_

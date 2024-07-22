@@ -4,16 +4,14 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "stdint.h"
-
-#include "deflate_hash_table.h"
-#include "qplc_checksum.h"
-#include "crc.h"
-
 #include "deflate_slow_utils.h"
 
-#include "igzip_lib.h"
+#include "crc.h"
+#include "deflate_hash_table.h"
 #include "encode_df.h"
+#include "igzip_lib.h"
+#include "qplc_checksum.h"
+#include "stdint.h"
 
 #if PLATFORM >= K0
 
@@ -44,10 +42,8 @@ static inline uint32_t count_significant_bits(uint32_t value) {
     return significant_bits;
 }
 
-static inline void compute_offset_code(const struct isal_hufftables *huffman_table_ptr,
-                                       uint16_t offset,
-                                       uint64_t *const code_ptr,
-                                       uint32_t *const code_length_ptr) {
+static inline void compute_offset_code(const struct isal_hufftables* huffman_table_ptr, uint16_t offset,
+                                       uint64_t* const code_ptr, uint32_t* const code_length_ptr) {
     // Variables
     uint32_t significant_bits     = 0U;
     uint32_t number_of_extra_bits = 0U;
@@ -63,7 +59,7 @@ static inline void compute_offset_code(const struct isal_hufftables *huffman_tab
     number_of_extra_bits = significant_bits - 2U;
     extra_bits           = offset & ((1U << (number_of_extra_bits % 32)) - 1U);
     offset >>= number_of_extra_bits % 32;
-    symbol               = offset + 2 * number_of_extra_bits;
+    symbol = offset + 2 * number_of_extra_bits;
 
     // Extracting information from table
     code   = huffman_table_ptr->dcodes[symbol];
@@ -100,12 +96,12 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     } else if (offset <= 4096) {
         return 20 + (offset - 1) / 1024;
 #if defined(DEFLATE_WINDOW_SIZE_ABOVE_4K)
-        } else if (offset <= 8192) {
-            return 22 + (offset - 1) / 2048;
-        } else if (offset <= 16384) {
-            return 24 + (offset - 1) / 4096;
-        } else if (offset <= 32768) {
-            return 26 + (offset - 1) / 8192;
+    } else if (offset <= 8192) {
+        return 22 + (offset - 1) / 2048;
+    } else if (offset <= 16384) {
+        return 24 + (offset - 1) / 4096;
+    } else if (offset <= 32768) {
+        return 26 + (offset - 1) / 8192;
 #endif
     } else {
         // ~0 is an invalid distance code
@@ -113,7 +109,7 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     }
 }
 
-static void compute_distance_icf_code(uint32_t distance, uint32_t *code, uint32_t *extra_bits) {
+static void compute_distance_icf_code(uint32_t distance, uint32_t* code, uint32_t* extra_bits) {
     uint32_t msb            = 0U;
     uint32_t num_extra_bits = 0U;
 
@@ -121,28 +117,23 @@ static void compute_distance_icf_code(uint32_t distance, uint32_t *code, uint32_
     msb = bsr(distance);
     assert(msb >= 1);
     num_extra_bits = msb - 2;
-    *extra_bits = distance & ((1 << (num_extra_bits % 32)) - 1);
+    *extra_bits    = distance & ((1 << (num_extra_bits % 32)) - 1);
     distance >>= num_extra_bits % 32;
     *code = distance + 2 * num_extra_bits;
     assert(*code < 30);
 }
 
-uint32_t update_missed_literals(uint8_t *current_ptr,
-                                const uint8_t *upper_bound_ptr,
-                                const uint8_t *lower_bound_ptr,
-                                deflate_hash_table_t *hash_table_ptr) {
+uint32_t update_missed_literals(uint8_t* current_ptr, const uint8_t* upper_bound_ptr, const uint8_t* lower_bound_ptr,
+                                deflate_hash_table_t* hash_table_ptr) {
     uint32_t bytes_processed = 0;
 
     while (current_ptr < upper_bound_ptr) {
         // Variables
-        const uint32_t hash_value = qpl_crc32_gzip_refl(0U,
-                                                    current_ptr,
-                                                    OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
+        const uint32_t hash_value =
+                qpl_crc32_gzip_refl(0U, current_ptr, OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
 
         // Updating hash table
-        own_deflate_hash_table_update(hash_table_ptr,
-                                      (uint32_t) (current_ptr - lower_bound_ptr),
-                                      hash_value);
+        own_deflate_hash_table_update(hash_table_ptr, (uint32_t)(current_ptr - lower_bound_ptr), hash_value);
 
         // End of iteration
         current_ptr++;
@@ -152,7 +143,7 @@ uint32_t update_missed_literals(uint8_t *current_ptr,
     return bytes_processed;
 }
 
-void get_distance_icf_code(uint32_t distance, uint32_t *code, uint32_t *extra_bits) {
+void get_distance_icf_code(uint32_t distance, uint32_t* code, uint32_t* extra_bits) {
     assert(distance >= 1);
     assert(distance <= 32768);
     if (distance <= 2) {
@@ -163,38 +154,30 @@ void get_distance_icf_code(uint32_t distance, uint32_t *code, uint32_t *extra_bi
     }
 }
 
-void write_deflate_icf(struct deflate_icf *icf,
-                       uint32_t lit_len,
-                       uint32_t lit_dist,
-                       uint32_t extra_bits) {
-    *(uint32_t *) icf = lit_len |
-                        (lit_dist << LIT_LEN_BIT_COUNT) |
-                        (extra_bits << (LIT_LEN_BIT_COUNT + DIST_LIT_BIT_COUNT));
+void write_deflate_icf(struct deflate_icf* icf, uint32_t lit_len, uint32_t lit_dist, uint32_t extra_bits) {
+    *(uint32_t*)icf =
+            lit_len | (lit_dist << LIT_LEN_BIT_COUNT) | (extra_bits << (LIT_LEN_BIT_COUNT + DIST_LIT_BIT_COUNT));
 }
 
-void update_histogram_for_literal(isal_mod_hist *const histogram_ptr, const uint8_t literal) {
+void update_histogram_for_literal(isal_mod_hist* const histogram_ptr, const uint8_t literal) {
     histogram_ptr->ll_hist[literal]++;
 }
 
-void update_histogram_for_match(isal_mod_hist *const histogram_ptr, const deflate_match_t match) {
+void update_histogram_for_match(isal_mod_hist* const histogram_ptr, const deflate_match_t match) {
     histogram_ptr->ll_hist[match.length + LEN_OFFSET]++;
     histogram_ptr->d_hist[own_get_offset_table_index(match.offset)]++;
 }
 
-void get_match_length_code(const struct isal_hufftables *const huffman_table_ptr,
-                           const uint32_t match_length,
-                           uint64_t *const code_ptr,
-                           uint32_t *const code_length_ptr) {
+void get_match_length_code(const struct isal_hufftables* const huffman_table_ptr, const uint32_t match_length,
+                           uint64_t* const code_ptr, uint32_t* const code_length_ptr) {
     const uint64_t match_length_info = huffman_table_ptr->len_table[match_length - 3U];
 
     *code_ptr        = match_length_info >> 5U;
     *code_length_ptr = match_length_info & 0x1FU;
 }
 
-void get_offset_code(const struct isal_hufftables *const huffman_table_ptr,
-                     uint32_t offset,
-                     uint64_t *const code_ptr,
-                     uint32_t *const code_length_ptr) {
+void get_offset_code(const struct isal_hufftables* const huffman_table_ptr, uint32_t offset, uint64_t* const code_ptr,
+                     uint32_t* const code_length_ptr) {
     if (offset <= IGZIP_DIST_TABLE_SIZE) {
         const uint64_t offset_info = huffman_table_ptr->dist_table[offset - 1];
 
@@ -205,36 +188,29 @@ void get_offset_code(const struct isal_hufftables *const huffman_table_ptr,
     }
 }
 
-void get_literal_code(const struct isal_hufftables *const huffman_table_ptr,
-                      const uint32_t literal,
-                      uint64_t *const code_ptr,
-                      uint32_t *const code_length_ptr) {
+void get_literal_code(const struct isal_hufftables* const huffman_table_ptr, const uint32_t literal,
+                      uint64_t* const code_ptr, uint32_t* const code_length_ptr) {
     *code_ptr        = huffman_table_ptr->lit_table[literal];
     *code_length_ptr = huffman_table_ptr->lit_table_sizes[literal];
 }
 
 #endif
 
-OWN_QPLC_FUN(void, setup_dictionary, (uint8_t * dictionary_ptr,
-        uint32_t dictionary_size,
-        deflate_hash_table_t * hash_table_ptr)) {
+OWN_QPLC_FUN(void, setup_dictionary,
+             (uint8_t * dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_setup_dictionary)(dictionary_ptr, dictionary_size, hash_table_ptr);
 #else
 
-    uint8_t *current_ptr = dictionary_ptr;
+    uint8_t* current_ptr = dictionary_ptr;
 
     for (uint32_t index = 0; index < dictionary_size; index++) {
         // Variables
 
         uint32_t hash_value = 0U;
-        hash_value = qpl_crc32_gzip_refl(0U,
-                                     current_ptr,
-                                     OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
+        hash_value = qpl_crc32_gzip_refl(0U, current_ptr, OWN_BYTES_FOR_HASH_CALCULATION) & hash_table_ptr->hash_mask;
         // Updating hash table
-        own_deflate_hash_table_update(hash_table_ptr,
-                                      index - dictionary_size,
-                                      hash_value);
+        own_deflate_hash_table_update(hash_table_ptr, index - dictionary_size, hash_value);
 
         // End of iteration
         current_ptr++;

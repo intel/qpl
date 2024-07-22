@@ -19,31 +19,29 @@
 #include "qplc_api.h"
 #include "qplc_memop.h"
 
-OWN_QPLC_INLINE(qplc_status_t, ownc_decode_prle_header, (uint8_t * *pp_src,
-        const uint8_t *src_stop_ptr,
-        uint32_t      *format_ptr,
-        uint32_t      *count_ptr)) {
+OWN_QPLC_INLINE(qplc_status_t, ownc_decode_prle_header,
+                (uint8_t * *pp_src, const uint8_t* src_stop_ptr, uint32_t* format_ptr, uint32_t* count_ptr)) {
     OWN_RETURN_ERROR((*pp_src >= src_stop_ptr), QPLC_STS_SRC_IS_SHORT_ERR);
     uint32_t value = 0U;
 
-    value = (uint32_t) (*(*pp_src)++);
+    value       = (uint32_t)(*(*pp_src)++);
     *format_ptr = value & OWN_LOW_BIT_MASK;
     *count_ptr  = OWN_PRLE_COUNT(value);
     if (value & OWN_HIGH_BIT_MASK) {
         OWN_RETURN_ERROR((*pp_src >= src_stop_ptr), QPLC_STS_SRC_IS_SHORT_ERR);
-        value = (uint32_t) (*(*pp_src)++);
+        value = (uint32_t)(*(*pp_src)++);
         *count_ptr |= OWN_VARINT_BYTE_1(value);
         if (value & OWN_HIGH_BIT_MASK) {
             OWN_RETURN_ERROR((*pp_src >= src_stop_ptr), QPLC_STS_SRC_IS_SHORT_ERR);
-            value = (uint32_t) (*(*pp_src)++);
+            value = (uint32_t)(*(*pp_src)++);
             *count_ptr |= OWN_VARINT_BYTE_2(value);
             if (value & OWN_HIGH_BIT_MASK) {
                 OWN_RETURN_ERROR((*pp_src >= src_stop_ptr), QPLC_STS_SRC_IS_SHORT_ERR);
-                value = (uint32_t) (*(*pp_src)++);
+                value = (uint32_t)(*(*pp_src)++);
                 *count_ptr |= OWN_VARINT_BYTE_3(value);
                 if (value & OWN_HIGH_BIT_MASK) {
                     OWN_RETURN_ERROR((*pp_src >= src_stop_ptr), QPLC_STS_SRC_IS_SHORT_ERR);
-                    value = (uint32_t) (*(*pp_src)++);
+                    value = (uint32_t)(*(*pp_src)++);
                     *count_ptr |= OWN_VARINT_BYTE_4(value);
                 }
             }
@@ -52,12 +50,10 @@ OWN_QPLC_INLINE(qplc_status_t, ownc_decode_prle_header, (uint8_t * *pp_src,
     return QPLC_STS_OK;
 }
 
-OWN_QPLC_INLINE(uint32_t, ownc_octa_part_8u, (uint8_t * *pp_src,
-        const uint8_t *src_stop_ptr,
-        uint8_t       **pp_dst,
-        const uint8_t *dst_stop_ptr)) {
-    uint32_t max_count_src = (uint32_t) (src_stop_ptr - *pp_src);
-    uint32_t max_count_dst = (uint32_t) (dst_stop_ptr - *pp_dst);
+OWN_QPLC_INLINE(uint32_t, ownc_octa_part_8u,
+                (uint8_t * *pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr)) {
+    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src);
+    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst);
     uint32_t max_count     = QPL_MIN(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
@@ -69,12 +65,10 @@ OWN_QPLC_INLINE(uint32_t, ownc_octa_part_8u, (uint8_t * *pp_src,
     }
 }
 
-OWN_QPLC_INLINE(uint32_t, ownc_octa_part_16u, (uint8_t * *pp_src,
-        const uint8_t *src_stop_ptr,
-        uint8_t       **pp_dst,
-        const uint8_t *dst_stop_ptr)) {
-    uint32_t max_count_src = (uint32_t) (src_stop_ptr - *pp_src) / sizeof(uint16_t);
-    uint32_t max_count_dst = (uint32_t) (dst_stop_ptr - *pp_dst) / sizeof(uint16_t);
+OWN_QPLC_INLINE(uint32_t, ownc_octa_part_16u,
+                (uint8_t * *pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr)) {
+    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint16_t);
+    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint16_t);
     uint32_t max_count     = QPL_MIN(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
@@ -86,12 +80,10 @@ OWN_QPLC_INLINE(uint32_t, ownc_octa_part_16u, (uint8_t * *pp_src,
     }
 }
 
-OWN_QPLC_INLINE(uint32_t, ownc_octa_part_32u, (uint8_t * *pp_src,
-        const uint8_t *src_stop_ptr,
-        uint8_t       **pp_dst,
-        const uint8_t *dst_stop_ptr)) {
-    uint32_t max_count_src = (uint32_t) (src_stop_ptr - *pp_src) / sizeof(uint32_t);
-    uint32_t max_count_dst = (uint32_t) (dst_stop_ptr - *pp_dst) / sizeof(uint32_t);
+OWN_QPLC_INLINE(uint32_t, ownc_octa_part_32u,
+                (uint8_t * *pp_src, const uint8_t* src_stop_ptr, uint8_t** pp_dst, const uint8_t* dst_stop_ptr)) {
+    uint32_t max_count_src = (uint32_t)(src_stop_ptr - *pp_src) / sizeof(uint32_t);
+    uint32_t max_count_dst = (uint32_t)(dst_stop_ptr - *pp_dst) / sizeof(uint32_t);
     uint32_t max_count     = QPL_MIN(max_count_src, max_count_dst);
     if (0U == max_count) {
         return 0U;
@@ -103,13 +95,9 @@ OWN_QPLC_INLINE(uint32_t, ownc_octa_part_32u, (uint8_t * *pp_src,
     }
 }
 
-OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
-        uint32_t src_length,
-        uint32_t bit_width,
-        uint8_t * *pp_dst,
-        uint32_t dst_length,
-        int32_t * count_ptr,
-        uint32_t * value_ptr)) {
+OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u,
+             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+              int32_t* count_ptr, uint32_t* value_ptr)) {
     uint32_t count         = 0U;
     uint32_t format        = 0U;
     uint8_t  value         = 0U;
@@ -118,40 +106,39 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
     uint32_t max_count_dst = 0U;
     uint32_t src_step      = 0U;
     uint32_t dst_step      = 0U;
-    uint8_t  *kept_src_ptr = NULL;
-    uint8_t  *dst_ptr      = (uint8_t *) *pp_dst;
-    uint8_t  *src_ptr      = (uint8_t *) *pp_src;
-    uint8_t  *src_stop_ptr = src_ptr + src_length;
-    uint8_t  *dst_stop_ptr = dst_ptr + dst_length;
+    uint8_t* kept_src_ptr  = NULL;
+    uint8_t* dst_ptr       = (uint8_t*)*pp_dst;
+    uint8_t* src_ptr       = (uint8_t*)*pp_src;
+    uint8_t* src_stop_ptr  = src_ptr + src_length;
+    uint8_t* dst_stop_ptr  = dst_ptr + dst_length;
     uint32_t status        = QPLC_STS_OK;
 
     if (0 < *count_ptr) {
-        count = OWN_MIN((uint32_t) *count_ptr, dst_length);
-        *count_ptr = *count_ptr - (int32_t) count;
-        value  = (uint8_t) *value_ptr;
+        count      = OWN_MIN((uint32_t)*count_ptr, dst_length);
+        *count_ptr = *count_ptr - (int32_t)count;
+        value      = (uint8_t)*value_ptr;
         CALL_CORE_FUN(qplc_set_8u)(value, dst_ptr, count);
         dst_ptr += count;
         status = (0 != *count_ptr) ? QPLC_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        max_count     = (uint32_t) (-*count_ptr);
+        max_count     = (uint32_t)(-*count_ptr);
         max_count_dst = dst_length / OWN_PARQUET_WIDTH;
         max_count_src = src_length / bit_width;
         count         = OWN_MIN(max_count_src, max_count_dst);
         status        = (count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
         count         = OWN_MIN(max_count, count);
-        *count_ptr = *count_ptr + (int32_t) count;
+        *count_ptr    = *count_ptr + (int32_t)count;
         (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
         dst_ptr += count * OWN_PARQUET_WIDTH;
         src_ptr += count * bit_width;
         if (0 != *count_ptr) {
             if (8U == bit_width) {
                 *value_ptr = ownc_octa_part_8u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-            }
-            else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr);
-                uint32_t max_count_lit = QPL_MIN(max_count_lit_src, max_count_lit_dst);
+            } else {
+                uint32_t max_count_lit_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
+                uint32_t max_count_lit_dst = (uint32_t)(dst_stop_ptr - dst_ptr);
+                uint32_t max_count_lit     = QPL_MIN(max_count_lit_src, max_count_lit_dst);
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / OWN_PARQUET_WIDTH);
                 dst_ptr += max_count_lit;
@@ -165,7 +152,7 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
         // Extract format and counter
-        status       = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
+        status = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
         if (status != QPLC_STS_OK) {
             src_ptr = kept_src_ptr;
             break;
@@ -175,12 +162,12 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
             src_step = count * bit_width;
             dst_step = count * OWN_PARQUET_WIDTH;
             if (((src_ptr + src_step) > src_stop_ptr) || ((dst_ptr + dst_step) > dst_stop_ptr)) {
-                max_count_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width;
-                max_count_dst = (uint32_t) ((dst_stop_ptr - dst_ptr) / OWN_PARQUET_WIDTH);
+                max_count_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width;
+                max_count_dst = (uint32_t)((dst_stop_ptr - dst_ptr) / OWN_PARQUET_WIDTH);
                 max_count     = QPL_MIN(max_count_src, max_count_dst);
                 status        = (max_count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
-                *count_ptr = -(int32_t) (count - max_count);
-                count = max_count;
+                *count_ptr    = -(int32_t)(count - max_count);
+                count         = max_count;
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * OWN_PARQUET_WIDTH;
@@ -202,11 +189,11 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
             }
             value = *src_ptr++;
             if ((dst_ptr + count) > dst_stop_ptr) {
-                max_count = (uint32_t) (dst_stop_ptr - dst_ptr);
-                *count_ptr = (int32_t) (count - max_count);
-                count = max_count;
+                max_count  = (uint32_t)(dst_stop_ptr - dst_ptr);
+                *count_ptr = (int32_t)(count - max_count);
+                count      = max_count;
                 *value_ptr = value;
-                status = QPLC_STS_DST_IS_SHORT_ERR;
+                status     = QPLC_STS_DST_IS_SHORT_ERR;
             }
             CALL_CORE_FUN(qplc_set_8u)(value, dst_ptr, count);
             dst_ptr += count;
@@ -217,57 +204,52 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_8u, (uint8_t * *pp_src,
     return status;
 }
 
-OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u, (uint8_t * *pp_src,
-        uint32_t src_length,
-        uint32_t bit_width,
-        uint8_t * *pp_dst,
-        uint32_t dst_length,
-        int32_t * count_ptr,
-        uint32_t * value_ptr)) {
+OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u,
+             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+              int32_t* count_ptr, uint32_t* value_ptr)) {
     uint32_t count         = 0U;
     uint32_t format        = 0U;
     uint16_t value         = 0U;
     uint32_t max_count     = 0U;
     uint32_t max_count_src = 0U;
     uint32_t max_count_dst = 0U;
-    uint8_t  *dst_ptr      = (uint8_t *) *pp_dst;
-    uint8_t  *src_ptr      = (uint8_t *) *pp_src;
-    uint8_t  *src_stop_ptr = src_ptr + src_length;
+    uint8_t* dst_ptr       = (uint8_t*)*pp_dst;
+    uint8_t* src_ptr       = (uint8_t*)*pp_src;
+    uint8_t* src_stop_ptr  = src_ptr + src_length;
     // dst_length is length in unpacked elements;
     dst_length *= sizeof(uint16_t);
-    uint8_t  *dst_stop_ptr = dst_ptr + dst_length;
-    uint8_t  *kept_src_ptr = NULL;
-    uint32_t src_step      = 0U;
-    uint32_t dst_step      = 0U;
-    uint32_t status        = QPLC_STS_OK;
+    uint8_t* dst_stop_ptr = dst_ptr + dst_length;
+    uint8_t* kept_src_ptr = NULL;
+    uint32_t src_step     = 0U;
+    uint32_t dst_step     = 0U;
+    uint32_t status       = QPLC_STS_OK;
 
     if (0 < *count_ptr) {
-        count = QPL_MIN((uint32_t) *count_ptr, dst_length / sizeof(uint16_t));
-        *count_ptr = *count_ptr - (int32_t) count;
-        value  = (uint16_t) *value_ptr;
-        CALL_CORE_FUN(qplc_set_16u)(value, (uint16_t *) dst_ptr, count);
+        count      = QPL_MIN((uint32_t)*count_ptr, dst_length / sizeof(uint16_t));
+        *count_ptr = *count_ptr - (int32_t)count;
+        value      = (uint16_t)*value_ptr;
+        CALL_CORE_FUN(qplc_set_16u)(value, (uint16_t*)dst_ptr, count);
         dst_ptr += count * sizeof(uint16_t);
         status = (0 != *count_ptr) ? QPLC_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        max_count     = (uint32_t) (-*count_ptr);
+        max_count     = (uint32_t)(-*count_ptr);
         max_count_dst = dst_length / (OWN_PARQUET_WIDTH * sizeof(uint16_t));
         max_count_src = src_length / bit_width;
         count         = OWN_MIN(max_count_src, max_count_dst);
         status        = (count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
         count         = OWN_MIN(max_count, count);
-        *count_ptr = *count_ptr + (int32_t) count;
+        *count_ptr    = *count_ptr + (int32_t)count;
         (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
         dst_ptr += count * OWN_PARQUET_WIDTH * sizeof(uint16_t);
         src_ptr += count * bit_width;
         if (0 != *count_ptr) {
             if (16U == bit_width) {
                 *value_ptr = ownc_octa_part_16u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-            }
-            else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint16_t);
-                uint32_t max_count_lit = QPL_MIN(max_count_lit_src, max_count_lit_dst);
+            } else {
+                uint32_t max_count_lit_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
+                uint32_t max_count_lit_dst = (uint32_t)(dst_stop_ptr - dst_ptr) / sizeof(uint16_t);
+                uint32_t max_count_lit     = QPL_MIN(max_count_lit_src, max_count_lit_dst);
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / OWN_PARQUET_WIDTH);
                 dst_ptr += max_count_lit * sizeof(uint16_t);
@@ -281,7 +263,7 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u, (uint8_t * *pp_src,
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
         // Extract format and counter
-        status       = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
+        status = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
         if (status != QPLC_STS_OK) {
             src_ptr = kept_src_ptr;
             break;
@@ -291,12 +273,12 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u, (uint8_t * *pp_src,
             src_step = count * bit_width;
             dst_step = count * OWN_PARQUET_WIDTH * sizeof(uint16_t);
             if (((src_ptr + src_step) > src_stop_ptr) || ((dst_ptr + dst_step) > dst_stop_ptr)) {
-                max_count_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width;
-                max_count_dst = (uint32_t) ((dst_stop_ptr - dst_ptr) / (OWN_PARQUET_WIDTH * sizeof(uint16_t)));
+                max_count_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width;
+                max_count_dst = (uint32_t)((dst_stop_ptr - dst_ptr) / (OWN_PARQUET_WIDTH * sizeof(uint16_t)));
                 max_count     = QPL_MIN(max_count_src, max_count_dst);
                 status        = (max_count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
-                *count_ptr = -(int32_t) (count - max_count);
-                count = max_count;
+                *count_ptr    = -(int32_t)(count - max_count);
+                count         = max_count;
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * OWN_PARQUET_WIDTH * sizeof(uint16_t);
@@ -312,16 +294,16 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u, (uint8_t * *pp_src,
                 src_ptr = kept_src_ptr;
                 break;
             }
-            value = *(uint16_t *) src_ptr;
+            value = *(uint16_t*)src_ptr;
             src_ptr += sizeof(uint16_t);
             if ((dst_ptr + count * sizeof(uint16_t)) > dst_stop_ptr) {
-                max_count = (uint32_t) ((dst_stop_ptr - dst_ptr) / sizeof(uint16_t));
-                *count_ptr = (int32_t) (count - max_count);
-                count = max_count;
+                max_count  = (uint32_t)((dst_stop_ptr - dst_ptr) / sizeof(uint16_t));
+                *count_ptr = (int32_t)(count - max_count);
+                count      = max_count;
                 *value_ptr = value;
-                status = QPLC_STS_DST_IS_SHORT_ERR;
+                status     = QPLC_STS_DST_IS_SHORT_ERR;
             }
-            CALL_CORE_FUN(qplc_set_16u)(value, (uint16_t *) dst_ptr, count);
+            CALL_CORE_FUN(qplc_set_16u)(value, (uint16_t*)dst_ptr, count);
             dst_ptr += count * sizeof(uint16_t);
         }
     }
@@ -330,60 +312,55 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_16u, (uint8_t * *pp_src,
     return status;
 }
 
-OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_32u, (uint8_t * *pp_src,
-        uint32_t src_length,
-        uint32_t bit_width,
-        uint8_t * *pp_dst,
-        uint32_t dst_length,
-        int32_t * count_ptr,
-        uint32_t * value_ptr)) {
+OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_32u,
+             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+              int32_t* count_ptr, uint32_t* value_ptr)) {
     uint32_t count         = 0U;
     uint32_t format        = 0U;
     uint32_t value         = 0U;
     uint32_t max_count     = 0U;
     uint32_t max_count_src = 0U;
     uint32_t max_count_dst = 0U;
-    uint8_t  *dst_ptr      = (uint8_t *) *pp_dst;
-    uint8_t  *src_ptr      = (uint8_t *) *pp_src;
-    uint8_t  *src_stop_ptr = src_ptr + src_length;
+    uint8_t* dst_ptr       = (uint8_t*)*pp_dst;
+    uint8_t* src_ptr       = (uint8_t*)*pp_src;
+    uint8_t* src_stop_ptr  = src_ptr + src_length;
     // dst_length is length in unpacked elements;
     dst_length *= sizeof(uint32_t);
-    uint8_t  *dst_stop_ptr = dst_ptr + dst_length;
-    uint8_t  *kept_src_ptr = NULL;
-    uint32_t src_step      = 0U;
-    uint32_t dst_step      = 0U;
-    uint32_t status        = QPLC_STS_OK;
+    uint8_t* dst_stop_ptr = dst_ptr + dst_length;
+    uint8_t* kept_src_ptr = NULL;
+    uint32_t src_step     = 0U;
+    uint32_t dst_step     = 0U;
+    uint32_t status       = QPLC_STS_OK;
     // Using a fixed-width of round-up-to-next-byte(bit-width) - value may take 3 or 4 bytes
-    uint32_t value_width   = (OWN_3_BYTE_WIDTH < bit_width) ? 4U : 3U;
-    uint32_t value_mask    = (OWN_3_BYTE_WIDTH < bit_width) ? UINT32_MAX : UINT32_MAX >> OWN_BYTE_WIDTH;
+    uint32_t value_width = (OWN_3_BYTE_WIDTH < bit_width) ? 4U : 3U;
+    uint32_t value_mask  = (OWN_3_BYTE_WIDTH < bit_width) ? UINT32_MAX : UINT32_MAX >> OWN_BYTE_WIDTH;
 
     if (0 < *count_ptr) {
-        count = QPL_MIN((uint32_t) *count_ptr, dst_length / sizeof(uint32_t));
-        *count_ptr = *count_ptr - (int32_t) count;
-        value  = (uint32_t) *value_ptr;
-        CALL_CORE_FUN(qplc_set_32u)(value, (uint32_t *) dst_ptr, count);
+        count      = QPL_MIN((uint32_t)*count_ptr, dst_length / sizeof(uint32_t));
+        *count_ptr = *count_ptr - (int32_t)count;
+        value      = (uint32_t)*value_ptr;
+        CALL_CORE_FUN(qplc_set_32u)(value, (uint32_t*)dst_ptr, count);
         dst_ptr += count * sizeof(uint32_t);
         status = (0 != *count_ptr) ? QPLC_STS_DST_IS_SHORT_ERR : status;
     }
     if (0 > *count_ptr) {
-        max_count     = (uint32_t) (-*count_ptr);
+        max_count     = (uint32_t)(-*count_ptr);
         max_count_dst = dst_length / (OWN_PARQUET_WIDTH * sizeof(uint32_t));
         max_count_src = src_length / bit_width;
         count         = OWN_MIN(max_count_src, max_count_dst);
         status        = (count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
         count         = OWN_MIN(max_count, count);
-        *count_ptr = *count_ptr + (int32_t) count;
+        *count_ptr    = *count_ptr + (int32_t)count;
         (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
         dst_ptr += count * OWN_PARQUET_WIDTH * sizeof(uint32_t);
         src_ptr += count * bit_width;
         if (0 != *count_ptr) {
             if (32U == bit_width) {
                 *value_ptr = ownc_octa_part_32u(&src_ptr, src_stop_ptr, &dst_ptr, dst_stop_ptr);
-            }
-            else {
-                uint32_t max_count_lit_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
-                uint32_t max_count_lit_dst = (uint32_t) (dst_stop_ptr - dst_ptr) / sizeof(uint32_t);
-                uint32_t max_count_lit = QPL_MIN(max_count_lit_src, max_count_lit_dst);
+            } else {
+                uint32_t max_count_lit_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width * OWN_PARQUET_WIDTH;
+                uint32_t max_count_lit_dst = (uint32_t)(dst_stop_ptr - dst_ptr) / sizeof(uint32_t);
+                uint32_t max_count_lit     = QPL_MIN(max_count_lit_src, max_count_lit_dst);
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, max_count_lit, 0U, dst_ptr);
                 src_ptr += max_count_lit * (bit_width / OWN_PARQUET_WIDTH);
                 dst_ptr += max_count_lit * sizeof(uint32_t);
@@ -397,7 +374,7 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_32u, (uint8_t * *pp_src,
     while ((src_ptr < src_stop_ptr) && (dst_ptr < dst_stop_ptr)) {
         kept_src_ptr = src_ptr;
         // Extract format and counter
-        status       = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
+        status = ownc_decode_prle_header(&src_ptr, src_stop_ptr, &format, &count);
         if (status != QPLC_STS_OK) {
             src_ptr = kept_src_ptr;
             break;
@@ -407,12 +384,12 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_32u, (uint8_t * *pp_src,
             src_step = count * bit_width;
             dst_step = count * OWN_PARQUET_WIDTH * sizeof(uint32_t);
             if (((src_ptr + src_step) > src_stop_ptr) || ((dst_ptr + dst_step) > dst_stop_ptr)) {
-                max_count_src = (uint32_t) (src_stop_ptr - src_ptr) / bit_width;
-                max_count_dst = (uint32_t) ((dst_stop_ptr - dst_ptr) / (OWN_PARQUET_WIDTH * sizeof(uint32_t)));
+                max_count_src = (uint32_t)(src_stop_ptr - src_ptr) / bit_width;
+                max_count_dst = (uint32_t)((dst_stop_ptr - dst_ptr) / (OWN_PARQUET_WIDTH * sizeof(uint32_t)));
                 max_count     = QPL_MIN(max_count_src, max_count_dst);
                 status        = (max_count == max_count_src) ? QPLC_STS_SRC_IS_SHORT_ERR : QPLC_STS_DST_IS_SHORT_ERR;
-                *count_ptr = -(int32_t) (count - max_count);
-                count = max_count;
+                *count_ptr    = -(int32_t)(count - max_count);
+                count         = max_count;
                 (*qplc_unpack_bits_array[bit_width - 1U])(src_ptr, count * OWN_PARQUET_WIDTH, 0U, dst_ptr);
                 src_ptr += count * bit_width;
                 dst_ptr += count * OWN_PARQUET_WIDTH * sizeof(uint32_t);
@@ -429,22 +406,22 @@ OWN_QPLC_FUN(qplc_status_t, qplc_unpack_prle_32u, (uint8_t * *pp_src,
                 break;
             }
             if ((src_ptr + 3U) < src_stop_ptr) {
-                value = (*(uint32_t *) src_ptr) & value_mask;
+                value = (*(uint32_t*)src_ptr) & value_mask;
             } else {
-                value = *(uint16_t *) src_ptr;
+                value = *(uint16_t*)src_ptr;
                 value |= (*(src_ptr + 2U)) << OWN_WORD_WIDTH;
                 value &= value_mask;
             }
 
             src_ptr += value_width;
             if ((dst_ptr + count * sizeof(uint32_t)) > dst_stop_ptr) {
-                max_count = (uint32_t) ((dst_stop_ptr - dst_ptr) / sizeof(uint32_t));
-                *count_ptr = (int32_t) (count - max_count);
-                count = max_count;
+                max_count  = (uint32_t)((dst_stop_ptr - dst_ptr) / sizeof(uint32_t));
+                *count_ptr = (int32_t)(count - max_count);
+                count      = max_count;
                 *value_ptr = value;
-                status = QPLC_STS_DST_IS_SHORT_ERR;
+                status     = QPLC_STS_DST_IS_SHORT_ERR;
             }
-            CALL_CORE_FUN(qplc_set_32u)(value, (uint32_t *) dst_ptr, count);
+            CALL_CORE_FUN(qplc_set_32u)(value, (uint32_t*)dst_ptr, count);
             dst_ptr += count * sizeof(uint32_t);
         }
     }

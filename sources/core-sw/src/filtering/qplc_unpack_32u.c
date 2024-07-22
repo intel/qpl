@@ -38,64 +38,62 @@
 
 #else
 
-OWN_QPLC_INLINE(void, qplc_unpack_Nu32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint32_t bit_width,
-        uint8_t *dst_ptr)) {
-    uint64_t mask        = OWN_BIT_MASK(bit_width);
-    uint64_t next_dword  = 0U;
-    uint32_t *src32u_ptr = (uint32_t *) src_ptr;
-    uint8_t  *src8u_ptr  = (uint8_t *) src_ptr;
-    uint32_t *dst32u_ptr = (uint32_t *) dst_ptr;
-    uint32_t bits_in_buf = 0U;
-    uint64_t src         = 0U;
+OWN_QPLC_INLINE(void, qplc_unpack_Nu32u,
+                (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint32_t bit_width,
+                 uint8_t* dst_ptr)) {
+    uint64_t  mask        = OWN_BIT_MASK(bit_width);
+    uint64_t  next_dword  = 0U;
+    uint32_t* src32u_ptr  = (uint32_t*)src_ptr;
+    uint8_t*  src8u_ptr   = (uint8_t*)src_ptr;
+    uint32_t* dst32u_ptr  = (uint32_t*)dst_ptr;
+    uint32_t  bits_in_buf = 0U;
+    uint64_t  src         = 0U;
 
     if (2U < num_elements) {
         bits_in_buf = OWN_DWORD_WIDTH - start_bit;
-        src         = (uint64_t) ((*src32u_ptr) >> start_bit);
+        src         = (uint64_t)((*src32u_ptr) >> start_bit);
 
         src32u_ptr++;
 
         while (2U < num_elements) {
             if (bit_width > bits_in_buf) {
-                next_dword = (uint64_t) (*src32u_ptr);
+                next_dword = (uint64_t)(*src32u_ptr);
                 src32u_ptr++;
                 next_dword = next_dword << bits_in_buf;
                 src        = src | next_dword;
                 bits_in_buf += OWN_DWORD_WIDTH;
             }
-            *dst32u_ptr = (uint32_t) (src & mask);
-            src = src >> bit_width;
+            *dst32u_ptr = (uint32_t)(src & mask);
+            src         = src >> bit_width;
             bits_in_buf -= bit_width;
             dst32u_ptr++;
             num_elements--;
         }
 
-        src8u_ptr = (uint8_t *) src32u_ptr;
+        src8u_ptr = (uint8_t*)src32u_ptr;
     } else {
         while (start_bit > bits_in_buf) {
-            next_dword = (uint64_t) (*src8u_ptr);
+            next_dword = (uint64_t)(*src8u_ptr);
             src8u_ptr++;
             next_dword = next_dword << bits_in_buf;
             src        = src | next_dword;
             bits_in_buf += OWN_BYTE_WIDTH;
         }
 
-        src        >>= start_bit;
+        src >>= start_bit;
         bits_in_buf -= start_bit;
     }
 
     while (0U < num_elements) {
         while (bit_width > bits_in_buf) {
-            next_dword = (uint64_t) (*src8u_ptr);
+            next_dword = (uint64_t)(*src8u_ptr);
             src8u_ptr++;
             next_dword = next_dword << bits_in_buf;
             src        = src | next_dword;
             bits_in_buf += OWN_BYTE_WIDTH;
         }
-        *dst32u_ptr = (uint32_t) (src & mask);
-        src = src >> bit_width;
+        *dst32u_ptr = (uint32_t)(src & mask);
+        src         = src >> bit_width;
         bits_in_buf -= bit_width;
         dst32u_ptr++;
         num_elements--;
@@ -106,10 +104,8 @@ OWN_QPLC_INLINE(void, qplc_unpack_Nu32u, (const uint8_t *src_ptr,
 
 // ********************** 17u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_17u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_17u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_17u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -119,10 +115,8 @@ OWN_QPLC_FUN(void, qplc_unpack_17u32u, (const uint8_t *src_ptr,
 
 // ********************** 18u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_18u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_18u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_18u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -132,10 +126,8 @@ OWN_QPLC_FUN(void, qplc_unpack_18u32u, (const uint8_t *src_ptr,
 
 // ********************** 19u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_19u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_19u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_19u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -145,10 +137,8 @@ OWN_QPLC_FUN(void, qplc_unpack_19u32u, (const uint8_t *src_ptr,
 
 // ********************** 20u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_20u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_20u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_20u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -158,10 +148,8 @@ OWN_QPLC_FUN(void, qplc_unpack_20u32u, (const uint8_t *src_ptr,
 
 // ********************** 21u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_21u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_21u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_21u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -171,10 +159,8 @@ OWN_QPLC_FUN(void, qplc_unpack_21u32u, (const uint8_t *src_ptr,
 
 // ********************** 22u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_22u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_22u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_22u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -184,10 +170,8 @@ OWN_QPLC_FUN(void, qplc_unpack_22u32u, (const uint8_t *src_ptr,
 
 // ********************** 23u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_23u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_23u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_23u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -197,10 +181,8 @@ OWN_QPLC_FUN(void, qplc_unpack_23u32u, (const uint8_t *src_ptr,
 
 // ********************** 24u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_24u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_24u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_24u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -210,10 +192,8 @@ OWN_QPLC_FUN(void, qplc_unpack_24u32u, (const uint8_t *src_ptr,
 
 // ********************** 25u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_25u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_25u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_25u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -223,10 +203,8 @@ OWN_QPLC_FUN(void, qplc_unpack_25u32u, (const uint8_t *src_ptr,
 
 // ********************** 26u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_26u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_26u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_26u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -236,10 +214,8 @@ OWN_QPLC_FUN(void, qplc_unpack_26u32u, (const uint8_t *src_ptr,
 
 // ********************** 27u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_27u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_27u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_27u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -249,10 +225,8 @@ OWN_QPLC_FUN(void, qplc_unpack_27u32u, (const uint8_t *src_ptr,
 
 // ********************** 28u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_28u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_28u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_28u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -262,10 +236,8 @@ OWN_QPLC_FUN(void, qplc_unpack_28u32u, (const uint8_t *src_ptr,
 
 // ********************** 29u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_29u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_29u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_29u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -275,10 +247,8 @@ OWN_QPLC_FUN(void, qplc_unpack_29u32u, (const uint8_t *src_ptr,
 
 // ********************** 30u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_30u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_30u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_30u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -288,10 +258,8 @@ OWN_QPLC_FUN(void, qplc_unpack_30u32u, (const uint8_t *src_ptr,
 
 // ********************** 31u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_31u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t start_bit,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_31u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_unpack_31u32u)(src_ptr, num_elements, start_bit, dst_ptr);
 #else
@@ -301,9 +269,8 @@ OWN_QPLC_FUN(void, qplc_unpack_31u32u, (const uint8_t *src_ptr,
 
 // ********************** 32u ****************************** //
 
-OWN_QPLC_FUN(void, qplc_unpack_32u32u, (const uint8_t *src_ptr,
-        uint32_t num_elements,
-        uint32_t UNREFERENCED_PARAMETER(start_bit),
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(void, qplc_unpack_32u32u,
+             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t UNREFERENCED_PARAMETER(start_bit),
+              uint8_t* dst_ptr)) {
     CALL_CORE_FUN(qplc_copy_8u)(src_ptr, dst_ptr, num_elements * sizeof(uint32_t));
 }

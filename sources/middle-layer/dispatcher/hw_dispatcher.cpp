@@ -11,21 +11,24 @@
 
 #include "hw_dispatcher.hpp"
 
-#if defined( __linux__ )
+#if defined(__linux__)
 
 #endif
 
-#define QPL_HWSTS_RET(expr, err_code) { if( expr ) { return( err_code ); }}
+#define QPL_HWSTS_RET(expr, err_code)    \
+    {                                    \
+        if (expr) { return (err_code); } \
+    }
 
 namespace qpl::ml::dispatcher {
 
 hw_dispatcher::hw_dispatcher() noexcept : hw_init_status_(hw_dispatcher::initialize_hw()) {
-    hw_support_     = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
+    hw_support_ = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
 }
 
 auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
-#if defined( __linux__ )
-    accfg_ctx *ctx_ptr = nullptr;
+#if defined(__linux__)
+    accfg_ctx* ctx_ptr = nullptr;
 
     DIAG("Intel QPL version %s\n", QPL_VERSION);
 
@@ -34,15 +37,14 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
     QPL_HWSTS_RET(status != HW_ACCELERATOR_STATUS_OK, status);
 #endif
 
-
     DIAG("creating context\n");
     const int32_t context_creation_status = accfg_new(&ctx_ptr);
     QPL_HWSTS_RET(0U != context_creation_status, HW_ACCELERATOR_LIBACCEL_ERROR);
 
     // Retrieve first device in the system given the passed in context
     DIAG("enumerating devices\n");
-    auto *dev_tmp_ptr = accfg_device_get_first(ctx_ptr);
-    auto device_it    = devices_.begin();
+    auto* dev_tmp_ptr = accfg_device_get_first(ctx_ptr);
+    auto  device_it   = devices_.begin();
 
     while (nullptr != dev_tmp_ptr) {
         const hw_accelerator_status status = device_it->initialize_new_device(dev_tmp_ptr);
@@ -76,13 +78,11 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 }
 
 hw_dispatcher::~hw_dispatcher() noexcept {
-#if defined( __linux__ )
+#if defined(__linux__)
     // Variables
-    auto *context_ptr = hw_context_.get_driver_context_ptr();
+    auto* context_ptr = hw_context_.get_driver_context_ptr();
 
-    if (context_ptr != nullptr) {
-        accfg_unref(context_ptr);
-    }
+    if (context_ptr != nullptr) { accfg_unref(context_ptr); }
 
 #ifdef DYNAMIC_LOADING_LIBACCEL_CONFIG
     hw_finalize_accelerator_driver(&hw_driver_);
@@ -97,13 +97,13 @@ hw_dispatcher::~hw_dispatcher() noexcept {
 // it is guaranteed that the following would be thread-safe
 // and created only once
 // (case: static variables with block scope)
-auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher & {
-    static hw_dispatcher instance{};
+auto hw_dispatcher::get_instance() noexcept -> hw_dispatcher& {
+    static hw_dispatcher instance {};
     return instance;
 }
 
-void hw_dispatcher::fill_hw_context(hw_accelerator_context *const hw_context_ptr) noexcept {
-#if defined( __linux__ )
+void hw_dispatcher::fill_hw_context(hw_accelerator_context* const hw_context_ptr) noexcept {
+#if defined(__linux__)
     // Restore context
     hw_context_ptr->ctx_ptr = hw_context_.get_driver_context_ptr();
 
@@ -121,7 +121,7 @@ auto hw_dispatcher::is_hw_support() const noexcept -> bool {
     return hw_support_;
 }
 
-#if defined( __linux__ )
+#if defined(__linux__)
 
 auto hw_dispatcher::begin() const noexcept -> device_container_t::const_iterator {
     return devices_.cbegin();
@@ -135,17 +135,17 @@ auto hw_dispatcher::device_count() const noexcept -> size_t {
     return device_count_;
 }
 
-auto hw_dispatcher::device(size_t idx) const noexcept -> const hw_device & {
+auto hw_dispatcher::device(size_t idx) const noexcept -> const hw_device& {
     return devices_[idx % device_count_];
 }
 
-void hw_dispatcher::hw_context::set_driver_context_ptr(accfg_ctx *driver_context_ptr) noexcept {
+void hw_dispatcher::hw_context::set_driver_context_ptr(accfg_ctx* driver_context_ptr) noexcept {
     driver_context_ptr_ = driver_context_ptr;
 }
 
-[[nodiscard]] auto hw_dispatcher::hw_context::get_driver_context_ptr() noexcept -> accfg_ctx * {
+[[nodiscard]] auto hw_dispatcher::hw_context::get_driver_context_ptr() noexcept -> accfg_ctx* {
     return driver_context_ptr_;
 }
 
 #endif
-}
+} // namespace qpl::ml::dispatcher

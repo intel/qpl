@@ -4,27 +4,25 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include <assert.h>
+#include <memory.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <memory.h>
-#include <assert.h>
 
-#if __x86_64__  || __i386__ || _M_X64 || _M_IX86
+#if __x86_64__ || __i386__ || _M_X64 || _M_IX86
 #ifdef _MSC_VER
-# include <intrin.h>
+#include <intrin.h>
 #else
-# include <x86intrin.h>
+#include <x86intrin.h>
 #endif
 #endif //__x86_64__  || __i386__ || _M_X64 || _M_IX86
 
-#include "encode_df.h"
 #include "bitbuf2.h"
+#include "encode_df.h"
 
-struct deflate_icf *qpl_encode_deflate_icf_base(struct deflate_icf *next_in,
-                        struct deflate_icf *end_in, struct BitBuf2 *bb,
-                        struct hufftables_icf *hufftables)
-{
+struct deflate_icf* qpl_encode_deflate_icf_base(struct deflate_icf* next_in, struct deflate_icf* end_in,
+                                                struct BitBuf2* bb, struct hufftables_icf* hufftables) {
     struct huff_code lsym, dsym;
 
     while (next_in < end_in && !is_full(bb)) {

@@ -6,47 +6,42 @@
 
 #include "compression_units.hpp"
 
-#include "util/util.hpp"
-#include "simple_memory_ops.hpp"
-
-#include "deflate_slow.h"
-#include "deflate_slow_utils.h"
-
+#include "bitbuf2.h"
 #include "compression/deflate/implementations/deflate_implementation.hpp"
 #include "compression/utils.hpp"
-
-#include "igzip_lib.h"
-#include "bitbuf2.h"
-
+#include "deflate_slow.h"
+#include "deflate_slow_utils.h"
 #include "dispatcher.hpp"
+#include "igzip_lib.h"
 #include "qplc_deflate_utils.h"
+#include "simple_memory_ops.hpp"
+#include "util/util.hpp"
 
 static inline qplc_slow_deflate_body_t_ptr qplc_slow_deflate_body() {
-    return (qplc_slow_deflate_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_fix_table()[0]);
+    return (qplc_slow_deflate_body_t_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance()
+                                                  .get_deflate_fix_table()[0]);
 }
 
 extern "C" {
-extern void qpl_isal_deflate_body(struct isal_zstream *stream);
-extern void qpl_isal_deflate_finish(struct isal_zstream *stream);
+extern void qpl_isal_deflate_body(struct isal_zstream* stream);
+extern void qpl_isal_deflate_finish(struct isal_zstream* stream);
 }
 namespace qpl::ml::compression {
 
-auto write_header(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
-    if (stream.compression_mode() == canned_mode ||
-        !stream.should_start_new_block()) {
+auto write_header(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
+    if (stream.compression_mode() == canned_mode || !stream.should_start_new_block()) {
         state = compression_state_t::compression_body;
 
         return status_list::ok;
     }
 
-    if (stream.mini_blocks_support() == mini_blocks_support_t::enabled) {
-        stream.write_mini_block_index();
-    }
+    if (stream.mini_blocks_support() == mini_blocks_support_t::enabled) { stream.write_mini_block_index(); }
 
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
 
-    uint8_t  *deflate_header           = stream.isal_stream_ptr_->hufftables->deflate_hdr;
+    uint8_t*       deflate_header            = stream.isal_stream_ptr_->hufftables->deflate_hdr;
     const uint32_t deflate_header_count      = stream.isal_stream_ptr_->hufftables->deflate_hdr_count;
     const uint32_t deflate_header_extra_bits = stream.isal_stream_ptr_->hufftables->deflate_hdr_extra_bits;
 
@@ -56,9 +51,7 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
     uint32_t count          = deflate_header_count - isal_state->count;
 
     if (count != 0) {
-        if (count > stream.isal_stream_ptr_->avail_out) {
-            count = stream.isal_stream_ptr_->avail_out;
-        }
+        if (count > stream.isal_stream_ptr_->avail_out) { count = stream.isal_stream_ptr_->avail_out; }
 
         // By default the header has the first bit = 1 (Final Deflate block marker)
         if (!stream.isal_stream_ptr_->end_of_stream && isal_state->count == 0) {
@@ -68,9 +61,7 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
         }
 
         if (bit_buffer->m_bit_count != 0) {
-            if (stream.isal_stream_ptr_->avail_out < 8) {
-                return status_list::more_output_needed;
-            }
+            if (stream.isal_stream_ptr_->avail_out < 8) { return status_list::more_output_needed; }
 
             stream.reset_bit_buffer();
 
@@ -79,10 +70,11 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
             }
 
             stream.isal_stream_ptr_->next_out = buffer_ptr(bit_buffer);
-            count = buffer_used(bit_buffer);
+            count                             = buffer_used(bit_buffer);
         } else {
-            uint8_t *rest_or_deflate_header = deflate_header + isal_state->count;
-            core_sw::util::copy(rest_or_deflate_header, rest_or_deflate_header + count, stream.isal_stream_ptr_->next_out);
+            uint8_t* rest_or_deflate_header = deflate_header + isal_state->count;
+            core_sw::util::copy(rest_or_deflate_header, rest_or_deflate_header + count,
+                                stream.isal_stream_ptr_->next_out);
 
             stream.isal_stream_ptr_->next_out += count;
         }
@@ -118,18 +110,17 @@ auto write_header(deflate_state<execution_path_t::software> &stream, compression
     return status_list::ok;
 }
 
-auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto slow_deflate_body(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
 
     stream.reset_bit_buffer();
 
-    const uint32_t bytes_processed = qplc_slow_deflate_body()(stream.isal_stream_ptr_->next_in,
-                                                 stream.isal_stream_ptr_->next_in - stream.isal_stream_ptr_->total_in,
-                                                 stream.isal_stream_ptr_->next_in + stream.isal_stream_ptr_->avail_in,
-                                                 &stream.hash_table_,
-                                                 stream.isal_stream_ptr_->hufftables,
-                                                 bit_buffer);
+    const uint32_t bytes_processed = qplc_slow_deflate_body()(
+            stream.isal_stream_ptr_->next_in, stream.isal_stream_ptr_->next_in - stream.isal_stream_ptr_->total_in,
+            stream.isal_stream_ptr_->next_in + stream.isal_stream_ptr_->avail_in, &stream.hash_table_,
+            stream.isal_stream_ptr_->hufftables, bit_buffer);
 
     isal_state->block_end = isal_state->block_end + bytes_processed;
 
@@ -138,14 +129,13 @@ auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compre
     stream.isal_stream_ptr_->total_in += bytes_processed;
 
     if (is_full(bit_buffer)) {
-        if (stream.is_first_chunk() &&
-            stream.is_last_chunk() &&
+        if (stream.is_first_chunk() && stream.is_last_chunk() &&
             stream.mini_blocks_support() == mini_blocks_support_t::disabled) {
-                state = compression_state_t::write_stored_block;
-                return status_list::ok;
-            }
+            state = compression_state_t::write_stored_block;
+            return status_list::ok;
+        }
 
-            return status_list::more_output_needed;
+        return status_list::more_output_needed;
     } else {
         stream.dump_bit_buffer();
     }
@@ -163,9 +153,7 @@ auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compre
             state = compression_state_t::finish_deflate_block;
         }
 
-        if (status) {
-            return status;
-        }
+        if (status) { return status; }
 
     } else {
         state = compression_state_t::flush_bit_buffer;
@@ -174,20 +162,18 @@ auto slow_deflate_body(deflate_state<execution_path_t::software> &stream, compre
     return status_list::ok;
 }
 
-auto deflate_body(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto deflate_body(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     stream.reset_bit_buffer();
 
     qpl_isal_deflate_body(stream.isal_stream_ptr_);
 
-    if (is_full(&stream.isal_stream_ptr_->internal_state.bitbuf)) {
-        return status_list::more_output_needed;
-    }
+    if (is_full(&stream.isal_stream_ptr_->internal_state.bitbuf)) { return status_list::more_output_needed; }
 
     if (stream.isal_stream_ptr_->internal_state.state == ZSTATE_FLUSH_READ_BUFFER) {
         state = compression_state_t::compress_rest_data;
     } else {
-        if (stream.is_first_chunk() &&
-            stream.is_last_chunk() &&
+        if (stream.is_first_chunk() && stream.is_last_chunk() &&
             stream.mini_blocks_support() == mini_blocks_support_t::disabled) {
             state = compression_state_t::write_stored_block;
             return status_list::ok;
@@ -199,21 +185,19 @@ auto deflate_body(deflate_state<execution_path_t::software> &stream, compression
     return status_list::ok;
 }
 
-auto deflate_finish(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto deflate_finish(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     stream.reset_bit_buffer();
     qpl_isal_deflate_finish(stream.isal_stream_ptr_);
 
     auto status = status_list::ok;
 
-    if (is_full(&stream.isal_stream_ptr_->internal_state.bitbuf) ||
-        stream.isal_stream_ptr_->avail_in) {
+    if (is_full(&stream.isal_stream_ptr_->internal_state.bitbuf) || stream.isal_stream_ptr_->avail_in) {
         status = status_list::more_output_needed;
     }
 
     if (stream.is_last_chunk() && stream.mini_blocks_support() == mini_blocks_support_t::disabled) {
-        if (status_list::ok == status) {
-            status = write_end_of_block(stream, state);
-        }
+        if (status_list::ok == status) { status = write_end_of_block(stream, state); }
 
         if (stream.is_first_chunk() && !(stream.compression_mode() == canned_mode) &&
             (stream.isal_stream_ptr_->total_out > get_stored_blocks_size(stream.source_size_) ||
@@ -231,8 +215,8 @@ auto deflate_finish(deflate_state<execution_path_t::software> &stream, compressi
     return status;
 }
 
-auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
-                        compression_state_t &UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
+auto write_end_of_block(deflate_state<execution_path_t::software>& stream,
+                        compression_state_t& UNREFERENCED_PARAMETER(state)) noexcept -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
 
@@ -244,10 +228,7 @@ auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
     uint64_t literal_code        = 0U;
     uint32_t literal_code_length = 0U;
 
-    get_literal_code(stream.isal_stream_ptr_->hufftables,
-                     end_of_block_code_index,
-                     &literal_code,
-                     &literal_code_length);
+    get_literal_code(stream.isal_stream_ptr_->hufftables, end_of_block_code_index, &literal_code, &literal_code_length);
 
     if (bit_buffer->m_out_buf <= bit_buffer->m_out_end) {
         write_bits(bit_buffer, literal_code, literal_code_length);
@@ -255,8 +236,7 @@ auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
         if ((bit_buffer->m_bit_count + literal_code_length) <= 64) {
             bit_buffer->m_bits |= literal_code << bit_buffer->m_bit_count;
             bit_buffer->m_bit_count += literal_code_length;
-            while ((bit_buffer->m_bit_count > 0) &&
-                (bit_buffer->m_out_buf < (bit_buffer->m_out_end + 8))) {
+            while ((bit_buffer->m_bit_count > 0) && (bit_buffer->m_out_buf < (bit_buffer->m_out_end + 8))) {
                 *bit_buffer->m_out_buf++ = (uint8_t)bit_buffer->m_bits;
                 bit_buffer->m_bits >>= 8;
                 bit_buffer->m_bit_count = (bit_buffer->m_bit_count >= 8) ? bit_buffer->m_bit_count - 8 : 0;
@@ -264,28 +244,25 @@ auto write_end_of_block(deflate_state<execution_path_t::software> &stream,
         }
     }
 
-    if (is_full(bit_buffer)) {
-        return status_list::more_output_needed;
-    }
+    if (is_full(bit_buffer)) { return status_list::more_output_needed; }
 
     stream.dump_bit_buffer();
 
     return status_list::ok;
 }
 
-auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stream,
-                                 compression_state_t &state) noexcept -> qpl_ml_status {
-    auto implementation = build_implementation<block_type_t::mini_block>(stream.compression_level(),
-                                                                         stream.compression_mode(),
-                                                                         mini_blocks_support_t::disabled,
-                                                                         dictionary_support_t::disabled);
+auto process_by_mini_blocks_body(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
+    auto implementation = build_implementation<block_type_t::mini_block>(
+            stream.compression_level(), stream.compression_mode(), mini_blocks_support_t::disabled,
+            dictionary_support_t::disabled);
 
     auto source_begin = stream.source_begin_ptr_;
     auto source_size  = stream.source_size_;
 
     qpl_ml_status status = status_list::ok;
 
-    auto compress_block = [&] (uint8_t *source_begin, uint32_t source_size) -> void {
+    auto compress_block = [&](uint8_t* source_begin, uint32_t source_size) -> void {
         compression_state_t state = compression_state_t::init_compression;
 
         stream.set_source(source_begin, source_size);
@@ -296,9 +273,7 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stre
             status = implementation.execute(stream, state);
         } while (!status && state != compression_state_t::finish_compression_process);
 
-        if (!status) {
-            stream.update_checksum(source_begin, source_size);
-        }
+        if (!status) { stream.update_checksum(source_begin, source_size); }
 
         stream.dump_isal_stream();
     };
@@ -311,25 +286,19 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stre
     for (uint32_t index = 0; index < complete_mini_blocks_number; index++) {
         compress_block(current_mini_block_begin, mini_block_size);
 
-        if (status) {
-            return status;
-        }
+        if (status) { return status; }
 
         current_mini_block_begin += mini_block_size;
     }
 
-    if (last_mini_block_size) {
-        compress_block(current_mini_block_begin, last_mini_block_size);
-    }
+    if (last_mini_block_size) { compress_block(current_mini_block_begin, last_mini_block_size); }
 
     stream.restore_isal_stream();
 
     if (stream.is_last_chunk()) {
         auto status = write_end_of_block(stream, state);
 
-        if (status) {
-            return status;
-        }
+        if (status) { return status; }
 
         state = compression_state_t::finish_deflate_block;
     } else {
@@ -339,12 +308,13 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software> &stre
     return status;
 }
 
-auto build_huffman_table(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
+auto build_huffman_table(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     auto status = preprocess_static_block(stream, state);
 
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
 
-    isal_huff_histogram *histogram = reinterpret_cast<isal_huff_histogram *>(isal_state->buffer);
+    isal_huff_histogram* histogram = reinterpret_cast<isal_huff_histogram*>(isal_state->buffer);
 
     qpl_isal_update_histogram(stream.isal_stream_ptr_->next_in, stream.isal_stream_ptr_->avail_in, histogram);
     qpl_isal_create_hufftables(stream.isal_stream_ptr_->hufftables, histogram);
@@ -354,15 +324,12 @@ auto build_huffman_table(deflate_state<execution_path_t::software> &stream, comp
     return status;
 }
 
-auto preprocess_static_block(deflate_state<execution_path_t::software> &stream, compression_state_t &state) noexcept -> qpl_ml_status {
-    if (!stream.is_first_chunk() &&
-        stream.compression_mode() != canned_mode &&
-        stream.should_start_new_block()) {
+auto preprocess_static_block(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
+    if (!stream.is_first_chunk() && stream.compression_mode() != canned_mode && stream.should_start_new_block()) {
         auto status = write_end_of_block(stream, state);
 
-        if (status) {
-            return status;
-        }
+        if (status) { return status; }
     }
 
     state = compression_state_t::start_new_block;
@@ -370,15 +337,15 @@ auto preprocess_static_block(deflate_state<execution_path_t::software> &stream, 
     return status_list::ok;
 }
 
-auto skip_header(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream),
-                 compression_state_t &state) noexcept -> qpl_ml_status {
+auto skip_header(deflate_state<execution_path_t::software>& UNREFERENCED_PARAMETER(stream),
+                 compression_state_t&                       state) noexcept -> qpl_ml_status {
     state = compression_state_t::compression_body;
 
     return status_list::ok;
 }
 
-auto skip_preprocessing(deflate_state<execution_path_t::software> &UNREFERENCED_PARAMETER(stream),
-                        compression_state_t &state) noexcept -> qpl_ml_status {
+auto skip_preprocessing(deflate_state<execution_path_t::software>& UNREFERENCED_PARAMETER(stream),
+                        compression_state_t&                       state) noexcept -> qpl_ml_status {
     state = compression_state_t::start_new_block;
 
     return status_list::ok;

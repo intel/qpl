@@ -22,14 +22,11 @@
 
 #endif
 
-
 /******** out-of-place expand functions ********/
 
-OWN_QPLC_FUN(uint32_t, qplc_expand_8u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(uint32_t, qplc_expand_8u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_qplc_expand_8u)(src1_ptr, length_1, src2_ptr, length_2_ptr, dst_ptr);
 #else
@@ -50,19 +47,17 @@ OWN_QPLC_FUN(uint32_t, qplc_expand_8u, (const uint8_t *src1_ptr,
 #endif
 }
 
-OWN_QPLC_FUN(uint32_t, qplc_expand_16u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(uint32_t, qplc_expand_16u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_qplc_expand_16u)(src1_ptr, length_1, src2_ptr, length_2_ptr, dst_ptr);
 #else
 
-    uint16_t *src_16u_ptr = (uint16_t *) src1_ptr;
-    uint16_t *dst_16u_ptr = (uint16_t *) dst_ptr;
-    uint32_t expanded     = 0U;
-    uint32_t idx          = 0U;
+    uint16_t* src_16u_ptr = (uint16_t*)src1_ptr;
+    uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
+    uint32_t  expanded    = 0U;
+    uint32_t  idx         = 0U;
 
     for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {
@@ -77,19 +72,17 @@ OWN_QPLC_FUN(uint32_t, qplc_expand_16u, (const uint8_t *src1_ptr,
 #endif
 }
 
-OWN_QPLC_FUN(uint32_t, qplc_expand_32u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr)) {
+OWN_QPLC_FUN(uint32_t, qplc_expand_32u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_qplc_expand_32u)(src1_ptr, length_1, src2_ptr, length_2_ptr, dst_ptr);
 #else
 
-    uint32_t *src_32u_ptr = (uint32_t *) src1_ptr;
-    uint32_t *dst_32u_ptr = (uint32_t *) dst_ptr;
-    uint32_t expanded     = 0U;
-    uint32_t idx          = 0U;
+    uint32_t* src_32u_ptr = (uint32_t*)src1_ptr;
+    uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
+    uint32_t  expanded    = 0U;
+    uint32_t  idx         = 0U;
 
     for (idx = 0U; idx < *length_2_ptr; idx++) {
         if (src2_ptr[idx]) {

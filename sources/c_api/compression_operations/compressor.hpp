@@ -12,6 +12,8 @@
 #ifndef QPL_SOURCES_C_API_COMPRESSION_OPERATIONS_COMPRESSOR_HPP_
 #define QPL_SOURCES_C_API_COMPRESSION_OPERATIONS_COMPRESSOR_HPP_
 
+#include "qpl/c_api/job.h"
+
 #include "common/defs.hpp"
 
 /**
@@ -144,7 +146,7 @@ namespace qpl {
  *
  */
 template <qpl::ml::execution_path_t path>
-uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
+uint32_t perform_compression(qpl_job* const job_ptr) noexcept;
 
 /**
  * @brief Decompresses data that is compressed using deflate format
@@ -235,9 +237,9 @@ uint32_t perform_compression(qpl_job *const job_ptr) noexcept;
  *
  */
 template <qpl::ml::execution_path_t path>
-uint32_t perform_decompress(qpl_job *const job_ptr) noexcept;
+uint32_t perform_decompress(qpl_job* const job_ptr) noexcept;
 
-}
+} // namespace qpl
 
 /** @} */
 

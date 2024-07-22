@@ -10,27 +10,28 @@
  */
 
 #include <array>
+
 #include "hw_aecs_api.h"
 
 namespace qpl::ml::util {
-    std::array<uint16_t, 4U> aecs_decompress_access_lookup_table = {
-            hw_aecs_access_read | hw_aecs_access_write,        // Multi Chunk Mode: In progress
-            hw_aecs_access_read | hw_aecs_access_maybe_write,  // Multi Chunk Mode: Last Chunk
-            hw_aecs_access_write,                              // Multi Chunk Mode: First Chunk
-            hw_aecs_access_maybe_write                         // Single Chunk Mode
-    };
+std::array<uint16_t, 4U> aecs_decompress_access_lookup_table = {
+        hw_aecs_access_read | hw_aecs_access_write,       // Multi Chunk Mode: In progress
+        hw_aecs_access_read | hw_aecs_access_maybe_write, // Multi Chunk Mode: Last Chunk
+        hw_aecs_access_write,                             // Multi Chunk Mode: First Chunk
+        hw_aecs_access_maybe_write                        // Single Chunk Mode
+};
 
-    std::array<uint16_t, 4U> aecs_verify_access_lookup_table = {
-            hw_aecs_access_read | hw_aecs_access_write,        // Multi Chunk Mode: In progress
-            hw_aecs_access_read,                               // Multi Chunk Mode: Last Chunk
-            hw_aecs_access_write,                              // Multi Chunk Mode: First Chunk
-            0U                                                 // Single Chunk Mode
-    };
+std::array<uint16_t, 4U> aecs_verify_access_lookup_table = {
+        hw_aecs_access_read | hw_aecs_access_write, // Multi Chunk Mode: In progress
+        hw_aecs_access_read,                        // Multi Chunk Mode: Last Chunk
+        hw_aecs_access_write,                       // Multi Chunk Mode: First Chunk
+        0U                                          // Single Chunk Mode
+};
 
-    std::array<uint16_t, 4U> aecs_compress_access_lookup_table = {
-            hw_aecs_access_read | hw_aecs_access_write,        // Multi Chunk Mode: In progress
-            hw_aecs_access_read,                               // Multi Chunk Mode: Last Chunk
-            hw_aecs_access_read | hw_aecs_access_write,        // Multi Chunk Mode: First Chunk
-            hw_aecs_access_read                                // Single Chunk Mode
-    };
-}
+std::array<uint16_t, 4U> aecs_compress_access_lookup_table = {
+        hw_aecs_access_read | hw_aecs_access_write, // Multi Chunk Mode: In progress
+        hw_aecs_access_read,                        // Multi Chunk Mode: Last Chunk
+        hw_aecs_access_read | hw_aecs_access_write, // Multi Chunk Mode: First Chunk
+        hw_aecs_access_read                         // Single Chunk Mode
+};
+} // namespace qpl::ml::util

@@ -5,22 +5,22 @@
  ******************************************************************************/
 
 #include "verification_units.hpp"
+
 #include "util/checksum.hpp"
 
 namespace qpl::ml::compression {
-auto verify_deflate_header(verify_state<execution_path_t::software> &state) noexcept -> verification_result_t {
-    verification_result_t result{};
+auto verify_deflate_header(verify_state<execution_path_t::software>& state) noexcept -> verification_result_t {
+    verification_result_t result {};
 
-    auto &inflate_state = *state.get_state();
+    auto& inflate_state = *state.get_state();
 
-    if (inflate_state.avail_in == 0U &&
-        inflate_state.read_in_length == 0U) {
+    if (inflate_state.avail_in == 0U && inflate_state.read_in_length == 0U) {
         result.status = parser_status_t::need_more_input;
         return result;
     }
 
     const uint32_t initial_bits_in_buffer = inflate_state.read_in_length;
-    uint8_t *initial_next_in_ptr = inflate_state.next_in;
+    uint8_t*       initial_next_in_ptr    = inflate_state.next_in;
     const uint64_t initial_read_in_buffer = inflate_state.read_in;
 
     parser_status_t parser_status = parser_status_t::ok;
@@ -30,21 +30,19 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
     if (status_list::ok == decompression_status) {
         const uint32_t bytes_read = static_cast<uint32_t>(std::distance(initial_next_in_ptr, inflate_state.next_in));
 
-        const uint32_t actual_bits_read = bytes_read * byte_bits_size +
-                                          initial_bits_in_buffer -
-                                          inflate_state.read_in_length;
+        const uint32_t actual_bits_read =
+                bytes_read * byte_bits_size + initial_bits_in_buffer - inflate_state.read_in_length;
 
         result.bits_read += actual_bits_read;
 
         if (ISAL_BLOCK_HDR == inflate_state.block_state) {
             // Header was not fully read recover previous state, so the header could be read later
             inflate_state.read_in_length = initial_bits_in_buffer;
-            inflate_state.read_in = initial_read_in_buffer;
-            inflate_state.next_in = initial_next_in_ptr;
+            inflate_state.read_in        = initial_read_in_buffer;
+            inflate_state.next_in        = initial_next_in_ptr;
 
             parser_status = parser_status_t::need_more_input;
-        } else if (ISAL_BLOCK_TYPE0 == inflate_state.block_state &&
-                   0U == inflate_state.type0_block_len) {
+        } else if (ISAL_BLOCK_TYPE0 == inflate_state.block_state && 0U == inflate_state.type0_block_len) {
             parser_status = parser_status_t::error;
         } else {
             parser_status = parser_status_t::ok;
@@ -57,12 +55,12 @@ auto verify_deflate_header(verify_state<execution_path_t::software> &state) noex
     return result;
 }
 
-auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state) noexcept -> verification_result_t {
-    verification_result_t result{};
-    auto &inflate_state = *state.get_state();
-    const uint32_t initial_bits_in_buffer = inflate_state.read_in_length;
-    uint8_t *initial_next_in_ptr = inflate_state.next_in;
-    uint8_t *initial_next_out_ptr = inflate_state.next_out;
+auto verify_deflate_stream_body(verify_state<execution_path_t::software>& state) noexcept -> verification_result_t {
+    verification_result_t result {};
+    auto&                 inflate_state          = *state.get_state();
+    const uint32_t        initial_bits_in_buffer = inflate_state.read_in_length;
+    uint8_t*              initial_next_in_ptr    = inflate_state.next_in;
+    uint8_t*              initial_next_out_ptr   = inflate_state.next_out;
 
     if (inflate_state.write_overflow_len != 0) {
         *inflate_state.next_out = static_cast<uint8_t>(inflate_state.write_overflow_lits);
@@ -79,8 +77,7 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
         return result;
     }
 
-    if (inflate_state.avail_in == 0U &&
-        inflate_state.read_in_length == 0U) {
+    if (inflate_state.avail_in == 0U && inflate_state.read_in_length == 0U) {
         result.status = parser_status_t::need_more_input;
         return result;
     }
@@ -97,14 +94,13 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
     }
 
     // Calculate all bits and bytes recently read and written, update corresponding fields
-    const uint32_t bytes_written_during_current_iteration = static_cast<uint32_t>(std::distance(initial_next_out_ptr, inflate_state.next_out));
+    const uint32_t bytes_written_during_current_iteration =
+            static_cast<uint32_t>(std::distance(initial_next_out_ptr, inflate_state.next_out));
     result.bytes_written = bytes_written_during_current_iteration;
 
     const uint32_t bytes_read = static_cast<uint32_t>(std::distance(initial_next_in_ptr, inflate_state.next_in));
 
-    const uint32_t actual_bits_read = bytes_read * 8U +
-                                      initial_bits_in_buffer -
-                                      inflate_state.read_in_length;
+    const uint32_t actual_bits_read = bytes_read * 8U + initial_bits_in_buffer - inflate_state.read_in_length;
 
     result.bits_read += actual_bits_read;
 
@@ -116,30 +112,34 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
         5. Incorrect block
      */
 
-    if (ISAL_BLOCK_NEW_HDR == inflate_state.block_state &&
-        inflate_state.bfinal == 0) {
+    if (ISAL_BLOCK_NEW_HDR == inflate_state.block_state && inflate_state.bfinal == 0) {
         // EOB symbol (not bfinal) was met
         if (inflate_state.total_out > 0) {
             // EOB symbol could be the first symbol of the compressed stream, so there won't be any actual output
-            result.crc_value = util::crc32_gzip(initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
+            result.crc_value =
+                    util::crc32_gzip(initial_next_out_ptr,
+                                     initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
         }
 
         result.status = parser_status_t::end_of_block;
-    } else if (ISAL_BLOCK_INPUT_DONE == inflate_state.block_state &&
-               inflate_state.bfinal == 1) {
+    } else if (ISAL_BLOCK_INPUT_DONE == inflate_state.block_state && inflate_state.bfinal == 1) {
         // bfinal EOB symbol was met
         if (inflate_state.total_out > 0) {
-            result.crc_value = util::crc32_gzip(initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
+            result.crc_value =
+                    util::crc32_gzip(initial_next_out_ptr,
+                                     initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
         }
 
         result.status = parser_status_t::final_end_of_block;
     } else if (status == status_list::more_output_needed) {
         // Output overflow, start the new mini block
-        result.crc_value = util::crc32_gzip(initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
+        result.crc_value = util::crc32_gzip(
+                initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
         result.status = parser_status_t::end_of_mini_block;
     } else if (status_list::input_too_small == status) {
         // More input needed
-        result.crc_value = util::crc32_gzip(initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
+        result.crc_value = util::crc32_gzip(
+                initial_next_out_ptr, initial_next_out_ptr + bytes_written_during_current_iteration, inflate_state.crc);
         result.status = parser_status_t::need_more_input;
     } else {
         result.status = parser_status_t::error;
@@ -147,4 +147,4 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software> &state)
 
     return result;
 }
-}
+} // namespace qpl::ml::compression

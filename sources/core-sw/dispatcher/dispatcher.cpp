@@ -10,7 +10,7 @@
 
 #include "intrin.h"
 //  Windows CPUID
-#define cpuid(info, x)    __cpuidex(info, x, 0)
+#define cpuid(info, x) __cpuidex(info, x, 0)
 #else
 //  GCC Intrinsics
 #include <cpuid.h>
@@ -22,22 +22,18 @@ void cpuid(int info[4], int InfoType) {
 
 unsigned long long _xgetbv(unsigned int index) { //NOLINT(bugprone-reserved-identifier)
     unsigned int eax = 0U, edx = 0U;
-    __asm__ __volatile__(
-    "xgetbv;"
-    : "=a" (eax), "=d"(edx)
-    : "c" (index)
-    );
-    return ((unsigned long long) edx << 32) | eax;
+    __asm__ __volatile__("xgetbv;" : "=a"(eax), "=d"(edx) : "c"(index));
+    return ((unsigned long long)edx << 32) | eax;
 }
 
 #endif
 
-#define CPUID_AVX512F       0x00010000
-#define CPUID_AVX512CD      0x10000000
-#define CPUID_AVX512VL      0x80000000
-#define CPUID_AVX512BW      0x40000000
-#define CPUID_AVX512DQ      0x00020000
-#define EXC_OSXSAVE         0x08000000 // 27th  bit
+#define CPUID_AVX512F  0x00010000
+#define CPUID_AVX512CD 0x10000000
+#define CPUID_AVX512VL 0x80000000
+#define CPUID_AVX512BW 0x40000000
+#define CPUID_AVX512DQ 0x00020000
+#define EXC_OSXSAVE    0x08000000 // 27th  bit
 
 // CPUID_AVX512_MASK covers all the instructions used in middle-layer.
 // Intel® Intelligent Storage Acceleration Library (Intel® ISA-L) component has
@@ -45,13 +41,9 @@ unsigned long long _xgetbv(unsigned int index) { //NOLINT(bugprone-reserved-iden
 #define CPUID_AVX512_MASK (CPUID_AVX512F | CPUID_AVX512CD | CPUID_AVX512VL | CPUID_AVX512BW | CPUID_AVX512DQ)
 
 namespace qpl::core_sw::dispatcher {
-class kernel_dispatcher_singleton
-{
+class kernel_dispatcher_singleton {
 public:
-    kernel_dispatcher_singleton()
-    {
-        (void)kernels_dispatcher::get_instance();
-    }
+    kernel_dispatcher_singleton() { (void)kernels_dispatcher::get_instance(); }
 };
 static kernel_dispatcher_singleton g_kernel_dispatcher_singleton;
 
@@ -115,12 +107,11 @@ extern deflate_fix_table_t avx512_deflate_fix_table;
 extern setup_dictionary_table_t px_setup_dictionary_table;
 extern setup_dictionary_table_t avx512_setup_dictionary_table;
 
-
 auto detect_platform() -> arch_t {
     arch_t detected_platform = arch_t::px_arch;
     int    cpu_info[4];
     cpuid(cpu_info, 7);
-    const bool avx512_support_cpu  = ((cpu_info[1] & CPUID_AVX512_MASK) == CPUID_AVX512_MASK);
+    const bool avx512_support_cpu = ((cpu_info[1] & CPUID_AVX512_MASK) == CPUID_AVX512_MASK);
 
     cpuid(cpu_info, 1);
     const bool os_uses_XSAVE_XSTORE = cpu_info[2] & EXC_OSXSAVE;
@@ -130,12 +121,10 @@ auto detect_platform() -> arch_t {
         const unsigned long long xcr_feature_mask = _xgetbv(0); //NOLINT(bugprone-reserved-identifier)
         // Check if OPMASK state and ZMM state are enabled
         if ((xcr_feature_mask & 0xe0) == 0xe0) {
-             // Check if XMM state and YMM state are enabled
-             if ((xcr_feature_mask & 0x6) == 0x6) {
+            // Check if XMM state and YMM state are enabled
+            if ((xcr_feature_mask & 0x6) == 0x6) {
                 // Check if AVX512 features are supported
-                if (avx512_support_cpu) {
-                    detected_platform = arch_t::avx512_arch;
-                }
+                if (avx512_support_cpu) { detected_platform = arch_t::avx512_arch; }
             }
         }
     }
@@ -146,7 +135,7 @@ auto detect_platform() -> arch_t {
 auto get_unpack_index(const uint32_t flag_be, const uint32_t bit_width) -> uint32_t {
     const uint32_t input_be_shift = (flag_be) ? 32U : 0U;
     // Unpack function table contains 64 entries - starts from 1-32 bit-width for le_format, then 1-32 for BE input
-    const uint32_t unpack_index   = input_be_shift + bit_width - 1U;
+    const uint32_t unpack_index = input_be_shift + bit_width - 1U;
 
     return unpack_index;
 }
@@ -155,7 +144,7 @@ auto get_pack_index(const uint32_t flag_be, const uint32_t out_bit_width, const 
     const uint32_t output_be_shift = (flag_be) ? 4U : 0U;
     // Pack function table for nominal bit-vector output contains 8 entries - starts from 0-3 qpl_out_format for le_format,
     // then 4-7 for BE output
-    const uint32_t  pack_index     = (flag_nominal) ? out_bit_width + output_be_shift : output_be_shift;
+    const uint32_t pack_index = (flag_nominal) ? out_bit_width + output_be_shift : output_be_shift;
 
     return pack_index;
 }
@@ -164,8 +153,8 @@ auto get_unpack_prle_index(const uint32_t bit_width) -> uint32_t {
     return BITS_2_DATA_TYPE_INDEX(bit_width);
 }
 
-auto kernels_dispatcher::get_instance() noexcept -> kernels_dispatcher & {
-    static kernels_dispatcher instance{};
+auto kernels_dispatcher::get_instance() noexcept -> kernels_dispatcher& {
+    static kernels_dispatcher instance {};
 
     return instance;
 }
@@ -174,7 +163,7 @@ auto get_scan_index(const uint32_t bit_width, const uint32_t scan_flavor_index) 
     // Scan function table contains 3 entries for each scan sub-operation - for 8u, 16u & 32u unpacked data;
     const uint32_t data_type_index = BITS_2_DATA_TYPE_INDEX(bit_width);
     // Shift scan function index to the corresponding scan sub op: EQ, NE,LT, le_format, GT, GE, RANGE, NOT_RANGE
-    const uint32_t scan_index      = data_type_index + scan_flavor_index * 3U;
+    const uint32_t scan_index = data_type_index + scan_flavor_index * 3U;
 
     return scan_index;
 }
@@ -207,10 +196,9 @@ auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t {
     return memory_copy_index;
 }
 
-auto get_pack_bits_index(const uint32_t flag_be,
-                         const uint32_t src_bit_width,
-                         const uint32_t out_bit_width) -> uint32_t {
-    uint32_t pack_array_index = src_bit_width - 1U;
+auto get_pack_bits_index(const uint32_t flag_be, const uint32_t src_bit_width, const uint32_t out_bit_width)
+        -> uint32_t {
+    uint32_t       pack_array_index = src_bit_width - 1U;
     const uint32_t input_be_shift   = (flag_be) ? 35 : 0U; // 35
     // Unpack function table contains 70 (2 * 35) entries - starts from 1-32 bit-width
     // for le_format + 8u16u|8u32u|16u32u cases, then the same for BE input
@@ -251,72 +239,72 @@ auto get_pack_bits_index(const uint32_t flag_be,
                     break;
                 }
             }
-        } else {    /**< 32u >= src_bit_width */
+        } else {                    /**< 32u >= src_bit_width */
             pack_array_index = 31U; /**< 32u->32u */
         }
     }
     // No output modification for nominal array output
-    pack_array_index          = input_be_shift + pack_array_index;
+    pack_array_index = input_be_shift + pack_array_index;
 
     return pack_array_index;
 }
 
 auto get_aggregates_index(const uint32_t src_bit_width) -> uint32_t {
     uint32_t aggregates_index = BITS_2_DATA_TYPE_INDEX(src_bit_width);
-    aggregates_index = (1U == src_bit_width) ? 0U : aggregates_index + 1U;
+    aggregates_index          = (1U == src_bit_width) ? 0U : aggregates_index + 1U;
 
     return aggregates_index;
 }
 
-auto kernels_dispatcher::get_unpack_table() const noexcept -> const unpack_table_t & {
+auto kernels_dispatcher::get_unpack_table() const noexcept -> const unpack_table_t& {
     return *unpack_table_ptr_;
 }
 
-auto kernels_dispatcher::get_unpack_prle_table() const noexcept -> const unpack_prle_table_t & {
+auto kernels_dispatcher::get_unpack_prle_table() const noexcept -> const unpack_prle_table_t& {
     return *unpack_prle_table_ptr_;
 }
 
-auto kernels_dispatcher::get_pack_index_table() const noexcept -> const pack_index_table_t & {
+auto kernels_dispatcher::get_pack_index_table() const noexcept -> const pack_index_table_t& {
     return *pack_index_table_ptr_;
 }
 
-auto kernels_dispatcher::get_pack_table() const noexcept -> const pack_table_t & {
+auto kernels_dispatcher::get_pack_table() const noexcept -> const pack_table_t& {
     return *pack_table_ptr_;
 }
 
-auto kernels_dispatcher::get_scan_i_table() const noexcept -> const scan_i_table_t & {
+auto kernels_dispatcher::get_scan_i_table() const noexcept -> const scan_i_table_t& {
     return *scan_i_table_ptr_;
 }
 
-auto kernels_dispatcher::get_scan_table() const noexcept -> const scan_table_t & {
+auto kernels_dispatcher::get_scan_table() const noexcept -> const scan_table_t& {
     return *scan_table_ptr_;
 }
 
-auto kernels_dispatcher::get_aggregates_table() const noexcept -> const aggregates_table_t & {
+auto kernels_dispatcher::get_aggregates_table() const noexcept -> const aggregates_table_t& {
     return *aggregates_table_ptr_;
 }
 
-auto kernels_dispatcher::get_extract_table() const noexcept -> const extract_table_t & {
+auto kernels_dispatcher::get_extract_table() const noexcept -> const extract_table_t& {
     return *extract_table_ptr_;
 }
 
-auto kernels_dispatcher::get_extract_i_table() const noexcept -> const extract_i_table_t & {
+auto kernels_dispatcher::get_extract_i_table() const noexcept -> const extract_i_table_t& {
     return *extract_i_table_ptr_;
 }
 
-auto kernels_dispatcher::get_select_table() const noexcept -> const select_table_t & {
+auto kernels_dispatcher::get_select_table() const noexcept -> const select_table_t& {
     return *select_table_ptr_;
 }
 
-auto kernels_dispatcher::get_select_i_table() const noexcept -> const select_i_table_t & {
+auto kernels_dispatcher::get_select_i_table() const noexcept -> const select_i_table_t& {
     return *select_i_table_ptr_;
 }
 
-auto kernels_dispatcher::get_memory_copy_table() const noexcept -> const memory_copy_table_t & {
+auto kernels_dispatcher::get_memory_copy_table() const noexcept -> const memory_copy_table_t& {
     return *memory_copy_table_ptr_;
 }
 
-auto kernels_dispatcher::get_zero_table() const noexcept -> const zero_table_t & {
+auto kernels_dispatcher::get_zero_table() const noexcept -> const zero_table_t& {
     return *zero_table_ptr_;
 }
 
@@ -324,28 +312,27 @@ auto kernels_dispatcher::get_move_table() const noexcept -> const move_table_t& 
     return *move_table_ptr_;
 }
 
-auto kernels_dispatcher::get_crc64_table() const noexcept -> const crc64_table_t &{
+auto kernels_dispatcher::get_crc64_table() const noexcept -> const crc64_table_t& {
     return *crc64_table_ptr_;
 }
 
-auto kernels_dispatcher::get_xor_checksum_table() const noexcept -> const xor_checksum_table_t & {
+auto kernels_dispatcher::get_xor_checksum_table() const noexcept -> const xor_checksum_table_t& {
     return *xor_checksum_table_ptr_;
 }
 
-auto kernels_dispatcher::get_deflate_table() const noexcept -> const deflate_table_t & {
+auto kernels_dispatcher::get_deflate_table() const noexcept -> const deflate_table_t& {
     return *deflate_table_ptr_;
 }
 
-auto kernels_dispatcher::get_setup_dictionary_table() const noexcept -> const setup_dictionary_table_t & {
+auto kernels_dispatcher::get_setup_dictionary_table() const noexcept -> const setup_dictionary_table_t& {
     return *setup_dictionary_table_ptr_;
 }
 
-auto kernels_dispatcher::get_deflate_fix_table() const noexcept -> const deflate_fix_table_t & {
+auto kernels_dispatcher::get_deflate_fix_table() const noexcept -> const deflate_fix_table_t& {
     return *deflate_fix_table_ptr_;
 }
 
-
-auto kernels_dispatcher::get_expand_table() const noexcept -> const expand_table_t & {
+auto kernels_dispatcher::get_expand_table() const noexcept -> const expand_table_t& {
     return *expand_table_ptr_;
 }
 
@@ -353,52 +340,52 @@ kernels_dispatcher::kernels_dispatcher() noexcept : arch_(detect_platform()) {
 
     switch (arch_) {
         case arch_t::avx512_arch: {
-            unpack_table_ptr_                = &avx512_unpack_table;
+            unpack_table_ptr_ = &avx512_unpack_table;
             // This is a bug, should be fixed, avx512_prle kernel fails the tests
-            unpack_prle_table_ptr_           = &px_unpack_prle_table;
-            pack_index_table_ptr_            = &avx512_pack_index_table;
-            pack_table_ptr_                  = &avx512_pack_table;
-            scan_i_table_ptr_                = &avx512_scan_i_table;
-            scan_table_ptr_                  = &avx512_scan_table;
-            extract_table_ptr_               = &avx512_extract_table;
-            extract_i_table_ptr_             = &avx512_extract_i_table;
-            aggregates_table_ptr_            = &avx512_aggregates_table;
-            select_table_ptr_                = &avx512_select_table;
-            select_i_table_ptr_              = &avx512_select_i_table;
-            expand_table_ptr_                = &avx512_expand_table;
-            memory_copy_table_ptr_           = &avx512_memory_copy_table;
-            zero_table_ptr_                  = &avx512_zero_table;
-            move_table_ptr_                  = &avx512_move_table;
-            crc64_table_ptr_                 = &avx512_crc64_table;
-            xor_checksum_table_ptr_          = &avx512_xor_checksum_table;
-            deflate_table_ptr_               = &avx512_deflate_table;
-            deflate_fix_table_ptr_           = &avx512_deflate_fix_table;
-            setup_dictionary_table_ptr_      = &avx512_setup_dictionary_table;
+            unpack_prle_table_ptr_      = &px_unpack_prle_table;
+            pack_index_table_ptr_       = &avx512_pack_index_table;
+            pack_table_ptr_             = &avx512_pack_table;
+            scan_i_table_ptr_           = &avx512_scan_i_table;
+            scan_table_ptr_             = &avx512_scan_table;
+            extract_table_ptr_          = &avx512_extract_table;
+            extract_i_table_ptr_        = &avx512_extract_i_table;
+            aggregates_table_ptr_       = &avx512_aggregates_table;
+            select_table_ptr_           = &avx512_select_table;
+            select_i_table_ptr_         = &avx512_select_i_table;
+            expand_table_ptr_           = &avx512_expand_table;
+            memory_copy_table_ptr_      = &avx512_memory_copy_table;
+            zero_table_ptr_             = &avx512_zero_table;
+            move_table_ptr_             = &avx512_move_table;
+            crc64_table_ptr_            = &avx512_crc64_table;
+            xor_checksum_table_ptr_     = &avx512_xor_checksum_table;
+            deflate_table_ptr_          = &avx512_deflate_table;
+            deflate_fix_table_ptr_      = &avx512_deflate_fix_table;
+            setup_dictionary_table_ptr_ = &avx512_setup_dictionary_table;
             break;
         }
         default: {
-            unpack_table_ptr_                = &px_unpack_table;
-            unpack_prle_table_ptr_           = &px_unpack_prle_table;
-            pack_index_table_ptr_            = &px_pack_index_table;
-            pack_table_ptr_                  = &px_pack_table;
-            scan_i_table_ptr_                = &px_scan_i_table;
-            scan_table_ptr_                  = &px_scan_table;
-            extract_table_ptr_               = &px_extract_table;
-            extract_i_table_ptr_             = &px_extract_i_table;
-            aggregates_table_ptr_            = &px_aggregates_table;
-            select_table_ptr_                = &px_select_table;
-            select_i_table_ptr_              = &px_select_i_table;
-            expand_table_ptr_                = &px_expand_table;
-            memory_copy_table_ptr_           = &px_memory_copy_table;
-            zero_table_ptr_                  = &px_zero_table;
-            move_table_ptr_                  = &px_move_table;
-            crc64_table_ptr_                 = &px_crc64_table;
-            xor_checksum_table_ptr_          = &px_xor_checksum_table;
-            deflate_table_ptr_               = &px_deflate_table;
-            deflate_fix_table_ptr_           = &px_deflate_fix_table;
-            setup_dictionary_table_ptr_      = &px_setup_dictionary_table;
+            unpack_table_ptr_           = &px_unpack_table;
+            unpack_prle_table_ptr_      = &px_unpack_prle_table;
+            pack_index_table_ptr_       = &px_pack_index_table;
+            pack_table_ptr_             = &px_pack_table;
+            scan_i_table_ptr_           = &px_scan_i_table;
+            scan_table_ptr_             = &px_scan_table;
+            extract_table_ptr_          = &px_extract_table;
+            extract_i_table_ptr_        = &px_extract_i_table;
+            aggregates_table_ptr_       = &px_aggregates_table;
+            select_table_ptr_           = &px_select_table;
+            select_i_table_ptr_         = &px_select_i_table;
+            expand_table_ptr_           = &px_expand_table;
+            memory_copy_table_ptr_      = &px_memory_copy_table;
+            zero_table_ptr_             = &px_zero_table;
+            move_table_ptr_             = &px_move_table;
+            crc64_table_ptr_            = &px_crc64_table;
+            xor_checksum_table_ptr_     = &px_xor_checksum_table;
+            deflate_table_ptr_          = &px_deflate_table;
+            deflate_fix_table_ptr_      = &px_deflate_fix_table;
+            setup_dictionary_table_ptr_ = &px_setup_dictionary_table;
         }
     }
 }
 
-} // namespace ml::dispatcher
+} // namespace qpl::core_sw::dispatcher

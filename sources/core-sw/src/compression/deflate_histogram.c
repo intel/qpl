@@ -11,9 +11,10 @@
 
 /* ------ Includes ------ */
 
-#include "stdint.h"
 #include "deflate_histogram.h"
+
 #include "own_qplc_defs.h"
+#include "stdint.h"
 
 #define OWN_BUILD_MASK(number_of_bits) ((1U << (number_of_bits)) - 1U) /**< Builds bit mask for given number of bits */
 
@@ -81,7 +82,7 @@ static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
 
 /* ------ Own functions implementation ------ */
 
-OWN_QPLC_FUN(void, deflate_histogram_reset, (deflate_histogram_t *const histogram_ptr)) {
+OWN_QPLC_FUN(void, deflate_histogram_reset, (deflate_histogram_t* const histogram_ptr)) {
     // TODO remove constant mask and table size
     // TODO change number of attempts
     // TODO make the logic of an assignment dependent on compression level
@@ -99,18 +100,16 @@ OWN_QPLC_FUN(void, deflate_histogram_reset, (deflate_histogram_t *const histogra
     histogram_ptr->literals_matches[256U] = 1U;
 }
 
-
 #if PLATFORM < K0
 
-void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, const deflate_match_t match) {
+void deflate_histogram_update_match(deflate_histogram_t* const histogram_ptr, const deflate_match_t match) {
     // Histogram update
     histogram_ptr->literals_matches[own_get_match_length_table_index(match.length)]++;
     histogram_ptr->offsets[own_get_offset_table_index(match.offset)]++;
 }
 
-void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogram_ptr,
-                                      uint32_t *literal_length_histogram_ptr,
-                                      uint32_t *offsets_histogram_ptr) {
+void deflate_histogram_get_statistics(const deflate_histogram_t* deflate_histogram_ptr,
+                                      uint32_t* literal_length_histogram_ptr, uint32_t* offsets_histogram_ptr) {
     for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         literal_length_histogram_ptr[i] = deflate_histogram_ptr->literals_matches[i];
     }
@@ -120,9 +119,9 @@ void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogr
     }
 }
 
-void deflate_histogram_set_statistics(deflate_histogram_t *deflate_histogram_ptr,
-                                      const uint32_t *literal_length_histogram_ptr,
-                                      const uint32_t *offsets_histogram_ptr) {
+void deflate_histogram_set_statistics(deflate_histogram_t* deflate_histogram_ptr,
+                                      const uint32_t*      literal_length_histogram_ptr,
+                                      const uint32_t*      offsets_histogram_ptr) {
     for (uint32_t i = 0U; i < QPLC_DEFLATE_LL_TABLE_SIZE; i++) {
         deflate_histogram_ptr->literals_matches[i] = literal_length_histogram_ptr[i];
     }

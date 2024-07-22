@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "sw_deflate_state.hpp"
-
-#include "simple_memory_ops.hpp"
-#include "util/util.hpp"
 #include "deflate_hash_table.h"
+#include "simple_memory_ops.hpp"
+#include "sw_deflate_state.hpp"
+#include "util/util.hpp"
 
 namespace qpl::ml::compression {
-void deflate_state<execution_path_t::software>::set_source(uint8_t *begin, uint32_t size) noexcept {
+void deflate_state<execution_path_t::software>::set_source(uint8_t* begin, uint32_t size) noexcept {
     isal_stream_ptr_->next_in  = begin;
     isal_stream_ptr_->avail_in = size;
 
@@ -19,33 +18,34 @@ void deflate_state<execution_path_t::software>::set_source(uint8_t *begin, uint3
     source_size_      = size;
 }
 
-auto deflate_state<execution_path_t::software>::write_bytes(const uint8_t *data, uint32_t size) noexcept -> qpl_ml_status {
-    if (isal_stream_ptr_->avail_out < size) {
-        return status_list::more_output_needed;
-    }
+auto deflate_state<execution_path_t::software>::write_bytes(const uint8_t* data, uint32_t size) noexcept
+        -> qpl_ml_status {
+    if (isal_stream_ptr_->avail_out < size) { return status_list::more_output_needed; }
 
     core_sw::util::copy(data, data + size, isal_stream_ptr_->next_out);
 
     isal_stream_ptr_->avail_out -= size;
     isal_stream_ptr_->total_out += size;
-    isal_stream_ptr_->next_out  += size;
+    isal_stream_ptr_->next_out += size;
 
     return status_list::ok;
 }
 
 void deflate_state<execution_path_t::software>::save_bit_buffer() noexcept {
-    core_sw::util::copy(reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf),
-                        reinterpret_cast<uint8_t *>(&isal_stream_ptr_->internal_state.bitbuf) + sizeof(BitBuf2),
-                        reinterpret_cast<uint8_t *>(bit_buffer_ptr));
+    core_sw::util::copy(reinterpret_cast<uint8_t*>(&isal_stream_ptr_->internal_state.bitbuf),
+                        reinterpret_cast<uint8_t*>(&isal_stream_ptr_->internal_state.bitbuf) + sizeof(BitBuf2),
+                        reinterpret_cast<uint8_t*>(bit_buffer_ptr));
 }
 
 void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
-    const auto &deflate_hash_table_reset = ((qplc_deflate_hash_table_reset_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance().get_deflate_table()[2]));
+    const auto& deflate_hash_table_reset =
+            ((qplc_deflate_hash_table_reset_ptr)(qpl::core_sw::dispatcher::kernels_dispatcher::get_instance()
+                                                         .get_deflate_table()[2]));
 
-    auto level_buffer = reinterpret_cast<level_buf *>(isal_stream_ptr_->level_buf);
+    auto level_buffer = reinterpret_cast<level_buf*>(isal_stream_ptr_->level_buf);
 
     if (compression_level() == high_level) {
-        hash_table_.hash_table_ptr = reinterpret_cast<uint32_t *>(level_buffer->hash_map.hash_table);
+        hash_table_.hash_table_ptr = reinterpret_cast<uint32_t*>(level_buffer->hash_map.hash_table);
         hash_table_.hash_story_ptr = hash_table_.hash_table_ptr + high_hash_table_size;
 
         if (isal_stream_ptr_->total_in == 0) {
@@ -58,10 +58,9 @@ void deflate_state<execution_path_t::software>::reset_match_history() noexcept {
             hash_table_.lazy_match = 258U;
         }
     } else {
-        auto isal_state   = &isal_stream_ptr_->internal_state;
+        auto isal_state = &isal_stream_ptr_->internal_state;
 
-        uint16_t *hash_table     = isal_stream_ptr_->level == 3 ? level_buffer->lvl3.hash_table :
-                                                                  isal_state->head;
+        uint16_t*      hash_table = isal_stream_ptr_->level == 3 ? level_buffer->lvl3.hash_table : isal_state->head;
         const uint32_t hash_table_size = 2 * (isal_state->hash_mask + 1);
 
         isal_state->has_hist = IGZIP_NO_HIST;
@@ -91,7 +90,7 @@ void deflate_state<execution_path_t::software>::dump_bit_buffer() noexcept {
 }
 
 void deflate_state<execution_path_t::software>::dump_isal_stream() noexcept {
-    bytes_written_   += isal_stream_ptr_->total_out;
+    bytes_written_ += isal_stream_ptr_->total_out;
     bytes_processed_ += isal_stream_ptr_->total_in;
 
     isal_stream_ptr_->total_out = 0;
@@ -112,7 +111,7 @@ void deflate_state<execution_path_t::software>::write_mini_block_index() noexcep
 
 auto deflate_state<execution_path_t::software>::init_level_buffer() noexcept -> int {
     auto isal_state   = &isal_stream_ptr_->internal_state;
-    auto level_buffer = reinterpret_cast<level_buf *>(isal_stream_ptr_->level_buf);
+    auto level_buffer = reinterpret_cast<level_buf*>(isal_stream_ptr_->level_buf);
 
     if (!isal_state->has_level_buf_init) {
         level_buffer->hash_map.matches_next = level_buffer->hash_map.matches;
@@ -124,7 +123,7 @@ auto deflate_state<execution_path_t::software>::init_level_buffer() noexcept -> 
     return sizeof(level_buf) - MAX_LVL_BUF_SIZE + sizeof(level_buffer->hash_map);
 }
 
-[[nodiscard]] auto deflate_state<execution_path_t::software>::source_begin() const noexcept -> uint8_t * {
+[[nodiscard]] auto deflate_state<execution_path_t::software>::source_begin() const noexcept -> uint8_t* {
     return source_begin_ptr_;
 }
 
@@ -132,29 +131,28 @@ auto deflate_state<execution_path_t::software>::init_level_buffer() noexcept -> 
     return start_new_block_ || is_first_chunk();
 }
 
-[[nodiscard]] auto deflate_state<execution_path_t::software>::compression_level() const noexcept -> compression_level_t {
+[[nodiscard]] auto deflate_state<execution_path_t::software>::compression_level() const noexcept
+        -> compression_level_t {
     return level_;
 }
 
 [[nodiscard]] auto deflate_state<execution_path_t::software>::are_buffers_empty() const noexcept -> bool {
-    auto level_buffer = reinterpret_cast<level_buf *>(isal_stream_ptr_->level_buf);
+    auto level_buffer = reinterpret_cast<level_buf*>(isal_stream_ptr_->level_buf);
 
-    return (!isal_stream_ptr_->avail_in &&
-            level_buffer->hash_map.matches_next >= level_buffer->hash_map.matches_end
-    );
+    return (!isal_stream_ptr_->avail_in && level_buffer->hash_map.matches_next >= level_buffer->hash_map.matches_end);
 }
 
-[[nodiscard]] auto deflate_state<execution_path_t::software>::mini_blocks_support() const noexcept -> mini_blocks_support_t {
-    return mini_block_size_ != mini_block_size_none ?
-           mini_blocks_support_t::enabled :
-           mini_blocks_support_t::disabled;
+[[nodiscard]] auto deflate_state<execution_path_t::software>::mini_blocks_support() const noexcept
+        -> mini_blocks_support_t {
+    return mini_block_size_ != mini_block_size_none ? mini_blocks_support_t::enabled : mini_blocks_support_t::disabled;
 }
 
-[[nodiscard]] auto deflate_state<execution_path_t::software>::dictionary_support() const noexcept -> dictionary_support_t {
+[[nodiscard]] auto deflate_state<execution_path_t::software>::dictionary_support() const noexcept
+        -> dictionary_support_t {
     return dictionary_support_;
 }
 
-[[nodiscard]] auto deflate_state<execution_path_t::software>::hash_table() noexcept -> deflate_hash_table_t * {
+[[nodiscard]] auto deflate_state<execution_path_t::software>::hash_table() noexcept -> deflate_hash_table_t* {
     return &hash_table_;
 }
 

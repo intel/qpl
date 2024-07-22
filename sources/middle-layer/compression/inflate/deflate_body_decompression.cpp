@@ -5,11 +5,12 @@
  ******************************************************************************/
 
 #include "deflate_body_decompression.hpp"
+
 #include "simple_memory_ops.hpp"
 
 namespace qpl::ml::compression {
 
-auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_status {
+auto decode_literal_block(isal_inflate_state& inflate_state) noexcept -> qpl_ml_status {
     uint32_t block_byte_size    = inflate_state.type0_block_len;
     uint32_t bytes_already_read = inflate_state.read_in_length / 8U;
 
@@ -19,21 +20,19 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
 
     if (inflate_state.avail_out < block_byte_size) {
         // We can process up to inflate_state.avail_out bytes
-        block_byte_size = inflate_state.avail_out;
+        block_byte_size           = inflate_state.avail_out;
         inflate_state.block_state = ISAL_BLOCK_TYPE0;
     }
 
     if (inflate_state.avail_in + bytes_already_read < block_byte_size) {
         // Literal block decompressing will not be done at this pass
-        block_byte_size = inflate_state.avail_in + bytes_already_read;
+        block_byte_size           = inflate_state.avail_in + bytes_already_read;
         inflate_state.block_state = ISAL_BLOCK_TYPE0;
     }
 
-    auto *bits_buffer_ptr = reinterpret_cast<uint8_t *>(&inflate_state.read_in);
+    auto* bits_buffer_ptr = reinterpret_cast<uint8_t*>(&inflate_state.read_in);
 
-    core_sw::util::copy(bits_buffer_ptr,
-               bits_buffer_ptr + bytes_already_read,
-               inflate_state.next_out);
+    core_sw::util::copy(bits_buffer_ptr, bits_buffer_ptr + bytes_already_read, inflate_state.next_out);
 
     if (inflate_state.read_in_length) {
         if (block_byte_size >= bytes_already_read) {
@@ -46,7 +45,7 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
             inflate_state.read_in        = 0;
             inflate_state.read_in_length = 0;
             block_byte_size -= bytes_already_read;
-            bytes_already_read           = 0;
+            bytes_already_read = 0;
 
         } else {
             // Current block is stored in internal buffer
@@ -62,9 +61,7 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
         }
     }
 
-    core_sw::util::copy(inflate_state.next_in,
-               inflate_state.next_in + block_byte_size,
-               inflate_state.next_out);
+    core_sw::util::copy(inflate_state.next_in, inflate_state.next_in + block_byte_size, inflate_state.next_out);
 
     // Update input / output fields
     inflate_state.next_out += block_byte_size;
@@ -75,15 +72,11 @@ auto decode_literal_block(isal_inflate_state &inflate_state) noexcept -> qpl_ml_
 
     inflate_state.type0_block_len -= block_byte_size;
 
-    if (inflate_state.avail_in + bytes_already_read == 0 &&
-        inflate_state.block_state != ISAL_BLOCK_INPUT_DONE) {
+    if (inflate_state.avail_in + bytes_already_read == 0 && inflate_state.block_state != ISAL_BLOCK_INPUT_DONE) {
         return status_list::input_too_small;
     }
 
-    if (inflate_state.avail_out == 0 &&
-        inflate_state.type0_block_len > 0) {
-        return status_list::more_output_needed;
-    }
+    if (inflate_state.avail_out == 0 && inflate_state.type0_block_len > 0) { return status_list::more_output_needed; }
 
     return status_list::ok;
 }

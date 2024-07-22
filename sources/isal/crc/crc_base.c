@@ -5,6 +5,8 @@
  ******************************************************************************/
 #include "crc.h"
 
+// clang-format off
+
 static const uint16_t crc16tab[256] = {
     0x0000, 0x8BB7, 0x9CD9, 0x176E, 0xB205, 0x39B2, 0x2EDC, 0xA56B,
     0xEFBD, 0x640A, 0x7364, 0xF8D3, 0x5DB8, 0xD60F, 0xC161, 0x4AD6,
@@ -241,8 +243,9 @@ static const uint32_t crc32_table_gzip_refl[256] = {
     0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
-{
+// clang-format on
+
+uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t* buf, uint64_t len) {
     uint16_t crc = seed;
 
     for (uint64_t i = 0U; i < len; i++)
@@ -251,23 +254,21 @@ uint16_t qpl_crc16_t10dif_base(uint16_t seed, uint8_t * buf, uint64_t len)
     return crc;
 }
 
-uint16_t qpl_crc16_t10dif_copy_base(uint16_t seed, uint8_t * dst, uint8_t * src, uint64_t len)
-{
+uint16_t qpl_crc16_t10dif_copy_base(uint16_t seed, uint8_t* dst, uint8_t* src, uint64_t len) {
     uint16_t crc = seed;
 
     for (uint64_t i = 0U; i < len; i++) {
-        crc = (crc << 8) ^ crc16tab[((crc >> 8) ^ *src) & 0x00FF];
+        crc    = (crc << 8) ^ crc16tab[((crc >> 8) ^ *src) & 0x00FF];
         *dst++ = *src++;
     }
 
     return crc;
 }
 
-unsigned int qpl_crc32_iscsi_base(unsigned char *buffer, int len, unsigned int crc_init)
-{
-    unsigned int crc = crc_init;
-    unsigned char *p_buf = buffer;
-    unsigned char *p_end = buffer + len;
+unsigned int qpl_crc32_iscsi_base(unsigned char* buffer, int len, unsigned int crc_init) {
+    unsigned int   crc   = crc_init;
+    unsigned char* p_buf = buffer;
+    unsigned char* p_end = buffer + len;
 
     while (p_buf < p_end) {
         crc = (crc >> 8) ^ crc32_table_iscsi_refl[(crc & 0x000000FF) ^ *p_buf++];
@@ -275,8 +276,7 @@ unsigned int qpl_crc32_iscsi_base(unsigned char *buffer, int len, unsigned int c
     return crc;
 }
 
-uint32_t qpl_crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
-{
+uint32_t qpl_crc32_ieee_base(uint32_t seed, uint8_t* buf, uint64_t len) {
     unsigned int crc = ~seed;
 
     while (len--) {
@@ -287,11 +287,10 @@ uint32_t qpl_crc32_ieee_base(uint32_t seed, uint8_t * buf, uint64_t len)
     return ~crc;
 }
 
-uint32_t qpl_crc32_gzip_refl_base(uint32_t seed, uint8_t * buf, uint64_t len)
-{
-    unsigned int crc = ~seed;
-    unsigned char *p_buf = (unsigned char *)buf;
-    unsigned char *p_end = buf + len;
+uint32_t qpl_crc32_gzip_refl_base(uint32_t seed, uint8_t* buf, uint64_t len) {
+    unsigned int   crc   = ~seed;
+    unsigned char* p_buf = (unsigned char*)buf;
+    unsigned char* p_end = buf + len;
 
     while (p_buf < p_end) {
         crc = (crc >> 8) ^ crc32_table_gzip_refl[(crc & 0x000000FF) ^ *p_buf++];
@@ -302,18 +301,18 @@ uint32_t qpl_crc32_gzip_refl_base(uint32_t seed, uint8_t * buf, uint64_t len)
 
 struct slver {
     unsigned short snum;
-    unsigned char ver;
-    unsigned char core;
+    unsigned char  ver;
+    unsigned char  core;
 };
 
 struct slver qpl_crc32_iscsi_base_slver_0001011d;
-struct slver qpl_crc32_iscsi_base_slver = { 0x011d, 0x02, 0x00 };
+struct slver qpl_crc32_iscsi_base_slver = {0x011d, 0x02, 0x00};
 
 struct slver qpl_crc16_t10dif_base_slver_0001011e;
-struct slver qpl_crc16_t10dif_base_slver = { 0x011e, 0x02, 0x00 };
+struct slver qpl_crc16_t10dif_base_slver = {0x011e, 0x02, 0x00};
 
 struct slver qpl_crc32_ieee_base_slver_0001011f;
-struct slver qpl_crc32_ieee_base_slver = { 0x011f, 0x02, 0x00 };
+struct slver qpl_crc32_ieee_base_slver = {0x011f, 0x02, 0x00};
 
 struct slver qpl_crc32_gzip_refl_base_slver_0000002b;
-struct slver qpl_crc32_gzip_refl_base_slver = { 0x002b, 0x00, 0x00 };
+struct slver qpl_crc32_gzip_refl_base_slver = {0x002b, 0x00, 0x00};

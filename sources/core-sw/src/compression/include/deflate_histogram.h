@@ -13,9 +13,9 @@
 #define QPL_DEFLATE_HISTOGRAM_H_
 
 #include "deflate_defs.h"
-#include "qplc_compression_consts.h"
 #include "deflate_hash_table.h"
 #include "own_qplc_defs.h"
+#include "qplc_compression_consts.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,14 +32,14 @@ typedef struct {
     deflate_hash_table_t table;                                        /**< Hash-table for match searching */
 } deflate_histogram_t;
 
-typedef void (*qplc_deflate_histogram_reset_ptr) (deflate_histogram_t *const histogram_ptr);
+typedef void (*qplc_deflate_histogram_reset_ptr)(deflate_histogram_t* const histogram_ptr);
 
 /**
  * @brief Resets @link own_deflate_histogram @endlink fields values to default ones
  *
  * @param[out]  histogram_ptr  pointer to @link own_deflate_histogram @endlink that should be reset
  */
-OWN_QPLC_API(void, deflate_histogram_reset, (deflate_histogram_t *const histogram_ptr));
+OWN_QPLC_API(void, deflate_histogram_reset, (deflate_histogram_t* const histogram_ptr));
 
 /**
  * @brief Updates statistics for given match
@@ -47,7 +47,7 @@ OWN_QPLC_API(void, deflate_histogram_reset, (deflate_histogram_t *const histogra
  * @param[in,out]  histogram_ptr  pointer to @link own_deflate_histogram @endlink where statistics should be stored
  * @param[in]      match          information about found match
  */
-void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, const deflate_match_t match);
+void deflate_histogram_update_match(deflate_histogram_t* const histogram_ptr, const deflate_match_t match);
 
 /**
  * @brief Fills deflate statistics histogram from given @link own_deflate_histogram @endlink
@@ -60,9 +60,8 @@ void deflate_histogram_update_match(deflate_histogram_t *const histogram_ptr, co
  *
  * @return this function doesn't return anything
  */
-void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogram_ptr,
-                                      uint32_t *literal_length_histogram_ptr,
-                                      uint32_t *offsets_histogram_ptr);
+void deflate_histogram_get_statistics(const deflate_histogram_t* deflate_histogram_ptr,
+                                      uint32_t* literal_length_histogram_ptr, uint32_t* offsets_histogram_ptr);
 
 /**
  * @brief Fills @link own_deflate_histogram @endlink from given deflate statistics
@@ -75,9 +74,9 @@ void deflate_histogram_get_statistics(const deflate_histogram_t *deflate_histogr
  *
  * @return this function doesn't return anything
  */
-void deflate_histogram_set_statistics(deflate_histogram_t *deflate_histogram_ptr,
-                                      const uint32_t *literal_length_histogram_ptr,
-                                      const uint32_t *offsets_histogram_ptr);
+void deflate_histogram_set_statistics(deflate_histogram_t* deflate_histogram_ptr,
+                                      const uint32_t*      literal_length_histogram_ptr,
+                                      const uint32_t*      offsets_histogram_ptr);
 
 #ifdef __cplusplus
 }

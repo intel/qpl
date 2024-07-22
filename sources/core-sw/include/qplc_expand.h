@@ -26,11 +26,8 @@
 extern "C" {
 #endif
 
-typedef qplc_status_t (*qplc_expand_t_ptr)(const uint8_t *src1_ptr,
-                                           uint32_t length_1,
-                                           const uint8_t *src2_ptr,
-                                           uint32_t *length_2_ptr,
-                                           uint8_t *dst_ptr);
+typedef qplc_status_t (*qplc_expand_t_ptr)(const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr,
+                                           uint32_t* length_2_ptr, uint8_t* dst_ptr);
 
 /**
  * @name qplc_expand_<input bit-width>
@@ -49,23 +46,17 @@ typedef qplc_status_t (*qplc_expand_t_ptr)(const uint8_t *src1_ptr,
  * @return    - number of expanded elements.
  * @{
  */
-OWN_QPLC_API(qplc_status_t, qplc_expand_8u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_expand_8u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_expand_16u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_expand_16u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr))
 
-OWN_QPLC_API(qplc_status_t, qplc_expand_32u, (const uint8_t *src1_ptr,
-        uint32_t length_1,
-        const uint8_t *src2_ptr,
-        uint32_t *length_2_ptr,
-        uint8_t *dst_ptr))
+OWN_QPLC_API(qplc_status_t, qplc_expand_32u,
+             (const uint8_t* src1_ptr, uint32_t length_1, const uint8_t* src2_ptr, uint32_t* length_2_ptr,
+              uint8_t* dst_ptr))
 /** @} */
 
 #ifdef __cplusplus

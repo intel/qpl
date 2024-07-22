@@ -31,10 +31,10 @@ namespace qpl::ml::util {
 inline bool are_iaa_gen_2_min_capabilities_present() {
     bool are_gen2_capabilities_present = false;
 
-#if defined( __linux__ )
-    static auto &dispatcher       = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+#if defined(__linux__)
+    static auto& dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
     if (dispatcher.is_hw_support()) {
-        const auto &device            = dispatcher.device(0);
+        const auto& device            = dispatcher.device(0);
         are_gen2_capabilities_present = device.get_gen_2_min_capabilities();
     }
 #endif
@@ -42,6 +42,6 @@ inline bool are_iaa_gen_2_min_capabilities_present() {
     return are_gen2_capabilities_present;
 }
 
-}
+} // namespace qpl::ml::util
 
 #endif //QPL_ML_UTIL_IAA_FEATURES_CHECKS

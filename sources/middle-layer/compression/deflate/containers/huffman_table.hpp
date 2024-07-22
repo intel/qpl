@@ -7,14 +7,13 @@
 #ifndef QPL_MIDDLE_LAYER_COMPRESSION_HUFFMAN_TABLE_HPP
 #define QPL_MIDDLE_LAYER_COMPRESSION_HUFFMAN_TABLE_HPP
 
-#include "huff_codes.h"
-#include "bitbuf2.h"
-
-#include "compression/huffman_table/deflate_huffman_table.hpp"
-#include "compression/deflate/utils/compression_defs.hpp"
-#include "common/bit_reverse.hpp"
-
 #include <array>
+
+#include "bitbuf2.h"
+#include "common/bit_reverse.hpp"
+#include "compression/deflate/utils/compression_defs.hpp"
+#include "compression/huffman_table/deflate_huffman_table.hpp"
+#include "huff_codes.h"
 
 namespace qpl::ml::compression {
 /**
@@ -33,38 +32,34 @@ namespace qpl::ml::compression {
  * Code is bit-reversed
  */
 class huffman_table_icf final {
-    friend void build_huffman_table_icf(huffman_table_icf &huffman_table, isal_mod_hist *histogram) noexcept;
+    friend void build_huffman_table_icf(huffman_table_icf& huffman_table, isal_mod_hist* histogram) noexcept;
 
-    friend auto write_huffman_table_icf(BitBuf2 *bit_buffer,
-                                        huffman_table_icf &huffman_table,
-                                        isal_mod_hist *histogram,
-                                        compression_mode_t compression_mode,
-                                        uint32_t end_of_block) noexcept -> uint64_t;
+    friend auto write_huffman_table_icf(BitBuf2* bit_buffer, huffman_table_icf& huffman_table, isal_mod_hist* histogram,
+                                        compression_mode_t compression_mode, uint32_t end_of_block) noexcept
+            -> uint64_t;
+
 public:
     huffman_table_icf() noexcept = default;
 
-    huffman_table_icf(hufftables_icf *huffman_table_ptr) noexcept;
+    huffman_table_icf(hufftables_icf* huffman_table_ptr) noexcept;
 
-    void init_isal_huffman_tables(hufftables_icf *huffman_table_ptr) noexcept;
+    void init_isal_huffman_tables(hufftables_icf* huffman_table_ptr) noexcept;
 
     void expand_huffman_tables() const noexcept;
-    auto get_isal_huffman_tables() const noexcept -> hufftables_icf *;
+    auto get_isal_huffman_tables() const noexcept -> hufftables_icf*;
 
 private:
-    hufftables_icf                               *huffman_table_      = nullptr;
-    uint32_t                                      max_ll_code_index_  = 0;
-    uint32_t                                      max_d_code_index_   = 0;
+    hufftables_icf* huffman_table_     = nullptr;
+    uint32_t        max_ll_code_index_ = 0;
+    uint32_t        max_d_code_index_  = 0;
 };
 
-void build_huffman_table_icf(huffman_table_icf &huffman_table, isal_mod_hist *histogram) noexcept;
+void build_huffman_table_icf(huffman_table_icf& huffman_table, isal_mod_hist* histogram) noexcept;
 
-auto write_huffman_table_icf(BitBuf2 *bit_buffer,
-                             huffman_table_icf &huffman_table,
-                             isal_mod_hist *histogram,
-                             compression_mode_t compression_mode,
-                             uint32_t end_of_block) noexcept -> uint64_t;
+auto write_huffman_table_icf(BitBuf2* bit_buffer, huffman_table_icf& huffman_table, isal_mod_hist* histogram,
+                             compression_mode_t compression_mode, uint32_t end_of_block) noexcept -> uint64_t;
 
-void prepare_histogram(isal_mod_hist *histogram) noexcept;
+void prepare_histogram(isal_mod_hist* histogram) noexcept;
 
 } // namespace qpl::ml::compression
 

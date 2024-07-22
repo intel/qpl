@@ -5,10 +5,10 @@
  ******************************************************************************/
 #include <stddef.h>
 #include <stdint.h>
+
 #include "igzip_checksums.h"
 
-uint32_t qpl_adler32_base(uint32_t adler32, uint8_t * start, uint32_t length)
-{
+uint32_t qpl_adler32_base(uint32_t adler32, uint8_t* start, uint32_t length) {
     uint8_t *end = NULL, *next = start;
     uint64_t A = adler32 & 0xffff;
     uint64_t B = adler32 >> 16;
