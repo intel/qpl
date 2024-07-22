@@ -7,17 +7,18 @@
 //* [QPL_LOW_LEVEL_CRC64_CROSS_SOCKET_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
-#include <numeric>
 #include <memory>
+#include <numeric>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 #if defined(__linux__)
-    #include <sched.h>
-    #include <fstream>
-    #include <string>
+#include <fstream>
+#include <sched.h>
+#include <string>
 #endif
 
 /**
@@ -55,9 +56,9 @@
 int get_socket_info(int cpu_id, int* total_sockets, int* socket_id) {
 #if defined(__linux__)
     std::ifstream cpu_info("/proc/cpuinfo");
-    std::string line;
-    *total_sockets = -1;
-    *socket_id = -1;
+    std::string   line;
+    *total_sockets           = -1;
+    *socket_id               = -1;
     int is_current_processor = 0;
     if (!cpu_info.is_open()) {
         std::cout << "An error /proc/cpuinfo cannot be opened.\n";
@@ -75,8 +76,7 @@ int get_socket_info(int cpu_id, int* total_sockets, int* socket_id) {
         if (line.find("physical id") != std::string::npos) {
             if ((*total_sockets < (std::stoi(line.substr(line.find(":") + 1)) + 1)))
                 *total_sockets = std::stoi(line.substr(line.find(":") + 1)) + 1;
-            if (is_current_processor)
-                *socket_id = std::stoi(line.substr(line.find(":") + 1));
+            if (is_current_processor) *socket_id = std::stoi(line.substr(line.find(":") + 1));
         }
     }
     cpu_info.close();
@@ -108,8 +108,7 @@ int get_numa_info(int cpu_id, int* total_nodes, int* numa_id) {
     }
     std::string line;
     std::getline(numa_nodes, line);
-    if (line.find("-") != std::string::npos)
-        *total_nodes = std::stoi(line.substr(line.find("-") + 1)) + 1;
+    if (line.find("-") != std::string::npos) *total_nodes = std::stoi(line.substr(line.find("-") + 1)) + 1;
     numa_nodes.close();
 
     // Calculate current NUMA node
@@ -151,7 +150,8 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
 #if defined(__linux__)
     // Check execution path
     if (execution_path == qpl_path_software) {
-        std::cout << "Software path detected, no accelerators available for NUMA assignment." << "\n";
+        std::cout << "Software path detected, no accelerators available for NUMA assignment."
+                  << "\n";
         return -1;
     }
 
@@ -160,10 +160,8 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
 
     // Get number of available sockets and current socket
     int total_sockets = -1;
-    int socket_id = -1;
-    if (get_socket_info(cpu_id, &total_sockets, &socket_id)) {
-        return -1;
-    }
+    int socket_id     = -1;
+    if (get_socket_info(cpu_id, &total_sockets, &socket_id)) { return -1; }
     if (total_sockets < 2) {
         std::cout << "Warning: Single socket architecture, running on same socket.\n";
         return -1;
@@ -171,24 +169,29 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
 
     // Get number of available numa nodes and current node
     int total_nodes = -1;
-    int numa_id = -1;
-    if (get_numa_info(cpu_id, &total_nodes, &numa_id)) {
-        return -1;
-    }
+    int numa_id     = -1;
+    if (get_numa_info(cpu_id, &total_nodes, &numa_id)) { return -1; }
 
     // Print stats
-    std::cout << "Total:" << "\n";
-    std::cout << "\t" << "Socket(s):" << total_sockets << "\n";
-    std::cout << "\t" << "NUMA(s):" << total_nodes << "\n";
-    std::cout << "Current:" << "\n";
-    std::cout << "\t" << "Core ID:" << cpu_id << "\n";
-    std::cout << "\t" << "Socket ID:" << socket_id << "\n";
-    std::cout << "\t" << "NUMA ID:" << numa_id << "\n";
+    std::cout << "Total:"
+              << "\n";
+    std::cout << "\t"
+              << "Socket(s):" << total_sockets << "\n";
+    std::cout << "\t"
+              << "NUMA(s):" << total_nodes << "\n";
+    std::cout << "Current:"
+              << "\n";
+    std::cout << "\t"
+              << "Core ID:" << cpu_id << "\n";
+    std::cout << "\t"
+              << "Socket ID:" << socket_id << "\n";
+    std::cout << "\t"
+              << "NUMA ID:" << numa_id << "\n";
 
     // Calculate different NUMA node
     const int numa_per_socket = total_nodes / total_sockets;
-    *inv_socket = !socket_id;  // Get the ID for a different socket
-    *inv_numa_id = numa_per_socket * *inv_socket;
+    *inv_socket               = !socket_id; // Get the ID for a different socket
+    *inv_numa_id              = numa_per_socket * *inv_socket;
 
     // Return success
     return 0;
@@ -210,15 +213,13 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    uint32_t   size = 0;
+    uint32_t                   size = 0;
 
     // Filling source containers
     std::iota(std::begin(source), std::end(source), 0);
@@ -230,8 +231,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -246,14 +247,17 @@ auto main(int argc, char** argv) -> int {
     job->crc64_poly   = poly;
 
     // Setting NUMA node for device selection
-    int inv_socket    = -1;
-    int numa_node     = -1;
+    int inv_socket = -1;
+    int numa_node  = -1;
     get_diff_socket_numa_node_id(execution_path, &inv_socket, &numa_node);
-    std::cout << "Running on:" << "\n";
-    std::cout << "\t" << "Socket ID:" << inv_socket << "\n";
-    std::cout << "\t" << "NUMA ID:" << numa_node << "\n\n";
+    std::cout << "Running on:"
+              << "\n";
+    std::cout << "\t"
+              << "Socket ID:" << inv_socket << "\n";
+    std::cout << "\t"
+              << "NUMA ID:" << numa_node << "\n\n";
     std::cout << "This example would be run using accelerator devices from NUMA node " << numa_node << "\n\n";
-    job->numa_id      = numa_node;
+    job->numa_id = numa_node;
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {

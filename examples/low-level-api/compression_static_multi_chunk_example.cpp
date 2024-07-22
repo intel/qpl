@@ -7,10 +7,11 @@
 //* [QPL_LOW_LEVEL_COMPRESSION_STATIC_MULTI_CHUNK_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -28,9 +29,9 @@
  *
  */
 
-uint32_t sum(std::vector<uint32_t> vector){
+uint32_t sum(std::vector<uint32_t> vector) {
     uint32_t result = 0;
-    for(size_t i = 0; i < vector.size(); i++){
+    for (size_t i = 0; i < vector.size(); i++) {
         result += vector[i];
     }
     return result;
@@ -46,9 +47,7 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument.
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers.
     std::vector<uint8_t> source(source_size, 5);
@@ -65,8 +64,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -76,9 +75,7 @@ auto main(int argc, char** argv) -> int {
 
     // Allocate Huffman table object (c_huffman_table).
     qpl_huffman_table_t c_huffman_table = nullptr;
-    status = qpl_deflate_huffman_table_create(compression_table_type,
-                                              execution_path,
-                                              DEFAULT_ALLOCATOR_C,
+    status = qpl_deflate_huffman_table_create(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C,
                                               &c_huffman_table);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during Huffman table creation.\n";
@@ -86,12 +83,8 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Initialize Huffman table using deflate tokens histogram.
-    qpl_histogram histogram{};
-    status = qpl_gather_deflate_statistics(source.data(),
-                                           source_size,
-                                           &histogram,
-                                           qpl_default_level,
-                                           execution_path);
+    qpl_histogram histogram {};
+    status = qpl_gather_deflate_statistics(source.data(), source_size, &histogram, qpl_default_level, execution_path);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
         qpl_huffman_table_destroy(c_huffman_table);
@@ -127,9 +120,7 @@ auto main(int argc, char** argv) -> int {
     uint32_t source_bytes_processed_previously = 0U;
     for (size_t iteration_count = 0; iteration_count < chunk_sizes.size(); iteration_count++) {
         // Set the job to LAST on the last iteration.
-        if (iteration_count == chunk_sizes.size() - 1) {
-            job->flags |= QPL_FLAG_LAST;
-        }
+        if (iteration_count == chunk_sizes.size() - 1) { job->flags |= QPL_FLAG_LAST; }
 
         // Advance `next_in_ptr` pointer for the next iteration by the amount
         // of bytes processed previously.
@@ -196,8 +187,7 @@ auto main(int argc, char** argv) -> int {
 
     std::cout << "Content was successfully compressed and decompressed.\n";
     std::cout << "Input size: " << source_size << ", compressed size: " << compressed_size
-    << ", compression ratio: " << (float)source_size/(float)compressed_size << ".\n";
-
+              << ", compression ratio: " << (float)source_size / (float)compressed_size << ".\n";
 
     return 0;
 }

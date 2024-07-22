@@ -31,15 +31,15 @@ extern "C" {
 /**
  * @brief Macro to manipulate public API prototypes
  */
-#if !defined( QPL_API )
+#if !defined(QPL_API)
 #define QPL_API(type, name, arg) type name arg;
 #endif
 
-#if !defined( UNREFERENCED_PARAMETER )
-#if defined( __GNUC__ )
+#if !defined(UNREFERENCED_PARAMETER)
+#if defined(__GNUC__)
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */
 #else
-#define UNREFERENCED_PARAMETER(p) p                         /**< Unreferenced parameter - warning removal */
+#define UNREFERENCED_PARAMETER(p) p /**< Unreferenced parameter - warning removal */
 #endif
 #endif
 
@@ -62,7 +62,6 @@ extern "C" {
  * Reserved enumerator for the compression level of the dictionary
  */
 #define DICT_NONE -1 /**< Value for software  */
-
 
 /**
  * @addtogroup QPL_FLAGS
@@ -198,7 +197,7 @@ extern "C" {
  * Only instances from the same socket as the calling thread could be used for execution.
  * @note This is the default behavior for Intel QPL starting from version 1.6.0.
  */
-#define QPL_DEVICE_NUMA_ID_SOCKET  -1
+#define QPL_DEVICE_NUMA_ID_SOCKET -1
 
 /**
  * Internal mechanism for Intel IAA instance selection will respect NUMA boundary.
@@ -210,7 +209,7 @@ extern "C" {
 /**
  * Any Intel IAA instance on the system could be used for execution. NUMA boundary is ignored.
  */
-#define QPL_DEVICE_NUMA_ID_ANY     -3
+#define QPL_DEVICE_NUMA_ID_ANY -3
 
 /** @} */
 
@@ -219,46 +218,46 @@ extern "C" {
  * @brief Enum of the executing paths
  */
 typedef enum {
-    qpl_path_auto = 0x00000000U,       /**< Enable auto-detection of the equipment for executing */
-    qpl_path_hardware = 0x00000001U,   /**< Enable execution by hardware path */
-    qpl_path_software = 0x00000002U    /**< Enable execution by software path (Run on CPU) */
+    qpl_path_auto     = 0x00000000U, /**< Enable auto-detection of the equipment for executing */
+    qpl_path_hardware = 0x00000001U, /**< Enable execution by hardware path */
+    qpl_path_software = 0x00000002U  /**< Enable execution by software path (Run on CPU) */
 } qpl_path_t;
 
 /**
  * @brief Enum of all output formats
  */
 typedef enum {
-    qpl_ow_nom = 0U,    /**< Output stream in its nominal format without modification*/
-    qpl_ow_8   = 1U,    /**< Output 8-bit stream  */
-    qpl_ow_16  = 2U,    /**< Output 16-bit stream */
-    qpl_ow_32  = 3U     /**< Output 32-bit stream */
+    qpl_ow_nom = 0U, /**< Output stream in its nominal format without modification*/
+    qpl_ow_8   = 1U, /**< Output 8-bit stream  */
+    qpl_ow_16  = 2U, /**< Output 16-bit stream */
+    qpl_ow_32  = 3U  /**< Output 32-bit stream */
 } qpl_out_format;
 
 /**
  * @brief Enum of all supported parser types
  */
 typedef enum {
-    qpl_p_le_packed_array = 0U,    /**< Input vector is written in the Little-Endian format */
-    qpl_p_be_packed_array = 1U,    /**< Input vector is written in the Big-Endian format    */
-    qpl_p_parquet_rle     = 2U     /**< input vector is written in the Parquet RLE format   */
+    qpl_p_le_packed_array = 0U, /**< Input vector is written in the Little-Endian format */
+    qpl_p_be_packed_array = 1U, /**< Input vector is written in the Big-Endian format    */
+    qpl_p_parquet_rle     = 2U  /**< input vector is written in the Parquet RLE format   */
 } qpl_parser;
 
 /**
  * @brief Enum of all supported operations
  */
 typedef enum {
-    qpl_op_decompress = 0x00U,    /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
-    qpl_op_compress   = 0x01U,    /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
+    qpl_op_decompress = 0x00U, /**< Performs Inflate operation (@ref DEFLATE_OPERATIONS group) */
+    qpl_op_compress   = 0x01U, /**< Performs Deflate operation (@ref DEFLATE_OPERATIONS group) */
 
-    qpl_op_crc64      = 0x05U,    /**< Performs @ref CRC_OPERATION */
+    qpl_op_crc64 = 0x05U, /**< Performs @ref CRC_OPERATION */
 
     // start filter operations
     /**
      * Affiliation to boolean histogram filter operation (@ref ANALYTIC_OPERATIONS group)
      */
-    qpl_op_extract        = 0x11U,  /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_select         = 0x12U,  /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
-    qpl_op_expand         = 0x15U,  /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_extract = 0x11U, /**< Extract sub-vector filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_select  = 0x12U, /**< Down-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
+    qpl_op_expand  = 0x15U, /**< Up-sampling filter operation (@ref ANALYTIC_OPERATIONS group) */
 
     // start filter scan operations
     /**
@@ -306,14 +305,14 @@ typedef enum {
  * @brief Enumerates mini-blocks sizes for the @ref qpl_op_compress and @ref qpl_op_decompress operations.
  */
 typedef enum {
-    qpl_mblk_size_none = 0U,    /**< Disable indexing for the deflate stream */
-    qpl_mblk_size_512  = 1U,    /**< Put index into the deflate stream each 512   bytes */
-    qpl_mblk_size_1k   = 2U,    /**< Put index into the deflate stream each 1024  bytes */
-    qpl_mblk_size_2k   = 3U,    /**< Put index into the deflate stream each 2048  bytes */
-    qpl_mblk_size_4k   = 4U,    /**< Put index into the deflate stream each 4096  bytes */
-    qpl_mblk_size_8k   = 5U,    /**< Put index into the deflate stream each 8192  bytes */
-    qpl_mblk_size_16k  = 6U,    /**< Put index into the deflate stream each 16384 bytes */
-    qpl_mblk_size_32k  = 7U     /**< Put index into the deflate stream each 32768 bytes */
+    qpl_mblk_size_none = 0U, /**< Disable indexing for the deflate stream */
+    qpl_mblk_size_512  = 1U, /**< Put index into the deflate stream each 512   bytes */
+    qpl_mblk_size_1k   = 2U, /**< Put index into the deflate stream each 1024  bytes */
+    qpl_mblk_size_2k   = 3U, /**< Put index into the deflate stream each 2048  bytes */
+    qpl_mblk_size_4k   = 4U, /**< Put index into the deflate stream each 4096  bytes */
+    qpl_mblk_size_8k   = 5U, /**< Put index into the deflate stream each 8192  bytes */
+    qpl_mblk_size_16k  = 6U, /**< Put index into the deflate stream each 16384 bytes */
+    qpl_mblk_size_32k  = 7U  /**< Put index into the deflate stream each 32768 bytes */
 } qpl_mini_block_size;
 
 /**
@@ -343,7 +342,6 @@ typedef enum {
     HW_LEVEL_3 = 4          /**< The 3rd dictionary compression level, using a large-sized dictionary */
 } hw_compression_level;
 
-
 /**
  * @brief Determines under what conditions the @ref qpl_op_decompress operation stops, and what expectations
  *        there are for how the stream should end.
@@ -352,12 +350,12 @@ typedef enum {
  *
  */
 typedef enum {
-    qpl_stop_and_check_for_bfinal_eob = 0U,    /**< Stop condition: b_final EOB; Check condition: b_final EOB */
-    qpl_dont_stop_or_check,                    /**< Stop condition: none;       Check condition: none */
-    qpl_stop_and_check_for_any_eob,            /**< Stop condition: EOB;        Check condition: EOB */
-    qpl_stop_on_any_eob,                       /**< Stop condition: EOB;        Check condition: none */
-    qpl_stop_on_bfinal_eob,                    /**< Stop condition: b_final EOB; Check condition: none */
-    qpl_check_for_any_eob,                     /**< Stop condition: none;       Check condition: EOB */
+    qpl_stop_and_check_for_bfinal_eob = 0U, /**< Stop condition: b_final EOB; Check condition: b_final EOB */
+    qpl_dont_stop_or_check,                 /**< Stop condition: none;       Check condition: none */
+    qpl_stop_and_check_for_any_eob,         /**< Stop condition: EOB;        Check condition: EOB */
+    qpl_stop_on_any_eob,                    /**< Stop condition: EOB;        Check condition: none */
+    qpl_stop_on_bfinal_eob,                 /**< Stop condition: b_final EOB; Check condition: none */
+    qpl_check_for_any_eob,                  /**< Stop condition: none;       Check condition: EOB */
 
     /**
      * Stop condition: none; Check condition: b_final EOB
@@ -374,17 +372,18 @@ typedef enum {
  * @brief Enumerates different compressions levels
  */
 typedef enum {
-    qpl_level_1 = 1,                 /**< The fastest compression with low compression ratio*/
-    qpl_level_2 = 2,                 /**< Not supported */
-    qpl_level_3 = 3,                 /**< Medium compression speed, medium compression ratio*/
-    qpl_level_4 = 4,                 /**< Not supported */
-    qpl_level_5 = 5,                 /**< Not supported */
-    qpl_level_6 = 6,                 /**< Not supported */
-    qpl_level_7 = 7,                 /**< Not supported */
-    qpl_level_8 = 8,                 /**< Not supported */
-    qpl_level_9 = 9,                 /**< Not supported */
-    qpl_default_level = qpl_level_1, /**< Default compression level defined by the highest compression level supported by Accelerator */
-    qpl_high_level = qpl_level_3     /**< The level with highest compression level from supported by Intel QPL */
+    qpl_level_1 = 1, /**< The fastest compression with low compression ratio*/
+    qpl_level_2 = 2, /**< Not supported */
+    qpl_level_3 = 3, /**< Medium compression speed, medium compression ratio*/
+    qpl_level_4 = 4, /**< Not supported */
+    qpl_level_5 = 5, /**< Not supported */
+    qpl_level_6 = 6, /**< Not supported */
+    qpl_level_7 = 7, /**< Not supported */
+    qpl_level_8 = 8, /**< Not supported */
+    qpl_level_9 = 9, /**< Not supported */
+    qpl_default_level =
+            qpl_level_1, /**< Default compression level defined by the highest compression level supported by Accelerator */
+    qpl_high_level = qpl_level_3 /**< The level with highest compression level from supported by Intel QPL */
 } qpl_compression_levels;
 
 #ifdef __cplusplus

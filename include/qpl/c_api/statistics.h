@@ -16,9 +16,10 @@
 #pragma GCC visibility push(default)
 #endif
 
-#include "stdint.h"
-#include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
+#include "qpl/c_api/status.h"
+
+#include "stdint.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,16 +30,16 @@ extern "C" {
  * @{
  */
 
-#define QPL_LITERALS_MATCHES_TABLE_SIZE    286U  /**< Size of Huffman table with codes for literals and match lengths */
-#define QPL_DEFAULT_OFFSETS_NUMBER         30U   /**< Default number of possible offsets in a Huffman table */
-#define QPL_DEFAULT_LITERALS_NUMBER        257U  /**< Default number of literals in a Huffman table */
+#define QPL_LITERALS_MATCHES_TABLE_SIZE 286U /**< Size of Huffman table with codes for literals and match lengths */
+#define QPL_DEFAULT_OFFSETS_NUMBER      30U  /**< Default number of possible offsets in a Huffman table */
+#define QPL_DEFAULT_LITERALS_NUMBER     257U /**< Default number of literals in a Huffman table */
 
 /**
  * @brief Represents mode in which @ref qpl_op_compress operation should be performed
  */
 typedef enum {
-    qpl_compression_mode = 0,    /**< Perform @ref qpl_op_compress operation in default compression mode */
-    qpl_gathering_mode   = 1     /**< Perform @ref qpl_op_compress operation in statistic gathering mode */
+    qpl_compression_mode = 0, /**< Perform @ref qpl_op_compress operation in default compression mode */
+    qpl_gathering_mode   = 1  /**< Perform @ref qpl_op_compress operation in statistic gathering mode */
 } qpl_statistics_mode;
 
 /**
@@ -46,10 +47,11 @@ typedef enum {
  * @brief Structure that represents histogram of literals, lengths and offsets symbols
  */
 typedef struct {
-    uint32_t literal_lengths[QPL_LITERALS_MATCHES_TABLE_SIZE]; /**< Combined histogram for literals and match lengths tokens */
-    uint32_t reserved_literal_lengths[2U];                     /**< Reserved match lengths tokens */
-    uint32_t distances[QPL_DEFAULT_OFFSETS_NUMBER];            /**< Histogram for distance tokens */
-    uint32_t reserved_distances[2U];                           /**< Reserved distance tokens */
+    uint32_t literal_lengths
+            [QPL_LITERALS_MATCHES_TABLE_SIZE];      /**< Combined histogram for literals and match lengths tokens */
+    uint32_t reserved_literal_lengths[2U];          /**< Reserved match lengths tokens */
+    uint32_t distances[QPL_DEFAULT_OFFSETS_NUMBER]; /**< Histogram for distance tokens */
+    uint32_t reserved_distances[2U];                /**< Reserved distance tokens */
 } qpl_histogram;
 
 /** @} */
@@ -70,11 +72,9 @@ typedef struct {
  *
  * @return One of statuses presented in the @ref qpl_status
  */
-QPL_API(qpl_status, qpl_gather_deflate_statistics, (uint8_t * source_ptr,
-                                                    const uint32_t source_length,
-                                                    qpl_histogram *histogram_ptr,
-                                                    const qpl_compression_levels level,
-                                                    const qpl_path_t path))
+QPL_API(qpl_status, qpl_gather_deflate_statistics,
+        (uint8_t * source_ptr, const uint32_t source_length, qpl_histogram* histogram_ptr,
+         const qpl_compression_levels level, const qpl_path_t path))
 
 /** @} */
 

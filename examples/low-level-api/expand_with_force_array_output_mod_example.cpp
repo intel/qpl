@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -51,9 +52,7 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source      = {0b0000'0001U};
@@ -61,7 +60,7 @@ auto main(int argc, char** argv) -> int {
     std::vector<uint8_t> reference   = {0U};
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    uint32_t   size = 0U;
+    uint32_t                   size = 0U;
 
     // Check if on software path
     if (execution_path == qpl_path_software) {
@@ -76,8 +75,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -96,22 +95,22 @@ auto main(int argc, char** argv) -> int {
     job->available_src2     = mask_byte_length;
     job->num_input_elements = mask_size;
     job->out_bit_width      = qpl_ow_8;
-    job->next_src2_ptr      = const_cast<uint8_t *>(&mask);
+    job->next_src2_ptr      = const_cast<uint8_t*>(&mask);
 
     // Enable Force Array Output Modification
-    job->flags              |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
+    job->flags |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
 
     status = qpl_execute_job(job);
     if (status == QPL_STS_NOT_SUPPORTED_MODE_ERR) {
-        std::cout << "Force Array Output Modification is not supported. This feature is only available on Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 with Hardware Path.\n";
+        std::cout
+                << "Force Array Output Modification is not supported. This feature is only available on Intel® In-Memory Analytics Accelerator (Intel® IAA) 2.0 with Hardware Path.\n";
         std::cout << "Note that Force Array Output Modification is supported only in Hardware Path.\n";
         return 0;
-    }
-    else if (status == QPL_STS_OUT_FORMAT_ERR) {
-        std::cout << "Using Force Array Output Modification flag requires setting output bit width with `job->out_bit_width`\n";
+    } else if (status == QPL_STS_OUT_FORMAT_ERR) {
+        std::cout
+                << "Using Force Array Output Modification flag requires setting output bit width with `job->out_bit_width`\n";
         return 1;
-    }
-    else if (status != QPL_STS_OK) {
+    } else if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during performing expand.\n";
         return 1;
     }
@@ -128,14 +127,14 @@ auto main(int argc, char** argv) -> int {
     if (expand_size != 1) {
         std::cout << "Error occurred, expected expand size 1, but got " << expand_size << "\n";
         return 1;
-    }
-    else {
+    } else {
         // Compare with reference
         if (destination[0] == reference[0]) {
             std::cout << "Expand with Force Array Output Modification was performed successfully.\n";
-        }
-        else {
-            std::cout << "Error occurred in Expand with Force Array Output Modification, expand result is not equal to reference." << "\n";
+        } else {
+            std::cout
+                    << "Error occurred in Expand with Force Array Output Modification, expand result is not equal to reference."
+                    << "\n";
             return 1;
         }
     }

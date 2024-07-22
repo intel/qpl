@@ -16,8 +16,8 @@
 #pragma GCC visibility push(default)
 #endif
 
-#include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
+#include "qpl/c_api/status.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,18 +32,18 @@ extern "C" {
  * @brief Structure for indices representation
  */
 typedef struct {
-    uint32_t bit_offset;    /**< Starting bit of mini-block */
-    uint32_t crc;           /**< Cumulative calculated CRC */
+    uint32_t bit_offset; /**< Starting bit of mini-block */
+    uint32_t crc;        /**< Cumulative calculated CRC */
 } qpl_index;
 
 /**
  * @brief Structure for indices table representation
  */
 typedef struct {
-    uint32_t  block_count;              /**< Number of deflate blocks in the table */
-    uint32_t  mini_block_count;         /**< Number of mini-blocks in the table */
-    uint32_t  mini_blocks_per_block;    /**< Number of mini-blocks in one deflate block */
-    qpl_index *indices_ptr;             /**< Array with indices for mini-blocks */
+    uint32_t   block_count;           /**< Number of deflate blocks in the table */
+    uint32_t   mini_block_count;      /**< Number of mini-blocks in the table */
+    uint32_t   mini_blocks_per_block; /**< Number of mini-blocks in one deflate block */
+    qpl_index* indices_ptr;           /**< Array with indices for mini-blocks */
 } qpl_index_table;
 
 /** @} */
@@ -64,9 +64,8 @@ typedef struct {
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_get_index_table_size, (uint32_t mini_block_count,
-                                               uint32_t mini_blocks_per_block,
-                                               size_t * size_ptr))
+QPL_API(qpl_status, qpl_get_index_table_size,
+        (uint32_t mini_block_count, uint32_t mini_blocks_per_block, size_t* size_ptr))
 
 /**
  * @brief Sets source pointer to required position for further mini-block decompression
@@ -82,12 +81,9 @@ QPL_API(qpl_status, qpl_get_index_table_size, (uint32_t mini_block_count,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_set_mini_block_location, (uint32_t start_bit,
-                                                  uint32_t last_bit,
-                                                  uint8_t * *source_pptr,
-                                                  uint32_t * first_bit_offset_ptr,
-                                                  uint32_t * last_bit_offset_ptr,
-                                                  uint32_t * compressed_size_ptr))
+QPL_API(qpl_status, qpl_set_mini_block_location,
+        (uint32_t start_bit, uint32_t last_bit, uint8_t** source_pptr, uint32_t* first_bit_offset_ptr,
+         uint32_t* last_bit_offset_ptr, uint32_t* compressed_size_ptr))
 
 /**
  * @brief Sets appropriate deflate block index
@@ -100,9 +96,8 @@ QPL_API(qpl_status, qpl_set_mini_block_location, (uint32_t start_bit,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_find_header_block_index, (qpl_index_table * table_ptr,
-                                                  uint32_t mini_block_number,
-                                                  uint32_t * block_index_ptr))
+QPL_API(qpl_status, qpl_find_header_block_index,
+        (qpl_index_table * table_ptr, uint32_t mini_block_number, uint32_t* block_index_ptr))
 
 /**
  * @brief Sets appropriate mini-block index
@@ -115,9 +110,8 @@ QPL_API(qpl_status, qpl_find_header_block_index, (qpl_index_table * table_ptr,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_find_mini_block_index, (qpl_index_table * table_ptr,
-                                                uint32_t mini_block_number,
-                                                uint32_t * block_index_ptr))
+QPL_API(qpl_status, qpl_find_mini_block_index,
+        (qpl_index_table * table_ptr, uint32_t mini_block_number, uint32_t* block_index_ptr))
 
 /** @} */
 

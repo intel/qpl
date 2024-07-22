@@ -12,8 +12,8 @@
 #ifndef QPL_DICTIONARY_H_
 #define QPL_DICTIONARY_H_
 
-#include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
+#include "qpl/c_api/status.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #pragma GCC visibility push(default)
@@ -49,9 +49,8 @@ typedef struct qpl_dictionary qpl_dictionary;
  *
  * @return Returns dictionary size (in bytes)
  */
-QPL_API(size_t, qpl_get_dictionary_size, (sw_compression_level sw_level,
-                                          hw_compression_level hw_level,
-                                          size_t raw_dict_size)) ;
+QPL_API(size_t, qpl_get_dictionary_size,
+        (sw_compression_level sw_level, hw_compression_level hw_level, size_t raw_dict_size));
 
 /**
  * @brief Returns the size of the dictionary built
@@ -63,8 +62,7 @@ QPL_API(size_t, qpl_get_dictionary_size, (sw_compression_level sw_level,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_get_existing_dict_size, (qpl_dictionary * dict_ptr,
-                                                 size_t * destination)) ;
+QPL_API(qpl_status, qpl_get_existing_dict_size, (qpl_dictionary * dict_ptr, size_t* destination));
 
 /**
  * @brief This function creates @ref qpl_dictionary from the raw dictionary given (raw data)
@@ -79,11 +77,9 @@ QPL_API(qpl_status, qpl_get_existing_dict_size, (qpl_dictionary * dict_ptr,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_build_dictionary, (qpl_dictionary * dict_ptr,
-                                           sw_compression_level sw_level,
-                                           hw_compression_level hw_level,
-                                           const uint8_t *raw_dict_ptr,
-                                           size_t        raw_dict_size)) ;
+QPL_API(qpl_status, qpl_build_dictionary,
+        (qpl_dictionary * dict_ptr, sw_compression_level sw_level, hw_compression_level hw_level,
+         const uint8_t* raw_dict_ptr, size_t raw_dict_size));
 
 /**
  * @brief Sets id to the dictionary specified
@@ -95,8 +91,7 @@ QPL_API(qpl_status, qpl_build_dictionary, (qpl_dictionary * dict_ptr,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_set_dictionary_id, (qpl_dictionary * dictionary_ptr,
-                                            uint32_t dictionary_id)) ;
+QPL_API(qpl_status, qpl_set_dictionary_id, (qpl_dictionary * dictionary_ptr, uint32_t dictionary_id));
 
 /**
  * @brief Returns dictionary id
@@ -108,8 +103,7 @@ QPL_API(qpl_status, qpl_set_dictionary_id, (qpl_dictionary * dictionary_ptr,
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_get_dictionary_id, (qpl_dictionary * dictionary_ptr,
-                                            uint32_t * destination)) ;
+QPL_API(qpl_status, qpl_get_dictionary_id, (qpl_dictionary * dictionary_ptr, uint32_t* destination));
 /** @} */
 
 #ifdef __cplusplus

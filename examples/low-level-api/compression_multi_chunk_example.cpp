@@ -6,12 +6,13 @@
 
 //* [QPL_LOW_LEVEL_COMPRESSION_MULTI_CHUNK_EXAMPLE] */
 
-#include <iostream>
-#include <vector>
-#include <memory>
 #include <algorithm>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
@@ -24,34 +25,28 @@ struct accfg_device;
 struct accfg_wq;
 
 /* Instantiate a new library context */
-int accfg_new(struct accfg_ctx **ctx);
+int accfg_new(struct accfg_ctx** ctx);
 
 /* Get first available device */
-struct accfg_device *accfg_device_get_first(struct accfg_ctx *ctx);
+struct accfg_device* accfg_device_get_first(struct accfg_ctx* ctx);
 /* Get next available device */
-struct accfg_device *accfg_device_get_next(struct accfg_device *device);
+struct accfg_device* accfg_device_get_next(struct accfg_device* device);
 /* Get numa id for device */
-int accfg_device_get_numa_node(struct accfg_device *device);
+int accfg_device_get_numa_node(struct accfg_device* device);
 
 /* macro to loop through all available devices */
 #define accfg_device_foreach(ctx, device) \
-	for (device = accfg_device_get_first(ctx); \
-	     device != NULL; \
-	     device = accfg_device_get_next(device))
+    for (device = accfg_device_get_first(ctx); device != NULL; device = accfg_device_get_next(device))
 
 /* Get first available workqueue on device */
-struct accfg_wq *accfg_wq_get_first(struct accfg_device *device);
+struct accfg_wq* accfg_wq_get_first(struct accfg_device* device);
 /* Get next available workqueue */
-struct accfg_wq *accfg_wq_get_next(struct accfg_wq *wq);
+struct accfg_wq* accfg_wq_get_next(struct accfg_wq* wq);
 /* Get max transfer size of workqueue */
-uint64_t accfg_wq_get_max_transfer_size(struct accfg_wq *wq);
+uint64_t accfg_wq_get_max_transfer_size(struct accfg_wq* wq);
 
 /* macro to loop through all available workqueues on device */
-#define accfg_wq_foreach(device, wq) \
-	for (wq = accfg_wq_get_first(device); \
-	     wq != NULL; \
-	     wq = accfg_wq_get_next(wq))
-
+#define accfg_wq_foreach(device, wq) for (wq = accfg_wq_get_first(device); wq != NULL; wq = accfg_wq_get_next(wq))
 }
 
 /**
@@ -76,32 +71,24 @@ int32_t get_numa_id() noexcept {
  * workqueues on numa node (-1 for all) and sets max_transfer_size to the minimum
  * of the values returns a status code 0 is okay, -1 is an accel-config loading error
 */
-int32_t get_min_max_transfer_size(uint64_t &max_transfer_size, int32_t numa_id = -1) {
+int32_t get_min_max_transfer_size(uint64_t& max_transfer_size, int32_t numa_id = -1) {
 #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
-    accfg_ctx    *ctx_ptr     = nullptr;
-    accfg_device *device_ptr  = nullptr;
-    accfg_wq     *wq_ptr      = nullptr;
+    accfg_ctx*    ctx_ptr    = nullptr;
+    accfg_device* device_ptr = nullptr;
+    accfg_wq*     wq_ptr     = nullptr;
 
-    if (numa_id == -1) {
-        numa_id = get_numa_id();
-    }
+    if (numa_id == -1) { numa_id = get_numa_id(); }
 
     uint64_t current_min = UINT64_MAX;
     uint64_t current_value;
 
     int32_t context_creation_status = accfg_new(&ctx_ptr);
-    if (0u != context_creation_status) {
-        return -1;
-    }
+    if (0u != context_creation_status) { return -1; }
     accfg_device_foreach(ctx_ptr, device_ptr) {
-        if(numa_id != accfg_device_get_numa_node(device_ptr)) {
-            continue;
-        }
+        if (numa_id != accfg_device_get_numa_node(device_ptr)) { continue; }
         accfg_wq_foreach(device_ptr, wq_ptr) {
             current_value = accfg_wq_get_max_transfer_size(wq_ptr);
-            if (current_value < current_min) {
-                current_min = current_value;
-            }
+            if (current_value < current_min) { current_min = current_value; }
         }
     }
     max_transfer_size = current_min;
@@ -111,7 +98,6 @@ int32_t get_min_max_transfer_size(uint64_t &max_transfer_size, int32_t numa_id =
     return -1;
 #endif // #ifdef QPL_EXAMPLES_USE_LIBACCEL_CONFIG
 }
-
 
 /**
  * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`
@@ -143,18 +129,17 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument.
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Calculate chunk size for the compression.
-    uint32_t chunk_size = source_size/chunk_count;
+    uint32_t chunk_size = source_size / chunk_count;
 
     if (execution_path == qpl_path_hardware) {
         uint64_t max_transfer_size = 0U;
-        if(get_min_max_transfer_size(max_transfer_size) == 0){
+        if (get_min_max_transfer_size(max_transfer_size) == 0) {
             if (chunk_size > max_transfer_size) {
-                std::cout << "Chunk size(" << chunk_size << ") exceeds configured max transfer size (" << max_transfer_size <<"), reducing chunk size.\n";
+                std::cout << "Chunk size(" << chunk_size << ") exceeds configured max transfer size ("
+                          << max_transfer_size << "), reducing chunk size.\n";
                 chunk_size = max_transfer_size;
             }
         }
@@ -175,8 +160,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -212,7 +197,7 @@ auto main(int argc, char** argv) -> int {
         }
 
         source_bytes_left -= chunk_size;
-        job->available_in  = chunk_size;
+        job->available_in = chunk_size;
 
         // Hardware requires that job->available_out does not exceed max_transfer_size
         job->available_out = std::min(chunk_size, job->available_out);
@@ -265,7 +250,7 @@ auto main(int argc, char** argv) -> int {
 
     std::cout << "Content was successfully compressed and decompressed." << std::endl;
     std::cout << "Input size: " << source.size() << ", compressed size: " << compressed_size
-    << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
+              << ", compression ratio: " << (float)source.size() / (float)compressed_size << ".\n";
 
     return 0;
 }

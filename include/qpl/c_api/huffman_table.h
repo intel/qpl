@@ -18,9 +18,9 @@
 
 #include <stdint.h>
 
-#include "qpl/c_api/status.h"
-#include "qpl/c_api/statistics.h"
 #include "qpl/c_api/serialization.h"
+#include "qpl/c_api/statistics.h"
+#include "qpl/c_api/status.h"
 #include "qpl/c_api/triplet.h"
 
 /**
@@ -42,15 +42,15 @@ extern "C" {
  * @typedef qpl_huffman_table_t
  * @brief Special data type that is an opaque pointer to unified compression/decompression table.
  */
-typedef struct qpl_huffman_table *qpl_huffman_table_t;
+typedef struct qpl_huffman_table* qpl_huffman_table_t;
 
 /**
  * @struct allocator_t
  * @brief Structure that describes user-provided allocator.
  */
 typedef struct {
-    void *(*allocator)(size_t);  /**< Allocation function */
-    void (*deallocator)(void *); /**< Deallocation function */
+    void* (*allocator)(size_t); /**< Allocation function */
+    void (*deallocator)(void*); /**< Deallocation function */
 } allocator_t;
 
 /**
@@ -66,7 +66,8 @@ typedef enum {
 /**
 * Allocator used in Intel QPL C API by default
 */
-#define DEFAULT_ALLOCATOR_C {malloc, free}
+#define DEFAULT_ALLOCATOR_C \
+    { malloc, free }
 
 /** @} */
 
@@ -87,10 +88,8 @@ typedef enum {
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
-                                            const qpl_path_t path,
-                                            const allocator_t allocator,
-                                            qpl_huffman_table_t *table_ptr);
+qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type, const qpl_path_t path,
+                                            const allocator_t allocator, qpl_huffman_table_t* table_ptr);
 
 /**
  * @brief Creates a @ref qpl_huffman_table_t object for Huffman Only. Allocate and markup of internal structures
@@ -102,10 +101,8 @@ qpl_status qpl_deflate_huffman_table_create(const qpl_huffman_table_type_e type,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type,
-                                         const qpl_path_t path,
-                                         const allocator_t allocator,
-                                         qpl_huffman_table_t *table_ptr);
+qpl_status qpl_huffman_only_table_create(const qpl_huffman_table_type_e type, const qpl_path_t path,
+                                         const allocator_t allocator, qpl_huffman_table_t* table_ptr);
 
 /**
  * @brief Destroy an @ref qpl_huffman_table_t object. Deallocates internal structures
@@ -133,8 +130,7 @@ qpl_status qpl_huffman_table_destroy(qpl_huffman_table_t table);
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
-                                                 const qpl_histogram *const histogram_ptr);
+qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table, const qpl_histogram* const histogram_ptr);
 
 /**
  * @brief Initializes huffman table with provided triplets
@@ -145,8 +141,7 @@ qpl_status qpl_huffman_table_init_with_histogram(qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
-                                                const qpl_huffman_triplet *const triplet_ptr,
+qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table, const qpl_huffman_triplet* const triplet_ptr,
                                                 const uint32_t triplet_count);
 
 /**
@@ -157,8 +152,7 @@ qpl_status qpl_huffman_table_init_with_triplets(qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
-                                             const qpl_huffman_table_t other);
+qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table, const qpl_huffman_table_t other);
 
 /** @} */
 
@@ -177,8 +171,7 @@ qpl_status qpl_huffman_table_init_with_other(qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
-                                      qpl_huffman_table_type_e *const type_ptr);
+qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table, qpl_huffman_table_type_e* const type_ptr);
 
 /** @} */
 
@@ -201,9 +194,8 @@ qpl_status qpl_huffman_table_get_type(const qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table,
-                                                 const serialization_options_t options,
-                                                 size_t *const size_ptr);
+qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table, const serialization_options_t options,
+                                                 size_t* const size_ptr);
 
 /**
  * @brief Serializes qpl_huffman_table_t object.
@@ -216,10 +208,8 @@ qpl_status qpl_huffman_table_get_serialized_size(const qpl_huffman_table_t table
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
-                                       uint8_t *const dump_buffer_ptr,
-                                       const size_t dump_buffer_size,
-                                       const serialization_options_t options);
+qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table, uint8_t* const dump_buffer_ptr,
+                                       const size_t dump_buffer_size, const serialization_options_t options);
 
 /**
  * @brief Deserializes previously serialized huffman table
@@ -231,10 +221,8 @@ qpl_status qpl_huffman_table_serialize(const qpl_huffman_table_t table,
  *
  * @return status from @ref qpl_status
  */
-qpl_status qpl_huffman_table_deserialize(const uint8_t *const dump_buffer_ptr,
-                                         const size_t dump_buffer_size,
-                                         allocator_t allocator,
-                                         qpl_huffman_table_t *table_ptr);
+qpl_status qpl_huffman_table_deserialize(const uint8_t* const dump_buffer_ptr, const size_t dump_buffer_size,
+                                         allocator_t allocator, qpl_huffman_table_t* table_ptr);
 
 /** @} */
 

@@ -6,12 +6,13 @@
 
 //* [QPL_LOW_LEVEL_MIX_PATHS_COMP_DECOMP_W_DICT_EXAMPLE] */
 
-#include <iostream>
-#include <vector>
-#include <memory>
 #include <cstddef>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -29,7 +30,7 @@
 constexpr const uint32_t source_size = 2048U;
 
 // Deallocate dictionary
-uint8_t destroy_dictionary(qpl_dictionary **dictionary_ptr) {
+uint8_t destroy_dictionary(qpl_dictionary** dictionary_ptr) {
     if (*dictionary_ptr != nullptr) {
         free(*dictionary_ptr);
         *dictionary_ptr = nullptr;
@@ -38,7 +39,7 @@ uint8_t destroy_dictionary(qpl_dictionary **dictionary_ptr) {
 }
 
 // Create dictionary with defined path
-uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& source, qpl_dictionary **dictionary_ptr) {
+uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& source, qpl_dictionary** dictionary_ptr) {
     std::size_t          dictionary_buffer_size = 0;
     sw_compression_level sw_compr_level         = sw_compression_level::SW_NONE;
     hw_compression_level hw_compr_level         = hw_compression_level::HW_NONE;
@@ -57,16 +58,14 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
     // The raw dictionary should contain pieces of data that are most likely to occur in the real
     // datasets to be compressed.
     // In this example, to make things simple, we just use the source data as the raw dictionary.
-    std::size_t   raw_dict_size = source.size();
-    const uint8_t *raw_dict_ptr = source.data();
+    std::size_t    raw_dict_size = source.size();
+    const uint8_t* raw_dict_ptr  = source.data();
 
     // Determine the size needed for the dictionary
-    dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level,
-                                                     hw_compr_level,
-                                                     raw_dict_size);
+    dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, raw_dict_size);
 
     // Allocate memory for the dictionary
-    *dictionary_ptr = (qpl_dictionary *)malloc(dictionary_buffer_size);
+    *dictionary_ptr = (qpl_dictionary*)malloc(dictionary_buffer_size);
 
     if (*dictionary_ptr == nullptr) {
         std::cout << "Failed to allocate memory for the dictionary.\n";
@@ -74,11 +73,8 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
     }
 
     // Build the dictionary
-    qpl_status status = qpl_build_dictionary(*dictionary_ptr,
-                                             sw_compr_level,
-                                             hw_compr_level,
-                                             raw_dict_ptr,
-                                             raw_dict_size);
+    qpl_status status =
+            qpl_build_dictionary(*dictionary_ptr, sw_compr_level, hw_compr_level, raw_dict_ptr, raw_dict_size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " occurred during dictionary building.\n";
         destroy_dictionary(dictionary_ptr); // Clean up allocated memory
@@ -90,7 +86,8 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
 }
 
 // Dynamic Dictionary Compression with defined path
-uint32_t compression(qpl_path_t execution_path, std::vector<uint8_t>& source, std::vector<uint8_t>& destination, qpl_dictionary *dictionary_ptr) {
+uint32_t compression(qpl_path_t execution_path, std::vector<uint8_t>& source, std::vector<uint8_t>& destination,
+                     qpl_dictionary* dictionary_ptr) {
     std::unique_ptr<uint8_t[]> job_buffer;
     uint32_t                   job_size = 0U;
 
@@ -101,9 +98,9 @@ uint32_t compression(qpl_path_t execution_path, std::vector<uint8_t>& source, st
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(job_size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
-    status = qpl_init_job(execution_path, job);
+    job_buffer   = std::make_unique<uint8_t[]>(job_size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
+    status       = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during compression job initializing.\n";
         return 1;
@@ -126,7 +123,8 @@ uint32_t compression(qpl_path_t execution_path, std::vector<uint8_t>& source, st
 
     // On qpl_path_hardware, if the Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware available does not support dictionary compression, job will fail
     if (execution_path == qpl_path_hardware && status == QPL_STS_NOT_SUPPORTED_MODE_ERR) {
-        std::cout << "Compression with dictionary is not supported on qpl_path_hardware. Note that only certain generations of Intel IAA support compression with dictionary.\n";
+        std::cout
+                << "Compression with dictionary is not supported on qpl_path_hardware. Note that only certain generations of Intel IAA support compression with dictionary.\n";
         return status;
     }
 
@@ -147,13 +145,17 @@ uint32_t compression(qpl_path_t execution_path, std::vector<uint8_t>& source, st
     // Update destination size
     destination.resize(compressed_size);
 
-    std::cout << "Content was successfully compressed with dictionary on " << (execution_path == qpl_path_software ? "software" : (execution_path == qpl_path_hardware ? "hardware" : "auto")) << " path.\n";
+    std::cout << "Content was successfully compressed with dictionary on "
+              << (execution_path == qpl_path_software ? "software"
+                                                      : (execution_path == qpl_path_hardware ? "hardware" : "auto"))
+              << " path.\n";
 
     return 0;
 }
 
 // Decompression with software_path
-auto sw_decompression(std::vector<uint8_t>& destination, std::vector<uint8_t>& reference, qpl_dictionary *dictionary_ptr) {
+auto sw_decompression(std::vector<uint8_t>& destination, std::vector<uint8_t>& reference,
+                      qpl_dictionary* dictionary_ptr) {
     std::unique_ptr<uint8_t[]> job_buffer;
     uint32_t                   job_size = 0U;
 
@@ -167,9 +169,9 @@ auto sw_decompression(std::vector<uint8_t>& destination, std::vector<uint8_t>& r
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(job_size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
-    status = qpl_init_job(qpl_path_software, job);
+    job_buffer   = std::make_unique<uint8_t[]>(job_size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
+    status       = qpl_init_job(qpl_path_software, job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during compression job initializing.\n";
         return 1;
@@ -211,22 +213,18 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
     std::vector<uint8_t> destination(source_size * 2, 4);
     std::vector<uint8_t> reference(source_size, 7);
-    
+
     // Dictionary initialization
-    qpl_dictionary *dictionary_ptr = nullptr;
-    
+    qpl_dictionary* dictionary_ptr = nullptr;
+
     // Build dictionary and check if building failed
-    if (create_dictionary(execution_path, source, &dictionary_ptr) != 0) {
-        return 1;
-    }
+    if (create_dictionary(execution_path, source, &dictionary_ptr) != 0) { return 1; }
 
     // Compression and check if compression failed
     uint8_t comp_status = compression(execution_path, source, destination, dictionary_ptr);
@@ -234,8 +232,7 @@ auto main(int argc, char** argv) -> int {
         // Free dictionary
         destroy_dictionary(&dictionary_ptr);
         return 0;
-    }
-    else if (comp_status != 0) {
+    } else if (comp_status != 0) {
         // Free dictionary
         destroy_dictionary(&dictionary_ptr);
         return comp_status;
@@ -260,9 +257,10 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Content was successfully compressed and decompressed with dictionary." << "\n";
+    std::cout << "Content was successfully compressed and decompressed with dictionary."
+              << "\n";
     std::cout << "Input size: " << source.size() << ", compressed size: " << destination.size()
-    << ", compression ratio: " << (float)source.size()/(float)destination.size() << ".\n";
+              << ", compression ratio: " << (float)source.size() / (float)destination.size() << ".\n";
 
     return 0;
 }

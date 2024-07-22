@@ -7,10 +7,11 @@
 //* [QPL_LOW_LEVEL_DECOMPRESSION_OUTPUT_OVERFLOW_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -35,9 +36,7 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
@@ -54,9 +53,9 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
-    status = qpl_init_job(execution_path, job);
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
+    status       = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during compression job initializing.\n";
         return 1;
@@ -113,8 +112,7 @@ auto main(int argc, char** argv) -> int {
                 std::cout << "An error " << status << " acquired during decompression re-submission.\n";
                 return 1;
             }
-        }
-        else {
+        } else {
             std::cout << "An unexpected error " << status << " acquired during decompression submission.\n";
             return 1;
         }
@@ -130,8 +128,8 @@ auto main(int argc, char** argv) -> int {
     // Compare reference functions
     for (size_t i = 0; i < source.size(); i++) {
         if (source[i] != reference[i]) {
-           std::cout << "Content wasn't successfully compressed and decompressed.\n";
-           return 1;
+            std::cout << "Content wasn't successfully compressed and decompressed.\n";
+            return 1;
         }
     }
 

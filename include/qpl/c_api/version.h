@@ -23,7 +23,7 @@ extern "C" {
 /**
  * @brief Returns a string with a version of the library
  */
-const char *qpl_get_library_version();
+const char* qpl_get_library_version();
 
 #ifdef __cplusplus
 }

@@ -7,11 +7,12 @@
 //* [QPL_LOW_LEVEL_CRC64_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
-#include <numeric>
 #include <memory>
+#include <numeric>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -38,15 +39,13 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 4);
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    uint32_t   size = 0;
+    uint32_t                   size = 0;
 
     // Filling source containers
     std::iota(std::begin(source), std::end(source), 0);
@@ -58,8 +57,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {

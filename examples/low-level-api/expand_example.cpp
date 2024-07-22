@@ -7,11 +7,12 @@
 //* [QPL_LOW_LEVEL_EXPAND_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
-#include <numeric>
 #include <memory>
+#include <numeric>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -41,17 +42,15 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
-    std::vector<uint8_t> source    = {1, 2, 3, 4, 5};
+    std::vector<uint8_t> source = {1, 2, 3, 4, 5};
     std::vector<uint8_t> destination(source_size * 4, 0);
     std::vector<uint8_t> reference = {1, 0, 0, 2, 3, 4, 0, 5};
 
     std::unique_ptr<uint8_t[]> job_buffer;
-    uint32_t   size = 0;
+    uint32_t                   size = 0;
 
     // Job initialization
     qpl_status status = qpl_get_job_size(execution_path, &size);
@@ -60,8 +59,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -80,7 +79,7 @@ auto main(int argc, char** argv) -> int {
     job->available_src2     = mask_byte_length;
     job->num_input_elements = mask_size;
     job->out_bit_width      = qpl_ow_8;
-    job->next_src2_ptr      = const_cast<uint8_t *>(&mask);
+    job->next_src2_ptr      = const_cast<uint8_t*>(&mask);
 
     status = qpl_execute_job(job);
     if (status != QPL_STS_OK) {

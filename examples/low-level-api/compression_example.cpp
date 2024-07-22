@@ -7,10 +7,11 @@
 //* [QPL_LOW_LEVEL_COMPRESSION_EXAMPLE] */
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -35,9 +36,7 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
@@ -54,8 +53,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+    job_buffer   = std::make_unique<uint8_t[]>(size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
@@ -113,7 +112,7 @@ auto main(int argc, char** argv) -> int {
 
     std::cout << "Content was successfully compressed and decompressed." << std::endl;
     std::cout << "Input size: " << source.size() << ", compressed size: " << compressed_size
-    << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
+              << ", compression ratio: " << (float)source.size() / (float)compressed_size << ".\n";
 
     return 0;
 }

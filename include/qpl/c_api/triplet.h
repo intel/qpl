@@ -27,9 +27,9 @@ extern "C" {
  * @brief Structure for intermediate representation of Huffman token
  */
 typedef struct {
-    uint8_t  value;          /**< Encoded value */
-    uint8_t  code_length;    /**< Length of Huffman code for given value */
-    uint16_t code;           /**< Huffman code for given value */
+    uint8_t  value;       /**< Encoded value */
+    uint8_t  code_length; /**< Length of Huffman code for given value */
+    uint16_t code;        /**< Huffman code for given value */
 } qpl_huffman_triplet;
 
 #ifdef __cplusplus

@@ -6,13 +6,14 @@
 
 //* [QPL_LOW_LEVEL_CANNED_COMPRESSION_WITH_DICTIONARY_EXAMPLE] */
 
-#include <iostream>
-#include <vector>
-#include <memory>
 #include <cstddef>
 #include <cstdint>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -37,9 +38,7 @@ auto main(int argc, char** argv) -> int {
 
     // Get path from input argument
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
-    if (parse_ret != 0) {
-        return 1;
-    }
+    if (parse_ret != 0) { return 1; }
 
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
@@ -48,7 +47,7 @@ auto main(int argc, char** argv) -> int {
 
     std::unique_ptr<uint8_t[]> job_buffer;
     uint32_t                   job_size = 0U;
-    qpl_histogram              deflate_histogram{};
+    qpl_histogram              deflate_histogram {};
 
     // Job initialization
     qpl_status status = qpl_get_job_size(execution_path, &job_size);
@@ -57,9 +56,9 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    job_buffer = std::make_unique<uint8_t[]>(job_size);
-    qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
-    status = qpl_init_job(execution_path, job);
+    job_buffer   = std::make_unique<uint8_t[]>(job_size);
+    qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
+    status       = qpl_init_job(execution_path, job);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during compression job initializing.\n";
         return 1;
@@ -67,7 +66,7 @@ auto main(int argc, char** argv) -> int {
 
     // Dictionary initialization
     std::unique_ptr<uint8_t[]> dictionary_buffer;
-    qpl_dictionary             *dictionary_ptr        = nullptr;
+    qpl_dictionary*            dictionary_ptr         = nullptr;
     std::size_t                dictionary_buffer_size = 0;
     sw_compression_level       sw_compr_level         = sw_compression_level::SW_NONE;
     hw_compression_level       hw_compr_level         = hw_compression_level::HW_NONE;
@@ -83,20 +82,14 @@ auto main(int argc, char** argv) -> int {
     // Huffman table initialization
     qpl_huffman_table_t huffman_table = nullptr;
 
-    status = qpl_deflate_huffman_table_create(combined_table_type,
-                                              execution_path,
-                                              DEFAULT_ALLOCATOR_C,
-                                              &huffman_table);
+    status = qpl_deflate_huffman_table_create(combined_table_type, execution_path, DEFAULT_ALLOCATOR_C, &huffman_table);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during Huffman table creation.\n";
         return 1;
     }
 
     // Filling deflate histogram first
-    status = qpl_gather_deflate_statistics(source.data(),
-                                           source_size,
-                                           &deflate_histogram,
-                                           qpl_default_level,
+    status = qpl_gather_deflate_statistics(source.data(), source_size, &deflate_histogram, qpl_default_level,
                                            execution_path);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
@@ -119,20 +112,14 @@ auto main(int argc, char** argv) -> int {
     // The raw dictionary should contain pieces of data that are most likely to occur in the real
     // datasets to be compressed.
     // In this example, to make things simple, we just use the source data as the raw dictionary.
-    raw_dict_size = source.size();
-    const uint8_t *raw_dict_ptr = source.data();
-    dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level,
-                                                     hw_compr_level,
-                                                     raw_dict_size);
+    raw_dict_size               = source.size();
+    const uint8_t* raw_dict_ptr = source.data();
+    dictionary_buffer_size      = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, raw_dict_size);
 
     dictionary_buffer = std::make_unique<uint8_t[]>(dictionary_buffer_size);
-    dictionary_ptr    = reinterpret_cast<qpl_dictionary *>(dictionary_buffer.get());
+    dictionary_ptr    = reinterpret_cast<qpl_dictionary*>(dictionary_buffer.get());
 
-    status = qpl_build_dictionary(dictionary_ptr,
-                                  sw_compr_level,
-                                  hw_compr_level,
-                                  raw_dict_ptr,
-                                  raw_dict_size);
+    status = qpl_build_dictionary(dictionary_ptr, sw_compr_level, hw_compr_level, raw_dict_ptr, raw_dict_size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " acquired during dictionary building.\n";
         qpl_huffman_table_destroy(huffman_table);
@@ -155,7 +142,8 @@ auto main(int argc, char** argv) -> int {
 
     // On qpl_path_hardware, if the Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware available does not support dictionary compression, job will exit early and return the appropriate error code
     if (execution_path == qpl_path_hardware && status == QPL_STS_NOT_SUPPORTED_MODE_ERR) {
-        std::cout << "Compression with dictionary is not supported on qpl_path_hardware. Note that only certain generations of Intel IAA support compression with dictionary.\n";
+        std::cout
+                << "Compression with dictionary is not supported on qpl_path_hardware. Note that only certain generations of Intel IAA support compression with dictionary.\n";
         qpl_huffman_table_destroy(huffman_table);
         return 0;
     }
@@ -217,7 +205,7 @@ auto main(int argc, char** argv) -> int {
 
     std::cout << "Content was successfully compressed and decompressed." << std::endl;
     std::cout << "Input size: " << source.size() << ", compressed size: " << compressed_size
-    << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
+              << ", compression ratio: " << (float)source.size() / (float)compressed_size << ".\n";
 
     return 0;
 }

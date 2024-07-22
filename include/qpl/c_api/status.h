@@ -20,6 +20,8 @@
 extern "C" {
 #endif
 
+// clang-format off
+
 /**
  * @addtogroup JOB_API_DEFINITIONS
  * @{
@@ -222,6 +224,8 @@ typedef enum {
 } qpl_status;
 
 /** @} */
+
+// clang-format on
 
 #ifdef __cplusplus
 }

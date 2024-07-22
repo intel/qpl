@@ -19,9 +19,9 @@
 #ifndef QPL_H__
 #define QPL_H__
 
-#include "c_api/version.h"
 #include "c_api/defs.h"
-#include "c_api/job.h"
 #include "c_api/index_table.h"
+#include "c_api/job.h"
+#include "c_api/version.h"
 
 #endif /* //QPL_H__ */

@@ -6,13 +6,14 @@
 
 //* [QPL_LOW_LEVEL_CANNED_MODE_EXAMPLE] */
 
-#include <iostream>
-#include <vector>
-#include <memory>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "examples_utils.hpp" // for argument parsing function
 
 /**
@@ -28,7 +29,7 @@
  *
  */
 
-auto main(int argc, char **argv) -> int {
+auto main(int argc, char** argv) -> int {
     std::cout << "Intel(R) Query Processing Library version is " << qpl_get_library_version() << ".\n";
 
     qpl_path_t execution_path = qpl_path_software;
@@ -36,14 +37,12 @@ auto main(int argc, char **argv) -> int {
     // Get path from input argument
     const int extra_arg = 1;
     const int parse_ret = parse_execution_path(argc, argv, &execution_path, extra_arg);
-    if (parse_ret) {
-        return 1;
-    }
+    if (parse_ret) { return 1; }
 
     const std::string dataset_path = argv[2];
 
     // Source and output containers
-    for (const auto &path: std::filesystem::directory_iterator(dataset_path)) {
+    for (const auto& path : std::filesystem::directory_iterator(dataset_path)) {
         std::ifstream file(path.path().string(), std::ifstream::binary);
 
         if (!file.is_open()) {
@@ -63,7 +62,7 @@ auto main(int argc, char **argv) -> int {
 
         std::unique_ptr<uint8_t[]> job_buffer;
         uint32_t                   size = 0;
-        qpl_histogram              deflate_histogram{};
+        qpl_histogram              deflate_histogram {};
 
         // Job initialization
         qpl_status status = qpl_get_job_size(execution_path, &size);
@@ -72,8 +71,8 @@ auto main(int argc, char **argv) -> int {
             return 1;
         }
 
-        job_buffer = std::make_unique<uint8_t[]>(size);
-        qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer.get());
+        job_buffer   = std::make_unique<uint8_t[]>(size);
+        qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer.get());
 
         status = qpl_init_job(execution_path, job);
         if (status != QPL_STS_OK) {
@@ -84,9 +83,7 @@ auto main(int argc, char **argv) -> int {
         // Huffman table initialization
         qpl_huffman_table_t huffman_table = nullptr;
 
-        status = qpl_deflate_huffman_table_create(combined_table_type,
-                                                  execution_path,
-                                                  DEFAULT_ALLOCATOR_C,
+        status = qpl_deflate_huffman_table_create(combined_table_type, execution_path, DEFAULT_ALLOCATOR_C,
                                                   &huffman_table);
         if (status != QPL_STS_OK) {
             std::cout << "An error " << status << " acquired during Huffman table creation.\n";
@@ -94,11 +91,8 @@ auto main(int argc, char **argv) -> int {
         }
 
         // Filling deflate histogram first
-        status = qpl_gather_deflate_statistics(source.data(),
-                                               static_cast<uint32_t>(source.size()),
-                                               &deflate_histogram,
-                                               qpl_default_level,
-                                               execution_path);
+        status = qpl_gather_deflate_statistics(source.data(), static_cast<uint32_t>(source.size()), &deflate_histogram,
+                                               qpl_default_level, execution_path);
         if (status != QPL_STS_OK) {
             std::cout << "An error " << status << " acquired during gathering statistics for Huffman table.\n";
             qpl_huffman_table_destroy(huffman_table);
@@ -171,8 +165,10 @@ auto main(int argc, char **argv) -> int {
         }
 
         std::cout << "Content of " << path.path().filename() << " was successfully compressed and decompressed.\n";
-        std::cout << "" "Input size: " << source.size() << ", compressed size: " << compressed_size
-        << ", compression ratio: " << (float)source.size()/(float)compressed_size << ".\n";
+        std::cout << ""
+                     "Input size: "
+                  << source.size() << ", compressed size: " << compressed_size
+                  << ", compression ratio: " << (float)source.size() / (float)compressed_size << ".\n";
     }
 
     return 0;

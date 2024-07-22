@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "qpl/qpl.h"
 
 /**
@@ -43,10 +44,10 @@ int main(int argc, char** argv) {
         printf("The example will be run on the hardware path.\n");
     } else if (strcmp(argv[1], "software_path") == 0) {
         execution_path = qpl_path_software;
-         printf("The example will be run on the software path.\n");
+        printf("The example will be run on the software path.\n");
     } else if (strcmp(argv[1], "auto_path") == 0) {
         execution_path = qpl_path_auto;
-         printf("The example will be run on the auto path.\n");
+        printf("The example will be run on the auto path.\n");
     } else {
         printf("argv[1] = %s", argv[1]);
         printf("Unrecognized value for execution path parameter. Use hardware_path, software_path or auto_path.\n");
@@ -54,11 +55,11 @@ int main(int argc, char** argv) {
     }
 
     // Source and output containers
-   uint8_t source  [source_size];
-   uint8_t destination [source_size * 2];
-   uint8_t reference [source_size];
+    uint8_t source[source_size];
+    uint8_t destination[source_size * 2];
+    uint8_t reference[source_size];
 
-   uint32_t size = 0;
+    uint32_t size = 0;
 
     // Getting job size
     qpl_status status = qpl_get_job_size(execution_path, &size);
@@ -67,8 +68,8 @@ int main(int argc, char** argv) {
         return status;
     }
 
-    qpl_job *compress_job = NULL;
-    compress_job = (qpl_job *)malloc(size);
+    qpl_job* compress_job = NULL;
+    compress_job          = (qpl_job*)malloc(size);
     if (compress_job == NULL) {
         printf("An error acquired during allocation of compression job. Error status = %d\n", status);
         return status;
@@ -76,14 +77,14 @@ int main(int argc, char** argv) {
 
     status = qpl_init_job(execution_path, compress_job);
     if (status != QPL_STS_OK) {
-         printf("An error acquired during job initializing. Error status = %d\n", status);
+        printf("An error acquired during job initializing. Error status = %d\n", status);
 
-         // Since qpl_init_job allocates and initialize internal structures,
-         // it is required to call qpl_fini_job in case of an error to free all internal resources.
-         qpl_fini_job(compress_job);
-         free(compress_job);
+        // Since qpl_init_job allocates and initialize internal structures,
+        // it is required to call qpl_fini_job in case of an error to free all internal resources.
+        qpl_fini_job(compress_job);
+        free(compress_job);
 
-         return status;
+        return status;
     }
 
     // Allocating the compression Huffman Table object for Huffman-only
@@ -92,9 +93,7 @@ int main(int argc, char** argv) {
     // The next line is a workaround for DEFAULT_ALLOCATOR_C macros.
     // This macros works only with C++ code.
     allocator_t default_allocator_c = {malloc, free};
-    status = qpl_huffman_only_table_create(compression_table_type,
-                                           execution_path,
-                                           default_allocator_c,
+    status = qpl_huffman_only_table_create(compression_table_type, execution_path, default_allocator_c,
                                            &c_huffman_table);
 
     if (status != QPL_STS_OK) {
@@ -113,8 +112,8 @@ int main(int argc, char** argv) {
     compress_job->next_out_ptr  = destination;
     compress_job->available_in  = source_size;
     compress_job->available_out = (uint32_t)(source_size * 2);
-    compress_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS
-                                                 | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+    compress_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS |
+                          QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
     compress_job->huffman_table = c_huffman_table;
 
     // Executing compression operation
@@ -148,12 +147,10 @@ int main(int argc, char** argv) {
 
     // Allocating the decompression Huffman Table object for Huffman-only
     qpl_huffman_table_t d_huffman_table = NULL;
-    status = qpl_huffman_only_table_create(decompression_table_type,
-                                           execution_path,
-                                           default_allocator_c,
+    status = qpl_huffman_only_table_create(decompression_table_type, execution_path, default_allocator_c,
                                            &d_huffman_table);
 
-     if (status != QPL_STS_OK) {
+    if (status != QPL_STS_OK) {
         printf("An error acquired during decompression Huffman table creation. Error status = %d\n", status);
 
         qpl_huffman_table_destroy(c_huffman_table);
@@ -165,7 +162,8 @@ int main(int argc, char** argv) {
     // Initializing decompression table with the values from compression table
     status = qpl_huffman_table_init_with_other(d_huffman_table, c_huffman_table);
     if (status != QPL_STS_OK) {
-        printf("An error acquired during decompression Huffman table initialization failed. Error status = %d\n", status);
+        printf("An error acquired during decompression Huffman table initialization failed. Error status = %d\n",
+               status);
 
         qpl_huffman_table_destroy(c_huffman_table);
         qpl_huffman_table_destroy(d_huffman_table);
@@ -183,9 +181,9 @@ int main(int argc, char** argv) {
         return status;
     }
 
-    qpl_job *decompress_job = NULL;
-    decompress_job = (qpl_job *)malloc(size);
-    if (decompress_job == NULL){
+    qpl_job* decompress_job = NULL;
+    decompress_job          = (qpl_job*)malloc(size);
+    if (decompress_job == NULL) {
         printf("An error acquired during malloc function for decompress job. Error status = %d\n", status);
         return status;
     }
@@ -202,14 +200,14 @@ int main(int argc, char** argv) {
     }
 
     // Initializing decompression qpl_job structure before performing a decompression operation
-    decompress_job->op            = qpl_op_decompress;
-    decompress_job->next_in_ptr   = destination;
-    decompress_job->next_out_ptr  = reference;
-    decompress_job->available_in  = compressed_size;
-    decompress_job->available_out = (uint32_t)(source_size);
+    decompress_job->op              = qpl_op_decompress;
+    decompress_job->next_in_ptr     = destination;
+    decompress_job->next_out_ptr    = reference;
+    decompress_job->available_in    = compressed_size;
+    decompress_job->available_out   = (uint32_t)(source_size);
     decompress_job->ignore_end_bits = (8 - last_bit_offset) & 7;
-    decompress_job->flags         = QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
-    decompress_job->huffman_table = d_huffman_table;
+    decompress_job->flags           = QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
+    decompress_job->huffman_table   = d_huffman_table;
 
     // Executing decompression operation
     status = qpl_execute_job(decompress_job);
