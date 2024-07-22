@@ -16,10 +16,10 @@
 #pragma GCC visibility push(default)
 #endif
 
-#include "qpl/c_api/status.h"
 #include "qpl/c_api/defs.h"
-#include "qpl/c_api/huffman_table.h"
 #include "qpl/c_api/dictionary.h"
+#include "qpl/c_api/huffman_table.h"
+#include "qpl/c_api/status.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,12 +35,12 @@ extern "C" {
  * @brief @ref qpl_job extension that holds internal buffers and context for @ref qpl_operation
  */
 struct qpl_aux_data {
-    uint8_t    *compress_state_ptr;      /**< @ref qpl_op_compress operation state */
-    uint8_t    *decompress_state_ptr;    /**< @ref qpl_op_decompress operation state */
-    uint8_t    *analytics_state_ptr;     /**< Analytics @ref qpl_operation buffers */
-    uint8_t    *middle_layer_buffer_ptr; /**< Internal middle-level layer buffer */
-    uint8_t    *hw_state_ptr;            /**< Hardware path execution context */
-    qpl_path_t path;                     /**< @ref qpl_path_t marker */
+    uint8_t*   compress_state_ptr;      /**< @ref qpl_op_compress operation state */
+    uint8_t*   decompress_state_ptr;    /**< @ref qpl_op_decompress operation state */
+    uint8_t*   analytics_state_ptr;     /**< Analytics @ref qpl_operation buffers */
+    uint8_t*   middle_layer_buffer_ptr; /**< Internal middle-level layer buffer */
+    uint8_t*   hw_state_ptr;            /**< Hardware path execution context */
+    qpl_path_t path;                    /**< @ref qpl_path_t marker */
 };
 
 typedef struct qpl_aux_data qpl_data; /**< Hidden internal state structure */
@@ -49,48 +49,48 @@ typedef struct qpl_aux_data qpl_data; /**< Hidden internal state structure */
  * @brief Defines the general Intel QPL JOB API structure to perform task configuration.
  */
 typedef struct {
-    uint8_t  *next_in_ptr;    /**< Next input byte */
-    uint32_t available_in;    /**< Number of bytes available at next_in_ptr */
-    uint32_t total_in;        /**< Total number of bytes read so far */
+    uint8_t* next_in_ptr;  /**< Next input byte */
+    uint32_t available_in; /**< Number of bytes available at next_in_ptr */
+    uint32_t total_in;     /**< Total number of bytes read so far */
 
-    uint8_t  *next_out_ptr;    /**< Next output byte */
-    uint32_t available_out;    /**< Number of bytes available at next_out_ptr */
-    uint32_t total_out;        /**< Total number of bytes written so far */
+    uint8_t* next_out_ptr;  /**< Next output byte */
+    uint32_t available_out; /**< Number of bytes available at next_out_ptr */
+    uint32_t total_out;     /**< Total number of bytes written so far */
 
-    qpl_operation          op;                 /**< Intel QPL operation */
-    uint32_t               flags;              /**< Auxiliary operation flags - see below */
-    uint32_t               crc;                /**< CRC - Input and Output */
-    uint32_t               xor_checksum;       /**< Simple XOR check sum */
-    uint32_t               last_bit_offset;    /**< Actual bits in the last written byte (or word for BE16 format) */
-    qpl_compression_levels level;              /**< Compression level - default or high */
-    qpl_statistics_mode    statistics_mode;    /**< Represents mode in which deflate should be performed */
+    qpl_operation          op;              /**< Intel QPL operation */
+    uint32_t               flags;           /**< Auxiliary operation flags - see below */
+    uint32_t               crc;             /**< CRC - Input and Output */
+    uint32_t               xor_checksum;    /**< Simple XOR check sum */
+    uint32_t               last_bit_offset; /**< Actual bits in the last written byte (or word for BE16 format) */
+    qpl_compression_levels level;           /**< Compression level - default or high */
+    qpl_statistics_mode    statistics_mode; /**< Represents mode in which deflate should be performed */
 
     // Tables
-    qpl_huffman_table_t   huffman_table;      /**< Huffman table for compression */
+    qpl_huffman_table_t huffman_table; /**< Huffman table for compression */
 
-    qpl_dictionary *dictionary;    /**< The dictionary used for compression / decompression */
+    qpl_dictionary* dictionary; /**< The dictionary used for compression / decompression */
 
     // Fields for indexing
-    qpl_mini_block_size mini_block_size;    /**< Index block (mini-block) size */
-    uint64_t            *idx_array;         /**< Index array address */
-    uint32_t            idx_max_size;       /**< Size of index array */
-    uint32_t            idx_num_written;    /**< Number of generated indexes */
+    qpl_mini_block_size mini_block_size; /**< Index block (mini-block) size */
+    uint64_t*           idx_array;       /**< Index array address */
+    uint32_t            idx_max_size;    /**< Size of index array */
+    uint32_t            idx_num_written; /**< Number of generated indexes */
 
     // Advanced decompress fields
-    uint8_t decomp_end_processing;    /**< Value is qpl_decomp_end_proc */
-    uint8_t ignore_start_bits;        /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the start of the 1st byte (or word for BE16 format) */
-    uint8_t ignore_end_bits;          /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the end of the last byte (or word for BE16 format) */
+    uint8_t decomp_end_processing; /**< Value is qpl_decomp_end_proc */
+    uint8_t ignore_start_bits; /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the start of the 1st byte (or word for BE16 format) */
+    uint8_t ignore_end_bits; /**< 0-7 (or 0-15 for BE16 format) - a number of bits to skip at the end of the last byte (or word for BE16 format) */
 
     // CRC64 fields
-    uint64_t crc64_poly;    /**< Polynomial used for the crc64 operation */
-    uint64_t crc64;         /**< Initial and final CRC value for the crc64 operation */
+    uint64_t crc64_poly; /**< Polynomial used for the crc64 operation */
+    uint64_t crc64;      /**< Initial and final CRC value for the crc64 operation */
 
     // Filter Function Fields
-    uint8_t    *next_src2_ptr;        /**< Pointer to source-2 data. Updated value is returned */
-    uint32_t   available_src2;        /**< Number of valid bytes of source-2 data */
-    uint32_t   src1_bit_width;        /**< Source-1 bit width for Analytics. Valid values are 1-32 */
-    uint32_t   src2_bit_width;        /**< Source-2 bit width for Analytics. Valid values are 1-32 */
-    uint32_t   num_input_elements;    /**< Number of input elements for Analytics */
+    uint8_t* next_src2_ptr;      /**< Pointer to source-2 data. Updated value is returned */
+    uint32_t available_src2;     /**< Number of valid bytes of source-2 data */
+    uint32_t src1_bit_width;     /**< Source-1 bit width for Analytics. Valid values are 1-32 */
+    uint32_t src2_bit_width;     /**< Source-2 bit width for Analytics. Valid values are 1-32 */
+    uint32_t num_input_elements; /**< Number of input elements for Analytics */
 
     /**
      * Output bit width enumeration. Valid values are nominal, 8-, 16-, or 32-bits
@@ -124,15 +124,15 @@ typedef struct {
     qpl_parser parser;
 
     // Filter Aggregate Values
-    uint32_t first_index_min_value;    /**< Output aggregate value - index of the first min value */
-    uint32_t last_index_max_value;     /**< Output aggregate value - index of the last max value */
-    uint32_t sum_value;                /**< Output aggregate value - sum of all values */
+    uint32_t first_index_min_value; /**< Output aggregate value - index of the first min value */
+    uint32_t last_index_max_value;  /**< Output aggregate value - index of the last max value */
+    uint32_t sum_value;             /**< Output aggregate value - sum of all values */
 
     // NUMA ID
     int32_t numa_id; /**< ID of the NUMA. Set it to -1 for auto detecting */
 
     // storage for auxiliary data
-    qpl_data data_ptr;    /**< Internal memory buffers & structures for all Intel QPL operations */
+    qpl_data data_ptr; /**< Internal memory buffers & structures for all Intel QPL operations */
 } qpl_job;
 
 /** @} */
@@ -158,7 +158,7 @@ typedef struct {
  *     - @ref QPL_STS_OK;
  *     - @ref QPL_STS_PATH_ERR.
  */
-QPL_API(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t * job_size_ptr))
+QPL_API(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t* job_size_ptr))
 
 /**
  * @brief Initializes the qpl_job structure and ensures proper alignment of internal structures.
@@ -179,7 +179,7 @@ QPL_API(qpl_status, qpl_get_job_size, (qpl_path_t qpl_path, uint32_t * job_size_
  *     - @ref QPL_STS_PATH_ERR;
  *     - @ref QPL_STS_NULL_PTR_ERR.
  */
-QPL_API(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job * qpl_job_ptr))
+QPL_API(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job* qpl_job_ptr))
 
 /**
  * @brief Parses the qpl_job structure and forms the corresponding processing functions pipeline.
