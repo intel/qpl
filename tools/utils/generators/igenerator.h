@@ -7,30 +7,18 @@
 #ifndef __GZ_GENERATOR_H__
 #define __GZ_GENERATOR_H__
 
-#include "gendefs.hpp"
 #include <memory>
+#include <vector>
 
-namespace gz_generator
-{
-    class InflateGenerator
-    {
-        protected:
-            static std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
+#include "gendefs.hpp"
 
-        public:
+namespace gz_generator {
+class InflateGenerator {
+protected:
+    static std::unique_ptr<std::stringstream> getStreamDescription(TestFactor& testFactor);
 
-            static GenStatus
-            generate(std::vector<Gen8u> &pBinaryData, std::vector<Gen8u> &pReferenceData, TestFactor &factor);
-    };
-
-    class IndexGenerator
-    {
-        protected:
-            static std::unique_ptr<std::stringstream> getStreamDescription(TestFactor &testFactor);
-
-        public:
-            static GenStatus
-            generate(std::vector<Gen8u> &pBinaryData, std::vector<Gen8u> &pReferenceData, TestFactor &factor);
-    };
-}
+public:
+    static GenStatus generate(std::vector<Gen8u>& pBinaryData, std::vector<Gen8u>& pReferenceData, TestFactor& factor);
+};
+} // namespace gz_generator
 #endif //__GZ_GENERATOR_H__
