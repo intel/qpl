@@ -479,10 +479,11 @@ document.write(`
 <span class="c1">//* [QPL_LOW_LEVEL_CANNED_MODE_EXAMPLE] */</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;qpl/qpl.h&quot;</span>
+
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;examples_utils.hpp&quot;</span><span class="c1"> // for argument parsing function</span>
 
 <span class="cm">/**</span>
@@ -497,7 +498,7 @@ document.write(`
 <span class="cm"> * `Hardware Path` doesn&#39;t support all features declared for `Software Path`</span>
 <span class="cm"> *</span>
 <span class="cm"> */</span>
-<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
 
 <span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Intel(R) Query Processing Library version is &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">qpl_get_library_version</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
@@ -506,9 +507,7 @@ document.write(`
 
 <span class="w">    </span><span class="c1">// Get path from input argument</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">parse_ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_execution_path</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">execution_path</span><span class="p">);</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parse_ret</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parse_ret</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Source and output containers</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
@@ -517,7 +516,7 @@ document.write(`
 
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="w"> </span><span class="n">job_buffer</span><span class="p">;</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w">                   </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">    </span><span class="n">qpl_histogram</span><span class="w">              </span><span class="n">deflate_histogram</span><span class="p">{};</span>
+<span class="w">    </span><span class="n">qpl_histogram</span><span class="w">              </span><span class="n">deflate_histogram</span><span class="w"> </span><span class="p">{};</span>
 
 <span class="w">    </span><span class="c1">// Job initialization</span>
 <span class="w">    </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_job_size</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
@@ -526,8 +525,8 @@ document.write(`
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="n">job_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
-<span class="w">    </span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*</span><span class="n">job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">qpl_job</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="n">job_buffer</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job_buffer</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="n">qpl_job</span><span class="o">*</span><span class="w"> </span><span class="n">job</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">qpl_job</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">job_buffer</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
 
 <span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -538,20 +537,14 @@ document.write(`
 <span class="w">    </span><span class="c1">// Huffman table initialization</span>
 <span class="w">    </span><span class="n">qpl_huffman_table_t</span><span class="w"> </span><span class="n">huffman_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
 
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_deflate_huffman_table_create</span><span class="p">(</span><span class="n">combined_table_type</span><span class="p">,</span>
-<span class="w">                                              </span><span class="n">execution_path</span><span class="p">,</span>
-<span class="w">                                              </span><span class="n">DEFAULT_ALLOCATOR_C</span><span class="p">,</span>
-<span class="w">                                              </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_deflate_huffman_table_create</span><span class="p">(</span><span class="n">combined_table_type</span><span class="p">,</span><span class="w"> </span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">DEFAULT_ALLOCATOR_C</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">huffman_table</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during Huffman table creation.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="c1">// Filling deflate histogram first</span>
-<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_gather_deflate_statistics</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
-<span class="w">                                           </span><span class="n">source_size</span><span class="p">,</span>
-<span class="w">                                           </span><span class="o">&amp;</span><span class="n">deflate_histogram</span><span class="p">,</span>
-<span class="w">                                           </span><span class="n">qpl_default_level</span><span class="p">,</span>
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_gather_deflate_statistics</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">deflate_histogram</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">,</span>
 <span class="w">                                           </span><span class="n">execution_path</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;An error &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; acquired during gathering statistics for Huffman table.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
@@ -627,7 +620,7 @@ document.write(`
 
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Content was successfully compressed and decompressed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Input size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, compressed size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compressed_size</span>
-<span class="w">    </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, compression ratio: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">source_size</span><span class="o">/</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">compressed_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, compression ratio: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">source_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n">compressed_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
