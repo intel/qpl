@@ -11,25 +11,25 @@
 #include "string.h"
 
 static inline uint16_t load_u16(uint8_t* buf) {
-    uint16_t ret;
+    uint16_t ret = 0U;
     memcpy(&ret, buf, sizeof(ret));
     return ret;
 }
 
 static inline uint32_t load_u32(uint8_t* buf) {
-    uint32_t ret;
+    uint32_t ret = 0U;
     memcpy(&ret, buf, sizeof(ret));
     return ret;
 }
 
 static inline uint64_t load_u64(uint8_t* buf) {
-    uint64_t ret;
+    uint64_t ret = 0U;
     memcpy(&ret, buf, sizeof(ret));
     return ret;
 }
 
 static inline uintmax_t load_umax(uint8_t* buf) {
-    uintmax_t ret;
+    uintmax_t ret = 0U;
     memcpy(&ret, buf, sizeof(ret));
     return ret;
 }
