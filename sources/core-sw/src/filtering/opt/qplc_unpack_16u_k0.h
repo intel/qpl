@@ -27,92 +27,92 @@
 
 // ------------------------------------ 9u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_9u_0[32]) = {
-        0u, 1u,  1u,  2u,  2u,  3u,  3u,  4u,  4u,  5u,  5u,  6u,  6u,  7u,  7u,  8u,
-        9u, 10u, 10u, 11u, 11u, 12u, 12u, 13u, 13u, 14u, 14u, 15u, 15u, 16u, 16u, 17u};
+        0U, 1U,  1U,  2U,  2U,  3U,  3U,  4U,  4U,  5U,  5U,  6U,  6U,  7U,  7U,  8U,
+        9U, 10U, 10U, 11U, 11U, 12U, 12U, 13U, 13U, 14U, 14U, 15U, 15U, 16U, 16U, 17U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_9u_1[32]) = {
-        0u, 1u,  1u,  2u,  2u,  3u,  3u,  4u,  5u,  6u,  6u,  7u,  7u,  8u,  8u,  9u,
-        9u, 10u, 10u, 11u, 11u, 12u, 12u, 13u, 14u, 15u, 15u, 16u, 16u, 17u, 17u, 18u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_9u_0[16]) = {0u, 2u, 4u, 6u, 8u, 10u, 12u, 14u,
-                                                              0u, 2u, 4u, 6u, 8u, 10u, 12u, 14u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_9u_1[16]) = {7u, 5u, 3u, 1u, 15u, 13u, 11u, 9u,
-                                                              7u, 5u, 3u, 1u, 15u, 13u, 11u, 9u};
+        0U, 1U,  1U,  2U,  2U,  3U,  3U,  4U,  5U,  6U,  6U,  7U,  7U,  8U,  8U,  9U,
+        9U, 10U, 10U, 11U, 11U, 12U, 12U, 13U, 14U, 15U, 15U, 16U, 16U, 17U, 17U, 18U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_9u_0[16]) = {0U, 2U, 4U, 6U, 8U, 10U, 12U, 14U,
+                                                              0U, 2U, 4U, 6U, 8U, 10U, 12U, 14U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_9u_1[16]) = {7U, 5U, 3U, 1U, 15U, 13U, 11U, 9U,
+                                                              7U, 5U, 3U, 1U, 15U, 13U, 11U, 9U};
 
 // ------------------------------------ 10u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_10u_0[32]) = {
-        0u,  1u,  1u,  2u,  2u,  3u,  3u,  4u,  5u,  6u,  6u,  7u,  7u,  8u,  8u,  9u,
-        10u, 11u, 11u, 12u, 12u, 13u, 13u, 14u, 15u, 16u, 16u, 17u, 17u, 18u, 18u, 19u};
+        0U,  1U,  1U,  2U,  2U,  3U,  3U,  4U,  5U,  6U,  6U,  7U,  7U,  8U,  8U,  9U,
+        10U, 11U, 11U, 12U, 12U, 13U, 13U, 14U, 15U, 16U, 16U, 17U, 17U, 18U, 18U, 19U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_10u_1[32]) = {
-        0u,  1u,  1u,  2u,  3u,  4u,  4u,  5u,  5u,  6u,  6u,  7u,  8u,  9u,  9u,  10u,
-        10u, 11u, 11u, 12u, 13u, 14u, 14u, 15u, 15u, 16u, 16u, 17u, 18u, 19u, 19u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_10u_0[16]) = {0u, 4u, 8u, 12u, 0u, 4u, 8u, 12u,
-                                                               0u, 4u, 8u, 12u, 0u, 4u, 8u, 12u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_10u_1[16]) = {6u, 2u, 14u, 10u, 6u, 2u, 14u, 10u,
-                                                               6u, 2u, 14u, 10u, 6u, 2u, 14u, 10u};
+        0U,  1U,  1U,  2U,  3U,  4U,  4U,  5U,  5U,  6U,  6U,  7U,  8U,  9U,  9U,  10U,
+        10U, 11U, 11U, 12U, 13U, 14U, 14U, 15U, 15U, 16U, 16U, 17U, 18U, 19U, 19U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_10u_0[16]) = {0U, 4U, 8U, 12U, 0U, 4U, 8U, 12U,
+                                                               0U, 4U, 8U, 12U, 0U, 4U, 8U, 12U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_10u_1[16]) = {6U, 2U, 14U, 10U, 6U, 2U, 14U, 10U,
+                                                               6U, 2U, 14U, 10U, 6U, 2U, 14U, 10U};
 
 // ------------------------------------ 11u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_11u_0[32]) = {
-        0u,  1u,  1u,  2u,  2u,  3u,  4u,  5u,  5u,  6u,  6u,  7u,  8u,  9u,  9u,  10u,
-        11u, 12u, 12u, 13u, 13u, 14u, 15u, 16u, 16u, 17u, 17u, 18u, 19u, 20u, 20u, 21u};
+        0U,  1U,  1U,  2U,  2U,  3U,  4U,  5U,  5U,  6U,  6U,  7U,  8U,  9U,  9U,  10U,
+        11U, 12U, 12U, 13U, 13U, 14U, 15U, 16U, 16U, 17U, 17U, 18U, 19U, 20U, 20U, 21U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_11u_1[32]) = {
-        0u,  1u,  2u,  3u,  3u,  4u,  4u,  5u,  6u,  7u,  7u,  8u,  8u,  9u,  10u, 11u,
-        11u, 12u, 13u, 14u, 14u, 15u, 15u, 16u, 17u, 18u, 18u, 19u, 19u, 20u, 21u, 22u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_11u_0[16]) = {0u, 6u, 12u, 2u, 8u, 14u, 4u, 10u,
-                                                               0u, 6u, 12u, 2u, 8u, 14u, 4u, 10u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_11u_1[16]) = {5u, 15u, 9u, 3u, 13u, 7u, 1u, 11u,
-                                                               5u, 15u, 9u, 3u, 13u, 7u, 1u, 11u};
+        0U,  1U,  2U,  3U,  3U,  4U,  4U,  5U,  6U,  7U,  7U,  8U,  8U,  9U,  10U, 11U,
+        11U, 12U, 13U, 14U, 14U, 15U, 15U, 16U, 17U, 18U, 18U, 19U, 19U, 20U, 21U, 22U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_11u_0[16]) = {0U, 6U, 12U, 2U, 8U, 14U, 4U, 10U,
+                                                               0U, 6U, 12U, 2U, 8U, 14U, 4U, 10U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_11u_1[16]) = {5U, 15U, 9U, 3U, 13U, 7U, 1U, 11U,
+                                                               5U, 15U, 9U, 3U, 13U, 7U, 1U, 11U};
 
 // ------------------------------------ 12u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_12u_0[32]) = {
-        0u,  1u,  1u,  2u,  3u,  4u,  4u,  5u,  6u,  7u,  7u,  8u,  9u,  10u, 10u, 11u,
-        12u, 13u, 13u, 14u, 15u, 16u, 16u, 17u, 18u, 19u, 19u, 20u, 21u, 22u, 22u, 23u};
+        0U,  1U,  1U,  2U,  3U,  4U,  4U,  5U,  6U,  7U,  7U,  8U,  9U,  10U, 10U, 11U,
+        12U, 13U, 13U, 14U, 15U, 16U, 16U, 17U, 18U, 19U, 19U, 20U, 21U, 22U, 22U, 23U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_12u_1[32]) = {
-        0u,  1u,  2u,  3u,  3u,  4u,  5u,  6u,  6u,  7u,  8u,  9u,  9u,  10u, 11u, 12u,
-        12u, 13u, 14u, 15u, 15u, 16u, 17u, 18u, 18u, 19u, 20u, 21u, 21u, 22u, 23u, 24u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_12u_0[16]) = {0u, 8u, 0u, 8u, 0u, 8u, 0u, 8u,
-                                                               0u, 8u, 0u, 8u, 0u, 8u, 0u, 8u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_12u_1[16]) = {4u, 12u, 4u, 12u, 4u, 12u, 4u, 12u,
-                                                               4u, 12u, 4u, 12u, 4u, 12u, 4u, 12u};
+        0U,  1U,  2U,  3U,  3U,  4U,  5U,  6U,  6U,  7U,  8U,  9U,  9U,  10U, 11U, 12U,
+        12U, 13U, 14U, 15U, 15U, 16U, 17U, 18U, 18U, 19U, 20U, 21U, 21U, 22U, 23U, 24U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_12u_0[16]) = {0U, 8U, 0U, 8U, 0U, 8U, 0U, 8U,
+                                                               0U, 8U, 0U, 8U, 0U, 8U, 0U, 8U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_12u_1[16]) = {4U, 12U, 4U, 12U, 4U, 12U, 4U, 12U,
+                                                               4U, 12U, 4U, 12U, 4U, 12U, 4U, 12U};
 
 // ------------------------------------ 13u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_13u_0[32]) = {
-        0u,  1u,  1u,  2u,  3u,  4u,  4u,  5u,  6u,  7u,  8u,  9u,  9u,  10u, 11u, 12u,
-        13u, 14u, 14u, 15u, 16u, 17u, 17u, 18u, 19u, 20u, 21u, 22u, 22u, 23u, 24u, 25u};
+        0U,  1U,  1U,  2U,  3U,  4U,  4U,  5U,  6U,  7U,  8U,  9U,  9U,  10U, 11U, 12U,
+        13U, 14U, 14U, 15U, 16U, 17U, 17U, 18U, 19U, 20U, 21U, 22U, 22U, 23U, 24U, 25U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_13u_1[32]) = {
-        0u,  1u,  2u,  3u,  4u,  5u,  5u,  6u,  7u,  8u,  8u,  9u,  10u, 11u, 12u, 13u,
-        13u, 14u, 15u, 16u, 17u, 18u, 18u, 19u, 20u, 21u, 21u, 22u, 23u, 24u, 25u, 26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_13u_0[16]) = {0u, 10u, 4u, 14u, 8u, 2u, 12u, 6u,
-                                                               0u, 10u, 4u, 14u, 8u, 2u, 12u, 6u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_13u_1[16]) = {3u, 9u, 15u, 5u, 11u, 1u, 7u, 13u,
-                                                               3u, 9u, 15u, 5u, 11u, 1u, 7u, 13u};
+        0U,  1U,  2U,  3U,  4U,  5U,  5U,  6U,  7U,  8U,  8U,  9U,  10U, 11U, 12U, 13U,
+        13U, 14U, 15U, 16U, 17U, 18U, 18U, 19U, 20U, 21U, 21U, 22U, 23U, 24U, 25U, 26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_13u_0[16]) = {0U, 10U, 4U, 14U, 8U, 2U, 12U, 6U,
+                                                               0U, 10U, 4U, 14U, 8U, 2U, 12U, 6U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_13u_1[16]) = {3U, 9U, 15U, 5U, 11U, 1U, 7U, 13U,
+                                                               3U, 9U, 15U, 5U, 11U, 1U, 7U, 13U};
 
 // ------------------------------------ 14u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_14u_0[32]) = {
-        0u,  1u,  1u,  2u,  3u,  4u,  5u,  6u,  7u,  8u,  8u,  9u,  10u, 11u, 12u, 13u,
-        14u, 15u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 22u, 23u, 24u, 25u, 26u, 27u};
+        0U,  1U,  1U,  2U,  3U,  4U,  5U,  6U,  7U,  8U,  8U,  9U,  10U, 11U, 12U, 13U,
+        14U, 15U, 15U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 22U, 23U, 24U, 25U, 26U, 27U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_14u_1[32]) = {
-        0u,  1u,  2u,  3u,  4u,  5u,  6u,  7u,  7u,  8u,  9u,  10u, 11u, 12u, 13u, 14u,
-        14u, 15u, 16u, 17u, 18u, 19u, 20u, 21u, 21u, 22u, 23u, 24u, 25u, 26u, 27u, 28u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_14u_0[16]) = {0u, 12u, 8u, 4u, 0u, 12u, 8u, 4u,
-                                                               0u, 12u, 8u, 4u, 0u, 12u, 8u, 4u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_14u_1[16]) = {2u, 6u, 10u, 14u, 2u, 6u, 10u, 14u,
-                                                               2u, 6u, 10u, 14u, 2u, 6u, 10u, 14u};
+        0U,  1U,  2U,  3U,  4U,  5U,  6U,  7U,  7U,  8U,  9U,  10U, 11U, 12U, 13U, 14U,
+        14U, 15U, 16U, 17U, 18U, 19U, 20U, 21U, 21U, 22U, 23U, 24U, 25U, 26U, 27U, 28U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_14u_0[16]) = {0U, 12U, 8U, 4U, 0U, 12U, 8U, 4U,
+                                                               0U, 12U, 8U, 4U, 0U, 12U, 8U, 4U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_14u_1[16]) = {2U, 6U, 10U, 14U, 2U, 6U, 10U, 14U,
+                                                               2U, 6U, 10U, 14U, 2U, 6U, 10U, 14U};
 
 // ------------------------------------ 15u -----------------------------------------
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_15u_0[32]) = {
-        0u,  1u,  1u,  2u,  3u,  4u,  5u,  6u,  7u,  8u,  9u,  10u, 11u, 12u, 13u, 14u,
-        15u, 16u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u, 24u, 25u, 26u, 27u, 28u, 29u};
+        0U,  1U,  1U,  2U,  3U,  4U,  5U,  6U,  7U,  8U,  9U,  10U, 11U, 12U, 13U, 14U,
+        15U, 16U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 23U, 24U, 25U, 26U, 27U, 28U, 29U};
 OWN_ALIGNED_64_ARRAY(static uint16_t permutex_idx_table_15u_1[32]) = {
-        0u,  1u,  2u,  3u,  4u,  5u,  6u,  7u,  8u,  9u,  10u, 11u, 12u, 13u, 14u, 15u,
-        15u, 16u, 17u, 18u, 19u, 20u, 21u, 22u, 23u, 24u, 25u, 26u, 27u, 28u, 29u, 30u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_15u_0[16]) = {0u, 14u, 12u, 10u, 8u, 6u, 4u, 2u,
-                                                               0u, 14u, 12u, 10u, 8u, 6u, 4u, 2u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_15u_1[16]) = {1u, 3u, 5u, 7u, 9u, 11u, 13u, 15u,
-                                                               1u, 3u, 5u, 7u, 9u, 11u, 13u, 15u};
+        0U,  1U,  2U,  3U,  4U,  5U,  6U,  7U,  8U,  9U,  10U, 11U, 12U, 13U, 14U, 15U,
+        15U, 16U, 17U, 18U, 19U, 20U, 21U, 22U, 23U, 24U, 25U, 26U, 27U, 28U, 29U, 30U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_15u_0[16]) = {0U, 14U, 12U, 10U, 8U, 6U, 4U, 2U,
+                                                               0U, 14U, 12U, 10U, 8U, 6U, 4U, 2U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_table_15u_1[16]) = {1U, 3U, 5U, 7U, 9U, 11U, 13U, 15U,
+                                                               1U, 3U, 5U, 7U, 9U, 11U, 13U, 15U};
 
 OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uint32_t bitsize)) {
     uint32_t remnant   = bitsize - start_bit;
     uint32_t ret_value = 0xFFFFFFFF;
-    for (uint32_t i = 0u; i < bitsize; ++i) {
+    for (uint32_t i = 0U; i < bitsize; ++i) {
         uint32_t test_value = (i * base) % bitsize;
         if (test_value == remnant) {
             ret_value = i;
@@ -133,7 +133,7 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_Nu16u,
     uint32_t  src         = (uint32_t)((*src16u_ptr) >> start_bit);
     src16u_ptr++;
 
-    while (1u < num_elements) {
+    while (1U < num_elements) {
         if (bit_width > bits_in_buf) {
             next_word = (uint32_t)(*src16u_ptr);
             src16u_ptr++;
@@ -149,7 +149,7 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_Nu16u,
     }
 
     if (bit_width > bits_in_buf) {
-        next_word = (uint32_t)(bit_width - bits_in_buf > 8u ? *src16u_ptr : *((uint8_t*)src16u_ptr));
+        next_word = (uint32_t)(bit_width - bits_in_buf > 8U ? *src16u_ptr : *((uint8_t*)src16u_ptr));
         next_word = next_word << bits_in_buf;
         src       = src | next_word;
     }
@@ -158,18 +158,18 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_Nu16u,
 
 OWN_OPT_FUN(void, k0_qplc_unpack_9u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 9u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 9U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 9u, dst_ptr);
-        src_ptr += ((align * 9u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 9U, dst_ptr);
+        src_ptr += ((align * 9U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(9u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(9u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(9U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(9U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_9u_0);
@@ -179,7 +179,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_9u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_9u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_9u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -198,29 +198,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_9u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 9u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 9U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 9u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 9U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_10u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 10u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 10U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 10u, dst_ptr);
-        src_ptr += ((align * 10u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 10U, dst_ptr);
+        src_ptr += ((align * 10U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(10u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(10u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(10U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(10U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_10u_0);
@@ -230,7 +230,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_10u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_10u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_10u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -249,29 +249,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_10u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 10u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 10U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 10u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 10U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_11u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 11u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 11U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 11u, dst_ptr);
-        src_ptr += ((align * 11u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 11U, dst_ptr);
+        src_ptr += ((align * 11U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(11u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(11u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(11U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(11U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_11u_0);
@@ -281,7 +281,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_11u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_11u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_11u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -300,29 +300,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_11u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 11u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 11U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 11u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 11U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_12u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 12u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 12U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 12u, dst_ptr);
-        src_ptr += ((align * 12u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 12U, dst_ptr);
+        src_ptr += ((align * 12U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(12u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(12u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(12U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(12U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_12u_0);
@@ -332,7 +332,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_12u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_12u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_12u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -351,29 +351,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_12u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 12u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 12U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 12u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 12U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_13u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 13u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 13U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 13u, dst_ptr);
-        src_ptr += ((align * 13u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 13U, dst_ptr);
+        src_ptr += ((align * 13U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(13u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(13u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(13U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(13U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_13u_0);
@@ -383,7 +383,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_13u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_13u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_13u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -402,29 +402,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_13u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 13u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 13U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 13u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 13U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_14u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 14u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 14U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 14u, dst_ptr);
-        src_ptr += ((align * 14u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 14U, dst_ptr);
+        src_ptr += ((align * 14U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(14u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(14u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(14U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(14U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_14u_0);
@@ -434,7 +434,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_14u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_14u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_14u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -453,29 +453,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_14u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 14u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 14U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 14u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 14U, dst_ptr); }
 }
 
 OWN_OPT_FUN(void, k0_qplc_unpack_15u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 15u, 16u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 15U, 16U);
         if (align > num_elements) { align = num_elements; }
-        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 15u, dst_ptr);
-        src_ptr += ((align * 15u) + start_bit) >> 3;
+        px_qplc_unpack_Nu16u(src_ptr, align, start_bit, 15U, dst_ptr);
+        src_ptr += ((align * 15U) + start_bit) >> 3;
         dst_ptr += align * 2;
         num_elements -= align;
     }
 
-    if (num_elements >= 32u) {
-        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(15u * OWN_DWORD_WIDTH));
-        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(15u));
+    if (num_elements >= 32U) {
+        __mmask32 read_mask   = OWN_BIT_MASK(OWN_BITS_2_WORD(15U * OWN_DWORD_WIDTH));
+        __m512i   parse_mask0 = _mm512_set1_epi16(OWN_BIT_MASK(15U));
 
         __m512i permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_15u_0);
@@ -485,7 +485,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_15u16u,
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_15u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_15u_1);
 
-        while (num_elements >= 32u) {
+        while (num_elements >= 32U) {
             __m512i srcmm, zmm[2];
 
             srcmm = _mm512_maskz_loadu_epi16(read_mask, src_ptr);
@@ -504,13 +504,13 @@ OWN_OPT_FUN(void, k0_qplc_unpack_15u16u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 4u * 15u;
-            dst_ptr += 64u;
-            num_elements -= 32u;
+            src_ptr += 4U * 15U;
+            dst_ptr += 64U;
+            num_elements -= 32U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0u, 15u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_Nu16u(src_ptr, num_elements, 0U, 15U, dst_ptr); }
 }
 
 #endif

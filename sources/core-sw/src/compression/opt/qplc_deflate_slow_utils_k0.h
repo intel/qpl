@@ -27,9 +27,9 @@ OWN_OPT_FUN(
             for (uint32_t index = 0; index < dictionary_size; index++) {
                 // Variables
 
-                uint32_t hash_value = 0u;
+                uint32_t hash_value = 0U;
 
-                hash_value = _mm_crc32_u32(0u, *((uint32_t*)current_ptr)) & hash_table_ptr->hash_mask;
+                hash_value = _mm_crc32_u32(0U, *((uint32_t*)current_ptr)) & hash_table_ptr->hash_mask;
 
                 // Updating hash table
                 own_deflate_hash_table_update(hash_table_ptr, index - dictionary_size, hash_value);

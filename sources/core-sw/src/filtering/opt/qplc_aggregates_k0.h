@@ -131,7 +131,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u,
 
     if (0 == min_value) {
         if (max_value >= 0xff) {
-            for (uint32_t idx = 0u; idx < length; idx += 64) {
+            for (uint32_t idx = 0U; idx < length; idx += 64) {
                 z_data = _mm512_sad_epu8(
                         z_zero,
                         _mm512_loadu_si512((void const*)(src_ptr + idx))); /* z_data = s7 s6 s5 s4 s3 s2 s1 s0 */
@@ -145,7 +145,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u,
                 z_sum = _mm512_add_epi32(z_sum, z_data);                          /* z_sum  = S7 S6 S5 S4 S3 S2 S1 S0 */
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 64) {
+            for (uint32_t idx = 0U; idx < length; idx += 64) {
                 z_data = _mm512_loadu_si512((void const*)(src_ptr + idx));
                 z_max  = _mm512_max_epu8(z_max, z_data);  /* z_max  = max */
                 z_data = _mm512_sad_epu8(z_data, z_zero); /* z_data = s7 s6 s5 s4 s3 s2 s1 s0 */
@@ -161,7 +161,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u,
         }
     } else {
         if (max_value >= 0xff) {
-            for (uint32_t idx = 0u; idx < length; idx += 64) {
+            for (uint32_t idx = 0U; idx < length; idx += 64) {
                 z_data = _mm512_loadu_si512((void const*)(src_ptr + idx));
                 z_min  = _mm512_min_epu8(z_min, z_data);  /* z_min  = min */
                 z_data = _mm512_sad_epu8(z_data, z_zero); /* z_data = s7 s6 s5 s4 s3 s2 s1 s0 */
@@ -175,7 +175,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u,
                 z_sum  = _mm512_add_epi32(z_sum, z_data);                   /* z_sum  = S7 S6 S5 S4 S3 S2 S1 S0 */
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 64) {
+            for (uint32_t idx = 0U; idx < length; idx += 64) {
                 z_data = _mm512_loadu_si512((void const*)(src_ptr + idx));
                 z_min  = _mm512_min_epu8(z_min, z_data);  /* z_min  = min */
                 z_max  = _mm512_max_epu8(z_max, z_data);  /* z_max  = max */
@@ -253,7 +253,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u,
 
     if (0 == min_value) {
         if (max_value >= OWN_MAX_16U) {
-            for (uint32_t idx = 0u; idx < length; idx += 32) {
+            for (uint32_t idx = 0U; idx < length; idx += 32) {
                 z_data_0 = _mm512_cvtepu16_epi32(_mm256_loadu_si256((const __m256i*)(src_16u_ptr + idx)));
                 z_data_1 = _mm512_cvtepu16_epi32(_mm256_loadu_si256((const __m256i*)(src_16u_ptr + idx + 16)));
                 z_sum    = _mm512_add_epi32(z_sum, z_data_0);
@@ -269,7 +269,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u,
                 z_sum    = _mm512_add_epi32(z_sum, z_data_1);
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 32) {
+            for (uint32_t idx = 0U; idx < length; idx += 32) {
                 z_data_0 = _mm512_loadu_si512((void const*)(src_16u_ptr + idx));
                 y_data   = _mm512_extracti64x4_epi64(z_data_0, 1);
                 z_max    = _mm512_max_epu16(z_max, z_data_0); /* z_max  = max */
@@ -291,7 +291,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u,
         }
     } else {
         if (max_value >= OWN_MAX_16U) {
-            for (uint32_t idx = 0u; idx < length; idx += 32) {
+            for (uint32_t idx = 0U; idx < length; idx += 32) {
                 z_data_0 = _mm512_loadu_si512((void const*)(src_16u_ptr + idx));
                 y_data   = _mm512_extracti64x4_epi64(z_data_0, 1);
                 z_min    = _mm512_min_epu16(z_min, z_data_0); /* z_min  = min */
@@ -311,7 +311,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u,
                 z_sum    = _mm512_add_epi32(z_sum, z_data_1); /* z_sum = s15 .. s0 */
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 32) {
+            for (uint32_t idx = 0U; idx < length; idx += 32) {
                 z_data_0 = _mm512_loadu_si512((void const*)(src_16u_ptr + idx));
                 y_data   = _mm512_extracti64x4_epi64(z_data_0, 1);
                 z_min    = _mm512_min_epu16(z_min, z_data_0); /* z_min  = min */
@@ -396,7 +396,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u,
             __m512i  z_sum_1   = _mm512_setzero_si512();
             uint32_t remind_16 = length & 16;
             length -= remind_16;
-            for (uint32_t idx = 0u; idx < length; idx += 32) {
+            for (uint32_t idx = 0U; idx < length; idx += 32) {
                 z_sum   = _mm512_add_epi32(z_sum, _mm512_loadu_si512((void const*)(src_32u_ptr + idx)));
                 z_sum_1 = _mm512_add_epi32(z_sum_1, _mm512_loadu_si512((void const*)(src_32u_ptr + idx + 16)));
             }
@@ -410,7 +410,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u,
                 z_sum = _mm512_add_epi32(z_sum, _mm512_maskz_loadu_epi32(msk16, (void const*)(src_32u_ptr + length)));
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 16) {
+            for (uint32_t idx = 0U; idx < length; idx += 16) {
                 z_data = _mm512_loadu_si512((void const*)(src_32u_ptr + idx));
                 z_max  = _mm512_max_epu32(z_max, z_data); /* z_max = max */
                 z_sum  = _mm512_add_epi32(z_sum, z_data); /* z_sum = s15 .. s0 */
@@ -424,7 +424,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u,
         }
     } else {
         if (OWN_MAX_32U == max_value) {
-            for (uint32_t idx = 0u; idx < length; idx += 16) {
+            for (uint32_t idx = 0U; idx < length; idx += 16) {
                 z_data = _mm512_loadu_si512((void const*)(src_32u_ptr + idx));
                 z_min  = _mm512_min_epu32(z_min, z_data); /* z_min = min */
                 z_sum  = _mm512_add_epi32(z_sum, z_data); /* z_sum = s15 .. s0 */
@@ -436,7 +436,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u,
                 z_sum  = _mm512_add_epi32(z_sum, z_data);                    /* z_sum = s15 .. s0 */
             }
         } else {
-            for (uint32_t idx = 0u; idx < length; idx += 16) {
+            for (uint32_t idx = 0U; idx < length; idx += 16) {
                 z_data = _mm512_loadu_si512((void const*)(src_32u_ptr + idx));
                 z_min  = _mm512_min_epu32(z_min, z_data); /* z_min = min */
                 z_max  = _mm512_max_epu32(z_max, z_data); /* z_max = max */

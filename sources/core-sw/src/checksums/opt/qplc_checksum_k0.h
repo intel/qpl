@@ -143,17 +143,17 @@ OWN_OPT_FUN(uint32_t, k0_qplc_xor_checksum_8u, (const uint8_t* src_ptr, uint32_t
 OWN_QPLC_INLINE(void, k0_qplc_crc64_init, (uint64_t polynomial, uint64_t* remainders, uint64_t* barrett)) {
     // 1. calculating lookup table
     uint64_t lookup_table[256];
-    lookup_table[0] = 0u;
+    lookup_table[0] = 0U;
     lookup_table[1] = polynomial;
     uint64_t crc    = polynomial;
 
-    for (uint32_t major_idx = 2u; major_idx <= 128u; major_idx <<= 1u) {
+    for (uint32_t major_idx = 2U; major_idx <= 128U; major_idx <<= 1U) {
         // calculating powers of 2
-        crc                     = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+        crc                     = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         lookup_table[major_idx] = crc;
         // calculating other numbers based on rule:
         // table[a ^ b] = table[a] ^ table[b]
-        for (uint32_t minor_idx = 1u; minor_idx < major_idx; ++minor_idx) {
+        for (uint32_t minor_idx = 1U; minor_idx < major_idx; ++minor_idx) {
             lookup_table[major_idx + minor_idx] = crc ^ lookup_table[minor_idx];
         }
     }
@@ -161,28 +161,28 @@ OWN_QPLC_INLINE(void, k0_qplc_crc64_init, (uint64_t polynomial, uint64_t* remain
     // 2. calculating folding constants (x^T mod poly and x^(T + 64) mod poly)
     // and constant for Barrett reduction (floor(x^128 / poly))
     crc                    = polynomial;
-    uint64_t crc64_barrett = 0u;
-    for (uint32_t idx = 0; idx < 8u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    uint64_t crc64_barrett = 0U;
+    for (uint32_t idx = 0; idx < 8U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
     *barrett      = crc64_barrett;
     remainders[0] = crc; // x^128 mod poly
 
-    for (uint32_t idx = 8; idx < 16u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 8; idx < 16U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[1] = crc; // x^192 mod poly
 
-    for (uint32_t idx = 16; idx < 56u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 16; idx < 56U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[2] = crc; // x^512 mod poly
 
-    for (uint32_t idx = 56; idx < 64u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 56; idx < 64U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[3] = crc; // x^576 mod poly
 }
@@ -190,19 +190,19 @@ OWN_QPLC_INLINE(void, k0_qplc_crc64_init, (uint64_t polynomial, uint64_t* remain
 OWN_QPLC_INLINE(void, k0_qplc_crc64_init_no_unroll, (uint64_t polynomial, uint64_t* remainders, uint64_t* barrett)) {
     uint64_t crc = polynomial;
 
-    uint64_t crc64_barrett = 0u;
-    for (uint32_t idx = 0; idx < 8u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    uint64_t crc64_barrett = 0U;
+    for (uint32_t idx = 0; idx < 8U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
     *barrett      = crc64_barrett;
     remainders[0] = crc; // x^128 mod poly
 
-    for (uint32_t idx = 8; idx < 16u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    for (uint32_t idx = 8; idx < 16U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
     remainders[1] = crc; // x^192 mod poly
@@ -299,23 +299,23 @@ OWN_QPLC_INLINE(uint64_t, own_get_inversion, (uint64_t polynomial)) {
 #endif
 OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
             (const uint8_t* src_ptr, uint32_t length, uint64_t polynomial, uint8_t inversion_flag)) {
-    uint64_t crc            = 0u;
-    uint64_t inversion_mask = 0u;
+    uint64_t crc            = 0U;
+    uint64_t inversion_mask = 0U;
 
     if (inversion_flag) {
         inversion_mask = own_get_inversion(polynomial);
         crc            = inversion_mask;
     }
 
-    if (length >= 16u) {
+    if (length >= 16U) {
         uint64_t crc64_k[4];
         uint64_t crc64_barrett;
-        if (length > 512u) {
+        if (length > 512U) {
             k0_qplc_crc64_init(polynomial, crc64_k, &crc64_barrett);
         } else {
             k0_qplc_crc64_init_no_unroll(polynomial, crc64_k, &crc64_barrett);
         }
-        uint32_t tail = length % 16u;
+        uint32_t tail = length % 16U;
 
         __m128i xmm0, xmm1, xmm2, srcmm;
         __m128i polymm          = _mm_set1_epi64x(polynomial);
@@ -329,31 +329,31 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
         xmm0 = _mm_loadu_si128((const __m128i*)src_ptr);
         xmm0 = _mm_shuffle_epi8(xmm0, shuffle_le_mask);
         xmm0 = _mm_xor_si128(xmm0, inversion);
-        src_ptr += 16u;
+        src_ptr += 16U;
 
         // 1. fold by 512bit until remaining length < 2 * 512bits.
 
-        if (length > 512u) {
+        if (length > 512U) {
             __m128i xmm3, xmm4, xmm5, xmm6, xmm7;
             __m128i srcmm1, srcmm2, srcmm3;
             __m128i k64 = _mm_set_epi64x(crc64_k[3], crc64_k[2]);
 
             xmm2 = _mm_loadu_si128((const __m128i*)src_ptr);
             xmm2 = _mm_shuffle_epi8(xmm2, shuffle_le_mask);
-            xmm4 = _mm_loadu_si128((const __m128i*)(src_ptr + 16u));
+            xmm4 = _mm_loadu_si128((const __m128i*)(src_ptr + 16U));
             xmm4 = _mm_shuffle_epi8(xmm4, shuffle_le_mask);
-            xmm6 = _mm_loadu_si128((const __m128i*)(src_ptr + 32u));
+            xmm6 = _mm_loadu_si128((const __m128i*)(src_ptr + 32U));
             xmm6 = _mm_shuffle_epi8(xmm6, shuffle_le_mask);
-            src_ptr += 48u;
+            src_ptr += 48U;
 
-            while (length >= 128u) {
+            while (length >= 128U) {
                 srcmm  = _mm_loadu_si128((const __m128i*)src_ptr);
                 srcmm  = _mm_shuffle_epi8(srcmm, shuffle_le_mask);
-                srcmm1 = _mm_loadu_si128((const __m128i*)(src_ptr + 16u));
+                srcmm1 = _mm_loadu_si128((const __m128i*)(src_ptr + 16U));
                 srcmm1 = _mm_shuffle_epi8(srcmm1, shuffle_le_mask);
-                srcmm2 = _mm_loadu_si128((const __m128i*)(src_ptr + 32u));
+                srcmm2 = _mm_loadu_si128((const __m128i*)(src_ptr + 32U));
                 srcmm2 = _mm_shuffle_epi8(srcmm2, shuffle_le_mask);
-                srcmm3 = _mm_loadu_si128((const __m128i*)(src_ptr + 48u));
+                srcmm3 = _mm_loadu_si128((const __m128i*)(src_ptr + 48U));
                 srcmm3 = _mm_shuffle_epi8(srcmm3, shuffle_le_mask);
 
                 xmm1 = xmm0;
@@ -380,8 +380,8 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
                 xmm6 = _mm_xor_si128(xmm6, srcmm3);
                 xmm6 = _mm_xor_si128(xmm6, xmm7);
 
-                src_ptr += 64u;
-                length -= 64u;
+                src_ptr += 64U;
+                length -= 64U;
             }
 
             xmm1 = xmm0;
@@ -402,12 +402,12 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
             xmm0 = _mm_xor_si128(xmm0, xmm6);
             xmm0 = _mm_xor_si128(xmm0, xmm1);
 
-            length -= 48u;
+            length -= 48U;
         }
 
         // 2. fold by 128bit until remaining length < 2 * 128bits.
 
-        while (length >= 32u) {
+        while (length >= 32U) {
             xmm1  = xmm0;
             srcmm = _mm_loadu_si128((const __m128i*)src_ptr);
             srcmm = _mm_shuffle_epi8(srcmm, shuffle_le_mask);
@@ -416,8 +416,8 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
             xmm0  = _mm_xor_si128(xmm0, srcmm);
             xmm0  = _mm_xor_si128(xmm0, xmm1);
 
-            src_ptr += 16u;
-            length -= 16u;
+            src_ptr += 16U;
+            length -= 16U;
         }
 
         /* 3. if remaining length > 128 bits, then pad zeros to the most-significant bit to grow to 256bits length,
@@ -460,9 +460,9 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
         crc ^= _mm_cvtsi128_si64(xmm0);
     } else {
         for (uint32_t i = 0; i < length; ++i) {
-            crc ^= (uint64_t)(*src_ptr++) << 56u;
-            for (uint32_t j = 0; j < 8u; ++j) {
-                crc = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+            crc ^= (uint64_t)(*src_ptr++) << 56U;
+            for (uint32_t j = 0; j < 8U; ++j) {
+                crc = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
             }
         }
         crc ^= inversion_mask;
@@ -495,17 +495,17 @@ OWN_QPLC_INLINE(uint64_t, bit_reflect, (uint64_t x)) {
 OWN_QPLC_INLINE(void, k0_qplc_crc64_init_be, (uint64_t polynomial, uint64_t* remainders, uint64_t* barrett)) {
     // 1. calculating lookup table
     uint64_t lookup_table[256];
-    lookup_table[0] = 0u;
+    lookup_table[0] = 0U;
     lookup_table[1] = polynomial;
     uint64_t crc    = polynomial;
 
-    for (uint32_t major_idx = 2u; major_idx <= 128u; major_idx <<= 1u) {
+    for (uint32_t major_idx = 2U; major_idx <= 128U; major_idx <<= 1U) {
         // calculating powers of 2
-        crc                     = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+        crc                     = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         lookup_table[major_idx] = crc;
         // calculating other numbers based on rule:
         // table[a ^ b] = table[a] ^ table[b]
-        for (uint32_t minor_idx = 1u; minor_idx < major_idx; ++minor_idx) {
+        for (uint32_t minor_idx = 1U; minor_idx < major_idx; ++minor_idx) {
             lookup_table[major_idx + minor_idx] = crc ^ lookup_table[minor_idx];
         }
     }
@@ -513,33 +513,33 @@ OWN_QPLC_INLINE(void, k0_qplc_crc64_init_be, (uint64_t polynomial, uint64_t* rem
     // 2. calculating folding constants (x^T mod poly and x^(T + 64) mod poly)
     // and constant for Barrett reduction (floor(x^128 / poly))
     crc                    = polynomial;
-    uint64_t crc64_barrett = 0u;
-    for (uint32_t idx = 0; idx < 7u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    uint64_t crc64_barrett = 0U;
+    for (uint32_t idx = 0; idx < 7U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
-    for (uint32_t j = 0; j < 7u; ++j) {
-        crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-        crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    for (uint32_t j = 0; j < 7U; ++j) {
+        crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+        crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
     }
 
-    *barrett      = (crc64_barrett << 1) ^ (crc >> 63u);
+    *barrett      = (crc64_barrett << 1) ^ (crc >> 63U);
     remainders[0] = bit_reflect(crc); // x^(128-1) mod poly
 
-    for (uint32_t idx = 8; idx < 16u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 8; idx < 16U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[1] = bit_reflect(crc); // x^(192-1) mod poly
 
-    for (uint32_t idx = 16; idx < 56u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 16; idx < 56U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[2] = bit_reflect(crc); // x^(512-1) mod poly
 
-    for (uint32_t idx = 56; idx < 64u; ++idx) {
-        crc = (crc << 8) ^ lookup_table[crc >> 56u];
+    for (uint32_t idx = 56; idx < 64U; ++idx) {
+        crc = (crc << 8) ^ lookup_table[crc >> 56U];
     }
     remainders[3] = bit_reflect(crc); // x^(576-1) mod poly
 }
@@ -547,24 +547,24 @@ OWN_QPLC_INLINE(void, k0_qplc_crc64_init_be, (uint64_t polynomial, uint64_t* rem
 OWN_QPLC_INLINE(void, k0_qplc_crc64_init_no_unroll_be, (uint64_t polynomial, uint64_t* remainders, uint64_t* barrett)) {
     uint64_t crc = polynomial;
 
-    uint64_t crc64_barrett = 0u;
-    for (uint32_t idx = 0; idx < 7u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    uint64_t crc64_barrett = 0U;
+    for (uint32_t idx = 0; idx < 7U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+            crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
-    for (uint32_t j = 0; j < 7u; ++j) {
-        crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63u);
-        crc           = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    for (uint32_t j = 0; j < 7U; ++j) {
+        crc64_barrett = (crc64_barrett << 1) ^ (crc >> 63U);
+        crc           = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
     }
 
-    *barrett      = (crc64_barrett << 1) ^ (crc >> 63u);
+    *barrett      = (crc64_barrett << 1) ^ (crc >> 63U);
     remainders[0] = bit_reflect(crc); // x^(128-1) mod poly
 
-    for (uint32_t idx = 8; idx < 16u; ++idx) {
-        for (uint32_t j = 0; j < 8u; ++j) {
-            crc = (crc << 1) ^ (-(int64_t)(crc >> 63u) & polynomial);
+    for (uint32_t idx = 8; idx < 16U; ++idx) {
+        for (uint32_t j = 0; j < 8U; ++j) {
+            crc = (crc << 1) ^ (-(int64_t)(crc >> 63U) & polynomial);
         }
     }
     remainders[1] = bit_reflect(crc); // x^192 mod poly
@@ -650,8 +650,8 @@ OWN_QPLC_INLINE(void, own_shift_two_lanes_be, (int offset, __m128i* _xmm0, __m12
 #endif
 OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
             (const uint8_t* src_ptr, uint32_t length, uint64_t polynomial, uint8_t inversion_flag)) {
-    uint64_t crc            = 0u;
-    uint64_t inversion_mask = 0u;
+    uint64_t crc            = 0U;
+    uint64_t inversion_mask = 0U;
 
     if (inversion_flag) {
         inversion_mask = own_get_inversion(polynomial);
@@ -659,18 +659,18 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
         crc            = inversion_mask;
     }
 
-    if (length >= 16u) {
+    if (length >= 16U) {
         uint64_t crc64_k[4];
         uint64_t crc64_barrett;
-        if (length > 512u) {
+        if (length > 512U) {
             k0_qplc_crc64_init_be(polynomial, crc64_k, &crc64_barrett);
         } else {
             k0_qplc_crc64_init_no_unroll_be(polynomial, crc64_k, &crc64_barrett);
         }
-        uint32_t tail = length % 16u;
+        uint32_t tail = length % 16U;
 
         __m128i xmm0, xmm1, xmm2, srcmm;
-        uint8_t poly_ending = polynomial & 1u;
+        uint8_t poly_ending = polynomial & 1U;
         __m128i polymm      = _mm_set1_epi64x(bit_reflect(polynomial) << 1);
         __m128i barrett     = _mm_set1_epi64x((bit_reflect(crc64_barrett) << 1) | 1);
         __m128i k8          = _mm_set1_epi64x(crc64_k[0]);
@@ -679,25 +679,25 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
 
         xmm0 = _mm_loadu_si128((const __m128i*)src_ptr);
         xmm0 = _mm_xor_si128(xmm0, inversion);
-        src_ptr += 16u;
+        src_ptr += 16U;
 
         // 1. fold by 512bit until remaining length < 2 * 512bits.
 
-        if (length > 512u) {
+        if (length > 512U) {
             __m128i xmm3, xmm4, xmm5, xmm6, xmm7;
             __m128i srcmm1, srcmm2, srcmm3;
             __m128i k64 = _mm_set_epi64x(crc64_k[2], crc64_k[3]);
 
             xmm2 = _mm_loadu_si128((const __m128i*)src_ptr);
-            xmm4 = _mm_loadu_si128((const __m128i*)(src_ptr + 16u));
-            xmm6 = _mm_loadu_si128((const __m128i*)(src_ptr + 32u));
-            src_ptr += 48u;
+            xmm4 = _mm_loadu_si128((const __m128i*)(src_ptr + 16U));
+            xmm6 = _mm_loadu_si128((const __m128i*)(src_ptr + 32U));
+            src_ptr += 48U;
 
-            while (length >= 128u) {
+            while (length >= 128U) {
                 srcmm  = _mm_loadu_si128((const __m128i*)src_ptr);
-                srcmm1 = _mm_loadu_si128((const __m128i*)(src_ptr + 16u));
-                srcmm2 = _mm_loadu_si128((const __m128i*)(src_ptr + 32u));
-                srcmm3 = _mm_loadu_si128((const __m128i*)(src_ptr + 48u));
+                srcmm1 = _mm_loadu_si128((const __m128i*)(src_ptr + 16U));
+                srcmm2 = _mm_loadu_si128((const __m128i*)(src_ptr + 32U));
+                srcmm3 = _mm_loadu_si128((const __m128i*)(src_ptr + 48U));
 
                 xmm1 = xmm0;
                 xmm0 = _mm_clmulepi64_si128(xmm0, k64, 0x00);
@@ -723,8 +723,8 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
                 xmm6 = _mm_xor_si128(xmm6, srcmm3);
                 xmm6 = _mm_xor_si128(xmm6, xmm7);
 
-                src_ptr += 64u;
-                length -= 64u;
+                src_ptr += 64U;
+                length -= 64U;
             }
 
             xmm1 = xmm0;
@@ -745,12 +745,12 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
             xmm0 = _mm_xor_si128(xmm0, xmm6);
             xmm0 = _mm_xor_si128(xmm0, xmm1);
 
-            length -= 48u;
+            length -= 48U;
         }
 
         // 2. fold by 128bit until remaining length < 2 * 128bits.
 
-        while (length >= 32u) {
+        while (length >= 32U) {
             xmm1  = xmm0;
             srcmm = _mm_loadu_si128((const __m128i*)src_ptr);
             xmm0  = _mm_clmulepi64_si128(xmm0, k16, 0x00);
@@ -758,8 +758,8 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
             xmm0  = _mm_xor_si128(xmm0, srcmm);
             xmm0  = _mm_xor_si128(xmm0, xmm1);
 
-            src_ptr += 16u;
-            length -= 16u;
+            src_ptr += 16U;
+            length -= 16U;
         }
 
         /* 3. if remaining length > 128 bits, then pad zeros to the most-significant bit to grow to 256bits length,
@@ -800,8 +800,8 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
         polynomial = bit_reflect(polynomial);
         for (uint32_t i = 0; i < length; ++i) {
             crc ^= (uint64_t)(*src_ptr++);
-            for (uint32_t j = 0; j < 8u; ++j) {
-                crc = (crc >> 1) ^ (-(int64_t)(crc & 1u) & polynomial);
+            for (uint32_t j = 0; j < 8U; ++j) {
+                crc = (crc >> 1) ^ (-(int64_t)(crc & 1U) & polynomial);
             }
         }
         crc ^= inversion_mask;

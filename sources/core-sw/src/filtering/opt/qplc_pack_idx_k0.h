@@ -675,7 +675,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
     if (dst_length >= act_num_elements) {
         /* If the length of the output buffer is greater than the number of
            actually processed input elements, we can skip checking */
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -690,7 +690,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -700,7 +700,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -710,7 +710,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -738,7 +738,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -748,7 +748,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -758,7 +758,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -773,7 +773,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
     } else {
         /* Here we are obliged to check. */
         uint8_t* end_ptr = dst_ptr + dst_length;
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -787,14 +787,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     x_data   = _mm_add_epi8(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 0u;
+                        act_num_elements = i + 0U;
                         msk16            = (__mmask16)msk;
                         break;
                     }
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -803,14 +803,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     x_data   = _mm_add_epi8(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 16u;
-                        msk16            = (__mmask16)(msk >> 16u);
+                        act_num_elements = i + 16U;
+                        msk16            = (__mmask16)(msk >> 16U);
                         break;
                     }
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -819,14 +819,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     x_data   = _mm_add_epi8(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 32u;
-                        msk16            = (__mmask16)(msk >> 32u);
+                        act_num_elements = i + 32U;
+                        msk16            = (__mmask16)(msk >> 32U);
                         break;
                     }
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -835,8 +835,8 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     x_data   = _mm_add_epi8(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 48u;
-                        msk16            = (__mmask16)(msk >> 48u);
+                        act_num_elements = i + 48U;
+                        msk16            = (__mmask16)(msk >> 48U);
                         break;
                     }
                     _mm_mask_storeu_epi8((void*)dst_ptr, msk16, x_data);
@@ -886,7 +886,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                     }
                 }
                 if (QPLC_STS_OK == status) {
-                    msk16 = (__mmask16)(msk >> 16u);
+                    msk16 = (__mmask16)(msk >> 16U);
                     if (msk16 != 0) {
                         z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                         num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -900,11 +900,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                             status = QPLC_STS_DST_IS_SHORT_ERR;
                             act_num_elements -= num_elem_rem;
                             act_num_elements += 16;
-                            msk16 = (__mmask16)(msk >> 16u);
+                            msk16 = (__mmask16)(msk >> 16U);
                         }
                     }
                     if (QPLC_STS_OK == status) {
-                        msk16 = (__mmask16)(msk >> 32u);
+                        msk16 = (__mmask16)(msk >> 32U);
                         if (msk16 != 0) {
                             z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                             num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -918,11 +918,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                                 status = QPLC_STS_DST_IS_SHORT_ERR;
                                 act_num_elements -= num_elem_rem;
                                 act_num_elements += 32;
-                                msk16 = (__mmask16)(msk >> 32u);
+                                msk16 = (__mmask16)(msk >> 32U);
                             }
                         }
                         if (QPLC_STS_OK == status) {
-                            msk16 = (__mmask16)(msk >> 48u);
+                            msk16 = (__mmask16)(msk >> 48U);
                             if (msk16 != 0) {
                                 z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                                 num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -936,7 +936,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
                                     status = QPLC_STS_DST_IS_SHORT_ERR;
                                     act_num_elements -= num_elem_rem;
                                     act_num_elements += 48;
-                                    msk16 = (__mmask16)(msk >> 48u);
+                                    msk16 = (__mmask16)(msk >> 48U);
                                 }
                             }
                         }
@@ -976,7 +976,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
         num_elements -= act_num_elements;
         num_elem_rem = num_elements & (STEP_SRC_8U - 1);
         num_elements -= num_elem_rem;
-        for (uint32_t i = 0u; (i < num_elements); i += STEP_SRC_8U) {
+        for (uint32_t i = 0U; (i < num_elements); i += STEP_SRC_8U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -1487,7 +1487,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
     if (dst_length >= act_num_elements) {
         /* If the length of the output buffer is greater than the number of
            actually processed input elements, we can skip checking */
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U16U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U16U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -1502,7 +1502,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1512,7 +1512,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1522,7 +1522,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1550,7 +1550,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1560,7 +1560,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1570,7 +1570,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1585,7 +1585,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
     } else {
         /* Here we are obliged to check. */
         uint16_t* end_ptr = dst_ptr + dst_length;
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U16U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U16U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -1599,14 +1599,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     x_data   = _mm256_add_epi16(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 0u;
+                        act_num_elements = i + 0U;
                         msk16            = (__mmask16)msk;
                         break;
                     }
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1615,14 +1615,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     x_data   = _mm256_add_epi16(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 16u;
-                        msk16            = (__mmask16)(msk >> 16u);
+                        act_num_elements = i + 16U;
+                        msk16            = (__mmask16)(msk >> 16U);
                         break;
                     }
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1631,14 +1631,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     x_data   = _mm256_add_epi16(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 32u;
-                        msk16            = (__mmask16)(msk >> 32u);
+                        act_num_elements = i + 32U;
+                        msk16            = (__mmask16)(msk >> 32U);
                         break;
                     }
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1647,8 +1647,8 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     x_data   = _mm256_add_epi16(x_data, x_index);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 48u;
-                        msk16            = (__mmask16)(msk >> 48u);
+                        act_num_elements = i + 48U;
+                        msk16            = (__mmask16)(msk >> 48U);
                         break;
                     }
                     _mm256_mask_storeu_epi16((void*)dst_ptr, msk16, x_data);
@@ -1698,7 +1698,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                     }
                 }
                 if (QPLC_STS_OK == status) {
-                    msk16 = (__mmask16)(msk >> 16u);
+                    msk16 = (__mmask16)(msk >> 16U);
                     if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                         z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                         num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1712,11 +1712,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                             status = QPLC_STS_DST_IS_SHORT_ERR;
                             act_num_elements -= num_elem_rem;
                             act_num_elements += 16;
-                            msk16 = (__mmask16)(msk >> 16u);
+                            msk16 = (__mmask16)(msk >> 16U);
                         }
                     }
                     if (QPLC_STS_OK == status) {
-                        msk16 = (__mmask16)(msk >> 32u);
+                        msk16 = (__mmask16)(msk >> 32U);
                         if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                             z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                             num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1730,11 +1730,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                                 status = QPLC_STS_DST_IS_SHORT_ERR;
                                 act_num_elements -= num_elem_rem;
                                 act_num_elements += 32;
-                                msk16 = (__mmask16)(msk >> 32u);
+                                msk16 = (__mmask16)(msk >> 32U);
                             }
                         }
                         if (QPLC_STS_OK == status) {
-                            msk16 = (__mmask16)(msk >> 48u);
+                            msk16 = (__mmask16)(msk >> 48U);
                             if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                                 z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                                 num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -1748,7 +1748,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
                                     status = QPLC_STS_DST_IS_SHORT_ERR;
                                     act_num_elements -= num_elem_rem;
                                     act_num_elements += 48;
-                                    msk16 = (__mmask16)(msk >> 48u);
+                                    msk16 = (__mmask16)(msk >> 48U);
                                 }
                             }
                         }
@@ -1788,7 +1788,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
         num_elements -= act_num_elements;
         num_elem_rem = num_elements & (STEP_SRC_8U16U - 1);
         num_elements -= num_elem_rem;
-        for (uint32_t i = 0u; (i < num_elements); i += STEP_SRC_8U16U) {
+        for (uint32_t i = 0U; (i < num_elements); i += STEP_SRC_8U16U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -2147,7 +2147,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
     if (dst_length >= act_num_elements) {
         /* If the length of the output buffer is greater than the number of
            actually processed input elements, we can skip checking */
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U32U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U32U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -2161,7 +2161,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2170,7 +2170,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2179,7 +2179,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2205,7 +2205,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2214,7 +2214,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2223,7 +2223,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2237,7 +2237,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
     } else {
         /* Here we are obliged to check. */
         uint32_t* end_ptr = dst_ptr + dst_length;
-        for (uint32_t i = 0u; (i < act_num_elements_align); i += STEP_SRC_8U32U) {
+        for (uint32_t i = 0U; (i < act_num_elements_align); i += STEP_SRC_8U32U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {
@@ -2250,14 +2250,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     msk16    = _bzhi_u32(0xffff, num_data);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 0u;
+                        act_num_elements = i + 0U;
                         msk16            = (__mmask16)msk;
                         break;
                     }
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 16u);
+                msk16 = (__mmask16)(msk >> 16U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2265,14 +2265,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     msk16    = _bzhi_u32(0xffff, num_data);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 16u;
-                        msk16            = (__mmask16)(msk >> 16u);
+                        act_num_elements = i + 16U;
+                        msk16            = (__mmask16)(msk >> 16U);
                         break;
                     }
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 32u);
+                msk16 = (__mmask16)(msk >> 32U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2280,14 +2280,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     msk16    = _bzhi_u32(0xffff, num_data);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 32u;
-                        msk16            = (__mmask16)(msk >> 32u);
+                        act_num_elements = i + 32U;
+                        msk16            = (__mmask16)(msk >> 32U);
                         break;
                     }
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
                     dst_ptr += num_data;
                 }
-                msk16 = (__mmask16)(msk >> 48u);
+                msk16 = (__mmask16)(msk >> 48U);
                 if (msk16 != 0) {
                     z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                     num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2295,8 +2295,8 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     msk16    = _bzhi_u32(0xffff, num_data);
                     if ((dst_ptr + num_data) > end_ptr) {
                         status           = QPLC_STS_DST_IS_SHORT_ERR;
-                        act_num_elements = i + 48u;
-                        msk16            = (__mmask16)(msk >> 48u);
+                        act_num_elements = i + 48U;
+                        msk16            = (__mmask16)(msk >> 48U);
                         break;
                     }
                     _mm512_mask_storeu_epi32((void*)dst_ptr, msk16, z_data);
@@ -2345,7 +2345,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                     }
                 }
                 if (QPLC_STS_OK == status) {
-                    msk16 = (__mmask16)(msk >> 16u);
+                    msk16 = (__mmask16)(msk >> 16U);
                     if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                         z_data   = _mm512_maskz_compress_epi32(msk16, z_index1);
                         num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2358,11 +2358,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                             status = QPLC_STS_DST_IS_SHORT_ERR;
                             act_num_elements -= num_elem_rem;
                             act_num_elements += 16;
-                            msk16 = (__mmask16)(msk >> 16u);
+                            msk16 = (__mmask16)(msk >> 16U);
                         }
                     }
                     if (QPLC_STS_OK == status) {
-                        msk16 = (__mmask16)(msk >> 32u);
+                        msk16 = (__mmask16)(msk >> 32U);
                         if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                             z_data   = _mm512_maskz_compress_epi32(msk16, z_index2);
                             num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2375,11 +2375,11 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                                 status = QPLC_STS_DST_IS_SHORT_ERR;
                                 act_num_elements -= num_elem_rem;
                                 act_num_elements += 32;
-                                msk16 = (__mmask16)(msk >> 32u);
+                                msk16 = (__mmask16)(msk >> 32U);
                             }
                         }
                         if (QPLC_STS_OK == status) {
-                            msk16 = (__mmask16)(msk >> 48u);
+                            msk16 = (__mmask16)(msk >> 48U);
                             if ((msk16 != 0) && (QPLC_STS_OK == status)) {
                                 z_data   = _mm512_maskz_compress_epi32(msk16, z_index3);
                                 num_data = (uint32_t)_mm_popcnt_u32((uint32_t)msk16);
@@ -2392,7 +2392,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
                                     status = QPLC_STS_DST_IS_SHORT_ERR;
                                     act_num_elements -= num_elem_rem;
                                     act_num_elements += 48;
-                                    msk16 = (__mmask16)(msk >> 48u);
+                                    msk16 = (__mmask16)(msk >> 48U);
                                 }
                             }
                         }
@@ -2432,7 +2432,7 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
         num_elements -= act_num_elements;
         num_elem_rem = num_elements & (STEP_SRC_8U32U - 1);
         num_elements -= num_elem_rem;
-        for (uint32_t i = 0u; (i < num_elements); i += STEP_SRC_8U32U) {
+        for (uint32_t i = 0U; (i < num_elements); i += STEP_SRC_8U32U) {
             z_data = _mm512_loadu_si512((__m512i const*)(src_ptr + i));
             msk    = _mm512_cmpneq_epi8_mask(z_data, z_zero);
             if (msk != 0) {

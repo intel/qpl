@@ -45,41 +45,41 @@ OWN_ALIGNED_64_ARRAY(const uint32_t p_permutex_masks_7u[32]) = {
         0x2B002A, 0x2D002C, 0xF000E,  0x110010, 0x320031, 0x340033, 0x160015, 0x180017, 0x390038, 0x3B003A};
 
 // ------------------------------------ 3u -----------------------------------------
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_0[32]) = {0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u,
-                                                              2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u,
-                                                              4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u};
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_1[32]) = {5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u, 1u,
-                                                              3u, 5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u,
-                                                              1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_0[32]) = {0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U,
+                                                              2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U,
+                                                              4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_3u_1[32]) = {5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U, 1U,
+                                                              3U, 5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U,
+                                                              1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U};
 
 // ------------------------------------ 5u -----------------------------------------
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_5u_0[32]) = {0u, 2u, 4u, 6u, 0u, 2u, 4u, 6u, 0u, 2u, 4u,
-                                                              6u, 0u, 2u, 4u, 6u, 0u, 2u, 4u, 6u, 0u, 2u,
-                                                              4u, 6u, 0u, 2u, 4u, 6u, 0u, 2u, 4u, 6u};
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_5u_1[32]) = {3u, 1u, 7u, 5u, 3u, 1u, 7u, 5u, 3u, 1u, 7u,
-                                                              5u, 3u, 1u, 7u, 5u, 3u, 1u, 7u, 5u, 3u, 1u,
-                                                              7u, 5u, 3u, 1u, 7u, 5u, 3u, 1u, 7u, 5u};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_5u_0[32]) = {0U, 2U, 4U, 6U, 0U, 2U, 4U, 6U, 0U, 2U, 4U,
+                                                              6U, 0U, 2U, 4U, 6U, 0U, 2U, 4U, 6U, 0U, 2U,
+                                                              4U, 6U, 0U, 2U, 4U, 6U, 0U, 2U, 4U, 6U};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_5u_1[32]) = {3U, 1U, 7U, 5U, 3U, 1U, 7U, 5U, 3U, 1U, 7U,
+                                                              5U, 3U, 1U, 7U, 5U, 3U, 1U, 7U, 5U, 3U, 1U,
+                                                              7U, 5U, 3U, 1U, 7U, 5U, 3U, 1U, 7U, 5U};
 
 // ------------------------------------ 6u -----------------------------------------
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_6u_0[32]) = {0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u, 0u,
-                                                              4u, 0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u,
-                                                              0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u, 0u, 4u};
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_6u_1[32]) = {2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u, 2u,
-                                                              6u, 2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u,
-                                                              2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u, 2u, 6u};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_6u_0[32]) = {0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U, 0U,
+                                                              4U, 0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U,
+                                                              0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U, 0U, 4U};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_6u_1[32]) = {2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U, 2U,
+                                                              6U, 2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U,
+                                                              2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U, 2U, 6U};
 
 // ------------------------------------ 7u -----------------------------------------
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_7u_0[32]) = {0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u,
-                                                              2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u,
-                                                              4u, 2u, 0u, 6u, 4u, 2u, 0u, 6u, 4u, 2u};
-OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_7u_1[32]) = {1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u, 5u,
-                                                              7u, 1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u,
-                                                              5u, 7u, 1u, 3u, 5u, 7u, 1u, 3u, 5u, 7u};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_7u_0[32]) = {0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U,
+                                                              2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U,
+                                                              4U, 2U, 0U, 6U, 4U, 2U, 0U, 6U, 4U, 2U};
+OWN_ALIGNED_64_ARRAY(static uint16_t shift_table_7u_1[32]) = {1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U, 5U,
+                                                              7U, 1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U,
+                                                              5U, 7U, 1U, 3U, 5U, 7U, 1U, 3U, 5U, 7U};
 
 OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uint32_t bitsize)) {
     uint32_t remnant   = bitsize - start_bit;
     uint32_t ret_value = 0xFFFFFFFF;
-    for (uint32_t i = 0u; i < bitsize; ++i) {
+    for (uint32_t i = 0U; i < bitsize; ++i) {
         uint32_t test_value = (i * base) % bitsize;
         if (test_value == remnant) {
             ret_value = i;
@@ -98,18 +98,18 @@ OWN_OPT_FUN(void, k0_qplc_unpack_1u8u,
     uint8_t  mask;
 
     // Align to byte boundary
-    if (0u < start_bit) {
+    if (0U < start_bit) {
         mask = OWN_1_BIT_MASK << start_bit;
-        while (0u < mask) {
-            *dst_ptr = (0u < (*src_ptr & mask)) ? 1u : 0u;
+        while (0U < mask) {
+            *dst_ptr = (0U < (*src_ptr & mask)) ? 1U : 0U;
             dst_ptr++;
-            mask = mask << 1u;
+            mask = mask << 1U;
             num_elements--;
-            if (0u == num_elements) { return; }
+            if (0U == num_elements) { return; }
         }
         src_ptr++;
     }
-    while (num_elements >= 64u) {
+    while (num_elements >= 64U) {
         uint64_t src_64 = *(uint64_t*)src_ptr;
         // convert mask to 512-bit register. 0 --> 0x00, 1 --> 0xFF
         __m512i unpacked_src = _mm512_movm_epi8(src_64);
@@ -117,50 +117,50 @@ OWN_OPT_FUN(void, k0_qplc_unpack_1u8u,
         unpacked_src = _mm512_abs_epi8(unpacked_src);
         _mm512_storeu_si512(dst_ptr, unpacked_src);
 
-        src_ptr += 8u * 1u;
-        dst_ptr += 64u;
-        num_elements -= 64u;
+        src_ptr += 8U * 1U;
+        dst_ptr += 64U;
+        num_elements -= 64U;
     }
-    if (num_elements > 32u) {
+    if (num_elements > 32U) {
         qplc_bit_byte_pool32_t bit_byte_pool;
         uint32_t*              tmp_src = (uint32_t*)src_ptr;
         uint32_t               src     = *tmp_src;
 
-        for (i = 0u; i < 8u; i++) {
+        for (i = 0U; i < 8U; i++) {
             bit_byte_pool.bit_buf = src & bit_mask;
-            dst_ptr[i + 0u]       = bit_byte_pool.byte_buf[0];
-            dst_ptr[i + 8u]       = bit_byte_pool.byte_buf[1];
-            dst_ptr[i + 16u]      = bit_byte_pool.byte_buf[2];
-            dst_ptr[i + 24u]      = bit_byte_pool.byte_buf[3];
-            src                   = src >> 1u;
+            dst_ptr[i + 0U]       = bit_byte_pool.byte_buf[0];
+            dst_ptr[i + 8U]       = bit_byte_pool.byte_buf[1];
+            dst_ptr[i + 16U]      = bit_byte_pool.byte_buf[2];
+            dst_ptr[i + 24U]      = bit_byte_pool.byte_buf[3];
+            src                   = src >> 1U;
         }
         src_ptr += sizeof(uint32_t);
-        dst_ptr += 32u;
-        num_elements -= 32u;
+        dst_ptr += 32U;
+        num_elements -= 32U;
     }
-    if (num_elements > 16u) {
+    if (num_elements > 16U) {
         qplc_bit_byte_pool16_t bit_byte_pool;
         uint16_t*              tmp_src = (uint16_t*)src_ptr;
         uint16_t               src     = *tmp_src;
 
-        for (i = 0u; i < 8u; i++) {
+        for (i = 0U; i < 8U; i++) {
             bit_byte_pool.bit_buf = src & bit_mask;
-            dst_ptr[i + 0u]       = bit_byte_pool.byte_buf[0];
-            dst_ptr[i + 8u]       = bit_byte_pool.byte_buf[1];
-            src                   = src >> 1u;
+            dst_ptr[i + 0U]       = bit_byte_pool.byte_buf[0];
+            dst_ptr[i + 8U]       = bit_byte_pool.byte_buf[1];
+            src                   = src >> 1U;
         }
         src_ptr += sizeof(uint16_t);
-        dst_ptr += 16u;
-        num_elements -= 16u;
+        dst_ptr += 16U;
+        num_elements -= 16U;
     }
 
     if (num_elements) {
         mask        = OWN_1_BIT_MASK;
         uint8_t src = *src_ptr;
-        for (i = 0u; i < num_elements; i++) {
-            if (8u == i) { src = *(++src_ptr); }
+        for (i = 0U; i < num_elements; i++) {
+            if (8U == i) { src = *(++src_ptr); }
             dst_ptr[i] = (src & mask);
-            src        = src >> 1u;
+            src        = src >> 1U;
         }
     }
 }
@@ -171,31 +171,31 @@ OWN_OPT_FUN(void, k0_qplc_unpack_2u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
     uint64_t bit_mask = 0x0303030303030303LLU;
     uint32_t i;
-    uint8_t  mask = 3u;
+    uint8_t  mask = 3U;
 
     // Align to byte boundary
-    if (0u < start_bit) {
+    if (0U < start_bit) {
         uint8_t src = (*src_ptr) >> start_bit;
         src_ptr++;
         while (OWN_BYTE_WIDTH > start_bit) {
             *dst_ptr = src & mask;
             dst_ptr++;
-            src = src >> 2u;
-            start_bit += 2u;
+            src = src >> 2U;
+            start_bit += 2U;
             num_elements--;
-            if (0u == num_elements) { return; }
+            if (0U == num_elements) { return; }
         }
     }
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = OWN_MAX_16U;               // first 16 bytes (64 elements)
         __m512i   parse_mask = _mm512_set1_epi16(0x0303); // 2 times 1 then (8 - 2) times 0
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
             __m512i srcmm1, srcmm2, srcmm3, tmpmm;
 
-            srcmm1 = _mm512_srli_epi16(srcmm0, 2u);
-            srcmm2 = _mm512_srli_epi16(srcmm0, 4u);
-            srcmm3 = _mm512_srli_epi16(srcmm0, 6u);
+            srcmm1 = _mm512_srli_epi16(srcmm0, 2U);
+            srcmm2 = _mm512_srli_epi16(srcmm0, 4U);
+            srcmm3 = _mm512_srli_epi16(srcmm0, 6U);
 
             // turn 2 bit_width into 8 by zeroing 3 of each 4 elements.
             // move them into their places
@@ -220,79 +220,79 @@ OWN_OPT_FUN(void, k0_qplc_unpack_2u8u,
 
             _mm512_storeu_si512(dst_ptr, srcmm0);
 
-            src_ptr += 8u * 2u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 2U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
-    if (num_elements > 32u) {
+    if (num_elements > 32U) {
         qplc_bit_byte_pool64_t bit_byte_pool;
         uint64_t*              tmp_src = (uint64_t*)src_ptr;
         uint64_t               src     = *tmp_src;
 
-        for (i = 0u; i < 4u; i++) {
+        for (i = 0U; i < 4U; i++) {
             bit_byte_pool.bit_buf = src & bit_mask;
-            dst_ptr[i + 0u]       = bit_byte_pool.byte_buf[0];
-            dst_ptr[i + 4u]       = bit_byte_pool.byte_buf[1];
-            dst_ptr[i + 8u]       = bit_byte_pool.byte_buf[2];
-            dst_ptr[i + 12u]      = bit_byte_pool.byte_buf[3];
-            dst_ptr[i + 16u]      = bit_byte_pool.byte_buf[4];
-            dst_ptr[i + 20u]      = bit_byte_pool.byte_buf[5];
-            dst_ptr[i + 24u]      = bit_byte_pool.byte_buf[6];
-            dst_ptr[i + 28u]      = bit_byte_pool.byte_buf[7];
-            src                   = src >> 2u;
+            dst_ptr[i + 0U]       = bit_byte_pool.byte_buf[0];
+            dst_ptr[i + 4U]       = bit_byte_pool.byte_buf[1];
+            dst_ptr[i + 8U]       = bit_byte_pool.byte_buf[2];
+            dst_ptr[i + 12U]      = bit_byte_pool.byte_buf[3];
+            dst_ptr[i + 16U]      = bit_byte_pool.byte_buf[4];
+            dst_ptr[i + 20U]      = bit_byte_pool.byte_buf[5];
+            dst_ptr[i + 24U]      = bit_byte_pool.byte_buf[6];
+            dst_ptr[i + 28U]      = bit_byte_pool.byte_buf[7];
+            src                   = src >> 2U;
         }
         src_ptr += sizeof(uint64_t);
-        dst_ptr += 32u;
-        num_elements -= 32u;
+        dst_ptr += 32U;
+        num_elements -= 32U;
     }
-    if (num_elements > 16u) {
+    if (num_elements > 16U) {
         qplc_bit_byte_pool32_t bit_byte_pool;
         uint32_t*              tmp_src = (uint32_t*)src_ptr;
         uint32_t               src     = *tmp_src;
 
-        for (i = 0u; i < 4u; i++) {
+        for (i = 0U; i < 4U; i++) {
             bit_byte_pool.bit_buf = src & bit_mask;
-            dst_ptr[i + 0u]       = bit_byte_pool.byte_buf[0];
-            dst_ptr[i + 4u]       = bit_byte_pool.byte_buf[1];
-            dst_ptr[i + 8u]       = bit_byte_pool.byte_buf[2];
-            dst_ptr[i + 12u]      = bit_byte_pool.byte_buf[3];
-            src                   = src >> 2u;
+            dst_ptr[i + 0U]       = bit_byte_pool.byte_buf[0];
+            dst_ptr[i + 4U]       = bit_byte_pool.byte_buf[1];
+            dst_ptr[i + 8U]       = bit_byte_pool.byte_buf[2];
+            dst_ptr[i + 12U]      = bit_byte_pool.byte_buf[3];
+            src                   = src >> 2U;
         }
         src_ptr += sizeof(uint32_t);
-        dst_ptr += 16u;
-        num_elements -= 16u;
+        dst_ptr += 16U;
+        num_elements -= 16U;
     }
-    if (num_elements > 8u) {
+    if (num_elements > 8U) {
         qplc_bit_byte_pool16_t bit_byte_pool;
         uint16_t*              tmp_src = (uint16_t*)src_ptr;
         uint16_t               src     = *tmp_src;
 
-        for (i = 0u; i < 4u; i++) {
+        for (i = 0U; i < 4U; i++) {
             bit_byte_pool.bit_buf = src & bit_mask;
-            dst_ptr[i + 0u]       = bit_byte_pool.byte_buf[0];
-            dst_ptr[i + 4u]       = bit_byte_pool.byte_buf[1];
-            src                   = src >> 2u;
+            dst_ptr[i + 0U]       = bit_byte_pool.byte_buf[0];
+            dst_ptr[i + 4U]       = bit_byte_pool.byte_buf[1];
+            src                   = src >> 2U;
         }
         src_ptr += sizeof(uint16_t);
-        dst_ptr += 8u;
-        num_elements -= 8u;
+        dst_ptr += 8U;
+        num_elements -= 8U;
     }
 
     if (num_elements) {
         // 4 elements are stored in a single byte
-        const uint32_t elements_in_byte = 4u;
+        const uint32_t elements_in_byte = 4U;
 
         // Process rest of elements (there are 8 or less elements left)
         mask               = OWN_2_BIT_MASK;
         uint8_t src_buffer = *src_ptr;
 
-        for (i = 0u; i < num_elements; i++) {
+        for (i = 0U; i < num_elements; i++) {
             // Check if 1st byte is processed, shift to next one if true
             if (elements_in_byte == i) { src_buffer = *(++src_ptr); }
 
             dst_ptr[i] = (src_buffer & mask);
-            src_buffer = src_buffer >> 2u;
+            src_buffer = src_buffer >> 2U;
         }
     }
 }
@@ -306,14 +306,14 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
     uint64_t bit_mask2 = 0x0000070000070000LLU;
 
     // Align to byte boundary
-    if (0u < start_bit) {
+    if (0U < start_bit) {
         uint16_t mask = OWN_3_BIT_MASK;
         uint16_t next_byte;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
         uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
         src_ptr++;
-        while (0u < bits_in_buf) {
-            if (3u > bits_in_buf) {
+        while (0U < bits_in_buf) {
+            if (3U > bits_in_buf) {
                 next_byte = (uint16_t)(*src_ptr);
                 src_ptr++;
                 next_byte = next_byte << bits_in_buf;
@@ -321,29 +321,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
                 bits_in_buf += OWN_BYTE_WIDTH;
             }
             *dst_ptr = (uint8_t)(src & mask);
-            src      = src >> 3u;
-            bits_in_buf -= 3u;
+            src      = src >> 3U;
+            bits_in_buf -= 3U;
             dst_ptr++;
             num_elements--;
-            if (0u == num_elements) { return; }
+            if (0U == num_elements) { return; }
         }
     }
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = 0xFFFFFF;
         __m512i   parse_mask = _mm512_set1_epi8(0x07);
         __m512i   permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(p_permutex_masks_3u);
-        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_3u + 16u);
+        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_3u + 16U);
 
         __m512i shift_mask_ptr[2];
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_3u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_3u_1);
 
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0, srcmm1, zmm[2];
 
             srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
-            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1u, src_ptr + 1u);
+            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1U, src_ptr + 1U);
 
             // permuting so in zmm[0] will be elements with even indexes and in zmm[1] - with odd ones
             zmm[0] = _mm512_permutex2var_epi16(srcmm0, permutex_idx_ptr[0], srcmm1);
@@ -359,74 +359,74 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 8u * 3u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 3U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
-    if (num_elements > 32u) {
+    if (num_elements > 32U) {
         qplc_bit_byte_pool64_t bit_byte_pool64;
         uint64_t*              tmp_src64 = (uint64_t*)src_ptr;
         uint64_t               src64     = *tmp_src64;
-        src_ptr                          = src_ptr + 8u;
+        src_ptr                          = src_ptr + 8U;
         qplc_bit_byte_pool32_t bit_byte_pool32;
         uint32_t*              tmp_src32 = (uint32_t*)src_ptr;
         uint32_t               src32     = (*tmp_src32);
-        src_ptr                          = src_ptr + 4u;
+        src_ptr                          = src_ptr + 4U;
 
         bit_byte_pool64.bit_buf = src64 & bit_mask0;
         dst_ptr[0]              = bit_byte_pool64.byte_buf[0];
         dst_ptr[8]              = bit_byte_pool64.byte_buf[3];
         dst_ptr[16]             = bit_byte_pool64.byte_buf[6];
-        bit_byte_pool64.bit_buf = (src64 >> 1u) & bit_mask1;
+        bit_byte_pool64.bit_buf = (src64 >> 1U) & bit_mask1;
         dst_ptr[3]              = bit_byte_pool64.byte_buf[1];
         dst_ptr[11]             = bit_byte_pool64.byte_buf[4];
         dst_ptr[19]             = bit_byte_pool64.byte_buf[7];
-        bit_byte_pool64.bit_buf = (src64 >> 2u) & bit_mask2;
+        bit_byte_pool64.bit_buf = (src64 >> 2U) & bit_mask2;
         dst_ptr[6]              = bit_byte_pool64.byte_buf[2];
         dst_ptr[14]             = bit_byte_pool64.byte_buf[5];
-        bit_byte_pool64.bit_buf = (src64 >> 3u) & bit_mask0;
+        bit_byte_pool64.bit_buf = (src64 >> 3U) & bit_mask0;
         dst_ptr[1]              = bit_byte_pool64.byte_buf[0];
         dst_ptr[9]              = bit_byte_pool64.byte_buf[3];
         dst_ptr[17]             = bit_byte_pool64.byte_buf[6];
-        bit_byte_pool64.bit_buf = (src64 >> 4u) & bit_mask1;
+        bit_byte_pool64.bit_buf = (src64 >> 4U) & bit_mask1;
         dst_ptr[4]              = bit_byte_pool64.byte_buf[1];
         dst_ptr[12]             = bit_byte_pool64.byte_buf[4];
         dst_ptr[20]             = bit_byte_pool64.byte_buf[7];
-        bit_byte_pool64.bit_buf = (src64 >> 5u) & bit_mask2;
+        bit_byte_pool64.bit_buf = (src64 >> 5U) & bit_mask2;
         dst_ptr[7]              = bit_byte_pool64.byte_buf[2];
         dst_ptr[15]             = bit_byte_pool64.byte_buf[5];
-        bit_byte_pool64.bit_buf = (src64 >> 6u) & bit_mask0;
+        bit_byte_pool64.bit_buf = (src64 >> 6U) & bit_mask0;
         dst_ptr[2]              = bit_byte_pool64.byte_buf[0];
         dst_ptr[10]             = bit_byte_pool64.byte_buf[3];
         dst_ptr[18]             = bit_byte_pool64.byte_buf[6];
-        bit_byte_pool64.bit_buf = (src64 >> 7u) & bit_mask1;
+        bit_byte_pool64.bit_buf = (src64 >> 7U) & bit_mask1;
         dst_ptr[5]              = bit_byte_pool64.byte_buf[1];
         dst_ptr[13]             = bit_byte_pool64.byte_buf[4];
-        dst_ptr[21]             = bit_byte_pool64.byte_buf[7] | (((uint8_t)src32 & 3u) << 1u);
-        src32                   = src32 >> 2u;
+        dst_ptr[21]             = bit_byte_pool64.byte_buf[7] | (((uint8_t)src32 & 3U) << 1U);
+        src32                   = src32 >> 2U;
         bit_byte_pool32.bit_buf = src32 & bit_mask0;
         dst_ptr[22]             = bit_byte_pool32.byte_buf[0];
         dst_ptr[30]             = bit_byte_pool32.byte_buf[3];
-        bit_byte_pool32.bit_buf = (src32 >> 1u) & bit_mask1;
+        bit_byte_pool32.bit_buf = (src32 >> 1U) & bit_mask1;
         dst_ptr[25]             = bit_byte_pool32.byte_buf[1];
-        bit_byte_pool32.bit_buf = (src32 >> 2u) & bit_mask2;
+        bit_byte_pool32.bit_buf = (src32 >> 2U) & bit_mask2;
         dst_ptr[28]             = bit_byte_pool32.byte_buf[2];
-        bit_byte_pool32.bit_buf = (src32 >> 3u) & bit_mask0;
+        bit_byte_pool32.bit_buf = (src32 >> 3U) & bit_mask0;
         dst_ptr[23]             = bit_byte_pool32.byte_buf[0];
         dst_ptr[31]             = bit_byte_pool32.byte_buf[3];
-        bit_byte_pool32.bit_buf = (src32 >> 4u) & bit_mask1;
+        bit_byte_pool32.bit_buf = (src32 >> 4U) & bit_mask1;
         dst_ptr[26]             = bit_byte_pool32.byte_buf[1];
-        bit_byte_pool32.bit_buf = (src32 >> 5u) & bit_mask2;
+        bit_byte_pool32.bit_buf = (src32 >> 5U) & bit_mask2;
         dst_ptr[29]             = bit_byte_pool32.byte_buf[2];
-        bit_byte_pool32.bit_buf = (src32 >> 6u) & bit_mask0;
+        bit_byte_pool32.bit_buf = (src32 >> 6U) & bit_mask0;
         dst_ptr[24]             = bit_byte_pool32.byte_buf[0];
-        bit_byte_pool32.bit_buf = (src32 >> 7u) & bit_mask1;
+        bit_byte_pool32.bit_buf = (src32 >> 7U) & bit_mask1;
         dst_ptr[27]             = bit_byte_pool32.byte_buf[1];
-        dst_ptr += 32u;
-        num_elements -= 32u;
+        dst_ptr += 32U;
+        num_elements -= 32U;
     }
-    if (num_elements > 16u) {
+    if (num_elements > 16U) {
         qplc_bit_byte_pool48_t bit_byte_pool48;
         uint32_t*              tmp_src32 = (uint32_t*)src_ptr;
         bit_byte_pool48.dw_buf[0]        = (*tmp_src32);
@@ -438,65 +438,65 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
         bit_byte_pool48.bit_buf          = src64 & bit_mask0;
         dst_ptr[0]                       = bit_byte_pool48.byte_buf[0];
         dst_ptr[8]                       = bit_byte_pool48.byte_buf[3];
-        bit_byte_pool48.bit_buf          = (src64 >> 1u) & bit_mask1;
+        bit_byte_pool48.bit_buf          = (src64 >> 1U) & bit_mask1;
         dst_ptr[3]                       = bit_byte_pool48.byte_buf[1];
         dst_ptr[11]                      = bit_byte_pool48.byte_buf[4];
-        bit_byte_pool48.bit_buf          = (src64 >> 2u) & bit_mask2;
+        bit_byte_pool48.bit_buf          = (src64 >> 2U) & bit_mask2;
         dst_ptr[6]                       = bit_byte_pool48.byte_buf[2];
         dst_ptr[14]                      = bit_byte_pool48.byte_buf[5];
-        bit_byte_pool48.bit_buf          = (src64 >> 3u) & bit_mask0;
+        bit_byte_pool48.bit_buf          = (src64 >> 3U) & bit_mask0;
         dst_ptr[1]                       = bit_byte_pool48.byte_buf[0];
         dst_ptr[9]                       = bit_byte_pool48.byte_buf[3];
-        bit_byte_pool48.bit_buf          = (src64 >> 4u) & bit_mask1;
+        bit_byte_pool48.bit_buf          = (src64 >> 4U) & bit_mask1;
         dst_ptr[4]                       = bit_byte_pool48.byte_buf[1];
         dst_ptr[12]                      = bit_byte_pool48.byte_buf[4];
-        bit_byte_pool48.bit_buf          = (src64 >> 5u) & bit_mask2;
+        bit_byte_pool48.bit_buf          = (src64 >> 5U) & bit_mask2;
         dst_ptr[7]                       = bit_byte_pool48.byte_buf[2];
         dst_ptr[15]                      = bit_byte_pool48.byte_buf[5];
-        bit_byte_pool48.bit_buf          = (src64 >> 6u) & bit_mask0;
+        bit_byte_pool48.bit_buf          = (src64 >> 6U) & bit_mask0;
         dst_ptr[2]                       = bit_byte_pool48.byte_buf[0];
         dst_ptr[10]                      = bit_byte_pool48.byte_buf[3];
-        bit_byte_pool48.bit_buf          = (src64 >> 7u) & bit_mask1;
+        bit_byte_pool48.bit_buf          = (src64 >> 7U) & bit_mask1;
         dst_ptr[5]                       = bit_byte_pool48.byte_buf[1];
         dst_ptr[13]                      = bit_byte_pool48.byte_buf[4];
-        dst_ptr += 16u;
-        num_elements -= 16u;
+        dst_ptr += 16U;
+        num_elements -= 16U;
     }
-    if (num_elements > 8u) {
+    if (num_elements > 8U) {
         qplc_bit_byte_pool32_t bit_byte_pool32;
         uint16_t*              tmp_src16 = (uint16_t*)src_ptr;
         bit_byte_pool32.word_buf[0]      = (*tmp_src16);
-        src_ptr                          = src_ptr + 2u;
+        src_ptr                          = src_ptr + 2U;
         bit_byte_pool32.byte_buf[2]      = (*src_ptr);
-        src_ptr                          = src_ptr + 1u;
+        src_ptr                          = src_ptr + 1U;
         uint32_t src32                   = bit_byte_pool32.bit_buf;
         bit_byte_pool32.bit_buf          = src32 & (uint32_t)bit_mask0;
         dst_ptr[0]                       = bit_byte_pool32.byte_buf[0];
-        bit_byte_pool32.bit_buf          = (src32 >> 3u) & (uint32_t)bit_mask0;
+        bit_byte_pool32.bit_buf          = (src32 >> 3U) & (uint32_t)bit_mask0;
         dst_ptr[1]                       = bit_byte_pool32.byte_buf[0];
-        bit_byte_pool32.bit_buf          = (src32 >> 6u) & (uint32_t)bit_mask0;
+        bit_byte_pool32.bit_buf          = (src32 >> 6U) & (uint32_t)bit_mask0;
         dst_ptr[2]                       = bit_byte_pool32.byte_buf[0];
-        bit_byte_pool32.bit_buf          = (src32 >> 1u) & (uint32_t)bit_mask1;
+        bit_byte_pool32.bit_buf          = (src32 >> 1U) & (uint32_t)bit_mask1;
         dst_ptr[3]                       = bit_byte_pool32.byte_buf[1];
-        bit_byte_pool32.bit_buf          = (src32 >> 4u) & (uint32_t)bit_mask1;
+        bit_byte_pool32.bit_buf          = (src32 >> 4U) & (uint32_t)bit_mask1;
         dst_ptr[4]                       = bit_byte_pool32.byte_buf[1];
-        bit_byte_pool32.bit_buf          = (src32 >> 7u) & (uint32_t)bit_mask1;
+        bit_byte_pool32.bit_buf          = (src32 >> 7U) & (uint32_t)bit_mask1;
         dst_ptr[5]                       = bit_byte_pool32.byte_buf[1];
-        bit_byte_pool32.bit_buf          = (src32 >> 2u) & (uint32_t)bit_mask2;
+        bit_byte_pool32.bit_buf          = (src32 >> 2U) & (uint32_t)bit_mask2;
         dst_ptr[6]                       = bit_byte_pool32.byte_buf[2];
-        bit_byte_pool32.bit_buf          = (src32 >> 5u) & (uint32_t)bit_mask2;
+        bit_byte_pool32.bit_buf          = (src32 >> 5U) & (uint32_t)bit_mask2;
         dst_ptr[7]                       = bit_byte_pool32.byte_buf[2];
-        dst_ptr += 8u;
-        num_elements -= 8u;
+        dst_ptr += 8U;
+        num_elements -= 8U;
     }
-    if (0u < num_elements) {
+    if (0U < num_elements) {
         uint16_t mask = OWN_3_BIT_MASK;
         uint16_t next_byte;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH;
         uint16_t src         = (uint16_t)(*src_ptr);
         src_ptr++;
-        while (0u != num_elements) {
-            if (3u > bits_in_buf) {
+        while (0U != num_elements) {
+            if (3U > bits_in_buf) {
                 next_byte = (uint16_t)(*src_ptr);
                 src_ptr++;
                 next_byte = next_byte << bits_in_buf;
@@ -504,8 +504,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
                 bits_in_buf += OWN_BYTE_WIDTH;
             }
             *dst_ptr = (uint8_t)(src & mask);
-            src      = src >> 3u;
-            bits_in_buf -= 3u;
+            src      = src >> 3U;
+            bits_in_buf -= 3U;
             dst_ptr++;
             num_elements--;
         }
@@ -521,26 +521,26 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
     uint8_t  mask = OWN_4_BIT_MASK;
 
     // Align to byte boundary
-    if (0u < start_bit) {
+    if (0U < start_bit) {
         uint8_t src = (*src_ptr) >> start_bit;
         src_ptr++;
         while (OWN_BYTE_WIDTH > start_bit) {
             *dst_ptr = src & mask;
             dst_ptr++;
-            src = src >> 4u;
-            start_bit += 4u;
+            src = src >> 4U;
+            start_bit += 4U;
             num_elements--;
-            if (0u == num_elements) { return; }
+            if (0U == num_elements) { return; }
         }
     }
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = OWN_MAX_32U;               // first 32 bytes (64 elements)
         __m512i   parse_mask = _mm512_set1_epi16(0x0F0F); // 4 times 1 then (8 - 4) times 0
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0, srcmm1, tmpmm;
 
             srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
-            srcmm1 = _mm512_srli_epi16(srcmm0, 4u);
+            srcmm1 = _mm512_srli_epi16(srcmm0, 4U);
 
             // move elements into their places
             // srcmm0: a c e g 0 0 0 0
@@ -554,12 +554,12 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
             srcmm0 = _mm512_and_si512(srcmm0, parse_mask);
             _mm512_storeu_si512(dst_ptr, srcmm0);
 
-            src_ptr += 8u * 4u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 4U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
-    if (num_elements > 32u) {
+    if (num_elements > 32U) {
         qplc_bit_byte_pool64_t bit_byte_pool;
         uint64_t*              tmp_src = (uint64_t*)src_ptr;
         uint64_t               src     = *tmp_src;
@@ -573,7 +573,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[10]           = bit_byte_pool.byte_buf[5];
         dst_ptr[12]           = bit_byte_pool.byte_buf[6];
         dst_ptr[14]           = bit_byte_pool.byte_buf[7];
-        bit_byte_pool.bit_buf = (src >> 4u) & bit_mask;
+        bit_byte_pool.bit_buf = (src >> 4U) & bit_mask;
         dst_ptr[1]            = bit_byte_pool.byte_buf[0];
         dst_ptr[3]            = bit_byte_pool.byte_buf[1];
         dst_ptr[5]            = bit_byte_pool.byte_buf[2];
@@ -583,7 +583,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[13]           = bit_byte_pool.byte_buf[6];
         dst_ptr[15]           = bit_byte_pool.byte_buf[7];
         tmp_src++;
-        dst_ptr += 16u;
+        dst_ptr += 16U;
         src                   = *tmp_src;
         bit_byte_pool.bit_buf = src & bit_mask;
         dst_ptr[0]            = bit_byte_pool.byte_buf[0];
@@ -594,7 +594,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[10]           = bit_byte_pool.byte_buf[5];
         dst_ptr[12]           = bit_byte_pool.byte_buf[6];
         dst_ptr[14]           = bit_byte_pool.byte_buf[7];
-        bit_byte_pool.bit_buf = (src >> 4u) & bit_mask;
+        bit_byte_pool.bit_buf = (src >> 4U) & bit_mask;
         dst_ptr[1]            = bit_byte_pool.byte_buf[0];
         dst_ptr[3]            = bit_byte_pool.byte_buf[1];
         dst_ptr[5]            = bit_byte_pool.byte_buf[2];
@@ -603,11 +603,11 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[11]           = bit_byte_pool.byte_buf[5];
         dst_ptr[13]           = bit_byte_pool.byte_buf[6];
         dst_ptr[15]           = bit_byte_pool.byte_buf[7];
-        num_elements -= 32u;
-        dst_ptr += 16u;
-        src_ptr += 16u;
+        num_elements -= 32U;
+        dst_ptr += 16U;
+        src_ptr += 16U;
     }
-    if (num_elements > 16u) {
+    if (num_elements > 16U) {
         qplc_bit_byte_pool64_t bit_byte_pool;
         uint64_t*              tmp_src = (uint64_t*)src_ptr;
         uint64_t               src     = *tmp_src;
@@ -621,7 +621,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[10]           = bit_byte_pool.byte_buf[5];
         dst_ptr[12]           = bit_byte_pool.byte_buf[6];
         dst_ptr[14]           = bit_byte_pool.byte_buf[7];
-        bit_byte_pool.bit_buf = (src >> 4u) & bit_mask;
+        bit_byte_pool.bit_buf = (src >> 4U) & bit_mask;
         dst_ptr[1]            = bit_byte_pool.byte_buf[0];
         dst_ptr[3]            = bit_byte_pool.byte_buf[1];
         dst_ptr[5]            = bit_byte_pool.byte_buf[2];
@@ -630,11 +630,11 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[11]           = bit_byte_pool.byte_buf[5];
         dst_ptr[13]           = bit_byte_pool.byte_buf[6];
         dst_ptr[15]           = bit_byte_pool.byte_buf[7];
-        dst_ptr += 16u;
-        num_elements -= 16u;
-        src_ptr += 8u;
+        dst_ptr += 16U;
+        num_elements -= 16U;
+        src_ptr += 8U;
     }
-    if (num_elements > 8u) {
+    if (num_elements > 8U) {
         qplc_bit_byte_pool32_t bit_byte_pool;
         uint32_t*              tmp_src = (uint32_t*)src_ptr;
         uint32_t               src     = *tmp_src;
@@ -644,31 +644,31 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         dst_ptr[2]            = bit_byte_pool.byte_buf[1];
         dst_ptr[4]            = bit_byte_pool.byte_buf[2];
         dst_ptr[6]            = bit_byte_pool.byte_buf[3];
-        bit_byte_pool.bit_buf = (src >> 4u) & (uint32_t)bit_mask;
+        bit_byte_pool.bit_buf = (src >> 4U) & (uint32_t)bit_mask;
         dst_ptr[1]            = bit_byte_pool.byte_buf[0];
         dst_ptr[3]            = bit_byte_pool.byte_buf[1];
         dst_ptr[5]            = bit_byte_pool.byte_buf[2];
         dst_ptr[7]            = bit_byte_pool.byte_buf[3];
 
         src_ptr += sizeof(uint32_t);
-        dst_ptr += 8u;
-        num_elements -= 8u;
+        dst_ptr += 8U;
+        num_elements -= 8U;
     }
 
     uint8_t src;
 
     if (num_elements > 0) {
         src = *src_ptr;
-        i   = 0u;
-        while (num_elements >= 2u) {
+        i   = 0U;
+        while (num_elements >= 2U) {
             src            = *src_ptr;
             dst_ptr[i]     = (src & mask);
-            src            = src >> 4u;
+            src            = src >> 4U;
             dst_ptr[i + 1] = (src & mask);
             ++src_ptr;
 
-            num_elements -= 2u;
-            i += 2u;
+            num_elements -= 2U;
+            i += 2U;
         }
     }
 
@@ -690,13 +690,13 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
     uint16_t mask      = OWN_5_BIT_MASK;
 
     // Align to byte boundary
-    if (0u < start_bit) {
+    if (0U < start_bit) {
         uint16_t next_byte;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
         uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
         src_ptr++;
-        while (0u < bits_in_buf) {
-            if (5u > bits_in_buf) {
+        while (0U < bits_in_buf) {
+            if (5U > bits_in_buf) {
                 next_byte = (uint16_t)(*src_ptr);
                 src_ptr++;
                 next_byte = next_byte << bits_in_buf;
@@ -704,29 +704,29 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
                 bits_in_buf += OWN_BYTE_WIDTH;
             }
             *dst_ptr = (uint8_t)(src & mask);
-            src      = src >> 5u;
-            bits_in_buf -= 5u;
+            src      = src >> 5U;
+            bits_in_buf -= 5U;
             dst_ptr++;
             num_elements--;
-            if (0u == num_elements) { return; }
+            if (0U == num_elements) { return; }
         }
     }
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = 0xFFFFFFFFFF;
         __m512i   parse_mask = _mm512_set1_epi8(0x1F);
         __m512i   permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(p_permutex_masks_5u);
-        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_5u + 16u);
+        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_5u + 16U);
 
         __m512i shift_mask_ptr[2];
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_5u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_5u_1);
 
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0, srcmm1, zmm[2];
 
             srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
-            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1u, src_ptr + 1u);
+            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1U, src_ptr + 1U);
 
             // permuting so in zmm[0] will be elements with even indexes and in zmm[1] - with odd ones
             zmm[0] = _mm512_permutex2var_epi16(srcmm0, permutex_idx_ptr[0], srcmm1);
@@ -742,12 +742,12 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 8u * 5u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 5U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
-    if (num_elements > 16u) {
+    if (num_elements > 16U) {
         qplc_bit_byte_pool64_t bit_byte_pool64;
         uint64_t*              tmp_src64 = (uint64_t*)src_ptr;
         uint64_t               src64     = *tmp_src64;
@@ -759,31 +759,31 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
         bit_byte_pool64.bit_buf = src64 & bit_mask0;
         dst_ptr[0]              = bit_byte_pool64.byte_buf[0];
         dst_ptr[8]              = bit_byte_pool64.byte_buf[5];
-        bit_byte_pool64.bit_buf = (src64 >> 1u) & bit_mask1;
+        bit_byte_pool64.bit_buf = (src64 >> 1U) & bit_mask1;
         dst_ptr[5]              = bit_byte_pool64.byte_buf[3];
-        bit_byte_pool64.bit_buf = (src64 >> 2u) & bit_mask2;
+        bit_byte_pool64.bit_buf = (src64 >> 2U) & bit_mask2;
         dst_ptr[2]              = bit_byte_pool64.byte_buf[1];
         dst_ptr[10]             = bit_byte_pool64.byte_buf[6];
-        bit_byte_pool64.bit_buf = (src64 >> 3u) & bit_mask3;
+        bit_byte_pool64.bit_buf = (src64 >> 3U) & bit_mask3;
         dst_ptr[7]              = bit_byte_pool64.byte_buf[4];
-        bit_byte_pool64.bit_buf = (src64 >> 4u) & bit_mask4;
+        bit_byte_pool64.bit_buf = (src64 >> 4U) & bit_mask4;
         dst_ptr[4]              = bit_byte_pool64.byte_buf[2];
-        dst_ptr[12]             = bit_byte_pool64.byte_buf[7] | (((uint8_t)(src16 & 1u)) << 4u);
-        bit_byte_pool64.bit_buf = (src64 >> 5u) & bit_mask0;
+        dst_ptr[12]             = bit_byte_pool64.byte_buf[7] | (((uint8_t)(src16 & 1U)) << 4U);
+        bit_byte_pool64.bit_buf = (src64 >> 5U) & bit_mask0;
         dst_ptr[1]              = bit_byte_pool64.byte_buf[0];
         dst_ptr[9]              = bit_byte_pool64.byte_buf[5];
-        bit_byte_pool64.bit_buf = (src64 >> 6u) & bit_mask1;
+        bit_byte_pool64.bit_buf = (src64 >> 6U) & bit_mask1;
         dst_ptr[6]              = bit_byte_pool64.byte_buf[3];
-        bit_byte_pool64.bit_buf = (src64 >> 7u) & bit_mask2;
+        bit_byte_pool64.bit_buf = (src64 >> 7U) & bit_mask2;
         dst_ptr[3]              = bit_byte_pool64.byte_buf[1];
         dst_ptr[11]             = bit_byte_pool64.byte_buf[6];
-        dst_ptr[13]             = (uint8_t)((src16 >> 1u) & mask);
-        dst_ptr[14]             = (uint8_t)((src16 >> 6u) & mask);
-        dst_ptr[15]             = (uint8_t)((src16 >> 11u) & mask);
-        dst_ptr += 16u;
-        num_elements -= 16u;
+        dst_ptr[13]             = (uint8_t)((src16 >> 1U) & mask);
+        dst_ptr[14]             = (uint8_t)((src16 >> 6U) & mask);
+        dst_ptr[15]             = (uint8_t)((src16 >> 11U) & mask);
+        dst_ptr += 16U;
+        num_elements -= 16U;
     }
-    if (num_elements > 8u) {
+    if (num_elements > 8U) {
         uint32_t* tmp_src32 = (uint32_t*)src_ptr;
         uint32_t  src32     = (*tmp_src32);
         src_ptr += sizeof(uint32_t);
@@ -791,24 +791,24 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
         src_ptr++;
 
         dst_ptr[0] = (uint8_t)(src32 & (uint32_t)mask);
-        dst_ptr[1] = (uint8_t)((src32 >> 5u) & (uint32_t)mask);
-        dst_ptr[2] = (uint8_t)((src32 >> 10u) & (uint32_t)mask);
-        dst_ptr[3] = (uint8_t)((src32 >> 15u) & (uint32_t)mask);
-        dst_ptr[4] = (uint8_t)((src32 >> 20u) & (uint32_t)mask);
-        dst_ptr[5] = (uint8_t)((src32 >> 25u) & (uint32_t)mask);
-        dst_ptr[6] = (uint8_t)((src32 >> 30u) & (uint32_t)mask) | ((src8 << 2u) & (uint8_t)mask);
-        dst_ptr[7] = ((src8 >> 3u) & (uint8_t)mask);
+        dst_ptr[1] = (uint8_t)((src32 >> 5U) & (uint32_t)mask);
+        dst_ptr[2] = (uint8_t)((src32 >> 10U) & (uint32_t)mask);
+        dst_ptr[3] = (uint8_t)((src32 >> 15U) & (uint32_t)mask);
+        dst_ptr[4] = (uint8_t)((src32 >> 20U) & (uint32_t)mask);
+        dst_ptr[5] = (uint8_t)((src32 >> 25U) & (uint32_t)mask);
+        dst_ptr[6] = (uint8_t)((src32 >> 30U) & (uint32_t)mask) | ((src8 << 2U) & (uint8_t)mask);
+        dst_ptr[7] = ((src8 >> 3U) & (uint8_t)mask);
 
-        dst_ptr += 8u;
-        num_elements -= 8u;
+        dst_ptr += 8U;
+        num_elements -= 8U;
     }
-    if (0u < num_elements) {
+    if (0U < num_elements) {
         uint16_t next_byte;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH;
         uint16_t src         = (uint16_t)(*src_ptr);
         src_ptr++;
-        while (0u != num_elements) {
-            if (5u > bits_in_buf) {
+        while (0U != num_elements) {
+            if (5U > bits_in_buf) {
                 next_byte = (uint16_t)(*src_ptr);
                 src_ptr++;
                 next_byte = next_byte << bits_in_buf;
@@ -816,8 +816,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
                 bits_in_buf += OWN_BYTE_WIDTH;
             }
             *dst_ptr = (uint8_t)(src & mask);
-            src      = src >> 5u;
-            bits_in_buf -= 5u;
+            src      = src >> 5U;
+            bits_in_buf -= 5U;
             dst_ptr++;
             num_elements--;
         }
@@ -828,14 +828,14 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
 
 OWN_QPLC_INLINE(void, px_qplc_unpack_6u8u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    uint16_t mask = OWN_BIT_MASK(6u);
+    uint16_t mask = OWN_BIT_MASK(6U);
     uint16_t next_byte;
     uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
     uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
     src_ptr++;
 
-    while (0u < num_elements) {
-        if (6u > bits_in_buf) {
+    while (0U < num_elements) {
+        if (6U > bits_in_buf) {
             next_byte = (uint16_t)(*src_ptr);
             src_ptr++;
             next_byte = next_byte << bits_in_buf;
@@ -843,8 +843,8 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_6u8u,
             bits_in_buf += OWN_BYTE_WIDTH;
         }
         *dst_ptr = (uint8_t)(src & mask);
-        src      = src >> 6u;
-        bits_in_buf -= 6u;
+        src      = src >> 6U;
+        bits_in_buf -= 6U;
         dst_ptr++;
         num_elements--;
     }
@@ -852,31 +852,31 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_6u8u,
 
 OWN_OPT_FUN(void, k0_qplc_unpack_6u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (0u < start_bit) {
-        uint32_t align = own_get_align(start_bit, 6u, 8u);
+    if (0U < start_bit) {
+        uint32_t align = own_get_align(start_bit, 6U, 8U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_unpack_6u8u(src_ptr, align, start_bit, dst_ptr);
-        src_ptr += ((align * 6u) + start_bit) >> 3u;
+        src_ptr += ((align * 6U) + start_bit) >> 3U;
         dst_ptr += align;
         num_elements -= align;
     }
 
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = 0xFFFFFFFFFFFF;
         __m512i   parse_mask = _mm512_set1_epi8(0x3F);
         __m512i   permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(p_permutex_masks_6u);
-        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_6u + 16u);
+        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_6u + 16U);
 
         __m512i shift_mask_ptr[2];
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_6u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_6u_1);
 
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0, srcmm1, zmm[2];
 
             srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
-            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1u, src_ptr + 1u);
+            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1U, src_ptr + 1U);
 
             // permuting so in zmm[0] will be elements with even indexes and in zmm[1] - with odd ones
             zmm[0] = _mm512_permutex2var_epi16(srcmm0, permutex_idx_ptr[0], srcmm1);
@@ -892,27 +892,27 @@ OWN_OPT_FUN(void, k0_qplc_unpack_6u8u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 8u * 6u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 6U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_6u8u(src_ptr, num_elements, 0u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_6u8u(src_ptr, num_elements, 0U, dst_ptr); }
 }
 
 // ********************** 7u ****************************** //
 
 OWN_QPLC_INLINE(void, px_qplc_unpack_7u8u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    uint16_t mask = OWN_BIT_MASK(7u);
+    uint16_t mask = OWN_BIT_MASK(7U);
     uint16_t next_byte;
     uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
     uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
     src_ptr++;
 
-    while (0u < num_elements) {
-        if (7u > bits_in_buf) {
+    while (0U < num_elements) {
+        if (7U > bits_in_buf) {
             next_byte = (uint16_t)(*src_ptr);
             src_ptr++;
             next_byte = next_byte << bits_in_buf;
@@ -920,8 +920,8 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_7u8u,
             bits_in_buf += OWN_BYTE_WIDTH;
         }
         *dst_ptr = (uint8_t)(src & mask);
-        src      = src >> 7u;
-        bits_in_buf -= 7u;
+        src      = src >> 7U;
+        bits_in_buf -= 7U;
         dst_ptr++;
         num_elements--;
     }
@@ -929,31 +929,31 @@ OWN_QPLC_INLINE(void, px_qplc_unpack_7u8u,
 
 OWN_OPT_FUN(void, k0_qplc_unpack_7u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    if (0u < start_bit) {
-        uint32_t align = own_get_align(start_bit, 7u, 8u);
+    if (0U < start_bit) {
+        uint32_t align = own_get_align(start_bit, 7U, 8U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_unpack_7u8u(src_ptr, align, start_bit, dst_ptr);
-        src_ptr += ((align * 7u) + start_bit) >> 3u;
+        src_ptr += ((align * 7U) + start_bit) >> 3U;
         dst_ptr += align;
         num_elements -= align;
     }
 
-    if (num_elements >= 64u) {
+    if (num_elements >= 64U) {
         __mmask64 read_mask  = 0xFFFFFFFFFFFFFF;
         __m512i   parse_mask = _mm512_set1_epi8(0x7F);
         __m512i   permutex_idx_ptr[2];
         permutex_idx_ptr[0] = _mm512_load_si512(p_permutex_masks_7u);
-        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_7u + 16u);
+        permutex_idx_ptr[1] = _mm512_load_si512(p_permutex_masks_7u + 16U);
 
         __m512i shift_mask_ptr[2];
         shift_mask_ptr[0] = _mm512_load_si512(shift_table_7u_0);
         shift_mask_ptr[1] = _mm512_load_si512(shift_table_7u_1);
 
-        while (num_elements >= 64u) {
+        while (num_elements >= 64U) {
             __m512i srcmm0, srcmm1, zmm[2];
 
             srcmm0 = _mm512_maskz_loadu_epi8(read_mask, src_ptr);
-            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1u, src_ptr + 1u);
+            srcmm1 = _mm512_maskz_loadu_epi8(read_mask >> 1U, src_ptr + 1U);
 
             // permuting so in zmm[0] will be elements with even indexes and in zmm[1] - with odd ones
             zmm[0] = _mm512_permutex2var_epi16(srcmm0, permutex_idx_ptr[0], srcmm1);
@@ -969,13 +969,13 @@ OWN_OPT_FUN(void, k0_qplc_unpack_7u8u,
 
             _mm512_storeu_si512(dst_ptr, zmm[0]);
 
-            src_ptr += 8u * 7u;
-            dst_ptr += 64u;
-            num_elements -= 64u;
+            src_ptr += 8U * 7U;
+            dst_ptr += 64U;
+            num_elements -= 64U;
         }
     }
 
-    if (num_elements > 0) { px_qplc_unpack_7u8u(src_ptr, num_elements, 0u, dst_ptr); }
+    if (num_elements > 0) { px_qplc_unpack_7u8u(src_ptr, num_elements, 0U, dst_ptr); }
 }
 
 #endif

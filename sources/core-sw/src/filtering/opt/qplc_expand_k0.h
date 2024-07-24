@@ -32,7 +32,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_8u,
     __mmask16 msk_remind;
     uint32_t  length_2 = *length_2_ptr;
     uint32_t  remind   = length_2 & 15;
-    uint32_t  expanded = 0u;
+    uint32_t  expanded = 0U;
     uint32_t  idx;
 
     if (length_1 >= length_2) {
@@ -100,7 +100,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_8u,
                 OWN_CONDITION_BREAK(expanded >= length_1);
                 dst_ptr[idx] = src1_ptr[expanded++];
             } else {
-                dst_ptr[idx] = 0u;
+                dst_ptr[idx] = 0U;
             }
         }
         *length_2_ptr -= idx;
@@ -123,7 +123,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_16u,
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
     uint32_t  length_2    = *length_2_ptr;
     uint32_t  remind      = length_2 & 15;
-    uint32_t  expanded    = 0u;
+    uint32_t  expanded    = 0U;
     uint32_t  idx;
 
     if (length_1 >= length_2) {
@@ -193,7 +193,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_16u,
                 OWN_CONDITION_BREAK(expanded >= length_1);
                 dst_16u_ptr[idx] = src_16u_ptr[expanded++];
             } else {
-                dst_16u_ptr[idx] = 0u;
+                dst_16u_ptr[idx] = 0U;
             }
         }
         *length_2_ptr -= idx;
@@ -215,7 +215,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_32u,
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
     uint32_t  length_2    = *length_2_ptr;
     uint32_t  remind      = length_2 & 15;
-    uint32_t  expanded    = 0u;
+    uint32_t  expanded    = 0U;
     uint32_t  idx;
 
     if (length_1 >= length_2) {
@@ -277,7 +277,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_32u,
                 OWN_CONDITION_BREAK(expanded >= length_1);
                 dst_32u_ptr[idx] = src_32u_ptr[expanded++];
             } else {
-                dst_32u_ptr[idx] = 0u;
+                dst_32u_ptr[idx] = 0U;
             }
         }
         *length_2_ptr -= idx;

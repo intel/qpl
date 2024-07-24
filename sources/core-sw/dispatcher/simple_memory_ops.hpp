@@ -16,7 +16,7 @@ namespace qpl::core_sw::util {
 template <class input_iterator_t, class output_iterator_t>
 inline void copy(const input_iterator_t source_begin, const input_iterator_t source_end,
                  output_iterator_t destination) noexcept {
-    constexpr auto default_bit_width = 8u;
+    constexpr auto default_bit_width = 8U;
 
     // Check if we've got valid iterators
     static_assert(std::is_same<typename std::iterator_traits<input_iterator_t>::iterator_category,
@@ -49,7 +49,7 @@ inline void copy(const input_iterator_t source_begin, const input_iterator_t sou
 template <class input_iterator_t, class output_iterator_t>
 inline void move(const input_iterator_t source_begin, const input_iterator_t source_end,
                  output_iterator_t destination) noexcept {
-    constexpr auto default_bit_width = 8u;
+    constexpr auto default_bit_width = 8U;
 
     // Check if we've got valid iterators
     static_assert(std::is_same<typename std::iterator_traits<input_iterator_t>::iterator_category,
@@ -81,7 +81,7 @@ inline void move(const input_iterator_t source_begin, const input_iterator_t sou
 
 template <class output_iterator_t>
 inline void set_zeros(output_iterator_t destination_begin, size_t destination_bytes_length) noexcept {
-    const auto set_zero_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_zero_table()[0u];
+    const auto set_zero_kernel = core_sw::dispatcher::kernels_dispatcher::get_instance().get_zero_table()[0U];
     set_zero_kernel(reinterpret_cast<uint8_t*>(destination_begin), static_cast<uint32_t>(destination_bytes_length));
 }
 

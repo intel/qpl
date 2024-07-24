@@ -36,350 +36,350 @@
 // *********************** Masks  ****************************** //
 
 // ----------------------- 32u17u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_0[16]) = {0u,  2u,  4u,  6u,  8u,  10u, 12u, 14u,
-                                                                      0x0, 17u, 19u, 21u, 23u, 25u, 27u, 29u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_1[16]) = {1u,  3u,  5u,  7u,  9u,  11u, 13u, 15u,
-                                                                      16u, 18u, 20u, 22u, 24u, 26u, 28u, 30u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_2[16]) = {0x0, 1u,  3u,  5u,  7u,  9u,  11u, 13u,
-                                                                      15u, 16u, 18u, 20u, 22u, 24u, 26u, 28u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_3[16]) = {15u, 16u, 18u, 20u, 22u, 24u, 26u, 28u,
-                                                                      30u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_4[16]) = {0x0, 17u, 19u, 21u, 23u, 25u, 27u, 29u,
-                                                                      31u, 32u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_5[16]) = {14u, 0x0, 17u, 19u, 21u, 23u, 25u, 27u,
-                                                                      29u, 31u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_0[16]) = {0U,  2U,  4U,  6U,  8U,  10U, 12U, 14U,
+                                                                      0x0, 17U, 19U, 21U, 23U, 25U, 27U, 29U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_1[16]) = {1U,  3U,  5U,  7U,  9U,  11U, 13U, 15U,
+                                                                      16U, 18U, 20U, 22U, 24U, 26U, 28U, 30U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_2[16]) = {0x0, 1U,  3U,  5U,  7U,  9U,  11U, 13U,
+                                                                      15U, 16U, 18U, 20U, 22U, 24U, 26U, 28U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_3[16]) = {15U, 16U, 18U, 20U, 22U, 24U, 26U, 28U,
+                                                                      30U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_4[16]) = {0x0, 17U, 19U, 21U, 23U, 25U, 27U, 29U,
+                                                                      31U, 32U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_17u_5[16]) = {14U, 0x0, 17U, 19U, 21U, 23U, 25U, 27U,
+                                                                      29U, 31U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_17u_ptr[6]                         = {0xFEFF, 0xFFFF, 0xFFFE, 0x01FF, 0x03FE, 0x03FD};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_0[16]) = {0u, 2u, 4u, 6u, 8u, 10u, 12u, 14u,
-                                                                    0u, 1u, 3u, 5u, 7u, 9u,  11u, 13u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_1[16]) = {17u, 19u, 21u, 23u, 25u, 27u, 29u, 31u,
-                                                                    16u, 18u, 20u, 22u, 24u, 26u, 28u, 30u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_2[16]) = {0u, 15u, 13u, 11u, 9u,  7u, 5u, 3u,
-                                                                    1u, 16u, 14u, 12u, 10u, 8u, 6u, 4u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_3[16]) = {15u, 0u, 2u,  4u,  6u,  8u,  10u, 12u,
-                                                                    14u, 0u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_4[16]) = {0u,  17u, 19u, 21u, 23u, 25u, 27u, 29u,
-                                                                    31u, 16u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_5[16]) = {2u, 0u, 15u, 13u, 11u, 9u,  7u,  5u,
-                                                                    3u, 1u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_0[16]) = {0U, 2U, 4U, 6U, 8U, 10U, 12U, 14U,
+                                                                    0U, 1U, 3U, 5U, 7U, 9U,  11U, 13U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_1[16]) = {17U, 19U, 21U, 23U, 25U, 27U, 29U, 31U,
+                                                                    16U, 18U, 20U, 22U, 24U, 26U, 28U, 30U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_2[16]) = {0U, 15U, 13U, 11U, 9U,  7U, 5U, 3U,
+                                                                    1U, 16U, 14U, 12U, 10U, 8U, 6U, 4U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_3[16]) = {15U, 0U, 2U,  4U,  6U,  8U,  10U, 12U,
+                                                                    14U, 0U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_4[16]) = {0U,  17U, 19U, 21U, 23U, 25U, 27U, 29U,
+                                                                    31U, 16U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_17u_5[16]) = {2U, 0U, 15U, 13U, 11U, 9U,  7U,  5U,
+                                                                    3U, 1U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 // ----------------------- 32u18u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_0[16]) = {0u,  2u,  4u,  6u,  0x0, 9u,  11u, 13u,
-                                                                      15u, 16u, 18u, 20u, 22u, 0x0, 25u, 27u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_1[16]) = {1u,  3u,  5u,  7u,  8u,  10u, 12u, 14u,
-                                                                      0x0, 17u, 19u, 21u, 23u, 24u, 26u, 28u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_2[16]) = {0x0, 1u,  3u,  5u,  7u,  8u,  10u, 12u,
-                                                                      14u, 0x0, 17u, 19u, 21u, 23u, 24u, 26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_3[16]) = {13u, 15u, 16u, 18u, 20u, 22u, 0x0, 25u,
-                                                                      27u, 29u, 31u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_4[16]) = {14u, 0x0, 17u, 19u, 21u, 23u, 24u, 26u,
-                                                                      28u, 30u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_5[16]) = {12u, 14u, 0x0, 17u, 19u, 21u, 23u, 24u,
-                                                                      26u, 28u, 30u, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_0[16]) = {0U,  2U,  4U,  6U,  0x0, 9U,  11U, 13U,
+                                                                      15U, 16U, 18U, 20U, 22U, 0x0, 25U, 27U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_1[16]) = {1U,  3U,  5U,  7U,  8U,  10U, 12U, 14U,
+                                                                      0x0, 17U, 19U, 21U, 23U, 24U, 26U, 28U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_2[16]) = {0x0, 1U,  3U,  5U,  7U,  8U,  10U, 12U,
+                                                                      14U, 0x0, 17U, 19U, 21U, 23U, 24U, 26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_3[16]) = {13U, 15U, 16U, 18U, 20U, 22U, 0x0, 25U,
+                                                                      27U, 29U, 31U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_4[16]) = {14U, 0x0, 17U, 19U, 21U, 23U, 24U, 26U,
+                                                                      28U, 30U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_18u_5[16]) = {12U, 14U, 0x0, 17U, 19U, 21U, 23U, 24U,
+                                                                      26U, 28U, 30U, 0x0, 0x0, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_18u_ptr[6]                         = {0xDFEF, 0xFEFF, 0xFDFE, 0x07BF, 0x03FD, 0x07FB};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_0[16]) = {0u,  4u, 8u, 12u, 0u,  2u, 6u, 10u,
-                                                                    14u, 0u, 4u, 8u,  12u, 0u, 2u, 6u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_1[16]) = {18u, 22u, 26u, 30u, 16u, 20u, 24u, 28u,
-                                                                    0u,  18u, 22u, 26u, 30u, 16u, 20u, 24u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_2[16]) = {0u, 14u, 10u, 6u,  2u, 16u, 12u, 8u,
-                                                                    4u, 0u,  14u, 10u, 6u, 2u,  16u, 12u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_3[16]) = {10u, 14u, 0u,  4u,  8u,  12u, 0u,  2u,
-                                                                    6u,  10u, 14u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_4[16]) = {28u, 0u,  18u, 22u, 26u, 30u, 16u, 20u,
-                                                                    24u, 28u, 0u,  0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_5[16]) = {8u,  4u, 0u, 14u, 10u, 6u,  2u,  16u,
-                                                                    12u, 8u, 4u, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_0[16]) = {0U,  4U, 8U, 12U, 0U,  2U, 6U, 10U,
+                                                                    14U, 0U, 4U, 8U,  12U, 0U, 2U, 6U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_1[16]) = {18U, 22U, 26U, 30U, 16U, 20U, 24U, 28U,
+                                                                    0U,  18U, 22U, 26U, 30U, 16U, 20U, 24U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_2[16]) = {0U, 14U, 10U, 6U,  2U, 16U, 12U, 8U,
+                                                                    4U, 0U,  14U, 10U, 6U, 2U,  16U, 12U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_3[16]) = {10U, 14U, 0U,  4U,  8U,  12U, 0U,  2U,
+                                                                    6U,  10U, 14U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_4[16]) = {28U, 0U,  18U, 22U, 26U, 30U, 16U, 20U,
+                                                                    24U, 28U, 0U,  0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_18u_5[16]) = {8U,  4U, 0U, 14U, 10U, 6U,  2U,  16U,
+                                                                    12U, 8U, 4U, 0x0, 0x0, 0x0, 0x0, 0x0};
 
 // ----------------------- 32u19u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_0[16]) = {0u,  2u,  4u,  0x0, 7u,  9u,  0x0, 12u,
-                                                                      14u, 0x0, 17u, 19u, 21u, 22u, 24u, 26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_1[16]) = {1u,  3u,  5u,  6u,  8u,  10u, 11u, 13u,
-                                                                      15u, 16u, 18u, 20u, 0x0, 23u, 25u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_2[16]) = {0x0, 1u,  3u,  5u,  6u,  8u,  10u, 11u,
-                                                                      13u, 15u, 16u, 18u, 20u, 21u, 23u, 25u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_3[16]) = {11u, 13u, 15u, 16u, 18u, 20u, 0x0, 23u,
-                                                                      25u, 0x0, 28u, 30u, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_4[16]) = {12u, 14u, 0x0, 17u, 19u, 21u, 22u, 24u,
-                                                                      26u, 27u, 29u, 31u, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_5[16]) = {10u, 12u, 14u, 0x0, 17u, 19u, 21u, 22u,
-                                                                      24u, 26u, 27u, 29u, 31u, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_0[16]) = {0U,  2U,  4U,  0x0, 7U,  9U,  0x0, 12U,
+                                                                      14U, 0x0, 17U, 19U, 21U, 22U, 24U, 26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_1[16]) = {1U,  3U,  5U,  6U,  8U,  10U, 11U, 13U,
+                                                                      15U, 16U, 18U, 20U, 0x0, 23U, 25U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_2[16]) = {0x0, 1U,  3U,  5U,  6U,  8U,  10U, 11U,
+                                                                      13U, 15U, 16U, 18U, 20U, 21U, 23U, 25U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_3[16]) = {11U, 13U, 15U, 16U, 18U, 20U, 0x0, 23U,
+                                                                      25U, 0x0, 28U, 30U, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_4[16]) = {12U, 14U, 0x0, 17U, 19U, 21U, 22U, 24U,
+                                                                      26U, 27U, 29U, 31U, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_19u_5[16]) = {10U, 12U, 14U, 0x0, 17U, 19U, 21U, 22U,
+                                                                      24U, 26U, 27U, 29U, 31U, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_19u_ptr[6]                         = {0xFDB7, 0x6FFF, 0xFFFE, 0x0DBF, 0x0FFB, 0x1FF7};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_0[16]) = {0u,  6u, 12u, 0u, 5u,  11u, 0u, 4u,
-                                                                    10u, 0u, 3u,  9u, 15u, 2u,  8u, 14u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_1[16]) = {19u, 25u, 31u, 18u, 24u, 30u, 17u, 23u,
-                                                                    29u, 16u, 22u, 28u, 0u,  21u, 27u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_2[16]) = {0u, 13u, 7u,  1u,  14u, 8u,  2u,  15u,
-                                                                    9u, 3u,  16u, 10u, 4u,  17u, 11u, 5u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_3[16]) = {1u,  7u, 13u, 0u,  6u, 12u, 0u,  5u,
-                                                                    11u, 0u, 4u,  10u, 0u, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_4[16]) = {20u, 26u, 0u,  19u, 25u, 31u, 18u, 24u,
-                                                                    30u, 17u, 23u, 29u, 0u,  0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_5[16]) = {18u, 12u, 6u,  0u, 13u, 7u,  1u,  14u,
-                                                                    8u,  2u,  15u, 9u, 3u,  0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_0[16]) = {0U,  6U, 12U, 0U, 5U,  11U, 0U, 4U,
+                                                                    10U, 0U, 3U,  9U, 15U, 2U,  8U, 14U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_1[16]) = {19U, 25U, 31U, 18U, 24U, 30U, 17U, 23U,
+                                                                    29U, 16U, 22U, 28U, 0U,  21U, 27U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_2[16]) = {0U, 13U, 7U,  1U,  14U, 8U,  2U,  15U,
+                                                                    9U, 3U,  16U, 10U, 4U,  17U, 11U, 5U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_3[16]) = {1U,  7U, 13U, 0U,  6U, 12U, 0U,  5U,
+                                                                    11U, 0U, 4U,  10U, 0U, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_4[16]) = {20U, 26U, 0U,  19U, 25U, 31U, 18U, 24U,
+                                                                    30U, 17U, 23U, 29U, 0U,  0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_19u_5[16]) = {18U, 12U, 6U,  0U, 13U, 7U,  1U,  14U,
+                                                                    8U,  2U,  15U, 9U, 3U,  0x0, 0x0, 0x0};
 
 // ----------------------- 32u20u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_0[16]) = {0u,  2u,  0x0, 5u,  7u,  8u,  10u, 0x0,
-                                                                      13u, 15u, 16u, 18u, 0x0, 21u, 23u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_1[16]) = {1u,  3u,  4u,  6u,  0x0, 9u,  11u, 12u,
-                                                                      14u, 0x0, 17u, 19u, 20u, 22u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_2[16]) = {0x0, 1u,  3u,  4u,  6u,  0x0, 9u,  11u,
-                                                                      12u, 14u, 0x0, 17u, 19u, 20u, 22u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_3[16]) = {8u,  10u, 0x0, 13u, 15u, 16u, 18u, 0x0,
-                                                                      21u, 23u, 24u, 26u, 0x0, 29u, 31u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_4[16]) = {9u,  11u, 12u, 14u, 0x0, 17u, 19u, 20u,
-                                                                      22u, 0x0, 25u, 27u, 28u, 30u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_5[16]) = {0x0, 9u,  11u, 12u, 14u, 0x0, 17u, 19u,
-                                                                      20u, 22u, 0x0, 25u, 27u, 28u, 30u, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_0[16]) = {0U,  2U,  0x0, 5U,  7U,  8U,  10U, 0x0,
+                                                                      13U, 15U, 16U, 18U, 0x0, 21U, 23U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_1[16]) = {1U,  3U,  4U,  6U,  0x0, 9U,  11U, 12U,
+                                                                      14U, 0x0, 17U, 19U, 20U, 22U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_2[16]) = {0x0, 1U,  3U,  4U,  6U,  0x0, 9U,  11U,
+                                                                      12U, 14U, 0x0, 17U, 19U, 20U, 22U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_3[16]) = {8U,  10U, 0x0, 13U, 15U, 16U, 18U, 0x0,
+                                                                      21U, 23U, 24U, 26U, 0x0, 29U, 31U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_4[16]) = {9U,  11U, 12U, 14U, 0x0, 17U, 19U, 20U,
+                                                                      22U, 0x0, 25U, 27U, 28U, 30U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_20u_5[16]) = {0x0, 9U,  11U, 12U, 14U, 0x0, 17U, 19U,
+                                                                      20U, 22U, 0x0, 25U, 27U, 28U, 30U, 0x0};
 static __mmask16 permutex_masks_20u_ptr[3]                         = {0x6F7B, 0x3DEF, 0x7BDE};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_0[16]) = {0u, 8u,  0u, 4u, 12u, 0u, 8u,  0u,
-                                                                    4u, 12u, 0u, 8u, 0u,  4u, 12u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_1[16]) = {20u, 28u, 16u, 24u, 0u,  20u, 28u, 16u,
-                                                                    24u, 0u,  20u, 28u, 16u, 24u, 0u,  0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_2[16]) = {0u,  12u, 4u, 16u, 8u, 0u,  12u, 4u,
-                                                                    16u, 8u,  0u, 12u, 4u, 16u, 8u,  0u};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_0[16]) = {0U, 8U,  0U, 4U, 12U, 0U, 8U,  0U,
+                                                                    4U, 12U, 0U, 8U, 0U,  4U, 12U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_1[16]) = {20U, 28U, 16U, 24U, 0U,  20U, 28U, 16U,
+                                                                    24U, 0U,  20U, 28U, 16U, 24U, 0U,  0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_20u_2[16]) = {0U,  12U, 4U, 16U, 8U, 0U,  12U, 4U,
+                                                                    16U, 8U,  0U, 12U, 4U, 16U, 8U,  0U};
 
 // ----------------------- 32u21u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_0[16]) = {0u,  2u,  0x0, 5u,  0x0, 8u,  0x0, 11u,
-                                                                      0x0, 14u, 0x0, 17u, 19u, 20u, 22u, 23u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_1[16]) = {1u,  3u,  4u,  6u,  7u,  9u,  10u, 12u,
-                                                                      13u, 15u, 16u, 18u, 0x0, 21u, 0x0, 24u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_2[16]) = {0x0, 1u,  3u,  4u,  6u,  7u,  9u,  10u,
-                                                                      12u, 13u, 15u, 16u, 18u, 19u, 21u, 22u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_3[16]) = {9u,  10u, 12u, 13u, 15u, 16u, 18u, 0x0,
-                                                                      21u, 0x0, 24u, 0x0, 27u, 0x0, 30u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_4[16]) = {0x0, 11u, 0x0, 14u, 0x0, 17u, 19u, 20u,
-                                                                      22u, 23u, 25u, 26u, 28u, 29u, 31u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_5[16]) = {8u,  9u,  11u, 12u, 14u, 0x0, 17u, 19u,
-                                                                      20u, 22u, 23u, 25u, 26u, 28u, 29u, 31u};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_0[16]) = {0U,  2U,  0x0, 5U,  0x0, 8U,  0x0, 11U,
+                                                                      0x0, 14U, 0x0, 17U, 19U, 20U, 22U, 23U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_1[16]) = {1U,  3U,  4U,  6U,  7U,  9U,  10U, 12U,
+                                                                      13U, 15U, 16U, 18U, 0x0, 21U, 0x0, 24U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_2[16]) = {0x0, 1U,  3U,  4U,  6U,  7U,  9U,  10U,
+                                                                      12U, 13U, 15U, 16U, 18U, 19U, 21U, 22U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_3[16]) = {9U,  10U, 12U, 13U, 15U, 16U, 18U, 0x0,
+                                                                      21U, 0x0, 24U, 0x0, 27U, 0x0, 30U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_4[16]) = {0x0, 11U, 0x0, 14U, 0x0, 17U, 19U, 20U,
+                                                                      22U, 23U, 25U, 26U, 28U, 29U, 31U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_21u_5[16]) = {8U,  9U,  11U, 12U, 14U, 0x0, 17U, 19U,
+                                                                      20U, 22U, 23U, 25U, 26U, 28U, 29U, 31U};
 static __mmask16 permutex_masks_21u_ptr[6]                         = {0xFAAB, 0xAFFF, 0xFFFE, 0x557F, 0x7FEA, 0xFFDF};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_0[16]) = {0u, 10u, 0u, 9u, 0u,  8u, 0u,  7u,
-                                                                    0u, 6u,  0u, 5u, 15u, 4u, 14u, 3u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_1[16]) = {21u, 31u, 20u, 30u, 19u, 29u, 18u, 28u,
-                                                                    17u, 27u, 16u, 26u, 0u,  25u, 0u,  24u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_2[16]) = {0u, 11u, 1u, 12u, 2u, 13u, 3u, 14u,
-                                                                    4u, 15u, 5u, 16u, 6u, 17u, 7u, 18u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_3[16]) = {13u, 2u, 12u, 1u, 11u, 0u, 10u, 0u,
-                                                                    9u,  0u, 8u,  0u, 7u,  0u, 6u,  0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_4[16]) = {0u,  23u, 0u,  22u, 0u,  21u, 31u, 20u,
-                                                                    30u, 19u, 29u, 18u, 28u, 17u, 27u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_5[16]) = {8u,  19u, 9u,  20u, 10u, 0u, 11u, 1u,
-                                                                    12u, 2u,  13u, 3u,  14u, 4u, 15u, 5u};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_0[16]) = {0U, 10U, 0U, 9U, 0U,  8U, 0U,  7U,
+                                                                    0U, 6U,  0U, 5U, 15U, 4U, 14U, 3U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_1[16]) = {21U, 31U, 20U, 30U, 19U, 29U, 18U, 28U,
+                                                                    17U, 27U, 16U, 26U, 0U,  25U, 0U,  24U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_2[16]) = {0U, 11U, 1U, 12U, 2U, 13U, 3U, 14U,
+                                                                    4U, 15U, 5U, 16U, 6U, 17U, 7U, 18U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_3[16]) = {13U, 2U, 12U, 1U, 11U, 0U, 10U, 0U,
+                                                                    9U,  0U, 8U,  0U, 7U,  0U, 6U,  0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_4[16]) = {0U,  23U, 0U,  22U, 0U,  21U, 31U, 20U,
+                                                                    30U, 19U, 29U, 18U, 28U, 17U, 27U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_21u_5[16]) = {8U,  19U, 9U,  20U, 10U, 0U, 11U, 1U,
+                                                                    12U, 2U,  13U, 3U,  14U, 4U, 15U, 5U};
 
 // ----------------------- 32u22u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_0[16]) = {0u,  2u,  3u,  5u,  6u,  0x0, 9u,  0x0,
-                                                                      12u, 0x0, 15u, 16u, 18u, 19u, 21u, 22u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_1[16]) = {1u,  0x0, 4u,  0x0, 7u,  8u,  10u, 11u,
-                                                                      13u, 14u, 0x0, 17u, 0x0, 20u, 0x0, 23u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_2[16]) = {0x0, 1u,  2u,  4u,  5u,  7u,  8u,  10u,
-                                                                      11u, 13u, 14u, 0x0, 17u, 18u, 20u, 21u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_3[16]) = {0x0, 9u,  0x0, 12u, 0x0, 15u, 16u, 18u,
-                                                                      19u, 21u, 22u, 0x0, 25u, 0x0, 28u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_4[16]) = {8u,  10u, 11u, 13u, 14u, 0x0, 17u, 0x0,
-                                                                      20u, 0x0, 23u, 24u, 26u, 27u, 29u, 30u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_5[16]) = {7u,  8u,  10u, 11u, 13u, 14u, 0x0, 17u,
-                                                                      18u, 20u, 21u, 23u, 24u, 26u, 27u, 29u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_6[16]) = {15u, 16u, 18u, 19u, 21u, 22u, 0x0, 25u,
-                                                                      0x0, 28u, 0x0, 31u, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_7[16]) = {0x0, 17u, 0x0, 20u, 0x0, 23u, 24u, 26u,
-                                                                      27u, 29u, 30u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_8[16]) = {14u, 0x0, 17u, 18u, 20u, 21u, 23u, 24u,
-                                                                      26u, 27u, 29u, 30u, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_0[16]) = {0U,  2U,  3U,  5U,  6U,  0x0, 9U,  0x0,
+                                                                      12U, 0x0, 15U, 16U, 18U, 19U, 21U, 22U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_1[16]) = {1U,  0x0, 4U,  0x0, 7U,  8U,  10U, 11U,
+                                                                      13U, 14U, 0x0, 17U, 0x0, 20U, 0x0, 23U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_2[16]) = {0x0, 1U,  2U,  4U,  5U,  7U,  8U,  10U,
+                                                                      11U, 13U, 14U, 0x0, 17U, 18U, 20U, 21U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_3[16]) = {0x0, 9U,  0x0, 12U, 0x0, 15U, 16U, 18U,
+                                                                      19U, 21U, 22U, 0x0, 25U, 0x0, 28U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_4[16]) = {8U,  10U, 11U, 13U, 14U, 0x0, 17U, 0x0,
+                                                                      20U, 0x0, 23U, 24U, 26U, 27U, 29U, 30U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_5[16]) = {7U,  8U,  10U, 11U, 13U, 14U, 0x0, 17U,
+                                                                      18U, 20U, 21U, 23U, 24U, 26U, 27U, 29U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_6[16]) = {15U, 16U, 18U, 19U, 21U, 22U, 0x0, 25U,
+                                                                      0x0, 28U, 0x0, 31U, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_7[16]) = {0x0, 17U, 0x0, 20U, 0x0, 23U, 24U, 26U,
+                                                                      27U, 29U, 30U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_22u_8[16]) = {14U, 0x0, 17U, 18U, 20U, 21U, 23U, 24U,
+                                                                      26U, 27U, 29U, 30U, 0x0, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_22u_ptr[9] = {0xFD5F, 0xABF5, 0xF7FE, 0x57EA, 0xFD5F, 0xFFBF, 0x0ABF, 0x07EA, 0x0FFD};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_0[16]) = {0u, 12u, 2u,  14u, 4u,  0u, 6u,  0u,
-                                                                    8u, 9u,  10u, 0u,  12u, 2u, 14u, 4u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_1[16]) = {22u, 0u,  24u, 0u,  26u, 16u, 28u, 18u,
-                                                                    30u, 20u, 0u,  22u, 0u,  24u, 0u,  26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_2[16]) = {0u,  10u, 20u, 8u, 18u, 6u,  16u, 4u,
-                                                                    14u, 2u,  12u, 0u, 10u, 20u, 8u,  18u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_3[16]) = {0u, 6u,  0u, 8u, 9u, 10u, 0u, 12u,
-                                                                    2u, 14u, 4u, 0u, 6u, 0u,  8u, 9u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_4[16]) = {16u, 28u, 18u, 30u, 20u, 0u,  22u, 0u,
-                                                                    24u, 0u,  26u, 16u, 28u, 18u, 30u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_5[16]) = {6u,  16u, 4u,  14u, 2u,  12u, 0u,  10u,
-                                                                    20u, 8u,  18u, 6u,  16u, 4u,  14u, 2u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_6[16]) = {10u, 0u, 12u, 2u,  14u, 4u,  0u,  6u,
-                                                                    0u,  8u, 9u,  10u, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_7[16]) = {0u,  22u, 0u,  24u, 0u,  26u, 16u, 28u,
-                                                                    18u, 30u, 20u, 0u,  0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_8[16]) = {12u, 0u,  10u, 20u, 8u,  18u, 6u,  16u,
-                                                                    4u,  14u, 2u,  12u, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_0[16]) = {0U, 12U, 2U,  14U, 4U,  0U, 6U,  0U,
+                                                                    8U, 9U,  10U, 0U,  12U, 2U, 14U, 4U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_1[16]) = {22U, 0U,  24U, 0U,  26U, 16U, 28U, 18U,
+                                                                    30U, 20U, 0U,  22U, 0U,  24U, 0U,  26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_2[16]) = {0U,  10U, 20U, 8U, 18U, 6U,  16U, 4U,
+                                                                    14U, 2U,  12U, 0U, 10U, 20U, 8U,  18U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_3[16]) = {0U, 6U,  0U, 8U, 9U, 10U, 0U, 12U,
+                                                                    2U, 14U, 4U, 0U, 6U, 0U,  8U, 9U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_4[16]) = {16U, 28U, 18U, 30U, 20U, 0U,  22U, 0U,
+                                                                    24U, 0U,  26U, 16U, 28U, 18U, 30U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_5[16]) = {6U,  16U, 4U,  14U, 2U,  12U, 0U,  10U,
+                                                                    20U, 8U,  18U, 6U,  16U, 4U,  14U, 2U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_6[16]) = {10U, 0U, 12U, 2U,  14U, 4U,  0U,  6U,
+                                                                    0U,  8U, 9U,  10U, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_7[16]) = {0U,  22U, 0U,  24U, 0U,  26U, 16U, 28U,
+                                                                    18U, 30U, 20U, 0U,  0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_22u_8[16]) = {12U, 0U,  10U, 20U, 8U,  18U, 6U,  16U,
+                                                                    4U,  14U, 2U,  12U, 0x0, 0x0, 0x0, 0x0};
 
 // ----------------------- 32u23u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_0[16]) = {0u,  2u,  3u,  0x0, 6u,  7u,  9u,  10u,
-                                                                      0x0, 13u, 14u, 0x0, 17u, 0x0, 20u, 21u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_1[16]) = {1u,  0x0, 4u,  5u,  0x0, 8u,  0x0, 11u,
-                                                                      12u, 0x0, 15u, 16u, 18u, 19u, 0x0, 22u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_2[16]) = {0x0, 1u,  2u,  4u,  5u,  6u,  8u,  9u,
-                                                                      11u, 12u, 13u, 15u, 16u, 18u, 19u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_3[16]) = {0x0, 8u,  0x0, 11u, 12u, 0x0, 15u, 16u,
-                                                                      18u, 19u, 0x0, 22u, 23u, 25u, 26u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_4[16]) = {7u,  9u,  10u, 0x0, 13u, 14u, 0x0, 17u,
-                                                                      0x0, 20u, 21u, 0x0, 24u, 0x0, 27u, 28u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_5[16]) = {6u,  7u,  9u,  10u, 11u, 13u, 14u, 0x0,
-                                                                      17u, 18u, 20u, 21u, 22u, 24u, 25u, 27u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_6[16]) = {13u, 14u, 0x0, 17u, 0x0, 20u, 21u, 0x0,
-                                                                      24u, 0x0, 27u, 28u, 0x0, 31u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_7[16]) = {0x0, 15u, 16u, 18u, 19u, 0x0, 22u, 23u,
-                                                                      25u, 26u, 0x0, 29u, 30u, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_8[16]) = {12u, 13u, 15u, 16u, 18u, 19u, 20u, 22u,
-                                                                      23u, 25u, 26u, 27u, 29u, 30u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_0[16]) = {0U,  2U,  3U,  0x0, 6U,  7U,  9U,  10U,
+                                                                      0x0, 13U, 14U, 0x0, 17U, 0x0, 20U, 21U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_1[16]) = {1U,  0x0, 4U,  5U,  0x0, 8U,  0x0, 11U,
+                                                                      12U, 0x0, 15U, 16U, 18U, 19U, 0x0, 22U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_2[16]) = {0x0, 1U,  2U,  4U,  5U,  6U,  8U,  9U,
+                                                                      11U, 12U, 13U, 15U, 16U, 18U, 19U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_3[16]) = {0x0, 8U,  0x0, 11U, 12U, 0x0, 15U, 16U,
+                                                                      18U, 19U, 0x0, 22U, 23U, 25U, 26U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_4[16]) = {7U,  9U,  10U, 0x0, 13U, 14U, 0x0, 17U,
+                                                                      0x0, 20U, 21U, 0x0, 24U, 0x0, 27U, 28U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_5[16]) = {6U,  7U,  9U,  10U, 11U, 13U, 14U, 0x0,
+                                                                      17U, 18U, 20U, 21U, 22U, 24U, 25U, 27U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_6[16]) = {13U, 14U, 0x0, 17U, 0x0, 20U, 21U, 0x0,
+                                                                      24U, 0x0, 27U, 28U, 0x0, 31U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_7[16]) = {0x0, 15U, 16U, 18U, 19U, 0x0, 22U, 23U,
+                                                                      25U, 26U, 0x0, 29U, 30U, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_23u_8[16]) = {12U, 13U, 15U, 16U, 18U, 19U, 20U, 22U,
+                                                                      23U, 25U, 26U, 27U, 29U, 30U, 0x0, 0x0};
 static __mmask16 permutex_masks_23u_ptr[9] = {0xD6F7, 0xBDAD, 0xFFFE, 0x7BDA, 0xD6B7, 0xFF7F, 0x2D6B, 0x1BDE, 0x3FFF};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_0[16]) = {0u, 14u, 5u, 0u, 10u, 1u, 15u, 6u,
-                                                                    0u, 11u, 2u, 0u, 7u,  0u, 12u, 3u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_1[16]) = {23u, 0u, 28u, 19u, 0u,  24u, 0u, 29u,
-                                                                    20u, 0u, 25u, 16u, 30u, 21u, 0u, 26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_2[16]) = {0u, 9u,  18u, 4u, 13u, 22u, 8u,  17u,
-                                                                    3u, 12u, 21u, 7u, 16u, 2u,  11u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_3[16]) = {0u,  8u, 0u, 13u, 4u, 0u,  9u, 0u,
-                                                                    14u, 5u, 0u, 10u, 1u, 15u, 6u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_4[16]) = {17u, 31u, 22u, 0u, 27u, 18u, 0u,  23u,
-                                                                    0u,  28u, 19u, 0u, 24u, 0u,  29u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_5[16]) = {6u, 15u, 1u, 10u, 19u, 5u, 14u, 0u,
-                                                                    9u, 18u, 4u, 13u, 22u, 8u, 17u, 3u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_6[16]) = {11u, 2u, 0u,  7u, 0u, 12u, 3u,  0u,
-                                                                    8u,  0u, 13u, 4u, 0u, 9u,  0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_7[16]) = {0u,  25u, 16u, 30u, 21u, 0u, 26u, 17u,
-                                                                    31u, 22u, 0u,  27u, 18u, 0u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_8[16]) = {12u, 21u, 7u,  16u, 2u, 11u, 20u, 6u,
-                                                                    15u, 1u,  10u, 19u, 5u, 14u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_0[16]) = {0U, 14U, 5U, 0U, 10U, 1U, 15U, 6U,
+                                                                    0U, 11U, 2U, 0U, 7U,  0U, 12U, 3U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_1[16]) = {23U, 0U, 28U, 19U, 0U,  24U, 0U, 29U,
+                                                                    20U, 0U, 25U, 16U, 30U, 21U, 0U, 26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_2[16]) = {0U, 9U,  18U, 4U, 13U, 22U, 8U,  17U,
+                                                                    3U, 12U, 21U, 7U, 16U, 2U,  11U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_3[16]) = {0U,  8U, 0U, 13U, 4U, 0U,  9U, 0U,
+                                                                    14U, 5U, 0U, 10U, 1U, 15U, 6U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_4[16]) = {17U, 31U, 22U, 0U, 27U, 18U, 0U,  23U,
+                                                                    0U,  28U, 19U, 0U, 24U, 0U,  29U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_5[16]) = {6U, 15U, 1U, 10U, 19U, 5U, 14U, 0U,
+                                                                    9U, 18U, 4U, 13U, 22U, 8U, 17U, 3U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_6[16]) = {11U, 2U, 0U,  7U, 0U, 12U, 3U,  0U,
+                                                                    8U,  0U, 13U, 4U, 0U, 9U,  0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_7[16]) = {0U,  25U, 16U, 30U, 21U, 0U, 26U, 17U,
+                                                                    31U, 22U, 0U,  27U, 18U, 0U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_23u_8[16]) = {12U, 21U, 7U,  16U, 2U, 11U, 20U, 6U,
+                                                                    15U, 1U,  10U, 19U, 5U, 14U, 0x0, 0x0};
 
 // ----------------------- 32u24u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_0[16]) = {1u,  2u,  3u,  5u,  6u,  7u,  9u,  10u,
-                                                                      11u, 13u, 14u, 15u, 17u, 18u, 19u, 21u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_1[16]) = {0u,  1u,  2u,  4u,  5u,  6u,  8u,  9u,
-                                                                      10u, 12u, 13u, 14u, 16u, 17u, 18u, 20u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_2[16]) = {6u,  7u,  9u,  10u, 11u, 13u, 14u, 15u,
-                                                                      17u, 18u, 19u, 21u, 22u, 23u, 25u, 26u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_3[16]) = {5u,  6u,  8u,  9u,  10u, 12u, 13u, 14u,
-                                                                      16u, 17u, 18u, 20u, 21u, 22u, 24u, 25u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_4[16]) = {11u, 13u, 14u, 15u, 17u, 18u, 19u, 21u,
-                                                                      22u, 23u, 25u, 26u, 27u, 29u, 30u, 31u};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_5[16]) = {10u, 12u, 13u, 14u, 16u, 17u, 18u, 20u,
-                                                                      21u, 22u, 24u, 25u, 26u, 28u, 29u, 30u};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_0[16]) = {1U,  2U,  3U,  5U,  6U,  7U,  9U,  10U,
+                                                                      11U, 13U, 14U, 15U, 17U, 18U, 19U, 21U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_1[16]) = {0U,  1U,  2U,  4U,  5U,  6U,  8U,  9U,
+                                                                      10U, 12U, 13U, 14U, 16U, 17U, 18U, 20U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_2[16]) = {6U,  7U,  9U,  10U, 11U, 13U, 14U, 15U,
+                                                                      17U, 18U, 19U, 21U, 22U, 23U, 25U, 26U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_3[16]) = {5U,  6U,  8U,  9U,  10U, 12U, 13U, 14U,
+                                                                      16U, 17U, 18U, 20U, 21U, 22U, 24U, 25U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_4[16]) = {11U, 13U, 14U, 15U, 17U, 18U, 19U, 21U,
+                                                                      22U, 23U, 25U, 26U, 27U, 29U, 30U, 31U};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_24u_5[16]) = {10U, 12U, 13U, 14U, 16U, 17U, 18U, 20U,
+                                                                      21U, 22U, 24U, 25U, 26U, 28U, 29U, 30U};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_0[16]) = {24u, 16u, 8u,  24u, 16u, 8u,  24u, 16u,
-                                                                    8u,  24u, 16u, 8u,  24u, 16u, 8u,  24u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_1[16]) = {0u,  8u, 16u, 0u,  8u, 16u, 0u,  8u,
-                                                                    16u, 0u, 8u,  16u, 0u, 8u,  16u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_2[16]) = {16u, 8u,  24u, 16u, 8u,  24u, 16u, 8u,
-                                                                    24u, 16u, 8u,  24u, 16u, 8u,  24u, 16u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_3[16]) = {8u, 16u, 0u,  8u, 16u, 0u,  8u, 16u,
-                                                                    0u, 8u,  16u, 0u, 8u,  16u, 0u, 8u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_4[16]) = {8u,  24u, 16u, 8u,  24u, 16u, 8u,  24u,
-                                                                    16u, 8u,  24u, 16u, 8u,  24u, 16u, 8u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_5[16]) = {16u, 0u,  8u, 16u, 0u,  8u, 16u, 0u,
-                                                                    8u,  16u, 0u, 8u,  16u, 0u, 8u,  16u};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_0[16]) = {24U, 16U, 8U,  24U, 16U, 8U,  24U, 16U,
+                                                                    8U,  24U, 16U, 8U,  24U, 16U, 8U,  24U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_1[16]) = {0U,  8U, 16U, 0U,  8U, 16U, 0U,  8U,
+                                                                    16U, 0U, 8U,  16U, 0U, 8U,  16U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_2[16]) = {16U, 8U,  24U, 16U, 8U,  24U, 16U, 8U,
+                                                                    24U, 16U, 8U,  24U, 16U, 8U,  24U, 16U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_3[16]) = {8U, 16U, 0U,  8U, 16U, 0U,  8U, 16U,
+                                                                    0U, 8U,  16U, 0U, 8U,  16U, 0U, 8U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_4[16]) = {8U,  24U, 16U, 8U,  24U, 16U, 8U,  24U,
+                                                                    16U, 8U,  24U, 16U, 8U,  24U, 16U, 8U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_24u_5[16]) = {16U, 0U,  8U, 16U, 0U,  8U, 16U, 0U,
+                                                                    8U,  16U, 0U, 8U,  16U, 0U, 8U,  16U};
 
 // ----------------------- 32u25u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_0[16]) = {0u,  0x0, 3u,  4u,  0x0, 7u,  8u,  9u,
-                                                                      0x0, 12u, 13u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_1[16]) = {1u,  2u,  0x0, 5u,  6u,  0x0, 0x0, 10u,
-                                                                      11u, 0x0, 14u, 15u, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_2[16]) = {0x0, 1u,  2u,  3u,  5u,  6u,  7u,  8u,
-                                                                      10u, 11u, 12u, 14u, 15u, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_0[16]) = {0U,  0x0, 3U,  4U,  0x0, 7U,  8U,  9U,
+                                                                      0x0, 12U, 13U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_1[16]) = {1U,  2U,  0x0, 5U,  6U,  0x0, 0x0, 10U,
+                                                                      11U, 0x0, 14U, 15U, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_25u_2[16]) = {0x0, 1U,  2U,  3U,  5U,  6U,  7U,  8U,
+                                                                      10U, 11U, 12U, 14U, 15U, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_25u_ptr[3]                         = {0x06ED, 0x0D9B, 0x1FFE};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_0[16]) = {0u, 0u,  11u, 4u, 0u, 15u, 8u, 1u,
-                                                                    0u, 12u, 5u,  0u, 0u, 0u,  0u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_1[16]) = {25u, 18u, 0u,  29u, 22u, 0u, 0u, 26u,
-                                                                    19u, 0u,  30u, 23u, 0u,  0u, 0u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_2[16]) = {0u, 7u,  14u, 21u, 3u, 10u, 17u, 24u,
-                                                                    6u, 13u, 20u, 2u,  9u, 0u,  0u,  0u};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_0[16]) = {0U, 0U,  11U, 4U, 0U, 15U, 8U, 1U,
+                                                                    0U, 12U, 5U,  0U, 0U, 0U,  0U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_1[16]) = {25U, 18U, 0U,  29U, 22U, 0U, 0U, 26U,
+                                                                    19U, 0U,  30U, 23U, 0U,  0U, 0U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_25u_2[16]) = {0U, 7U,  14U, 21U, 3U, 10U, 17U, 24U,
+                                                                    6U, 13U, 20U, 2U,  9U, 0U,  0U,  0U};
 
 // ----------------------- 32u26u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_0[16]) = {0u,  0x0, 3u,  4u,  5u,  0x0, 0x0, 9u,
-                                                                      10u, 0x0, 0x0, 14u, 15u, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_1[16]) = {1u,  2u,  0x0, 0x0, 6u,  7u,  8u,  0x0,
-                                                                      11u, 12u, 13u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_2[16]) = {0x0, 1u,  2u,  3u,  4u,  6u,  7u,  8u,
-                                                                      9u,  11u, 12u, 13u, 14u, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_0[16]) = {0U,  0x0, 3U,  4U,  5U,  0x0, 0x0, 9U,
+                                                                      10U, 0x0, 0x0, 14U, 15U, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_1[16]) = {1U,  2U,  0x0, 0x0, 6U,  7U,  8U,  0x0,
+                                                                      11U, 12U, 13U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_26u_2[16]) = {0x0, 1U,  2U,  3U,  4U,  6U,  7U,  8U,
+                                                                      9U,  11U, 12U, 13U, 14U, 0x0, 0x0, 0x0};
 static __mmask16 permutex_masks_26u_ptr[3]                         = {0x199D, 0x0773, 0x1FFE};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_0[16]) = {0u, 0u, 14u, 8u,  2u, 0u,  0u,  10u,
-                                                                    4u, 0u, 0u,  12u, 6u, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_1[16]) = {26u, 20u, 0u,  0u, 28u, 22u, 16u, 0u,
-                                                                    30u, 24u, 18u, 0u, 0u,  0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_2[16]) = {0u,  6u, 12u, 18u, 24u, 4u,  10u, 16u,
-                                                                    22u, 2u, 8u,  14u, 20u, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_0[16]) = {0U, 0U, 14U, 8U,  2U, 0U,  0U,  10U,
+                                                                    4U, 0U, 0U,  12U, 6U, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_1[16]) = {26U, 20U, 0U,  0U, 28U, 22U, 16U, 0U,
+                                                                    30U, 24U, 18U, 0U, 0U,  0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_26u_2[16]) = {0U,  6U, 12U, 18U, 24U, 4U,  10U, 16U,
+                                                                    22U, 2U, 8U,  14U, 20U, 0x0, 0x0, 0x0};
 
 // ----------------------- 32u27u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_0[16]) = {0u,  0x0, 0x0, 4u,  5u,  6u,  0x0, 0x0,
-                                                                      10u, 11u, 12u, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_1[16]) = {1u,  2u,  3u,  0x0, 0x0, 7u,  8u,  9u,
-                                                                      0x0, 0x0, 13u, 14u, 15u, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_2[16]) = {0x0, 1u,  2u,  3u,  4u,  5u,  7u,  8u,
-                                                                      9u,  10u, 11u, 13u, 14u, 15u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_0[16]) = {0U,  0x0, 0x0, 4U,  5U,  6U,  0x0, 0x0,
+                                                                      10U, 11U, 12U, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_1[16]) = {1U,  2U,  3U,  0x0, 0x0, 7U,  8U,  9U,
+                                                                      0x0, 0x0, 13U, 14U, 15U, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_27u_2[16]) = {0x0, 1U,  2U,  3U,  4U,  5U,  7U,  8U,
+                                                                      9U,  10U, 11U, 13U, 14U, 15U, 0x0, 0x0};
 static __mmask16 permutex_masks_27u_ptr[3]                         = {0x0739, 0x1CE7, 0x3FFE};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_0[16]) = {0u,  0u, 0u, 12u, 7u, 2u, 0u,  0u,
-                                                                    14u, 9u, 4u, 0u,  0u, 0u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_1[16]) = {27u, 22u, 17u, 0u,  0u,  29u, 24u, 19u,
-                                                                    0u,  0u,  31u, 26u, 21u, 0u,  0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_2[16]) = {0u,  5u,  10u, 15u, 20u, 25u, 3u,  8u,
-                                                                    13u, 18u, 23u, 1u,  6u,  11u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_0[16]) = {0U,  0U, 0U, 12U, 7U, 2U, 0U,  0U,
+                                                                    14U, 9U, 4U, 0U,  0U, 0U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_1[16]) = {27U, 22U, 17U, 0U,  0U,  29U, 24U, 19U,
+                                                                    0U,  0U,  31U, 26U, 21U, 0U,  0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_27u_2[16]) = {0U,  5U,  10U, 15U, 20U, 25U, 3U,  8U,
+                                                                    13U, 18U, 23U, 1U,  6U,  11U, 0x0, 0x0};
 
 // ----------------------- 32u28u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_28u_0[16]) = {1u,  2u,  3u,  4u,  5u,  6u,  7u,  9u,
-                                                                      10u, 11u, 12u, 13u, 14u, 15u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_28u_1[16]) = {0u, 1u,  2u,  3u,  4u,  5u,  6u,  8u,
-                                                                      9u, 10u, 11u, 12u, 13u, 14u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_28u_0[16]) = {1U,  2U,  3U,  4U,  5U,  6U,  7U,  9U,
+                                                                      10U, 11U, 12U, 13U, 14U, 15U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_28u_1[16]) = {0U, 1U,  2U,  3U,  4U,  5U,  6U,  8U,
+                                                                      9U, 10U, 11U, 12U, 13U, 14U, 0x0, 0x0};
 static __mmask16 permutex_masks_28u_ptr[2]                         = {0x3FFF, 0x3FFF};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_28u_0[16]) = {28u, 24u, 20u, 16u, 12u, 8u, 4u,  28u,
-                                                                    24u, 20u, 16u, 12u, 8u,  4u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_28u_1[16]) = {0u, 4u, 8u,  12u, 16u, 20u, 24u, 0u,
-                                                                    4u, 8u, 12u, 16u, 20u, 24u, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_28u_0[16]) = {28U, 24U, 20U, 16U, 12U, 8U, 4U,  28U,
+                                                                    24U, 20U, 16U, 12U, 8U,  4U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_28u_1[16]) = {0U, 4U, 8U,  12U, 16U, 20U, 24U, 0U,
+                                                                    4U, 8U, 12U, 16U, 20U, 24U, 0x0, 0x0};
 
 // ----------------------- 32u29u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_0[16]) = {0u, 0x0, 0x0, 0x0, 0x0, 6u,  7u,  8u,
-                                                                      9u, 10u, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_1[16]) = {1u,  2u,  3u,  4u,  5u,  0x0, 0x0, 0x0,
-                                                                      0x0, 11u, 12u, 13u, 14u, 15u, 0x0, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_2[16]) = {0x0, 1u, 2u,  3u,  4u,  5u,  6u,  7u,
-                                                                      8u,  9u, 11u, 12u, 13u, 14u, 15u, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_0[16]) = {0U, 0x0, 0x0, 0x0, 0x0, 6U,  7U,  8U,
+                                                                      9U, 10U, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_1[16]) = {1U,  2U,  3U,  4U,  5U,  0x0, 0x0, 0x0,
+                                                                      0x0, 11U, 12U, 13U, 14U, 15U, 0x0, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_29u_2[16]) = {0x0, 1U, 2U,  3U,  4U,  5U,  6U,  7U,
+                                                                      8U,  9U, 11U, 12U, 13U, 14U, 15U, 0x0};
 static __mmask16 permutex_masks_29u_ptr[3]                         = {0x03E1, 0x3E1F, 0x7FFE};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_0[16]) = {0u, 0u, 0u, 0u, 0u, 14u, 11u, 8u,
-                                                                    5u, 2u, 0u, 0u, 0u, 0u,  0u,  0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_1[16]) = {29u, 26u, 23u, 20u, 17u, 0u,  0u, 0u,
-                                                                    0u,  31u, 28u, 25u, 22u, 19u, 0u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_2[16]) = {0u,  3u,  6u, 9u, 12u, 15u, 18u, 21u,
-                                                                    24u, 27u, 1u, 4u, 7u,  10u, 13u, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_0[16]) = {0U, 0U, 0U, 0U, 0U, 14U, 11U, 8U,
+                                                                    5U, 2U, 0U, 0U, 0U, 0U,  0U,  0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_1[16]) = {29U, 26U, 23U, 20U, 17U, 0U,  0U, 0U,
+                                                                    0U,  31U, 28U, 25U, 22U, 19U, 0U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_29u_2[16]) = {0U,  3U,  6U, 9U, 12U, 15U, 18U, 21U,
+                                                                    24U, 27U, 1U, 4U, 7U,  10U, 13U, 0x0};
 
 // ----------------------- 32u30u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_30u_0[16]) = {1u, 2u,  3u,  4u,  5u,  6u,  7u,  8u,
-                                                                      9u, 10u, 11u, 12u, 13u, 14u, 15u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_30u_1[16]) = {0u, 1u, 2u,  3u,  4u,  5u,  6u,  7u,
-                                                                      8u, 9u, 10u, 11u, 12u, 13u, 14u, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_30u_0[16]) = {1U, 2U,  3U,  4U,  5U,  6U,  7U,  8U,
+                                                                      9U, 10U, 11U, 12U, 13U, 14U, 15U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_30u_1[16]) = {0U, 1U, 2U,  3U,  4U,  5U,  6U,  7U,
+                                                                      8U, 9U, 10U, 11U, 12U, 13U, 14U, 0x0};
 static __mmask16 permutex_masks_30u_ptr[2]                         = {0x7FFF, 0x7FFF};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_30u_0[16]) = {30u, 28u, 26u, 24u, 22u, 20u, 18u, 16u,
-                                                                    14u, 12u, 10u, 8u,  6u,  4u,  2u,  0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_30u_1[16]) = {0u,  2u,  4u,  6u,  8u,  10u, 12u, 14u,
-                                                                    16u, 18u, 20u, 22u, 24u, 26u, 28u, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_30u_0[16]) = {30U, 28U, 26U, 24U, 22U, 20U, 18U, 16U,
+                                                                    14U, 12U, 10U, 8U,  6U,  4U,  2U,  0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_30u_1[16]) = {0U,  2U,  4U,  6U,  8U,  10U, 12U, 14U,
+                                                                    16U, 18U, 20U, 22U, 24U, 26U, 28U, 0x0};
 
 // ----------------------- 32u31u ------------------------------- //
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_31u_0[16]) = {1u, 2u,  3u,  4u,  5u,  6u,  7u,  8u,
-                                                                      9u, 10u, 11u, 12u, 13u, 14u, 15u, 0x0};
-OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_31u_1[16]) = {0u, 1u, 2u,  3u,  4u,  5u,  6u,  7u,
-                                                                      8u, 9u, 10u, 11u, 12u, 13u, 14u, 15u};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_31u_0[16]) = {1U, 2U,  3U,  4U,  5U,  6U,  7U,  8U,
+                                                                      9U, 10U, 11U, 12U, 13U, 14U, 15U, 0x0};
+OWN_ALIGNED_64_ARRAY(static uint32_t permutex_idx_table_31u_1[16]) = {0U, 1U, 2U,  3U,  4U,  5U,  6U,  7U,
+                                                                      8U, 9U, 10U, 11U, 12U, 13U, 14U, 15U};
 static __mmask16 permutex_masks_31u_ptr[2]                         = {0x7FFF, 0xFFFF};
 
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_31u_0[16]) = {31u, 30u, 29u, 28u, 27u, 26u, 25u, 24u,
-                                                                    23u, 22u, 21u, 20u, 19u, 18u, 17u, 0u};
-OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_31u_1[16]) = {0u, 1u, 2u,  3u,  4u,  5u,  6u,  7u,
-                                                                    8u, 9u, 10u, 11u, 12u, 13u, 14u, 15u};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_31u_0[16]) = {31U, 30U, 29U, 28U, 27U, 26U, 25U, 24U,
+                                                                    23U, 22U, 21U, 20U, 19U, 18U, 17U, 0U};
+OWN_ALIGNED_64_ARRAY(static uint32_t shift_mask_table_31u_1[16]) = {0U, 1U, 2U,  3U,  4U,  5U,  6U,  7U,
+                                                                    8U, 9U, 10U, 11U, 12U, 13U, 14U, 15U};
 
 OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uint32_t bitsize)) {
     uint32_t remnant   = bitsize - start_bit;
     uint32_t ret_value = 0xFFFFFFFF;
-    for (uint32_t i = 0u; i < bitsize; ++i) {
+    for (uint32_t i = 0U; i < bitsize; ++i) {
         uint32_t test_value = (i * base) % bitsize;
         if (test_value == remnant) {
             ret_value = i;
@@ -393,7 +393,7 @@ OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uin
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u17u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 17u;
+    uint32_t  bit_width   = 17U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -403,7 +403,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u17u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -429,7 +429,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u17u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 17u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 17U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_17u_0);
@@ -457,19 +457,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u17u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u17u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 17u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 17U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u17u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 17u) + start_bit) >> 3u;
+        dst_ptr += ((align * 17U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_48 = num_elements / 48u;
-        uint32_t num_elements_16 = (num_elements % 48u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_48 = num_elements / 48U;
+        uint32_t num_elements_16 = (num_elements % 48U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -491,8 +491,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u17u,
 
         for (uint32_t idx = 0; idx < num_elements_48; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_17u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_17u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -514,10 +514,10 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u17u,
             zmm3 = _mm512_or_si512(zmm3, zmm5);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_mask_storeu_epi16(dst_ptr + 64u, 0x0007FFFF, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 64U, 0x0007FFFF, zmm3);
 
-            src_ptr += 192u;
-            dst_ptr += 17u * 6u;
+            src_ptr += 192U;
+            dst_ptr += 17U * 6U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -534,8 +534,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u17u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x0001FFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 17u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 17U * 2U;
         }
     }
 
@@ -546,7 +546,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u17u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u18u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 18u;
+    uint32_t  bit_width   = 18U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -556,7 +556,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u18u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -582,7 +582,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u18u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 18u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 18U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_18u_0);
@@ -610,19 +610,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u18u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u18u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 18u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 18U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u18u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 18u) + start_bit) >> 3u;
+        dst_ptr += ((align * 18U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_48 = num_elements / 48u;
-        uint32_t num_elements_16 = (num_elements % 48u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_48 = num_elements / 48U;
+        uint32_t num_elements_16 = (num_elements % 48U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -644,8 +644,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u18u,
 
         for (uint32_t idx = 0; idx < num_elements_48; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_18u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_18u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -667,10 +667,10 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u18u,
             zmm3 = _mm512_or_si512(zmm3, zmm5);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_mask_storeu_epi16(dst_ptr + 64u, 0x003FFFFF, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 64U, 0x003FFFFF, zmm3);
 
-            src_ptr += 192u;
-            dst_ptr += 18u * 6u;
+            src_ptr += 192U;
+            dst_ptr += 18U * 6U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -687,8 +687,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u18u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x0003FFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 18u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 18U * 2U;
         }
     }
 
@@ -699,7 +699,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u18u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u19u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 19u;
+    uint32_t  bit_width   = 19U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -709,7 +709,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u19u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -735,7 +735,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u19u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 19u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 19U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_19u_0);
@@ -763,19 +763,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u19u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u19u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 19u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 19U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u19u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 19u) + start_bit) >> 3u;
+        dst_ptr += ((align * 19U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_48 = num_elements / 48u;
-        uint32_t num_elements_16 = (num_elements % 48u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_48 = num_elements / 48U;
+        uint32_t num_elements_16 = (num_elements % 48U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -797,8 +797,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u19u,
 
         for (uint32_t idx = 0; idx < num_elements_48; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_19u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_19u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -820,10 +820,10 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u19u,
             zmm3 = _mm512_or_si512(zmm3, zmm5);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_mask_storeu_epi16(dst_ptr + 64u, 0x01FFFFFF, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 64U, 0x01FFFFFF, zmm3);
 
-            src_ptr += 192u;
-            dst_ptr += 19u * 6u;
+            src_ptr += 192U;
+            dst_ptr += 19U * 6U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -840,8 +840,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u19u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x0007FFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 19u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 19U * 2U;
         }
     }
 
@@ -852,7 +852,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u19u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u20u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 20u;
+    uint32_t  bit_width   = 20U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -862,7 +862,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u20u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -888,7 +888,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u20u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 20u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 20U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_20u_0);
@@ -916,19 +916,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u20u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u20u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 20u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 20U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u20u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 20u) + start_bit) >> 3u;
+        dst_ptr += ((align * 20U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_48 = num_elements / 48u;
-        uint32_t num_elements_16 = (num_elements % 48u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_48 = num_elements / 48U;
+        uint32_t num_elements_16 = (num_elements % 48U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -947,8 +947,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u20u,
 
         for (uint32_t idx = 0; idx < num_elements_48; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_20u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_20u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -970,10 +970,10 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u20u,
             zmm3 = _mm512_or_si512(zmm3, zmm5);
 
             _mm512_mask_storeu_epi16(dst_ptr, 0x3FFFFFFF, zmm0);
-            _mm512_mask_storeu_epi16(dst_ptr + 60u, 0x3FFFFFFF, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 60U, 0x3FFFFFFF, zmm3);
 
-            src_ptr += 192u;
-            dst_ptr += 20u * 6u;
+            src_ptr += 192U;
+            dst_ptr += 20U * 6U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -990,8 +990,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u20u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x000FFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 20u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 20U * 2U;
         }
     }
 
@@ -1002,7 +1002,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u20u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u21u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 21u;
+    uint32_t  bit_width   = 21U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1012,7 +1012,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u21u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1038,7 +1038,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u21u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 21u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 21U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_21u_0);
@@ -1066,19 +1066,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u21u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u21u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 21u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 21U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u21u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 21u) + start_bit) >> 3u;
+        dst_ptr += ((align * 21U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_48 = num_elements / 48u;
-        uint32_t num_elements_16 = (num_elements % 48u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_48 = num_elements / 48U;
+        uint32_t num_elements_16 = (num_elements % 48U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -1100,8 +1100,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u21u,
 
         for (uint32_t idx = 0; idx < num_elements_48; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_21u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_21u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -1123,10 +1123,10 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u21u,
             zmm3 = _mm512_or_si512(zmm3, zmm5);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_mask_storeu_epi16(dst_ptr + 64u, 0x7FFFFFFF, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 64U, 0x7FFFFFFF, zmm3);
 
-            src_ptr += 192u;
-            dst_ptr += 21u * 6u;
+            src_ptr += 192U;
+            dst_ptr += 21U * 6U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -1143,8 +1143,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u21u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x001FFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 21u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 21U * 2U;
         }
     }
 
@@ -1155,7 +1155,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u21u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u22u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 22u;
+    uint32_t  bit_width   = 22U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1165,7 +1165,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u22u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1191,7 +1191,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u22u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 22u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 22U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_22u_0);
@@ -1219,19 +1219,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u22u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u22u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 22u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 22U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u22u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 22u) + start_bit) >> 3u;
+        dst_ptr += ((align * 22U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_64 = num_elements / 64u;
-        uint32_t num_elements_16 = (num_elements % 64u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_64 = num_elements / 64U;
+        uint32_t num_elements_16 = (num_elements % 64U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2, srcmm3;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5, zmm6, zmm7, zmm8;
 
@@ -1259,9 +1259,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u22u,
 
         for (uint32_t idx = 0; idx < num_elements_64; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
-            srcmm3 = _mm512_loadu_si512(src_ptr + 192u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
+            srcmm3 = _mm512_loadu_si512(src_ptr + 192U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_22u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_22u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -1291,11 +1291,11 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u22u,
             zmm6 = _mm512_or_si512(zmm6, zmm8);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_storeu_si512(dst_ptr + 64u, zmm3);
-            _mm512_mask_storeu_epi16(dst_ptr + 128u, 0x00FFFFFF, zmm6);
+            _mm512_storeu_si512(dst_ptr + 64U, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 128U, 0x00FFFFFF, zmm6);
 
-            src_ptr += 256u;
-            dst_ptr += 22u * 8u;
+            src_ptr += 256U;
+            dst_ptr += 22U * 8U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -1312,8 +1312,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u22u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x003FFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 22u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 22U * 2U;
         }
     }
 
@@ -1324,7 +1324,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u22u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u23u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 23u;
+    uint32_t  bit_width   = 23U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1334,7 +1334,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u23u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1360,7 +1360,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u23u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 23u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 23U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_23u_0);
@@ -1388,19 +1388,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u23u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u23u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 23u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 23U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u23u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 23u) + start_bit) >> 3u;
+        dst_ptr += ((align * 23U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_64 = num_elements / 64u;
-        uint32_t num_elements_16 = (num_elements % 64u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_64 = num_elements / 64U;
+        uint32_t num_elements_16 = (num_elements % 64U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2, srcmm3;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5, zmm6, zmm7, zmm8;
 
@@ -1428,9 +1428,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u23u,
 
         for (uint32_t idx = 0; idx < num_elements_64; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
-            srcmm3 = _mm512_loadu_si512(src_ptr + 192u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
+            srcmm3 = _mm512_loadu_si512(src_ptr + 192U);
 
             zmm0 = _mm512_maskz_permutex2var_epi32(permutex_masks_23u_ptr[0], srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_maskz_permutex2var_epi32(permutex_masks_23u_ptr[1], srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -1460,11 +1460,11 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u23u,
             zmm6 = _mm512_or_si512(zmm6, zmm8);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_storeu_si512(dst_ptr + 64u, zmm3);
-            _mm512_mask_storeu_epi16(dst_ptr + 128u, 0x0FFFFFFF, zmm6);
+            _mm512_storeu_si512(dst_ptr + 64U, zmm3);
+            _mm512_mask_storeu_epi16(dst_ptr + 128U, 0x0FFFFFFF, zmm6);
 
-            src_ptr += 256u;
-            dst_ptr += 23u * 8u;
+            src_ptr += 256U;
+            dst_ptr += 23U * 8U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -1481,8 +1481,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u23u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x007FFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 23u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 23U * 2U;
         }
     }
 
@@ -1493,7 +1493,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u23u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u24u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 24u;
+    uint32_t  bit_width   = 24U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1503,7 +1503,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u24u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1529,7 +1529,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u24u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 24u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 24U));
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_24u_0);
@@ -1552,19 +1552,19 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u24u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u24u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 24u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 24U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u24u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 24u) + start_bit) >> 3u;
+        dst_ptr += ((align * 24U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_64 = num_elements / 64u;
-        uint32_t num_elements_16 = (num_elements % 64u) / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_64 = num_elements / 64U;
+        uint32_t num_elements_16 = (num_elements % 64U) / 16U;
         __m512i  srcmm0, srcmm1, srcmm2, srcmm3;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
 
@@ -1586,9 +1586,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u24u,
 
         for (uint32_t idx = 0; idx < num_elements_64; ++idx) {
             srcmm0 = _mm512_loadu_si512(src_ptr);
-            srcmm1 = _mm512_loadu_si512(src_ptr + 64u);
-            srcmm2 = _mm512_loadu_si512(src_ptr + 128u);
-            srcmm3 = _mm512_loadu_si512(src_ptr + 192u);
+            srcmm1 = _mm512_loadu_si512(src_ptr + 64U);
+            srcmm2 = _mm512_loadu_si512(src_ptr + 128U);
+            srcmm3 = _mm512_loadu_si512(src_ptr + 192U);
 
             zmm0 = _mm512_permutex2var_epi32(srcmm0, permutex_idx_ptr[0], srcmm1);
             zmm1 = _mm512_permutex2var_epi32(srcmm0, permutex_idx_ptr[1], srcmm1);
@@ -1609,11 +1609,11 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u24u,
             zmm4 = _mm512_or_si512(zmm4, zmm5);
 
             _mm512_storeu_si512(dst_ptr, zmm0);
-            _mm512_storeu_si512(dst_ptr + 64u, zmm2);
-            _mm512_storeu_si512(dst_ptr + 128u, zmm4);
+            _mm512_storeu_si512(dst_ptr + 64U, zmm2);
+            _mm512_storeu_si512(dst_ptr + 128U, zmm4);
 
-            src_ptr += 256u;
-            dst_ptr += 24u * 8u;
+            src_ptr += 256U;
+            dst_ptr += 24U * 8U;
         }
 
         for (uint32_t idx = 0; idx < num_elements_16; ++idx) {
@@ -1627,8 +1627,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u24u,
             zmm0 = _mm512_or_si512(zmm0, zmm1);
             _mm512_mask_storeu_epi16(dst_ptr, 0x00FFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 24u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 24U * 2U;
         }
     }
 
@@ -1639,7 +1639,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u24u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u25u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 25u;
+    uint32_t  bit_width   = 25U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1649,7 +1649,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u25u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1675,7 +1675,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u25u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 25u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 25U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_25u_0);
@@ -1703,18 +1703,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u25u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u25u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 25u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 25U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u25u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 25u) + start_bit) >> 3u;
+        dst_ptr += ((align * 25U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1, zmm2;
 
@@ -1742,8 +1742,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u25u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x01FFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 25u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 25U * 2U;
         }
     }
 
@@ -1754,7 +1754,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u25u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u26u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 26u;
+    uint32_t  bit_width   = 26U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1764,7 +1764,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u26u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1790,7 +1790,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u26u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 26u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 26U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_26u_0);
@@ -1818,18 +1818,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u26u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u26u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 26u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 26U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u26u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 26u) + start_bit) >> 3u;
+        dst_ptr += ((align * 26U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1, zmm2;
 
@@ -1857,8 +1857,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u26u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x03FFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 26u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 26U * 2U;
         }
     }
 
@@ -1869,7 +1869,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u26u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u27u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 27u;
+    uint32_t  bit_width   = 27U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1879,7 +1879,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u27u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -1905,7 +1905,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u27u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 27u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 27U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_27u_0);
@@ -1933,18 +1933,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u27u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u27u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 27u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 27U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u27u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 27u) + start_bit) >> 3u;
+        dst_ptr += ((align * 27U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1, zmm2;
 
@@ -1972,8 +1972,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u27u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x07FFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 27u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 27U * 2U;
         }
     }
 
@@ -1984,7 +1984,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u27u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u28u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 28u;
+    uint32_t  bit_width   = 28U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -1994,7 +1994,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u28u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -2028,7 +2028,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u28u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 28u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 28U));
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_28u_0);
@@ -2058,18 +2058,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u28u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u28u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 28u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 28U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u28u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 28u) + start_bit) >> 3u;
+        dst_ptr += ((align * 28U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1;
 
@@ -2092,8 +2092,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u28u,
             zmm0 = _mm512_or_si512(zmm0, zmm1);
             _mm512_mask_storeu_epi16(dst_ptr, 0x0FFFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 28u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 28U * 2U;
         }
     }
 
@@ -2104,7 +2104,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u28u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u29u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 29u;
+    uint32_t  bit_width   = 29U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -2114,7 +2114,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u29u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -2140,7 +2140,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u29u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1, zmm2;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 29u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 29U));
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_29u_0);
@@ -2168,18 +2168,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u29u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u29u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 29u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 29U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u29u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 29u) + start_bit) >> 3u;
+        dst_ptr += ((align * 29U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1, zmm2;
 
@@ -2207,8 +2207,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u29u,
             zmm0 = _mm512_or_si512(zmm0, zmm2);
             _mm512_mask_storeu_epi16(dst_ptr, 0x1FFFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 29u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 29U * 2U;
         }
     }
 
@@ -2219,7 +2219,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u29u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u30u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 30u;
+    uint32_t  bit_width   = 30U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -2229,7 +2229,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u30u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -2263,7 +2263,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u30u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 30u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 30U));
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_30u_0);
@@ -2293,18 +2293,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u30u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u30u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 30u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 30U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u30u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 30u) + start_bit) >> 3u;
+        dst_ptr += ((align * 30U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1;
 
@@ -2327,8 +2327,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u30u,
             zmm0 = _mm512_or_si512(zmm0, zmm1);
             _mm512_mask_storeu_epi16(dst_ptr, 0x3FFFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 30u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 30U * 2U;
         }
     }
 
@@ -2339,7 +2339,7 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u30u,
 
 OWN_QPLC_INLINE(void, px_qplc_pack_32u31u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    uint32_t  bit_width   = 31u;
+    uint32_t  bit_width   = 31U;
     int32_t   bits_in_buf = (int32_t)(bit_width + start_bit);
     uint32_t* src_32u_ptr = (uint32_t*)src_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
@@ -2349,7 +2349,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_32u31u,
     src_32u_ptr++;
     num_elements--;
 
-    while (0u < num_elements) {
+    while (0U < num_elements) {
         if (OWN_DWORD_WIDTH <= (uint32_t)bits_in_buf) {
             *dst_32u_ptr = (uint32_t)(src);
             dst_32u_ptr++;
@@ -2383,7 +2383,7 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u31u_tail, (const uint8_t* src_ptr, uint32_
     __m512i zmm0, zmm1;
 
     __mmask16 tail_mask  = OWN_BIT_MASK(num_elements);
-    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 31u));
+    __mmask64 store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 31U));
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_31u_0);
@@ -2413,18 +2413,18 @@ OWN_QPLC_INLINE(void, k0_qplc_pack_32u31u_tail, (const uint8_t* src_ptr, uint32_
 
 OWN_OPT_FUN(void, k0_qplc_pack_32u31u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr, uint32_t start_bit)) {
-    if (start_bit > 0u) {
-        uint32_t align = own_get_align(start_bit, 31u, 32u);
+    if (start_bit > 0U) {
+        uint32_t align = own_get_align(start_bit, 31U, 32U);
         if (align > num_elements) { align = num_elements; }
         px_qplc_pack_32u31u(src_ptr, align, dst_ptr, start_bit);
         src_ptr += align * 4;
-        dst_ptr += ((align * 31u) + start_bit) >> 3u;
+        dst_ptr += ((align * 31U) + start_bit) >> 3U;
         num_elements -= align;
     }
 
-    uint32_t tail = num_elements % 16u;
-    if (num_elements >= 16u) {
-        uint32_t num_elements_16 = num_elements / 16u;
+    uint32_t tail = num_elements % 16U;
+    if (num_elements >= 16U) {
+        uint32_t num_elements_16 = num_elements / 16U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1;
 
@@ -2447,8 +2447,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_32u31u,
             zmm0 = _mm512_or_si512(zmm0, zmm1);
             _mm512_mask_storeu_epi16(dst_ptr, 0x7FFFFFFF, zmm0);
 
-            src_ptr += 64u;
-            dst_ptr += 31u * 2u;
+            src_ptr += 64U;
+            dst_ptr += 31U * 2U;
         }
     }
 

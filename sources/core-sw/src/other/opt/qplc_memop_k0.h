@@ -30,10 +30,10 @@ OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
 
     // todo: create pragma macros: unroll WIN/LIN
     while (length_64u >= 4) {
-        data_64u_ptr[0] = 0u;
-        data_64u_ptr[1] = 0u;
-        data_64u_ptr[2] = 0u;
-        data_64u_ptr[3] = 0u;
+        data_64u_ptr[0] = 0U;
+        data_64u_ptr[1] = 0U;
+        data_64u_ptr[2] = 0U;
+        data_64u_ptr[3] = 0U;
 
         length_64u -= 4;
         data_64u_ptr += 4;
@@ -41,7 +41,7 @@ OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
 
     // todo: Use masks
     for (uint32_t i = 0; i < length_64u; i++) {
-        *data_64u_ptr++ = 0u;
+        *data_64u_ptr++ = 0U;
     }
 
     uint32_t remaining_bytes = length % sizeof(uint64_t);
@@ -49,21 +49,21 @@ OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
     dst_ptr = (uint8_t*)data_64u_ptr;
 
     while (remaining_bytes >= 2) {
-        dst_ptr[0] = 0u;
-        dst_ptr[1] = 0u;
+        dst_ptr[0] = 0U;
+        dst_ptr[1] = 0U;
 
-        remaining_bytes -= 2u;
+        remaining_bytes -= 2U;
         dst_ptr += 2;
     }
 
-    if (remaining_bytes) { *dst_ptr = 0u; }
+    if (remaining_bytes) { *dst_ptr = 0U; }
 }
 
 OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t * dst_ptr, uint32_t len)) {
     uint32_t length_512u = len / sizeof(__m512i);
     while (length_512u > 0) {
         _mm512_storeu_si512(dst_ptr, _mm512_setzero_si512());
-        dst_ptr += 64u;
+        dst_ptr += 64U;
         --length_512u;
     }
 
@@ -72,17 +72,17 @@ OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t * dst_ptr, uint32_t le
 }
 
 OWN_QPLC_INLINE(uint32_t, own_get_align, (uint64_t ptr)) {
-    uint64_t aligned_ptr = (ptr + 63u) & ~63LLu;
+    uint64_t aligned_ptr = (ptr + 63U) & ~63LLU;
     return (uint32_t)(aligned_ptr - ptr);
 }
 
 OWN_QPLC_INLINE(void, k0_qplc_zero_8u_tail, (uint8_t * dst_ptr, uint32_t len)) {
-    __mmask64 store_mask = (1LLu << len) - 1u;
+    __mmask64 store_mask = (1LLU << len) - 1U;
     _mm512_mask_storeu_epi8(dst_ptr, store_mask, _mm512_setzero_si512());
 }
 
 OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
-    if (length < 4096u) {
+    if (length < 4096U) {
         k0_qplc_zero_8u_unaligned(dst_ptr, length);
         return;
     }
@@ -96,7 +96,7 @@ OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
 
     while (length_512u > 0) {
         _mm512_store_si512(dst_ptr, _mm512_setzero_si512());
-        dst_ptr += 64u;
+        dst_ptr += 64U;
         --length_512u;
     }
 
@@ -111,18 +111,18 @@ OWN_QPLC_INLINE(void, own_copy_8u_unrolled, (const uint8_t* src_ptr, uint8_t* ds
     uint32_t length_64u = length / sizeof(uint64_t);
     uint32_t tail_start = length_64u * sizeof(uint64_t);
 
-    while (length_64u > 3u) {
+    while (length_64u > 3U) {
         dst_64u_ptr[0] = src_64u_ptr[0];
         dst_64u_ptr[1] = src_64u_ptr[1];
         dst_64u_ptr[2] = src_64u_ptr[2];
         dst_64u_ptr[3] = src_64u_ptr[3];
 
-        dst_64u_ptr += 4u;
-        src_64u_ptr += 4u;
-        length_64u -= 4u;
+        dst_64u_ptr += 4U;
+        src_64u_ptr += 4U;
+        length_64u -= 4U;
     }
 
-    for (uint32_t i = 0u; i < length_64u; ++i) {
+    for (uint32_t i = 0U; i < length_64u; ++i) {
         dst_64u_ptr[i] = src_64u_ptr[i];
     }
 
@@ -132,7 +132,7 @@ OWN_QPLC_INLINE(void, own_copy_8u_unrolled, (const uint8_t* src_ptr, uint8_t* ds
 }
 
 OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
-    if (length < 64u) {
+    if (length < 64U) {
         own_copy_8u_unrolled(src_ptr, dst_ptr, length);
         return;
     }
@@ -141,25 +141,25 @@ OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, ui
     // TODO: add version with stream for big sizes and calculate cache
     uint32_t length256u = length / sizeof(__m256i);
     uint32_t tail       = length % sizeof(__m256i);
-    while (length256u > 3u) {
+    while (length256u > 3U) {
         __m256i zmm0 = _mm256_loadu_si256((const __m256i*)src_ptr);
-        __m256i zmm1 = _mm256_loadu_si256((const __m256i*)(src_ptr + 32u));
-        __m256i zmm2 = _mm256_loadu_si256((const __m256i*)(src_ptr + 64u));
-        __m256i zmm3 = _mm256_loadu_si256((const __m256i*)(src_ptr + 96u));
+        __m256i zmm1 = _mm256_loadu_si256((const __m256i*)(src_ptr + 32U));
+        __m256i zmm2 = _mm256_loadu_si256((const __m256i*)(src_ptr + 64U));
+        __m256i zmm3 = _mm256_loadu_si256((const __m256i*)(src_ptr + 96U));
         _mm256_storeu_si256((__m256i*)dst_ptr, zmm0);
-        _mm256_storeu_si256((__m256i*)(dst_ptr + 32u), zmm1);
-        _mm256_storeu_si256((__m256i*)(dst_ptr + 64u), zmm2);
-        _mm256_storeu_si256((__m256i*)(dst_ptr + 96u), zmm3);
-        src_ptr += 128u;
-        dst_ptr += 128u;
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 32U), zmm1);
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 64U), zmm2);
+        _mm256_storeu_si256((__m256i*)(dst_ptr + 96U), zmm3);
+        src_ptr += 128U;
+        dst_ptr += 128U;
         length256u -= 4;
     }
 
-    while (length256u > 0u) {
+    while (length256u > 0U) {
         __m256i zmm0 = _mm256_loadu_si256((const __m256i*)src_ptr);
         _mm256_storeu_si256((__m256i*)dst_ptr, zmm0);
-        src_ptr += 32u;
-        dst_ptr += 32u;
+        src_ptr += 32U;
+        dst_ptr += 32U;
         --length256u;
     }
 

@@ -11,8 +11,8 @@
 extern "C" {
 #endif
 
-#define OWN_DEFLATE_LL_TABLE_SIZE 286u
-#define OWN_DEFLATE_D_TABLE_SIZE  30u
+#define OWN_DEFLATE_LL_TABLE_SIZE 286U
+#define OWN_DEFLATE_D_TABLE_SIZE  30U
 
 extern const uint32_t fixed_literals_table[OWN_DEFLATE_LL_TABLE_SIZE];
 

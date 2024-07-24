@@ -330,8 +330,8 @@ HW_PATH_IAA_API(void, descriptor_init_compress_verification, (hw_descriptor * de
  *
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_huffman_only_mode, (hw_descriptor* const descriptor_ptr)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = 1u << 4u;
-    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38u;
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = 1U << 4U;
+    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
 }
@@ -344,8 +344,8 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_set_huffman_only_mode, (
  *
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_be_output_mode, (hw_descriptor* const descriptor_ptr)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = 1u << 5u;
-    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38u;
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = 1U << 5U;
+    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
 }
@@ -360,8 +360,8 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_set_be_output_mode, (hw_
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_mini_block_size,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_mini_block_size_t mini_block_size)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7u) << 6u);
-    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38u;
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7U) << 6U);
+    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
 }
@@ -376,8 +376,8 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_set_mini_block_size,
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_termination_rule,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_terminator_t terminator)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((terminator)&3u) << 2u);
-    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38u;
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((terminator)&3U) << 2U);
+    const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
 }
@@ -460,8 +460,8 @@ HW_PATH_IAA_API(void, descriptor_set_inflate_stop_check_rule,
  */
 static inline HW_PATH_IAA_API(void, descriptor_decompress_set_mini_block_size,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_mini_block_size_t mini_block_size)) {
-    const uint16_t DECOMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7u) << 10u);
-    const uint8_t  DECOMPRESSION_FLAG_OFFSET   = 38u;
+    const uint16_t DECOMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7U) << 10U);
+    const uint8_t  DECOMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[DECOMPRESSION_FLAG_OFFSET]) |= DECOMPRESSION_FLAG_BIT_MASK;
 }
@@ -471,7 +471,7 @@ static inline HW_PATH_IAA_API(void, descriptor_decompress_set_mini_block_size,
 */
 static inline HW_PATH_IAA_API(void, descriptor_inflate_set_flush, (hw_descriptor* const descriptor_ptr)) {
     const uint16_t DECOMPRESSION_FLAG_BIT_MASK = 0x02;
-    const uint8_t  DECOMPRESSION_FLAG_OFFSET   = 38u;
+    const uint8_t  DECOMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[DECOMPRESSION_FLAG_OFFSET]) |= DECOMPRESSION_FLAG_BIT_MASK;
 }
@@ -546,8 +546,8 @@ static inline HW_PATH_IAA_API(void, descriptor_shift_output_buffer,
  * @todo API will be described after refactoring completed
  */
 static inline HW_PATH_IAA_API(void, descriptor_set_crc_rfc3720, (hw_descriptor* const descriptor_ptr)) {
-    const uint8_t  CRC32_C_FLAG_BIT_MASK    = 0x20u;
-    const uint32_t CRC32_C_FLAG_BYTE_OFFSET = 6u;
+    const uint8_t  CRC32_C_FLAG_BIT_MASK    = 0x20U;
+    const uint32_t CRC32_C_FLAG_BYTE_OFFSET = 6U;
 
     descriptor_ptr->data[CRC32_C_FLAG_BYTE_OFFSET] |= CRC32_C_FLAG_BIT_MASK;
 }
@@ -573,8 +573,8 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_verification_set_index_t
  */
 static inline HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination,
                               (hw_descriptor* const descriptor_ptr, bool flag)) {
-    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01u;
-    const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5u;
+    const uint8_t  CACHE_CONTROL_FLAG_BIT_MASK    = 0x01U;
+    const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5U;
 
     // Cache control is a reserved field for CRC64, so set the flag to false to clear this field
     if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_iaa_analytics_descriptor*)descriptor_ptr)->op_code_op_flags)) {
@@ -591,8 +591,8 @@ static inline HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination,
  * @todo API will be described after refactoring completed
  */
 static inline HW_PATH_IAA_API(void, descriptor_set_block_on_fault, (hw_descriptor* const descriptor_ptr, bool flag)) {
-    const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02u;
-    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 4u;
+    const uint8_t  BLOCK_ON_FAULT_FLAG_BIT_MASK    = 0x02U;
+    const uint32_t BLOCK_ON_FAULT_FLAG_BYTE_OFFSET = 4U;
 
     if (flag)
         descriptor_ptr->data[BLOCK_ON_FAULT_FLAG_BYTE_OFFSET] |= BLOCK_ON_FAULT_FLAG_BIT_MASK;

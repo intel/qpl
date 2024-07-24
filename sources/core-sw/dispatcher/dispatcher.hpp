@@ -23,7 +23,7 @@
 
 #define OWN_MIN_(a, b) (a < b) ? a : b
 
-#define BITS_2_DATA_TYPE_INDEX(x) (OWN_MIN_((((x)-1u) >> 3u), 2u))
+#define BITS_2_DATA_TYPE_INDEX(x) (OWN_MIN_((((x)-1U) >> 3U), 2U))
 
 namespace qpl::core_sw::dispatcher {
 enum arch_t { px_arch = 0, avx2_arch = 1, avx512_arch = 2 };
@@ -79,11 +79,11 @@ using move_table_t        = std::array<qplc_move_t_ptr, 1>;
 using crc64_table_t        = std::array<qplc_crc64_t_ptr, 1>;
 using xor_checksum_table_t = std::array<qplc_xor_checksum_t_ptr, 1>;
 
-using deflate_table_t = std::array<void*, 3u>;
+using deflate_table_t = std::array<void*, 3U>;
 
-using deflate_fix_table_t = std::array<void*, 1u>;
+using deflate_fix_table_t = std::array<void*, 1U>;
 
-using setup_dictionary_table_t = std::array<void*, 1u>;
+using setup_dictionary_table_t = std::array<void*, 1U>;
 
 using aggregates_function_ptr_t = aggregates_table_t::value_type;
 using extract_function_ptr_t    = extract_table_t::value_type;

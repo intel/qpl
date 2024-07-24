@@ -14,7 +14,7 @@
 static inline __m512i own_unpack_1u_kernel(uint8_t* src_ptr, uint32_t start_bit) {
     __m512i srcmm0, srcmm1;
     srcmm0 = _mm512_loadu_si512(src_ptr);
-    srcmm1 = _mm512_loadu_si512(src_ptr + 1u);
+    srcmm1 = _mm512_loadu_si512(src_ptr + 1U);
 
     srcmm0 = _mm512_srli_epi16(srcmm0, start_bit);     // a - c - e - g - i - k - m - o -
     srcmm1 = _mm512_slli_epi16(srcmm1, 8 - start_bit); // - b - d - f - h - j - l - n - p
