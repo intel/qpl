@@ -39,7 +39,7 @@ namespace qpl::test {
 
                 uint32_t actual_out_bit_width = (job_ptr->out_bit_width == qpl_ow_nom) ?
                                                 job_ptr->src1_bit_width :
-                                                4u << (job_ptr->out_bit_width);
+                                                4U << (job_ptr->out_bit_width);
 
                 uint32_t dest_size = job_ptr->num_input_elements *
                                      ((actual_out_bit_width + max_bit_index) >> bit_to_byte_shift_offset);
@@ -47,8 +47,8 @@ namespace qpl::test {
                 std::fill(destination.begin(), destination.end(), 0);
 
                 destination.resize(dest_size);
-                job_ptr->total_in  = 0;
-                job_ptr->total_out = 0;
+                job_ptr->total_in  = 0U;
+                job_ptr->total_out = 0U;
 
                 job_ptr->available_in = static_cast<uint32_t>(source.size());
                 job_ptr->next_in_ptr  = source.data();
@@ -59,7 +59,7 @@ namespace qpl::test {
 
 
             void CompressSource() {
-                uint32_t job_size = 0;
+                uint32_t job_size = 0U;
                 qpl_job   *deflate_job_ptr;
                 auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
 
@@ -75,7 +75,7 @@ namespace qpl::test {
                     throw std::runtime_error("Couldn't init compression job\n");
                 }
 
-                const uint32_t MINIMAL_DESTINATION_SIZE = 100u;
+                const uint32_t MINIMAL_DESTINATION_SIZE = 100U;
                 uint32_t       destination_size         = static_cast<uint32_t>(source.size()) * 2;
                 destination_size = (destination_size < MINIMAL_DESTINATION_SIZE) ? MINIMAL_DESTINATION_SIZE
                                                                                  : destination_size;
@@ -110,7 +110,7 @@ namespace qpl::test {
                 CompressSource();
 
                 // Corrupt Compressed source
-                m_compressed_source[0] |= 0b000000110u;    // [4:0] - data; [6:5] - block type; [7:7] - block final marker;
+                m_compressed_source[0] |= 0b000000110U;    // [4:0] - data; [6:5] - block type; [7:7] - block final marker;
 
                 return RunStatusTest(QPL_STS_INVALID_BLOCK_TYPE);
             }
@@ -120,8 +120,8 @@ namespace qpl::test {
                 CompressSource();
 
                 // Corrupt Compressed source
-                m_compressed_source[0] |= 0b000000110u;    // [4:0] - data; [6:5] - block type; [7:7] - block final marker;
-                job_ptr->drop_initial_bytes = job_ptr->available_in / 8u;
+                m_compressed_source[0] |= 0b000000110U;    // [4:0] - data; [6:5] - block type; [7:7] - block final marker;
+                job_ptr->drop_initial_bytes = job_ptr->available_in / 8U;
 
                 auto expected_status = QPL_STS_INVALID_BLOCK_TYPE;
 

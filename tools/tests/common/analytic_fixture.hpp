@@ -30,16 +30,16 @@ namespace qpl::test
     struct AnalyticTestCase
     {
         qpl_operation operation                 = (qpl_operation) 0;
-        uint32_t     number_of_elements        = 0;
-        uint32_t     source_bit_width          = 0;
-        uint32_t     destination_bit_width     = 0;
-        uint32_t     lower_bound               = 0;
-        uint32_t     upper_bound               = 0;
-        uint32_t     second_input_bit_width    = 0;
-        uint32_t     second_input_num_elements = 0;
-        uint64_t     flags                     = 0;
+        uint32_t     number_of_elements        = 0U;
+        uint32_t     source_bit_width          = 0U;
+        uint32_t     destination_bit_width     = 0U;
+        uint32_t     lower_bound               = 0U;
+        uint32_t     upper_bound               = 0U;
+        uint32_t     second_input_bit_width    = 0U;
+        uint32_t     second_input_num_elements = 0U;
+        uint64_t     flags                     = 0U;
         qpl_parser   parser                    = (qpl_parser) 0;
-        uint32_t     dropped_bytes             = 0u;
+        uint32_t     dropped_bytes             = 0U;
     };
 
     inline void FillJob(qpl_job *qpl_job_ptr, AnalyticTestCase &test_case)
@@ -78,7 +78,7 @@ namespace qpl::test
     {
     public:
         std::vector<uint8_t> GetCompressedSource(bool is_indexing_enabled = false) {
-            uint32_t job_size = 0;
+            uint32_t job_size = 0U;
             qpl_job   *deflate_job_ptr;
             auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
 
@@ -97,8 +97,8 @@ namespace qpl::test
                 throw std::runtime_error("Couldn't init compression job\n");
             }
 
-            const uint32_t MINIMAL_DESTINATION_SIZE = 100u;
-            uint32_t       destination_size         = static_cast<uint32_t>(source.size()) * 2;
+            const uint32_t MINIMAL_DESTINATION_SIZE = 100U;
+            uint32_t       destination_size         = static_cast<uint32_t>(source.size()) * 2U;
             destination_size = (destination_size < MINIMAL_DESTINATION_SIZE) ? MINIMAL_DESTINATION_SIZE
                                                                              : destination_size;
 
@@ -160,31 +160,31 @@ namespace qpl::test
             FillJob(reference_job_ptr, current_test_case);
 
             // (Re-)Initialize some of the parameters to 0 in between iterations.
-            job_ptr->total_in  = 0;
-            job_ptr->total_out = 0;
-            job_ptr->crc = 0;
-            job_ptr->xor_checksum = 0;
+            job_ptr->total_in  = 0U;
+            job_ptr->total_out = 0U;
+            job_ptr->crc = 0U;
+            job_ptr->xor_checksum = 0U;
 
-            reference_job_ptr->total_in  = 0;
-            reference_job_ptr->total_out = 0;
-            reference_job_ptr->crc = 0;
-            reference_job_ptr->xor_checksum = 0;
+            reference_job_ptr->total_in  = 0U;
+            reference_job_ptr->total_out = 0U;
+            reference_job_ptr->crc = 0U;
+            reference_job_ptr->xor_checksum = 0U;
         }
 
         static std::vector<uint32_t> GenerateNumberOfElementsVector()
         {
             std::vector<uint32_t> result;
 
-            for (uint32_t i = 1u; i <= 128u; i++)
+            for (uint32_t i = 1U; i <= 128U; i++)
             {
                 result.push_back(i);
             }
 
-            for (uint32_t i = 7u; i <= 12u; i++)
+            for (uint32_t i = 7U; i <= 12U; i++)
             {
-                auto left_index = 1u << i;
-                auto right_index = left_index << 1u;
-                result.push_back((right_index + left_index) >> 1u);
+                auto left_index = 1U << i;
+                auto right_index = left_index << 1U;
+                result.push_back((right_index + left_index) >> 1U);
             }
 
             return result;
@@ -201,7 +201,7 @@ namespace qpl::test
 
             uint32_t actual_out_bit_width = current_test_case.destination_bit_width;
 
-            if (1u == current_test_case.destination_bit_width)
+            if (1U == current_test_case.destination_bit_width)
             {
                 actual_out_bit_width = current_test_case.source_bit_width;
             }

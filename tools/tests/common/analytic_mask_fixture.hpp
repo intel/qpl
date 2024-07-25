@@ -29,7 +29,7 @@ namespace qpl::test
 
             ASSERT_NO_THROW(mask = mask_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
-            uint32_t destination_bit_width = (1u == current_test_case.destination_bit_width) ? current_test_case.source_bit_width
+            uint32_t destination_bit_width = (1U == current_test_case.destination_bit_width) ? current_test_case.source_bit_width
                                                                                              : current_test_case.destination_bit_width;
 
             uint32_t destination_size = current_test_case.number_of_elements *

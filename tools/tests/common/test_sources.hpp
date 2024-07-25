@@ -55,7 +55,7 @@ public:
     AnalyticInputStream(size_t element_count,
                         uint8_t element_bit_width,
                         qpl_parser parser = qpl_p_le_packed_array,
-                        uint16_t prologue = 0u);
+                        uint16_t prologue = 0U);
 
     auto elements_count() noexcept -> size_t;
 
@@ -64,7 +64,7 @@ public:
     auto parser() -> qpl_parser override;
 
 private:
-    uint16_t prologue_ = 0;
+    uint16_t prologue_ = 0U;
 };
 
 class AnalyticMaskStream : public AnalyticStream {
@@ -78,7 +78,7 @@ public:
     auto parser() -> qpl_parser override;
 
 private:
-    static constexpr uint8_t BIT_WIDTH_ = 1u;
+    static constexpr uint8_t BIT_WIDTH_ = 1U;
 };
 
 class AnalyticCountersStream : public AnalyticStream {
@@ -86,7 +86,7 @@ public:
     AnalyticCountersStream(size_t counters_count,
                            uint8_t counter_width,
                            qpl_parser parser = qpl_p_le_packed_array,
-                           uint16_t prologue = 0u);
+                           uint16_t prologue = 0U);
 
     static auto elements_count() noexcept -> size_t;
 
@@ -97,7 +97,7 @@ public:
     auto parser() -> qpl_parser override;
 
 private:
-    uint16_t prologue_              = 0;
+    uint16_t prologue_              = 0U;
     size_t   packed_elements_count_ = 0;
 };
 

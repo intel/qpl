@@ -34,12 +34,12 @@ typedef GEN_INT64      Gen64s; /**< signed   64bit int */
 typedef int            GenStatus;
 /** @} */
 
-#define GEN_MAX_8U  (0xFF)
-#define GEN_MIN_8U  (0)
-#define GEN_MAX_16U (0xFFFF)
-#define GEN_MIN_16U (0)
-#define GEN_MAX_32U (0xFFFFFFFF)
-#define GEN_MIN_32U (0)
+#define GEN_MAX_8U  (0xFFU)
+#define GEN_MIN_8U  (0U)
+#define GEN_MAX_16U (0xFFFFU)
+#define GEN_MIN_16U (0U)
+#define GEN_MAX_32U (0xFFFFFFFFU)
+#define GEN_MIN_32U (0U)
 #define GEN_MIN_32S (-2147483647 - 1)
 #define GEN_MAX_32S (2147483647)
 
@@ -51,7 +51,7 @@ typedef int            GenStatus;
 
 #define GEN_ONE_64U (1ULL)
 
-#define GEN_MIN_64U (0)
+#define GEN_MIN_64U (0U)
 
 #define GEN_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define GEN_MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -62,33 +62,33 @@ typedef int            GenStatus;
  * @brief list of definitions which was declared in accordance with DEFLATE STANDARD
  */
 
-#define DEFAULT_LL_TABLE_LENGTH 286 /**> The real LL table size without reserved 287 and 288 LL codes*/
-#define DEFAULT_D_TABLE_LENGTH  30  /**> The real D table size without reserved 31 and 32 D codes*/
-#define DEFAULT_CL_TABLE_LENGTH 19  /**> The real CL table size*/
+#define DEFAULT_LL_TABLE_LENGTH 286U /**> The real LL table size without reserved 287 and 288 LL codes*/
+#define DEFAULT_D_TABLE_LENGTH  30U  /**> The real D table size without reserved 31 and 32 D codes*/
+#define DEFAULT_CL_TABLE_LENGTH 19U  /**> The real CL table size*/
 
-#define LITERALS_LOW_BORDER  0   /**> The value of the first literal code in LL table*/
-#define LITERALS_HIGH_BORDER 255 /**> The value of the last literal code in LL table*/
-#define EOB_CODE             256 /**> The code of EOB literal */
-#define MATCH_LOW_BORDER     257 /**> The value of the first match code in LL table*/
-#define MATCH_HIGH_BORDER    285 /**> The value of the last match code in LL table*/
+#define LITERALS_LOW_BORDER  0U   /**> The value of the first literal code in LL table*/
+#define LITERALS_HIGH_BORDER 255U /**> The value of the last literal code in LL table*/
+#define EOB_CODE             256U /**> The code of EOB literal */
+#define MATCH_LOW_BORDER     257U /**> The value of the first match code in LL table*/
+#define MATCH_HIGH_BORDER    285U /**> The value of the last match code in LL table*/
 
-#define MAX_OFFSET             4096 /**> The maximum offset is limited by history window size (Intel QPL limit) */
-#define DEFAULT_MAX_OFFSET     32768 /**> The maximum offset is limited by history window size (DEFLATE STANDARD limit) */
-#define MIN_MATCH              3     /**> The minimum match*/
-#define MAX_MATCH              258   /**> The maximum match*/
-#define MAX_CL_CODE_BIT_LENGTH 7     /**> The maximum CL code bit length*/
-#define MAX_LL_CODE_BIT_LENGTH 15    /**> The maximum LL code bit length*/
-#define MAX_D_CODE_BIT_LENGTH  15    /**> The maximum D code bit length*/
+#define MAX_OFFSET             4096U /**> The maximum offset is limited by history window size (Intel QPL limit) */
+#define DEFAULT_MAX_OFFSET     32768U /**> The maximum offset is limited by history window size (DEFLATE STANDARD limit) */
+#define MIN_MATCH              3U     /**> The minimum match*/
+#define MAX_MATCH              258U   /**> The maximum match*/
+#define MAX_CL_CODE_BIT_LENGTH 7U    /**> The maximum CL code bit length*/
+#define MAX_LL_CODE_BIT_LENGTH 15U    /**> The maximum LL code bit length*/
+#define MAX_D_CODE_BIT_LENGTH  15U    /**> The maximum D code bit length*/
 
 /**
  * @brief list of generator errors
  */
 
-#define GEN_OK                    0 /**> Generation of the test stream was completed successfully*/
-#define GEN_ERR                   1 /**> Generation of the test stream was completed with unexpected error*/
-#define GEN_UNSUPPORTED_GENERATOR 2 /**> Specified generator is not supported*/
-#define GEN_TEST_FACTOR_NEEDED    3 /**> Specified generator is needed in special parameters*/
-#define GEN_ALLOCATION_ERROR      4 /**> Specified generator can't allocate internal buffers*/
+#define GEN_OK                    0U /**> Generation of the test stream was completed successfully*/
+#define GEN_ERR                   1U /**> Generation of the test stream was completed with unexpected error*/
+#define GEN_UNSUPPORTED_GENERATOR 2U /**> Specified generator is not supported*/
+#define GEN_TEST_FACTOR_NEEDED    3U /**> Specified generator is needed in special parameters*/
+#define GEN_ALLOCATION_ERROR      4U /**> Specified generator can't allocate internal buffers*/
 
 typedef enum {
     NO_ERR_DYNAMIC_BLOCK,
@@ -128,8 +128,8 @@ typedef enum {
 } TestType;
 
 typedef enum {
-    ht_with_mapping_table = 0u,
-    ht_with_mapping_cam   = 1u,
+    ht_with_mapping_table = 0U,
+    ht_with_mapping_cam   = 1U,
 } GenHuffmanTableAecsFormat;
 
 /*Qpl Huffman table*/
@@ -147,15 +147,16 @@ struct GenDecompressionHuffmanTable {
 struct SpecialTestOptions {
     bool                         bigEndian  = false;
     bool                         crc32c     = false;
-    Gen32u                       blockCount = 1u;
+    Gen32u                       blockCount = 1U;
     Gen32u                       mini_block_size;
     GenDecompressionHuffmanTable decompression_huffman_table {};
     bool                         is_aecs_format2_expected = false;
 };
 
+
 struct TestFactor {
     TestType           type = NO_ERR_DYNAMIC_BLOCK;
-    Gen32u             seed = 0;
+    Gen32u             seed = 0U;
     SpecialTestOptions specialTestOptions;
 };
 

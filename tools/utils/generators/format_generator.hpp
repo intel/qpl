@@ -22,7 +22,7 @@ namespace qpl::test {
                                                uint32_t bit_width,
                                                uint32_t seed,
                                                bool is_little_endian,
-                                               uint32_t prologue_bytes = 0u) -> std::vector<uint8_t>;
+                                               uint32_t prologue_bytes = 0U) -> std::vector<uint8_t>;
 
         static auto push_back_uint_vector(std::vector<uint8_t> &vector,
                                           std::vector<uint32_t> &values_vector,

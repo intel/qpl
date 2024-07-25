@@ -17,10 +17,10 @@
 
 namespace gz_generator
 {
-    constexpr uint32_t HIST_SIZE    = 32768u;
-    constexpr uint32_t NUM_LL_LENS  = 286u;
-    constexpr uint32_t NUM_D_LENS   = 32u;
-    constexpr uint32_t NUM_CL_LENS  = 19u;
+    constexpr uint32_t HIST_SIZE    = 32768U;
+    constexpr uint32_t NUM_LL_LENS  = 286U;
+    constexpr uint32_t NUM_D_LENS   = 32U;
+    constexpr uint32_t NUM_CL_LENS  = 19U;
     constexpr uint32_t NUM_ENC_LENS = 1024;
 
 

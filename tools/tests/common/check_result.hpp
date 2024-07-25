@@ -33,10 +33,10 @@
 template<typename DataType>
 testing::AssertionResult CompareVectors(const std::vector<DataType> &first,
                                         const std::vector<DataType> &second,
-                                        const uint32_t number_of_elements_to_compare = 0u,
+                                        const uint32_t number_of_elements_to_compare = 0U,
                                         const std::string &fail_message = "")
 {
-    if (0 == number_of_elements_to_compare)
+    if (0U == number_of_elements_to_compare)
     {
         if (first.size() != second.size())
         {
@@ -58,10 +58,10 @@ testing::AssertionResult CompareVectors(const std::vector<DataType> &first,
         }
     }
 
-    const uint32_t index_bound = (number_of_elements_to_compare == 0u) ? static_cast<uint32_t>(first.size())
+    const uint32_t index_bound = (number_of_elements_to_compare == 0U) ? static_cast<uint32_t>(first.size())
                                                                  : number_of_elements_to_compare;
 
-    for (uint32_t i = 0; i < index_bound; i++)
+    for (uint32_t i = 0U; i < index_bound; i++)
     {
         if (first[i] != second[i])
         {
@@ -92,7 +92,7 @@ testing::AssertionResult CompareSegments(input_iterator first_begin,
     auto first  = first_begin;
     auto second = second_begin;
 
-    for (uint32_t i = 0; i < size; i++, first++, second++) {
+    for (uint32_t i = 0U; i < size; i++, first++, second++) {
         if (*first != *second) {
             return testing::AssertionFailure() << fail_message << ", "
                                                << "Segments differ at " << i << " index (" << static_cast<uint32_t>(*first) << " , "

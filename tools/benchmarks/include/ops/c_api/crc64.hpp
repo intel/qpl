@@ -149,8 +149,8 @@ protected:
         job_->available_in  += job_->total_in;
         job_->next_out_ptr  -= job_->total_out;
         job_->available_out += job_->total_out;
-        job_->total_in  = 0;
-        job_->total_out = 0;
+        job_->total_in  = 0U;
+        job_->total_out = 0U;
     }
 
     void mem_control_impl(mem_loc_e op, mem_loc_mask_e mask) const noexcept
@@ -174,10 +174,10 @@ protected:
         uint16_t number = 65523;
         uint64_t      result_poly;
         result_poly = (uint16_t) number;
-        result_poly = (result_poly << 16u) ^ (uint16_t) number;
-        result_poly = (result_poly << 16u) ^ (uint16_t) number;
-        result_poly = (result_poly << 16u) ^ (uint16_t) number;
-        result_poly |= 1u;
+        result_poly = (result_poly << 16U) ^ (uint16_t) number;
+        result_poly = (result_poly << 16U) ^ (uint16_t) number;
+        result_poly = (result_poly << 16U) ^ (uint16_t) number;
+        result_poly |= 1U;
         result_poly <<= poly_shift;
 
         return result_poly;

@@ -16,13 +16,13 @@ namespace qpl::test {
 // Operation codes for Intel® In-Memory Analytics Accelerator (Intel® IAA)
 // Used in testing to check OPCFG if operation is enabled/disabled
 enum qpl_test_opcodes {
-    opcode_decompress  = 0x42u,     /**< Intel® IAA decompress operation code */
-    opcode_compress    = 0x43u,     /**< Intel® IAA compress operation code */
-    opcode_crc64       = 0x44u,     /**< Intel® IAA crc64 operation code */
-    opcode_scan        = 0x50u,     /**< Intel® IAA scan operation code */
-    opcode_extract     = 0x52u,     /**< Intel® IAA extract operation code */
-    opcode_select      = 0x53u,     /**< Intel® IAA select operation code */
-    opcode_expand      = 0x56u,     /**< Intel® IAA expand operation code */
+    opcode_decompress  = 0x42U,     /**< Intel® IAA decompress operation code */
+    opcode_compress    = 0x43U,     /**< Intel® IAA compress operation code */
+    opcode_crc64       = 0x44U,     /**< Intel® IAA crc64 operation code */
+    opcode_scan        = 0x50U,     /**< Intel® IAA scan operation code */
+    opcode_extract     = 0x52U,     /**< Intel® IAA extract operation code */
+    opcode_select      = 0x53U,     /**< Intel® IAA select operation code */
+    opcode_expand      = 0x56U,     /**< Intel® IAA expand operation code */
 };
 
 inline bool is_opcfg_capabilities_present() {

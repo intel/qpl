@@ -23,10 +23,10 @@ namespace gz_generator
             virtual std::unique_ptr<std::stringstream> getConfig() = 0;
     };
 
-    static const float STORED_BLOCK_PROBABILITY     = 0.33f;
-    static const float FIXED_BLOCK_PROBABILITY      = 0.25f;
-    static const float HUFFMAX_BLOCK_PROBABILITY    = 0.5f;
-    static const unsigned int DEFAULT_TOKEN_COUNT   = 100u;
+    static const float STORED_BLOCK_PROBABILITY     = 0.33F;
+    static const float FIXED_BLOCK_PROBABILITY      = 0.25F;
+    static const float HUFFMAX_BLOCK_PROBABILITY    = 0.5F;
+    static const unsigned int DEFAULT_TOKEN_COUNT   = 100U;
 
     class TestConfigurator: public ITestConfigurator
     {
@@ -59,11 +59,11 @@ namespace gz_generator
             /*writers*/
             void writeRandomBlock ();
             void writeRandomStoredBlock();
-            void writeRandomHuffmanBlock(uint32_t minElementsCount = 0u);
+            void writeRandomHuffmanBlock(uint32_t minElementsCount = 0U);
             void writeRandomLiteralSequence(const Gen32u sequenceLength);
 
             Gen32u writeRandomReferenceSequence(const Gen32u sequenceLength,
-                                                const Gen32u previouslyLiteralsEncoded = 0u,
+                                                const Gen32u previouslyLiteralsEncoded = 0U,
                                                 const Gen32u encodedLiteralsCountLimit = GEN_MAX_32U);
 
             /*delegates to ConfigContainerClass*/
@@ -88,11 +88,11 @@ namespace gz_generator
         public:
             TestConfigurator(Gen32u seed)
                 :m_seed(seed),
-                 m_random(0u, 1u, m_seed),
-                 m_randomOffset(0u, MAX_OFFSET, m_seed),
+                 m_random(0U, 1U, m_seed),
+                 m_randomOffset(0U, MAX_OFFSET, m_seed),
                  m_randomMatch(MIN_MATCH, MAX_MATCH, m_seed),
                  m_randomLiteralCode(LITERALS_LOW_BORDER, LITERALS_HIGH_BORDER, m_seed),
-                 m_randomTokenCount(0u, DEFAULT_TOKEN_COUNT, m_seed)
+                 m_randomTokenCount(0U, DEFAULT_TOKEN_COUNT, m_seed)
             {
                 m_config = std::make_unique<std::stringstream>();
             }

@@ -59,14 +59,14 @@ struct extended_info_t
 {
     std::string   host_name;
     std::string   kernel;
-    std::uint32_t cpu_model                = 0;
+    std::uint32_t cpu_model                = 0U;
     std::string   cpu_model_name;
-    std::uint32_t cpu_stepping             = 0;
-    std::uint32_t cpu_microcode            = 0;
-    std::uint32_t cpu_logical_cores        = 0;
-    std::uint32_t cpu_physical_cores       = 0;
-    std::uint32_t cpu_sockets              = 0;
-    std::uint32_t cpu_physical_per_socket  = 0;
+    std::uint32_t cpu_stepping             = 0U;
+    std::uint32_t cpu_microcode            = 0U;
+    std::uint32_t cpu_logical_cores        = 0U;
+    std::uint32_t cpu_physical_cores       = 0U;
+    std::uint32_t cpu_sockets              = 0U;
+    std::uint32_t cpu_physical_per_socket  = 0U;
     accel_info_t  accelerators;
 };
 
@@ -75,11 +75,11 @@ const extended_info_t& get_sys_info();
 uint32_t get_current_numa() noexcept;
 uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept;
 
-constexpr std::uint64_t submitRetryWaitNs = 0;
+constexpr std::uint64_t submitRetryWaitNs = 0U;
 
 inline void retry_sleep()
 {
-    if constexpr (submitRetryWaitNs == 0)
+    if constexpr (submitRetryWaitNs == 0U)
         return;
     else
     {
@@ -94,7 +94,7 @@ inline void retry_sleep()
 template <typename RangeT>
 inline void mem_control(RangeT begin, RangeT end, mem_loc_e op) noexcept
 {
-    for (auto line = begin; line < end; line += 64u)
+    for (auto line = begin; line < end; line += 64U)
     {
         __builtin_ia32_clflush(&(*line));
 

@@ -12,11 +12,11 @@
 
 struct symbol
 {
-    unsigned int lit_len : 10u;
-    unsigned int dist    : 22u;
+    unsigned int lit_len : 10U;
+    unsigned int dist    : 22U;
 };
 
-const uint32_t DIST_LOG = (1u << 22u) - 1u;
+const uint32_t DIST_LOG = (1U << 22U) - 1U;
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ class symbol_page
     protected:
         enum
         {
-            PAGE_SIZE = 1022u
+            PAGE_SIZE = 1022U
         };
     public:
         symbol_page *m_next;
@@ -35,7 +35,7 @@ class symbol_page
         symbol_page()
         {
             m_next = NULL;
-            m_used = 0u;
+            m_used = 0U;
         }
 
         bool is_full()
@@ -64,7 +64,7 @@ class symbol_list
         symbol_list()
         {
             m_head    = m_tail    = NULL;
-            m_num_lit = m_num_sym = 0;
+            m_num_lit = m_num_sym = 0U;
         }
 
         symbol_list(const symbol_list& other) = delete;
@@ -90,10 +90,10 @@ class symbol_list
                 delete curr;
             }
             m_head                         = m_tail    = NULL;
-            m_num_lit                      = m_num_sym = 0;
+            m_num_lit                      = m_num_sym = 0U;
         }
 
-        void push(uint32_t lit_len, uint32_t dist = 0)
+        void push(uint32_t lit_len, uint32_t dist = 0U)
         {
             if (m_tail == NULL)
             {

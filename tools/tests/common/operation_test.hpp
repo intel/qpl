@@ -35,7 +35,7 @@ namespace qpl::test
             m_execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
             m_seed           = util::TestEnvironment::GetInstance().GetSeed();
 
-            uint32_t job_size = 0;
+            uint32_t job_size = 0U;
 
             auto status = qpl_get_job_size(m_execution_path, &job_size);
             ASSERT_EQ(QPL_STS_OK, status);
@@ -101,7 +101,7 @@ namespace qpl::test
             const uint32_t job_size = sizeof(qpl_job);
 
             m_reference_job_buffer = new uint8_t[job_size];
-            memset(m_reference_job_buffer, 0u, job_size);
+            memset(m_reference_job_buffer, 0U, job_size);
             reference_job_ptr = reinterpret_cast<qpl_job *>(m_reference_job_buffer);
         }
 

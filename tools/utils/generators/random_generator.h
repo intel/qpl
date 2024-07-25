@@ -11,7 +11,7 @@
 
 namespace qpl::test
 {
-    constexpr uint32_t DEFAULT_SEED = 1131199209u;
+    constexpr uint32_t DEFAULT_SEED = 1131199209U;
 
     /// random generator with the range mpy*(-1..1)+add
     class random_base

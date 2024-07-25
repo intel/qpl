@@ -25,7 +25,7 @@ namespace gz_generator
         private:
             inline int caclulateNumberLiteralLengthsCodesEqualTo13 (Gen32u headerHighBitBorder, Gen32u header_bit_size)
             {
-                return (int)((headerHighBitBorder - header_bit_size)/2u);
+                return (int)((headerHighBitBorder - header_bit_size)/2U);
             }
 
             GenStatus writeLiteralLengthsCodesForSmallHeader(Gen32u header_bit_size, Gen32u *pPossibleLiteralCount);
