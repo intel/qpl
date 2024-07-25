@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 #define QPL_INTERNAL_BUFFER_SIZE 1024u /**< Max size of internal buffer */
-#define FLIP_AECS_OFFSET(p)      (p)->aecs_hw_read_offset = (p)->aecs_size - (p)->aecs_hw_read_offset /**< @todo */
+#define FLIP_AECS_OFFSET(p)      ((p)->aecs_hw_read_offset = (p)->aecs_size - (p)->aecs_hw_read_offset) /**< @todo */
 
 typedef enum {
     qpl_task_execution_step_statistic_collection,

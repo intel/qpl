@@ -54,17 +54,17 @@ extern "C" {
  */
 
 /* --- Status Calculators */
-#define QPL_PROCESSING_ERROR(x)     QPL_PROCESSING_ERROR_BASE + x
+#define QPL_PROCESSING_ERROR(x)     (QPL_PROCESSING_ERROR_BASE + (x))
         /**< Calculates status for processing step */
-#define QPL_PARAMETER_ERROR(x)      QPL_PARAMETER_ERROR_BASE + x
+#define QPL_PARAMETER_ERROR(x)      (QPL_PARAMETER_ERROR_BASE + (x))
         /**< Calculates status for parameter check step */
-#define QPL_SERVICE_LOGIC_ERROR(x)  QPL_SERVICE_LOGIC_ERROR_BASE + x
+#define QPL_SERVICE_LOGIC_ERROR(x)  (QPL_SERVICE_LOGIC_ERROR_BASE + (x))
         /**< Calculates status for operation preprocessing or postprocessing step */
-#define QPL_OPERATION_ERROR(x)      QPL_OPERATION_ERROR_BASE + x
+#define QPL_OPERATION_ERROR(x)      (QPL_OPERATION_ERROR_BASE + (x))
         /**< Calculates status for operation execution step */
-#define QPL_OPERATION_STATUS(x)     QPL_OPERATION_STATUS_BASE + x
+#define QPL_OPERATION_STATUS(x)     (QPL_OPERATION_STATUS_BASE + (x))
         /**< Calculates status for operation execution step */
-#define QPL_INIT_ERROR(x)           QPL_INIT_ERROR_BASE + x
+#define QPL_INIT_ERROR(x)           (QPL_INIT_ERROR_BASE + (x))
         /**< Calculates status for initialization step */
 
 /** @} */

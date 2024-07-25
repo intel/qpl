@@ -46,7 +46,7 @@ extern "C" {
 /**
  * Unused variables which might be used later - warning removal
  */
-#define MAYBE_UNUSED(x) ((void)x)
+#define MAYBE_UNUSED(x) ((void)(x))
 
 /**
  * Marker for the last enumerator of qpl_decomp_end_proc
@@ -61,7 +61,7 @@ extern "C" {
 /**
  * Reserved enumerator for the compression level of the dictionary
  */
-#define DICT_NONE -1 /**< Value for software  */
+#define DICT_NONE (-1) /**< Value for software  */
 
 /**
  * @addtogroup QPL_FLAGS
@@ -197,19 +197,19 @@ extern "C" {
  * Only instances from the same socket as the calling thread could be used for execution.
  * @note This is the default behavior for Intel QPL starting from version 1.6.0.
  */
-#define QPL_DEVICE_NUMA_ID_SOCKET -1
+#define QPL_DEVICE_NUMA_ID_SOCKET (-1)
 
 /**
  * Internal mechanism for Intel IAA instance selection will respect NUMA boundary.
  * Only instances from the NUMA node of the calling thread could be used for execution.
  * @note This is the default behavior for Intel QPL prior to version 1.6.0.
  */
-#define QPL_DEVICE_NUMA_ID_CURRENT -2
+#define QPL_DEVICE_NUMA_ID_CURRENT (-2)
 
 /**
  * Any Intel IAA instance on the system could be used for execution. NUMA boundary is ignored.
  */
-#define QPL_DEVICE_NUMA_ID_ANY -3
+#define QPL_DEVICE_NUMA_ID_ANY (-3)
 
 /** @} */
 

@@ -54,7 +54,7 @@ extern "C" {
      (1ULL << qpl_op_scan_lt) | (1ULL << qpl_op_scan_le) | (1ULL << qpl_op_scan_gt) | (1ULL << qpl_op_scan_ge) |   \
      (1ULL << qpl_op_scan_range) | (1ULL << qpl_op_scan_not_range))
 
-#define QPL_BAD_OP_RET(op) {QPL_BADARG_RET((0 == (((uint64_t)QPL_VALID_OP >> op) & 1)), QPL_STS_OPERATION_ERR)};
+#define QPL_BAD_OP_RET(op) {QPL_BADARG_RET((0 == (((uint64_t)QPL_VALID_OP >> (op)) & 1)), QPL_STS_OPERATION_ERR)};
 
 #ifdef __cplusplus
 }

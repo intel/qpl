@@ -21,7 +21,7 @@
 #include "qplc_select.h"
 #include "qplc_unpack.h"
 
-#define OWN_MIN_(a, b) (a < b) ? a : b
+#define OWN_MIN_(a, b) ((a) < (b)) ? (a) : b
 
 #define BITS_2_DATA_TYPE_INDEX(x) (OWN_MIN_((((x)-1U) >> 3U), 2U))
 

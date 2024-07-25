@@ -50,7 +50,7 @@ extern "C" {
  * @brief Defines internal Intel QPL core function API declaration
  */
 #if !defined(OWN_QPLC_API)
-#define OWN_QPLC_API(type, name, arg) extern type CORE_FUN_NAME(ARCH, name) arg;
+#define OWN_QPLC_API(type, name, arg) extern type CORE_FUN_NAME(ARCH, name) arg; //NOLINT(bugprone-macro-parentheses)
 #endif
 
 #define CALL_CORE_FUN(name) CORE_FUN_NAME(ARCH, name)

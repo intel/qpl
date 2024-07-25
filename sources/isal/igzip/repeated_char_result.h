@@ -18,7 +18,7 @@
 /* The code for repeat 115-130. The Length includes the distance code length*/
 #define CODE_280              0x0f
 #define CODE_280_LENGTH       0x4
-#define CODE_280_TOTAL_LENGTH CODE_280_LENGTH + 4 + 1
+#define CODE_280_TOTAL_LENGTH (CODE_280_LENGTH + 4 + 1)
 
 /* Code representing the end of block. */
 #define END_OF_BLOCK     0x7
@@ -26,7 +26,7 @@
 
 /* MIN_REPEAT_LEN currently optimizes storage space, another possibility is to
  * find the size which optimizes speed instead.*/
-#define MIN_REPEAT_LEN 4 * 1024
+#define MIN_REPEAT_LEN (4 * 1024)
 
 #define HEADER_LENGTH 16
 

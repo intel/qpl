@@ -73,7 +73,7 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_BIT_2_BYTE(x) ((x + REF_MAX_BIT_IDX) >> REF_BIT_LEN_2_BYTE)
+#define REF_BIT_2_BYTE(x) (((x) + REF_MAX_BIT_IDX) >> REF_BIT_LEN_2_BYTE)
 
 #if defined(__INTEL_COMPILER) || defined(_MSC_VER)
 #define REF_INLINE static __inline    /**< @todo */
@@ -125,7 +125,7 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_FREE_PTR(ptr) { if(NULL != ptr) { free(ptr); ptr = NULL; }}
+#define REF_FREE_PTR(ptr) { if(NULL != (ptr)) { free(ptr); (ptr) = NULL; }}
 
 /**
  * @todo
@@ -150,8 +150,8 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_FMT_2_BITS(format) (REF_TERNARY((qpl_ow_8  == format), REF_8U_BITS, \
-                                REF_TERNARY((qpl_ow_16 == format), REF_16U_BITS,\
+#define REF_FMT_2_BITS(format) (REF_TERNARY((qpl_ow_8  == (format)), REF_8U_BITS, \
+                                REF_TERNARY((qpl_ow_16 == (format)), REF_16U_BITS,\
                                                                    REF_32U_BITS)))
 /**
  * @todo

@@ -38,7 +38,7 @@ namespace qpl::test {
 #define QPL_TEST_IC_DICT_COMP(IAACAP) (((IAACAP)>>7) &0x01)
 
 /**< OPCFG bit {OP}  - generic operation support */
-#define QPL_TEST_OC_GET_OP_SUPPORTED(OPCFG, OP)      (((OPCFG[7 - (OP/32)])>>OP%32) &0x01)
+#define QPL_TEST_OC_GET_OP_SUPPORTED(OPCFG, OP)      ((((OPCFG)[7 - ((OP)/32)])>>(OP)%32) &0x01)
 
 /**< Max number of workqueues, used to initialize the workqueue array in hw_dispatchwer */
 #define QPL_TEST_MAX_NUM_WQ      100U

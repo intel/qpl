@@ -32,7 +32,7 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_CHECK_BIT_IN_VECTOR(vector, nBit) ((vector[(nBit) >> 3]) & (1 << (nBit & 7)))
+#define REF_CHECK_BIT_IN_VECTOR(vector, nBit) (((vector)[(nBit) >> 3]) & (1 << ((nBit) & 7)))
 
 /**
  * @todo

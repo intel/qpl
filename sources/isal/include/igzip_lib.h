@@ -139,14 +139,14 @@ enum { IGZIP_LIT_TABLE_SIZE = ISAL_DEF_LIT_SYMBOLS };
 #define IGZIP_ZLIB_NO_HDR 4
 
 /* Compression Return values */
-#define COMP_OK                0
-#define INVALID_FLUSH          -7
-#define INVALID_PARAM          -8
-#define STATELESS_OVERFLOW     -1
-#define ISAL_INVALID_OPERATION -9
-#define ISAL_INVALID_STATE     -3
-#define ISAL_INVALID_LEVEL     -4 /* Invalid Compression level set */
-#define ISAL_INVALID_LEVEL_BUF -5 /* Invalid buffer specified for the compression level */
+#define COMP_OK                (0)
+#define INVALID_FLUSH          (-7)
+#define INVALID_PARAM          (-8)
+#define STATELESS_OVERFLOW     (-1)
+#define ISAL_INVALID_OPERATION (-9)
+#define ISAL_INVALID_STATE     (-3)
+#define ISAL_INVALID_LEVEL     (-4) /* Invalid Compression level set */
+#define ISAL_INVALID_LEVEL_BUF (-5) /* Invalid buffer specified for the compression level */
 
 /**
  *  @enum isal_zstate_state
@@ -184,7 +184,7 @@ enum isal_zstate_state {
 };
 
 /* Offset used to switch between TMP states and non-tmp states */
-#define ZSTATE_TMP_OFFSET ZSTATE_TMP_HDR - ZSTATE_HDR
+#define ZSTATE_TMP_OFFSET (ZSTATE_TMP_HDR - ZSTATE_HDR)
 
 /******************************************************************************/
 /* Inflate Implementation Specific Defines */
@@ -238,25 +238,25 @@ enum inflate_end_proc {
 #define ISAL_GZIP_NO_HDR_VER 6
 
 /* Inflate Return values */
-#define ISAL_DECOMP_OK          0  /* No errors encountered while decompressing */
-#define ISAL_END_INPUT          1  /* End of input reached */
-#define ISAL_OUT_OVERFLOW       2  /* End of output reached */
-#define ISAL_NAME_OVERFLOW      3  /* End of gzip name buffer reached */
-#define ISAL_COMMENT_OVERFLOW   4  /* End of gzip name buffer reached */
-#define ISAL_EXTRA_OVERFLOW     5  /* End of extra buffer reached */
-#define ISAL_NEED_DICT          6  /* Stream needs a dictionary to continue */
-#define ISAL_INVALID_BLOCK      -1 /* Invalid deflate block found */
-#define ISAL_INVALID_SYMBOL     -2 /* Invalid deflate symbol found */
-#define ISAL_INVALID_LOOKBACK   -3 /* Invalid lookback distance found */
-#define ISAL_INVALID_WRAPPER    -4 /* Invalid gzip/zlib wrapper found */
-#define ISAL_UNSUPPORTED_METHOD -5 /* Gzip/zlib wrapper specifies unsupported compress method */
-#define ISAL_INCORRECT_CHECKSUM -6 /* Incorrect checksum found */
+#define ISAL_DECOMP_OK          (0)  /* No errors encountered while decompressing */
+#define ISAL_END_INPUT          (1)  /* End of input reached */
+#define ISAL_OUT_OVERFLOW       (2)  /* End of output reached */
+#define ISAL_NAME_OVERFLOW      (3)  /* End of gzip name buffer reached */
+#define ISAL_COMMENT_OVERFLOW   (4)  /* End of gzip name buffer reached */
+#define ISAL_EXTRA_OVERFLOW     (5)  /* End of extra buffer reached */
+#define ISAL_NEED_DICT          (6)  /* Stream needs a dictionary to continue */
+#define ISAL_INVALID_BLOCK      (-1) /* Invalid deflate block found */
+#define ISAL_INVALID_SYMBOL     (-2) /* Invalid deflate symbol found */
+#define ISAL_INVALID_LOOKBACK   (-3) /* Invalid lookback distance found */
+#define ISAL_INVALID_WRAPPER    (-4) /* Invalid gzip/zlib wrapper found */
+#define ISAL_UNSUPPORTED_METHOD (-5) /* Gzip/zlib wrapper specifies unsupported compress method */
+#define ISAL_INCORRECT_CHECKSUM (-6) /* Incorrect checksum found */
 #if defined(QPL_LIB)
-#define QPL_MAX_CL_HUFFMAN_CODE_LEN            7U
-#define QPL_MAX_LL_D_HUFFMAN_CODE_LEN          15U
-#define QPL_32U_SIGN_BIT_MASK                  0x80000000U
-#define QPL_HUFFMAN_ONLY_TOKENS_COUNT          256U /* All literals except for EOB symbol */
-#define QPL_HW_BASE_CODE                       -200 /* Emulated HW error base */
+#define QPL_MAX_CL_HUFFMAN_CODE_LEN            (7U)
+#define QPL_MAX_LL_D_HUFFMAN_CODE_LEN          (15U)
+#define QPL_32U_SIGN_BIT_MASK                  (0x80000000U)
+#define QPL_HUFFMAN_ONLY_TOKENS_COUNT          (256U) /* All literals except for EOB symbol */
+#define QPL_HW_BASE_CODE                       (-200) /* Emulated HW error base */
 #define QPL_AD_ERROR_CODE_BIGHDR               (QPL_HW_BASE_CODE - 1)
 #define QPL_AD_ERROR_CODE_UNDEF_CL_CODE        (QPL_HW_BASE_CODE - 2)
 #define QPL_AD_ERROR_CODE_FIRST_LL_CODE_16     (QPL_HW_BASE_CODE - 3)
@@ -304,7 +304,7 @@ struct isal_mod_hist {
 #define ISAL_DEF_LVL1_TOKEN_SIZE 4
 #define ISAL_DEF_LVL2_REQ        (4 * IGZIP_K + 2 * IGZIP_LVL2_HASH_SIZE)
 #define ISAL_DEF_LVL2_TOKEN_SIZE 4
-#define ISAL_DEF_LVL3_REQ        4 * IGZIP_K + 4 * 4 * IGZIP_K + 2 * IGZIP_LVL3_HASH_SIZE
+#define ISAL_DEF_LVL3_REQ        (4 * IGZIP_K + 4 * 4 * IGZIP_K + 2 * IGZIP_LVL3_HASH_SIZE)
 #define ISAL_DEF_LVL3_TOKEN_SIZE 4
 
 /* Data sizes for level specific data options */

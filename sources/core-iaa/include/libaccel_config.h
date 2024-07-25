@@ -162,7 +162,7 @@ int accfg_device_disable(struct accfg_device* device, bool force);
 struct accfg_device* accfg_device_get_first(struct accfg_ctx* ctx);
 struct accfg_device* accfg_device_get_next(struct accfg_device* device);
 #define accfg_device_foreach(ctx, device) \
-    for (device = accfg_device_get_first(ctx); device != NULL; device = accfg_device_get_next(device))
+    for ((device) = accfg_device_get_first(ctx); (device) != NULL; (device) = accfg_device_get_next(device))
 struct accfg_ctx*       accfg_device_get_ctx(struct accfg_device*);
 const char*             accfg_device_get_devname(struct accfg_device* device);
 int                     accfg_device_type_validate(const char* dev_name);
@@ -214,7 +214,7 @@ struct accfg_group;
 struct accfg_group* accfg_group_get_first(struct accfg_device* device);
 struct accfg_group* accfg_group_get_next(struct accfg_group* group);
 #define accfg_group_foreach(device, group) \
-    for (group = accfg_group_get_first(device); group != NULL; group = accfg_group_get_next(group))
+    for ((group) = accfg_group_get_first(device); (group) != NULL; (group) = accfg_group_get_next(group))
 int                  accfg_group_get_id(struct accfg_group* group);
 struct accfg_group*  accfg_device_group_get_by_id(struct accfg_device* device, int id);
 int                  accfg_group_get_device_id(struct accfg_group* group);
@@ -249,7 +249,7 @@ struct accfg_wq;
 struct accfg_wq* accfg_wq_get_first(struct accfg_device* device);
 struct accfg_wq* accfg_wq_get_next(struct accfg_wq* wq);
 
-#define accfg_wq_foreach(device, wq) for (wq = accfg_wq_get_first(device); wq != NULL; wq = accfg_wq_get_next(wq))
+#define accfg_wq_foreach(device, wq) for ((wq) = accfg_wq_get_first(device); (wq) != NULL; (wq) = accfg_wq_get_next(wq))
 
 struct accfg_ctx*    accfg_wq_get_ctx(struct accfg_wq* wq);
 struct accfg_device* accfg_wq_get_device(struct accfg_wq* wq);
@@ -305,7 +305,7 @@ struct accfg_engine;
 struct accfg_engine* accfg_engine_get_first(struct accfg_device* device);
 struct accfg_engine* accfg_engine_get_next(struct accfg_engine* engine);
 #define accfg_engine_foreach(device, engine) \
-    for (engine = accfg_engine_get_first(device); engine != NULL; engine = accfg_engine_get_next(engine))
+    for ((engine) = accfg_engine_get_first(device); (engine) != NULL; (engine) = accfg_engine_get_next(engine))
 struct accfg_ctx*    accfg_engine_get_ctx(struct accfg_engine* engine);
 struct accfg_device* accfg_engine_get_device(struct accfg_engine* engine);
 struct accfg_group*  accfg_engine_get_group(struct accfg_engine* engine);

@@ -331,13 +331,13 @@ namespace qpl::test
 
 // Skips entire test for specified path, will also skip all remaining test cases
 #define QPL_SKIP_TEST_FOR(path) \
-if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) \
+if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == (path)) \
 GTEST_SKIP()
 
 // Skips entire test for specified path, will also skip all remaining test cases
 // Prints a message w/ skipped test
 #define QPL_SKIP_TEST_FOR_VERBOSE(path, message) \
-if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == path) \
+if (qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath() == (path)) \
 GTEST_SKIP_(message)
 
 
@@ -349,7 +349,7 @@ if (expr) { GTEST_SKIP_(message); }
 // Will skip a specific test case, will continue with running other test cases in test
 // Prints a message w/ skipped testcase
 #define QPL_SKIP_TC_TEST(expr, message) \
-if (expr) { std::cout << "skipped test case: " << message << std::endl; \
+if (expr) { std::cout << "skipped test case: " << (message) << std::endl; \
 return; \
 }
 
