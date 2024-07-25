@@ -12,25 +12,20 @@
 
 // tests_common
 #include "execution_wrapper.hpp"
-#include "operation_test.hpp"
-
-#include "util.hpp"
-#include "source_provider.hpp"
 #include "huffman_table_unique.hpp"
+#include "operation_test.hpp"
+#include "source_provider.hpp"
+#include "util.hpp"
 
 namespace qpl::test {
-enum HeaderType {
-    no_header = 0,
-    gzip_header = QPL_FLAG_GZIP_MODE,
-    zlib_header = QPL_FLAG_ZLIB_MODE
-};
+enum HeaderType { no_header = 0, gzip_header = QPL_FLAG_GZIP_MODE, zlib_header = QPL_FLAG_ZLIB_MODE };
 
 struct DeflateTestCase {
     HeaderType  header;
     std::string file_name;
 };
 
-std::ostream &operator<<(std::ostream &os, const DeflateTestCase &test_case) {
+std::ostream& operator<<(std::ostream& os, const DeflateTestCase& test_case) {
     std::string header;
 
     if (no_header == test_case.header) {
@@ -53,8 +48,8 @@ public:
 protected:
     void InitializeTestCases() override {
         auto dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
-        for (auto &data: dataset.get_data()) {
-            DeflateTestCase test_case{};
+        for (auto& data : dataset.get_data()) {
+            DeflateTestCase test_case {};
             test_case.file_name = data.first;
             test_case.header    = no_header;
             AddNewTestCase(test_case);
@@ -90,15 +85,13 @@ protected:
 
         indexes.resize(source.size());
         std::fill(indexes.begin(), indexes.end(), 0U);
-        job_ptr->idx_array    = (uint64_t *) indexes.data();
+        job_ptr->idx_array    = (uint64_t*)indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
 
-        if (no_header == current_test_case.header) {
-            ASSERT_TRUE(CheckIfBlockDynamic(destination));
-        }
+        if (no_header == current_test_case.header) { ASSERT_TRUE(CheckIfBlockDynamic(destination)); }
 
         destination.resize(job_ptr->total_out);
 
@@ -111,18 +104,17 @@ protected:
 
     void CompressStaticMode(qpl_compression_levels level, bool omit_verification = true) {
         // Create and initialize compression table
-        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
-                                                                 GetExecutionPath(),
-                                                                 DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+        const unique_huffman_table c_table(
+                deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         qpl_status status = fill_compression_table(c_table.get());
         ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
         job_ptr->huffman_table = c_table.get();
-        job_ptr->flags        |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
-        job_ptr->flags        |= (omit_verification) ? QPL_FLAG_OMIT_VERIFY : QPL_FLAG_CRC32C;
+        job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
+        job_ptr->flags |= (omit_verification) ? QPL_FLAG_OMIT_VERIFY : QPL_FLAG_CRC32C;
         job_ptr->level         = level;
         job_ptr->available_in  = static_cast<uint32_t>(source.size());
         job_ptr->next_in_ptr   = source.data();
@@ -133,7 +125,7 @@ protected:
 
         indexes.resize(source.size());
         std::fill(indexes.begin(), indexes.end(), 0U);
-        job_ptr->idx_array    = (uint64_t *) indexes.data();
+        job_ptr->idx_array    = (uint64_t*)indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         status = run_job_api(job_ptr);
@@ -162,7 +154,7 @@ protected:
 
         indexes.resize(source.size());
         std::fill(indexes.begin(), indexes.end(), 0U);
-        job_ptr->idx_array    = (uint64_t *) indexes.data();
+        job_ptr->idx_array    = (uint64_t*)indexes.data();
         job_ptr->idx_max_size = static_cast<uint32_t>(indexes.size());
 
         auto status = run_job_api(job_ptr);
@@ -179,15 +171,14 @@ protected:
     }
 
 private:
-    void DecompressStream(std::vector<uint8_t> &compressed_source,
-                          std::vector<uint8_t> &decompressed_destination) {
+    void DecompressStream(std::vector<uint8_t>& compressed_source, std::vector<uint8_t>& decompressed_destination) {
         uint32_t job_size = 0;
 
         auto status = qpl_get_job_size(GetExecutionPath(), &job_size);
         ASSERT_EQ(QPL_STS_OK, status);
 
         auto job_buffer      = std::make_unique<uint8_t[]>(job_size);
-        auto inflate_job_ptr = reinterpret_cast<qpl_job *>(job_buffer.get());
+        auto inflate_job_ptr = reinterpret_cast<qpl_job*>(job_buffer.get());
 
         status = qpl_init_job(GetExecutionPath(), inflate_job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
@@ -211,10 +202,8 @@ private:
         ASSERT_EQ(QPL_STS_OK, status);
     }
 
-    static testing::AssertionResult CheckIfBlockDynamic(std::vector<uint8_t> &buffer) {
-        if (buffer.empty()) {
-            return testing::AssertionFailure() << "Given buffer is empty";
-        }
+    static testing::AssertionResult CheckIfBlockDynamic(std::vector<uint8_t>& buffer) {
+        if (buffer.empty()) { return testing::AssertionFailure() << "Given buffer is empty"; }
 
         if ((((buffer)[0] & 2U) != 0U) || (((buffer)[0] & 4U) != 4U)) {
             return testing::AssertionFailure() << "Produced block is not dynamic";
@@ -223,7 +212,7 @@ private:
         return testing::AssertionSuccess();
     }
 
-    DeflateTestCase current_test_case{};
+    DeflateTestCase current_test_case {};
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, dynamic_blocks_high_level, DeflateTest) {
@@ -269,47 +258,53 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, fixed_blocks_default_level, Defla
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     CompressDynamicMode(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
     job_ptr->mini_block_size = qpl_mblk_size_512;
     CompressStaticMode(qpl_high_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
-    job_ptr->mini_block_size = qpl_mblk_size_512;
+    job_ptr->mini_block_size     = qpl_mblk_size_512;
     const bool omit_verification = false;
     CompressDynamicMode(qpl_high_level, omit_verification);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
-    job_ptr->mini_block_size = qpl_mblk_size_512;
+    job_ptr->mini_block_size     = qpl_mblk_size_512;
     const bool omit_verification = false;
     CompressStaticMode(qpl_high_level, omit_verification);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_default_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
-    job_ptr->mini_block_size = qpl_mblk_size_512;
+    job_ptr->mini_block_size     = qpl_mblk_size_512;
     const bool omit_verification = false;
     CompressDynamicMode(qpl_default_level, omit_verification);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_default_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
+                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
 
-    job_ptr->mini_block_size = qpl_mblk_size_512;
+    job_ptr->mini_block_size     = qpl_mblk_size_512;
     const bool omit_verification = false;
     CompressStaticMode(qpl_default_level, omit_verification);
 }
@@ -330,14 +325,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
     auto compression_job   = std::make_unique<uint8_t[]>(job_size);
     auto decompression_job = std::make_unique<uint8_t[]>(job_size);
 
-    auto *compr_job   = reinterpret_cast<qpl_job *>(compression_job.get());
-    auto *decompr_job = reinterpret_cast<qpl_job *>(decompression_job.get());
+    auto* compr_job   = reinterpret_cast<qpl_job*>(compression_job.get());
+    auto* decompr_job = reinterpret_cast<qpl_job*>(decompression_job.get());
 
     qpl_init_job(path, compr_job);
     qpl_init_job(path, decompr_job);
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        for (const uint32_t header: {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        for (const uint32_t header : {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = dataset.second;
             std::vector<uint8_t>  destination(source.size(), 0);
             std::vector<uint8_t>  reference(source.size(), 0);
@@ -352,11 +347,12 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
             compr_job->flags           = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | header;
             compr_job->level           = qpl_high_level;
             compr_job->mini_block_size = qpl_mblk_size_512;
-            compr_job->idx_array       = (uint64_t *) indexes.data();
+            compr_job->idx_array       = (uint64_t*)indexes.data();
             compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
 
             auto status = run_job_api(compr_job);
-            ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << dataset.first;
+            ASSERT_EQ(status, QPL_STS_OK)
+                    << "Compression failed with status: " << status << " source: " << dataset.first;
 
             // Decompress
             decompr_job->next_in_ptr   = destination.data();
@@ -367,7 +363,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
             decompr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
 
             status = run_job_api(decompr_job);
-            ASSERT_EQ(status, QPL_STS_OK) << "Decompression failed with status: " << status << " source: " << dataset.first;
+            ASSERT_EQ(status, QPL_STS_OK)
+                    << "Decompression failed with status: " << status << " source: " << dataset.first;
 
             // Check
             ASSERT_TRUE(std::equal(source.begin(), source.end(), reference.begin()));
@@ -391,21 +388,16 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     auto          table_source = dataset.begin()->second;
     uint32_t      job_size     = 0;
     auto          path         = util::TestEnvironment::GetInstance().GetExecutionPath();
-    qpl_histogram deflate_histogram{};
+    qpl_histogram deflate_histogram {};
 
     // Create and initialize compression table
-    const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
-                                                             path,
-                                                             DEFAULT_ALLOCATOR_C),
+    const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type, path, DEFAULT_ALLOCATOR_C),
                                        any_huffman_table_deleter);
     ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
     // Build the table
-    qpl_status status = qpl_gather_deflate_statistics(table_source.data(),
-                                                      static_cast<uint32_t>(table_source.size()),
-                                                      &deflate_histogram,
-                                                      qpl_high_level,
-                                                      path);
+    qpl_status status = qpl_gather_deflate_statistics(table_source.data(), static_cast<uint32_t>(table_source.size()),
+                                                      &deflate_histogram, qpl_high_level, path);
     ASSERT_EQ(status, QPL_STS_OK) << "Statistics gathering failed";
 
     status = qpl_huffman_table_init_with_histogram(c_table.get(), &deflate_histogram);
@@ -417,14 +409,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     auto compression_job   = std::make_unique<uint8_t[]>(job_size);
     auto decompression_job = std::make_unique<uint8_t[]>(job_size);
 
-    auto *compr_job   = reinterpret_cast<qpl_job *>(compression_job.get());
-    auto *decompr_job = reinterpret_cast<qpl_job *>(decompression_job.get());
+    auto* compr_job   = reinterpret_cast<qpl_job*>(compression_job.get());
+    auto* decompr_job = reinterpret_cast<qpl_job*>(decompression_job.get());
 
     qpl_init_job(path, compr_job);
     qpl_init_job(path, decompr_job);
 
-    for (auto &data: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-        for (const uint32_t header: {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
+    for (auto& data : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        for (const uint32_t header : {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
             auto                  source = data.second;
             std::vector<uint8_t>  destination(source.size() * 2, 0);
             std::vector<uint8_t>  reference(source.size(), 0);
@@ -440,7 +432,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
             compr_job->level           = qpl_high_level;
             compr_job->huffman_table   = c_table.get();
             compr_job->mini_block_size = qpl_mblk_size_512;
-            compr_job->idx_array       = (uint64_t *) indexes.data();
+            compr_job->idx_array       = (uint64_t*)indexes.data();
             compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
 
             status = run_job_api(compr_job);
@@ -456,7 +448,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
 
             status = run_job_api(decompr_job);
             ASSERT_EQ(status, QPL_STS_OK)
-                                        << "Decompression failed with status: " << status << " source: " << data.first;
+                    << "Decompression failed with status: " << status << " source: " << data.first;
 
             // Check
             const bool source_matches_reference = std::equal(source.begin(), source.end(), reference.begin());
@@ -469,4 +461,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
     qpl_fini_job(decompr_job);
 }
 
-}
+} // namespace qpl::test

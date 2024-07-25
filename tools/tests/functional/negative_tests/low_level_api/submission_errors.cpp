@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "gtest/gtest.h"
-
 #include "qpl/qpl.h"
+
+#include "gtest/gtest.h"
 
 // tool_common
 #include "dispatcher_checks.hpp"
 #include "util.hpp"
 
 // test_common
-#include "tn_common.hpp"
 #include "run_operation.hpp"
-
+#include "tn_common.hpp"
 
 namespace qpl::test {
 
@@ -44,31 +43,32 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, work_queues_are_busy) {
 
     qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    constexpr uint32_t source_size      = 9U; // 1 byte for input bit width, 4 bytes for RLE header, 4 bytes for 32-bit value
-    constexpr uint32_t input_bit_width  = 0U; // necessary for parquet format
-    constexpr uint32_t value_to_find    = 1U; // value to find
-    constexpr uint32_t num_elements     = 268435454U / 2; // 134217727 is the maximum number of elements in a single parquet RLE run
+    constexpr uint32_t source_size = 9U; // 1 byte for input bit width, 4 bytes for RLE header, 4 bytes for 32-bit value
+    constexpr uint32_t input_bit_width = 0U; // necessary for parquet format
+    constexpr uint32_t value_to_find   = 1U; // value to find
+    constexpr uint32_t num_elements =
+            268435454U / 2; // 134217727 is the maximum number of elements in a single parquet RLE run
 
     // parquet representation of 32-bit value 0 repeated 134217727 times
     // this job is chosen for taking a long time to complete (~.25 seconds), without any output.
-    std::vector<uint8_t> source= {32,                      // input bit width
-                                  0xFE, 0xFF, 0xFF, 0x7F,  // RLE header varint (repeat count << 1)
-                                  0x00, 0x00, 0x00, 0x00}; // 32-bit value 0
+    std::vector<uint8_t> source = {32,                      // input bit width
+                                   0xFE, 0xFF, 0xFF, 0x7F,  // RLE header varint (repeat count << 1)
+                                   0x00, 0x00, 0x00, 0x00}; // 32-bit value 0
     std::vector<uint8_t> destination(4, 0);
 
     const uint32_t number_of_jobs = max_descriptor_submissions() + 1;
 
-    auto job_buffer = std::vector<std::unique_ptr<uint8_t[]> >(number_of_jobs);
+    auto job_buffer = std::vector<std::unique_ptr<uint8_t[]>>(number_of_jobs);
 
-    uint32_t   size     = 0U;
+    uint32_t size = 0U;
 
     qpl_status status = qpl_get_job_size(execution_path, &size);
     ASSERT_EQ(status, QPL_STS_OK);
 
     int job_index;
-    for(job_index = 0; job_index < number_of_jobs; job_index++) {
+    for (job_index = 0; job_index < number_of_jobs; job_index++) {
         job_buffer[job_index] = std::make_unique<uint8_t[]>(size);
-        qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer[job_index].get());
+        qpl_job* job          = reinterpret_cast<qpl_job*>(job_buffer[job_index].get());
 
         status = qpl_init_job(execution_path, job);
 
@@ -84,13 +84,11 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, work_queues_are_busy) {
         job->param_low          = value_to_find;
 
         status = qpl_submit_job(job);
-        if (status != QPL_STS_OK) {
-            break;
-        }
+        if (status != QPL_STS_OK) { break; }
     }
 
-    for(int i = 0; i < job_index; i++) {
-        qpl_job *job = reinterpret_cast<qpl_job *>(job_buffer[i].get());
+    for (int i = 0; i < job_index; i++) {
+        qpl_job* job = reinterpret_cast<qpl_job*>(job_buffer[i].get());
 
         ASSERT_EQ(qpl_wait_job(job), QPL_STS_OK) << "Expected job submission to complete with success";
     }
@@ -103,4 +101,4 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, work_queues_are_busy) {
     }
 }
 
-}
+} // namespace qpl::test

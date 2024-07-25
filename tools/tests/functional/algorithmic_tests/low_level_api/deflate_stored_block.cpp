@@ -5,22 +5,21 @@
  ******************************************************************************/
 
 #include <array>
-#include <vector>
 #include <numeric>
 #include <string>
+#include <vector>
 
 #include "qpl/qpl.h"
+
 #include "gtest/gtest.h"
 #include "ta_ll_common.hpp"
 
 // tests_common
-#include "operation_test.hpp"
-
-#include "util.hpp"
 #include "compression_huffman_table.hpp"
-#include "source_provider.hpp"
-
 #include "huffman_table_unique.hpp"
+#include "operation_test.hpp"
+#include "source_provider.hpp"
+#include "util.hpp"
 
 namespace qpl::test {
 
@@ -45,9 +44,7 @@ public:
         std::vector<uint8_t> source;
         std::vector<uint8_t> destination(expected_size);
 
-        source_provider source_gen(input_size,
-                                   8U,
-                                   GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
@@ -69,10 +66,7 @@ public:
             auto bytes_to_compare = std::min(total_byte_to_compare, max_stored_block_size);
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
-            ASSERT_TRUE(CompareSegments(stored_block_begin,
-                                        stored_block_end,
-                                        reference,
-                                        reference + bytes_to_compare,
+            ASSERT_TRUE(CompareSegments(stored_block_begin, stored_block_end, reference, reference + bytes_to_compare,
                                         "Stored block index: " + std::to_string(i)));
 
             reference += bytes_to_compare;
@@ -95,9 +89,7 @@ public:
         std::vector<uint8_t> source;
         std::vector<uint8_t> destination(expected_size);
 
-        source_provider source_gen(input_size,
-                                   8U,
-                                   GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
@@ -119,10 +111,7 @@ public:
             auto bytes_to_compare = std::min(total_byte_to_compare, max_stored_block_size);
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
-            ASSERT_TRUE(CompareSegments(stored_block_begin,
-                                        stored_block_end,
-                                        reference,
-                                        reference + bytes_to_compare,
+            ASSERT_TRUE(CompareSegments(stored_block_begin, stored_block_end, reference, reference + bytes_to_compare,
                                         "Stored block index: " + std::to_string(i)));
 
             reference += bytes_to_compare;
@@ -149,10 +138,9 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
-                                                                 GetExecutionPath(),
-                                                                 DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+        const unique_huffman_table c_table(
+                deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         qpl_status status = fill_compression_table(c_table.get());
@@ -180,11 +168,9 @@ public:
             auto bytes_to_compare = std::min(total_byte_to_compare, max_stored_block_size);
             auto stored_block_end = stored_block_begin + bytes_to_compare;
 
-            const bool compare_segments_result = CompareSegments(stored_block_begin,
-                                                                 stored_block_end,
-                                                                 reference,
-                                                                 reference + bytes_to_compare,
-                                                                 "Stored block index: " + std::to_string(i));
+            const bool compare_segments_result =
+                    CompareSegments(stored_block_begin, stored_block_end, reference, reference + bytes_to_compare,
+                                    "Stored block index: " + std::to_string(i));
             ASSERT_TRUE(compare_segments_result);
 
             reference += bytes_to_compare;
@@ -211,10 +197,9 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
-                                                                 GetExecutionPath(),
-                                                                 DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+        const unique_huffman_table c_table(
+                deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         const qpl_status status = fill_compression_table(c_table.get());
@@ -245,10 +230,9 @@ public:
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         // Create and initialize compression table
-        const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type,
-                                                                 GetExecutionPath(),
-                                                                 DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+        const unique_huffman_table c_table(
+                deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         const qpl_status status = fill_compression_table(c_table.get());
@@ -276,9 +260,7 @@ public:
         std::vector<uint8_t> source;
         std::vector<uint8_t> destination(expected_size - 1U - (number_of_stored_blocks - 1) * max_stored_block_size);
 
-        source_provider source_gen(input_size,
-                                   8U,
-                                   GetSeed());
+        source_provider source_gen(input_size, 8U, GetSeed());
         ASSERT_NO_THROW(source = source_gen.get_source()); //NOLINT(cppcoreguidelines-avoid-goto)
 
         job_ptr->op            = qpl_op_compress;
@@ -334,36 +316,38 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_high_com
     static_compression_failed_test<large_input_data_size>(qpl_high_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_default_compression_no_stored_block_check, StoredBlockTest) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_default_compression_no_stored_block_check,
+                                     StoredBlockTest) {
     canned_compression_no_stored_block_check_test<small_input_data_size>(qpl_default_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_default_compression_no_stored_block_check, StoredBlockTest) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_default_compression_no_stored_block_check,
+                                     StoredBlockTest) {
     canned_compression_no_stored_block_check_test<large_input_data_size>(qpl_default_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_high_compression_no_stored_block_check, StoredBlockTest) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_canned_high_compression_no_stored_block_check,
+                                     StoredBlockTest) {
     canned_compression_no_stored_block_check_test<small_input_data_size>(qpl_high_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_high_compression_no_stored_block_check, StoredBlockTest) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_canned_high_compression_no_stored_block_check,
+                                     StoredBlockTest) {
     canned_compression_no_stored_block_check_test<large_input_data_size>(qpl_high_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block,
-                                     small_dynamic_overflow_check_default_level,
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_dynamic_overflow_check_default_level,
                                      StoredBlockTest) {
     dynamic_overflow_check_test<small_input_data_size>(qpl_default_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block,
-                                     large_dynamic_overflow_check_default_level,
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_dynamic_overflow_check_default_level,
                                      StoredBlockTest) {
     dynamic_overflow_check_test<large_input_data_size>(qpl_default_level);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_dynamic_overflow_check_high_level, StoredBlockTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == StoredBlockTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -373,7 +357,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_dynamic_overflo
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_dynamic_overflow_check_high_level, StoredBlockTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == StoredBlockTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -391,7 +375,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_overflow
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_static_overflow_check_high_level, StoredBlockTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == StoredBlockTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -401,7 +385,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, small_static_overflow
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_overflow_check_high_level, StoredBlockTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == StoredBlockTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -410,4 +394,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_stored_block, large_static_overflow
     static_overflow_check_test<large_input_data_size>(qpl_high_level);
 }
 
-}
+} // namespace qpl::test

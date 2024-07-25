@@ -11,11 +11,10 @@
 
 // tests_common
 #include "operation_test.hpp"
-#include "test_cases.hpp"
-
-#include "ta_ll_common.hpp"
 #include "random_generator.h"
 #include "source_provider.hpp"
+#include "ta_ll_common.hpp"
+#include "test_cases.hpp"
 
 namespace qpl::test {
 class JobReusageTest : public JobFixtureWithTestCases<std::string> {
@@ -25,7 +24,7 @@ private:
 
 protected:
     void InitializeTestCases() override {
-        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
             AddNewTestCase(dataset.first);
         }
     }
@@ -38,9 +37,7 @@ protected:
         source = dataset[current_test_case];
     }
 
-    void CleanUpAfterIteration() override {
-
-    }
+    void CleanUpAfterIteration() override {}
 
     void CompressWithJobReusage(bool chunked, qpl_compression_levels level) {
         const uint32_t file_size = static_cast<uint32_t>(source.size());
@@ -54,21 +51,18 @@ protected:
 
         qpl::test::random chunk_size(min_chunk_size, file_size, GetSeed());
 
-        job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
         job_ptr->next_in_ptr   = source.data();
         job_ptr->available_out = static_cast<uint32_t>(compressed_source.size());
         job_ptr->next_out_ptr  = compressed_source.data();
         job_ptr->level         = level;
         job_ptr->op            = qpl_op_compress;
 
-
         auto next_in_chunk = static_cast<uint32_t>(chunk_size);
 
-        while (job_ptr->total_in < file_size || (job_ptr->flags & QPL_FLAG_FIRST))
-        {
+        while (job_ptr->total_in < file_size || (job_ptr->flags & QPL_FLAG_FIRST)) {
             auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0U : job_ptr->total_in;
-            if ((bytes_processed + next_in_chunk) >= file_size)
-            {
+            if ((bytes_processed + next_in_chunk) >= file_size) {
                 next_in_chunk = file_size - bytes_processed;
                 job_ptr->flags |= QPL_FLAG_LAST;
             }
@@ -93,11 +87,9 @@ protected:
 
         next_in_chunk = static_cast<uint32_t>(chunk_size);
 
-        while (job_ptr->total_in < compressed_source.size() || (job_ptr->flags & QPL_FLAG_FIRST))
-        {
+        while (job_ptr->total_in < compressed_source.size() || (job_ptr->flags & QPL_FLAG_FIRST)) {
             auto bytes_processed = (job_ptr->flags & QPL_FLAG_FIRST) ? 0U : job_ptr->total_in;
-            if ((bytes_processed + next_in_chunk) >= compressed_source.size())
-            {
+            if ((bytes_processed + next_in_chunk) >= compressed_source.size()) {
                 next_in_chunk = static_cast<uint32_t>(compressed_source.size()) - bytes_processed;
                 job_ptr->flags |= QPL_FLAG_LAST;
             }
@@ -106,29 +98,22 @@ protected:
 
             auto inflate_status = qpl_execute_job(job_ptr);
 
-            if (QPL_STS_MORE_OUTPUT_NEEDED == inflate_status && job_ptr->total_out >= file_size)
-            {
+            if (QPL_STS_MORE_OUTPUT_NEEDED == inflate_status && job_ptr->total_out >= file_size) {
                 // There is a case when Inflate doesn't set available_in with 0 but set total_out to expected final result (orig file's size)
                 // and decompress buffer's content is also equal to original file, i.e. need to investigate this case deeply
 
                 break;
-            }
-            else
-            {
+            } else {
                 ASSERT_EQ(QPL_STS_OK, inflate_status);
             }
 
-            if (job_ptr->total_out >= file_size)
-            {
-                break;
-            }
+            if (job_ptr->total_out >= file_size) { break; }
 
             job_ptr->flags &= ~QPL_FLAG_FIRST; // Reset FIRST flag
         }
 
         ASSERT_TRUE(CompareVectors(decompressed_source, source));
     }
-
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_default_level, JobReusageTest) {
@@ -140,7 +125,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_by_chunks_default
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_high_level, JobReusageTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == JobReusageTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -150,7 +135,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_high_level, JobRe
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_by_chunks_high_level, JobReusageTest) {
-    if (GetExecutionPath()== qpl_path_hardware) {
+    if (GetExecutionPath() == qpl_path_hardware) {
         if (0 == JobReusageTest::num_test++) {
             GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
         }
@@ -159,4 +144,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(job_reusage, compression_by_chunks_high_le
     CompressWithJobReusage(true, qpl_high_level);
 }
 
-}
+} // namespace qpl::test

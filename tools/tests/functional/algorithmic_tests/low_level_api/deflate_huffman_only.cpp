@@ -7,21 +7,20 @@
 #include <algorithm>
 
 // tests_common
-#include "operation_test.hpp"
-
-#include "ta_ll_common.hpp"
-#include "source_provider.hpp"
-#include "iaa_features_checks.hpp"
-
 #include "huffman_table_unique.hpp"
+#include "iaa_features_checks.hpp"
+#include "operation_test.hpp"
+#include "source_provider.hpp"
+#include "ta_ll_common.hpp"
 
 namespace qpl::test {
 constexpr uint64_t no_flag = 0;
 
 class DeflateTestHuffmanOnly : public JobFixture {
 private:
-        uint8_t *job_buffer            = nullptr;
-        qpl_job *decompression_job_ptr = nullptr;
+    uint8_t* job_buffer            = nullptr;
+    qpl_job* decompression_job_ptr = nullptr;
+
 protected:
     void SetUp() override {
         JobFixture::SetUp();
@@ -31,7 +30,7 @@ protected:
         ASSERT_EQ(QPL_STS_OK, status);
 
         job_buffer            = new uint8_t[job_size];
-        decompression_job_ptr = reinterpret_cast<qpl_job *>(job_buffer);
+        decompression_job_ptr = reinterpret_cast<qpl_job*>(job_buffer);
         status                = qpl_init_job(GetExecutionPath(), decompression_job_ptr);
         ASSERT_EQ(QPL_STS_OK, status);
     }
@@ -47,42 +46,37 @@ protected:
         // Variables
         uint32_t total_out_ptr[2];
 
-        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
             uint32_t status = QPL_STS_OK;
-            source = dataset.second;
+            source          = dataset.second;
 
             destination.resize(source.size() * 2);
             std::fill(destination.begin(), destination.end(), 0U);
             std::vector<uint8_t> reference_buffer(destination.size(), 0U);
-            const uint32_t file_size = (uint32_t) source.size();
+            const uint32_t       file_size = (uint32_t)source.size();
 
             // Create the compression table
-            const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
-                                                                          GetExecutionPath(),
-                                                                          DEFAULT_ALLOCATOR_C),
-                                               any_huffman_table_deleter);
+            const unique_huffman_table c_table(
+                    huffman_only_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                    any_huffman_table_deleter);
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             job_ptr->huffman_table = c_table.get();
-            job_ptr->flags = QPL_FLAG_FIRST |
-                QPL_FLAG_LAST |
-                QPL_FLAG_NO_HDRS |
-                QPL_FLAG_GEN_LITERALS |
-                QPL_FLAG_DYNAMIC_HUFFMAN |
-                ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
-                ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
+            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS |
+                             QPL_FLAG_DYNAMIC_HUFFMAN | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
+                             ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
 
             for (uint32_t count_exec = 0; count_exec < 2; count_exec++) {
-                job_ptr->op = qpl_op_compress;
-                job_ptr->next_in_ptr = source.data();
-                job_ptr->next_out_ptr = destination.data();
-                job_ptr->available_in = file_size;
-                job_ptr->available_out = file_size * 2;
-                job_ptr->total_in = 0;
-                job_ptr->total_out = 0;
-                job_ptr->last_bit_offset = 0;
+                job_ptr->op                    = qpl_op_compress;
+                job_ptr->next_in_ptr           = source.data();
+                job_ptr->next_out_ptr          = destination.data();
+                job_ptr->available_in          = file_size;
+                job_ptr->available_out         = file_size * 2;
+                job_ptr->total_in              = 0;
+                job_ptr->total_out             = 0;
+                job_ptr->last_bit_offset       = 0;
                 job_ptr->first_index_min_value = 0;
-                job_ptr->crc = 0;
+                job_ptr->crc                   = 0;
 
                 // Compress
                 status = run_job_api(job_ptr);
@@ -92,10 +86,9 @@ protected:
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
             // Create and fill the decompression table
-            const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
-                                                                          GetExecutionPath(),
-                                                                          DEFAULT_ALLOCATOR_C),
-                                               any_huffman_table_deleter);
+            const unique_huffman_table d_table(
+                    huffman_only_huffman_table_maker(decompression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                    any_huffman_table_deleter);
             ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
             status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -104,18 +97,17 @@ protected:
             decompression_job_ptr->op          = qpl_op_decompress;
             decompression_job_ptr->next_in_ptr = destination.data();
 
-            decompression_job_ptr->next_out_ptr                   = reference_buffer.data();
-            decompression_job_ptr->available_in                   = job_ptr->total_out;
-            decompression_job_ptr->available_out                  = file_size;
+            decompression_job_ptr->next_out_ptr  = reference_buffer.data();
+            decompression_job_ptr->available_in  = job_ptr->total_out;
+            decompression_job_ptr->available_out = file_size;
             if (is_big_endian) {
-                decompression_job_ptr->ignore_end_bits            = (16 - job_ptr->last_bit_offset) & 15;
+                decompression_job_ptr->ignore_end_bits = (16 - job_ptr->last_bit_offset) & 15;
             } else {
-                decompression_job_ptr->ignore_end_bits            = (8 - job_ptr->last_bit_offset) & 7;
+                decompression_job_ptr->ignore_end_bits = (8 - job_ptr->last_bit_offset) & 7;
             }
-            decompression_job_ptr->huffman_table                  = d_table.get();
-            decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS |
-                                                                       ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
-            decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
+            decompression_job_ptr->huffman_table = d_table.get();
+            decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
+            decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
             // Decompress
             status = run_job_api(decompression_job_ptr);
@@ -126,10 +118,8 @@ protected:
             // this limitation will not apply.
             bool skip_verify = false;
 
-            if (qpl_path_hardware == job_ptr->data_ptr.path &&
-                is_big_endian &&
-                decompression_job_ptr->ignore_end_bits > 7 &&
-                !are_iaa_gen_2_min_capabilities_present()) {
+            if (qpl_path_hardware == job_ptr->data_ptr.path && is_big_endian &&
+                decompression_job_ptr->ignore_end_bits > 7 && !are_iaa_gen_2_min_capabilities_present()) {
 
                 ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
                 skip_verify = true;
@@ -142,9 +132,7 @@ protected:
             qpl_fini_job(decompression_job_ptr);
 
             // Verify
-            if (!skip_verify) {
-                ASSERT_TRUE(CompareVectors(source, reference_buffer, file_size));
-            }
+            if (!skip_verify) { ASSERT_TRUE(CompareVectors(source, reference_buffer, file_size)); }
         }
     }
 
@@ -152,20 +140,19 @@ protected:
         // Variables
         uint32_t total_out_ptr[2];
 
-        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+        for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
             uint32_t status = QPL_STS_OK;
-            source = dataset.second;
+            source          = dataset.second;
 
             destination.resize(source.size() * 2);
             std::fill(destination.begin(), destination.end(), 0U);
             std::vector<uint8_t> reference_buffer(destination.size(), 0U);
-            const uint32_t file_size = (uint32_t) source.size();
+            const uint32_t       file_size = (uint32_t)source.size();
 
             // Create the compression table
-            const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
-                                                                          GetExecutionPath(),
-                                                                          DEFAULT_ALLOCATOR_C),
-                                               any_huffman_table_deleter);
+            const unique_huffman_table c_table(
+                    huffman_only_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                    any_huffman_table_deleter);
             ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
             // Building table
@@ -176,13 +163,9 @@ protected:
             job_ptr->available_out = file_size * 2;
 
             job_ptr->huffman_table = c_table.get();
-            job_ptr->flags         = QPL_FLAG_FIRST |
-                                     QPL_FLAG_LAST |
-                                     QPL_FLAG_NO_HDRS |
-                                     QPL_FLAG_GEN_LITERALS |
-                                     QPL_FLAG_DYNAMIC_HUFFMAN |
-                                     ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
-                                     ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
+            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS |
+                             QPL_FLAG_DYNAMIC_HUFFMAN | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
+                             ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
 
             status = run_job_api(job_ptr);
 
@@ -191,7 +174,8 @@ protected:
             } else {
                 if (QPL_STS_OK != status) {
                     // Check HW version
-                    if (QPL_STS_INTL_VERIFY_ERR == status && is_big_endian && !are_iaa_gen_2_min_capabilities_present()) {
+                    if (QPL_STS_INTL_VERIFY_ERR == status && is_big_endian &&
+                        !are_iaa_gen_2_min_capabilities_present()) {
                         // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                         // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                         // So in some cases, verify will fail in the BE16 case.
@@ -204,7 +188,8 @@ protected:
                         // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
                         // this limitation will not apply.
 
-                        std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
+                        std::cout << "Deflate verify stage failed with status: "
+                                  << " " << status << "\n";
                         std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
                     } else {
                         FAIL() << "Deflate status: " << status << "\n";
@@ -217,34 +202,31 @@ protected:
             ASSERT_EQ(QPL_STS_OK, status);
 
             job_ptr->huffman_table = c_table.get();
-            job_ptr->flags = QPL_FLAG_FIRST |
-                QPL_FLAG_LAST |
-                QPL_FLAG_NO_HDRS |
-                QPL_FLAG_GEN_LITERALS |
-                ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
-                ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
+            job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS |
+                             ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag) |
+                             ((omit_verification) ? QPL_FLAG_OMIT_VERIFY : no_flag);
 
             for (uint32_t count_exec = 0; count_exec < 2; count_exec++) {
-                job_ptr->op = qpl_op_compress;
-                job_ptr->next_in_ptr = source.data();
-                job_ptr->next_out_ptr = destination.data();
-                job_ptr->available_in = file_size;
-                job_ptr->available_out = file_size * 2;
-                job_ptr->total_in = 0;
-                job_ptr->total_out = 0;
-                job_ptr->last_bit_offset = 0;
+                job_ptr->op                    = qpl_op_compress;
+                job_ptr->next_in_ptr           = source.data();
+                job_ptr->next_out_ptr          = destination.data();
+                job_ptr->available_in          = file_size;
+                job_ptr->available_out         = file_size * 2;
+                job_ptr->total_in              = 0;
+                job_ptr->total_out             = 0;
+                job_ptr->last_bit_offset       = 0;
                 job_ptr->first_index_min_value = 0;
-                job_ptr->crc = 0;
+                job_ptr->crc                   = 0;
 
                 status = run_job_api(job_ptr);
 
                 if (qpl_path_software == job_ptr->data_ptr.path) {
                     ASSERT_EQ(QPL_STS_OK, status);
-                }
-                else {
+                } else {
                     if (QPL_STS_OK != status) {
                         // Check HW version
-                        if (QPL_STS_INTL_VERIFY_ERR == status && is_big_endian && !are_iaa_gen_2_min_capabilities_present()) {
+                        if (QPL_STS_INTL_VERIFY_ERR == status && is_big_endian &&
+                            !are_iaa_gen_2_min_capabilities_present()) {
                             // Fix for HW issue in IAA 1.0 NO_HDR mode does not work for the case of BE16 compression.
                             // This is because we need to drop up to 15 bits, but we can only drop at most 7 bits.
                             // So in some cases, verify will fail in the BE16 case.
@@ -257,10 +239,11 @@ protected:
                             // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
                             // this limitation will not apply.
 
-                            std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
-                            std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
-                        }
-                        else {
+                            std::cout << "Deflate verify stage failed with status: "
+                                      << " " << status << "\n";
+                            std::cout
+                                    << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
+                        } else {
                             FAIL() << "Deflate status: " << status << "\n";
                         }
                     }
@@ -270,10 +253,9 @@ protected:
             ASSERT_EQ(total_out_ptr[0], total_out_ptr[1]);
 
             // Create and fill the decompression table
-            const unique_huffman_table d_table(huffman_only_huffman_table_maker(decompression_table_type,
-                                                                          GetExecutionPath(),
-                                                                          DEFAULT_ALLOCATOR_C),
-                                               any_huffman_table_deleter);
+            const unique_huffman_table d_table(
+                    huffman_only_huffman_table_maker(decompression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+                    any_huffman_table_deleter);
             ASSERT_NE(d_table.get(), nullptr) << "Decompression Huffman Table creation failed\n";
 
             status = qpl_huffman_table_init_with_other(d_table.get(), c_table.get());
@@ -282,17 +264,17 @@ protected:
             decompression_job_ptr->op          = qpl_op_decompress;
             decompression_job_ptr->next_in_ptr = destination.data();
 
-            decompression_job_ptr->next_out_ptr                   = reference_buffer.data();
-            decompression_job_ptr->available_in                   = job_ptr->total_out;
-            decompression_job_ptr->available_out                  = file_size;
+            decompression_job_ptr->next_out_ptr  = reference_buffer.data();
+            decompression_job_ptr->available_in  = job_ptr->total_out;
+            decompression_job_ptr->available_out = file_size;
             if (is_big_endian) {
-                decompression_job_ptr->ignore_end_bits            = (16 - job_ptr->last_bit_offset) & 15;
+                decompression_job_ptr->ignore_end_bits = (16 - job_ptr->last_bit_offset) & 15;
             } else {
-                decompression_job_ptr->ignore_end_bits            = (8 - job_ptr->last_bit_offset) & 7;
+                decompression_job_ptr->ignore_end_bits = (8 - job_ptr->last_bit_offset) & 7;
             }
-            decompression_job_ptr->huffman_table                  = d_table.get();
-            decompression_job_ptr->flags                          = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
-            decompression_job_ptr->flags                         |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
+            decompression_job_ptr->huffman_table = d_table.get();
+            decompression_job_ptr->flags         = QPL_FLAG_NO_HDRS | ((is_big_endian) ? QPL_FLAG_HUFFMAN_BE : no_flag);
+            decompression_job_ptr->flags |= QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
             // Decompress
             status = run_job_api(decompression_job_ptr);
@@ -303,10 +285,8 @@ protected:
             // this limitation will not apply.
             bool skip_verify = false;
 
-            if (qpl_path_hardware == job_ptr->data_ptr.path &&
-                is_big_endian &&
-                decompression_job_ptr->ignore_end_bits > 7 &&
-                !are_iaa_gen_2_min_capabilities_present()) {
+            if (qpl_path_hardware == job_ptr->data_ptr.path && is_big_endian &&
+                decompression_job_ptr->ignore_end_bits > 7 && !are_iaa_gen_2_min_capabilities_present()) {
 
                 ASSERT_EQ(QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR, status);
                 skip_verify = true;
@@ -319,9 +299,7 @@ protected:
             qpl_fini_job(decompression_job_ptr);
 
             // Verify
-            if (!skip_verify) {
-                ASSERT_TRUE(CompareVectors(source, reference_buffer, file_size));
-            }
+            if (!skip_verify) { ASSERT_TRUE(CompareVectors(source, reference_buffer, file_size)); }
         }
     }
 
@@ -330,7 +308,7 @@ protected:
     // Manually computing the histogram with a for loop and then constructing HT works properly
     // This test checks (both paths, they should create same output) for correct compression in huffman only
     static void RunHuffmanOnlyDynamicCorrectnessTest() {
-        auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+        auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
         const qpl_compression_levels compression_level = qpl_default_level;
         const uint32_t               source_size       = 1000;
@@ -342,22 +320,21 @@ protected:
         std::fill(source.begin(), source.end(), 5U);
 
         // Allocate job structure
-        uint32_t job_size = 0;
-        qpl_status status = qpl_get_job_size(execution_path, &job_size);
+        uint32_t   job_size = 0;
+        qpl_status status   = qpl_get_job_size(execution_path, &job_size);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
 
         auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-        auto job        = reinterpret_cast<qpl_job *>(job_buffer.get());
+        auto job        = reinterpret_cast<qpl_job*>(job_buffer.get());
 
         // Initialize job structure for compression
         status = qpl_init_job(execution_path, job);
         ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
         // Create compression table
-        const unique_huffman_table c_table(huffman_only_huffman_table_maker(compression_table_type,
-                                                                      execution_path,
-                                                                      DEFAULT_ALLOCATOR_C),
-                                           any_huffman_table_deleter);
+        const unique_huffman_table c_table(
+                huffman_only_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(c_table.get(), nullptr) << "Compression Huffman Table creation failed\n";
 
         // Fill in job structure for Huffman only compression
@@ -367,7 +344,8 @@ protected:
         job->available_in  = source_size;
         job->next_out_ptr  = destination.data();
         job->available_out = destination_size;
-        job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS |
+                     QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
         job->huffman_table = c_table.get();
 
         // Compress
@@ -422,4 +400,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(huffman_only, dynamic_correct_single_value_
     RunHuffmanOnlyDynamicCorrectnessTest();
 }
 
-}
+} // namespace qpl::test

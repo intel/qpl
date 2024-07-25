@@ -38,10 +38,10 @@ extern "C" {
 #else
 #define DCODE_OFFSET 0
 #endif
-#define DYN_HDR_START_LEN   17
-#define MAX_HISTHEAP_SIZE   LIT_LEN
-#define MAX_HUFF_TREE_DEPTH 15
-#define D                   IGZIP_HIST_SIZE /* Amount of history */
+#define DYN_HDR_START_LEN      17
+#define MAX_HISTHEAP_SIZE      LIT_LEN
+#define MAX_HUFF_TREE_DEPTH    15
+#define ISAL_DEFINED_HIST_SIZE IGZIP_HIST_SIZE /* Amount of history */
 
 #define MAX_DEFLATE_CODE_LEN   15
 #define MAX_SAFE_LIT_CODE_LEN  13

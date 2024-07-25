@@ -15,51 +15,43 @@
 #include "util.hpp"
 
 // tool_generator
-#include "random_generator.h"
-
 #include <algorithm>
 
-namespace qpl::test
-{
-enum compression_mode {
-    fixed_compression,
-    static_compression,
-    dynamic_compression,
-    canned_compression
-};
+#include "random_generator.h"
 
-constexpr uint32_t source_size = 64 * 1024;
+namespace qpl::test {
+enum compression_mode { fixed_compression, static_compression, dynamic_compression, canned_compression };
+
+constexpr uint32_t source_size      = 64 * 1024;
 constexpr uint32_t destination_size = source_size + 4;
 
 // Functions to perform compression
-template<compression_mode mode>
-qpl_status compress_create_indices(std::vector<uint8_t> &source,
-                                   std::vector<uint8_t> &destination,
-                                   qpl_job *job_ptr,
-                                   qpl_huffman_table_t table_ptr,
-                                   qpl_compression_levels level) { return QPL_STS_OK; }
+template <compression_mode mode>
+qpl_status compress_create_indices(std::vector<uint8_t>& source, std::vector<uint8_t>& destination, qpl_job* job_ptr,
+                                   qpl_huffman_table_t table_ptr, qpl_compression_levels level) {
+    return QPL_STS_OK;
+}
 
-template<>
-qpl_status compress_create_indices<compression_mode::dynamic_compression>(std::vector<uint8_t> &source,
-                                                                          std::vector<uint8_t> &destination,
-                                                                          qpl_job *job_ptr,
-                                                                          qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
-                                                                          qpl_compression_levels level) {
+template <>
+qpl_status compress_create_indices<compression_mode::dynamic_compression>(
+        std::vector<uint8_t>& source, std::vector<uint8_t>& destination, qpl_job* job_ptr,
+        qpl_huffman_table_t    table_ptr, //NOLINT(misc-unused-parameters)
+        qpl_compression_levels level) {
     std::vector<uint64_t> indices(100, 0);
 
     // Configure job
-    job_ptr->op = qpl_op_compress;
+    job_ptr->op    = qpl_op_compress;
     job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_LAST;
 
-    job_ptr->available_in = static_cast<uint32_t>(source.size());
+    job_ptr->available_in  = static_cast<uint32_t>(source.size());
     job_ptr->available_out = static_cast<uint32_t>(destination.size());
 
-    job_ptr->next_in_ptr = source.data();
+    job_ptr->next_in_ptr  = source.data();
     job_ptr->next_out_ptr = destination.data();
 
     job_ptr->level = level;
 
-    job_ptr->idx_array = indices.data();
+    job_ptr->idx_array    = indices.data();
     job_ptr->idx_max_size = static_cast<uint32_t>(indices.size());
 
     job_ptr->mini_block_size = qpl_mini_block_size::qpl_mblk_size_512;
@@ -70,11 +62,11 @@ qpl_status compress_create_indices<compression_mode::dynamic_compression>(std::v
     return result;
 }
 
-template<>
-qpl_status compress_create_indices<compression_mode::static_compression>(std::vector<uint8_t> &source,
-                                                                         std::vector<uint8_t> &destination,
-                                                                         qpl_job *job_ptr,
-                                                                         qpl_huffman_table_t table_ptr,
+template <>
+qpl_status compress_create_indices<compression_mode::static_compression>(std::vector<uint8_t>&  source,
+                                                                         std::vector<uint8_t>&  destination,
+                                                                         qpl_job*               job_ptr,
+                                                                         qpl_huffman_table_t    table_ptr,
                                                                          qpl_compression_levels level) {
     std::vector<uint64_t> indices(100, 0);
     // Configure job
@@ -82,16 +74,16 @@ qpl_status compress_create_indices<compression_mode::static_compression>(std::ve
 
     job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    job_ptr->available_in = static_cast<uint32_t>(source.size());
+    job_ptr->available_in  = static_cast<uint32_t>(source.size());
     job_ptr->available_out = static_cast<uint32_t>(destination.size());
 
-    job_ptr->next_in_ptr = source.data();
+    job_ptr->next_in_ptr  = source.data();
     job_ptr->next_out_ptr = destination.data();
 
     job_ptr->huffman_table = table_ptr;
-    job_ptr->level = level;
+    job_ptr->level         = level;
 
-    job_ptr->idx_array = indices.data();
+    job_ptr->idx_array    = indices.data();
     job_ptr->idx_max_size = static_cast<uint32_t>(indices.size());
 
     job_ptr->mini_block_size = qpl_mini_block_size::qpl_mblk_size_16k;
@@ -102,27 +94,26 @@ qpl_status compress_create_indices<compression_mode::static_compression>(std::ve
     return result;
 }
 
-template<>
-qpl_status compress_create_indices<compression_mode::fixed_compression>(std::vector<uint8_t> &source,
-                                                                        std::vector<uint8_t> &destination,
-                                                                        qpl_job *job_ptr,
-                                                                        qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
-                                                                        qpl_compression_levels level) {
+template <>
+qpl_status compress_create_indices<compression_mode::fixed_compression>(
+        std::vector<uint8_t>& source, std::vector<uint8_t>& destination, qpl_job* job_ptr,
+        qpl_huffman_table_t    table_ptr, //NOLINT(misc-unused-parameters)
+        qpl_compression_levels level) {
     std::vector<uint64_t> indices(100, 0);
     // Configure job
     job_ptr->op = qpl_op_compress;
 
     job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    job_ptr->available_in = static_cast<uint32_t>(source.size());
+    job_ptr->available_in  = static_cast<uint32_t>(source.size());
     job_ptr->available_out = static_cast<uint32_t>(destination.size());
 
-    job_ptr->next_in_ptr = source.data();
+    job_ptr->next_in_ptr  = source.data();
     job_ptr->next_out_ptr = destination.data();
 
     job_ptr->level = level;
 
-    job_ptr->idx_array = indices.data();
+    job_ptr->idx_array    = indices.data();
     job_ptr->idx_max_size = static_cast<uint32_t>(indices.size());
 
     job_ptr->mini_block_size = qpl_mini_block_size::qpl_mblk_size_16k;
@@ -131,7 +122,6 @@ qpl_status compress_create_indices<compression_mode::fixed_compression>(std::vec
     auto result = run_job_api(job_ptr);
     return result;
 }
-
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_block_overflow) {
     qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
@@ -139,11 +129,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_bl
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(source, destination,
-                                                                                             job_ptr, nullptr,
-                                                                                             qpl_default_level);
+    auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(
+            source, destination, job_ptr, nullptr, qpl_default_level);
 
     // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
     // the test will fall back to host. Therefore, auto path should get the same error as sw path
@@ -162,11 +151,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(source, destination,
-                                                                                             job_ptr, nullptr,
-                                                                                             qpl_high_level);
+    auto compression_status = compress_create_indices<compression_mode::dynamic_compression>(
+            source, destination, job_ptr, nullptr, qpl_high_level);
 
     ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
@@ -177,20 +165,17 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                           GetExecutionPath(),
-                                                           DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+    const unique_huffman_table table(
+            deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+            any_huffman_table_deleter);
     ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
     auto status = fill_compression_table(table.get());
     ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
-    status = compress_create_indices<compression_mode::static_compression>(source, destination,
-                                                                           job_ptr,
-                                                                           table.get(),
+    status = compress_create_indices<compression_mode::static_compression>(source, destination, job_ptr, table.get(),
                                                                            qpl_default_level);
 
     // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
@@ -210,21 +195,17 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                           GetExecutionPath(),
-                                                           DEFAULT_ALLOCATOR_C),
-                                     any_huffman_table_deleter);
+    const unique_huffman_table table(
+            deflate_huffman_table_maker(compression_table_type, GetExecutionPath(), DEFAULT_ALLOCATOR_C),
+            any_huffman_table_deleter);
     ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
     auto status = fill_compression_table(table.get());
     ASSERT_EQ(status, QPL_STS_OK) << "Compression table failed to be filled";
 
-    status = compress_create_indices<compression_mode::static_compression>(source,
-                                                                           destination,
-                                                                           job_ptr,
-                                                                           table.get(),
+    status = compress_create_indices<compression_mode::static_compression>(source, destination, job_ptr, table.get(),
                                                                            qpl_high_level);
     ASSERT_EQ(status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
@@ -235,12 +216,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_bloc
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination,
-                                                                                           job_ptr,
-                                                                                           nullptr,
-                                                                                           qpl_default_level);
+    auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination, job_ptr,
+                                                                                           nullptr, qpl_default_level);
 
     // For qpl_path_auto, the test will first try to run on accelerator, but since accelerator should return error,
     // the test will fall back to host. Therefore, auto path should get the same error as sw path
@@ -259,12 +238,10 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_o
     source.resize(source_size);
     destination.resize(destination_size);
 
-    std::generate(source.begin(), source.end(), [&random_number](){return static_cast<uint8_t>(random_number);});
+    std::generate(source.begin(), source.end(), [&random_number]() { return static_cast<uint8_t>(random_number); });
 
-    auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination,
-                                                                                           job_ptr,
-                                                                                           nullptr,
-                                                                                           qpl_high_level);
+    auto compression_status = compress_create_indices<compression_mode::fixed_compression>(source, destination, job_ptr,
+                                                                                           nullptr, qpl_high_level);
 
     ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
@@ -282,7 +259,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_
     // This hardcoded source data and size will result in a compressed stream of 10 Bytes.
     // The destination buffer (14 Bytes) is not large enough to accommodate the compressed
     // stream and the slop
-    const uint32_t fixed_source_size = 14U;
+    const uint32_t fixed_source_size      = 14U;
     const uint32_t fixed_destination_size = fixed_source_size;
     source.resize(fixed_source_size);
     destination.resize(fixed_destination_size);
@@ -303,4 +280,4 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_
     ASSERT_EQ(compression_status, QPL_STS_MORE_OUTPUT_NEEDED);
 }
 
-}
+} // namespace qpl::test

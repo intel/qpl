@@ -11,37 +11,31 @@
 #include "compression_huffman_table.hpp"
 
 namespace qpl::test {
-class SimpleCompressDecompressFixture : public BaseCrossTestFixture,
-                                        public TestCases<SimpleDeflateTestCase> {
+class SimpleCompressDecompressFixture
+    : public BaseCrossTestFixture
+    , public TestCases<SimpleDeflateTestCase> {
 private:
     std::vector<uint8_t>  reference_text;
     qpl_huffman_table_t   huffman_table;
-    SimpleDeflateTestCase current_test_case{};
+    SimpleDeflateTestCase current_test_case {};
 
 protected:
     void SetUp() override {
         BaseCrossTestFixture::SetUp();
         this->InitializeTestCases();
 
-        auto status = qpl_deflate_huffman_table_create(compression_table_type,
-                                                       qpl_path_auto,
-                                                       DEFAULT_ALLOCATOR_C,
+        auto status = qpl_deflate_huffman_table_create(compression_table_type, qpl_path_auto, DEFAULT_ALLOCATOR_C,
                                                        &huffman_table);
-        if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired during table creation.");
-        }
+        if (status != QPL_STS_OK) { throw std::runtime_error("An error acquired during table creation."); }
 
         status = fill_compression_table(huffman_table);
-        if (status != QPL_STS_OK) {
-            throw std::runtime_error("An error acquired when compression table is filled.");
-        }
-
+        if (status != QPL_STS_OK) { throw std::runtime_error("An error acquired when compression table is filled."); }
     }
 
     void InitializeTestCases() {
 
-        for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
-            SimpleDeflateTestCase test_case{};
+        for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+            SimpleDeflateTestCase test_case {};
             test_case.file_name  = dataset.first;
             test_case.header     = no_header;
             test_case.block_type = block_dynamic;
@@ -174,4 +168,4 @@ QPL_LOW_LEVEL_API_CROSS_TEST_TC(deflate, SimpleCompressDecompressFixture, compre
 QPL_LOW_LEVEL_API_CROSS_TEST_TC(deflate, SimpleCompressDecompressFixture, compress_hw_decompress_sw) {
     ASSERT_TRUE(ValidateCompressHwDecompressSw());
 }
-}
+} // namespace qpl::test

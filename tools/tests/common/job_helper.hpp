@@ -14,14 +14,13 @@
 
 namespace qpl::test::job_helper {
 
-template<qpl_operation, class ...Arguments>
-inline auto fill_job(qpl_job *const job_ptr, Arguments ...args);
+template <qpl_operation, class... Arguments>
+inline auto fill_job(qpl_job* const job_ptr, Arguments... args);
 
-static inline auto is_two_source_filtering(qpl_job *const job_ptr) {
-    return job_ptr->op == qpl_op_expand ||
-           job_ptr->op == qpl_op_select;
+static inline auto is_two_source_filtering(qpl_job* const job_ptr) {
+    return job_ptr->op == qpl_op_expand || job_ptr->op == qpl_op_select;
 }
 
-}
+} // namespace qpl::test::job_helper
 
 #endif // QPL_JOB_HELPER_HPP

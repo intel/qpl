@@ -31,7 +31,7 @@ void qpl::test::BaseCRCTestFixture::SetUpSoftwareJob() {
     ASSERT_EQ(QPL_STS_OK, status);
 
     m_sw_job_buffer = new uint8_t[job_size];
-    sw_job_ptr   = reinterpret_cast<qpl_job *>(m_sw_job_buffer);
+    sw_job_ptr      = reinterpret_cast<qpl_job*>(m_sw_job_buffer);
 
     status = qpl_init_job(qpl_path_software, sw_job_ptr);
     ASSERT_EQ(QPL_STS_OK, status);
@@ -44,7 +44,7 @@ void qpl::test::BaseCRCTestFixture::SetUpHardwareJob() {
     ASSERT_EQ(QPL_STS_OK, status);
 
     m_hw_job_buffer = new uint8_t[job_size];
-    hw_job_ptr      = reinterpret_cast<qpl_job *>(m_hw_job_buffer);
+    hw_job_ptr      = reinterpret_cast<qpl_job*>(m_hw_job_buffer);
 
     status = qpl_init_job(qpl_path_hardware, hw_job_ptr);
     ASSERT_EQ(QPL_STS_OK, status);

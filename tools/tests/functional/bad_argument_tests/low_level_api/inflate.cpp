@@ -12,10 +12,9 @@
 
 #include <array>
 
-#include "gtest/gtest.h"
-
 #include "qpl/qpl.h"
 
+#include "gtest/gtest.h"
 #include "tb_ll_common.hpp"
 
 // tests_common
@@ -27,25 +26,20 @@ namespace qpl::test {
  * @brief A basic @ref qpl_op_decompress operation bad argument test
  */
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, base) {
-    std::array<uint8_t, SOURCE_ARRAY_SIZE> source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     source.fill(0);
     destination.fill(0);
 
     // Preset
-    job_ptr->op = qpl_op_decompress;
+    job_ptr->op    = qpl_op_decompress;
     job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
-    set_input_stream(job_ptr,
-                     source.data(),
-                     (uint32_t) source.size(),
-                     NOT_APPLICABLE_PARAMETER,
-                     NOT_APPLICABLE_PARAMETER,
-                     static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
+    set_input_stream(job_ptr, source.data(), (uint32_t)source.size(), NOT_APPLICABLE_PARAMETER,
+                     NOT_APPLICABLE_PARAMETER, static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
 
-    set_output_stream(job_ptr, destination.data(),
-                      (uint32_t) destination.size(),
+    set_output_stream(job_ptr, destination.data(), (uint32_t)destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
     // Job is null
@@ -67,23 +61,18 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, base) {
  * @brief Test a more specific @ref qpl_op_decompress operation bad arguments
  */
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
-    std::array<uint8_t, SOURCE_ARRAY_SIZE> source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     source.fill(0);
     destination.fill(0);
 
     // Preset
-    job_ptr->op = qpl_op_decompress;
+    job_ptr->op    = qpl_op_decompress;
     job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
-    set_input_stream(job_ptr,
-                     source.data(),
-                     (uint32_t) source.size(),
-                     NOT_APPLICABLE_PARAMETER,
-                     NOT_APPLICABLE_PARAMETER,
-                     static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
-    set_output_stream(job_ptr, destination.data(),
-                      (uint32_t) destination.size(),
+    set_input_stream(job_ptr, source.data(), (uint32_t)source.size(), NOT_APPLICABLE_PARAMETER,
+                     NOT_APPLICABLE_PARAMETER, static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
+    set_output_stream(job_ptr, destination.data(), (uint32_t)destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
     job_ptr->ignore_end_bits       = 8U;
@@ -112,16 +101,10 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
 
     // BE16 format
     if (qpl_path_hardware == job_ptr->data_ptr.path) {
-        job_ptr->flags = QPL_FLAG_NO_HDRS | QPL_FLAG_HUFFMAN_BE;
+        job_ptr->flags           = QPL_FLAG_NO_HDRS | QPL_FLAG_HUFFMAN_BE;
         uint32_t odd_source_size = source.size();
-        if (odd_source_size % 2 == 0) {
-            odd_source_size -= 1;
-        }
-        set_input_stream(job_ptr,
-                         source.data(),
-                         odd_source_size,
-                         NOT_APPLICABLE_PARAMETER,
-                         NOT_APPLICABLE_PARAMETER,
+        if (odd_source_size % 2 == 0) { odd_source_size -= 1; }
+        set_input_stream(job_ptr, source.data(), odd_source_size, NOT_APPLICABLE_PARAMETER, NOT_APPLICABLE_PARAMETER,
                          static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
         job_ptr->ignore_end_bits       = 0U;
         job_ptr->ignore_start_bits     = 0U;
@@ -135,44 +118,38 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, extended) {
  * @brief Test @ref qpl_op_decompress operation behaviour in case if incompatible flags were set
  */
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_conflict) {
-    std::array<uint8_t, SOURCE_ARRAY_SIZE> source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     source.fill(0);
     destination.fill(0);
 
     // Preset
     job_ptr->op = qpl_op_decompress;
-    set_input_stream(job_ptr,
-                     source.data(),
-                     (uint32_t) source.size(),
-                     NOT_APPLICABLE_PARAMETER,
-                     NOT_APPLICABLE_PARAMETER,
-                     static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
-    set_output_stream(job_ptr, destination.data(),
-                      (uint32_t) destination.size(),
+    set_input_stream(job_ptr, source.data(), (uint32_t)source.size(), NOT_APPLICABLE_PARAMETER,
+                     NOT_APPLICABLE_PARAMETER, static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
+    set_output_stream(job_ptr, destination.data(), (uint32_t)destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
     job_ptr->flags = QPL_FLAG_RND_ACCESS | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
-                                << "Don't found flag conflict: user try decompress huffman_only in random mode";
+            << "Don't found flag conflict: user try decompress huffman_only in random mode";
 
     job_ptr->flags = QPL_FLAG_GZIP_MODE | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
-                                << "Don't found flag conflict: user try decompress huffman_only in with gzip header";
+            << "Don't found flag conflict: user try decompress huffman_only in with gzip header";
 
     job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
-                                << "Don't found flag conflict: user try decompress huffman_only in with zlib header";
-
+            << "Don't found flag conflict: user try decompress huffman_only in with zlib header";
 
     job_ptr->flags = QPL_FLAG_ZLIB_MODE | QPL_FLAG_GZIP_MODE | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
-                                << "Don't found flag conflict: user try decompress with zlib and gzip header both";
+            << "Don't found flag conflict: user try decompress with zlib and gzip header both";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, buffers_overlap) {
@@ -180,36 +157,32 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, buffers_overlap) {
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(decompress_huffman_only, fixed) {
-    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
 
-    set_operation_properties(job_ptr,
-        DROP_INITIAL_BYTES,
-        QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS,
-        qpl_op_decompress);
+    set_operation_properties(job_ptr, DROP_INITIAL_BYTES,
+                             QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_NO_HDRS | QPL_FLAG_GEN_LITERALS,
+                             qpl_op_decompress);
 
     job_ptr->huffman_table = nullptr;
 
     ASSERT_EQ(run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR);
-
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate_canned, nullptr_huffman_table) {
-    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
 
-    set_operation_properties(job_ptr,
-        DROP_INITIAL_BYTES,
-        QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE,
-        qpl_op_decompress);
+    set_operation_properties(job_ptr, DROP_INITIAL_BYTES, QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_CANNED_MODE,
+                             qpl_op_decompress);
 
     job_ptr->huffman_table = nullptr;
 
@@ -223,25 +196,22 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate_canned, nullptr_huffman_table) {
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, canned_indexing) {
     const qpl_path_t execution_path = qpl::test::util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     set_input_stream(job_ptr, source.data(), SOURCE_ARRAY_SIZE, INPUT_BIT_WIDTH, ELEMENTS_TO_PROCESS, INPUT_FORMAT);
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
 
-    set_operation_properties(job_ptr,
-        DROP_INITIAL_BYTES,
-        QPL_FLAG_FIRST| QPL_FLAG_LAST | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE,
-        qpl_op_decompress);
-
+    set_operation_properties(job_ptr, DROP_INITIAL_BYTES,
+                             QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_RND_ACCESS | QPL_FLAG_CANNED_MODE,
+                             qpl_op_decompress);
 
     qpl_huffman_table_t huffman_table = nullptr;
 
-    ASSERT_EQ(qpl_deflate_huffman_table_create(combined_table_type,
-                                               execution_path,
-                                               DEFAULT_ALLOCATOR_C,
-                                               &huffman_table), QPL_STS_OK);
+    ASSERT_EQ(
+            qpl_deflate_huffman_table_create(combined_table_type, execution_path, DEFAULT_ALLOCATOR_C, &huffman_table),
+            QPL_STS_OK);
 
     job_ptr->huffman_table = huffman_table;
 
@@ -252,4 +222,4 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, canned_indexing) {
     ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_MODE_ERR);
 }
 
-}
+} // namespace qpl::test

@@ -9,15 +9,15 @@
  *  Tests
  */
 
-#include <iostream>
-#include <vector>
-#include <thread>
 #include <future>
+#include <iostream>
+#include <thread>
+#include <vector>
+
+#include "qpl/qpl.h"
 
 #include "gtest/gtest.h"
 #include "tt_common.hpp"
-
-#include "qpl/qpl.h"
 
 // utils
 #include "system_info.hpp"
@@ -29,7 +29,7 @@ namespace qpl::test {
 // resubmit their job. This will not make every single thread finish their job;
 // though it will allow more threads to complete work that can be tested.
 
-constexpr const uint32_t wait_time = 10; // in milliseconds
+constexpr const uint32_t wait_time        = 10; // in milliseconds
 constexpr const uint32_t max_resubmit_cnt = 10;
 
 static uint32_t get_num_cores() {
@@ -38,28 +38,24 @@ static uint32_t get_num_cores() {
 
 int compress_test() {
     // Generate input
-    auto &dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
-    auto source = dataset.get_data().begin()->second;
+    auto& dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+    auto  source  = dataset.get_data().begin()->second;
 
     std::vector<uint8_t> compressed(source.size() * 2);
     std::vector<uint8_t> uncompressed(source.size());
 
     // job structure initialization
-    auto path = util::TestEnvironment::GetInstance().GetExecutionPath();
-    uint32_t size = 0;
+    auto       path   = util::TestEnvironment::GetInstance().GetExecutionPath();
+    uint32_t   size   = 0;
     qpl_status status = qpl_get_job_size(path, &size);
-    if (QPL_STS_OK != status) {
-        return status;
-    }
+    if (QPL_STS_OK != status) { return status; }
 
     std::unique_ptr<uint8_t[]> job_buffer;
     job_buffer = std::make_unique<uint8_t[]>(size);
-    auto job   = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job   = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     status = qpl_init_job(path, job);
-    if (QPL_STS_OK != status) {
-        return status;
-    }
+    if (QPL_STS_OK != status) { return status; }
 
     // perform compression
     job->op            = qpl_op_compress;
@@ -71,7 +67,7 @@ int compress_test() {
     job->available_out = static_cast<uint32_t>(compressed.size());
 
     uint32_t resubmit_cnt = 0;
-    status = qpl_execute_job(job);
+    status                = qpl_execute_job(job);
 
     // If queues are busy, wait then resubmit before moving on
     while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
@@ -79,9 +75,7 @@ int compress_test() {
         status = qpl_execute_job(job);
         resubmit_cnt++;
     }
-    if (QPL_STS_OK != status) {
-        return status;
-    }
+    if (QPL_STS_OK != status) { return status; }
 
     const uint32_t compressed_size = job->total_out;
     compressed.resize(compressed_size);
@@ -94,16 +88,14 @@ int compress_test() {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     resubmit_cnt = 0;
-    status = qpl_execute_job(job);
+    status       = qpl_execute_job(job);
 
     while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
         std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
         status = qpl_execute_job(job);
         resubmit_cnt++;
     }
-    if (QPL_STS_OK != status) {
-        return status;
-    }
+    if (QPL_STS_OK != status) { return status; }
 
     const uint32_t out_len = job->total_out;
 
@@ -137,7 +129,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
     std::cout << "Number of threads spawned: " << num_threads << std::endl;
     for (uint32_t i = 0; i < results.size(); i++) {
         auto ret = results[i].get();
-        if (ret > QPL_STS_OK && ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
+        if (ret > QPL_STS_OK &&
+            ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
             test_passed = false;
             std::cout << "Thread " << i << " returned with error code " << ret << std::endl;
         } else if (ret == -1) {

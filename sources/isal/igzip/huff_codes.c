@@ -667,7 +667,7 @@ void qpl_isal_update_histogram_base(uint8_t* start_stream, int length, struct is
         seen            = last_seen[hash];
         last_seen[hash] = (current - start_stream) & 0xFFFF;
         dist            = (current - start_stream - seen) & 0xFFFF;
-        if (dist - 1 < D - 1) {
+        if (dist - 1 < ISAL_DEFINED_HIST_SIZE - 1) {
             assert(start_stream <= current - dist);
             match_length = compare258(current - dist, current, end_stream - current);
             if (match_length >= SHORTEST_MATCH) {

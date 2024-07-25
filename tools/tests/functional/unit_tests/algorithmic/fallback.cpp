@@ -17,7 +17,7 @@ namespace qpl::test {
 using namespace qpl::job;
 
 constexpr auto incorrect_operation = static_cast<qpl_operation>(0x3FU);
-constexpr auto no_flags = 0U;
+constexpr auto no_flags            = 0U;
 
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, filtering) {
     qpl_job job;
@@ -114,7 +114,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, inflate) {
 QPL_UNIT_API_ALGORITHMIC_TEST(fallback, deflate) {
     qpl_job job;
 
-    job.op = qpl_op_compress;
+    job.op    = qpl_op_compress;
     job.flags = QPL_FLAG_CANNED_MODE; // @todo fix condition
     EXPECT_TRUE(is_compression(&job));
     job.flags = QPL_FLAG_CANNED_MODE;
@@ -193,4 +193,4 @@ QPL_UNIT_API_ALGORITHMIC_TEST(fallback, multi_job_support) {
     job.flags = QPL_FLAG_FIRST | QPL_FLAG_LAST;
     EXPECT_FALSE(is_multi_job(&job));
 }
-}
+} // namespace qpl::test

@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include "gtest/gtest.h"
-
 #include "qpl/qpl.h"
+
+#include "gtest/gtest.h"
 
 // tool_common
 #include "opcfg_checks.hpp"
 #include "util.hpp"
 
 // test_common
-#include "tn_common.hpp"
 #include "run_operation.hpp"
+#include "tn_common.hpp"
 
 /*
  *  These test check the accelerator configuration, and will run tests for
@@ -32,7 +32,8 @@ namespace qpl::test {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_decompress) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_decompress), "Decompress enabled on an available workqueue");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_decompress),
+                                   "Decompress enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -48,7 +49,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_decompress) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_compress) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_compress), "Compress enabled on an available workqueue");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_compress),
+                                   "Compress enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -64,7 +66,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_compress) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_crc64) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_crc64), "CRC64 enabled on an available workqueue");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_crc64),
+                                   "CRC64 enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -80,7 +83,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_crc64) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_scan) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_scan), "Scan enabled on an available workqueue");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_scan),
+                                   "Scan enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -96,8 +100,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_scan) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_extract) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_extract), "Extract enabled on an available workqueue");
-
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_extract),
+                                   "Extract enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -113,8 +117,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_extract) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_select) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_select), "Select enabled on an available workqueue");
-
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_select),
+                                   "Select enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -130,8 +134,8 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_select) {
 QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_expand) {
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Software path does not support OPCFG");
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_opcfg_capabilities_present(), "OPCFG capabilities are not present");
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_expand), "Expand enabled on an available workqueue");
-
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!is_operation_disabled_on_all_wq_on_node(opcode_expand),
+                                   "Expand enabled on an available workqueue");
 
     const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
@@ -144,4 +148,4 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(opcfg, disabled_expand) {
     }
 }
 
-}
+} // namespace qpl::test

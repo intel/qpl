@@ -5,7 +5,6 @@
  ******************************************************************************/
 
 #include "gtest/gtest.h"
-
 #include "tb_ll_common.hpp"
 
 // utils_common
@@ -19,12 +18,12 @@
 
 namespace qpl::test {
 
-void check_less_elements_in_mask_than_required(qpl_job *job_ptr, uint64_t flags) {
-    constexpr uint32_t source_length = 5;
-    constexpr uint32_t element_bit_width = 8U;
-    std::vector<uint8_t> source = { 1, 2, 3, 4, 5};
-    constexpr uint32_t mask_length = 1;
-    std::vector<uint8_t> mask = { 0b10010111 };
+void check_less_elements_in_mask_than_required(qpl_job* job_ptr, uint64_t flags) {
+    constexpr uint32_t   source_length     = 5;
+    constexpr uint32_t   element_bit_width = 8U;
+    std::vector<uint8_t> source            = {1, 2, 3, 4, 5};
+    constexpr uint32_t   mask_length       = 1;
+    std::vector<uint8_t> mask              = {0b10010111};
     std::vector<uint8_t> destination(DESTINATION_ARRAY_SIZE);
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, OUTPUT_BIT_WIDTH);
@@ -33,7 +32,8 @@ void check_less_elements_in_mask_than_required(qpl_job *job_ptr, uint64_t flags)
 
     // num_input_elements for expand operation reflects number of input elements in source-2
     set_input_stream(job_ptr, source.data(), source_length, element_bit_width, 50, qpl_p_le_packed_array);
-    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SRC_IS_SHORT_ERR) << "Fail on: number of elements exceeds mask size";
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_SRC_IS_SHORT_ERR)
+            << "Fail on: number of elements exceeds mask size";
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, source_errors) {
@@ -56,8 +56,7 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, mask_errors) {
     check_mask_stream_validation(job_ptr, qpl_op_expand, OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
 }
 
-QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, exceeded_limit_errors)
-{
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, exceeded_limit_errors) {
     // Software path doesn't have a limitation on drop of decompressed bytes
     QPL_SKIP_TEST_FOR(qpl_path_software);
 
@@ -65,31 +64,26 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, exceeded_limit_errors)
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, incorrect_initial_output_index) {
-    check_initial_output_index_verification<operation_group_e::filter_double_source>(job_ptr,
-                                                                                     qpl_op_expand,
+    check_initial_output_index_verification<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand,
                                                                                      OPERATION_FLAGS);
 
-    check_initial_output_index_verification<operation_group_e::filter_double_source>(job_ptr,
-                                                                                     qpl_op_expand,
-                                                                                     OPERATION_FLAGS
-                                                                                     | QPL_FLAG_DECOMPRESS_ENABLE);
+    check_initial_output_index_verification<operation_group_e::filter_double_source>(
+            job_ptr, qpl_op_expand, OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, drop_initial_bytes) {
-    check_drop_initial_bytes_verification<operation_group_e::filter_double_source>(job_ptr,
-                                                                                   qpl_op_expand,
+    check_drop_initial_bytes_verification<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand,
                                                                                    OPERATION_FLAGS);
 
-    check_drop_initial_bytes_verification<operation_group_e::filter_double_source>(job_ptr,
-                                                                                   qpl_op_expand,
-                                                                                   OPERATION_FLAGS
-                                                                                   | QPL_FLAG_DECOMPRESS_ENABLE);
+    check_drop_initial_bytes_verification<operation_group_e::filter_double_source>(
+            job_ptr, qpl_op_expand, OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, buffer_overlap) {
     check_buffer_overlap<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand, OPERATION_FLAGS);
 
-    check_buffer_overlap<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand, OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
+    check_buffer_overlap<operation_group_e::filter_double_source>(job_ptr, qpl_op_expand,
+                                                                  OPERATION_FLAGS | QPL_FLAG_DECOMPRESS_ENABLE);
 }
 
 /////////////////////////////////////
@@ -102,12 +96,13 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, buffer_overlap) {
 
 // If flag is set, output bit width is nominal, QPL_STS_OUT_FORMAT_ERR is expected
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_nominal) {
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == false, "Force array output modification is not supported. Skip the test.");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == false,
+                                   "Force array output modification is not supported. Skip the test.");
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_software, "Force array output modification not available on software path");
 
-    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
-    std::array<uint8_t, MASK_ARRAY_SIZE>        mask{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, MASK_ARRAY_SIZE>        mask {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     job_ptr->flags |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
 
@@ -123,11 +118,12 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_nominal) {
 
 // If flag is set, force array output modification is not supported, QPL_STS_NOT_SUPPORTED_MODE_ERR is expected
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_not_supported) {
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == true, "Force array output modification is supported. Skip the test.");
+    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(is_iaa_force_array_output_mod_supported() == true,
+                                   "Force array output modification is supported. Skip the test.");
 
-    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source{};
-    std::array<uint8_t, MASK_ARRAY_SIZE>        mask{};
-    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination{};
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, MASK_ARRAY_SIZE>        mask {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
 
     job_ptr->flags |= QPL_FLAG_FORCE_ARRAY_OUTPUT;
 
@@ -138,7 +134,8 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(expand, force_array_output_not_supported) {
 
     set_output_stream(job_ptr, destination.data(), DESTINATION_ARRAY_SIZE, qpl_ow_32);
 
-    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR) << "Fail on: force array output modification is not supported";
+    EXPECT_EQ(qpl::test::run_job_api(job_ptr), QPL_STS_NOT_SUPPORTED_MODE_ERR)
+            << "Fail on: force array output modification is not supported";
 }
 
-}
+} // namespace qpl::test

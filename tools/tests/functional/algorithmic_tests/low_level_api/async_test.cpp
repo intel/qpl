@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "gtest/gtest.h"
-
-#include "ta_ll_common.hpp"
 #include "qpl/qpl.h"
 
+#include "gtest/gtest.h"
 #include "source_provider.hpp"
+#include "ta_ll_common.hpp"
 #include "util.hpp"
 
 /* This test validates the library's asynchronous behavior
@@ -27,8 +26,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compressi
     constexpr uint32_t source_size      = 111261U;
     constexpr uint32_t number_of_copies = 7U;
 
-    auto &dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
-    auto path     = util::TestEnvironment::GetInstance().GetExecutionPath();
+    auto& dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+    auto  path    = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     std::vector<std::vector<uint8_t>> source(number_of_copies);
     for (int i = 0; i < number_of_copies; i++) {
@@ -39,17 +38,17 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compressi
     std::vector<std::vector<uint8_t>> uncompressed(source);
 
     qpl_status status = QPL_STS_OK;
-    uint32_t size     = 0;
+    uint32_t   size   = 0;
 
     status = qpl_get_job_size(path, &size);
     ASSERT_EQ(QPL_STS_OK, status);
 
     std::vector<std::unique_ptr<uint8_t[]>> job_buffer(number_of_copies);
-    std::vector<qpl_job *> job(number_of_copies);
+    std::vector<qpl_job*>                   job(number_of_copies);
 
     for (int i = 0; i < number_of_copies; i++) {
         job_buffer[i] = std::make_unique<uint8_t[]>(size);
-        job[i] = reinterpret_cast<qpl_job *>(job_buffer[i].get());
+        job[i]        = reinterpret_cast<qpl_job*>(job_buffer[i].get());
 
         status = qpl_init_job(path, job[i]);
         ASSERT_EQ(QPL_STS_OK, status);
@@ -62,7 +61,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compressi
         job[i]->available_in  = source[i].size();
         job[i]->next_out_ptr  = destination[i].data();
         job[i]->available_out = static_cast<uint32_t>(destination[i].size());
-        status = qpl_submit_job(job[i]);
+        status                = qpl_submit_job(job[i]);
         ASSERT_EQ(QPL_STS_OK, status);
     }
 
@@ -81,7 +80,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(async_multiple_jobs_submit, default_compressi
         job[i]->next_out_ptr  = uncompressed[i].data();
         job[i]->available_out = static_cast<uint32_t>(uncompressed[i].size());
         job[i]->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
-        status = qpl_submit_job(job[i]);
+        status                = qpl_submit_job(job[i]);
         ASSERT_EQ(QPL_STS_OK, status);
     }
 

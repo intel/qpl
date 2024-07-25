@@ -9,15 +9,13 @@
  *  Tests
  */
 
-#include "operation_test.hpp"
 #include "analytic_fixture.hpp"
-#include "ta_ll_common.hpp"
-
-#include "test_sources.hpp"
 #include "job_helper.hpp"
-
+#include "operation_test.hpp"
 #include "qpl_api_ref.h"
 #include "random_generator.h"
+#include "ta_ll_common.hpp"
+#include "test_sources.hpp"
 
 namespace qpl::test {
 
@@ -29,7 +27,7 @@ struct InputStreamMeta {
     uint32_t   prologue       = 0U;
 };
 
-static std::ostream &operator<<(std::ostream &os, const InputStreamMeta &test_case) {
+static std::ostream& operator<<(std::ostream& os, const InputStreamMeta& test_case) {
     os << "Parser: " << ParserToString(test_case.parser) << std::endl;
     os << "Number of elements: " << test_case.elements_count << std::endl;
     os << "Source bit width: " << test_case.bit_width << std::endl;
@@ -40,11 +38,13 @@ static std::ostream &operator<<(std::ostream &os, const InputStreamMeta &test_ca
     return os;
 }
 
-class SimpleAnalyticFixture : public ReferenceFixture,
-                              public TestCases<InputStreamMeta> {
+class SimpleAnalyticFixture
+    : public ReferenceFixture
+    , public TestCases<InputStreamMeta> {
 
 private:
     InputStreamMeta input_stream_meta;
+
 protected:
     void InitializeTestCases() {
         InputStreamMeta stream_meta;
@@ -53,7 +53,7 @@ protected:
 
         stream_meta.elements_count = static_cast<uint32_t>(random);
         random.set_range(1U, UINT16_MAX);
-        stream_meta.prologue      = 0;//static_cast<uint32_t>(random);
+        stream_meta.prologue = 0; //static_cast<uint32_t>(random);
         random.set_range(1U, 32U);
         stream_meta.bit_width     = static_cast<uint32_t>(random);
         stream_meta.is_compressed = false;
@@ -80,9 +80,9 @@ protected:
         job_ptr->drop_initial_bytes = input_stream_meta.prologue;
         job_ptr->flags              = (input_stream_meta.is_compressed) ? QPL_FLAG_DECOMPRESS_ENABLE : 0U;
 
-        job_ptr->out_bit_width      = qpl_ow_nom;
-        job_ptr->crc                = 0;
-        job_ptr->xor_checksum       = 0;
+        job_ptr->out_bit_width = qpl_ow_nom;
+        job_ptr->crc           = 0;
+        job_ptr->xor_checksum  = 0;
 
         reference_job_ptr->num_input_elements = input_stream_meta.elements_count;
         reference_job_ptr->src1_bit_width     = input_stream_meta.bit_width;
@@ -90,21 +90,17 @@ protected:
         reference_job_ptr->drop_initial_bytes = input_stream_meta.prologue;
         reference_job_ptr->flags              = 0;
 
-        reference_job_ptr->out_bit_width      = qpl_ow_nom;
-        reference_job_ptr->crc                = 0;
-        reference_job_ptr->xor_checksum       = 0;
-
+        reference_job_ptr->out_bit_width = qpl_ow_nom;
+        reference_job_ptr->crc           = 0;
+        reference_job_ptr->xor_checksum  = 0;
     }
-
 };
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, scan, SimpleAnalyticFixture) {
     auto stream_meta = GetTestCase();
     auto status      = QPL_STS_OK;
 
-    AnalyticInputStream input_stream(stream_meta.elements_count,
-                                     stream_meta.bit_width,
-                                     stream_meta.parser,
+    AnalyticInputStream input_stream(stream_meta.elements_count, stream_meta.bit_width, stream_meta.parser,
                                      stream_meta.prologue);
 
     destination.resize(input_stream.elements_count());
@@ -117,13 +113,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, scan, SimpleA
     if (stream_meta.is_compressed) {
         auto compressed_input = util::compress_stream(input_stream);
 
-        job_ptr->next_in_ptr   = compressed_input.data();
-        job_ptr->available_in  = static_cast<uint32_t>(compressed_input.size());
-        status                 = run_job_api(job_ptr);
+        job_ptr->next_in_ptr  = compressed_input.data();
+        job_ptr->available_in = static_cast<uint32_t>(compressed_input.size());
+        status                = run_job_api(job_ptr);
     } else {
-        job_ptr->next_in_ptr   = input_stream.data();
-        job_ptr->available_in  = static_cast<uint32_t>(input_stream.size());
-        status                 = run_job_api(job_ptr);
+        job_ptr->next_in_ptr  = input_stream.data();
+        job_ptr->available_in = static_cast<uint32_t>(input_stream.size());
+        status                = run_job_api(job_ptr);
     }
 
     reference_job_ptr->op            = qpl_op_scan_eq;
@@ -145,9 +141,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
     auto stream_meta = GetTestCase();
     auto status      = QPL_STS_OK;
 
-    AnalyticInputStream input_stream(stream_meta.elements_count,
-                                     stream_meta.bit_width,
-                                     stream_meta.parser,
+    AnalyticInputStream input_stream(stream_meta.elements_count, stream_meta.bit_width, stream_meta.parser,
                                      stream_meta.prologue);
 
     destination.resize(input_stream.elements_count() * sizeof(uint32_t));
@@ -162,13 +156,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
     if (stream_meta.is_compressed) {
         auto compressed_input = util::compress_stream(input_stream);
 
-        job_ptr->next_in_ptr   = compressed_input.data();
-        job_ptr->available_in  = static_cast<uint32_t>(compressed_input.size());
-        status                 = run_job_api(job_ptr);
+        job_ptr->next_in_ptr  = compressed_input.data();
+        job_ptr->available_in = static_cast<uint32_t>(compressed_input.size());
+        status                = run_job_api(job_ptr);
     } else {
-        job_ptr->next_in_ptr   = input_stream.data();
-        job_ptr->available_in  = static_cast<uint32_t>(input_stream.size());
-        status                 = run_job_api(job_ptr);
+        job_ptr->next_in_ptr  = input_stream.data();
+        job_ptr->available_in = static_cast<uint32_t>(input_stream.size());
+        status                = run_job_api(job_ptr);
     }
 
     reference_job_ptr->op            = qpl_op_extract;
@@ -189,14 +183,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(analytic_with_dropped_bytes, extract, Simp
 }
 
 static inline auto correct_bit_width(uint32_t bit_width, bool is_compressed) noexcept -> uint32_t {
-    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH = 15U;
+    constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH            = 15U;
     constexpr auto SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED = 8U;
 
-    auto max_acceptable_bit_width = (is_compressed) ?
-                                    SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED :
-                                    SET_OPERATION_MAX_ELEMENT_BIT_WIDTH;
+    auto max_acceptable_bit_width =
+            (is_compressed) ? SET_OPERATION_MAX_ELEMENT_BIT_WIDTH_COMPRESSED : SET_OPERATION_MAX_ELEMENT_BIT_WIDTH;
 
     return (bit_width > max_acceptable_bit_width) ? max_acceptable_bit_width : bit_width;
 }
 
-}
+} // namespace qpl::test

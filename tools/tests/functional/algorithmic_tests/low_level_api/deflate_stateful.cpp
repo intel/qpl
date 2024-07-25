@@ -7,25 +7,19 @@
 #include <algorithm>
 #include <array>
 
-#include "ta_ll_common.hpp"
-#include "source_provider.hpp"
 #include "huffman_table_unique.hpp"
+#include "source_provider.hpp"
+#include "ta_ll_common.hpp"
 #include "util.hpp"
 
 namespace qpl::test {
-enum compression_mode {
-    fixed_compression,
-    static_compression,
-    dynamic_compression,
-    canned_compression
-};
+enum compression_mode { fixed_compression, static_compression, dynamic_compression, canned_compression };
 
 auto get_chunk_sizes() -> std::vector<uint32_t> {
     std::vector<uint32_t> result;
-    auto                  insert_numbers_in_range = [&](uint32_t lower_boundary, uint32_t upper_boundary,
-                                                        uint32_t count) -> auto {
-        auto          step = (upper_boundary - lower_boundary) / count;
-        for (uint32_t i    = lower_boundary; i < upper_boundary; i += step) {
+    auto insert_numbers_in_range = [&](uint32_t lower_boundary, uint32_t upper_boundary, uint32_t count) -> auto{
+        auto step = (upper_boundary - lower_boundary) / count;
+        for (uint32_t i = lower_boundary; i < upper_boundary; i += step) {
             result.push_back(i);
         }
     };
@@ -39,24 +33,17 @@ auto get_chunk_sizes() -> std::vector<uint32_t> {
 // Functions to perform compression with given job
 // Accepts compression parameters
 template <compression_mode mode>
-qpl_status compress_with_chunks(std::vector<uint8_t> &source,
-                                std::vector<uint8_t> &destination,
-                                uint32_t chunk_size,
-                                qpl_job *job_ptr,
-                                qpl_huffman_table_t table_ptr,
-                                qpl_compression_levels level,
+qpl_status compress_with_chunks(std::vector<uint8_t>& source, std::vector<uint8_t>& destination, uint32_t chunk_size,
+                                qpl_job* job_ptr, qpl_huffman_table_t table_ptr, qpl_compression_levels level,
                                 bool omit_verification) {
     return QPL_STS_OK;
 }
 
 template <>
-qpl_status compress_with_chunks<compression_mode::dynamic_compression>(std::vector<uint8_t> &source,
-                                                                       std::vector<uint8_t> &destination,
-                                                                       uint32_t chunk_size,
-                                                                       qpl_job *job_ptr,
-                                                                       qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
-                                                                       qpl_compression_levels level,
-                                                                       bool omit_verification) {
+qpl_status compress_with_chunks<compression_mode::dynamic_compression>(
+        std::vector<uint8_t>& source, std::vector<uint8_t>& destination, uint32_t chunk_size, qpl_job* job_ptr,
+        qpl_huffman_table_t    table_ptr, //NOLINT(misc-unused-parameters)
+        qpl_compression_levels level, bool omit_verification) {
     qpl_status result = QPL_STS_OK;
     // Configure job
     job_ptr->op    = qpl_op_compress;
@@ -85,7 +72,7 @@ qpl_status compress_with_chunks<compression_mode::dynamic_compression>(std::vect
         source_bytes_left -= current_chunk_size;
         job_ptr->next_in_ptr  = source.data() + iteration_count * chunk_size;
         job_ptr->available_in = current_chunk_size;
-        result = run_job_api(job_ptr);
+        result                = run_job_api(job_ptr);
 
         if (result) {
             std::cout << "err" << result << ", " << iteration_count << std::endl;
@@ -101,13 +88,9 @@ qpl_status compress_with_chunks<compression_mode::dynamic_compression>(std::vect
 }
 
 template <>
-qpl_status compress_with_chunks<compression_mode::static_compression>(std::vector<uint8_t> &source,
-                                                                      std::vector<uint8_t> &destination,
-                                                                      uint32_t chunk_size,
-                                                                      qpl_job *job_ptr,
-                                                                      qpl_huffman_table_t table_ptr,
-                                                                      qpl_compression_levels level,
-                                                                      bool omit_verification) {
+qpl_status compress_with_chunks<compression_mode::static_compression>(
+        std::vector<uint8_t>& source, std::vector<uint8_t>& destination, uint32_t chunk_size, qpl_job* job_ptr,
+        qpl_huffman_table_t table_ptr, qpl_compression_levels level, bool omit_verification) {
     qpl_status result = QPL_STS_OK;
     // Configure job
     job_ptr->op = qpl_op_compress;
@@ -138,11 +121,9 @@ qpl_status compress_with_chunks<compression_mode::static_compression>(std::vecto
         source_bytes_left -= current_chunk_size;
         job_ptr->next_in_ptr  = source.data() + iteration_count * chunk_size;
         job_ptr->available_in = current_chunk_size;
-        result = run_job_api(job_ptr);
+        result                = run_job_api(job_ptr);
 
-        if (result) {
-            return result;
-        }
+        if (result) { return result; }
 
         job_ptr->flags &= ~QPL_FLAG_FIRST;
         iteration_count++;
@@ -153,13 +134,10 @@ qpl_status compress_with_chunks<compression_mode::static_compression>(std::vecto
 }
 
 template <>
-qpl_status compress_with_chunks<compression_mode::fixed_compression>(std::vector<uint8_t> &source,
-                                                                     std::vector<uint8_t> &destination,
-                                                                     uint32_t chunk_size,
-                                                                     qpl_job *job_ptr,
-                                                                     qpl_huffman_table_t table_ptr, //NOLINT(misc-unused-parameters)
-                                                                     qpl_compression_levels level,
-                                                                     bool omit_verification) {
+qpl_status compress_with_chunks<compression_mode::fixed_compression>(
+        std::vector<uint8_t>& source, std::vector<uint8_t>& destination, uint32_t chunk_size, qpl_job* job_ptr,
+        qpl_huffman_table_t    table_ptr, //NOLINT(misc-unused-parameters)
+        qpl_compression_levels level, bool omit_verification) {
     qpl_status result = QPL_STS_OK;
     // Configure job
     job_ptr->op = qpl_op_compress;
@@ -189,11 +167,9 @@ qpl_status compress_with_chunks<compression_mode::fixed_compression>(std::vector
         source_bytes_left -= current_chunk_size;
         job_ptr->next_in_ptr  = source.data() + iteration_count * chunk_size;
         job_ptr->available_in = current_chunk_size;
-        result = run_job_api(job_ptr);
+        result                = run_job_api(job_ptr);
 
-        if (result) {
-            return result;
-        }
+        if (result) { return result; }
 
         job_ptr->flags &= ~QPL_FLAG_FIRST;
         iteration_count++;
@@ -203,11 +179,9 @@ qpl_status compress_with_chunks<compression_mode::fixed_compression>(std::vector
     return result;
 }
 
-qpl_status decompress_with_chunks(std::vector<uint8_t> &compressed_source,
-                                  std::vector<uint8_t> &destination,
-                                  qpl_job *job_ptr,
-                                  uint32_t chunk_size) {
-    qpl_status result = QPL_STS_OK;
+qpl_status decompress_with_chunks(std::vector<uint8_t>& compressed_source, std::vector<uint8_t>& destination,
+                                  qpl_job* job_ptr, uint32_t chunk_size) {
+    qpl_status result      = QPL_STS_OK;
     job_ptr->op            = qpl_op_decompress;
     job_ptr->flags         = QPL_FLAG_FIRST;
     job_ptr->available_in  = static_cast<uint32_t>(compressed_source.size());
@@ -228,11 +202,9 @@ qpl_status decompress_with_chunks(std::vector<uint8_t> &compressed_source,
         source_bytes_left -= current_chunk_size;
         job_ptr->next_in_ptr  = compressed_source.data() + iteration_count * chunk_size;
         job_ptr->available_in = current_chunk_size;
-        result = run_job_api(job_ptr);
+        result                = run_job_api(job_ptr);
 
-        if (result) {
-            return result;
-        }
+        if (result) { return result; }
 
         job_ptr->flags &= ~QPL_FLAG_FIRST;
         iteration_count++;
@@ -251,43 +223,31 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
 
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::dynamic_compression>(source,
-                                                                                 compressed_source,
-                                                                                 block_size,
-                                                                                 job_ptr,
-                                                                                 nullptr,
-                                                                                 qpl_default_level,
-                                                                                 true);
+            status = compress_with_chunks<compression_mode::dynamic_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_default_level, true);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -308,39 +268,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::dynamic_compression>(source,
-                                                                                 compressed_source,
-                                                                                 block_size,
-                                                                                 job_ptr,
-                                                                                 nullptr,
-                                                                                 qpl_high_level,
-                                                                                 true);
+            status = compress_with_chunks<compression_mode::dynamic_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_high_level, true);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -358,39 +306,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::dynamic_compression>(source,
-                                                                                 compressed_source,
-                                                                                 block_size,
-                                                                                 job_ptr,
-                                                                                 nullptr,
-                                                                                 qpl_default_level,
-                                                                                 false);
+            status = compress_with_chunks<compression_mode::dynamic_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_default_level, false);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -411,39 +347,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::dynamic_compression>(source,
-                                                                                 compressed_source,
-                                                                                 block_size,
-                                                                                 job_ptr,
-                                                                                 nullptr,
-                                                                                 qpl_high_level,
-                                                                                 false);
+            status = compress_with_chunks<compression_mode::dynamic_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_high_level, false);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -461,39 +385,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::fixed_compression>(source,
-                                                                               compressed_source,
-                                                                               block_size,
-                                                                               job_ptr,
-                                                                               nullptr,
-                                                                               qpl_default_level,
-                                                                               true);
+            status = compress_with_chunks<compression_mode::fixed_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_default_level, true);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -514,39 +426,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::fixed_compression>(source,
-                                                                               compressed_source,
-                                                                               block_size,
-                                                                               job_ptr,
-                                                                               nullptr,
-                                                                               qpl_high_level,
-                                                                               true);
+            status = compress_with_chunks<compression_mode::fixed_compression>(source, compressed_source, block_size,
+                                                                               job_ptr, nullptr, qpl_high_level, true);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -564,39 +464,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::fixed_compression>(source,
-                                                                               compressed_source,
-                                                                               block_size,
-                                                                               job_ptr,
-                                                                               nullptr,
-                                                                               qpl_default_level,
-                                                                               false);
+            status = compress_with_chunks<compression_mode::fixed_compression>(
+                    source, compressed_source, block_size, job_ptr, nullptr, qpl_default_level, false);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -617,39 +505,27 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::fixed_compression>(source,
-                                                                               compressed_source,
-                                                                               block_size,
-                                                                               job_ptr,
-                                                                               nullptr,
-                                                                               qpl_high_level,
-                                                                               false);
+            status = compress_with_chunks<compression_mode::fixed_compression>(source, compressed_source, block_size,
+                                                                               job_ptr, nullptr, qpl_high_level, false);
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
 
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
@@ -667,53 +543,40 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        qpl_histogram histogram{};
+        qpl_histogram histogram {};
 
         status = qpl_gather_deflate_statistics(source.data(), source.size(), &histogram, qpl_default_level,
                                                execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                               execution_path,
-                                                               DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+        const unique_huffman_table table(
+                deflate_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::static_compression>(source,
-                                                                                compressed_source,
-                                                                                block_size,
-                                                                                job_ptr,
-                                                                                table.get(),
-                                                                                qpl_default_level,
-                                                                                true);
+            status = compress_with_chunks<compression_mode::static_compression>(
+                    source, compressed_source, block_size, job_ptr, table.get(), qpl_default_level, true);
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
@@ -733,57 +596,41 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        qpl_histogram histogram{};
+        qpl_histogram histogram {};
 
-        status = qpl_gather_deflate_statistics(source.data(),
-                                               source.size(),
-                                               &histogram,
-                                               qpl_high_level,
-                                               execution_path);
+        status =
+                qpl_gather_deflate_statistics(source.data(), source.size(), &histogram, qpl_high_level, execution_path);
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                               execution_path,
-                                                               DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+        const unique_huffman_table table(
+                deflate_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::static_compression>(source,
-                                                                                compressed_source,
-                                                                                block_size,
-                                                                                job_ptr,
-                                                                                table.get(),
-                                                                                qpl_high_level,
-                                                                                true);
+            status = compress_with_chunks<compression_mode::static_compression>(
+                    source, compressed_source, block_size, job_ptr, table.get(), qpl_high_level, true);
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
@@ -800,57 +647,41 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        qpl_histogram histogram{};
+        qpl_histogram histogram {};
 
-        status = qpl_gather_deflate_statistics(source.data(),
-                                               source.size(),
-                                               &histogram,
-                                               qpl_default_level,
+        status = qpl_gather_deflate_statistics(source.data(), source.size(), &histogram, qpl_default_level,
                                                execution_path);
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                               execution_path,
-                                                               DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+        const unique_huffman_table table(
+                deflate_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::static_compression>(source,
-                                                                                compressed_source,
-                                                                                block_size,
-                                                                                job_ptr,
-                                                                                table.get(),
-                                                                                qpl_default_level,
-                                                                                false);
+            status = compress_with_chunks<compression_mode::static_compression>(
+                    source, compressed_source, block_size, job_ptr, table.get(), qpl_default_level, false);
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
@@ -870,56 +701,40 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
     // Initialize decompression job
     status = qpl_init_job(execution_path, job_ptr);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        qpl_histogram histogram{};
+        qpl_histogram histogram {};
 
-        status = qpl_gather_deflate_statistics(source.data(),
-                                               source.size(),
-                                               &histogram,
-                                               qpl_high_level,
-                                               execution_path);
+        status =
+                qpl_gather_deflate_statistics(source.data(), source.size(), &histogram, qpl_high_level, execution_path);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                               execution_path,
-                                                               DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+        const unique_huffman_table table(
+                deflate_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
             std::vector<uint8_t> reference(source.size());
-            status = compress_with_chunks<compression_mode::static_compression>(source,
-                                                                                compressed_source,
-                                                                                block_size,
-                                                                                job_ptr,
-                                                                                table.get(),
-                                                                                qpl_high_level,
-                                                                                false);
+            status = compress_with_chunks<compression_mode::static_compression>(
+                    source, compressed_source, block_size, job_ptr, table.get(), qpl_high_level, false);
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress job. " << error_message;
 
-            status = decompress_with_chunks(compressed_source,
-                                            reference,
-                                            job_ptr,
-                                            source.size());
+            status = decompress_with_chunks(compressed_source, reference, job_ptr, source.size());
             ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job." << error_message;
 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
@@ -938,19 +753,15 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
             std::vector<uint8_t> compressed_source(source.size() * 2);
@@ -958,9 +769,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
 
             uint32_t deflate_blocks_count = source.size() / block_size;
 
-            if (source.size() % block_size != 0) {
-                deflate_blocks_count++;
-            }
+            if (source.size() % block_size != 0) { deflate_blocks_count++; }
             // Perform compression
             {
                 // Initialize compression job
@@ -969,7 +778,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
 
                 // Configure job
                 job_ptr->op = qpl_op_compress;
-                job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_OMIT_VERIFY;
+                job_ptr->flags =
+                        QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_OMIT_VERIFY;
 
                 job_ptr->available_in  = static_cast<uint32_t>(source.size());
                 job_ptr->available_out = static_cast<uint32_t>(compressed_source.size());
@@ -993,7 +803,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
                     source_bytes_left -= current_chunk_size;
                     job_ptr->next_in_ptr  = source.data() + iteration * block_size;
                     job_ptr->available_in = current_chunk_size;
-                    status = run_job_api(job_ptr);
+                    status                = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress, " << error_message << " , " << iteration;
 
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
@@ -1041,7 +851,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, dynamic) {
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
-                                            << "More deflate blocks found than expected! " << error_message;
+                        << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);
             }
 
@@ -1061,19 +871,15 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
             std::vector<uint8_t> compressed_source(source.size() * 2);
@@ -1081,9 +887,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
 
             uint32_t deflate_blocks_count = source.size() / block_size;
 
-            if (source.size() % block_size != 0) {
-                deflate_blocks_count++;
-            }
+            if (source.size() % block_size != 0) { deflate_blocks_count++; }
             // Perform compression
             {
                 // Initialize compression job
@@ -1116,7 +920,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
                     source_bytes_left -= current_chunk_size;
                     job_ptr->next_in_ptr  = source.data() + iteration * block_size;
                     job_ptr->available_in = current_chunk_size;
-                    status = run_job_api(job_ptr);
+                    status                = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress, " << error_message;
 
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
@@ -1164,7 +968,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, fixed) {
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
-                                            << "More deflate blocks found than expected! " << error_message;
+                        << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);
             }
 
@@ -1184,38 +988,30 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
 
     // Allocate buffers for decompression job
     auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-    auto job_ptr    = reinterpret_cast<qpl_job *>(job_buffer.get());
+    auto job_ptr    = reinterpret_cast<qpl_job*>(job_buffer.get());
 
-    for (auto &dataset: util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
+    for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         std::vector<uint8_t> source;
         source = dataset.second;
-        qpl_histogram histogram{};
+        qpl_histogram histogram {};
 
-        status = qpl_gather_deflate_statistics(source.data(),
-                                               source.size(),
-                                               &histogram,
-                                               qpl_default_level,
+        status = qpl_gather_deflate_statistics(source.data(), source.size(), &histogram, qpl_default_level,
                                                execution_path);
 
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to gather deflate statistics\n";
 
-        const unique_huffman_table table(deflate_huffman_table_maker(compression_table_type,
-                                                               execution_path,
-                                                               DEFAULT_ALLOCATOR_C),
-                                         any_huffman_table_deleter);
+        const unique_huffman_table table(
+                deflate_huffman_table_maker(compression_table_type, execution_path, DEFAULT_ALLOCATOR_C),
+                any_huffman_table_deleter);
         ASSERT_NE(table.get(), nullptr) << "Huffman Table creation failed\n";
 
         status = qpl_huffman_table_init_with_histogram(table.get(), &histogram);
         ASSERT_EQ(status, QPL_STS_OK) << "Failed to build the table\n";
 
-        for (auto block_size: get_chunk_sizes()) {
-            if (block_size == 0) {
-                block_size = source.size();
-            }
-            const std::string      error_message = "File name - "
-                                                 + dataset.first
-                                                 + ", block size = "
-                                                 + std::to_string(block_size);
+        for (auto block_size : get_chunk_sizes()) {
+            if (block_size == 0) { block_size = source.size(); }
+            const std::string error_message =
+                    "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             // status = qpl_init_job(execution_path, job_ptr);
             // ASSERT_EQ(QPL_STS_OK, status) << "Failed to initialize job\n";
             std::vector<uint8_t> compressed_source(source.size() * 2);
@@ -1223,9 +1019,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
 
             uint32_t deflate_blocks_count = source.size() / block_size;
 
-            if (source.size() % block_size != 0) {
-                deflate_blocks_count++;
-            }
+            if (source.size() % block_size != 0) { deflate_blocks_count++; }
             // Perform compression
             {
                 // Initialize compression job
@@ -1259,7 +1053,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
                     source_bytes_left -= current_chunk_size;
                     job_ptr->next_in_ptr  = source.data() + iteration * block_size;
                     job_ptr->available_in = current_chunk_size;
-                    status = run_job_api(job_ptr);
+                    status                = run_job_api(job_ptr);
                     ASSERT_EQ(status, QPL_STS_OK) << "Failed to compress, " << error_message;
 
                     job_ptr->flags &= ~QPL_FLAG_FIRST;
@@ -1307,7 +1101,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
                 status = run_job_api(job_ptr);
                 ASSERT_EQ(status, QPL_STS_OK) << "Failed to decompress job. " << error_message;
                 ASSERT_EQ(job_ptr->total_out, saved_output_bytes)
-                                            << "More deflate blocks found than expected! " << error_message;
+                        << "More deflate blocks found than expected! " << error_message;
                 reference.resize(saved_output_bytes);
             }
 
@@ -1316,4 +1110,4 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_start_new_block, static) {
     }
 }
 
-}
+} // namespace qpl::test

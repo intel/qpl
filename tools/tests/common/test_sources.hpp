@@ -22,17 +22,17 @@
 
 namespace qpl::test {
 namespace util {
-    template<class stream_t>
-    auto compress_stream(stream_t stream) -> std::vector<uint8_t>;
+template <class stream_t>
+auto compress_stream(stream_t stream) -> std::vector<uint8_t>;
 }
 
-class AnalyticStream{
+class AnalyticStream {
 public:
     AnalyticStream() = delete;
 
     AnalyticStream(size_t element_count, uint8_t bit_width, qpl_parser parser);
 
-    auto data() noexcept -> uint8_t *;
+    auto data() noexcept -> uint8_t*;
 
     auto size() noexcept -> size_t;
 
@@ -48,13 +48,11 @@ protected:
     std::vector<uint8_t> data_;
 };
 
-class AnalyticInputStream : public AnalyticStream{
+class AnalyticInputStream : public AnalyticStream {
 public:
     AnalyticInputStream() = delete;
 
-    AnalyticInputStream(size_t element_count,
-                        uint8_t element_bit_width,
-                        qpl_parser parser = qpl_p_le_packed_array,
+    AnalyticInputStream(size_t element_count, uint8_t element_bit_width, qpl_parser parser = qpl_p_le_packed_array,
                         uint16_t prologue = 0U);
 
     auto elements_count() noexcept -> size_t;
@@ -83,9 +81,7 @@ private:
 
 class AnalyticCountersStream : public AnalyticStream {
 public:
-    AnalyticCountersStream(size_t counters_count,
-                           uint8_t counter_width,
-                           qpl_parser parser = qpl_p_le_packed_array,
+    AnalyticCountersStream(size_t counters_count, uint8_t counter_width, qpl_parser parser = qpl_p_le_packed_array,
                            uint16_t prologue = 0U);
 
     static auto elements_count() noexcept -> size_t;
@@ -101,6 +97,6 @@ private:
     size_t   packed_elements_count_ = 0;
 };
 
-}
+} // namespace qpl::test
 
 #endif //QPL_TESTS_COMMON_TEST_SOURCES_HPP_
