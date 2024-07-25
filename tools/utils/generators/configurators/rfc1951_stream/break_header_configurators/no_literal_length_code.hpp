@@ -9,19 +9,16 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class NoLiteralLengthCodeConfigurator : public TestConfigurator
-    {
-        public:
-            NoLiteralLengthCodeConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class NoLiteralLengthCodeConfigurator : public TestConfigurator {
+public:
+    NoLiteralLengthCodeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            NoLiteralLengthCodeConfigurator() = delete;
+    NoLiteralLengthCodeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
+    GenStatus generate() override;
+};
 
-}
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_NO_LITERAL_LENGTH_CODE_HPP

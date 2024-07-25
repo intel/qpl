@@ -13,20 +13,19 @@
  *
  */
 
-
 #ifndef QPL_REF_CHECKSUM_H
 #define QPL_REF_CHECKSUM_H
 
-#include "qpl_api_ref.h"
 #include "own_ref_defs.h"
+#include "qpl_api_ref.h"
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
-void update_checksums(qpl_job *const qpl_job_ptr);
+void update_checksums(qpl_job* const qpl_job_ptr);
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 }
 #endif
 

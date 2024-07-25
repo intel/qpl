@@ -6,10 +6,9 @@
 
 #include "first_d_16_code.hpp"
 
-GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
-{
-    Gen32u* pDistanceLengthCodesTable = nullptr;
-    qpl::test::random rand (4U, 7U, m_seed);
+GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate() {
+    Gen32u*           pDistanceLengthCodesTable = nullptr;
+    qpl::test::random rand(4U, 7U, m_seed);
 
     const Gen8u repeatingCount = static_cast<Gen8u>(rand);
 
@@ -18,8 +17,7 @@ GenStatus gz_generator::FirstDistanceLengthCode16Configurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pDistanceLengthCodesTable, DEFAULT_D_TABLE_LENGTH,
                                                  MAX_D_CODE_BIT_LENGTH);
 
-    for (Gen8u i = 1U; i < repeatingCount; i++)
-    {
+    for (Gen8u i = 1U; i < repeatingCount; i++) {
         pDistanceLengthCodesTable[i] = pDistanceLengthCodesTable[0];
     }
 

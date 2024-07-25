@@ -17,7 +17,7 @@
 namespace qpl::tools {
 class algorithmic_dataset_t : public dataset_t {
 public:
-    explicit algorithmic_dataset_t(const std::string &path);
+    explicit algorithmic_dataset_t(const std::string& path);
 };
-}
+} // namespace qpl::tools
 #endif //QPL_ALGORITHMIC_DATASET_H

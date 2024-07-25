@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class OversubscribedDistanceTreeConfigurator: public TestConfigurator
-    {
-        public:
-            OversubscribedDistanceTreeConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class OversubscribedDistanceTreeConfigurator : public TestConfigurator {
+public:
+    OversubscribedDistanceTreeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            OversubscribedDistanceTreeConfigurator() = delete;
+    OversubscribedDistanceTreeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_OVERSUBSCRIBED_D_TREE_HPP

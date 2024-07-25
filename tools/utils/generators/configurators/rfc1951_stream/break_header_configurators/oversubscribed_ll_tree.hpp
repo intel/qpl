@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class OversubscribedLiteralLengthsTreeConfigurator: public TestConfigurator
-    {
-        public:
-            OversubscribedLiteralLengthsTreeConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class OversubscribedLiteralLengthsTreeConfigurator : public TestConfigurator {
+public:
+    OversubscribedLiteralLengthsTreeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            OversubscribedLiteralLengthsTreeConfigurator() = delete;
+    OversubscribedLiteralLengthsTreeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_OVERSUBSCRIBED_LL_TREE_HPP

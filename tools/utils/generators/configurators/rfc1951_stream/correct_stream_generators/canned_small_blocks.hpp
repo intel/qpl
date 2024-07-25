@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class CannedSmallBlocksConfigurator : public TestConfigurator
-    {
-        public:
-            CannedSmallBlocksConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class CannedSmallBlocksConfigurator : public TestConfigurator {
+public:
+    CannedSmallBlocksConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            CannedSmallBlocksConfigurator() = delete;
+    CannedSmallBlocksConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_DYNAMIC_SMALL_HPP

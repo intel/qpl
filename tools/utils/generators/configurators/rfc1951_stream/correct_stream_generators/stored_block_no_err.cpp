@@ -6,8 +6,7 @@
 
 #include "stored_block_no_err.hpp"
 
-GenStatus gz_generator::StoredBlockNoErrorConfigurator::generate()
-{
+GenStatus gz_generator::StoredBlockNoErrorConfigurator::generate() {
     TestConfigurator::writeRandomStoredBlock();
     TestConfigurator::declareFinishBlock();
 

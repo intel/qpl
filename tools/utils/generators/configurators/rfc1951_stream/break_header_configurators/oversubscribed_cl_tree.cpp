@@ -6,9 +6,8 @@
 
 #include "oversubscribed_cl_tree.hpp"
 
-GenStatus gz_generator::OversubscribedCodeLengthsTreeConfigurator::generate()
-{
-    Gen32u  code_length = 0U;
+GenStatus gz_generator::OversubscribedCodeLengthsTreeConfigurator::generate() {
+    Gen32u code_length = 0U;
 
     qpl::test::random randomCodeLength(0U, DEFAULT_CL_TABLE_LENGTH - 1U, m_seed);
 
@@ -21,8 +20,7 @@ GenStatus gz_generator::OversubscribedCodeLengthsTreeConfigurator::generate()
 
     do {
         code_length = static_cast<Gen32u>(randomCodeLength);
-    }
-    while (codeLengthsTable[code_length] == 1U);
+    } while (codeLengthsTable[code_length] == 1U);
     codeLengthsTable[code_length]--;
 
     TestConfigurator::declareVectorToken(CL_ENCODED_VECTOR, codeLengthsTable.data(), DEFAULT_CL_TABLE_LENGTH);

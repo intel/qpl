@@ -6,10 +6,9 @@
 
 #include "all_zero_literal_length_codes.hpp"
 
-GenStatus gz_generator::AllZeroLiteralLengthCodesConfigurator::generate()
-{
+GenStatus gz_generator::AllZeroLiteralLengthCodesConfigurator::generate() {
     Gen32u* pLiteralLengthCodesTable = nullptr;
-    Gen32u* pCodeLengthCodesTable = nullptr;
+    Gen32u* pCodeLengthCodesTable    = nullptr;
 
     const Gen32u numberMissedCodes = 286U;
 
@@ -22,8 +21,7 @@ GenStatus gz_generator::AllZeroLiteralLengthCodesConfigurator::generate()
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
 
-    for (Gen32u i = 0U; i < numberMissedCodes; i++)
-    {
+    for (Gen32u i = 0U; i < numberMissedCodes; i++) {
         pLiteralLengthCodesTable[i] = 0U;
     }
 

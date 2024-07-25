@@ -25,8 +25,9 @@
 extern "C" {
 #endif
 
-#include "qpl/c_api/status.h"
 #include "qpl/c_api/job.h"
+#include "qpl/c_api/status.h"
+
 #include "own_ref_defs.h"
 
 /**
@@ -44,7 +45,7 @@ extern "C" {
  *
  * @todo fix description
  */
-extern uint32_t ref_crc32(const uint8_t *buf, uint32_t len, uint32_t poly, uint32_t init_crc);
+extern uint32_t ref_crc32(const uint8_t* buf, uint32_t len, uint32_t poly, uint32_t init_crc);
 
 /**
  * @brief Calculates XOR checksum
@@ -58,7 +59,7 @@ extern uint32_t ref_crc32(const uint8_t *buf, uint32_t len, uint32_t poly, uint3
  * @todo fix description
  * @return XOR checksum value
  */
-extern uint32_t ref_xor_checksum(const uint8_t *buf, uint32_t len, uint32_t init_xor);
+extern uint32_t ref_xor_checksum(const uint8_t* buf, uint32_t len, uint32_t init_xor);
 
 /**
  * @brief ref_crc64 - CRC64 calculation
@@ -75,7 +76,7 @@ extern uint32_t ref_xor_checksum(const uint8_t *buf, uint32_t len, uint32_t init
  *    - @ref QPL_STS_NULL_PTR_ERR if any of qpl_job_ptr|next_in_ptr|next_out_ptr pointers is NULL
  *    - @ref QPL_STS_CRC64_BAD_POLYNOM in case if crc64_poly is 0
  */
-extern qpl_status ref_crc64(qpl_job *const qpl_job_ptr);
+extern qpl_status ref_crc64(qpl_job* const qpl_job_ptr);
 
 /**
  * @brief  Replicates each element in src2_ptr a number of times defined by src1_ptr element with the same index.
@@ -117,7 +118,7 @@ extern qpl_status ref_crc64(qpl_job *const qpl_job_ptr);
  *    - @ref QPL_STS_OUT_FORMAT_ERR      - in case of out_bit_width field has incorrect value or result outputBitWidth
  *                                         is less than src2_bit_width
  */
-extern qpl_status ref_expand_rle(qpl_job *const qpl_job_ptr);
+extern qpl_status ref_expand_rle(qpl_job* const qpl_job_ptr);
 
 /**
  * @brief ref_compare_C_LT - Scans input vector for values that satisfy the condition
@@ -181,7 +182,7 @@ extern qpl_status ref_expand_rle(qpl_job *const qpl_job_ptr);
  *    - @ref QPL_STS_OUTPUT_OVERFLOW_ERR    - if output format is qpl_ow_8/16/32 and current index exceeds max value
  *                                            for this data type
  */
-extern qpl_status ref_compare(qpl_job *const qpl_job_ptr);
+extern qpl_status ref_compare(qpl_job* const qpl_job_ptr);
 
 /**
  * @brief qpl_extract - Extracts a sub-vector from input vector starting from index
@@ -207,7 +208,7 @@ extern qpl_status ref_compare(qpl_job *const qpl_job_ptr);
  *    - @ref QPL_STS_PARSER_ERR          - in case of bad (non-supported) value in the parser field
  *    - @ref QPL_STS_OPERATION_ERR       - in case of bad (non-supported) value in the op field
  */
-qpl_status ref_extract(qpl_job *const qpl_job_ptr);
+qpl_status ref_extract(qpl_job* const qpl_job_ptr);
 
 /**
  * @brief qpl_select - Extracts a sub-vector from input vector; this sub-vector contains
@@ -235,7 +236,7 @@ qpl_status ref_extract(qpl_job *const qpl_job_ptr);
  *    - @ref QPL_STS_PARSER_ERR          - in case of bad (non-supported) value in the parser field
  *    - @ref QPL_STS_OPERATION_ERR       - in case of bad (non-supported) value in the op field
  */
-qpl_status ref_select(qpl_job *const qpl_job_ptr);
+qpl_status ref_select(qpl_job* const qpl_job_ptr);
 
 /**
  * @brief qpl_expand - Bit-width of the output is the same as the bit width of src1_ptr,
@@ -265,7 +266,7 @@ qpl_status ref_select(qpl_job *const qpl_job_ptr);
  *    - @ref QPL_STS_PARSER_ERR          - in case of bad (non-supported) value in the parser field
  *    - @ref QPL_STS_OPERATION_ERR       - in case of bad (non-supported) value in the op field
  */
-qpl_status ref_expand(qpl_job *const qpl_job_ptr);
+qpl_status ref_expand(qpl_job* const qpl_job_ptr);
 
 #ifdef __cplusplus
 }

@@ -22,9 +22,11 @@
  * @brief CRC accumulator
  */
 typedef struct {
-    uint32_t h32;    /**< high 32bit of registry*/
-    uint64_t l64;    /**< low  64bit of registry*/
+    uint32_t h32; /**< high 32bit of registry*/
+    uint64_t l64; /**< low  64bit of registry*/
 } crc_reg;
+
+// clang-format off
 
 /**
  * @brief Auxiliary table to perform bits reversing in byte
@@ -47,6 +49,8 @@ static const uint8_t bit_rev_8[0x100] = {
         0x07, 0x87, 0x47, 0xC7, 0x27, 0xA7, 0x67, 0xE7, 0x17, 0x97, 0x57, 0xD7, 0x37, 0xB7, 0x77, 0xF7,
         0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF,
 };
+
+// clang-format on
 
 /**
  * @brief Helper for reversing bits in byte
@@ -89,10 +93,7 @@ static uint64_t bit_ref_64(uint64_t x) {
  * @return
  */
 static uint32_t byte_ref_32(uint32_t x) {
-    return ((x >> 24) |
-            ((x >> 8) & 0x0000FF00) |
-            ((x << 8) & 0x00FF0000) |
-            (x << 24));
+    return ((x >> 24) | ((x >> 8) & 0x0000FF00) | ((x << 8) & 0x00FF0000) | (x << 24));
 }
 
 /**
@@ -101,8 +102,7 @@ static uint32_t byte_ref_32(uint32_t x) {
  * @return
  */
 static uint64_t byte_ref_64(uint64_t x) {
-    return (((uint64_t) byte_ref_32((uint32_t) x)) << 32) |
-           byte_ref_32((uint32_t) (x >> 32));
+    return (((uint64_t)byte_ref_32((uint32_t)x)) << 32) | byte_ref_32((uint32_t)(x >> 32));
 }
 
 /**
@@ -141,9 +141,7 @@ static uint64_t clmul_32_x_32(uint64_t a, uint64_t b) {
     uint64_t r = 0U;
 
     for (uint32_t i = 0U; i < 32; i++) {
-        if (a & 1) {
-            r ^= b;
-        }
+        if (a & 1) { r ^= b; }
         a >>= 1;
         b <<= 1;
     }
@@ -156,13 +154,13 @@ static uint64_t clmul_32_x_32(uint64_t a, uint64_t b) {
  * @param a
  * @param b
  */
-static void clmul_32_x_64(crc_reg *res, uint32_t a, uint64_t b) {
+static void clmul_32_x_64(crc_reg* res, uint32_t a, uint64_t b) {
     uint64_t x1 = 0U;
     uint64_t x2 = 0U;
-    x1 = clmul_32_x_32(a, b & 0xFFFFFFFF);
-    x2 = clmul_32_x_32(a, b >> 32);
-    res->h32 = (uint32_t) (x2 >> 32);
-    res->l64 = x1 ^ (x2 << 32);
+    x1          = clmul_32_x_32(a, b & 0xFFFFFFFF);
+    x2          = clmul_32_x_32(a, b >> 32);
+    res->h32    = (uint32_t)(x2 >> 32);
+    res->l64    = x1 ^ (x2 << 32);
 }
 
 /**
@@ -171,13 +169,13 @@ static void clmul_32_x_64(crc_reg *res, uint32_t a, uint64_t b) {
  * @param crc_accum
  * @param data
  */
-static void proc_dword(uint64_t k, crc_reg *crc_accum, uint32_t data) {
+static void proc_dword(uint64_t k, crc_reg* crc_accum, uint32_t data) {
     uint32_t x = 0U;
     crc_reg  tmp;
 
     x = data ^ crc_accum->h32;
     clmul_32_x_64(&tmp, x, k);
-    crc_accum->h32 = tmp.h32 ^ (uint32_t) (crc_accum->l64 >> 32);
+    crc_accum->h32 = tmp.h32 ^ (uint32_t)(crc_accum->l64 >> 32);
     crc_accum->l64 = tmp.l64 ^ (crc_accum->l64 << 32);
 }
 
@@ -206,23 +204,15 @@ static uint64_t final_reduce(uint64_t poly, uint64_t h, uint32_t l, uint32_t n) 
 
 /** @} */
 
-qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
-    if (!qpl_job_ptr) {
-        return QPL_STS_NULL_PTR_ERR;
-    }
-    if (!qpl_job_ptr->next_in_ptr) {
-        return QPL_STS_NULL_PTR_ERR;
-    }
-    if (!qpl_job_ptr->available_in) {
-        return QPL_STS_SIZE_ERR;
-    }
-    if (qpl_job_ptr->crc64_poly == 0U) {
-        return QPL_STS_CRC64_BAD_POLYNOM;
-    }
+qpl_status ref_crc64(qpl_job* const qpl_job_ptr) {
+    if (!qpl_job_ptr) { return QPL_STS_NULL_PTR_ERR; }
+    if (!qpl_job_ptr->next_in_ptr) { return QPL_STS_NULL_PTR_ERR; }
+    if (!qpl_job_ptr->available_in) { return QPL_STS_SIZE_ERR; }
+    if (qpl_job_ptr->crc64_poly == 0U) { return QPL_STS_CRC64_BAD_POLYNOM; }
 
     qpl_status status = QPL_STS_OK;
 
-    uint8_t  *src      = (uint8_t *) qpl_job_ptr->next_in_ptr;
+    uint8_t* src       = (uint8_t*)qpl_job_ptr->next_in_ptr;
     uint32_t len       = qpl_job_ptr->available_in;
     uint32_t data      = 0U;
     uint64_t crc       = 0U;
@@ -236,12 +226,8 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
     crc_reg  crc_accum = {0};
     uint64_t poly_red  = 0U;
 
-    if (qpl_job_ptr->flags & QPL_FLAG_CRC64_BE) {
-        big_end = 1U;
-    }
-    if (qpl_job_ptr->flags & QPL_FLAG_CRC64_INV) {
-        inv_crc = 1U;
-    }
+    if (qpl_job_ptr->flags & QPL_FLAG_CRC64_BE) { big_end = 1U; }
+    if (qpl_job_ptr->flags & QPL_FLAG_CRC64_INV) { inv_crc = 1U; }
 
     poly_red = reduce(poly, 32);
 
@@ -255,39 +241,35 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
         init_crc |= init_crc << 32;
     }
 
-    crc_accum.h32 = (uint32_t) (init_crc >> 32);
+    crc_accum.h32 = (uint32_t)(init_crc >> 32);
     crc_accum.l64 = init_crc << 32;
 
     if (len > 8U) {
         for (i = 0U; i < len - 8U; i += 4) {
-            data = *(uint32_t *) (src + i);
+            data = *(uint32_t*)(src + i);
             data = byte_ref_32(data);
-            if (big_end) {
-                data = bit_ref_32(data);
-            }
+            if (big_end) { data = bit_ref_32(data); }
             proc_dword(poly_red, &crc_accum, data);
         }
     } else {
         i = 0U;
     }
 
-    crc_high = (((uint64_t) crc_accum.h32) << 32) | (crc_accum.l64 >> 32);
-    crc_low  = (uint32_t) crc_accum.l64;
+    crc_high = (((uint64_t)crc_accum.h32) << 32) | (crc_accum.l64 >> 32);
+    crc_low  = (uint32_t)crc_accum.l64;
 
-    len  = (len - i);
+    len = (len - i);
     if (len < 4U) {
         data = 0U;
         for (uint32_t idx = 0U; idx < len; idx++) {
             data |= (*(src + i + idx)) << (idx * 8);
         }
     } else {
-        data = *(uint32_t *) (src + i);
+        data = *(uint32_t*)(src + i);
     }
     data = byte_ref_32(data);
-    if (big_end) {
-        data = bit_ref_32(data);
-    }
-    crc_high ^= ((uint64_t) data) << 32;
+    if (big_end) { data = bit_ref_32(data); }
+    crc_high ^= ((uint64_t)data) << 32;
     if (len > 4U) {
         if (len < 8U) {
             data = 0U;
@@ -295,12 +277,10 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
                 data |= (*(src + i + idx + 4)) << (idx * 8);
             }
         } else {
-            data = *(uint32_t *) (src + i + 4U);
+            data = *(uint32_t*)(src + i + 4U);
         }
         data = byte_ref_32(data);
-        if (big_end) {
-            data = bit_ref_32(data);
-        }
+        if (big_end) { data = bit_ref_32(data); }
         crc_high ^= data;
     }
 
@@ -308,9 +288,7 @@ qpl_status ref_crc64(qpl_job *const qpl_job_ptr) {
 
     crc ^= init_crc;
 
-    if (big_end) {
-        crc = bit_byte_swap_64(crc);
-    }
+    if (big_end) { crc = bit_byte_swap_64(crc); }
 
     qpl_job_ptr->crc64 = crc;
 

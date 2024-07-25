@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class StradingCodeLengthCodesConfigurator : public TestConfigurator
-    {
-        public:
-            StradingCodeLengthCodesConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class StradingCodeLengthCodesConfigurator : public TestConfigurator {
+public:
+    StradingCodeLengthCodesConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            StradingCodeLengthCodesConfigurator() = delete;
+    StradingCodeLengthCodesConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_CL_CODES_SPAN_SINGLE_TABLE_HPP

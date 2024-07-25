@@ -9,17 +9,14 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class BadDistanceConfigurator : public TestConfigurator
-    {
-        public:
-            BadDistanceConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class BadDistanceConfigurator : public TestConfigurator {
+public:
+    BadDistanceConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            BadDistanceConfigurator() = delete;
+    BadDistanceConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 #endif //_CONFIGURATOR_BAD_DISTANCE_H_

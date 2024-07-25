@@ -19,7 +19,7 @@
 
 #include "own_ref_defs.h"
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -32,14 +32,14 @@ extern "C" {
  *
  * @return always success - void - as all parameters must be checked at the caller level
  */
-void ref_own_copy_8u(uint8_t *src_ptr, uint8_t *dst_ptr, uint32_t len);
+void ref_own_copy_8u(uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t len);
 
 /**
  * @todo ref_common
  * @param vector_ptr
  * @param vector_size
  */
-void ref_fill_by_zero_8u(uint8_t *vector_ptr, uint32_t vector_size);
+void ref_fill_by_zero_8u(uint8_t* vector_ptr, uint32_t vector_size);
 
 /**
  * @brief ref_store_val performs copy operation of one N-bit value in LE format to LE or BE format
@@ -54,13 +54,8 @@ void ref_fill_by_zero_8u(uint8_t *vector_ptr, uint32_t vector_size);
  *
  * @return always success - void - as all parameters must be checked at the caller level
  */
-qpl_status ref_store_val(uint32_t value,
-                         uint8_t *dst_ptr,
-                         uint32_t *idx_ptr,
-                         uint32_t current_idx,
-                         uint32_t s_bit,
-                         uint32_t flag_be,
-                         qpl_out_format o_fmt);
+qpl_status ref_store_val(uint32_t value, uint8_t* dst_ptr, uint32_t* idx_ptr, uint32_t current_idx, uint32_t s_bit,
+                         uint32_t flag_be, qpl_out_format o_fmt);
 
 /**
  * @brief ref_copy_le_le_nu performs copy operation of Nu (s_bit) data in LE format
@@ -80,13 +75,8 @@ qpl_status ref_store_val(uint32_t value,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                  max value for used data type
  */
-qpl_status ref_copy_le_le_nu(uint8_t *src_ptr,
-                             uint32_t src_bit_offset,
-                             uint8_t **pp_dst,
-                             uint32_t i_offset,
-                             uint32_t s_bit,
-                             uint32_t len,
-                             qpl_out_format o_fmt);
+qpl_status ref_copy_le_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t** pp_dst, uint32_t i_offset,
+                             uint32_t s_bit, uint32_t len, qpl_out_format o_fmt);
 
 /**
  * @brief ref_copy_le_be_nu performs copy operation of Nu (s_bit) data from LE to BE format
@@ -106,13 +96,8 @@ qpl_status ref_copy_le_le_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_le_be_nu(uint8_t *src_ptr,
-                             uint32_t src_bit_offset,
-                             uint8_t **pp_dst,
-                             uint32_t i_offset,
-                             uint32_t s_bit,
-                             uint32_t len,
-                             qpl_out_format o_fmt);
+qpl_status ref_copy_le_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t** pp_dst, uint32_t i_offset,
+                             uint32_t s_bit, uint32_t len, qpl_out_format o_fmt);
 
 /**
  * @brief ref_copy_be_le_nu performs copy operation of Nu (s_bit) data from BE to LE format
@@ -132,13 +117,8 @@ qpl_status ref_copy_le_be_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_be_le_nu(uint8_t *src_ptr,
-                             uint32_t src_bit_offset,
-                             uint8_t **pp_dst,
-                             uint32_t i_offset,
-                             uint32_t s_bit,
-                             uint32_t len,
-                             qpl_out_format o_fmt);
+qpl_status ref_copy_be_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t** pp_dst, uint32_t i_offset,
+                             uint32_t s_bit, uint32_t len, qpl_out_format o_fmt);
 
 /**
  * @brief ref_copy_be_be_nu performs copy operation of Nu (s_bit) data from BE to BE format
@@ -158,13 +138,8 @@ qpl_status ref_copy_be_le_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_be_be_nu(uint8_t *src_ptr,
-                             uint32_t src_bit_offset,
-                             uint8_t **pp_dst,
-                             uint32_t i_offset,
-                             uint32_t s_bit,
-                             uint32_t len,
-                             qpl_out_format o_fmt);
+qpl_status ref_copy_be_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t** pp_dst, uint32_t i_offset,
+                             uint32_t s_bit, uint32_t len, qpl_out_format o_fmt);
 
 /**
  * @brief ref_copy_mask_le_le_nu performs copy with mask operation from LE to LE format - if current mask_ptr bit
@@ -188,14 +163,8 @@ qpl_status ref_copy_be_be_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_mask_le_le_nu(uint8_t *src_ptr,
-                                  uint8_t *mask_ptr,
-                                  uint32_t mask_be,
-                                  uint8_t **pp_dst,
-                                  uint32_t i_offset,
-                                  uint64_t *o_bits,
-                                  uint32_t s_bit,
-                                  uint32_t len,
+qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                  uint32_t i_offset, uint64_t* o_bits, uint32_t s_bit, uint32_t len,
                                   qpl_out_format o_fmt);
 
 /**
@@ -220,14 +189,8 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_mask_le_be_nu(uint8_t *src_ptr,
-                                  uint8_t *mask_ptr,
-                                  uint32_t mask_be,
-                                  uint8_t **pp_dst,
-                                  uint32_t i_offset,
-                                  uint64_t *o_bits,
-                                  uint32_t s_bit,
-                                  uint32_t len,
+qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                  uint32_t i_offset, uint64_t* o_bits, uint32_t s_bit, uint32_t len,
                                   qpl_out_format o_fmt);
 
 /**
@@ -252,14 +215,8 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_mask_be_le__nu(uint8_t *src_ptr,
-                                   uint8_t *mask_ptr,
-                                   uint32_t mask_be,
-                                   uint8_t **pp_dst,
-                                   uint32_t i_offset,
-                                   uint64_t *o_bits,
-                                   uint32_t s_bit,
-                                   uint32_t len,
+qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                   uint32_t i_offset, uint64_t* o_bits, uint32_t s_bit, uint32_t len,
                                    qpl_out_format o_fmt);
 
 /**
@@ -284,14 +241,8 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_copy_mask_be_be_nu(uint8_t *src_ptr,
-                                  uint8_t *mask_ptr,
-                                  uint32_t mask_be,
-                                  uint8_t **pp_dst,
-                                  uint32_t i_offset,
-                                  uint64_t *o_bits,
-                                  uint32_t s_bit,
-                                  uint32_t len,
+qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                  uint32_t i_offset, uint64_t* o_bits, uint32_t s_bit, uint32_t len,
                                   qpl_out_format o_fmt);
 
 /**
@@ -316,14 +267,8 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_expand_mask_le_le_nu(uint8_t *src_ptr,
-                                    uint8_t *mask_ptr,
-                                    uint32_t mask_be,
-                                    uint8_t **pp_dst,
-                                    uint32_t i_offset,
-                                    uint32_t *i_bytes,
-                                    uint32_t s_bit,
-                                    uint32_t len,
+qpl_status ref_expand_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                    uint32_t i_offset, uint32_t* i_bytes, uint32_t s_bit, uint32_t len,
                                     qpl_out_format o_fmt);
 
 /**
@@ -346,14 +291,8 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t *src_ptr,
  *   - QPL_STS_OK
  *   - QPL_STS_DST_IS_SHORT_ERR  - in case of not enough place in destination buffer
  */
-qpl_status ref_expand_mask_le_be_nu(uint8_t *src_ptr,
-                                    uint8_t *mask_ptr,
-                                    uint32_t mask_be,
-                                    uint8_t **pp_dst,
-                                    uint32_t i_offset,
-                                    uint32_t *i_bytes,
-                                    uint32_t s_bit,
-                                    uint32_t len,
+qpl_status ref_expand_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                    uint32_t i_offset, uint32_t* i_bytes, uint32_t s_bit, uint32_t len,
                                     qpl_out_format o_fmt);
 
 /**
@@ -378,14 +317,8 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_expand_mask_be_le_nu(uint8_t *src_ptr,
-                                    uint8_t *mask_ptr,
-                                    uint32_t mask_be,
-                                    uint8_t **pp_dst,
-                                    uint32_t i_offset,
-                                    uint32_t *i_bytes,
-                                    uint32_t s_bit,
-                                    uint32_t len,
+qpl_status ref_expand_mask_be_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                    uint32_t i_offset, uint32_t* i_bytes, uint32_t s_bit, uint32_t len,
                                     qpl_out_format o_fmt);
 
 /**
@@ -409,16 +342,9 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t *src_ptr,
  *   - QPL_STS_OUTPUT_OVERFLOW_ERR  - in case qpl_ow_8|16|32 format and nominal bit-vector - if index exceeds
  *                                    max value for used data type
  */
-qpl_status ref_expand_mask_be_be_nu(uint8_t *src_ptr,
-                                    uint8_t *mask_ptr,
-                                    uint32_t mask_be,
-                                    uint8_t **pp_dst,
-                                    uint32_t i_offset,
-                                    uint32_t *i_bytes,
-                                    uint32_t s_bit,
-                                    uint32_t len,
+qpl_status ref_expand_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t mask_be, uint8_t** pp_dst,
+                                    uint32_t i_offset, uint32_t* i_bytes, uint32_t s_bit, uint32_t len,
                                     qpl_out_format o_fmt);
-
 
 /**
  * @todo ref_copy
@@ -431,13 +357,12 @@ REF_INLINE uint16_t ref_cvt_le_2_be_16u(uint16_t z) {
         uint8_t  u_byte[2];
     } x, y;
 
-    x.u_int = (uint16_t) z;         // reverse bytes for BE
+    x.u_int     = (uint16_t)z; // reverse bytes for BE
     y.u_byte[0] = x.u_byte[1];
     y.u_byte[1] = x.u_byte[0];
 
     return y.u_int;
 }
-
 
 /**
  * @todo ref_copy
@@ -450,7 +375,7 @@ REF_INLINE uint32_t ref_cvt_le_2_be_32u(uint32_t z) {
         uint8_t  u_byte[4];
     } x, y;
 
-    x.u_int = (uint32_t) z;         // reverse bytes for BE
+    x.u_int     = (uint32_t)z; // reverse bytes for BE
     y.u_byte[0] = x.u_byte[3];
     y.u_byte[1] = x.u_byte[2];
     y.u_byte[2] = x.u_byte[1];
@@ -458,7 +383,6 @@ REF_INLINE uint32_t ref_cvt_le_2_be_32u(uint32_t z) {
 
     return y.u_int;
 }
-
 
 /**
  * @todo ref_copy
@@ -478,7 +402,7 @@ REF_INLINE uint32_t ref_fmt_2_bits(qpl_out_format fmt, uint32_t s_bit) {
     }
 }
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 }
 #endif
 

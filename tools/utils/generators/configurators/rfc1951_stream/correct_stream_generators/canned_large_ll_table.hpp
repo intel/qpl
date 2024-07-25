@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class CannedLargeLiteralLengthTableConfigurator : public TestConfigurator
-    {
-        public:
-            CannedLargeLiteralLengthTableConfigurator(Gen32u seed)
-                    :TestConfigurator(seed) {}// need to redesign base class
+namespace gz_generator {
+class CannedLargeLiteralLengthTableConfigurator : public TestConfigurator {
+public:
+    CannedLargeLiteralLengthTableConfigurator(Gen32u seed) : TestConfigurator(seed) {} // need to redesign base class
 
-            CannedLargeLiteralLengthTableConfigurator() = delete;
+    CannedLargeLiteralLengthTableConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_CANNED_LARGE_LL_TABLE_HPP

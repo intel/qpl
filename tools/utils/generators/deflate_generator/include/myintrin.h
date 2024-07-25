@@ -6,15 +6,13 @@
 
 #ifdef WIN32
 #include <intrin.h>
-static int bsr(int val)
-{
+static int bsr(int val) {
     unsigned long int result;
     if (val == 0) return 0;
     _BitScanReverse(&result, val);
     return result;
 }
-static int bsf(int val)
-{
+static int bsf(int val) {
     unsigned long int result;
     if (val == 0) return 0;
     _BitScanForward(&result, val);
@@ -22,13 +20,11 @@ static int bsf(int val)
 }
 #else
 // assume LINUX
-static int bsr(int val)
-{
+static int bsr(int val) {
     if (val == 0) return 0;
     return (31 - __builtin_clz(val));
 }
-static int bsf(int val)
-{
+static int bsf(int val) {
     if (val == 0) return 0;
     return (__builtin_ctz(val));
 }

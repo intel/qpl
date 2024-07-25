@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class UndefinedCodeLengthCodeConfigurator : public TestConfigurator
-    {
-        public:
-            UndefinedCodeLengthCodeConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class UndefinedCodeLengthCodeConfigurator : public TestConfigurator {
+public:
+    UndefinedCodeLengthCodeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            UndefinedCodeLengthCodeConfigurator() = delete;
+    UndefinedCodeLengthCodeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_UNDEFINED_CL_CODE_HPP

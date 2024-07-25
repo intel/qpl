@@ -14,7 +14,7 @@
 
 #include "own_ref_defs.h"
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -32,12 +32,8 @@ extern "C" {
  *      - @ref QPL_STS_OK
  *      - @ref QPL_STS_OUTPUT_OVERFLOW_ERR - if current index is greater than max value for current data type
  */
-qpl_status ref_store_result(uint32_t dst_buf,
-                            uint32_t bit_idx,
-                            uint8_t **pp_dst,
-                            uint8_t *dst_end_ptr,
-                            uint32_t *idx_ptr,
-                            qpl_out_format o_format);
+qpl_status ref_store_result(uint32_t dst_buf, uint32_t bit_idx, uint8_t** pp_dst, uint8_t* dst_end_ptr,
+                            uint32_t* idx_ptr, qpl_out_format o_format);
 
 /**
  *  @brief ref_store_1_bit stores 1 result of Compare (Scan) function to destination buffer
@@ -55,14 +51,11 @@ qpl_status ref_store_result(uint32_t dst_buf,
  *      - @ref QPL_STS_DST_IS_SHORT_ERR     - in case of attempt to store beyond destination buffer end
  *
  */
-qpl_status ref_store_1_bit(uint32_t destination_buffer,
-                           uint32_t bit_index,
-                           uint8_t **const pp_destination,
-                           const uint8_t *const destination_end_ptr,
-                           uint32_t *const index_ptr,
+qpl_status ref_store_1_bit(uint32_t destination_buffer, uint32_t bit_index, uint8_t** const pp_destination,
+                           const uint8_t* const destination_end_ptr, uint32_t* const index_ptr,
                            const qpl_out_format output_format);
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 }
 #endif
 

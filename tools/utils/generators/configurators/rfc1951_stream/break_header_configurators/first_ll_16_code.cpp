@@ -6,13 +6,10 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-
-
-GenStatus gz_generator::FirstLiteralLengthCode16Configurator::generate()
-{
+GenStatus gz_generator::FirstLiteralLengthCode16Configurator::generate() {
     Gen32u* pLiteralLengthCodesTable = nullptr;
 
-    qpl::test::random rand (4U, 7U, m_seed);
+    qpl::test::random rand(4U, 7U, m_seed);
 
     const Gen8u repeatingCount = static_cast<Gen8u>(rand);
 
@@ -21,8 +18,7 @@ GenStatus gz_generator::FirstLiteralLengthCode16Configurator::generate()
     TestConfigurator::makeRandomLengthCodesTable(pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH,
                                                  MAX_LL_CODE_BIT_LENGTH);
 
-    for (Gen8u i = 1U; i < repeatingCount; i++)
-    {
+    for (Gen8u i = 1U; i < repeatingCount; i++) {
         pLiteralLengthCodesTable[i] = pLiteralLengthCodesTable[0U];
     }
 

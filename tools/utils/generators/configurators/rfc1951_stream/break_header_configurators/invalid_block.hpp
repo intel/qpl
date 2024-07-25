@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class InvalidBlockTypeConfigurator : public TestConfigurator
-    {
-        public:
-            InvalidBlockTypeConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class InvalidBlockTypeConfigurator : public TestConfigurator {
+public:
+    InvalidBlockTypeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            InvalidBlockTypeConfigurator() = delete;
+    InvalidBlockTypeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_CONFIGURATOR_INVALID_BLOCK_H_

@@ -6,25 +6,20 @@
 
 #include "bad_distance.hpp"
 
-GenStatus gz_generator::BadDistanceConfigurator::generate()
-{
-    Gen32u offset           = 0U;
-    Gen32u match            = 0U;
-    Gen32u literalsEncoded  = 0U;
+GenStatus gz_generator::BadDistanceConfigurator::generate() {
+    Gen32u offset          = 0U;
+    Gen32u match           = 0U;
+    Gen32u literalsEncoded = 0U;
 
     declareRandomHuffmanBlock();
 
-    literalsEncoded = TestConfigurator::writeRandomReferenceSequence(DEFAULT_MAX_OFFSET + 1U,
-                                                                     literalsEncoded,
+    literalsEncoded = TestConfigurator::writeRandomReferenceSequence(DEFAULT_MAX_OFFSET + 1U, literalsEncoded,
                                                                      DEFAULT_MAX_OFFSET + 1U);
 
-    if( 0.5F > static_cast<float>(m_random))
-    {
+    if (0.5F > static_cast<float>(m_random)) {
         m_randomOffset.set_range(1U, 16U);
         offset = MAX_OFFSET + static_cast<Gen32u>(m_randomOffset);
-    }
-    else
-    {
+    } else {
         m_randomOffset.set_range(MAX_OFFSET + 1U, DEFAULT_MAX_OFFSET);
         offset = static_cast<Gen32u>(m_randomOffset);
     }

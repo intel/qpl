@@ -16,18 +16,18 @@
 #ifndef _QPL_REF_STORE_H_
 #define _QPL_REF_STORE_H_
 
-#include "ref_copy.h"
 #include "own_ref_defs.h"
+#include "ref_copy.h"
 #include "stdbool.h"
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
 /**
  * @todo
  */
-#define REF_SIZE_IN_BYTES(nBit) (((nBit) >> 3) + (((nBit) & 7) ? 1 : 0))
+#define REF_SIZE_IN_BYTES(nBit) (((nBit) >> 3) + (((nBit)&7) ? 1 : 0))
 
 /**
  * @todo
@@ -37,20 +37,26 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_OVERVALUE_8U_RET(a, b) \
-            { if (UINT8_MAX < (uint16_t)(a) + (uint16_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }}
+#define REF_OVERVALUE_8U_RET(a, b)                                                             \
+    {                                                                                          \
+        if (UINT8_MAX < (uint16_t)(a) + (uint16_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; } \
+    }
 
 /**
  * @todo
  */
-#define REF_OVERVALUE_16U_RET(a, b) \
-            { if (UINT16_MAX < (uint32_t)(a) + (uint32_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }}
+#define REF_OVERVALUE_16U_RET(a, b)                                                             \
+    {                                                                                           \
+        if (UINT16_MAX < (uint32_t)(a) + (uint32_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; } \
+    }
 
 /**
  * @todo
  */
-#define REF_OVERVALUE_32U_RET(a, b) \
-            { if (UINT32_MAX < (uint64_t)(b) + (uint64_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }}
+#define REF_OVERVALUE_32U_RET(a, b)                                                             \
+    {                                                                                           \
+        if (UINT32_MAX < (uint64_t)(b) + (uint64_t)(b)) { return QPL_STS_OUTPUT_OVERFLOW_ERR; } \
+    }
 
 /**
  * @todo
@@ -62,13 +68,10 @@ extern "C" {
  * @param out_bytes_ptr
  * @return
  */
-REF_INLINE qpl_status ref_get_output_bytes(uint32_t *const last_bit_offset_ptr,
-                                           uint32_t number_of_elements,
-                                           uint32_t source_bit_width,
-                                           uint32_t avail_bytes,
-                                           uint32_t format,
-                                           uint32_t *const out_bytes_ptr) {
-    uint64_t source_bit_length = (uint64_t) number_of_elements * (uint64_t) source_bit_width;
+REF_INLINE qpl_status ref_get_output_bytes(uint32_t* const last_bit_offset_ptr, uint32_t number_of_elements,
+                                           uint32_t source_bit_width, uint32_t avail_bytes, uint32_t format,
+                                           uint32_t* const out_bytes_ptr) {
+    uint64_t source_bit_length = (uint64_t)number_of_elements * (uint64_t)source_bit_width;
 
     // Init last bit offset
     (*last_bit_offset_ptr) = 0;
@@ -76,7 +79,7 @@ REF_INLINE qpl_status ref_get_output_bytes(uint32_t *const last_bit_offset_ptr,
     switch (format) {
         case qpl_ow_nom: {
             // Convert number of bits to number of bytes
-            (*out_bytes_ptr)       = (uint32_t) REF_BIT_2_BYTE(source_bit_length);
+            (*out_bytes_ptr)       = (uint32_t)REF_BIT_2_BYTE(source_bit_length);
             (*last_bit_offset_ptr) = source_bit_length & REF_MAX_BIT_IDX;
             break;
         }
@@ -113,7 +116,7 @@ REF_INLINE qpl_status ref_get_output_bytes(uint32_t *const last_bit_offset_ptr,
  * @param o_format
  * @return
  */
-qpl_status ref_set_bit_by_index(uint32_t bit_index, uint8_t *vector_ptr, uint32_t o_format);
+qpl_status ref_set_bit_by_index(uint32_t bit_index, uint8_t* vector_ptr, uint32_t o_format);
 
 /**
  * @todo
@@ -127,16 +130,11 @@ qpl_status ref_set_bit_by_index(uint32_t bit_index, uint8_t *vector_ptr, uint32_
  * @param element_index_ptr
  * @return
  */
-qpl_status ref_store_values(const uint32_t *const source_ptr,
-                                    uint32_t number_of_elements,
-                                    uint32_t source_bit_width,
-                                    uint8_t *const destination_ptr,
-                                    const uint8_t *const destination_end_ptr,
-                                    bool output_be,
-                                    qpl_out_format output_format,
-                                    uint32_t *element_index_ptr);
+qpl_status ref_store_values(const uint32_t* const source_ptr, uint32_t number_of_elements, uint32_t source_bit_width,
+                            uint8_t* const destination_ptr, const uint8_t* const destination_end_ptr, bool output_be,
+                            qpl_out_format output_format, uint32_t* element_index_ptr);
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 }
 #endif
 

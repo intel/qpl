@@ -11,8 +11,8 @@
 
 #include <algorithm>
 
-#include "random_generator.h"
 #include "format_generator.hpp"
+#include "random_generator.h"
 
 namespace qpl::test {
 
@@ -28,7 +28,7 @@ static inline auto bit_reverse32(uint32_t input) -> uint32_t {
         uint8_t  ubyte[4];
     } buffer, output;
 
-    buffer.uint = input;
+    buffer.uint     = input;
     output.ubyte[0] = buffer.ubyte[3];
     output.ubyte[1] = buffer.ubyte[2];
     output.ubyte[2] = buffer.ubyte[1];
@@ -37,19 +37,18 @@ static inline auto bit_reverse32(uint32_t input) -> uint32_t {
     return output.uint;
 }
 
-}
+} // namespace details
 
-auto format_generator::push_back_uint_vector(std::vector<uint8_t> &vector,
-                                  std::vector<uint32_t> &values_vector,
-                                  uint32_t bit_vector_element_width,
-                                  bool is_little_endian) -> std::vector<uint8_t> {
+auto format_generator::push_back_uint_vector(std::vector<uint8_t>& vector, std::vector<uint32_t>& values_vector,
+                                             uint32_t bit_vector_element_width, bool is_little_endian)
+        -> std::vector<uint8_t> {
     using namespace details;
     const uint32_t bytes_in_element = (bit_vector_element_width + 7) / BYTE_BIT_LENGTH;
     const uint32_t vector_size      = static_cast<uint32_t>(vector.size());
 
-    const uint64_t mask     = (1ULL << bit_vector_element_width) - 1;
-    uint64_t buffer         = 0U;
-    uint32_t bits_in_buffer = 0U;
+    const uint64_t mask           = (1ULL << bit_vector_element_width) - 1;
+    uint64_t       buffer         = 0U;
+    uint32_t       bits_in_buffer = 0U;
 
     // Prepare vector
     vector.resize(vector_size + values_vector.size() * 4U);
@@ -63,7 +62,7 @@ auto format_generator::push_back_uint_vector(std::vector<uint8_t> &vector,
         bits_in_buffer += bit_vector_element_width;
 
         if (BIT_BUF_LEN_HALF <= bits_in_buffer) {
-            auto destination_ptr = reinterpret_cast<uint32_t *>(&(*vector_it));
+            auto destination_ptr = reinterpret_cast<uint32_t*>(&(*vector_it));
 
             if (is_little_endian) {
                 *destination_ptr = static_cast<uint32_t>(buffer);
@@ -134,43 +133,34 @@ auto format_generator::push_back_uint_vector(std::vector<uint8_t> &vector,
         vector_it++;
         buffer >>= BYTE_BIT_LENGTH;
 
-        if (bits_in_buffer < BYTE_BIT_LENGTH) {
-            break;
-        }
+        if (bits_in_buffer < BYTE_BIT_LENGTH) { break; }
 
         bits_in_buffer -= BYTE_BIT_LENGTH;
     }
 
-    if (vector.end() - vector_it >= bytes_in_element) {
-        vector.erase(vector_it, vector.end());
-    }
+    if (vector.end() - vector_it >= bytes_in_element) { vector.erase(vector_it, vector.end()); }
 
     return vector;
 }
 
-auto format_generator::generate_uint_bit_sequence(uint32_t length,
-                                                  uint32_t bit_width,
-                                                  uint32_t seed,
-                                                  bool is_little_endian,
-                                                  uint32_t prologue_bytes) -> std::vector<uint8_t> {
+auto format_generator::generate_uint_bit_sequence(uint32_t length, uint32_t bit_width, uint32_t seed,
+                                                  bool is_little_endian, uint32_t prologue_bytes)
+        -> std::vector<uint8_t> {
     std::vector<uint8_t> vector(prologue_bytes);
 
-    const uint64_t max_input_value = (1ULL << bit_width) - 1U;
+    const uint64_t    max_input_value = (1ULL << bit_width) - 1U;
     qpl::test::random num_generator(0, static_cast<double>(max_input_value), seed);
 
     std::vector<uint32_t> values_vector(length, 0U);
     std::generate(values_vector.begin(), values_vector.end(),
-                  [&num_generator]() {
-                      return static_cast<uint32_t>(num_generator);
-                  });
+                  [&num_generator]() { return static_cast<uint32_t>(num_generator); });
 
     vector = push_back_uint_vector(vector, values_vector, bit_width, is_little_endian);
 
     return vector;
 }
 
-auto format_generator::generate_length_sequence() -> std::vector<uint32_t>
-{
+auto format_generator::generate_length_sequence() -> std::vector<uint32_t> {
     std::vector<uint32_t> result;
 
     for (uint32_t i = 1; i < 128; i++) {
@@ -186,4 +176,4 @@ auto format_generator::generate_length_sequence() -> std::vector<uint32_t>
     return result;
 }
 
-}
+} // namespace qpl::test

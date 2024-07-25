@@ -6,8 +6,7 @@
 
 #include "invalid_block.hpp"
 
-GenStatus gz_generator::InvalidBlockTypeConfigurator::generate()
-{
+GenStatus gz_generator::InvalidBlockTypeConfigurator::generate() {
     TestConfigurator::writeRandomBlock();
     TestConfigurator::declareInvalidBlock();
     TestConfigurator::writeRandomBlock();

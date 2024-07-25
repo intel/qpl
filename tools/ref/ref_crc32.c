@@ -18,6 +18,8 @@
  * @brief Contains helper functions for the @ref ref_crc32
  */
 
+// clang-format off
+
 /**
  * @brief Auxiliary table to perform bits reversing in byte
  */
@@ -39,6 +41,8 @@ static const uint8_t bit_reverse_table_8[0x100] = {
         0x07, 0x87, 0x47, 0xC7, 0x27, 0xA7, 0x67, 0xE7, 0x17, 0x97, 0x57, 0xD7, 0x37, 0xB7, 0x77, 0xF7,
         0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF,
 };
+
+// clang-format on
 
 /**
  * @brief Helper for reversing bits in byte
@@ -67,11 +71,11 @@ static inline uint32_t reverse_bits_32(uint32_t x) {
 
 /** @} */
 
-uint32_t ref_crc32(const uint8_t *buf, uint32_t len, uint32_t poly, uint32_t init_crc) {
+uint32_t ref_crc32(const uint8_t* buf, uint32_t len, uint32_t poly, uint32_t init_crc) {
     uint32_t crc = ~init_crc;
 
     for (uint32_t i = 0; i < len; i++) {
-        crc ^= (uint32_t) (reverse_bits_8(buf[i])) << 24;
+        crc ^= (uint32_t)(reverse_bits_8(buf[i])) << 24;
 
         for (uint32_t j = 0; j < 8; j++) {
             crc = (0x80000000 & crc) ? (crc << 1) ^ poly : crc << 1;

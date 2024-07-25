@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class DynamicBlockNoErrorConfigurator : public TestConfigurator
-    {
-        public:
-            DynamicBlockNoErrorConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class DynamicBlockNoErrorConfigurator : public TestConfigurator {
+public:
+    DynamicBlockNoErrorConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            DynamicBlockNoErrorConfigurator() = delete;
+    DynamicBlockNoErrorConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_DYNAMIC_BLOCK_NO_ERR_HPP_

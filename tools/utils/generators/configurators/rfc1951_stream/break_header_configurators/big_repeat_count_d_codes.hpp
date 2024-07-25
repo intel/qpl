@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class BigRepeatCountDistanceLengthCodesConfigurator : public TestConfigurator
-    {
-        public:
-            BigRepeatCountDistanceLengthCodesConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class BigRepeatCountDistanceLengthCodesConfigurator : public TestConfigurator {
+public:
+    BigRepeatCountDistanceLengthCodesConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            BigRepeatCountDistanceLengthCodesConfigurator() = delete;
+    BigRepeatCountDistanceLengthCodesConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_BIG_REPEAT_COUNT_D_CODES_HPP

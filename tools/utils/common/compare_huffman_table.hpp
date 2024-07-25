@@ -10,11 +10,10 @@
 // qpl_huffman_table_t definition
 #include "qpl/c_api/huffman_table.h"
 
-namespace qpl::test
-{
+namespace qpl::test {
 [[nodiscard]] qpl_status qpl_huffman_table_compare(const qpl_huffman_table_t table,
                                                    const qpl_huffman_table_t other_table,
-                                                   bool *are_huffman_tables_equal);
+                                                   bool*                     are_huffman_tables_equal);
 }
 
 #endif

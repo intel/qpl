@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class DistanceCodeBeforeStartConfigurator : public TestConfigurator
-    {
-        public:
-            DistanceCodeBeforeStartConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class DistanceCodeBeforeStartConfigurator : public TestConfigurator {
+public:
+    DistanceCodeBeforeStartConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            DistanceCodeBeforeStartConfigurator() = delete;
+    DistanceCodeBeforeStartConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_CONFIGURATOR_DISTANCE_BEFORE_START_H_

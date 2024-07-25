@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class ManyLiteralLengthCodesConfigurator: public TestConfigurator
-    {
-        public:
-            ManyLiteralLengthCodesConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class ManyLiteralLengthCodesConfigurator : public TestConfigurator {
+public:
+    ManyLiteralLengthCodesConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            ManyLiteralLengthCodesConfigurator() = delete;
+    ManyLiteralLengthCodesConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_MANY_DISTANCE_CODES_HPP_

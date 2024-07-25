@@ -6,15 +6,14 @@
 
 #include "no_literal_length_code.hpp"
 
-GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate()
-{
+GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate() {
     Gen32u* pLiteralLengthCodesTable = nullptr;
-    Gen32u* pCodeLengthCodesTable = nullptr;
+    Gen32u* pCodeLengthCodesTable    = nullptr;
 
     // Indices 257-285 are the literal length codes
     // Stop at 285 so that not every LL code is 0, which is a different test with a different error code
-    qpl::test::random rand (257U, 285U, m_seed);
-    Gen32u numberMissedCodes = 0U;
+    qpl::test::random rand(257U, 285U, m_seed);
+    Gen32u            numberMissedCodes = 0U;
 
     pLiteralLengthCodesTable = new Gen32u[DEFAULT_LL_TABLE_LENGTH];
     pCodeLengthCodesTable    = new Gen32u[DEFAULT_CL_TABLE_LENGTH];
@@ -28,16 +27,14 @@ GenStatus gz_generator::NoLiteralLengthCodeConfigurator::generate()
     // Set the max LL code bit length to 15 bits for all missing codes so that all missing codes will end up
     // at the end of the sorted list of all LL code lengths. This will make sure that the non-missing codes
     // will have valid distance codes
-    for (Gen32u i = 0U; i < numberMissedCodes; i++)
-    {
+    for (Gen32u i = 0U; i < numberMissedCodes; i++) {
         pLiteralLengthCodesTable[i] = MAX_LL_CODE_BIT_LENGTH;
     }
 
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, pLiteralLengthCodesTable, DEFAULT_LL_TABLE_LENGTH);
 
-    for (Gen32u i = 0U; i < numberMissedCodes; i++)
-    {
+    for (Gen32u i = 0U; i < numberMissedCodes; i++) {
         pLiteralLengthCodesTable[i] = 0U;
     }
 

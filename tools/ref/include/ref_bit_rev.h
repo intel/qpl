@@ -36,7 +36,7 @@ extern uint8_t bit_reverse_table_8u[256];
  * @param vector_ptr
  * @param vector_size
  */
-void ref_reverse_bits_8u(uint8_t *vector_ptr, uint32_t vector_size);
+void ref_reverse_bits_8u(uint8_t* vector_ptr, uint32_t vector_size);
 
 /**
  * @brief Helper for converting 8u data from LE to BE and vice versa format
@@ -56,7 +56,7 @@ REF_INLINE uint16_t bit_reverse16(uint16_t x) {
         uint8_t  ubyte[2];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = bit_reverse8(y.ubyte[1]);
     z.ubyte[1] = bit_reverse8(y.ubyte[0]);
 
@@ -73,7 +73,7 @@ REF_INLINE uint32_t bit_reverse32(uint32_t x) {
         uint8_t  ubyte[4];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = bit_reverse8(y.ubyte[3]);
     z.ubyte[1] = bit_reverse8(y.ubyte[2]);
     z.ubyte[2] = bit_reverse8(y.ubyte[1]);
@@ -92,7 +92,7 @@ REF_INLINE uint16_t swap_bytes16(uint16_t x) {
         uint8_t  ubyte[2];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = y.ubyte[1];
     z.ubyte[1] = y.ubyte[0];
 
@@ -109,7 +109,7 @@ REF_INLINE uint32_t swap_bytes32(uint32_t x) {
         uint8_t  ubyte[4];
     } y, z;
 
-    y.uint = x;
+    y.uint     = x;
     z.ubyte[0] = y.ubyte[3];
     z.ubyte[1] = y.ubyte[2];
     z.ubyte[2] = y.ubyte[1];

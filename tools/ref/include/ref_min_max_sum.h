@@ -18,10 +18,10 @@
 #ifndef REF_MIN_MAX_SUM_H_
 #define REF_MIN_MAX_SUM_H_
 
-#define REF_BYTE_BIT_LEN     8                                        /**< @todo */
-#define REF_BIT_BUF_LEN      (sizeof(uint64_t) * REF_BYTE_BIT_LEN)    /**< @todo */
-#define REF_BIT_BUF_LEN_HALF (REF_BIT_BUF_LEN >> 1)                   /**< @todo */
-#define REF_BUFL             REF_BIT_BUF_LEN_HALF                     /**< @todo */
+#define REF_BYTE_BIT_LEN     8                                     /**< @todo */
+#define REF_BIT_BUF_LEN      (sizeof(uint64_t) * REF_BYTE_BIT_LEN) /**< @todo */
+#define REF_BIT_BUF_LEN_HALF (REF_BIT_BUF_LEN >> 1)                /**< @todo */
+#define REF_BUFL             REF_BIT_BUF_LEN_HALF                  /**< @todo */
 
 /**
  * @todo
@@ -58,16 +58,10 @@ extern "C" {
  * @todo
  *
  */
-qpl_status ref_min_max_sum(const uint8_t *src_ptr,
-                           uint32_t len,
-                           uint32_t last_bit_offset,
-                           qpl_out_format elem_format,
-                           uint8_t value_bit_width,
-                           uint32_t input_be,
-                           uint32_t initial_output_index,
-                           uint32_t *first_idx_min_value_ptr,
-                           uint32_t *last_idx_max_value_ptr,
-                           uint32_t *sum_value_ptr);
+qpl_status ref_min_max_sum(const uint8_t* src_ptr, uint32_t len, uint32_t last_bit_offset, qpl_out_format elem_format,
+                           uint8_t value_bit_width, uint32_t input_be, uint32_t initial_output_index,
+                           uint32_t* first_idx_min_value_ptr, uint32_t* last_idx_max_value_ptr,
+                           uint32_t* sum_value_ptr);
 
 #ifdef __cplusplus
 }

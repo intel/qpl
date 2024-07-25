@@ -7,50 +7,45 @@
 #ifndef __BITBUF2_H__
 #define __BITBUF2_H__
 
+#include <assert.h>
 #include <iostream>
 #include <stdint.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <vector>
 
-namespace gz_generator
-{
-    class BitBuffer
-    {
-        public:
-            explicit BitBuffer(std::vector<uint8_t> *data);
+namespace gz_generator {
+class BitBuffer {
+public:
+    explicit BitBuffer(std::vector<uint8_t>* data);
 
-            BitBuffer() = delete;
+    BitBuffer() = delete;
 
-            BitBuffer(const BitBuffer &buffer) = delete;
+    BitBuffer(const BitBuffer& buffer) = delete;
 
-            void flush(uint32_t pad = 0);
+    void flush(uint32_t pad = 0);
 
-            void write(uint64_t value, uint32_t bit_count);
+    void write(uint64_t value, uint32_t bit_count);
 
-            void padToByte();
+    void padToByte();
 
-            static uint16_t bitFlip(uint16_t word);
+    static uint16_t bitFlip(uint16_t word);
 
-            BitBuffer& operator= (const BitBuffer &buffer) = delete;
+    BitBuffer& operator=(const BitBuffer& buffer) = delete;
 
-            uint32_t getBitsWritten() const;
+    uint32_t getBitsWritten() const;
 
-            void setBigEndian16(bool value);
+    void setBigEndian16(bool value);
 
-        private:
+private:
+    bool     m_bigEndian16;
+    uint32_t m_totalBitWritten;
+    struct {
+        uint64_t value;
+        uint32_t bit_length;
+    } m_buffer;
 
-            bool   m_bigEndian16;
-            uint32_t m_totalBitWritten;
-            struct
-            {
-                uint64_t value;
-                uint32_t bit_length;
-            } m_buffer;
-
-            std::vector<uint8_t> *m_data;
-
-    };
-}
+    std::vector<uint8_t>* m_data;
+};
+} // namespace gz_generator
 
 #endif // __BITBUF2_H__

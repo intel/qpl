@@ -8,7 +8,10 @@
 #define QPL_TEST_HUFFMAN_TABLE_HPP
 
 #include <cstdint>
+
 #include "qpl/c_api/huffman_table.h"
+
+// clang-format off
 
 namespace qpl::test
 {
@@ -123,5 +126,7 @@ namespace qpl::test
 
     [[nodiscard]] qpl_status fill_compression_table(qpl_huffman_table_t table_ptr);
 }
+
+// clang-format on
 
 #endif //QPL_TEST_HUFFMAN_TABLE_HPP

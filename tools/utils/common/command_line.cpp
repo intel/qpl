@@ -9,14 +9,15 @@
  *  Test
  */
 
-#include <algorithm>
 #include "command_line.hpp"
+
+#include <algorithm>
 #include <charconv>
 #include <stdexcept>
 
 namespace qpl::test {
 
-CommandLine::CommandLine(char **arguments_pptr, int arguments_count) {
+CommandLine::CommandLine(char** arguments_pptr, int arguments_count) {
     for (int i = 1; i < arguments_count; i++) {
         std::string current_argument = arguments_pptr[i];
 
@@ -30,7 +31,7 @@ CommandLine::CommandLine(char **arguments_pptr, int arguments_count) {
 
         // Set argument key
         const std::string argument_key = std::string(current_argument.begin(), equal_sign_it);
-        std::string argument_value;
+        std::string       argument_value;
 
         if (current_argument.end() == equal_sign_it) {
             argument_value = ""; // Such argument has no value
@@ -42,16 +43,12 @@ CommandLine::CommandLine(char **arguments_pptr, int arguments_count) {
     }
 }
 
-CommandLine::argument_t CommandLine::convertType(const std::string &parsed_argument) {
+CommandLine::argument_t CommandLine::convertType(const std::string& parsed_argument) {
     int iValue = 0U;
 
-    auto result = std::from_chars(parsed_argument.c_str(),
-                                  parsed_argument.c_str() + parsed_argument.length(),
-                                  iValue);
+    auto result = std::from_chars(parsed_argument.c_str(), parsed_argument.c_str() + parsed_argument.length(), iValue);
 
-    if (result.ec != std::errc::invalid_argument) {
-        return iValue;
-    }
+    if (result.ec != std::errc::invalid_argument) { return iValue; }
 
     if (parsed_argument == "on") {
         return true;
@@ -63,7 +60,7 @@ CommandLine::argument_t CommandLine::convertType(const std::string &parsed_argum
 }
 
 template <class type>
-auto CommandLine::find(const std::string &parameter_name) -> std::optional<type> {
+auto CommandLine::find(const std::string& parameter_name) -> std::optional<type> {
     auto pair = parsed_arguments_.find(parameter_name);
     if constexpr (std::is_same_v<type, uint32_t>) {
         if (pair != parsed_arguments_.end() && std::holds_alternative<int32_t>(pair->second)) {
@@ -78,9 +75,9 @@ auto CommandLine::find(const std::string &parameter_name) -> std::optional<type>
     return std::nullopt;
 }
 
-template auto CommandLine::find<bool>(const std::string &parameter_name) -> std::optional<bool>;
-template auto CommandLine::find<int32_t>(const std::string &parameter_name) -> std::optional<int32_t>;
-template auto CommandLine::find<uint32_t>(const std::string &parameter_name) -> std::optional<uint32_t>;
-template auto CommandLine::find<std::string>(const std::string &parameter_name) -> std::optional<std::string>;
+template auto CommandLine::find<bool>(const std::string& parameter_name) -> std::optional<bool>;
+template auto CommandLine::find<int32_t>(const std::string& parameter_name) -> std::optional<int32_t>;
+template auto CommandLine::find<uint32_t>(const std::string& parameter_name) -> std::optional<uint32_t>;
+template auto CommandLine::find<std::string>(const std::string& parameter_name) -> std::optional<std::string>;
 
-}
+} // namespace qpl::test

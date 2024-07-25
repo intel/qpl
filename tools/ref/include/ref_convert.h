@@ -18,10 +18,10 @@
 
 #include <stdlib.h>
 
-#include "ref_prle.h"
 #include "own_ref_defs.h"
+#include "ref_prle.h"
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -35,12 +35,9 @@ extern "C" {
  * @param parser
  * @return
  */
-qpl_status ref_convert_to_32u_le_be(const uint8_t *const source_ptr,
-                                            uint32_t source_bit_offset,
-                                            uint32_t source_bit_width,
-                                            uint32_t number_of_elements,
-                                            uint32_t *const destination_ptr,
-                                            qpl_parser parser);
+qpl_status ref_convert_to_32u_le_be(const uint8_t* const source_ptr, uint32_t source_bit_offset,
+                                    uint32_t source_bit_width, uint32_t number_of_elements,
+                                    uint32_t* const destination_ptr, qpl_parser parser);
 
 /**
  * @todo describe
@@ -50,12 +47,10 @@ qpl_status ref_convert_to_32u_le_be(const uint8_t *const source_ptr,
  * @param available_bytes_ptr
  * @return
  */
-qpl_status ref_convert_to_32u_prle(const uint8_t *const source_ptr,
-                                           const uint8_t *const source_end_ptr,
-                                           uint32_t *const destination_ptr,
-                                           uint32_t *const available_bytes_ptr);
+qpl_status ref_convert_to_32u_prle(const uint8_t* const source_ptr, const uint8_t* const source_end_ptr,
+                                   uint32_t* const destination_ptr, uint32_t* const available_bytes_ptr);
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 }
 #endif
 

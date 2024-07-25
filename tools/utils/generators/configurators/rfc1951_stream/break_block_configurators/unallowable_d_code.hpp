@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class UnallowableDistanceCodeConfigurator: public TestConfigurator
-    {
-        public:
-            UnallowableDistanceCodeConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class UnallowableDistanceCodeConfigurator : public TestConfigurator {
+public:
+    UnallowableDistanceCodeConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            UnallowableDistanceCodeConfigurator() = delete;
+    UnallowableDistanceCodeConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_CONFIGURATOR_UNALLOWABLE_D_CODE_H_

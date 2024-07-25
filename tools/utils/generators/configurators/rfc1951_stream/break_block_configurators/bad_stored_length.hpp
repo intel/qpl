@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class BadStoredLengthConfigurator : public TestConfigurator
-    {
-        public:
-            BadStoredLengthConfigurator(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class BadStoredLengthConfigurator : public TestConfigurator {
+public:
+    BadStoredLengthConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            BadStoredLengthConfigurator() = delete;
+    BadStoredLengthConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_CONFIGURATOR_BAD_STORED_LENGTH_HPP_

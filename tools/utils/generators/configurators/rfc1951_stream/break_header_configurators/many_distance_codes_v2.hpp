@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class ManyDistanceCodesConfiguratorVersion2: public TestConfigurator
-    {
-        public:
-            ManyDistanceCodesConfiguratorVersion2(Gen32u seed)
-                : TestConfigurator(seed){}
+namespace gz_generator {
+class ManyDistanceCodesConfiguratorVersion2 : public TestConfigurator {
+public:
+    ManyDistanceCodesConfiguratorVersion2(Gen32u seed) : TestConfigurator(seed) {}
 
-            ManyDistanceCodesConfiguratorVersion2() = delete;
+    ManyDistanceCodesConfiguratorVersion2() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //_MANY_DISTANCE_CODES_HPP_

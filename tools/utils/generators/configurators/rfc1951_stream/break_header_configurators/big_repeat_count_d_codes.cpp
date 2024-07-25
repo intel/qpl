@@ -6,10 +6,9 @@
 
 #include "big_repeat_count_d_codes.hpp"
 
-GenStatus gz_generator::BigRepeatCountDistanceLengthCodesConfigurator::generate()
-{
-    Gen32u *pDistanceLengthCodesTable  = nullptr;
-    Gen32u  code_length                 = 0U;
+GenStatus gz_generator::BigRepeatCountDistanceLengthCodesConfigurator::generate() {
+    Gen32u* pDistanceLengthCodesTable  = nullptr;
+    Gen32u  code_length                = 0U;
     Gen32u  repeatedCode               = 0U;
     Gen32u  repeatingCount             = 0U;
     Gen32u  maximumDistanceCode        = 0U;
@@ -17,19 +16,16 @@ GenStatus gz_generator::BigRepeatCountDistanceLengthCodesConfigurator::generate(
 
     qpl::test::random random(0U, 0U, m_seed);
 
-    if (0.25F > static_cast<float>(m_random))
-    {
+    if (0.25F > static_cast<float>(m_random)) {
         random.set_range(1U, 8U);
         code_length = static_cast<Gen32u>(random);
         random.set_range(4U, 7U);
-        repeatingCount = static_cast<Gen32u>(random);
+        repeatingCount      = static_cast<Gen32u>(random);
         maximumDistanceCode = 28U;
-    }
-    else
-    {
+    } else {
         code_length = 0U;
         random.set_range(3U, 29U);
-        repeatingCount = static_cast<Gen32u>(random);
+        repeatingCount      = static_cast<Gen32u>(random);
         maximumDistanceCode = 29U;
     }
 
@@ -41,12 +37,10 @@ GenStatus gz_generator::BigRepeatCountDistanceLengthCodesConfigurator::generate(
     {
         Gen32u code = 0U;
         random.set_range(9U, 15U);
-        for (code = code; code < repeatedCode; code++)
-        {
+        for (code = code; code < repeatedCode; code++) {
             pDistanceLengthCodesTable[code] = static_cast<Gen32u>(random);
         }
-        for (code = code; code < repeatedCode + repeatingCount; code++)
-        {
+        for (code = code; code < repeatedCode + repeatingCount; code++) {
             pDistanceLengthCodesTable[code] = code_length;
         }
         writtenDistanceLengthCodes = code;

@@ -9,18 +9,15 @@
 
 #include "base_configurator.hpp"
 
-namespace gz_generator
-{
-    class StoredBlockNoErrorConfigurator : public TestConfigurator
-    {
-        public:
-            StoredBlockNoErrorConfigurator(Gen32u seed)
-                : TestConfigurator(seed) {}
+namespace gz_generator {
+class StoredBlockNoErrorConfigurator : public TestConfigurator {
+public:
+    StoredBlockNoErrorConfigurator(Gen32u seed) : TestConfigurator(seed) {}
 
-            StoredBlockNoErrorConfigurator() = delete;
+    StoredBlockNoErrorConfigurator() = delete;
 
-            GenStatus generate() override;
-    };
-}
+    GenStatus generate() override;
+};
+} // namespace gz_generator
 
 #endif //QPL_PROJECT_CONFIGURATOR_STATIC_BLOCK_NO_ERR_H

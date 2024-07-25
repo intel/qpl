@@ -56,7 +56,7 @@ typedef int            GenStatus;
 #define GEN_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define GEN_MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-#define LAST_FROM(count) ((count) - 1)
+#define LAST_FROM(count) ((count)-1)
 
 /**
  * @brief list of definitions which was declared in accordance with DEFLATE STANDARD
@@ -75,10 +75,10 @@ typedef int            GenStatus;
 #define MAX_OFFSET             4096U /**> The maximum offset is limited by history window size (Intel QPL limit) */
 #define DEFAULT_MAX_OFFSET     32768U /**> The maximum offset is limited by history window size (DEFLATE STANDARD limit) */
 #define MIN_MATCH              3U     /**> The minimum match*/
-#define MAX_MATCH              258U   /**> The maximum match*/
-#define MAX_CL_CODE_BIT_LENGTH 7U    /**> The maximum CL code bit length*/
-#define MAX_LL_CODE_BIT_LENGTH 15U    /**> The maximum LL code bit length*/
-#define MAX_D_CODE_BIT_LENGTH  15U    /**> The maximum D code bit length*/
+#define MAX_MATCH              258U /**> The maximum match*/
+#define MAX_CL_CODE_BIT_LENGTH 7U   /**> The maximum CL code bit length*/
+#define MAX_LL_CODE_BIT_LENGTH 15U  /**> The maximum LL code bit length*/
+#define MAX_D_CODE_BIT_LENGTH  15U  /**> The maximum D code bit length*/
 
 /**
  * @brief list of generator errors
@@ -152,7 +152,6 @@ struct SpecialTestOptions {
     GenDecompressionHuffmanTable decompression_huffman_table {};
     bool                         is_aecs_format2_expected = false;
 };
-
 
 struct TestFactor {
     TestType           type = NO_ERR_DYNAMIC_BLOCK;
