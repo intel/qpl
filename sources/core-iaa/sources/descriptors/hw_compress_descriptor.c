@@ -98,6 +98,7 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector_with_header_gen,
     if (b_final) {
         // Enable 2-Pass header gen and generate a bFinal Deflate Header
         this_ptr->compression_flags = ADCF_ENABLE_HDR_GEN(7U);
+        this_ptr->compression_flags |= ADCF_FLUSH_OUTPUT;
     } else {
         // Enable 2-Pass header gen and generate a Deflate Header
         this_ptr->compression_flags = ADCF_ENABLE_HDR_GEN(6U);
