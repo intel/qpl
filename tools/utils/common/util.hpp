@@ -30,14 +30,14 @@ static std::vector<sw_compression_level> sw_levels {sw_compression_level::LEVEL_
                                                     sw_compression_level::LEVEL_4, sw_compression_level::LEVEL_9};
 
 static constexpr size_t   max_input_bit_width              = 32;
-static constexpr uint32_t bit_bit_width                    = 1;
-static constexpr uint32_t additional_bytes_for_compression = 100;
+static constexpr uint32_t bit_bit_width                    = 1U;
+static constexpr uint32_t additional_bytes_for_compression = 100U;
 
-constexpr uint32_t max_bit_index              = 7;
-constexpr uint32_t bit_to_byte_shift_offset   = 3;
-constexpr uint32_t bib_eobs_bfinal_block_size = 3857; // Every (except for the last one) has exactly this size in bytes
+constexpr uint32_t max_bit_index              = 7U;
+constexpr uint32_t bit_to_byte_shift_offset   = 3U;
+constexpr uint32_t bib_eobs_bfinal_block_size = 3857U; // Every (except for the last one) has exactly this size in bytes
 constexpr uint32_t bib_eobs_decompressed_size =
-        111261; // Originally compressed file was bib, so assign bib file's size to this variable
+        111261U; // Originally compressed file was bib, so assign bib file's size to this variable
 
 enum source_sizes_sequence_t { generic };
 
@@ -137,27 +137,25 @@ static std::string ParserToString(qpl_parser parser) {
 }
 
 static uint8_t* set_format_count(uint32_t format, uint32_t count, uint8_t* destination_ptr) {
-    uint8_t value;
-
-    value = (uint8_t)format & 1;           // format is 1 low bit
-    value |= (uint8_t)(count & 0x3f) << 1; // get 6 significant bits of count
-    count >>= 6;                           // remove these 6 bits from count
-    if (0 < count)                         // if there are more bits
+    uint8_t value = (uint8_t)format & 1U;   // format is 1 low bit
+    value |= (uint8_t)(count & 0x3f) << 1U; // get 6 significant bits of count
+    count >>= 6U;                           // remove these 6 bits from count
+    if (0U < count)                         // if there are more bits
     {
         value |= HIGH_BIT_MASK;                         // mark var-int val
         *(destination_ptr++) = value;                   // put 1st byte to dst
         value                = (uint8_t)(count & 0x7f); // get next bits from count
-        count >>= 7;                                    // remove these 7 bits from count
+        count >>= 7U;                                   // remove these 7 bits from count
     } else {
         *(destination_ptr++) = value; // put last byte to dst
         return destination_ptr;
     }
-    if (0 < count) // if there are more bits
+    if (0U < count) // if there are more bits
     {
         value |= HIGH_BIT_MASK;                         // mark var-int val
         *(destination_ptr++) = value;                   // put 2nd byte to dst
         value                = (uint8_t)(count & 0x7f); // get next bits from count
-        count >>= 7;                                    // remove these 7 bits from count
+        count >>= 7U;                                   // remove these 7 bits from count
     } else {
         *(destination_ptr++) = value; // put last byte to dst
         return destination_ptr;
@@ -215,7 +213,7 @@ static qpl_out_format uint_to_qpl_output(uint32_t output) {
 
 static uint32_t get_second_source_bit_length(qpl_operation operation, uint32_t first_source_bit_width,
                                              uint32_t first_source_number_of_elements) {
-    uint32_t result_bit_length;
+    uint32_t result_bit_length = 0U;
 
     switch (operation) {
         case qpl_op_select: result_bit_length = first_source_number_of_elements; break;
@@ -245,7 +243,7 @@ static inline void align_ptr(size_t alignment, void* ptr_in, void** aligned_ptr_
 static inline auto get_dictionary_lengths() {
     std::vector<uint32_t> result;
 
-    auto generate = [&](uint32_t bound_low, uint32_t bound_high, uint32_t step) -> auto{
+    auto generate = [&](uint32_t bound_low, uint32_t bound_high, uint32_t step) -> auto {
         for (uint32_t i = bound_low; i <= bound_high; i += step) {
             result.push_back(i);
         }

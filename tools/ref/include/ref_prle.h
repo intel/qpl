@@ -32,14 +32,12 @@ extern "C" {
  */
 REF_INLINE qpl_status ref_get_format_and_count(const uint8_t** source_ptr, uint32_t* format_ptr, uint32_t* count_ptr,
                                                uint32_t* available_bytes_ptr) {
-    // Temporary variable for an extracted bytes
-    uint32_t byte;
 
     // Check if we have enough bytes
     REF_BAD_ARG_RET((0 == (*available_bytes_ptr)), QPL_STS_PRLE_FORMAT_ERR);
 
-    // Get first byte
-    byte = (uint32_t)(*((*source_ptr)++));
+    // Extract first byte
+    uint32_t byte = (uint32_t)(*((*source_ptr)++));
 
     // PRLE format marker
     (*format_ptr) = byte & REF_LOW_BIT_MASK;

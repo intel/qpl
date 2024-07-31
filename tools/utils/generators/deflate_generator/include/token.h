@@ -96,7 +96,7 @@ protected:
     uint32_t           m_line_num;
 
     int getc() {
-        char c;
+        char c = 0;
 
         m_config->get(c);
         if (m_config->eof()) {

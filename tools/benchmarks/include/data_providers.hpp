@@ -16,8 +16,8 @@
 #include <vector>
 
 namespace bench::data {
-static const uint32_t min_tested_block_size = 4096;
-static const uint32_t max_tested_block_size = 65536;
+static const uint32_t min_tested_block_size = 4096U;
+static const uint32_t max_tested_block_size = 65536U;
 
 static inline dataset_t read_dataset(const std::string& path) {
     dataset_t dataset;
@@ -47,7 +47,7 @@ static inline dataset_t read_dataset(const std::string& path) {
 static inline std::vector<std::uint32_t> generate_block_sizes(const data_t& data) {
     uint32_t              max_block_size_for_data = std::min((size_t)max_tested_block_size, data.buffer.size());
     std::vector<uint32_t> block_sizes;
-    uint32_t              size;
+    uint32_t              size = min_tested_block_size;
     for (size = min_tested_block_size; size <= max_block_size_for_data; size *= 2) {
         block_sizes.push_back(size);
     }
@@ -65,7 +65,7 @@ static inline auto split_data(const data_t& data, std::size_t block_size) {
         // Trim tail since it cannot be used in statistics
         std::uint32_t count = data.buffer.size() / block_size;
         blocks.resize(count);
-        for (std::uint32_t i = 0; i < count; ++i) {
+        for (std::uint32_t i = 0U; i < count; ++i) {
             auto begin = &data.buffer[i * block_size];
             auto end   = &data.buffer[i * block_size + block_size];
             blocks[i].buffer.insert(blocks[i].buffer.begin(), begin, end);

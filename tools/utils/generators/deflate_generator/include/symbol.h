@@ -61,7 +61,7 @@ public:
     symbol_list& operator=(const symbol_list& list) = delete;
 
     ~symbol_list() {
-        symbol_page *curr, *next;
+        symbol_page *curr = nullptr, *next = nullptr;
         for (curr = m_head; curr; curr = next) {
             next = curr->m_next;
             delete curr;
@@ -69,7 +69,7 @@ public:
     }
 
     void reset() {
-        symbol_page *curr, *next;
+        symbol_page *curr = nullptr, *next = nullptr;
         for (curr = m_head; curr; curr = next) {
             next = curr->m_next;
             delete curr;

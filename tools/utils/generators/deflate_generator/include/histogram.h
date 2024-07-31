@@ -22,11 +22,10 @@ public:
     uint32_t m_llcodes[286];
 
     void reset() {
-        uint32_t i;
-        for (i = 0; i < NUM_DIST; i++)
-            m_dist[i] = 0;
-        for (i = 0; i < NUM_LIT_LEN; i++)
-            m_lit_len[i] = 0;
+        for (uint32_t i = 0U; i < NUM_DIST; i++)
+            m_dist[i] = 0U;
+        for (uint32_t i = 0U; i < NUM_LIT_LEN; i++)
+            m_lit_len[i] = 0U;
     }
 
     histogram() { reset(); }
@@ -38,12 +37,12 @@ public:
     //    uint64_t estimate_out_length();
 
     // 0 <= lit <= 256
-    void add_lit(uint32_t lit) { m_lit_len[lit] += 1; }
+    void add_lit(uint32_t lit) { m_lit_len[lit] += 1U; }
 
     // 3 <= len <= 258 ; 1 <= dist <= 32768
     void add_len_dist(uint32_t len, uint32_t dist) {
-        m_lit_len[len + (257 - 3)] += 1;
-        m_dist[dist - 1] += 1;
+        m_lit_len[len + (257 - 3)] += 1U;
+        m_dist[dist - 1] += 1U;
     }
 };
 

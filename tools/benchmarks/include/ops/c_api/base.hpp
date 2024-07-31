@@ -43,7 +43,7 @@ public:
     void init_lib_impl() {
         if (!cache_control_) throw std::runtime_error("manual cache control option is not supported in C API");
 
-        std::uint32_t size;
+        std::uint32_t size   = 0U;
         auto          status = qpl_get_job_size(to_qpl_path<DerivedT::path_v>(), &size);
         if (QPL_STS_OK != status) throw std::runtime_error(format("qpl_get_job_size() failed with status %d", status));
 

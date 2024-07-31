@@ -53,13 +53,12 @@ public:
 
     void CompressSource() {
         uint32_t job_size = 0U;
-        qpl_job* deflate_job_ptr;
-        auto     status = qpl_get_job_size(GetExecutionPath(), &job_size);
+        auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
 
         ASSERT_EQ(QPL_STS_OK, status) << "Couldn't get compression job size\n";
 
-        auto job_buffer = std::make_unique<uint8_t[]>(job_size);
-        deflate_job_ptr = reinterpret_cast<qpl_job*>(job_buffer.get());
+        auto     job_buffer      = std::make_unique<uint8_t[]>(job_size);
+        qpl_job* deflate_job_ptr = reinterpret_cast<qpl_job*>(job_buffer.get());
 
         status = qpl_init_job(GetExecutionPath(), deflate_job_ptr);
 
@@ -151,8 +150,8 @@ protected:
         auto status = run_job_api(job_ptr);
 
         if (status != expected_status /* Invalid block type*/) {
-            return testing::AssertionFailure() << " Library status: " << status << " VS "
-                                               << " Expected status: " << expected_status << "\n";
+            return testing::AssertionFailure()
+                   << " Library status: " << status << " VS " << " Expected status: " << expected_status << "\n";
         } else {
             return testing::AssertionSuccess();
         }

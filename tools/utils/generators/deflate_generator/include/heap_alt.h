@@ -10,12 +10,12 @@
 // Make a heap starting with i
 //
 static void heapify32(uint32_t* heap, uint32_t n, uint32_t i) {
-    uint32_t child, tmp;
+    uint32_t child = 0U, tmp = 0U;
 
     while (true) {
-        child = 2 * i;
+        child = 2U * i;
         if (child > n) break;
-        if ((child < n) && (heap[child] > heap[child + 1])) child++;
+        if ((child < n) && (heap[child] > heap[child + 1U])) child++;
         if (heap[i] <= heap[child]) break;
         // swap i and child
         tmp         = heap[i];
@@ -26,9 +26,7 @@ static void heapify32(uint32_t* heap, uint32_t n, uint32_t i) {
 }
 
 static void build_heap32(uint32_t* heap, uint32_t n) {
-    uint32_t i;
-
-    for (i = n / 2; i > 0; i--) {
+    for (uint32_t i = n / 2; i > 0U; i--) {
         heapify32(heap, n, i);
     }
 }
@@ -44,13 +42,13 @@ static void replace_min32(uint32_t* heap, uint32_t n, uint32_t new_val) {
 // Make a heap starting with i
 //
 static void heapify64(uint64_t* heap, uint32_t n, uint32_t i) {
-    uint32_t child;
-    uint64_t tmp;
+    uint32_t child = 0;
+    uint64_t tmp   = 0;
 
     while (true) {
-        child = 2 * i;
+        child = 2U * i;
         if (child > n) break;
-        if (/*(child < n) &&*/ (heap[child] > heap[child + 1])) child++;
+        if (/*(child < n) &&*/ (heap[child] > heap[child + 1U])) child++;
         if (heap[i] <= heap[child]) break;
         // swap i and child
         tmp         = heap[i];
@@ -61,10 +59,8 @@ static void heapify64(uint64_t* heap, uint32_t n, uint32_t i) {
 }
 
 static void build_heap64(uint64_t* heap, uint32_t n) {
-    uint32_t i;
-
-    heap[n + 1] = 0xFFFFFFFFFFFFFFFF;
-    for (i = n / 2; i > 0; i--) {
+    heap[n + 1U] = 0xFFFFFFFFFFFFFFFF;
+    for (uint32_t i = n / 2; i > 0U; i--) {
         heapify64(heap, n, i);
     }
 }
