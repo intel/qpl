@@ -58,8 +58,8 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
     // The raw dictionary should contain pieces of data that are most likely to occur in the real
     // datasets to be compressed.
     // In this example, to make things simple, we just use the source data as the raw dictionary.
-    std::size_t    raw_dict_size = source.size();
-    const uint8_t* raw_dict_ptr  = source.data();
+    const std::size_t raw_dict_size = source.size();
+    const uint8_t*    raw_dict_ptr  = source.data();
 
     // Determine the size needed for the dictionary
     dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, raw_dict_size);
@@ -73,7 +73,7 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
     }
 
     // Build the dictionary
-    qpl_status status =
+    const qpl_status status =
             qpl_build_dictionary(*dictionary_ptr, sw_compr_level, hw_compr_level, raw_dict_ptr, raw_dict_size);
     if (status != QPL_STS_OK) {
         std::cout << "An error " << status << " occurred during dictionary building.\n";
@@ -160,7 +160,7 @@ auto sw_decompression(std::vector<uint8_t>& destination, std::vector<uint8_t>& r
     uint32_t                   job_size = 0U;
 
     // Get compression size from destination
-    uint32_t compressed_size = destination.size();
+    const uint32_t compressed_size = destination.size();
 
     // Job initialization
     qpl_status status = qpl_get_job_size(qpl_path_software, &job_size);
@@ -212,7 +212,7 @@ auto main(int argc, char** argv) -> int {
     qpl_path_t execution_path = qpl_path_hardware;
 
     // Get path from input argument
-    int parse_ret = parse_execution_path(argc, argv, &execution_path);
+    const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) { return 1; }
 
     // Source and output containers
@@ -227,7 +227,7 @@ auto main(int argc, char** argv) -> int {
     if (create_dictionary(execution_path, source, &dictionary_ptr) != 0) { return 1; }
 
     // Compression and check if compression failed
-    uint8_t comp_status = compression(execution_path, source, destination, dictionary_ptr);
+    const uint8_t comp_status = compression(execution_path, source, destination, dictionary_ptr);
     if (comp_status == QPL_STS_NOT_SUPPORTED_MODE_ERR) {
         // Free dictionary
         destroy_dictionary(&dictionary_ptr);
@@ -239,7 +239,7 @@ auto main(int argc, char** argv) -> int {
     }
 
     // Decompression with software_path and check if decompression failed
-    uint8_t decomp_status = sw_decompression(destination, reference, dictionary_ptr);
+    const uint8_t decomp_status = sw_decompression(destination, reference, dictionary_ptr);
     if (decomp_status != 0) {
         // Free dictionary
         destroy_dictionary(&dictionary_ptr);
@@ -257,8 +257,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Content was successfully compressed and decompressed with dictionary."
-              << "\n";
+    std::cout << "Content was successfully compressed and decompressed with dictionary." << "\n";
     std::cout << "Input size: " << source.size() << ", compressed size: " << destination.size()
               << ", compression ratio: " << (float)source.size() / (float)destination.size() << ".\n";
 

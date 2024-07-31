@@ -157,7 +157,7 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
             cfg_in_ptr->num_output_accum_bits = 0U;
         }
 
-        int64_t stored_block_bytes =
+        const int64_t stored_block_bytes =
                 ml::compression::write_stored_blocks(const_cast<uint8_t*>(input_data_ptr), input_data_size, output_ptr,
                                                      output_size, bits_to_flush & 7U, is_final_block);
 

@@ -21,7 +21,7 @@ void cpuid(int info[4], int InfoType) {
 }
 
 unsigned long long _xgetbv(unsigned int index) { //NOLINT(bugprone-reserved-identifier)
-    unsigned int eax = 0U, edx = 0U;
+    unsigned int eax = 0U, edx = 0U;             //NOLINT(misc-const-correctness)
     __asm__ __volatile__("xgetbv;" : "=a"(eax), "=d"(edx) : "c"(index));
     return ((unsigned long long)edx << 32) | eax;
 }
@@ -196,8 +196,8 @@ auto get_memory_copy_index(const uint32_t bit_width) -> uint32_t {
     return memory_copy_index;
 }
 
-auto get_pack_bits_index(const uint32_t flag_be, const uint32_t src_bit_width, const uint32_t out_bit_width)
-        -> uint32_t {
+auto get_pack_bits_index(const uint32_t flag_be, const uint32_t src_bit_width,
+                         const uint32_t out_bit_width) -> uint32_t {
     uint32_t       pack_array_index = src_bit_width - 1U;
     const uint32_t input_be_shift   = (flag_be) ? 35 : 0U; // 35
     // Unpack function table contains 70 (2 * 35) entries - starts from 1-32 bit-width

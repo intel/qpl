@@ -22,9 +22,9 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, no_available_workqueues) {
     QPL_SKIP_TEST_FOR(qpl_path_software);
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(are_workqueues_available(), "At least one available workqueue");
 
-    qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    qpl_status status = run_decompress_op(execution_path);
+    const qpl_status status = run_decompress_op(execution_path);
     if (qpl_path_hardware == execution_path) {
         ASSERT_EQ(status, QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE);
     } else {
@@ -41,7 +41,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, work_queues_are_busy) {
     QPL_SKIP_TEST_FOR(qpl_path_software);
     QPL_SKIP_TEST_FOR_EXPR_VERBOSE(!are_workqueues_available(), "No workqueues are available");
 
-    qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    const qpl_path_t execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     constexpr uint32_t source_size = 9U; // 1 byte for input bit width, 4 bytes for RLE header, 4 bytes for 32-bit value
     constexpr uint32_t input_bit_width = 0U; // necessary for parquet format

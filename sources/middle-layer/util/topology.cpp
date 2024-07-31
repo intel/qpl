@@ -71,10 +71,10 @@ int get_cpu_topology_from_apic(unsigned long* smt_id, unsigned long* core_id, un
         subleaf++;
     } while (1);
 
-    unsigned long core_plus_smt_mask       = (1UL << level_shift) - 1;
-    unsigned long core_plus_smt_mask_width = level_shift;
+    const unsigned long core_plus_smt_mask       = (1UL << level_shift) - 1;
+    const unsigned long core_plus_smt_mask_width = level_shift;
 
-    unsigned long pkg_mask = (-1) ^ core_plus_smt_mask;
+    const unsigned long pkg_mask = (-1) ^ core_plus_smt_mask;
 
     unsigned long core_mask = 0U;
     if (was_thread_reported && was_core_reported)
@@ -202,7 +202,7 @@ uint64_t get_socket_id(int numa_node) noexcept {
 #if defined(__linux__)
     const std::filesystem::path root("/sys/devices/system");
 
-    int min_cpu = get_first_cpu_from_node(root, numa_node);
+    const int min_cpu = get_first_cpu_from_node(root, numa_node);
     if (-1 != min_cpu) { return (uint64_t)get_pkg_id_of_cpu(root, min_cpu); }
 #endif
     return (uint64_t)-1;
