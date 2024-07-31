@@ -57,15 +57,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] < low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_lt_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
     __m512i  broadcasted_value = _mm512_set1_epi16(low_value);
@@ -81,14 +79,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] < low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_lt_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -106,7 +103,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_lt_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] < low_value) ? 1U : 0U;
     }
 }
@@ -127,15 +124,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] == low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_eq_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
@@ -152,14 +147,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] == low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_eq_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -177,7 +171,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_eq_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] == low_value) ? 1U : 0U;
     }
 }
@@ -197,15 +191,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] == low_value) ? 0U : 1U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_ne_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
@@ -222,14 +214,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] == low_value) ? 0U : 1U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_ne_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -247,7 +238,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_ne_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] == low_value) ? 0U : 1U;
     }
 }
@@ -268,15 +259,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] <= low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_le_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
@@ -293,14 +282,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] <= low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_le_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -318,7 +306,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_le_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] <= low_value) ? 1U : 0U;
     }
 }
@@ -338,15 +326,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] > low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_gt_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
@@ -363,14 +349,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] > low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_gt_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -388,7 +373,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_gt_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] > low_value) ? 1U : 0U;
     }
 }
@@ -408,15 +393,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_ge_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_ptr[idx] >= low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_ge_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length32          = length & (-32);
     uint32_t tail              = length - length32;
@@ -433,14 +416,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_ge_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_16_ptr[idx] >= low_value) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_ge_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value)) {
-    uint32_t idx;
 
     uint32_t length16          = length & (-16);
     uint32_t tail              = length - length16;
@@ -458,7 +440,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_ge_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = (src_32_ptr[idx] >= low_value) ? 1U : 0U;
     }
 }
@@ -481,15 +463,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_range_8u,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_ptr[idx] >= low_value) && (src_ptr[idx] <= high_value)) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_range_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value, uint32_t high_value)) {
-    uint32_t idx;
 
     uint32_t length32               = length & (-32);
     uint32_t tail                   = length - length32;
@@ -507,14 +487,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_range_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_16_ptr[idx] >= low_value) && (src_16_ptr[idx] <= high_value)) ? 1U : 0U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_range_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value, uint32_t high_value)) {
-    uint32_t idx;
 
     uint32_t length16               = length & (-16);
     uint32_t tail                   = length - length16;
@@ -532,7 +511,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_range_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_32_ptr[idx] >= low_value) && (src_32_ptr[idx] <= high_value)) ? 1U : 0U;
     }
 }
@@ -554,15 +533,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_not_range_8u,
         dst_ptr += 64U;
     }
 
-    uint32_t idx;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_ptr[idx] >= low_value) && (src_ptr[idx] <= high_value)) ? 0U : 1U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_not_range_16u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value, uint32_t high_value)) {
-    uint32_t idx;
 
     uint32_t length32               = length & (-32);
     uint32_t tail                   = length - length32;
@@ -580,14 +557,13 @@ OWN_OPT_FUN(void, k0_qplc_scan_not_range_16u8u,
     }
 
     uint16_t* src_16_ptr = (uint16_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_16_ptr[idx] >= low_value) && (src_16_ptr[idx] <= high_value)) ? 0U : 1U;
     }
 }
 
 OWN_OPT_FUN(void, k0_qplc_scan_not_range_32u8u,
             (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length, uint32_t low_value, uint32_t high_value)) {
-    uint32_t idx;
 
     uint32_t length16               = length & (-16);
     uint32_t tail                   = length - length16;
@@ -605,7 +581,7 @@ OWN_OPT_FUN(void, k0_qplc_scan_not_range_32u8u,
     }
 
     uint32_t* src_32_ptr = (uint32_t*)src_ptr;
-    for (idx = 0U; idx < tail; idx++) {
+    for (uint32_t idx = 0U; idx < tail; idx++) {
         dst_ptr[idx] = ((src_32_ptr[idx] >= low_value) && (src_32_ptr[idx] <= high_value)) ? 0U : 1U;
     }
 }

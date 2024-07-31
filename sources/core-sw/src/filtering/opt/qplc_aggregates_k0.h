@@ -26,18 +26,17 @@ OWN_OPT_FUN(void, k0_qplc_bit_aggregates_8u,
             (const uint8_t* src_ptr, uint32_t length, uint32_t* min_value_ptr, uint32_t* max_value_ptr,
              uint32_t* sum_ptr, uint32_t* index_ptr)) {
 
-    const uint8_t* src_ptr_start;
-    __m512i        z_data;
-    __m512i        z_zero = _mm512_setzero_si512();
+    __m512i z_data;
+    __m512i z_zero = _mm512_setzero_si512();
 
-    uint32_t  rem_len;
-    uint32_t  len_crn;
+    uint32_t  rem_len = 0U;
+    uint32_t  len_crn = 0U;
     uint32_t  len_new = length;
     uint32_t  index   = *index_ptr;
-    uint32_t  idx;
-    __mmask64 msk64;
+    uint32_t  idx     = 0U;
+    __mmask64 msk64   = 0;
 
-    src_ptr_start = src_ptr;
+    const uint8_t* src_ptr_start = src_ptr;
     *index_ptr += length;
 
     if (OWN_MAX_32U == *min_value_ptr) {
@@ -124,7 +123,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_8u,
     __m512i   z_zero = _mm512_setzero_si512();
     __m256i   y_data;
     __m128i   x_data;
-    __mmask64 msk64;
+    __mmask64 msk64  = 0;
     uint32_t  remind = length & 63;
 
     length -= remind;
@@ -246,7 +245,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_16u,
     __m512i         z_max = _mm512_set1_epi16((short)max_value);
     __m256i         y_data;
     __m128i         x_data;
-    __mmask32       msk32;
+    __mmask32       msk32  = 0;
     uint32_t        remind = length & 31;
 
     length -= remind;
@@ -386,7 +385,7 @@ OWN_OPT_FUN(void, k0_qplc_aggregates_32u,
     __m512i         z_max = _mm512_set1_epi32((int)max_value);
     __m256i         y_data;
     __m128i         x_data;
-    __mmask16       msk16;
+    __mmask16       msk16  = 0;
     uint32_t        remind = length & 15;
 
     length -= remind;

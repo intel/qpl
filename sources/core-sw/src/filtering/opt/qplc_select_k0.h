@@ -29,12 +29,12 @@ OWN_OPT_FUN(uint32_t, k0_qplc_select_8u,
             (const uint8_t* src_ptr, const uint8_t* src2_ptr, uint8_t* dst_ptr, uint32_t length)) {
     uint32_t  selected = 0U;
     uint32_t  remind   = length & 63;
-    uint32_t  num_data;
-    __m512i   z_zero = _mm512_setzero_si512();
+    uint32_t  num_data = 0U;
+    __m512i   z_zero   = _mm512_setzero_si512();
     __m512i   z_data;
     __m128i   x_data;
-    __mmask64 msk;
-    __mmask16 msk16;
+    __mmask64 msk   = 0;
+    __mmask16 msk16 = 0;
 
     length -= remind;
     for (uint32_t idx = 0U; idx < length; idx += 64) {
@@ -77,12 +77,12 @@ OWN_OPT_FUN(uint32_t, k0_qplc_select_16u,
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
     uint32_t  selected    = 0U;
     uint32_t  remind      = length & 63;
-    uint32_t  num_data;
-    __m512i   z_zero = _mm512_setzero_si512();
+    uint32_t  num_data    = 0U;
+    __m512i   z_zero      = _mm512_setzero_si512();
     __m512i   z_data;
     __m256i   y_data;
-    __mmask64 msk;
-    __mmask16 msk16;
+    __mmask64 msk   = 0;
+    __mmask16 msk16 = 0;
 
     length -= remind;
     for (uint32_t idx = 0U; idx < length; idx += 64) {
@@ -126,11 +126,11 @@ OWN_OPT_FUN(uint32_t, k0_qplc_select_32u,
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
     uint32_t  selected    = 0U;
     uint32_t  remind      = length & 63;
-    uint32_t  num_data;
-    __m512i   z_zero = _mm512_setzero_si512();
+    uint32_t  num_data    = 0U;
+    __m512i   z_zero      = _mm512_setzero_si512();
     __m512i   z_data;
-    __mmask64 msk;
-    __mmask16 msk16;
+    __mmask64 msk   = 0;
+    __mmask16 msk16 = 0;
 
     length -= remind;
     for (uint32_t idx = 0U; idx < length; idx += 64) {

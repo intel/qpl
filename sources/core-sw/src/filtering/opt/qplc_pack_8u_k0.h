@@ -455,7 +455,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_8u3u,
 OWN_QPLC_INLINE(void, k0_qplc_pack_8u3u_tail, (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr)) {
     __m512i   srcmm0, srcmm1;
     __m512i   zmm0, zmm1, zmm2;
-    __mmask64 read_mask0, read_mask1, tail_mask, store_mask;
+    __mmask64 read_mask0 = 0, read_mask1 = 0, tail_mask = 0, store_mask = 0;
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_12u_0);
@@ -607,10 +607,10 @@ OWN_QPLC_INLINE(void, px_qplc_pack_8u4u,
 }
 
 OWN_QPLC_INLINE(void, k0_qplc_pack_8u4u_tail, (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr)) {
-    __mmask64 tail_mask;
-    __mmask32 store_mask;
-    tail_mask  = OWN_BIT_MASK(num_elements);
-    store_mask = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 4U));
+    __mmask64 tail_mask  = 0;
+    __mmask32 store_mask = 0;
+    tail_mask            = OWN_BIT_MASK(num_elements);
+    store_mask           = OWN_BIT_MASK(OWN_BITS_2_BYTE(num_elements * 4U));
     __m512i srcmm0;
     __m512i zmm0;
 
@@ -707,7 +707,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_8u5u,
 OWN_QPLC_INLINE(void, k0_qplc_pack_8u5u_tail, (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr)) {
     __m512i   srcmm0, srcmm1;
     __m512i   zmm0, zmm1, zmm2, zmm3;
-    __mmask64 read_mask0, read_mask1, tail_mask, store_mask;
+    __mmask64 read_mask0 = 0, read_mask1 = 0, tail_mask = 0, store_mask = 0;
 
     __m512i permutex_idx_ptr[3];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_10u_0);
@@ -878,7 +878,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_8u6u,
 OWN_QPLC_INLINE(void, k0_qplc_pack_8u6u_tail, (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr)) {
     __m512i   srcmm0, srcmm1;
     __m512i   zmm0, zmm1, zmm2;
-    __mmask64 read_mask0, read_mask1, tail_mask, store_mask;
+    __mmask64 read_mask0 = 0, read_mask1 = 0, tail_mask = 0, store_mask = 0;
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_12u_0);
@@ -1048,7 +1048,7 @@ OWN_QPLC_INLINE(void, px_qplc_pack_8u7u,
 OWN_QPLC_INLINE(void, k0_qplc_pack_8u7u_tail, (const uint8_t* src_ptr, uint32_t num_elements, uint8_t* dst_ptr)) {
     __m512i   srcmm0, srcmm1;
     __m512i   zmm0, zmm1, zmm2;
-    __mmask64 read_mask0, read_mask1, tail_mask, store_mask;
+    __mmask64 read_mask0 = 0, read_mask1 = 0, tail_mask = 0, store_mask = 0;
 
     __m512i permutex_idx_ptr[2];
     permutex_idx_ptr[0] = _mm512_load_si512(permutex_idx_table_14u_0);

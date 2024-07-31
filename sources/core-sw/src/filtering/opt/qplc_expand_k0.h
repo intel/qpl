@@ -28,12 +28,12 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_8u,
     __m512i   z_data;
     __m128i   x_zero = _mm_setzero_si128();
     __m128i   x_data;
-    __mmask16 msk16;
-    __mmask16 msk_remind;
-    uint32_t  length_2 = *length_2_ptr;
-    uint32_t  remind   = length_2 & 15;
-    uint32_t  expanded = 0U;
-    uint32_t  idx;
+    __mmask16 msk16      = 0;
+    __mmask16 msk_remind = 0;
+    uint32_t  length_2   = *length_2_ptr;
+    uint32_t  remind     = length_2 & 15;
+    uint32_t  expanded   = 0U;
+    uint32_t  idx        = 0U;
 
     if (length_1 >= length_2) {
         length_2 -= remind;
@@ -66,7 +66,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_8u,
     }
 
     {
-        uint32_t num_data;
+        uint32_t num_data = 0U;
         length_2 -= remind;
         for (idx = 0; idx < length_2; idx += 16) {
             if ((expanded + 16) > length_1) break;
@@ -117,14 +117,14 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_16u,
     __m128i   x_zero = _mm_setzero_si128();
     __m256i   y_zero = _mm256_setzero_si256();
     __m256i   y_data;
-    __mmask16 msk16;
-    __mmask16 msk_remind;
+    __mmask16 msk16       = 0;
+    __mmask16 msk_remind  = 0;
     uint16_t* src_16u_ptr = (uint16_t*)src1_ptr;
     uint16_t* dst_16u_ptr = (uint16_t*)dst_ptr;
     uint32_t  length_2    = *length_2_ptr;
     uint32_t  remind      = length_2 & 15;
     uint32_t  expanded    = 0U;
-    uint32_t  idx;
+    uint32_t  idx         = 0U;
 
     if (length_1 >= length_2) {
         length_2 -= remind;
@@ -158,7 +158,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_16u,
     }
 
     {
-        uint32_t num_data;
+        uint32_t num_data = 0;
         length_2 -= remind;
         for (idx = 0; idx < length_2; idx += 16) {
             if ((expanded + 16) > length_1) break;
@@ -180,7 +180,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_16u,
                 if ((expanded + num_data) > length_1) break;
                 msk_remind = _bzhi_u32(0xffff, num_data);
                 z_data     = _mm512_cvtepu16_epi32(
-                            _mm256_maskz_loadu_epi16(msk_remind, (const __m256i*)(src_16u_ptr + expanded)));
+                        _mm256_maskz_loadu_epi16(msk_remind, (const __m256i*)(src_16u_ptr + expanded)));
                 z_data = _mm512_maskz_expand_epi32(msk16, z_data);
                 expanded += num_data;
                 y_data = _mm512_cvtepi32_epi16(z_data);
@@ -207,16 +207,16 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_32u,
              uint8_t* dst_ptr)) {
 
     __m512i   z_data;
-    __m128i   x_zero = _mm_setzero_si128();
-    __m512i   z_zero = _mm512_setzero_si512();
-    __mmask16 msk16;
-    __mmask16 msk_remind;
+    __m128i   x_zero      = _mm_setzero_si128();
+    __m512i   z_zero      = _mm512_setzero_si512();
+    __mmask16 msk16       = 0;
+    __mmask16 msk_remind  = 0;
     uint32_t* src_32u_ptr = (uint32_t*)src1_ptr;
     uint32_t* dst_32u_ptr = (uint32_t*)dst_ptr;
     uint32_t  length_2    = *length_2_ptr;
     uint32_t  remind      = length_2 & 15;
     uint32_t  expanded    = 0U;
-    uint32_t  idx;
+    uint32_t  idx         = 0U;
 
     if (length_1 >= length_2) {
         length_2 -= remind;
@@ -246,7 +246,7 @@ OWN_OPT_FUN(uint32_t, k0_qplc_qplc_expand_32u,
     }
 
     {
-        uint32_t num_data;
+        uint32_t num_data = 0;
         length_2 -= remind;
         for (idx = 0; idx < length_2; idx += 16) {
             if ((expanded + 16) > length_1) break;

@@ -167,7 +167,7 @@ OWN_OPT_FUN(void, k0_qplc_copy_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, ui
 }
 
 OWN_OPT_FUN(void, k0_qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uint32_t length)) {
-    __mmask64 msk64;
+    __mmask64 msk64 = 0;
 
     if (length <= 64) {
         if (length) {
@@ -175,7 +175,7 @@ OWN_OPT_FUN(void, k0_qplc_move_8u, (const uint8_t* src_ptr, uint8_t* dst_ptr, ui
             _mm512_mask_storeu_epi8((void*)dst_ptr, msk64, _mm512_maskz_loadu_epi8(msk64, (void const*)src_ptr));
         }
     } else {
-        uint32_t rem;
+        uint32_t rem = 0U;
         if (OWN_QPLC_UINT_PTR(src_ptr) < OWN_QPLC_UINT_PTR(dst_ptr)) {
             src_ptr += length;
             dst_ptr += length;

@@ -83,9 +83,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u9u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_96;
-        uint32_t num_elements_32;
+        uint32_t tail            = 0U;
+        uint32_t num_elements_96 = 0U;
+        uint32_t num_elements_32 = 0U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
         __m512i  permutex_idx_ptr[6];
@@ -257,9 +257,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u10u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_96;
-        uint32_t num_elements_32;
+        uint32_t tail            = 0U;
+        uint32_t num_elements_96 = 0U;
+        uint32_t num_elements_32 = 0U;
         __m512i  srcmm0, srcmm1, srcmm2;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
         __m512i  permutex_idx_ptr[6];
@@ -454,9 +454,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u11u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_128;
-        uint32_t num_elements_32;
+        uint32_t tail             = 0U;
+        uint32_t num_elements_128 = 0U;
+        uint32_t num_elements_32  = 0U;
         __m512i  srcmm0, srcmm1, srcmm2, srcmm3;
         __m512i  zmm00, zmm01, zmm02, zmm10, zmm11, zmm12, zmm20, zmm21, zmm22;
         __m512i  permutex_idx_ptr[9];
@@ -654,9 +654,9 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u12u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_128;
-        uint32_t num_elements_32;
+        uint32_t tail             = 0;
+        uint32_t num_elements_128 = 0;
+        uint32_t num_elements_32  = 0;
         __m512i  srcmm0, srcmm1, srcmm2, srcmm3;
         __m512i  zmm0, zmm1, zmm2, zmm3, zmm4, zmm5;
         __m512i  permutex_idx_ptr[6];
@@ -815,8 +815,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u13u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_32;
+        uint32_t tail            = 0;
+        uint32_t num_elements_32 = 0;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1, zmm2;
         __m512i  permutex_idx_ptr[3];
@@ -933,8 +933,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u14u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_32;
+        uint32_t tail            = 0U;
+        uint32_t num_elements_32 = 0U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1;
         __m512i  permutex_idx_ptr[2];
@@ -1041,8 +1041,8 @@ OWN_OPT_FUN(void, k0_qplc_pack_be_16u15u,
     }
 
     {
-        uint32_t tail;
-        uint32_t num_elements_32;
+        uint32_t tail            = 0U;
+        uint32_t num_elements_32 = 0U;
         __m512i  srcmm0;
         __m512i  zmm0, zmm1;
         __m512i  permutex_idx_ptr[2];

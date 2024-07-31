@@ -38,8 +38,8 @@ OWN_OPT_FUN(uint32_t, k0_qplc_xor_checksum_8u, (const uint8_t* src_ptr, uint32_t
         __m512i  zmm_sum = _mm512_loadu_si512((void const*)src_ptr);
         __m256i  ymm0;
         __m128i  xmm0;
-        uint64_t sum0;
-        uint64_t sum1;
+        uint64_t sum0   = 0U;
+        uint64_t sum1   = 0U;
         uint32_t remind = length & 127;
         if (length >= 128) {
             __m512i zmm_sum_1 = _mm512_loadu_si512((void const*)(src_ptr + 64));
@@ -83,8 +83,8 @@ OWN_OPT_FUN(uint32_t, k0_qplc_xor_checksum_8u, (const uint8_t* src_ptr, uint32_t
         __m256i   ymm0  = _mm256_loadu_si256((__m256i const*)src_ptr);
         __m256i   ymm1  = _mm256_maskz_loadu_epi8(msk32, (void const*)(src_ptr + 32));
         __m128i   xmm0;
-        uint64_t  sum0;
-        uint64_t  sum1;
+        uint64_t  sum0 = 0U;
+        uint64_t  sum1 = 0U;
 
         ymm0 = _mm256_xor_si256(ymm0, ymm1);
         xmm0 = _mm256_extracti128_si256(ymm0, 1);
@@ -102,8 +102,8 @@ OWN_OPT_FUN(uint32_t, k0_qplc_xor_checksum_8u, (const uint8_t* src_ptr, uint32_t
         __mmask16 msk16 = (__mmask16)_bzhi_u32(0xffff, (length - 16));
         __m128i   xmm0  = _mm_loadu_si128((__m128i const*)src_ptr);
         __m128i   xmm1  = _mm_maskz_loadu_epi8(msk16, (void const*)(src_ptr + 16));
-        uint64_t  sum0;
-        uint64_t  sum1;
+        uint64_t  sum0  = 0U;
+        uint64_t  sum1  = 0U;
 
         xmm0 = _mm_xor_si128(xmm0, xmm1);
         sum1 = _mm_extract_epi64(xmm0, 1);
@@ -309,7 +309,7 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
 
     if (length >= 16U) {
         uint64_t crc64_k[4];
-        uint64_t crc64_barrett;
+        uint64_t crc64_barrett = 0U;
         if (length > 512U) {
             k0_qplc_crc64_init(polynomial, crc64_k, &crc64_barrett);
         } else {
@@ -478,9 +478,7 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64,
 #endif
 
 OWN_QPLC_INLINE(uint64_t, bit_reflect, (uint64_t x)) {
-    uint64_t y;
-
-    y = bit_reverse_table[x >> 56];
+    uint64_t y = bit_reverse_table[x >> 56];
     y |= ((uint64_t)bit_reverse_table[(x >> 48) & 0xFF]) << 8;
     y |= ((uint64_t)bit_reverse_table[(x >> 40) & 0xFF]) << 16;
     y |= ((uint64_t)bit_reverse_table[(x >> 32) & 0xFF]) << 24;
@@ -661,7 +659,7 @@ OWN_OPT_FUN(uint64_t, k0_qplc_crc64_be,
 
     if (length >= 16U) {
         uint64_t crc64_k[4];
-        uint64_t crc64_barrett;
+        uint64_t crc64_barrett = 0U;
         if (length > 512U) {
             k0_qplc_crc64_init_be(polynomial, crc64_k, &crc64_barrett);
         } else {

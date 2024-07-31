@@ -122,7 +122,7 @@ OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uin
 OWN_QPLC_INLINE(void, px_qplc_unpack_be_Nu8u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint32_t bit_width,
                  uint8_t* dst_ptr)) {
-    uint16_t next_byte;
+    uint16_t next_byte   = 0U;
     uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
     uint32_t shift       = OWN_WORD_WIDTH - bit_width;
     uint16_t src         = ((uint16_t)(*src_ptr)) << (start_bit + OWN_BYTE_WIDTH);

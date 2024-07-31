@@ -94,8 +94,8 @@ OWN_QPLC_INLINE(uint32_t, own_get_align, (uint32_t start_bit, uint32_t base, uin
 OWN_OPT_FUN(void, k0_qplc_unpack_1u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
     uint64_t bit_mask = 0x0101010101010101LLU;
-    uint32_t i;
-    uint8_t  mask;
+    uint32_t i        = 0U;
+    uint8_t  mask     = 0U;
 
     // Align to byte boundary
     if (0U < start_bit) {
@@ -170,8 +170,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_1u8u,
 OWN_OPT_FUN(void, k0_qplc_unpack_2u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
     uint64_t bit_mask = 0x0303030303030303LLU;
-    uint32_t i;
-    uint8_t  mask = 3U;
+    uint32_t i        = 0U;
+    uint8_t  mask     = 3U;
 
     // Align to byte boundary
     if (0U < start_bit) {
@@ -307,8 +307,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
 
     // Align to byte boundary
     if (0U < start_bit) {
-        uint16_t mask = OWN_3_BIT_MASK;
-        uint16_t next_byte;
+        uint16_t mask        = OWN_3_BIT_MASK;
+        uint16_t next_byte   = 0U;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
         uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
         src_ptr++;
@@ -490,8 +490,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
         num_elements -= 8U;
     }
     if (0U < num_elements) {
-        uint16_t mask = OWN_3_BIT_MASK;
-        uint16_t next_byte;
+        uint16_t mask        = OWN_3_BIT_MASK;
+        uint16_t next_byte   = 0U;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH;
         uint16_t src         = (uint16_t)(*src_ptr);
         src_ptr++;
@@ -517,8 +517,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_3u8u,
 OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
     uint64_t bit_mask = 0x0f0f0f0f0f0f0f0fLLU;
-    uint32_t i;
-    uint8_t  mask = OWN_4_BIT_MASK;
+    uint32_t i        = 0U;
+    uint8_t  mask     = OWN_4_BIT_MASK;
 
     // Align to byte boundary
     if (0U < start_bit) {
@@ -655,7 +655,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_4u8u,
         num_elements -= 8U;
     }
 
-    uint8_t src;
+    uint8_t src = 0U;
 
     if (num_elements > 0) {
         src = *src_ptr;
@@ -691,7 +691,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
 
     // Align to byte boundary
     if (0U < start_bit) {
-        uint16_t next_byte;
+        uint16_t next_byte   = 0U;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
         uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
         src_ptr++;
@@ -803,7 +803,7 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
         num_elements -= 8U;
     }
     if (0U < num_elements) {
-        uint16_t next_byte;
+        uint16_t next_byte   = 0U;
         uint32_t bits_in_buf = OWN_BYTE_WIDTH;
         uint16_t src         = (uint16_t)(*src_ptr);
         src_ptr++;
@@ -828,8 +828,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_5u8u,
 
 OWN_QPLC_INLINE(void, px_qplc_unpack_6u8u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    uint16_t mask = OWN_BIT_MASK(6U);
-    uint16_t next_byte;
+    uint16_t mask        = OWN_BIT_MASK(6U);
+    uint16_t next_byte   = 0U;
     uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
     uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
     src_ptr++;
@@ -905,8 +905,8 @@ OWN_OPT_FUN(void, k0_qplc_unpack_6u8u,
 
 OWN_QPLC_INLINE(void, px_qplc_unpack_7u8u,
                 (const uint8_t* src_ptr, uint32_t num_elements, uint32_t start_bit, uint8_t* dst_ptr)) {
-    uint16_t mask = OWN_BIT_MASK(7U);
-    uint16_t next_byte;
+    uint16_t mask        = OWN_BIT_MASK(7U);
+    uint16_t next_byte   = 0U;
     uint32_t bits_in_buf = OWN_BYTE_WIDTH - start_bit;
     uint16_t src         = (uint16_t)((*src_ptr) >> start_bit);
     src_ptr++;

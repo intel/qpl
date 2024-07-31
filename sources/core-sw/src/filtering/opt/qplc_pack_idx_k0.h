@@ -642,14 +642,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
 OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
              uint32_t* index_ptr)) {
-    uint32_t      index   = *index_ptr;
-    qplc_status_t status  = QPLC_STS_OK;
-    uint8_t*      dst_ptr = (uint8_t*)*pp_dst;
-    uint32_t      act_num_elements;
-    uint32_t      act_num_elements_align;
-    uint32_t      num_elem_rem;
-    uint32_t      num_data;
-    __m512i       z_index0 = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+    uint32_t      index                  = *index_ptr;
+    qplc_status_t status                 = QPLC_STS_OK;
+    uint8_t*      dst_ptr                = (uint8_t*)*pp_dst;
+    uint32_t      act_num_elements       = 0U;
+    uint32_t      act_num_elements_align = 0U;
+    uint32_t      num_elem_rem           = 0U;
+    uint32_t      num_data               = 0U;
+    __m512i       z_index0               = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
     __m512i       z_index1 = _mm512_setr_epi32(16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
     __m512i       z_index2 = _mm512_setr_epi32(32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47);
     __m512i       z_index3 = _mm512_setr_epi32(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63);
@@ -657,8 +657,8 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u,
     __m512i       z_zero = _mm512_setzero_si512();
     __m128i       x_data;
     __m128i       x_index;
-    __mmask64     msk;
-    __mmask16     msk16;
+    __mmask64     msk   = 0;
+    __mmask16     msk16 = 0;
 
     /* If Index is great then we do nothing. */
     if (UINT8_MAX < index) {
@@ -1453,14 +1453,14 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
 OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
              uint32_t* index_ptr)) {
-    uint32_t      index   = *index_ptr;
-    qplc_status_t status  = QPLC_STS_OK;
-    uint16_t*     dst_ptr = (uint16_t*)*pp_dst;
-    uint32_t      act_num_elements;
-    uint32_t      act_num_elements_align;
-    uint32_t      num_elem_rem;
-    uint32_t      num_data;
-    __m512i       z_index0 = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+    uint32_t      index                  = *index_ptr;
+    qplc_status_t status                 = QPLC_STS_OK;
+    uint16_t*     dst_ptr                = (uint16_t*)*pp_dst;
+    uint32_t      act_num_elements       = 0U;
+    uint32_t      act_num_elements_align = 0U;
+    uint32_t      num_elem_rem           = 0U;
+    uint32_t      num_data               = 0U;
+    __m512i       z_index0               = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
     __m512i       z_index1 = _mm512_setr_epi32(16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
     __m512i       z_index2 = _mm512_setr_epi32(32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47);
     __m512i       z_index3 = _mm512_setr_epi32(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63);
@@ -1468,8 +1468,8 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u16u,
     __m512i       z_zero = _mm512_setzero_si512();
     __m256i       x_data;
     __m256i       x_index;
-    __mmask64     msk;
-    __mmask16     msk16;
+    __mmask64     msk   = 0;
+    __mmask16     msk16 = 0;
 
     /* If Index is great then we do nothing. */
     if (OWN_MAX_16U < index) {
@@ -2118,22 +2118,22 @@ OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
 OWN_OPT_FUN(qplc_status_t, k0_qplc_pack_index_8u32u,
             (const uint8_t* src_ptr, uint32_t num_elements, uint8_t** pp_dst, uint32_t dst_length,
              uint32_t* index_ptr)) {
-    uint32_t      index   = *index_ptr;
-    qplc_status_t status  = QPLC_STS_OK;
-    uint32_t*     dst_ptr = (uint32_t*)*pp_dst;
-    uint32_t      act_num_elements;
-    uint32_t      act_num_elements_align;
-    uint32_t      num_elem_rem;
-    uint32_t      num_data;
-    __m512i       z_index0 = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+    uint32_t      index                  = *index_ptr;
+    qplc_status_t status                 = QPLC_STS_OK;
+    uint32_t*     dst_ptr                = (uint32_t*)*pp_dst;
+    uint32_t      act_num_elements       = 0U;
+    uint32_t      act_num_elements_align = 0U;
+    uint32_t      num_elem_rem           = 0U;
+    uint32_t      num_data               = 0U;
+    __m512i       z_index0               = _mm512_setr_epi32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
     __m512i       z_index1 = _mm512_setr_epi32(16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
     __m512i       z_index2 = _mm512_setr_epi32(32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47);
     __m512i       z_index3 = _mm512_setr_epi32(48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63);
     __m512i       z_data;
     __m512i       z_zero = _mm512_setzero_si512();
     __m512i       z_index;
-    __mmask64     msk;
-    __mmask16     msk16;
+    __mmask64     msk   = 0;
+    __mmask16     msk16 = 0;
 
     /* We can only do processing when the index is less than 256. */
     act_num_elements = OWN_MAX_32U;
