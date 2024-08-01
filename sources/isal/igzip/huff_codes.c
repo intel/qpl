@@ -31,6 +31,38 @@ static const uint32_t dist_code_extra_bits[] = {
 };
 
 static struct hufftables_icf static_hufftables = {
+    .dist_table = {
+               {{{.code_and_extra = 0x000,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x010,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x008,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x018,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x10004,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x10014,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x2000c,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x2001c,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x30002,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x30012,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x4000a,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x4001a,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x50006,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x50016,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x6000e,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x6001e,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x70001,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x70011,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x80009,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x80019,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x90005,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x90015,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xa000d,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xa001d,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xb0003,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xb0013,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xc000b,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xc001b,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xd0007,.length2 = 0x5}}},
+               {{{.code_and_extra = 0xd0017,.length2 = 0x5}}},
+               {{{.code_and_extra = 0x000,.length2 = 0x0}}}},
     .lit_len_table = {
               {{{.code_and_extra = 0x00c,.length2 = 0x8}}},
               {{{.code_and_extra = 0x08c,.length2 = 0x8}}},
@@ -544,38 +576,6 @@ static struct hufftables_icf static_hufftables = {
               {{{.code_and_extra = 0x000,.length2 = 0x0}}},
               {{{.code_and_extra = 0x000,.length2 = 0x0}}},
               {{{.code_and_extra = 0x000,.length2 = 0x0}}},
-              {{{.code_and_extra = 0x000,.length2 = 0x0}}}},
-    .dist_table = {
-               {{{.code_and_extra = 0x000,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x010,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x008,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x018,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x10004,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x10014,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x2000c,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x2001c,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x30002,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x30012,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x4000a,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x4001a,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x50006,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x50016,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x6000e,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x6001e,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x70001,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x70011,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x80009,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x80019,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x90005,.length2 = 0x5}}},
-               {{{.code_and_extra = 0x90015,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xa000d,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xa001d,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xb0003,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xb0013,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xc000b,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xc001b,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xd0007,.length2 = 0x5}}},
-               {{{.code_and_extra = 0xd0017,.length2 = 0x5}}},
                {{{.code_and_extra = 0x000,.length2 = 0x0}}}}
 };
 
@@ -1479,7 +1479,7 @@ static void expand_hufftables_icf(struct hufftables_icf* hufftables) {
                 p_code++;
             }
         } // end for k
-    }     // end for eb
+    } // end for eb
     // fix up last record
     p_code[-1] = orig[i];
 
