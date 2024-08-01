@@ -65,12 +65,12 @@ static void build_heap64(uint64_t* heap, uint32_t n) {
     }
 }
 
-#define REMOVE_MIN64(heap, n, result)       \
-    do {                                    \
-        (result)      = (heap)[1];          \
-        (heap)[1]     = (heap)[n];          \
-        (heap)[(n)--] = 0xFFFFFFFFFFFFFFFF; \
-        heapify64(heap, n, 1);              \
+#define REMOVE_MIN64(heap, n, result)                 \
+    do { /*NOLINT(cppcoreguidelines-avoid-do-while)*/ \
+        (result)      = (heap)[1];                    \
+        (heap)[1]     = (heap)[n];                    \
+        (heap)[(n)--] = 0xFFFFFFFFFFFFFFFF;           \
+        heapify64(heap, n, 1);                        \
     } while (0)
 
 static void replace_min64(uint64_t* heap, uint32_t n, uint64_t new_val) {

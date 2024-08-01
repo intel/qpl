@@ -55,7 +55,7 @@ token_type_t token_parser_c::get_token_(token_c* token) {
     }
 
     // skip white space
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         c     = getc();
         ctype = CTYPE(c);
         if (ctype & CC_ESCAPE) {
@@ -66,7 +66,7 @@ token_type_t token_parser_c::get_token_(token_c* token) {
     } while (ctype & CC_WHITE);
 
     if (ctype & CC_COMMENT) {
-        do {
+        do { //NOLINT(cppcoreguidelines-avoid-do-while)
             c     = getc();
             ctype = CTYPE(c);
         } while ((ctype != CC_EOL) && (ctype != CC_EOF));

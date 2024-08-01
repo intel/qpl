@@ -128,7 +128,7 @@ auto write_stored_block(deflate_state<execution_path_t::software>& stream,
 
     state = compression_state_t::write_stored_block_header;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         auto status = write_stored_block_header(stream, state);
         if (status) { break; }
 

@@ -29,7 +29,7 @@ auto compress_huffman_only<execution_path_t::software>(uint8_t* begin, const uin
     auto                implementation = build_huffman_only_implementation();
     compression_state_t state          = compression_state_t::init_compression;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         result.status_code_ = implementation.execute(stream, state);
     } while (!result.status_code_ && state != compression_state_t::finish_compression_process);
 

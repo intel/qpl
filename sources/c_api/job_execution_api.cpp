@@ -249,7 +249,7 @@ QPL_FUN("C" qpl_status, qpl_wait_job, (qpl_job * qpl_job_ptr)) {
 
     // HW path doesn't support qpl_high_level compression ratio and ZLIB headers/trailers
     if (job::is_supported_on_hardware(qpl_job_ptr)) {
-        do {
+        do { //NOLINT(cppcoreguidelines-avoid-do-while)
             status = hw_check_job(qpl_job_ptr);
         } while (QPL_STS_BEING_PROCESSED == status);
     }

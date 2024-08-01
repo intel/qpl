@@ -188,7 +188,7 @@ void huffman_c::wr_stored_blocks(BitBuffer& bb, bool b_final, gen_c* gen, uint32
     sp             = m_syms.m_head;
     uint32_t count = m_syms.m_num_lit;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         lcount = count;
         if (lcount > 0xFFFFU) lcount = 0xFFFFU;
 

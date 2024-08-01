@@ -123,7 +123,7 @@ void create_huff_tree(uint32_t const* histogram, uint32_t hist_size, uint32_t* b
     //    build_heap_asm(heap, heap_size);
 
     //   node_ptr = proc_heap(heap, heap_size, node_ptr);
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         h1                = heap[1U];
         heap[1U]          = heap[heap_size];
         heap[heap_size--] = 0xFFFFFFFFFFFFFFFFULL;

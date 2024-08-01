@@ -541,7 +541,7 @@ static void qpl_isal_deflate_icf_pass(struct isal_zstream* stream, uint8_t* inbu
     struct isal_zstate* state     = &stream->internal_state;
     struct level_buf*   level_buf = (struct level_buf*)stream->level_buf;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         if (state->state == ZSTATE_NEW_HDR) init_new_icf_block(stream);
 
         if (state->state == ZSTATE_BODY) qpl_isal_deflate_icf_body(stream);
@@ -837,7 +837,7 @@ static uint32_t write_stored_block(struct isal_zstream* stream) {
     uint8_t*            next_in = NULL;
     struct isal_zstate* state   = &stream->internal_state;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         if (state->state == ZSTATE_TYPE0_HDR) {
             write_type0_header(stream);
             if (state->state == ZSTATE_TYPE0_HDR) break;
@@ -1374,7 +1374,7 @@ int qpl_isal_deflate(struct isal_zstream* stream) {
     uint32_t in_size  = stream->avail_in + buffered_size;
     uint32_t out_size = stream->total_out;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         in_size_initial  = in_size;
         out_size_initial = out_size;
         buf_start_in     = start_in;

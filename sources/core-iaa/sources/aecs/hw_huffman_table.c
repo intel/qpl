@@ -131,7 +131,7 @@ void hw_create_huff_tree(uint32_t* histogram_ptr, uint32_t hist_size, uint32_t* 
 
     hw_build_heap64(heap, heap_size);
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         h1                = heap[1];
         heap[1]           = heap[heap_size];
         heap[heap_size--] = UINT64_MAX;

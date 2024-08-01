@@ -218,7 +218,7 @@ void qpl::test::mean_random::init(uint32_t seed) {
 
 double qpl::test::mean_random::gen() {
     if (status) {
-        do {
+        do { //NOLINT(cppcoreguidelines-avoid-do-while)
             seed2  = 69069U * seed2 + 1013904243U;
             seed11 = seed13 - seed14 + carry;
             carry  = (int)seed11 >> (int)31;

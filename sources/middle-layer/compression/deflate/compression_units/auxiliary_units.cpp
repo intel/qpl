@@ -323,7 +323,7 @@ auto deflate_body_with_dictionary(deflate_state<execution_path_t::software>& str
     update_hash(stream, isal_state->buffer, isal_state->b_bytes_processed);
     uint32_t history_size = get_history_size(stream, start_in, buf_hist_start);
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         uint8_t* buf_start_in = nullptr;
 
         internal = false;

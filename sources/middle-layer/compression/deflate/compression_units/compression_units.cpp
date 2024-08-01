@@ -269,7 +269,7 @@ auto process_by_mini_blocks_body(deflate_state<execution_path_t::software>& stre
 
         stream.write_mini_block_index();
 
-        do {
+        do { //NOLINT(cppcoreguidelines-avoid-do-while)
             status = implementation.execute(stream, state);
         } while (!status && state != compression_state_t::finish_compression_process);
 

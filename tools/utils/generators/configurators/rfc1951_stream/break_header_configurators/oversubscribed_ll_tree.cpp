@@ -20,7 +20,7 @@ GenStatus gz_generator::OversubscribedLiteralLengthsTreeConfigurator::generate()
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(LL_VECTOR, literalLengthsTable.data(), DEFAULT_LL_TABLE_LENGTH);
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         literalLength = static_cast<Gen32u>(randomLiteralLength);
     } while (literalLengthsTable[literalLength] == 1U);
     literalLengthsTable[literalLength]--;

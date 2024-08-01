@@ -36,7 +36,7 @@ auto deflate_pass(deflate_state<execution_path_t::software>& stream, uint8_t* be
             stream.dictionary_support());
 
     // Main pipeline
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         result.status_code_ = implementation.execute(stream, state);
     } while (!result.status_code_ && state != compression_state_t::finish_compression_process);
 

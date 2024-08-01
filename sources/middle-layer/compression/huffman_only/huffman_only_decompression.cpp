@@ -77,7 +77,7 @@ perform_huffman_only_decompression(bit_reader& reader, uint8_t* destination_ptr,
 
     result.status_code_ = status_list::ok;
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         if (current_symbol_index >= destination_length) {
             if (!reader.is_source_end()) { result.status_code_ = status_list::more_output_needed; }
             break;
@@ -178,7 +178,7 @@ auto verify_huffman_only<execution_path_t::software>(
     reader.set_big_endian(is_big_endian);
 
     bool decode_next_symbol = true;
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         // Decode the next symbol
         const uint16_t next_bits = reader.peek_bits(huffman_code_bit_length);
         const uint8_t  symbol    = lookup_table_ptr[next_bits];

@@ -35,7 +35,7 @@ GenStatus gz_generator::ManyDistanceCodesConfigurator::generate() {
         random.set_range(1U, repeatingCodesCount - 1U);
         testParameter = static_cast<Gen32u>(random);
     } else {
-        do {
+        do { //NOLINT(cppcoreguidelines-avoid-do-while)
             random.set_range(1U, repeatingCodesCount - 2U);
             testParameter = static_cast<Gen32u>(random);
         } while (ManyDistanceCodesConfigurator::breakInRun(repeatingCodesCount, repeatingCodesCount - testParameter));

@@ -18,7 +18,7 @@ GenStatus gz_generator::OversubscribedCodeLengthsTreeConfigurator::generate() {
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(CL_VECTOR_ALT, codeLengthsTable.data(), DEFAULT_CL_TABLE_LENGTH);
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         code_length = static_cast<Gen32u>(randomCodeLength);
     } while (codeLengthsTable[code_length] == 1U);
     codeLengthsTable[code_length]--;

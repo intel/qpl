@@ -19,7 +19,7 @@ GenStatus gz_generator::OversubscribedDistanceTreeConfigurator::generate() {
     TestConfigurator::declareDynamicBlock();
     TestConfigurator::declareVectorToken(D_VECTOR, distanceLengthsTable.data(), DEFAULT_D_TABLE_LENGTH);
 
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         distanceLengthCode = static_cast<Gen32u>(randomDistanceLengthCode);
     } while (distanceLengthsTable[distanceLengthCode] == 1U);
     distanceLengthsTable[distanceLengthCode]--;

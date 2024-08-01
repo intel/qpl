@@ -52,7 +52,7 @@ int get_cpu_topology_from_apic(unsigned long* smt_id, unsigned long* core_id, un
     unsigned long smt_mask_width = 0U, smt_mask = 0U;
 
     // go through all available sub-leaves
-    do {
+    do { //NOLINT(cppcoreguidelines-avoid-do-while)
         __get_cpuid_count(0x1F, subleaf, &eax, &ebx, &ecx, &edx);
         if (ebx == 0) break; // no more sub-leaves
 
