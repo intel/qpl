@@ -74,9 +74,8 @@ class AnalyticFixture
     , public TestCases<AnalyticTestCase> {
 public:
     std::vector<uint8_t> GetCompressedSource(bool is_indexing_enabled = false) {
-        uint32_t job_size        = 0U;
-        qpl_job* deflate_job_ptr = nullptr;
-        auto     status          = qpl_get_job_size(GetExecutionPath(), &job_size);
+        uint32_t job_size = 0U;
+        auto     status   = qpl_get_job_size(GetExecutionPath(), &job_size);
 
         if (QPL_STS_OK != status) { throw std::runtime_error("Couldn't get compression job size\n"); }
 
