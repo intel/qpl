@@ -29,7 +29,7 @@ static inline dataset_t read_dataset(const std::string& path) {
 
         if (entry.is_symlink()) {
             std::cerr << "Skip this file because it is a symlink. Path=" << real_path << "/"
-                      << entry.path().filename().string() << std::endl;
+                      << entry.path().filename().string() << '\n';
         } else {
             std::ifstream file(entry.path(), std::ios::in | std::ios::binary);
             auto data = std::vector<uint8_t>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());

@@ -49,13 +49,13 @@ std::ostream& operator<<(std::ostream& os, const huffman_table_test_case_t& test
     std::array<std::string, 3> algorithm          = {"deflate", "huffman_only", "canned"};
     std::array<std::string, 2> serialization_type = {"compact", "raw"};
 
-    os << std::endl;
+    os << '\n';
 
-    os << "\t-- Compression table type: " << type[test_case.c_type] << std::endl
-       << "\t-- Decompression table type: " << type[test_case.d_type] << std::endl
-       << "\t-- Algorithm: " << algorithm[test_case.algorithm] << std::endl
-       << "\t-- Serialization Format: " << serialization_type[test_case.options.format] << std::endl
-       << "\t-- Serialization Flag: " << test_case.options.flags << std::endl;
+    os << "\t-- Compression table type: " << type[test_case.c_type] << '\n'
+       << "\t-- Decompression table type: " << type[test_case.d_type] << '\n'
+       << "\t-- Algorithm: " << algorithm[test_case.algorithm] << '\n'
+       << "\t-- Serialization Format: " << serialization_type[test_case.options.format] << '\n'
+       << "\t-- Serialization Flag: " << test_case.options.flags << '\n';
 
     return os;
 }

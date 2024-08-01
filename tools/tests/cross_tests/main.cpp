@@ -12,16 +12,13 @@
 namespace qpl::test {
 
 static inline void show_help() {
-    std::cout << "\nQPL test system arguments:" << std::endl;
-    std::cout << "  " << QPL_ARG_SEED << "=(value)" << std::endl;
-    std::cout << "     "
-              << "Set seed value for tests" << std::endl;
-    std::cout << "  " << QPL_ARG_DATASET_PATH << "=(path)" << std::endl;
-    std::cout << "     "
-              << "Specify path to folder containing dataset" << std::endl;
-    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=(value)" << std::endl;
-    std::cout << "     "
-              << "Specify test case id for this test" << std::endl;
+    std::cout << "\nQPL test system arguments:\n";
+    std::cout << "  " << QPL_ARG_SEED << "=(value)\n";
+    std::cout << "     " << "Set seed value for tests\n";
+    std::cout << "  " << QPL_ARG_DATASET_PATH << "=(path)\n";
+    std::cout << "     " << "Specify path to folder containing dataset\n";
+    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=(value)\n";
+    std::cout << "     " << "Specify test case id for this test\n";
 }
 
 static inline util::arguments_list_t get_testing_settings(int argc, char* argv[]) {
@@ -67,11 +64,11 @@ int main(int argc, char* argv[]) { //NOLINT(bugprone-exception-escape)
 
     environment::GetInstance().Initialize(arguments_list);
 
-    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
+    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << '\n';
 
     const int status = RUN_ALL_TESTS();
 
-    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
+    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << '\n';
 
     return status;
 }

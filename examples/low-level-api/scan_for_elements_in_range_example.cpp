@@ -109,7 +109,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Scan range was performed successfully." << std::endl;
+    std::cout << "Scan range was performed successfully.\n";
 
     return 0;
 }

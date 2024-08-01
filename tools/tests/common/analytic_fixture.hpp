@@ -54,17 +54,17 @@ inline void FillJob(qpl_job* qpl_job_ptr, AnalyticTestCase& test_case) {
 }
 
 static std::ostream& operator<<(std::ostream& os, const AnalyticTestCase& test_case) {
-    os << "Operation: " << OperationToString(test_case.operation) << std::endl;
-    os << "Number of elements: " << test_case.number_of_elements << std::endl;
-    os << "Source-1 bit width: " << test_case.source_bit_width << std::endl;
-    os << "Destination bit width: " << test_case.destination_bit_width << std::endl;
-    os << "Lower parameter: " << test_case.lower_bound << std::endl;
-    os << "Upper parameter: " << test_case.upper_bound << std::endl;
-    os << "Source-2 bit width " << test_case.second_input_bit_width << std::endl;
-    os << "Source-2 number of elements: " << test_case.second_input_num_elements << std::endl;
-    os << "Flags: " << test_case.flags << std::endl;
-    os << "Parser: " << ParserToString(test_case.parser) << std::endl;
-    os << "Dropped bytes: " << test_case.dropped_bytes << std::endl;
+    os << "Operation: " << OperationToString(test_case.operation) << '\n';
+    os << "Number of elements: " << test_case.number_of_elements << '\n';
+    os << "Source-1 bit width: " << test_case.source_bit_width << '\n';
+    os << "Destination bit width: " << test_case.destination_bit_width << '\n';
+    os << "Lower parameter: " << test_case.lower_bound << '\n';
+    os << "Upper parameter: " << test_case.upper_bound << '\n';
+    os << "Source-2 bit width " << test_case.second_input_bit_width << '\n';
+    os << "Source-2 number of elements: " << test_case.second_input_num_elements << '\n';
+    os << "Flags: " << test_case.flags << '\n';
+    os << "Parser: " << ParserToString(test_case.parser) << '\n';
+    os << "Dropped bytes: " << test_case.dropped_bytes << '\n';
 
     return os;
 }

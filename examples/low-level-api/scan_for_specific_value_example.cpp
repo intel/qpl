@@ -105,7 +105,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Scan was performed successfully." << std::endl;
+    std::cout << "Scan was performed successfully.\n";
 
     return 0;
 }

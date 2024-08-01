@@ -22,24 +22,19 @@
 namespace qpl::test {
 
 static inline void show_help() {
-    std::cout << "\nQPL test system arguments:" << std::endl;
-    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw|auto)" << std::endl;
-    std::cout << "     "
-              << "Set execution path for functional tests. The default is qpl_path_software." << std::endl;
-    std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)" << std::endl;
-    std::cout << "     "
-              << "Execute tests using asynchronous mode. The default is off (synchronous mode)." << std::endl;
-    std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]" << std::endl;
+    std::cout << "\nQPL test system arguments:\n";
+    std::cout << "  " << QPL_ARG_PATH << "=(sw|hw|auto)\n";
+    std::cout << "     " << "Set execution path for functional tests. The default is qpl_path_software.\n";
+    std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)\n";
+    std::cout << "     " << "Execute tests using asynchronous mode. The default is off (synchronous mode).\n";
+    std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]\n";
     std::cout
             << "     "
-            << "Random number seed to use for generating some testing data. The default is based on std::chrono value."
-            << std::endl;
-    std::cout << "  " << QPL_ARG_DATASET_PATH << "=[PATH]" << std::endl;
-    std::cout << "     "
-              << "Path to folder containing dataset." << std::endl;
-    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=[NUMBER]" << std::endl;
-    std::cout << "     "
-              << "Set test case id for this test." << std::endl;
+            << "Random number seed to use for generating some testing data. The default is based on std::chrono value.\n";
+    std::cout << "  " << QPL_ARG_DATASET_PATH << "=[PATH]\n";
+    std::cout << "     " << "Path to folder containing dataset.\n";
+    std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=[NUMBER]\n";
+    std::cout << "     " << "Set test case id for this test.\n";
 }
 
 static inline auto parse_execution_path_argument(std::string& value) -> qpl_path_t {
@@ -145,7 +140,7 @@ int test_init_with_fork() {
     pid       = fork();
 
     if (pid < 0) {
-        std::cout << "Failed to fork a process. " << std::endl;
+        std::cout << "Failed to fork a process.\n";
         return 1;
     } else if (pid == 0) {
         // calling qpl_compress in child process
@@ -160,11 +155,11 @@ int test_init_with_fork() {
         const int ret          = waitpid(pid, &child_status, 0);
 
         if (ret != pid) {
-            std::cout << "Failed to wait for child process to finish. " << std::endl;
+            std::cout << "Failed to wait for child process to finish.\n";
             return 2;
         }
         if (!WIFEXITED(child_status)) {
-            std::cout << "Child process did not terminate normally. " << std::endl;
+            std::cout << "Child process did not terminate normally.\n";
             return 3;
         }
     }
@@ -192,19 +187,19 @@ int main(int argc, char* argv[]) { //NOLINT(bugprone-exception-escape)
 #if defined(__linux__)
     auto execution_path = environment::GetInstance().GetExecutionPath();
     if (execution_path == qpl_path_hardware) {
-        std::cout << "Running HW dispatcher initialization check with multiprocessing " << std::endl;
+        std::cout << "Running HW dispatcher initialization check with multiprocessing\n";
         init_with_fork_status = test_init_with_fork();
         EXPECT_TRUE(init_with_fork_status == 0) << "Hardware dispatcher initialization with fork() failed. ";
-        std::cout << "Finished running HW dispatcher initialization check. " << std::endl;
+        std::cout << "Finished running HW dispatcher initialization check.\n";
     }
 #endif
 
-    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
+    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << '\n';
 
     const int status = RUN_ALL_TESTS();
 
-    if (init_with_fork_status) std::cout << "Hardware dispatcher initialization with fork() failed. " << std::endl;
-    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << std::endl;
+    if (init_with_fork_status) std::cout << "Hardware dispatcher initialization with fork() failed.\n";
+    std::cout << "Tests seed = " << environment::GetInstance().GetSeed() << '\n';
 
     const int final_status = status | init_with_fork_status;
     return final_status;

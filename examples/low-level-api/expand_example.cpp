@@ -104,7 +104,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Expand was performed successfully." << std::endl;
+    std::cout << "Expand was performed successfully.\n";
 
     return 0;
 }

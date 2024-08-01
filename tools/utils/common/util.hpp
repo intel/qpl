@@ -272,10 +272,10 @@ static inline auto get_dictionary_lengths() {
 
 // Will skip a specific test case, will continue with running other test cases in test
 // Prints a message w/ skipped testcase
-#define QPL_SKIP_TC_TEST(expr, message)                               \
-    if (expr) {                                                       \
-        std::cout << "skipped test case: " << (message) << std::endl; \
-        return;                                                       \
+#define QPL_SKIP_TC_TEST(expr, message)                          \
+    if (expr) {                                                  \
+        std::cout << "skipped test case: " << (message) << '\n'; \
+        return;                                                  \
     }
 
 } // namespace qpl::test

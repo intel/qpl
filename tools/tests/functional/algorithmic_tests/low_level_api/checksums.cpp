@@ -18,9 +18,9 @@ struct AggregatesTestCase {
 };
 
 static std::ostream& operator<<(std::ostream& os, const AggregatesTestCase& test_case) {
-    os << "Number of elements: " << test_case.element_count << std::endl;
-    os << "Element bit width: " << test_case.element_bit_width << std::endl;
-    os << "Parser: " << ParserToString(test_case.parser) << std::endl;
+    os << "Number of elements: " << test_case.element_count << '\n';
+    os << "Element bit width: " << test_case.element_bit_width << '\n';
+    os << "Parser: " << ParserToString(test_case.parser) << '\n';
 
     return os;
 }

@@ -75,7 +75,7 @@ qpl_status compress_with_chunks<compression_mode::dynamic_compression>(
         result                = run_job_api(job_ptr);
 
         if (result) {
-            std::cout << "err" << result << ", " << iteration_count << std::endl;
+            std::cout << "err" << result << ", " << iteration_count << '\n';
             return result;
         }
 

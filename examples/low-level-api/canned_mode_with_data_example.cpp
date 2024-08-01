@@ -46,7 +46,7 @@ auto main(int argc, char** argv) -> int {
         std::ifstream file(path.path().string(), std::ifstream::binary);
 
         if (!file.is_open()) {
-            std::cout << "Unable to open file in " << dataset_path << std::endl;
+            std::cout << "Unable to open file in " << dataset_path << '\n';
             return 1;
         }
 

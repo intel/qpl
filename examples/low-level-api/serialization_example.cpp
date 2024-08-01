@@ -114,8 +114,8 @@ auto main(int argc, char** argv) -> int {
         return 1;
     }
 
-    std::cout << "Huffman table was successfully serialized and deserialized." << std::endl;
-    std::cout << "Serialized size: " << serialized_size << std::endl;
+    std::cout << "Huffman table was successfully serialized and deserialized.\n";
+    std::cout << "Serialized size: " << serialized_size << '\n';
 
     return 0;
 }

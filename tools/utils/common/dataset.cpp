@@ -23,7 +23,7 @@ dataset_t::dataset_t(const std::string& path) {
     for (const auto& entry : std::filesystem::directory_iterator(real_path)) {
         if (entry.is_symlink()) {
             std::cerr << "Skip this file because it is a symlink. Path=" << path_ << "/"
-                      << entry.path().filename().string() << std::endl;
+                      << entry.path().filename().string() << '\n';
         } else {
             std::ifstream file(entry.path(), std::ios::in | std::ios::binary);
             auto data = std::vector<uint8_t>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
@@ -46,10 +46,10 @@ auto dataset_t::get_data() const -> const dataset_data_t& {
 }
 
 std::ostream& operator<<(std::ostream& out, const dataset_t& dataset) {
-    out << "Used dataset: " << dataset.path_ << std::endl;
+    out << "Used dataset: " << dataset.path_ << '\n';
 
     for (auto& file : dataset.data_) {
-        out << "--- " << file.first << std::endl;
+        out << "--- " << file.first << '\n';
     }
 
     return out;

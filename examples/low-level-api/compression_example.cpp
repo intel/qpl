@@ -110,7 +110,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Content was successfully compressed and decompressed." << std::endl;
+    std::cout << "Content was successfully compressed and decompressed.\n";
     std::cout << "Input size: " << source.size() << ", compressed size: " << compressed_size
               << ", compression ratio: " << (float)source.size() / (float)compressed_size << ".\n";
 

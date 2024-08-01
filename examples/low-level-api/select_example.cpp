@@ -126,7 +126,7 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Select was performed successfully." << std::endl;
+    std::cout << "Select was performed successfully.\n";
 
     return 0;
 }

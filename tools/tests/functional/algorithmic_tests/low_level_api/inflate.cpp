@@ -54,7 +54,7 @@ public:
         try {
             reference_data = dataset[decompressed_file_name];
         } catch (std::exception& e) {
-            std::cout << e.what() << std::endl;
+            std::cout << e.what() << '\n';
 
             return testing::AssertionFailure();
         }

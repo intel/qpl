@@ -55,7 +55,7 @@ void gz_generator::BitBuffer::flush(uint32_t pad) {
 
 void gz_generator::BitBuffer::padToByte() {
     if (m_bigEndian16) {
-        std::cerr << "BitBuffer::padToByte is not supported with BE16" << std::endl;
+        std::cerr << "BitBuffer::padToByte is not supported with BE16\n";
         throw std::exception();
     }
 

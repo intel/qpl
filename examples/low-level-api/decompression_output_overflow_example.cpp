@@ -133,8 +133,8 @@ auto main(int argc, char** argv) -> int {
         }
     }
 
-    std::cout << "Content was successfully compressed and decompressed." << std::endl;
-    std::cout << "Compressed size: " << compressed_size << std::endl;
+    std::cout << "Content was successfully compressed and decompressed.\n";
+    std::cout << "Compressed size: " << compressed_size << '\n';
 
     return 0;
 }

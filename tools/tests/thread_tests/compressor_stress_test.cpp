@@ -126,19 +126,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
         results.push_back(std::async(std::launch::async, compress_test));
     }
 
-    std::cout << "Number of threads spawned: " << num_threads << std::endl;
+    std::cout << "Number of threads spawned: " << num_threads << '\n';
     for (uint32_t i = 0; i < results.size(); i++) {
         auto ret = results[i].get();
         if (ret > QPL_STS_OK &&
             ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
             test_passed = false;
-            std::cout << "Thread " << i << " returned with error code " << ret << std::endl;
+            std::cout << "Thread " << i << " returned with error code " << ret << '\n';
         } else if (ret == -1) {
             test_passed = false;
-            std::cout << "Thread " << i << " compression and decompression resulted in length mismatch" << std::endl;
+            std::cout << "Thread " << i << " compression and decompression resulted in length mismatch\n";
         } else if (ret == -2) {
             test_passed = false;
-            std::cout << "Thread " << i << " compression and decompression resulted in data mismatch" << std::endl;
+            std::cout << "Thread " << i << " compression and decompression resulted in data mismatch\n";
         }
     }
 

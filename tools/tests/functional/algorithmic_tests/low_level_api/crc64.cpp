@@ -51,10 +51,10 @@ struct CRC64TestCase {
 std::ostream& operator<<(std::ostream& os, const CRC64TestCase& test_case) {
     const std::string crc_direction = (test_case.crc_direction == crc_forward) ? "forward" : "inverse";
     const std::string bit_order     = (test_case.bit_order == LE) ? "LE" : "BE";
-    os << "Source length : " << test_case.length << std::endl;
-    os << "Polynomial shift : " << test_case.poly_shift << std::endl;
-    os << "CRC direction : " << crc_direction << std::endl;
-    os << "Bit order : " << bit_order << std::endl;
+    os << "Source length : " << test_case.length << '\n';
+    os << "Polynomial shift : " << test_case.poly_shift << '\n';
+    os << "CRC direction : " << crc_direction << '\n';
+    os << "Bit order : " << bit_order << '\n';
     return os;
 }
 

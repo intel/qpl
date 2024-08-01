@@ -28,12 +28,12 @@ struct InputStreamMeta {
 };
 
 static std::ostream& operator<<(std::ostream& os, const InputStreamMeta& test_case) {
-    os << "Parser: " << ParserToString(test_case.parser) << std::endl;
-    os << "Number of elements: " << test_case.elements_count << std::endl;
-    os << "Source bit width: " << test_case.bit_width << std::endl;
-    os << "Destination bit width(hardcoded): Nominal" << std::endl;
-    os << "Compressed: " << test_case.is_compressed << std::endl;
-    os << "Dropped bytes: " << test_case.prologue << std::endl;
+    os << "Parser: " << ParserToString(test_case.parser) << '\n';
+    os << "Number of elements: " << test_case.elements_count << '\n';
+    os << "Source bit width: " << test_case.bit_width << '\n';
+    os << "Destination bit width(hardcoded): Nominal\n";
+    os << "Compressed: " << test_case.is_compressed << '\n';
+    os << "Dropped bytes: " << test_case.prologue << '\n';
 
     return os;
 }

@@ -79,7 +79,7 @@ public:
             }
         }
 
-        std::cout << "Total number of test cases: " << test_cases_counter << std::endl;
+        std::cout << "Total number of test cases: " << test_cases_counter << '\n';
     }
 
     void SetUp() override {
@@ -91,9 +91,7 @@ public:
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, analytic_only, ExtractTest) {
     static uint32_t test_case_counter = 0;
 
-    if (0U == test_case_counter % 5000U) {
-        std::cout << " Running test case number " << test_case_counter << std::endl;
-    }
+    if (0U == test_case_counter % 5000U) { std::cout << " Running test case number " << test_case_counter << '\n'; }
 
     auto status = run_job_api(job_ptr);
 
@@ -113,9 +111,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, analytic_only, ExtractTest) {
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, analytic_with_decompress, ExtractTest) {
     static uint32_t test_case_counter = 0;
 
-    if (0U == test_case_counter % 5000U) {
-        std::cout << " Running test case number " << test_case_counter << std::endl;
-    }
+    if (0U == test_case_counter % 5000U) { std::cout << " Running test case number " << test_case_counter << '\n'; }
 
     std::vector<uint8_t> compressed_source;
     ASSERT_NO_THROW(compressed_source = GetCompressedSource()); //NOLINT(cppcoreguidelines-avoid-goto)
@@ -140,9 +136,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, analytic_with_decompress, Extract
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, DISABLED_analytic_with_random_decompress, ExtractTest) {
     static uint32_t test_case_counter = 0;
 
-    if (0U == test_case_counter % 5000U) {
-        std::cout << " Running test case number " << test_case_counter << std::endl;
-    }
+    if (0U == test_case_counter % 5000U) { std::cout << " Running test case number " << test_case_counter << '\n'; }
 
     std::vector<uint8_t> compressed_source;
     ASSERT_NO_THROW(compressed_source = GetCompressedSource(true)); //NOLINT(cppcoreguidelines-avoid-goto)

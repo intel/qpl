@@ -188,8 +188,7 @@ protected:
                         // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
                         // this limitation will not apply.
 
-                        std::cout << "Deflate verify stage failed with status: "
-                                  << " " << status << "\n";
+                        std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
                         std::cout << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
                     } else {
                         FAIL() << "Deflate status: " << status << "\n";
@@ -239,8 +238,7 @@ protected:
                             // If IAA Gen 2 minimum capabilities are present, Ignore End Bits Extension is supported and thus
                             // this limitation will not apply.
 
-                            std::cout << "Deflate verify stage failed with status: "
-                                      << " " << status << "\n";
+                            std::cout << "Deflate verify stage failed with status: " << " " << status << "\n";
                             std::cout
                                     << "It is known issue for Huffman-only with BE16 format with IAA 1.0 - ignoring\n";
                         } else {
