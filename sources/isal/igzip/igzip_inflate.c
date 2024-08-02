@@ -162,6 +162,7 @@ static void update_checksum(struct inflate_state* state, uint8_t* start_in, uint
         case ISAL_ZLIB:
         case ISAL_ZLIB_NO_HDR:
         case ISAL_ZLIB_NO_HDR_VER: state->crc = qpl_isal_adler32_bam1(state->crc, start_in, length); break;
+        default: break;
     }
 }
 
@@ -841,10 +842,10 @@ static int header_matches_pregen(struct inflate_state* state) {
     const uint64_t bits_read_prior = 3; // Have read bfinal(1) and btype(2)
 
     /* Check if stashed read_in_bytes match header */
-    uint8_t* hdr = &(hufftables_default.deflate_hdr[0]);
+    uint8_t* hdr            = &(hufftables_default.deflate_hdr[0]);
     uint64_t bits_read_mask = (1ULL << state->read_in_length) - 1;
-    uint64_t hdr_stash = (load_u64(hdr) >> bits_read_prior) & bits_read_mask;
-    uint64_t in_stash = state->read_in & bits_read_mask;
+    uint64_t hdr_stash      = (load_u64(hdr) >> bits_read_prior) & bits_read_mask;
+    uint64_t in_stash       = state->read_in & bits_read_mask;
 
     if (hdr_stash != in_stash) return 0;
 
@@ -852,31 +853,31 @@ static int header_matches_pregen(struct inflate_state* state) {
     if ((state->read_in_length + bits_read_prior) % 8) return 0;
 
     /* Check if header bulk is the same */
-    uint8_t* in = state->next_in;
+    uint8_t* in            = state->next_in;
     uint32_t bytes_read_in = (state->read_in_length + bits_read_prior) / 8;
-    uint32_t header_len = hufftables_default.deflate_hdr_count;
+    uint32_t header_len    = hufftables_default.deflate_hdr_count;
 
     if (0 != memcmp(in, &hdr[bytes_read_in], header_len - bytes_read_in)) return 0;
 
     /* If there are any last/end bits to the header check them too */
-    uint32_t last_bits = hufftables_default.deflate_hdr_extra_bits;
+    uint32_t last_bits     = hufftables_default.deflate_hdr_extra_bits;
     uint32_t last_bit_mask = (1 << last_bits) - 1;
 
     if (0 == last_bits) {
         state->next_in += header_len - bytes_read_in;
         state->avail_in -= header_len - bytes_read_in;
         state->read_in_length = 0;
-        state->read_in = 0;
+        state->read_in        = 0;
         return 1;
     }
 
-    uint32_t in_end_bits = in[header_len - bytes_read_in] & last_bit_mask;
+    uint32_t in_end_bits  = in[header_len - bytes_read_in] & last_bit_mask;
     uint32_t hdr_end_bits = hdr[header_len] & last_bit_mask;
     if (in_end_bits == hdr_end_bits) {
         state->next_in += header_len - bytes_read_in;
         state->avail_in -= header_len - bytes_read_in;
         state->read_in_length = 0;
-        state->read_in = 0;
+        state->read_in        = 0;
         inflate_in_read_bits(state, last_bits);
         return 1;
     }
@@ -906,17 +907,17 @@ static inline int setup_static_header(struct inflate_state* state) {
 #warning "Defaulting to static inflate table fallback."
 #warning "For best performance, run generate_static_inflate, replace static_inflate.h, and recompile"
 #endif
-    int i;
+    int              i;
     struct huff_code lit_code[LIT_LEN_ELEMS];
     struct huff_code dist_code[DIST_LEN + 2];
-    uint32_t multisym = SINGLE_SYM_FLAG, max_dist = DIST_LEN;
+    uint32_t         multisym = SINGLE_SYM_FLAG, max_dist = DIST_LEN;
     /* These tables are based on the static huffman tree described in RFC
      * 1951 */
     uint16_t lit_count[MAX_LIT_LEN_COUNT] = {0, 0, 0, 0, 0, 0, 0, 24, 152, 112, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     uint16_t lit_expand_count[MAX_LIT_LEN_COUNT] = {0,  0,  0,   0, 0, 0, 0, -15, 1, 16, 32,
                                                     48, 16, 128, 0, 0, 0, 0, 0,   0, 0,  0};
-    uint16_t dist_count[16] = {0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    uint16_t dist_count[16]                      = {0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     uint32_t code_list[LIT_LEN_ELEMS + 2]; /* The +2 is for the extra codes in the static header */
     /* These for loops set the code lengths for the static literal/length
      * and distance codes defined in the deflate standard RFC 1951 */
@@ -2063,6 +2064,7 @@ int qpl_isal_read_gzip_header(struct inflate_state* state, struct isal_gzip_head
             state->wrapper_flag = 1;
             state->block_state  = ISAL_BLOCK_NEW_HDR;
             return ISAL_DECOMP_OK;
+        default: break;
     }
 
     if (flags & HCRC_FLAG) gz_hdr->hcrc = qpl_crc32_gzip_refl(hcrc, start_in, state->next_in - start_in);
@@ -2107,6 +2109,7 @@ int qpl_isal_read_zlib_header(struct inflate_state* state, struct isal_zlib_head
 
             state->wrapper_flag = 1;
             state->block_state  = ISAL_BLOCK_NEW_HDR;
+        default: break;
     }
 
     return ret;
@@ -2191,6 +2194,7 @@ int qpl_isal_inflate_stateless(struct inflate_state* state) {
 
             case ISAL_GZIP:
             case ISAL_GZIP_NO_HDR_VER: ret = qpl_check_gzip_checksum(state); break;
+            default: break;
         }
     }
 
@@ -2234,6 +2238,7 @@ int qpl_isal_inflate(struct inflate_state* state) {
             case ISAL_ZLIB_NO_HDR_VER: ret = check_zlib_checksum(state); break;
             case ISAL_GZIP:
             case ISAL_GZIP_NO_HDR_VER: ret = qpl_check_gzip_checksum(state); break;
+            default: break;
         }
 
         return (ret > 0) ? ISAL_DECOMP_OK : ret;
@@ -2441,6 +2446,7 @@ int qpl_isal_inflate(struct inflate_state* state) {
 
                 case ISAL_GZIP:
                 case ISAL_GZIP_NO_HDR_VER: ret = qpl_check_gzip_checksum(state); break;
+                default: break;
             }
         }
 

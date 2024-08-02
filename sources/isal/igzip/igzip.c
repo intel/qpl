@@ -242,6 +242,7 @@ static void update_checksum(struct isal_zstream* stream, uint8_t* start_in, uint
         case IGZIP_GZIP_NO_HDR: state->crc = qpl_crc32_gzip_refl(state->crc, start_in, length); break;
         case IGZIP_ZLIB:
         case IGZIP_ZLIB_NO_HDR: state->crc = qpl_isal_adler32_bam1(state->crc, start_in, length); break;
+        default: break;
     }
 }
 
@@ -923,6 +924,7 @@ inline static void set_hash_mask(struct isal_zstream* stream) {
         case 2: state->hash_mask = LVL2_HASH_MASK; break;
         case 1: state->hash_mask = LVL1_HASH_MASK; break;
         case 0: state->hash_mask = LVL0_HASH_MASK;
+        default: break;
     }
 }
 

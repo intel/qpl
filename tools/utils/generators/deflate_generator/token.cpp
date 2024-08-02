@@ -84,6 +84,7 @@ token_type_t token_parser_c::get_token_(token_c* token) {
             token->m_value = 0xFFFFFFFFU;
             return TT_NUM;
         }
+        default: break;
     }
 
     fprintf(stderr, "unexpected char 0x%02x at line %d\n", c, m_line_num);
@@ -107,6 +108,7 @@ token_type_t token_parser_c::parse_word(token_c* token, int c) {
         case 'r': return parse_r(token);
         case 's': return parse_s(token);
         case 't': return parse_t(token);
+        default: break;
     }
     fprintf(stderr, "Unknown keyword: %c at line %d\n", c, m_line_num);
     throw std::exception();
