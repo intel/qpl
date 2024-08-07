@@ -1,0 +1,32 @@
+# This workflow executes several linters on changed files based on languages used in your code base whenever
+# you push a code or open a pull request.
+#
+# You can adjust the behavior by modifying this file.
+# For more information, see:
+# https://github.com/github/super-linter
+# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
+name: "Super-Linter"
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  clang-format-check:
+    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'service' }}
+    steps:
+      - name: "Checkout Code"
+        uses: "actions/checkout@v4"
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+
+      - name: "Validation with Super-Linter"
+        uses: "super-linter/super-linter@v6.3.0"
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_CLANG_FORMAT: true
+          FILTER_REGEX_EXCLUDE: ".*tools/third_party.*"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
