@@ -17,7 +17,7 @@ enum compression_mode { fixed_compression, static_compression, dynamic_compressi
 
 auto get_chunk_sizes() -> std::vector<uint32_t> {
     std::vector<uint32_t> result;
-    auto insert_numbers_in_range = [&](uint32_t lower_boundary, uint32_t upper_boundary, uint32_t count) -> auto{
+    auto insert_numbers_in_range = [&](uint32_t lower_boundary, uint32_t upper_boundary, uint32_t count) -> auto {
         auto step = (upper_boundary - lower_boundary) / count;
         for (uint32_t i = lower_boundary; i < upper_boundary; i += step) {
             result.push_back(i);

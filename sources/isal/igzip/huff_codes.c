@@ -1479,7 +1479,7 @@ static void expand_hufftables_icf(struct hufftables_icf* hufftables) {
                 p_code++;
             }
         } // end for k
-    } // end for eb
+    }     // end for eb
     // fix up last record
     p_code[-1] = orig[i];
 

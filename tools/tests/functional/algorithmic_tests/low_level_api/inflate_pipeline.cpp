@@ -102,35 +102,35 @@ private:
     testing::AssertionResult   DeflateStreamByBlocks(std::vector<uint8_t>& source_stream,
                                                      std::vector<uint8_t>& compressed_destination, uint32_t block_size,
                                                      qpl_compression_levels level) {
-          auto source_size = static_cast<uint32_t>(source_stream.size());
+        auto source_size = static_cast<uint32_t>(source_stream.size());
 
-          deflate_job_ptr->next_in_ptr   = source_stream.data();
-          deflate_job_ptr->next_out_ptr  = compressed_destination.data();
-          deflate_job_ptr->available_out = static_cast<uint32_t>(compressed_destination.size());
-          deflate_job_ptr->level         = level;
+        deflate_job_ptr->next_in_ptr   = source_stream.data();
+        deflate_job_ptr->next_out_ptr  = compressed_destination.data();
+        deflate_job_ptr->available_out = static_cast<uint32_t>(compressed_destination.size());
+        deflate_job_ptr->level         = level;
 
-          deflate_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        deflate_job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
 
-          uint32_t blocks = 0;
-          while (deflate_job_ptr->total_in < source_size) {
-              blocks++;
-              if (deflate_job_ptr->total_in + block_size >= source_size) {
-                  deflate_job_ptr->available_in = source_size - deflate_job_ptr->total_in;
-                  deflate_job_ptr->flags |= QPL_FLAG_LAST;
+        uint32_t blocks = 0;
+        while (deflate_job_ptr->total_in < source_size) {
+            blocks++;
+            if (deflate_job_ptr->total_in + block_size >= source_size) {
+                deflate_job_ptr->available_in = source_size - deflate_job_ptr->total_in;
+                deflate_job_ptr->flags |= QPL_FLAG_LAST;
             } else {
-                  deflate_job_ptr->available_in += block_size;
+                deflate_job_ptr->available_in += block_size;
             }
 
-              auto status = run_job_api(deflate_job_ptr);
-              EXPECT_EQ(QPL_STS_OK, status);
+            auto status = run_job_api(deflate_job_ptr);
+            EXPECT_EQ(QPL_STS_OK, status);
 
-              if (QPL_STS_OK != status) { break; }
+            if (QPL_STS_OK != status) { break; }
 
-              deflate_job_ptr->flags |= QPL_FLAG_START_NEW_BLOCK;
-              deflate_job_ptr->flags &= ~QPL_FLAG_FIRST;
+            deflate_job_ptr->flags |= QPL_FLAG_START_NEW_BLOCK;
+            deflate_job_ptr->flags &= ~QPL_FLAG_FIRST;
         }
 
-          return testing::AssertionSuccess();
+        return testing::AssertionSuccess();
     }
 };
 

@@ -9,10 +9,10 @@
 
 #define OWN_5_BIT_MASK 0x1fu /**< Mask for 5-bit integer */
 
-#define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x) (((x)&0x1FU) << 7U)  /**< @todo */
-#define OWN_FILTER_FLAGS_SET_SOURCE_2_BE           (1U << 12U)          /**< @todo */
-#define OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(x)      (((x)&0x1FU) << 17U) /**< @todo */
-#define OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(x)     (((x)&0x1FU) << 22U) /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_2_BIT_WIDTH(x) (((x) & 0x1FU) << 7U)  /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_2_BE           (1U << 12U)            /**< @todo */
+#define OWN_FILTER_FLAGS_SET_DROP_LOW_BITS(x)      (((x) & 0x1FU) << 17U) /**< @todo */
+#define OWN_FILTER_FLAGS_SET_DROP_HIGH_BITS(x)     (((x) & 0x1FU) << 22U) /**< @todo */
 
 static inline void
 own_hw_descriptor_single_source_filter_set_second_source(hw_descriptor* const        descriptor_ptr,

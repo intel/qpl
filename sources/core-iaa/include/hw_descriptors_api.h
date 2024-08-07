@@ -360,7 +360,7 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_set_be_output_mode, (hw_
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_mini_block_size,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_mini_block_size_t mini_block_size)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7U) << 6U);
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size) & 7U) << 6U);
     const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
@@ -376,7 +376,7 @@ static inline HW_PATH_IAA_API(void, descriptor_compress_set_mini_block_size,
  */
 static inline HW_PATH_IAA_API(void, descriptor_compress_set_termination_rule,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_terminator_t terminator)) {
-    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((terminator)&3U) << 2U);
+    const uint16_t COMPRESSION_FLAG_BIT_MASK = (((terminator) & 3U) << 2U);
     const uint8_t  COMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[COMPRESSION_FLAG_OFFSET]) |= COMPRESSION_FLAG_BIT_MASK;
@@ -460,7 +460,7 @@ HW_PATH_IAA_API(void, descriptor_set_inflate_stop_check_rule,
  */
 static inline HW_PATH_IAA_API(void, descriptor_decompress_set_mini_block_size,
                               (hw_descriptor* const descriptor_ptr, const hw_iaa_mini_block_size_t mini_block_size)) {
-    const uint16_t DECOMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size)&7U) << 10U);
+    const uint16_t DECOMPRESSION_FLAG_BIT_MASK = (((uint32_t)(mini_block_size) & 7U) << 10U);
     const uint8_t  DECOMPRESSION_FLAG_OFFSET   = 38U;
 
     *(uint16_t*)(&descriptor_ptr->data[DECOMPRESSION_FLAG_OFFSET]) |= DECOMPRESSION_FLAG_BIT_MASK;

@@ -28,8 +28,8 @@ typedef struct {
  * @note In case when size to be written is bigger than the available output buffer, function will return -1 and reset input as it was before.
  */
 static auto write_stored_block(uint8_t* source_ptr, uint16_t source_size, uint8_t* output_begin_ptr,
-                               uint32_t output_max_size, uint32_t start_bit_offset,
-                               bool is_final = false) noexcept -> int64_t {
+                               uint32_t output_max_size, uint32_t start_bit_offset, bool is_final = false) noexcept
+        -> int64_t {
     // Write deflate header
     const uint16_t header             = ((is_final) ? OWN_FINAL_STORED_BLOCK : OWN_STORED_BLOCK) << start_bit_offset;
     const uint16_t header_mask        = ~static_cast<uint16_t>(0U) - ((1 << start_bit_offset) - 1);
@@ -112,8 +112,8 @@ auto write_stored_blocks(uint8_t* source_ptr, uint32_t source_size, uint8_t* out
     return static_cast<uint32_t>(output_ptr - output_begin_ptr);
 }
 
-auto write_stored_block(deflate_state<execution_path_t::software>& stream,
-                        compression_state_t&                       state) noexcept -> qpl_ml_status {
+auto write_stored_block(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     // If canned mode, writing stored block will cause error in decompression later
     // because it will parse stored block header as if it was the body.
     // Instead, return error directly
@@ -174,8 +174,8 @@ auto write_stored_block(deflate_state<execution_path_t::software>& stream,
     return status_list::ok;
 }
 
-auto write_stored_block_header(deflate_state<execution_path_t::software>& stream,
-                               compression_state_t&                       state) noexcept -> qpl_ml_status {
+auto write_stored_block_header(deflate_state<execution_path_t::software>& stream, compression_state_t& state) noexcept
+        -> qpl_ml_status {
     auto isal_state = &stream.isal_stream_ptr_->internal_state;
     auto bit_buffer = &isal_state->bitbuf;
 

@@ -24,17 +24,21 @@ namespace qpl::test {
 static inline void show_help() {
     std::cout << "\nQPL test system arguments:\n";
     std::cout << "  " << QPL_ARG_PATH << "=(sw|hw|auto)\n";
-    std::cout << "     " << "Set execution path for functional tests. The default is qpl_path_software.\n";
+    std::cout << "     "
+              << "Set execution path for functional tests. The default is qpl_path_software.\n";
     std::cout << "  " << QPL_ARG_ASYNC << "=(on|off)\n";
-    std::cout << "     " << "Execute tests using asynchronous mode. The default is off (synchronous mode).\n";
+    std::cout << "     "
+              << "Execute tests using asynchronous mode. The default is off (synchronous mode).\n";
     std::cout << "  " << QPL_ARG_SEED << "=[NUMBER]\n";
     std::cout
             << "     "
             << "Random number seed to use for generating some testing data. The default is based on std::chrono value.\n";
     std::cout << "  " << QPL_ARG_DATASET_PATH << "=[PATH]\n";
-    std::cout << "     " << "Path to folder containing dataset.\n";
+    std::cout << "     "
+              << "Path to folder containing dataset.\n";
     std::cout << "  " << QPL_ARG_TEST_CASE_ID << "=[NUMBER]\n";
-    std::cout << "     " << "Set test case id for this test.\n";
+    std::cout << "     "
+              << "Set test case id for this test.\n";
 }
 
 static inline auto parse_execution_path_argument(std::string& value) -> qpl_path_t {

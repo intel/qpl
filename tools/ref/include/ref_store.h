@@ -27,12 +27,12 @@ extern "C" {
 /**
  * @todo
  */
-#define REF_SIZE_IN_BYTES(nBit) (((nBit) >> 3) + (((nBit)&7) ? 1 : 0))
+#define REF_SIZE_IN_BYTES(nBit) (((nBit) >> 3) + (((nBit) & 7) ? 1 : 0))
 
 /**
  * @todo
  */
-#define REF_CHECK_BIT_IN_VECTOR(vector, nBit) (((vector)[(nBit) >> 3]) & (1 << ((nBit)&7)))
+#define REF_CHECK_BIT_IN_VECTOR(vector, nBit) (((vector)[(nBit) >> 3]) & (1 << ((nBit) & 7)))
 
 /**
  * @todo

@@ -78,7 +78,7 @@ public:
         constexpr std::array<qpl_huffman_table_type_e, 2> c_types    = {combined_table_type, compression_table_type};
         constexpr std::array<qpl_huffman_table_type_e, 2> d_types    = {combined_table_type, decompression_table_type};
         constexpr std::array<compression_algorithm_e, 3>  algorithms = {
-                 compression_algorithm_deflate, compression_algorithm_canned, compression_algorithm_huffman_only};
+                compression_algorithm_deflate, compression_algorithm_canned, compression_algorithm_huffman_only};
         constexpr std::array<qpl_serialization_format_e, 2> s_types = {serialization_compact, serialization_raw};
 
         for (auto& algorithm : algorithms) {

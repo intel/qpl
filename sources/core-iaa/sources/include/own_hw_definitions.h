@@ -63,11 +63,11 @@ extern "C" {
  * @{
  */
 // opcode_opflags fields
-#define ADOF_READ_SRC2(x)  (((x)&3U) << 16U)      /**< @todo */
-#define ADOF_WRITE_SRC2(x) (((x)&3U) << 18U)      /**< @todo */
+#define ADOF_READ_SRC2(x)  (((x) & 3U) << 16U)    /**< @todo */
+#define ADOF_WRITE_SRC2(x) (((x) & 3U) << 18U)    /**< @todo */
 #define ADOF_CRC32C        (1U << 21U)            /**< @todo */
 #define ADOF_AECS_SEL      (1U << 22U)            /**< @todo */
-#define ADOF_OPCODE(x)     (((x)&0xFFU) << 24U)   /**< @todo */
+#define ADOF_OPCODE(x)     (((x) & 0xFFU) << 24U) /**< @todo */
 #define ADOF_GET_OPCODE(x) (((x) >> 24U) & 0xFFU) /**< @todo */
 
 // decompression flags
@@ -78,23 +78,23 @@ extern "C" {
 #define ADDF_SEL_BFINAL_EOB (1U << 4U) /**< @todo */
 #define ADDF_DECOMP_BE      (1U << 5U) /**< @todo */
 #define ADDF_IGNORE_END_BITS(x) \
-    (((x)&7U) << 6U)                               /**< This 3-bit flag represents the number of bits
+    (((x) & 7U) << 6U)                               /**< This 3-bit flag represents the number of bits
                                                               to ignore at the end of the compressed input stream.
                                                               Sometimes, a 4th bit may be supported (see below) */
-#define ADDF_IGNORE_END_BITS_EXT (1U << 14U)       /**< The 4th high-order bit for Ignore End Bits */
-#define ADDF_SUPPRESS_OUTPUT     (1U << 9U)        /**< @todo */
-#define ADDF_ENABLE_IDXING(x)    (((x)&7U) << 10U) /**< @todo */
+#define ADDF_IGNORE_END_BITS_EXT (1U << 14U)         /**< The 4th high-order bit for Ignore End Bits */
+#define ADDF_SUPPRESS_OUTPUT     (1U << 9U)          /**< @todo */
+#define ADDF_ENABLE_IDXING(x)    (((x) & 7U) << 10U) /**< @todo */
 
 // compression flags
-#define ADCF_STATS_MODE        (1U << 0U)                  /**< @todo */
-#define ADCF_FLUSH_OUTPUT      (1U << 1U)                  /**< @todo */
-#define ADCF_END_PROC(x)       (((x)&3U) << 2U)            /**< @todo */
-#define ADCF_GEN_LITS          (1U << 4U)                  /**< @todo */
-#define ADCF_COMP_BE           (1U << 5U)                  /**< @todo */
-#define ADCF_ENABLE_IDXING(x)  (((uint32_t)(x)&7U) << 6U)  /**< @todo */
-#define ADCF_ENABLE_HDR_GEN(x) (((uint32_t)(x)&7U) << 12U) /**< Enable Header Generation */
-#define ADCF_WRITE_AECS_HT     (1U << 1U)                  /**< Write AECS Huffman Tables */
-#define ADCF_LOAD_DICT(x)      (((uint32_t)(x)&3U) << 10U) /**< Load dictionary */
+#define ADCF_STATS_MODE        (1U << 0U)                    /**< @todo */
+#define ADCF_FLUSH_OUTPUT      (1U << 1U)                    /**< @todo */
+#define ADCF_END_PROC(x)       (((x) & 3U) << 2U)            /**< @todo */
+#define ADCF_GEN_LITS          (1U << 4U)                    /**< @todo */
+#define ADCF_COMP_BE           (1U << 5U)                    /**< @todo */
+#define ADCF_ENABLE_IDXING(x)  (((uint32_t)(x) & 7U) << 6U)  /**< @todo */
+#define ADCF_ENABLE_HDR_GEN(x) (((uint32_t)(x) & 7U) << 12U) /**< Enable Header Generation */
+#define ADCF_WRITE_AECS_HT     (1U << 1U)                    /**< Write AECS Huffman Tables */
+#define ADCF_LOAD_DICT(x)      (((uint32_t)(x) & 3U) << 10U) /**< Load dictionary */
 
 // crc64 flags
 #define ADC64F_INVCRC (1U << 14U) /**< @todo */

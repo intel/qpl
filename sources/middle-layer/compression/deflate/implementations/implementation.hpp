@@ -18,7 +18,7 @@ namespace qpl::ml::compression {
 template <class stream_t>
 class implementation {
 public:
-    using handler_t = auto(*)(stream_t&, compression_state_t&) noexcept -> qpl_ml_status;
+    using handler_t = auto (*)(stream_t&, compression_state_t&) noexcept -> qpl_ml_status;
 
     implementation() = delete;
 

@@ -7,9 +7,9 @@
 #include "hw_descriptors_api.h"
 #include "own_analytic_descriptor.h"
 
-#define OWN_FILTER_FLAGS_SET_SOURCE_1_PARSER(x)    (((x)&3U) << 0U)            /**< @todo */
-#define OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(x) (((x)&0x1FU) << 2U)         /**< @todo */
-#define OWN_FILTER_FLAGS_SET_OUT_BIT_WIDTH(x)      (((x)&3U) << 13U)           /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_1_PARSER(x)    (((x) & 3U) << 0U)          /**< @todo */
+#define OWN_FILTER_FLAGS_SET_SOURCE_1_BIT_WIDTH(x) (((x) & 0x1FU) << 2U)       /**< @todo */
+#define OWN_FILTER_FLAGS_SET_OUT_BIT_WIDTH(x)      (((x) & 3U) << 13U)         /**< @todo */
 #define OWN_FILTER_FLAGS_GET_SOURCE_1_BIT_WIDTH(x) ((((x) >> 2U) & 0x1FU) + 1) /**< @todo */
 
 HW_PATH_IAA_API(uint32_t, descriptor_get_source1_bit_width, (const hw_descriptor* const descriptor_ptr)) {

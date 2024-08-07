@@ -136,7 +136,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, try_to_compress_different
     job_ptr->level = qpl_default_level;
 
     using compression_function_ptr =
-            qpl_status (*)(qpl_job * job_ptr, uint8_t * source_ptr, uint32_t source_length, uint8_t * destination_ptr,
+            qpl_status (*)(qpl_job* job_ptr, uint8_t* source_ptr, uint32_t source_length, uint8_t* destination_ptr,
                            int32_t destination_length, uint32_t order_flag);
 
     constexpr compression_function_ptr compress_with_style_table[] = {

@@ -206,8 +206,8 @@ protected:
                     return;                                                                                        \
                 } else {                                                                                           \
                     FAIL() << "Note: test case id = " << environment::GetInstance().GetTestCaseId()                \
-                           << " was specified, but this test " << "contains only " << TestCaseCount()              \
-                           << " test cases\n";                                                                     \
+                           << " was specified, but this test "                                                     \
+                           << "contains only " << TestCaseCount() << " test cases\n";                              \
                 }                                                                                                  \
             }                                                                                                      \
             for (uint32_t i = 0; i < TestCaseCount(); i++) {                                                       \
@@ -216,7 +216,8 @@ protected:
                 if (HasFailure()) {                                                                                \
                     std::cout << "The test case is: " << GetTestCase() << "\n";                                    \
                     std::cout << "Test case id: " << i << "\n";                                                    \
-                    std::cout << "To reproduce the fail, run this test with" << " flag --testid=" << i << "\n";    \
+                    std::cout << "To reproduce the fail, run this test with"                                       \
+                              << " flag --testid=" << i << "\n";                                                   \
                     break;                                                                                         \
                 } else if (IsSkipped()) {                                                                          \
                     break;                                                                                         \

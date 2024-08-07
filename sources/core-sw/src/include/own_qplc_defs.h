@@ -70,34 +70,34 @@ extern "C" {
  */
 
 #define QPL_ONE_64U            (1ULL)
-#define OWN_MAX_16U            0xFFFF                        /**< Max value for uint16_t */
-#define OWN_MAX_32U            0xFFFFFFFF                    /**< Max value for uint32_t */
-#define OWN_1_BIT_MASK         1U                            /**< Mask for 1-bit integer */
-#define OWN_2_BIT_MASK         3U                            /**< Mask for 2-bit integer */
-#define OWN_3_BIT_MASK         7U                            /**< Mask for 3-bit integer */
-#define OWN_4_BIT_MASK         0xFU                          /**< Mask for 4-bit integer */
-#define OWN_5_BIT_MASK         0x1FU                         /**< Mask for 5-bit integer */
-#define OWN_6_BIT_MASK         0x3FU                         /**< Mask for 6-bit integer */
-#define OWN_7_BIT_MASK         0x7FU                         /**< Mask for 7-bit integer */
-#define OWN_HIGH_BIT_MASK      0x80U                         /**< Mask for most significant bit in a byte */
-#define OWN_LOW_BIT_MASK       1U                            /**< Mask for least significant bit in a byte */
-#define OWN_BYTE_WIDTH         8U                            /**< Byte width in bits */
-#define OWN_WORD_WIDTH         16U                           /**< Word width in bits */
-#define OWN_3_BYTE_WIDTH       24U                           /**< 3-byte width in bits */
-#define OWN_DWORD_WIDTH        32U                           /**< Dword width in bits */
-#define OWN_6_BYTE_WIDTH       48U                           /**< 6-byte width in bits */
-#define OWN_7_BYTE_WIDTH       56U                           /**< 7-byte width in bits */
-#define OWN_QWORD_WIDTH        64U                           /**< Qword width in bits */
-#define OWN_BIT_MASK(x)        ((QPL_ONE_64U << (x)) - 1U)   /**< Bit mask below bit position */
-#define OWN_PARQUET_WIDTH      8U                            /**< Parquet size in elements (PRLE format) */
-#define OWN_LITERAL_OCTA_GROUP 1U                            /**< PRLE format description */
-#define OWN_VARINT_BYTE_1(x)   (((x)&OWN_7_BIT_MASK) << 6U)  /**< 1st byte extraction for varint format */
-#define OWN_VARINT_BYTE_2(x)   (((x)&OWN_7_BIT_MASK) << 13U) /**< 2nd byte extraction for varint format */
-#define OWN_VARINT_BYTE_3(x)   (((x)&OWN_7_BIT_MASK) << 20U) /**< 3rd byte extraction for varint format */
-#define OWN_VARINT_BYTE_4(x)   (((x)&OWN_5_BIT_MASK) << 27U) /**< 4th byte extraction for varint format */
-#define OWN_PRLE_COUNT(x)      (((x)&OWN_7_BIT_MASK) >> 1U)  /**< PRLE count field extraction */
-#define OWN_MAX(a, b)          (((a) > (b)) ? (a) : (b))     /**< Maximum from 2 values */
-#define OWN_MIN(a, b)          (((a) < (b)) ? (a) : (b))     /**< Minimum from 2 values */
+#define OWN_MAX_16U            0xFFFF                          /**< Max value for uint16_t */
+#define OWN_MAX_32U            0xFFFFFFFF                      /**< Max value for uint32_t */
+#define OWN_1_BIT_MASK         1U                              /**< Mask for 1-bit integer */
+#define OWN_2_BIT_MASK         3U                              /**< Mask for 2-bit integer */
+#define OWN_3_BIT_MASK         7U                              /**< Mask for 3-bit integer */
+#define OWN_4_BIT_MASK         0xFU                            /**< Mask for 4-bit integer */
+#define OWN_5_BIT_MASK         0x1FU                           /**< Mask for 5-bit integer */
+#define OWN_6_BIT_MASK         0x3FU                           /**< Mask for 6-bit integer */
+#define OWN_7_BIT_MASK         0x7FU                           /**< Mask for 7-bit integer */
+#define OWN_HIGH_BIT_MASK      0x80U                           /**< Mask for most significant bit in a byte */
+#define OWN_LOW_BIT_MASK       1U                              /**< Mask for least significant bit in a byte */
+#define OWN_BYTE_WIDTH         8U                              /**< Byte width in bits */
+#define OWN_WORD_WIDTH         16U                             /**< Word width in bits */
+#define OWN_3_BYTE_WIDTH       24U                             /**< 3-byte width in bits */
+#define OWN_DWORD_WIDTH        32U                             /**< Dword width in bits */
+#define OWN_6_BYTE_WIDTH       48U                             /**< 6-byte width in bits */
+#define OWN_7_BYTE_WIDTH       56U                             /**< 7-byte width in bits */
+#define OWN_QWORD_WIDTH        64U                             /**< Qword width in bits */
+#define OWN_BIT_MASK(x)        ((QPL_ONE_64U << (x)) - 1U)     /**< Bit mask below bit position */
+#define OWN_PARQUET_WIDTH      8U                              /**< Parquet size in elements (PRLE format) */
+#define OWN_LITERAL_OCTA_GROUP 1U                              /**< PRLE format description */
+#define OWN_VARINT_BYTE_1(x)   (((x) & OWN_7_BIT_MASK) << 6U)  /**< 1st byte extraction for varint format */
+#define OWN_VARINT_BYTE_2(x)   (((x) & OWN_7_BIT_MASK) << 13U) /**< 2nd byte extraction for varint format */
+#define OWN_VARINT_BYTE_3(x)   (((x) & OWN_7_BIT_MASK) << 20U) /**< 3rd byte extraction for varint format */
+#define OWN_VARINT_BYTE_4(x)   (((x) & OWN_5_BIT_MASK) << 27U) /**< 4th byte extraction for varint format */
+#define OWN_PRLE_COUNT(x)      (((x) & OWN_7_BIT_MASK) >> 1U)  /**< PRLE count field extraction */
+#define OWN_MAX(a, b)          (((a) > (b)) ? (a) : (b))       /**< Maximum from 2 values */
+#define OWN_MIN(a, b)          (((a) < (b)) ? (a) : (b))       /**< Minimum from 2 values */
 #ifndef UNREFERENCED_PARAMETER
 #ifdef __GNUC__
 #define UNREFERENCED_PARAMETER(p) p __attribute__((unused)) /**< Unreferenced parameter - warning removal */

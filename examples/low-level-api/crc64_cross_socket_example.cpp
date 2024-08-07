@@ -173,12 +173,17 @@ int get_diff_socket_numa_node_id(qpl_path_t execution_path, int* inv_socket, int
 
     // Print stats
     std::cout << "Total:\n";
-    std::cout << "\t" << "Socket(s):" << total_sockets << "\n";
-    std::cout << "\t" << "NUMA(s):" << total_nodes << "\n";
+    std::cout << "\t"
+              << "Socket(s):" << total_sockets << "\n";
+    std::cout << "\t"
+              << "NUMA(s):" << total_nodes << "\n";
     std::cout << "Current:\n";
-    std::cout << "\t" << "Core ID:" << cpu_id << "\n";
-    std::cout << "\t" << "Socket ID:" << socket_id << "\n";
-    std::cout << "\t" << "NUMA ID:" << numa_id << "\n";
+    std::cout << "\t"
+              << "Core ID:" << cpu_id << "\n";
+    std::cout << "\t"
+              << "Socket ID:" << socket_id << "\n";
+    std::cout << "\t"
+              << "NUMA ID:" << numa_id << "\n";
 
     // Calculate different NUMA node
     const int numa_per_socket = total_nodes / total_sockets;
@@ -243,8 +248,10 @@ auto main(int argc, char** argv) -> int {
     int numa_node  = -1;
     get_diff_socket_numa_node_id(execution_path, &inv_socket, &numa_node);
     std::cout << "Running on:\n";
-    std::cout << "\t" << "Socket ID:" << inv_socket << "\n";
-    std::cout << "\t" << "NUMA ID:" << numa_node << "\n\n";
+    std::cout << "\t"
+              << "Socket ID:" << inv_socket << "\n";
+    std::cout << "\t"
+              << "NUMA ID:" << numa_node << "\n\n";
     std::cout << "This example would be run using accelerator devices from NUMA node " << numa_node << "\n\n";
     job->numa_id = numa_node;
 

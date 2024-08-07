@@ -150,8 +150,8 @@ protected:
         auto status = run_job_api(job_ptr);
 
         if (status != expected_status /* Invalid block type*/) {
-            return testing::AssertionFailure()
-                   << " Library status: " << status << " VS " << " Expected status: " << expected_status << "\n";
+            return testing::AssertionFailure() << " Library status: " << status << " VS "
+                                               << " Expected status: " << expected_status << "\n";
         } else {
             return testing::AssertionSuccess();
         }

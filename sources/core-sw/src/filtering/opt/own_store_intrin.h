@@ -73,7 +73,7 @@ static inline void own_store_8u_LE_tail_kernel(uint8_t* dst_ptr, __mmask64 data,
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask)&0xFF;
+        dst &= (align_mask) & 0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;
@@ -98,7 +98,7 @@ static inline void own_store_16u_LE_tail_kernel(uint8_t* dst_ptr, __mmask32 data
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask)&0xFF;
+        dst &= (align_mask) & 0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;
@@ -124,7 +124,7 @@ static inline void own_store_32u_LE_tail_kernel(uint8_t* dst_ptr, __mmask16 data
 
     for (int i = 0; i < dst_align + length; i += 8) {
         uint8_t dst = *(dst_ptr + i / 8);
-        dst &= (align_mask)&0xFF;
+        dst &= (align_mask) & 0xFF;
         dst |= ((data << dst_align) & data_mask) & 0xFF;
         *dst_ptr = dst & 0xFF;
         align_mask >>= 8;
