@@ -606,15 +606,20 @@ inflate_state<execution_path_t::hardware>::build_descriptor<inflate_mode_t::infl
     auto* header_aecs_ptr = reinterpret_cast<hw_iaa_aecs_analytic*>(buffer_ptr + HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
     hw_iaa_aecs_decompress_clean_input_accumulator(&header_aecs_ptr->inflate_options);
 
-    hw_iaa_aecs_decompress_state_set_aecs_format(&header_aecs_ptr->inflate_options, !is_gen1_hw_);
-
     if (0U != access_properties_.ignore_start_bits) {
         core_sw::util::set_zeros(reinterpret_cast<uint8_t*>(header_aecs_ptr), HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
         aecs_policy = static_cast<hw_iaa_aecs_access_policy>(hw_aecs_access_read | hw_aecs_toggle_rw);
 
         initialize_random_access(header_aecs_ptr, descriptor_, inflate_state_.next_in, inflate_state_.avail_in,
                                  access_properties_);
+
+        if (inflate_state_.avail_in == 1U) {
+            // If there is only one byte of data, input accumulator already accounted for ignoring end bits
+            access_properties_.ignore_end_bits = 0;
+        }
     }
+
+    hw_iaa_aecs_decompress_state_set_aecs_format(&header_aecs_ptr->inflate_options, !is_gen1_hw_);
 
     hw_iaa_descriptor_init_inflate_header(descriptor_, decompress_aecs_, access_properties_.ignore_end_bits,
                                           aecs_policy);

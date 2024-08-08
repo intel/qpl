@@ -147,6 +147,11 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job* qpl_job_ptr, uint32_t la
                 &aecs_ptr->inflate_options, desc_ptr->src1_ptr, qpl_job_ptr->available_in,
                 (uint8_t)qpl_job_ptr->ignore_start_bits, (uint8_t)qpl_job_ptr->ignore_end_bits);
 
+        if (qpl_job_ptr->available_in == 1U) {
+            // Input accumulator already accounted for ignore end bits if only 1 byte in input
+            decompression_flags &= ~ADDF_IGNORE_END_BITS(qpl_job_ptr->ignore_end_bits & OWN_MAX_BIT_IDX);
+        }
+
         HW_IMMEDIATELY_RET((status != QPL_STS_OK), QPL_STS_LIBRARY_INTERNAL_ERR);
 
         desc_ptr->src1_ptr  = ++qpl_job_ptr->next_in_ptr;
