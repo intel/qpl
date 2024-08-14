@@ -102,7 +102,6 @@ Checks: '
     misc-coroutine-hostile-raii,
     misc-definitions-in-headers,
     misc-header-include-cycle,
-    misc-include-cleaner,
     misc-misleading-bidirectional,
     misc-misleading-identifier,
     misc-new-delete-overloads,
