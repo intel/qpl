@@ -115,7 +115,6 @@ Checks: '
     misc-uniqueptr-reset-release,
     misc-unused-alias-decls,
     misc-unused-using-decls,
-    misc-use-anonymous-namespace,
     readability-avoid-nested-conditional-operator,
     readability-avoid-return-with-void-value,
     readability-avoid-unconditional-preprocessor-if,
