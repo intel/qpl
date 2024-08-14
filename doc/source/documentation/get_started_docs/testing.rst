@@ -9,6 +9,25 @@
 Library Testing
 ###############
 
+.. note::
+
+   For the latest information on the state of Intel® Query Processing Library (Intel® QPL) testing,
+   refer to the "Known Limitations" section in the `Release Notes <https://github.com/intel/qpl/releases>`__.
+
+.. attention::
+
+   Running library testing on the ``Hardware Path`` (or running Cross tests) requires first configuring
+   Intel® In-Memory Analytics Accelerator (Intel® IAA).
+   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
+
+   To test with the dataset provided in the Intel QPL repository under ``tools/testdata``,
+   user needs to configure the Intel IAA with a maximum transfer size of 2 GB.
+   This is done by setting the ``max_transfer_size`` parameter to 2147483648.
+   By default, the maximum transfer size is set to 2 MB or 2097152 bytes.
+
+   If it is not set correctly,
+   user may encounter an error code :c:macro:`QPL_STS_TRANSFER_SIZE_INVALID` returned by Intel QPL.
+
 Intel® Query Processing Library (Intel® QPL) is distributed with
 its own test system based on the GoogleTest framework. The tests
 are classified into:
@@ -16,12 +35,6 @@ are classified into:
 - Functional tests
 - Cross tests
 - Fuzz tests
-
-.. attention::
-
-   Running library testing on the hardware_path (or running Cross tests) requires first configuring
-   Intel® In-Memory Analytics Accelerator (Intel® IAA).
-   See :ref:`Accelerator Configuration <accelerator_configuration_reference_link>`.
 
 Functional Tests
 ****************
