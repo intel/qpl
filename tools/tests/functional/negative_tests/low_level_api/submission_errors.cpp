@@ -65,7 +65,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST(submission, work_queues_are_busy) {
     qpl_status status = qpl_get_job_size(execution_path, &size);
     ASSERT_EQ(status, QPL_STS_OK);
 
-    int job_index;
+    int job_index = 0;
     for (job_index = 0; job_index < number_of_jobs; job_index++) {
         job_buffer[job_index] = std::make_unique<uint8_t[]>(size);
         qpl_job* job          = reinterpret_cast<qpl_job*>(job_buffer[job_index].get());

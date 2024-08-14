@@ -41,7 +41,7 @@ int get_selected_bits(int input, size_t start, size_t end) {
  * Enumeration, January 2018.
 */
 int get_cpu_topology_from_apic(unsigned long* smt_id, unsigned long* core_id, unsigned long* pkg_id) {
-    unsigned int eax, ebx, ecx, edx, subleaf = 0;
+    unsigned int eax = 0U, ebx = 0U, ecx = 0U, edx = 0U, subleaf = 0U;
 
     // check that the topology info is available
     if (!__get_cpuid(0x1F, &eax, &ebx, &ecx, &edx)) return 1; // topology info is not available
@@ -153,7 +153,7 @@ int get_first_cpu_from_node(std::filesystem::path const& root, int node) {
     std::filesystem::path cpulist(std::move(node_path));
     cpulist.append("cpulist");
 
-    int min_cpu = -1, max_cpu;
+    int min_cpu = -1, max_cpu = 0;
 
     if (read_dashed_list(cpulist, &min_cpu, &max_cpu)) { return min_cpu; }
 
@@ -187,7 +187,7 @@ int32_t get_numa_id() noexcept {
  */
 uint64_t get_socket_id() noexcept {
 #if defined(__linux__)
-    unsigned long smt_id, core_id, pkg_id;
+    unsigned long smt_id = 0U, core_id = 0U, pkg_id = 0U;
 
     if (0 == get_cpu_topology_from_apic(&smt_id, &core_id, &pkg_id)) { return pkg_id; }
 #endif
