@@ -440,6 +440,23 @@ document.write(`
 <div></div></blockquote>
 <section id="library-testing">
 <span id="library-testing-reference-link"></span><h1>Library Testing<a class="headerlink" href="#library-testing" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For the latest information on the state of Intel® Query Processing Library (Intel® QPL) testing,
+refer to the “Known Limitations” section in the <a class="reference external" href="https://github.com/intel/qpl/releases">Release Notes</a>.</p>
+</div>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Running library testing on the <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> (or running Cross tests) requires first configuring
+Intel® In-Memory Analytics Accelerator (Intel® IAA).
+See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
+<p>To test with the dataset provided in the Intel QPL repository under <code class="docutils literal notranslate"><span class="pre">tools/testdata</span></code>,
+user needs to configure the Intel IAA with a maximum transfer size of 2 GB.
+This is done by setting the <code class="docutils literal notranslate"><span class="pre">max_transfer_size</span></code> parameter to 2147483648.
+By default, the maximum transfer size is set to 2 MB or 2097152 bytes.</p>
+<p>If it is not set correctly,
+user may encounter an error code <a class="reference internal" href="../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_TRANSFER_SIZE_INVALID" title="QPL_STS_TRANSFER_SIZE_INVALID"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_TRANSFER_SIZE_INVALID</span></code></a> returned by Intel QPL.</p>
+</div>
 <p>Intel® Query Processing Library (Intel® QPL) is distributed with
 its own test system based on the GoogleTest framework. The tests
 are classified into:</p>
@@ -448,12 +465,6 @@ are classified into:</p>
 <li><p>Cross tests</p></li>
 <li><p>Fuzz tests</p></li>
 </ul>
-<div class="admonition attention">
-<p class="admonition-title">Attention</p>
-<p>Running library testing on the hardware_path (or running Cross tests) requires first configuring
-Intel® In-Memory Analytics Accelerator (Intel® IAA).
-See <a class="reference internal" href="installation.html#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a>.</p>
-</div>
 <section id="functional-tests">
 <h2>Functional Tests<a class="headerlink" href="#functional-tests" title="Link to this heading">#</a></h2>
 <p>Functional tests provide functional validation of Intel QPL APIs. These tests are
