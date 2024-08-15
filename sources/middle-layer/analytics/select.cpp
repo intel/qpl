@@ -55,8 +55,9 @@ static inline auto select(input_stream_t& input_stream, input_stream_t& mask_str
         const auto elements_to_process = std::min(source_elements, mask_elements);
         const auto processed_elements  = select_impl(source_ptr, mask_ptr, output_buffer.data(), elements_to_process);
 
+        const uint32_t source_element_byte_size = (1 << index);
+        source_ptr += elements_to_process * source_element_byte_size;
         mask_ptr += elements_to_process;
-        source_ptr += util::bit_to_byte(elements_to_process * input_stream.bit_width());
 
         mask_elements -= elements_to_process;
         source_elements -= elements_to_process;
