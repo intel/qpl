@@ -220,6 +220,9 @@ QPL_FUN("C" qpl_status, qpl_check_job, (qpl_job * qpl_job_ptr)) {
 
     if (job::is_supported_on_hardware(qpl_job_ptr)) { status = hw_check_job(qpl_job_ptr); }
 
+    // Do not attempt host execution if the job is being processed
+    if (QPL_STS_BEING_PROCESSED == status) { return static_cast<qpl_status>(status); }
+
     // Use fallback to qpl_path_software in case if qpl_path_hardware returns an error.
     if (QPL_STS_OK != status && job::is_sw_fallback_supported(qpl_job_ptr, static_cast<qpl_status>(status))) {
         job::update_is_sw_fallback(qpl_job_ptr, true);
