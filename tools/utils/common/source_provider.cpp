@@ -336,7 +336,7 @@ auto generate_mask(uint32_t number_of_elements) -> std::vector<uint8_t> {
 }
 
 auto source_provider::get_counter_source_expand_rle(uint16_t prologue) -> std::vector<uint8_t> {
-    if (!(m_bit_width == 8U || m_bit_width == 16U || m_bit_width == 32U)) { throw std::exception(); }
+    if (m_bit_width != 8U && m_bit_width != 16U && m_bit_width != 32U) { throw std::exception(); }
 
     std::vector<uint8_t> result_source;
 

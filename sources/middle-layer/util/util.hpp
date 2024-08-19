@@ -40,13 +40,9 @@ static inline auto round_to_nearest_multiple(uint32_t number_to_round, uint32_t 
 
 template <class iterator_t>
 constexpr auto is_random_access_iterator_v() -> bool {
-    if constexpr ((!std::is_same<typename std::iterator_traits<iterator_t>::iterator_category,
+    return !static_cast<bool>((!std::is_same<typename std::iterator_traits<iterator_t>::iterator_category,
                                  std::random_access_iterator_tag>::value) ||
-                  (!std::is_same<typename std::iterator_traits<iterator_t>::value_type, uint8_t>::value)) {
-        return false;
-    } else {
-        return true;
-    }
+                  (!std::is_same<typename std::iterator_traits<iterator_t>::value_type, uint8_t>::value));
 }
 
 inline uint32_t bit_width_to_bits(const uint32_t value) noexcept {

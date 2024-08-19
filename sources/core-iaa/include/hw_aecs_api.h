@@ -371,7 +371,7 @@ static inline HW_PATH_IAA_AECS_API(void, compress_get_checksums,
 static inline HW_PATH_IAA_AECS_API(hw_iaa_aecs_compress*, compress_get_aecs_ptr,
                                    (hw_iaa_aecs_compress* const ccfg_base, const uint32_t aecs_index,
                                     const uint32_t aecs_size)) {
-    if (!(aecs_index == 0U || aecs_index == 1U) || (aecs_size > HW_AECS_COMPRESS_WITH_HT_AND_DICT)) { return NULL; }
+    if ((aecs_index != 0U && aecs_index != 1U) || (aecs_size > HW_AECS_COMPRESS_WITH_HT_AND_DICT)) { return NULL; }
 
     if (aecs_index == 0U) { return ccfg_base; }
 

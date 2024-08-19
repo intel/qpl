@@ -71,7 +71,7 @@ static inline qpl_status bad_arguments_check(const qpl_job* const job_ptr) {
     }
 
     // Check if force array output mod is available when the force array output flag is set
-    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && is_force_array_output_supported(job_ptr) == false) {
+    if ((job_ptr->flags & QPL_FLAG_FORCE_ARRAY_OUTPUT) && !is_force_array_output_supported(job_ptr)) {
         // If the force array output mod flag is set, return unsupported error
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
@@ -86,11 +86,11 @@ static inline qpl_status bad_arguments_check(const qpl_job* const job_ptr) {
     const bool source_bit_width_is_unknown =
             (qpl_p_parquet_rle == job_ptr->parser && (QPL_FLAG_DECOMPRESS_ENABLE & job_ptr->flags));
 
-    if (qpl_p_parquet_rle == job_ptr->parser && false == source_bit_width_is_unknown) {
+    if (qpl_p_parquet_rle == job_ptr->parser && !source_bit_width_is_unknown) {
         source_bit_width = static_cast<uint32_t>(job_ptr->next_in_ptr[0]);
     }
 
-    if (false == source_bit_width_is_unknown && (source_bit_width < 1U || source_bit_width > 32U)) {
+    if (!source_bit_width_is_unknown && (source_bit_width < 1U || source_bit_width > 32U)) {
         return QPL_STS_BIT_WIDTH_ERR;
     }
 

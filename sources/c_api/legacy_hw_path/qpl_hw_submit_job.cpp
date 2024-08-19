@@ -363,7 +363,7 @@ extern "C" qpl_status hw_submit_job(qpl_job* qpl_job_ptr) {
                 return QPL_STS_NOT_SUPPORTED_MODE_ERR;
             }
 
-            if (!(flags & QPL_FLAG_RND_ACCESS && !(flags & QPL_FLAG_NO_HDRS)) && !(flags & QPL_FLAG_CANNED_MODE)) {
+            if ((!(flags & QPL_FLAG_RND_ACCESS) || (flags & QPL_FLAG_NO_HDRS)) && (!(flags & QPL_FLAG_CANNED_MODE))) {
                 break; // Run legacy code
             }
 
