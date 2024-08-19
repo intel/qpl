@@ -134,10 +134,9 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*         
 
     // If statistic collection required
     if (flags & QPL_FLAG_DYNAMIC_HUFFMAN) {
-        HW_IMMEDIATELY_RET(
-                !(state_ptr->execution_history.execution_step == qpl_task_execution_step_header_inserting) &&
-                  !(flags & QPL_FLAG_NO_HDRS),
-                QPL_STS_LIBRARY_INTERNAL_ERR);
+        HW_IMMEDIATELY_RET(!(state_ptr->execution_history.execution_step == qpl_task_execution_step_header_inserting) &&
+                                   !(flags & QPL_FLAG_NO_HDRS),
+                           QPL_STS_LIBRARY_INTERNAL_ERR);
 
         // TODO: enable Huffman only header gen
         is_hw_header_gen_supported = (flags & QPL_FLAG_NO_HDRS) ? 0U : is_hw_header_gen_supported;

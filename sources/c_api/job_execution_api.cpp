@@ -33,8 +33,6 @@
 // dispatchers
 #include "dispatcher/hw_dispatcher.hpp"
 
-//#define KEEP_DESCRIPTOR_ENABLED
-
 static inline qpl_status sw_execute_job(qpl_job* const qpl_job_ptr) {
     using namespace qpl;
 
@@ -147,16 +145,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
 
         // Execute job on HW path
         if (!state_ptr->is_sw_fallback) {
-#if defined(KEEP_DESCRIPTOR_ENABLED)
-            if (state_ptr->descriptor_not_submitted) {
-                status = hw_enqueue_descriptor(&state_ptr->desc_ptr, qpl_job_ptr->numa_id);
-
-                if (status == QPL_STS_OK) { state_ptr->descriptor_not_submitted = false; }
-
-                return static_cast<qpl_status>(status);
-            }
-#endif
-
             // check that HW is available
             static auto& dispatcher = ml::dispatcher::hw_dispatcher::get_instance();
             if (!dispatcher.is_hw_support()) {
@@ -168,12 +156,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
                 status = hw_submit_job(qpl_job_ptr);
 
                 if (status == QPL_STS_OK) { state_ptr->job_is_submitted = true; }
-
-#if defined(KEEP_DESCRIPTOR_ENABLED)
-                if (status == QPL_STS_QUEUES_ARE_BUSY_ERR && qpl_path_hardware == path) {
-                    state_ptr->descriptor_not_submitted = true;
-                }
-#endif
             }
 
             /**
