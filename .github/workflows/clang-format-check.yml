@@ -13,9 +13,16 @@ on:
   pull_request:
     branches: [ "*" ]
 
+permissions: "read-all"
+
 jobs:
   clang-format-check:
     runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'service' }}
+    # Grant status permission for MULTI_STATUS
+    permissions:
+      contents: "read"
+      packages: "read"
+      statuses: "write"
     steps:
       - name: "Checkout Code"
         uses: "actions/checkout@v4"
