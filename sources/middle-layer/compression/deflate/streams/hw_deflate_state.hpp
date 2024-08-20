@@ -130,11 +130,11 @@ inline auto deflate_state<execution_path_t::hardware>::is_last_chunk() const noe
 }
 
 inline auto deflate_state<execution_path_t::hardware>::next_out() const noexcept -> uint8_t* {
-    return ((hw_iaa_analytics_descriptor*)compress_descriptor_)->dst_ptr;
+    return ((hw_decompress_analytics_descriptor*)compress_descriptor_)->dst_ptr;
 }
 
 inline auto deflate_state<execution_path_t::hardware>::avail_out() const noexcept -> uint32_t {
-    return ((hw_iaa_analytics_descriptor*)compress_descriptor_)->max_dst_size;
+    return ((hw_decompress_analytics_descriptor*)compress_descriptor_)->max_dst_size;
 }
 
 inline void deflate_state<execution_path_t::hardware>::set_output_prologue(uint32_t size) noexcept {

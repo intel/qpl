@@ -18,6 +18,7 @@
 #include "hardware_defs.h"
 #include "hardware_state.h"
 #include "hw_aecs_api.h"
+#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 #include "own_checkers.h"
 #include "own_ml_submit_operation_api.hpp"
@@ -34,10 +35,10 @@ static inline qpl_comp_style own_get_compression_style(const qpl_job* const job_
     }
 }
 
-extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*                           qpl_job_ptr,
-                                                               hw_iaa_analytics_descriptor* const descriptor_ptr,
-                                                               hw_completion_record* const        completion_record_ptr,
-                                                               qpl_hw_state* const                state_ptr) {
+extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*                                  qpl_job_ptr,
+                                                               hw_decompress_analytics_descriptor* const descriptor_ptr,
+                                                               hw_completion_record* const completion_record_ptr,
+                                                               qpl_hw_state* const         state_ptr) {
     using namespace qpl::ml::compression;
 
     auto                  huffman_table_ptr = qpl_job_ptr->huffman_table;
@@ -347,7 +348,7 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*         
     }
 }
 
-extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analytics_descriptor* desc_ptr,
+extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_decompress_analytics_descriptor* desc_ptr,
                                                                   qpl_hw_state* state_ptr, qpl_job* qpl_job_ptr,
                                                                   hw_iaa_aecs_compress*     cfg_in_ptr,
                                                                   hw_iaa_completion_record* comp_ptr) {
@@ -430,12 +431,12 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_iaa_analyti
 extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job* const job_ptr) {
     using namespace qpl::ml::compression;
 
-    qpl_hw_state* const                state_ptr      = (qpl_hw_state*)job_ptr->data_ptr.hw_state_ptr;
-    hw_iaa_analytics_descriptor* const descriptor_ptr = &state_ptr->desc_ptr;
-    const uint32_t                     flags          = job_ptr->flags;
-    const bool                         is_final_block = (flags & QPL_FLAG_LAST) != 0;
-    const bool                         is_first_block = (flags & QPL_FLAG_FIRST) != 0;
-    qpl_dictionary*                    dictionary     = job_ptr->dictionary;
+    qpl_hw_state* const                       state_ptr      = (qpl_hw_state*)job_ptr->data_ptr.hw_state_ptr;
+    hw_decompress_analytics_descriptor* const descriptor_ptr = &state_ptr->desc_ptr;
+    const uint32_t                            flags          = job_ptr->flags;
+    const bool                                is_final_block = (flags & QPL_FLAG_LAST) != 0;
+    const bool                                is_first_block = (flags & QPL_FLAG_FIRST) != 0;
+    qpl_dictionary*                           dictionary     = job_ptr->dictionary;
 
     // Check if dictionary compression is supported in hardware
     bool is_hw_dict_compress_supported = false;

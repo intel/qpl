@@ -34,6 +34,7 @@
 // core-iaa
 #include "hardware_defs.h"
 #include "hw_aecs_api.h"
+#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 #include "own_defs.h"
 
@@ -51,8 +52,8 @@ extern "C" qpl_status hw_submit_decompress_job(qpl_job* qpl_job_ptr, uint32_t la
     using namespace qpl::ml::compression;
     auto* const state_ptr = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
 
-    hw_iaa_analytics_descriptor* const desc_ptr = &state_ptr->desc_ptr;
-    hw_iaa_aecs_analytic*              aecs_ptr = GET_DCFG(state_ptr);
+    hw_decompress_analytics_descriptor* const desc_ptr = &state_ptr->desc_ptr;
+    hw_iaa_aecs_analytic*                     aecs_ptr = GET_DCFG(state_ptr);
 
     if (IS_RND_ACCESS_HDR(qpl_job_ptr->flags)) {
         aecs_ptr = (hw_iaa_aecs_analytic*)((uint8_t*)(state_ptr->dcfg) + HW_AECS_FILTER_AND_DECOMPRESS_WA_HB);
@@ -206,8 +207,8 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job* qpl_job_ptr) {
     using namespace qpl::ml::util;
     auto* const state_ptr = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
 
-    hw_iaa_analytics_descriptor* desc_ptr = &state_ptr->desc_ptr;
-    hw_iaa_completion_record*    comp_ptr = &state_ptr->comp_ptr;
+    hw_decompress_analytics_descriptor* desc_ptr = &state_ptr->desc_ptr;
+    hw_iaa_completion_record*           comp_ptr = &state_ptr->comp_ptr;
 
     hw_iaa_aecs_decompress* aecs_inflate_ptr = &state_ptr->dcfg[state_ptr->verify_aecs_hw_read_offset].inflate_options;
     hw_iaa_aecs_compress*   aecs_deflate_ptr =

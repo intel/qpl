@@ -98,7 +98,7 @@ inline auto process_descriptor(hw_descriptor* const                         desc
 
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.processed_bytes_ =
-                    reinterpret_cast<hw_iaa_analytics_descriptor*>(descriptor_ptr)->src1_size;
+                    reinterpret_cast<hw_decompress_analytics_descriptor*>(descriptor_ptr)->src1_size;
         }
     } else {
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {

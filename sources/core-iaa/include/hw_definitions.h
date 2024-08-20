@@ -25,6 +25,7 @@
  * @{
  */
 
+#include <assert.h>
 #include <stdint.h>
 
 #include "hw_status.h"
@@ -102,25 +103,22 @@ extern "C" {
 #error Compiler not supported
 #endif
 
-/* ################# DESCRIPTOR  ################# */
-
-#define HW_PATH_DESCRIPTOR_SIZE (64U) /**< Hardware descriptor byte size */
+/* ################# HELPER STRUCTURES  ################# */
 
 /**
- * @brief Defines a common type of the hardware descriptor
+ * @brief List of possible statuses of a multidescriptor job
  */
-HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
-    uint8_t data[HW_PATH_DESCRIPTOR_SIZE]; /**< Allocated memory for an abstract descriptor */
-}
-hw_descriptor;
-HW_PATH_BYTE_PACKED_STRUCTURE_END
+typedef enum {
+    qpl_none_completed          = 0U, /**< No descriptor is completed in a multidescriptor job */
+    qpl_stats_collect_completed = 1U, /**< Statistics Collection is completed */
+} hw_multidescriptor_status;
 
 /* ################# COMPLETION RECORD  ################# */
 
 #define HW_PATH_COMPLETION_RECORD_SIZE (64U) /**< Hardware completion record byte size */
 
 /**
- * @brief Defines an abstract type of the Hardware completion record
+ * @brief Defines an abstract type of the Hardware completion record.
  */
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint8_t status;                                     /**< Completion status field */
@@ -130,9 +128,27 @@ HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
 hw_completion_record;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 
+/// \cond Check that completion record has a correct size.
+static_assert(sizeof(hw_completion_record) == HW_PATH_COMPLETION_RECORD_SIZE, "Completion record size is not correct");
+/// \endcond
+
+/* ################# DESCRIPTOR  ################# */
+
+#define HW_PATH_DESCRIPTOR_SIZE (64U) /**< Hardware descriptor byte size */
+
 /**
- * @todo hide details
+ * @brief Defines a simplified representation of the Hardware descriptor.
  */
+HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
+    uint8_t data[HW_PATH_DESCRIPTOR_SIZE]; /**< Allocated memory for an abstract descriptor */
+}
+hw_descriptor;
+HW_PATH_BYTE_PACKED_STRUCTURE_END
+
+/**
+ * @brief Defines more explicit representation of the Hardware descriptor, suitable for Filter operations,
+ * CRC64 and Decompress.
+*/
 HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint32_t trusted_fields;   /**< 19:0 PASID - process address space ID; 30:20 - reserved; 31 - User/Supervisor */
     uint32_t op_code_op_flags; /**< Opcode 31:24, opflags 23:0 */
@@ -141,23 +157,42 @@ HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
     uint8_t* dst_ptr;               /**< Destination address */
     uint32_t src1_size;             /**< Source 1 transfer size */
     uint16_t comp_int_handle;       /**< Not used (completion interrupt handle) */
-    uint16_t decomp_flags;          /**< (De)compression flags */
+    uint16_t decomp_flags;          /**< Decompression flags */
     uint8_t* src2_ptr;              /**< Source 2 address | AECS address (32-bit aligned) */
     uint32_t max_dst_size;          /**< Maximum destination size */
     uint32_t src2_size;             /**< Source 2 transfer size | AECS size (multiple of 32-bytes, LE 288 bytes) */
     uint32_t filter_flags;          /**< Crc64 poly | filter flags */
     uint32_t num_input_elements;    /**< Crc64 poly | number of input elements */
 }
-hw_iaa_analytics_descriptor;
+hw_decompress_analytics_descriptor;
 HW_PATH_BYTE_PACKED_STRUCTURE_END
 
 /**
- * @brief List of possible statuses of a multidescriptor job
- */
-typedef enum {
-    qpl_none_completed          = 0U, /**< No descriptor is completed in a multidescriptor job */
-    qpl_stats_collect_completed = 1U, /**< Statistics Collection is completed */
-} hw_multidescriptor_status;
+ * @brief Defines more explicit representation of the Hardware descriptor, suitable for Compression operation.
+*/
+HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
+    uint32_t trusted_fields;        /**< @todo */
+    uint32_t op_code_op_flags;      /**< Opcode 31:24, operation flags 23:0 */
+    uint8_t* completion_record_ptr; /**< Completion record address */
+    uint8_t* source_ptr;            /**< Source address */
+    uint8_t* destination_ptr;       /**< Destination address */
+    uint32_t source_size;           /**< Source transfer size */
+    uint16_t interrupt_handle;      /**< Not used (completion interrupt handle) */
+    uint16_t compression_flags;     /**< Compression flags */
+    uint8_t* aecs_ptr;              /**< AECS address (32-bit aligned) */
+    uint32_t max_destination_size;  /**< Maximum destination size */
+    uint32_t aecs_size;             /**< AECS size (multiple of 32-bytes, LE 288 bytes) */
+    uint32_t compression_2_flags;   /**< Compression 2 flags */
+    uint8_t  reserved[4];           /**< Reserved bytes */
+}
+hw_compress_descriptor;
+HW_PATH_BYTE_PACKED_STRUCTURE_END
+
+/// \cond Check that descriptor has a correct size.
+static_assert(sizeof(hw_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "Descriptor size is not correct");
+static_assert(sizeof(hw_decompress_analytics_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "Descriptor size is not correct");
+static_assert(sizeof(hw_compress_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "Descriptor size is not correct");
+/// \endcond
 
 #ifdef __cplusplus
 }

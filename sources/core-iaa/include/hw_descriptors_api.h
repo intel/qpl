@@ -493,7 +493,7 @@ static inline HW_PATH_IAA_API(void, descriptor_inflate_set_flush, (hw_descriptor
  */
 static inline HW_PATH_IAA_API(void, descriptor_set_input_buffer,
                               (hw_descriptor* const descriptor_ptr, uint8_t* const buffer_ptr, const uint32_t size)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     this_ptr->src1_ptr  = buffer_ptr;
     this_ptr->src1_size = size;
@@ -504,7 +504,7 @@ static inline HW_PATH_IAA_API(void, descriptor_set_input_buffer,
  */
 static inline HW_PATH_IAA_API(void, descriptor_shift_input_buffer,
                               (hw_descriptor* const descriptor_ptr, uint32_t shift)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     this_ptr->src1_ptr += shift;
     this_ptr->src1_size -= shift;
@@ -515,7 +515,7 @@ static inline HW_PATH_IAA_API(void, descriptor_shift_input_buffer,
  */
 static inline HW_PATH_IAA_API(void, descriptor_set_number_of_elements,
                               (hw_descriptor* const descriptor_ptr, uint32_t number_of_elements)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     this_ptr->num_input_elements = number_of_elements;
 }
@@ -525,7 +525,7 @@ static inline HW_PATH_IAA_API(void, descriptor_set_number_of_elements,
  */
 static inline HW_PATH_IAA_API(void, descriptor_set_output_buffer,
                               (hw_descriptor* const descriptor_ptr, uint8_t* const buffer_ptr, const uint32_t size)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     this_ptr->dst_ptr      = buffer_ptr;
     this_ptr->max_dst_size = size;
@@ -536,7 +536,7 @@ static inline HW_PATH_IAA_API(void, descriptor_set_output_buffer,
 */
 static inline HW_PATH_IAA_API(void, descriptor_shift_output_buffer,
                               (hw_descriptor* const descriptor_ptr, uint32_t shift)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     this_ptr->dst_ptr += shift;
     this_ptr->max_dst_size -= shift;
@@ -577,7 +577,7 @@ static inline HW_PATH_IAA_API(void, descriptor_hint_cpu_cache_as_destination,
     const uint32_t CACHE_CONTROL_FLAG_BYTE_OFFSET = 5U;
 
     // Cache control is a reserved field for CRC64, so set the flag to false to clear this field
-    if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_iaa_analytics_descriptor*)descriptor_ptr)->op_code_op_flags)) {
+    if (QPL_OPCODE_CRC64 == ADOF_GET_OPCODE(((hw_decompress_analytics_descriptor*)descriptor_ptr)->op_code_op_flags)) {
         flag = false;
     }
 
@@ -622,7 +622,7 @@ HW_PATH_IAA_API(uint32_t, descriptor_get_source1_bit_width, (const hw_descriptor
 */
 static inline HW_PATH_IAA_API(void, descriptor_get_output_buffer,
                               (hw_descriptor* const descriptor_ptr, uint8_t** const buffer_ptr, uint32_t* const size)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     *buffer_ptr = this_ptr->dst_ptr;
     *size       = this_ptr->max_dst_size;
@@ -632,7 +632,7 @@ static inline HW_PATH_IAA_API(void, descriptor_get_output_buffer,
  * @todo API will be described after refactoring completed
  */
 static inline HW_PATH_IAA_API(uint32_t, descriptor_get_number_of_elements, (hw_descriptor* const descriptor_ptr)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     return this_ptr->num_input_elements;
 }
@@ -644,7 +644,7 @@ static inline HW_PATH_IAA_API(uint32_t, descriptor_get_number_of_elements, (hw_d
  * @return operation field from descriptor
  */
 static inline HW_PATH_IAA_API(uint8_t, descriptor_get_operation, (hw_descriptor* const descriptor_ptr)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     const uint8_t OP_CODE_BIT_OFFSET = 24;
     return (uint8_t)(this_ptr->op_code_op_flags >> OP_CODE_BIT_OFFSET);
@@ -655,7 +655,7 @@ static inline HW_PATH_IAA_API(uint8_t, descriptor_get_operation, (hw_descriptor*
  */
 static inline HW_PATH_IAA_API(void, descriptor_get_input_buffer,
                               (hw_descriptor* const descriptor_ptr, uint8_t** const buffer_ptr, uint32_t* const size)) {
-    hw_iaa_analytics_descriptor* const this_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    hw_decompress_analytics_descriptor* const this_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
 
     *buffer_ptr = this_ptr->src1_ptr;
     *size       = this_ptr->src1_size;

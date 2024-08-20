@@ -60,24 +60,24 @@ typedef struct {
  * @note Structure is aligned to 64-bytes, put things that need alignment first
  */
 typedef struct {
-    hw_iaa_analytics_descriptor desc_ptr; /**< @todo */
-    hw_iaa_completion_record    comp_ptr; /**< @todo */
-    hw_iaa_aecs_analytic        dcfg[2];  /**< @todo */
-    hw_iaa_aecs_compress        ccfg[2];  /**< @todo */
-    qpl_buffer                  accumulation_buffer;
-    qpl_execution_history       execution_history;
-    uint32_t                    config_valid;        /**< @todo */
-    uint32_t                    aecs_hw_read_offset; /**< AECS read offset for deflate AECS */
-    uint32_t                    aecs_size;           /**< @todo */
-    hw_huffman_code             eob_code;
-    uint32_t                    saved_num_output_accum_bits; /**< @todo */
-    hw_accelerator_context      accel_context;
-    uint32_t                    descriptor_not_submitted;
-    bool                        job_is_submitted;
-    uint32_t                    verify_aecs_hw_read_offset; /**< AECS read offset for verify AECS */
-    bool                        is_page_fault_processed;    /**< Flag to limit resubmissions due to Page Fault to 1 */
-    bool                        is_sw_fallback;             /**< Fallback to the SW path when Auto path is used */
-    hw_multidescriptor_status   multi_desc_status;          /**< Steps to be skipped in resubmitted jobs in case of
+    hw_decompress_analytics_descriptor desc_ptr; /**< @todo */
+    hw_iaa_completion_record           comp_ptr; /**< @todo */
+    hw_iaa_aecs_analytic               dcfg[2];  /**< @todo */
+    hw_iaa_aecs_compress               ccfg[2];  /**< @todo */
+    qpl_buffer                         accumulation_buffer;
+    qpl_execution_history              execution_history;
+    uint32_t                           config_valid;        /**< @todo */
+    uint32_t                           aecs_hw_read_offset; /**< AECS read offset for deflate AECS */
+    uint32_t                           aecs_size;           /**< @todo */
+    hw_huffman_code                    eob_code;
+    uint32_t                           saved_num_output_accum_bits; /**< @todo */
+    hw_accelerator_context             accel_context;
+    uint32_t                           descriptor_not_submitted;
+    bool                               job_is_submitted;
+    uint32_t                           verify_aecs_hw_read_offset; /**< AECS read offset for verify AECS */
+    bool                      is_page_fault_processed; /**< Flag to limit resubmissions due to Page Fault to 1 */
+    bool                      is_sw_fallback;          /**< Fallback to the SW path when Auto path is used */
+    hw_multidescriptor_status multi_desc_status;       /**< Steps to be skipped in resubmitted jobs in case of
                                                                                 QPL_STS_QUEUES_ARE_BUSY_ERR */
 } qpl_hw_state;
 

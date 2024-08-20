@@ -7,37 +7,15 @@
 #include <assert.h>
 
 #include "hw_aecs_api.h"
+#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 #include "own_hw_definitions.h"
 #include "simple_memory_ops_c_bind.h"
 
-HW_PATH_BYTE_PACKED_STRUCTURE_BEGIN {
-    uint32_t trusted_fields;        /**< @todo */
-    uint32_t op_code_op_flags;      /**< Opcode 31:24, operation flags 23:0 */
-    uint8_t* completion_record_ptr; /**< Completion record address */
-    uint8_t* source_ptr;            /**< Source address */
-    uint8_t* destination_ptr;       /**< Destination address */
-    uint32_t source_size;           /**< Source transfer size */
-    uint16_t interrupt_handle;      /**< Not used (completion interrupt handle) */
-    uint16_t compression_flags;     /**< Compression flags */
-    uint8_t* aecs_ptr;              /**< AECS address (32-bit aligned) */
-    uint32_t max_destination_size;  /**< Maximum destination size */
-    uint32_t aecs_size;             /**< AECS size (multiple of 32-bytes, LE 288 bytes) */
-    uint32_t compression_2_flags;   /**< Compression 2 flags */
-    uint8_t  reserved[4];           /**< Reserved bytes */
-}
-own_hw_compress_descriptor;
-HW_PATH_BYTE_PACKED_STRUCTURE_END
-
-/*
- * Check that descriptor has a correct size
- */
-static_assert(sizeof(own_hw_compress_descriptor) == HW_PATH_DESCRIPTOR_SIZE, "Descriptor size is not correct");
-
 HW_PATH_IAA_API(void, descriptor_init_statistic_collector,
                 (hw_descriptor* const descriptor_ptr, const uint8_t* const source_ptr, const uint32_t source_size,
                  hw_iaa_histogram* const histogram_ptr)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     this_ptr->source_ptr           = (uint8_t*)source_ptr;
     this_ptr->source_size          = source_size;
@@ -69,7 +47,7 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector_with_header_gen,
                 (hw_descriptor* const descriptor_ptr, const uint8_t* const source_ptr, const uint32_t source_size,
                  hw_iaa_aecs* const aecs_ptr, const uint8_t aecs_index, const uint32_t b_final,
                  const uint32_t b_first)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     this_ptr->source_ptr  = (uint8_t*)source_ptr;
     this_ptr->source_size = source_size;
@@ -120,7 +98,7 @@ HW_PATH_IAA_API(void, descriptor_init_statistic_collector_with_header_gen,
 HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen,
                 (hw_descriptor* const descriptor_ptr, hw_iaa_aecs* const aecs_ptr, const uint8_t aecs_index,
                  const uint32_t b_final, const uint32_t b_first)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     if (b_first && b_final) {
         // If there is only one job, source 2 will not be used as AECS
@@ -155,7 +133,7 @@ HW_PATH_IAA_API(void, descriptor_set_1_pass_header_gen,
 HW_PATH_IAA_API(void, descriptor_compress_set_dictionary_mode,
                 (hw_descriptor* const descriptor_ptr, uint32_t load_dictionary_value,
                  uint32_t dictionary_size_in_aecs)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     // Set Load dictionary flag, src2 read, src2 read size
     this_ptr->compression_flags |= ADCF_LOAD_DICT(load_dictionary_value);
@@ -179,7 +157,7 @@ HW_PATH_IAA_API(void, descriptor_compress_setup_dictionary,
 }
 
 HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor* const descriptor_ptr)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     this_ptr->trusted_fields    = 0U;
     this_ptr->op_code_op_flags  = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
@@ -191,7 +169,7 @@ HW_PATH_IAA_API(void, descriptor_init_compress_body, (hw_descriptor* const descr
 HW_PATH_IAA_API(void, descriptor_init_deflate_body,
                 (hw_descriptor* const descriptor_ptr, uint8_t* const source_ptr, const uint32_t source_size,
                  uint8_t* const destination_ptr, const uint32_t destination_size)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     this_ptr->trusted_fields    = 0U;
     this_ptr->op_code_op_flags  = ADOF_OPCODE(QPL_OPCODE_COMPRESS);
@@ -208,7 +186,7 @@ HW_PATH_IAA_API(void, descriptor_init_deflate_body,
 HW_PATH_IAA_API(void, descriptor_compress_set_aecs,
                 (hw_descriptor* const descriptor_ptr, hw_iaa_aecs* const aecs_ptr,
                  const hw_iaa_aecs_access_policy access_policy, bool is_gen1)) {
-    own_hw_compress_descriptor* const this_ptr = (own_hw_compress_descriptor*)descriptor_ptr;
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
 
     uint32_t read_flag  = (access_policy & hw_aecs_access_read) ? ADOF_READ_SRC2(AD_RDSRC2_AECS) : 0;
     uint32_t write_flag = (access_policy & hw_aecs_access_write) ? ADOF_WRITE_SRC2(AD_WRSRC2_ALWAYS) : 0U;

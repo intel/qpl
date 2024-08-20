@@ -16,6 +16,7 @@
 #include "compression/stream_decorators/zlib_decorator.hpp"
 #include "hardware_defs.h"
 #include "hardware_state.h"
+#include "hw_definitions.h"
 #include "hw_iaa_flags.h"
 #include "job.hpp"
 #include "own_defs.h"
@@ -83,10 +84,10 @@ qpl_status set_state_to_complete_and_wrap(qpl_job* const job_ptr, qpl_hw_state* 
 qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
     using namespace qpl;
 
-    auto* const                        state_ptr      = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
-    hw_iaa_analytics_descriptor* const desc_ptr       = &state_ptr->desc_ptr;
-    hw_iaa_completion_record* const    comp_ptr       = &state_ptr->comp_ptr;
-    const bool                         is_final_block = QPL_FLAG_LAST & qpl_job_ptr->flags;
+    auto* const                               state_ptr = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
+    hw_decompress_analytics_descriptor* const desc_ptr  = &state_ptr->desc_ptr;
+    hw_iaa_completion_record* const           comp_ptr  = &state_ptr->comp_ptr;
+    const bool                                is_final_block = QPL_FLAG_LAST & qpl_job_ptr->flags;
 
     hw_iaa_aecs_compress* const cfg_in_ptr =
             hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset, state_ptr->aecs_size);

@@ -28,6 +28,7 @@
 
 // Hardware Core
 #include "hardware_state.h"
+#include "hw_definitions.h"
 #include "hw_descriptors_api.h"
 
 // Legacy
@@ -396,7 +397,7 @@ extern "C" qpl_status hw_submit_job(qpl_job* qpl_job_ptr) {
 
     // This is the first job
     if (flags & QPL_FLAG_FIRST) {
-        hw_iaa_analytics_descriptor* desc_ptr = &state_ptr->desc_ptr;
+        hw_decompress_analytics_descriptor* desc_ptr = &state_ptr->desc_ptr;
 
         job::reset<qpl_op_decompress>(qpl_job_ptr);
         own_hw_state_reset(state_ptr);
@@ -468,7 +469,7 @@ extern "C" qpl_status hw_descriptor_decompress_init_inflate_body(hw_descriptor* 
                                                                  const uint8_t ignore_start_bit,
                                                                  const uint8_t ignore_end_bit, const uint32_t crc_seed,
                                                                  hw_iaa_aecs* const state_ptr) {
-    auto* const desc_ptr = (hw_iaa_analytics_descriptor*)descriptor_ptr;
+    auto* const desc_ptr = (hw_decompress_analytics_descriptor*)descriptor_ptr;
     auto* const aecs_ptr = (hw_iaa_aecs_analytic*)state_ptr;
 
     hw_iaa_aecs_decompress_set_crc_seed(aecs_ptr, crc_seed);

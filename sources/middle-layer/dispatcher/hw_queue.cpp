@@ -124,15 +124,15 @@ auto hw_queue::enqueue_descriptor(void* desc_ptr) const noexcept -> qpl_status {
 
         return static_cast<qpl_status>(retry);
     } else {
-        const ssize_t ret = write(fd_, desc_ptr, sizeof(hw_iaa_analytics_descriptor));
+        const ssize_t ret = write(fd_, desc_ptr, sizeof(hw_decompress_analytics_descriptor));
 
         // add with different verbosity level to not crowd output
         // DIAG(" write submitted\n");
 
-        if (ret == sizeof(hw_iaa_analytics_descriptor)) {
+        if (ret == sizeof(hw_decompress_analytics_descriptor)) {
             return QPL_STS_OK;
         } else {
-            DIAG(" write returned %ld, expected %ld\n", ret, sizeof(hw_iaa_analytics_descriptor));
+            DIAG(" write returned %ld, expected %ld\n", ret, sizeof(hw_decompress_analytics_descriptor));
             return QPL_STS_INIT_HW_NOT_SUPPORTED;
         }
     }
