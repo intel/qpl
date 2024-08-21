@@ -586,6 +586,15 @@ can not be used for the same build.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLOG_HW_INIT=[ON|OFF]</span></code> - Enables hardware initialization log (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DEFFICIENT_WAIT=[ON|OFF]</span></code> - Enables usage of efficient wait instructions (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>By default, Intel QPL uses a busy-wait loop with a pause instruction to check for operation completion when executing on Intel IAA.
+If this approach is not desired, the <code class="docutils literal notranslate"><span class="pre">-DEFFICIENT_WAIT=ON</span></code> option provides an alternative waiting mechanism.
+When enabled, it uses inline assembly to monitor a memory address and waits until a certain timeout is reached.
+This option is experimental and may not always provide better performance.</p>
+</div>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-DLIB_FUZZING_ENGINE=[ON|OFF]</span></code> - Enables fuzz testing (<code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_EXAMPLES=[OFF|ON]</span></code> - Enables building library examples (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default).
 For more information on existing examples, see <a class="reference internal" href="code_examples.html#code-examples-c-reference-link"><span class="std std-ref">Low-Level C API Examples</span></a>.</p></li>
