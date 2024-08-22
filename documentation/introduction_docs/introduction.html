@@ -422,12 +422,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-architecture-overview">Library Architecture Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-functionality-overview">Library Functionality Overview</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intel-in-memory-analytics-accelerator-intel-iaa">Intel® In-Memory Analytics Accelerator (Intel® IAA)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-features">Library Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intel-in-memory-analytics-accelerator-intel-iaa-overview">Intel® In-Memory Analytics Accelerator (Intel® IAA) Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functionality-overview">Functionality Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-overview">Architecture Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#devices-selection-and-numa-support">Devices Selection and NUMA Support</a></li>
@@ -436,8 +434,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-apis">Library APIs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apis">APIs</a></li>
 </ul>
             </nav>
         </div>
@@ -471,36 +469,25 @@ with:</p>
 <li><p>Faster time to market</p></li>
 <li><p>Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware</p></li>
 </ul>
-<section id="library-architecture-overview">
-<h2>Library Architecture Overview<a class="headerlink" href="#library-architecture-overview" title="Link to this heading">#</a></h2>
-<p>The diagram below includes both the architecture of Intel QPL and the external components that the library
-interacts with. The components in the diagram are numbered from 0 to 8, each with a short description.</p>
-<figure class="align-default" id="id1">
-<a class="reference internal image-reference" href="../../_images/qpl_arch_diagram.png"><img alt="../../_images/qpl_arch_diagram.png" src="../../_images/qpl_arch_diagram.png" style="width: 715.0px; height: 481.5px;" /></a>
-<figcaption>
-<p><span class="caption-text">Architecture Diagram of Intel QPL</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<ol class="arabic simple" start="0">
-<li><p>Users should use the accelerator utility tool (<code class="docutils literal notranslate"><span class="pre">accel-config</span></code>), which cooperates with Intel® Data Accelerator
-Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>), to pre-configure Intel IAA hardware.</p></li>
-<li><p>C Job API is compatible with C and C++.</p></li>
-<li><p>Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
-handle specific query processing cases, and returns appropriate status back to users.</p></li>
-<li><p>The CPU dispatcher detects what instruction sets are available in CPU.</p></li>
-<li><p>The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.</p></li>
-<li><p>Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.</p></li>
-<li><p>Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
-Intel QPL keeps its own copy of relevant source code from Intel ISA-L.</p></li>
-<li><p>Set of low-level descriptors and service functions for interaction with Intel IAA hardware
-using Intel® Accelerator Interfacing Architecture.</p></li>
-<li><p>The accelerator utility library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>), which is linked to Intel QPL, provides APIs for communicating
-with Intel IAA hardware.</p></li>
-<li><p>The Intel® Data Accelerator Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>) is a kernel driver that manages Intel IAA devices.</p></li>
-</ol>
+<section id="intel-in-memory-analytics-accelerator-intel-iaa-overview">
+<h2>Intel® In-Memory Analytics Accelerator (Intel® IAA) Overview<a class="headerlink" href="#intel-in-memory-analytics-accelerator-intel-iaa-overview" title="Link to this heading">#</a></h2>
+<p>The Intel QPL library uses Intel IAA hardware that provides compression and decompression of very high throughput combined with analytic primitive functions.
+The primitive functions are commonly used for data filtering during analytic query processing.</p>
+<p>The device supports formats such as Huffman encoding and Deflate.
+For the Deflate format, it supports indexing the compressed stream for efficient random access.</p>
+<p>Intel IAA is specifically designed for the following use cases:</p>
+<ul class="simple">
+<li><p>Big data applications and in-memory analytic databases.</p></li>
+<li><p>Application-transparent usages, such as memory page compression.</p></li>
+<li><p>Data integrity operations, such as CRC-64.</p></li>
+</ul>
+<p>For more detailed information about these use cases,
+refer to the <a class="reference external" href="https://www.intel.com/content/www/us/en/products/docs/accelerator-engines/in-memory-analytics-accelerator.html">Intel IAA page</a>.</p>
+<p>For the details on accelerator architecture,
+refer to the <a class="reference external" href="https://www.intel.com/content/www/us/en/content-details/721858/intel-in-memory-analytics-accelerator-architecture-specification.html">Intel IAA Architecture Specification</a>.</p>
 </section>
-<section id="library-functionality-overview">
-<h2>Library Functionality Overview<a class="headerlink" href="#library-functionality-overview" title="Link to this heading">#</a></h2>
+<section id="functionality-overview">
+<h2>Functionality Overview<a class="headerlink" href="#functionality-overview" title="Link to this heading">#</a></h2>
 <p>Intel® Query Processing Library (Intel® QPL) consists of two main
 functional blocks: analytics and compression.</p>
 <p>The analytics part contains two sub-blocks: Decompress and Filter.
@@ -561,25 +548,37 @@ of the uncompressed data (either the result of decompression, or the
 direct input to the filter function), the XOR checksum of this data, and
 several “aggregates” of the output data. The CRC, XOR checksum, and
 aggregates are written to the completion record.</p>
-<section id="intel-in-memory-analytics-accelerator-intel-iaa">
-<h3>Intel® In-Memory Analytics Accelerator (Intel® IAA)<a class="headerlink" href="#intel-in-memory-analytics-accelerator-intel-iaa" title="Link to this heading">#</a></h3>
-<p>The Intel QPL library uses Intel IAA hardware that provides
-compression and decompression of very high throughput combined
-with analytic primitive functions. The primitive functions are
-commonly used for data filtering during analytic query processing.</p>
-<p>Intel IAA primarily targets:</p>
-<ul class="simple">
-<li><p>Big data applications and in-memory analytic databases.</p></li>
-<li><p>Application-transparent usages such as memory page compression.</p></li>
-<li><p>Data integrity operations, e.g., CRC-64.</p></li>
-</ul>
-<p>Intel IAA supports Huffman encoding and
-Deflate. For the Deflate format, Intel IAA supports indexing of the
-compressed stream for efficient random access.</p>
 </section>
+<section id="architecture-overview">
+<h2>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading">#</a></h2>
+<p>The diagram below includes both the architecture of Intel QPL and the external components that the library
+interacts with. The components in the diagram are numbered from 0 to 9, each with a short description.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../_images/qpl_arch_diagram.png"><img alt="../../_images/qpl_arch_diagram.png" src="../../_images/qpl_arch_diagram.png" style="width: 715.0px; height: 481.5px;" /></a>
+<figcaption>
+<p><span class="caption-text">Architecture Diagram of Intel QPL</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="0">
+<li><p>Users should use the accelerator utility tool (<code class="docutils literal notranslate"><span class="pre">accel-config</span></code>), which cooperates with Intel® Data Accelerator
+Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>), to pre-configure Intel IAA hardware.</p></li>
+<li><p>C Job API is compatible with C and C++.</p></li>
+<li><p>Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
+handle specific query processing cases, and returns appropriate status back to users.</p></li>
+<li><p>The CPU dispatcher detects what instruction sets are available in CPU.</p></li>
+<li><p>The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.</p></li>
+<li><p>Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.</p></li>
+<li><p>Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
+Intel QPL keeps its own copy of relevant source code from Intel ISA-L.</p></li>
+<li><p>Set of low-level descriptors and service functions for interaction with Intel IAA hardware
+using Intel® Accelerator Interfacing Architecture.</p></li>
+<li><p>The accelerator utility library (<code class="docutils literal notranslate"><span class="pre">libaccel-config</span></code>), which is linked to Intel QPL, provides APIs for communicating
+with Intel IAA hardware.</p></li>
+<li><p>The Intel® Data Accelerator Driver (<code class="docutils literal notranslate"><span class="pre">idxd</span></code>) is a kernel driver that manages Intel IAA devices.</p></li>
+</ol>
 </section>
-<section id="library-features">
-<h2>Library Features<a class="headerlink" href="#library-features" title="Link to this heading">#</a></h2>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
 <section id="operations">
 <h3>Operations<a class="headerlink" href="#operations" title="Link to this heading">#</a></h3>
 <p>Intel QPL supports:</p>
@@ -697,8 +696,8 @@ work queue. This may result in errors when the work queue does not support the o
 would arise as work queues would allow all available operations.</p>
 </section>
 </section>
-<section id="library-limitations">
-<span id="library-limitations-reference-link"></span><h2>Library Limitations<a class="headerlink" href="#library-limitations" title="Link to this heading">#</a></h2>
+<section id="limitations">
+<span id="library-limitations-reference-link"></span><h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Library does not work with Dedicated Work Queues on the accelerator, but uses Shared Work Queues only.</p></li>
 <li><p>Library does not have APIs for the hardware path configuration.</p></li>
@@ -707,8 +706,8 @@ would arise as work queues would allow all available operations.</p>
 <li><p>Library is not developed for kernel mode usage. It is user level driver library.</p></li>
 </ul>
 </section>
-<section id="library-apis">
-<h2>Library APIs<a class="headerlink" href="#library-apis" title="Link to this heading">#</a></h2>
+<section id="apis">
+<h2>APIs<a class="headerlink" href="#apis" title="Link to this heading">#</a></h2>
 <p>Intel QPL provides Low-Level C API, that represents a state-based interface.
 The base idea is to allocate a single state and configure one with different ways
 to perform necessary operation. All memory allocations are happening on user side
@@ -762,12 +761,10 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-architecture-overview">Library Architecture Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-functionality-overview">Library Functionality Overview</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intel-in-memory-analytics-accelerator-intel-iaa">Intel® In-Memory Analytics Accelerator (Intel® IAA)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-features">Library Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intel-in-memory-analytics-accelerator-intel-iaa-overview">Intel® In-Memory Analytics Accelerator (Intel® IAA) Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functionality-overview">Functionality Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-overview">Architecture Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations">Operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-paths">Execution Paths</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#devices-selection-and-numa-support">Devices Selection and NUMA Support</a></li>
@@ -776,8 +773,8 @@ See <a class="reference internal" href="../dev_guide_docs/low_level_developer_gu
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#work-queue-support">Work Queue Support</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-limitations">Library Limitations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#library-apis">Library APIs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apis">APIs</a></li>
 </ul>
   </nav></div>
 
