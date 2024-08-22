@@ -225,7 +225,8 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
         qpl_job_ptr->available_out += header_size;
         qpl_job_ptr->total_out -= header_size;
     }
-    OWN_QPL_CHECK_STATUS(hw_status)
+
+    if (!state_ptr->descriptor_not_submitted) { OWN_QPL_CHECK_STATUS(hw_status) }
 
     // Fix for QPL_FLAG_HUFFMAN_BE in Intel® In-Memory Analytics Accelerator (Intel® IAA) generation 1.0.
     // The workaround: When writing to the AECS compress Huffman table, if using Intel® IAA generation 1.0 and the job is a LAST job,
@@ -256,31 +257,43 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
 
     // Resubmit deflate task for dynamic deflate (statistics generated in first pass)
     // or 2-pass header generation (Huffman table generated in first pass).
-    if (ADCF_STATS_MODE & desc_ptr->decomp_flags || hw_2_pass_header_gen) {
-        qpl_job_ptr->crc          = comp_ptr->crc;
-        qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
+    // or if deflate descriptor needs to be resubmitted due to QPL_STS_QUEUES_ARE_BUSY_ERR in previous submission
+    if (ADCF_STATS_MODE & desc_ptr->decomp_flags || hw_2_pass_header_gen ||
+        (state_ptr->multi_desc_status == qpl_stats_collect_completed && state_ptr->descriptor_not_submitted)) {
+        if (state_ptr->multi_desc_status == qpl_none_completed) {
+            qpl_job_ptr->crc          = comp_ptr->crc;
+            qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
 
-        qpl_status status =
-                hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
-        OWN_QPL_CHECK_STATUS(status)
+            qpl_status status =
+                    hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
+            OWN_QPL_CHECK_STATUS(status)
 
-        // Setup dictionary in compression descriptor
-        if (qpl_job_ptr->dictionary != nullptr) {
-            qpl_dictionary*      dictionary          = qpl_job_ptr->dictionary;
-            const uint32_t       dict_size_in_aecs   = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
-            const uint8_t* const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
-            const uint8_t        load_dictionary_val = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
+            // Setup dictionary in compression descriptor
+            if (qpl_job_ptr->dictionary != nullptr) {
+                qpl_dictionary*      dictionary        = qpl_job_ptr->dictionary;
+                const uint32_t       dict_size_in_aecs = qpl::ml::compression::get_dictionary_size_in_aecs(*dictionary);
+                const uint8_t* const dictionary_data_ptr = qpl::ml::compression::get_dictionary_data(*dictionary);
+                const uint8_t        load_dictionary_val = qpl::ml::compression::get_load_dictionary_flag(*dictionary);
 
-            hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor*)desc_ptr, dict_size_in_aecs,
-                                                        dictionary_data_ptr, dictionary->aecs_raw_dictionary_offset,
-                                                        state_ptr->ccfg, state_ptr->aecs_hw_read_offset,
-                                                        state_ptr->aecs_size, load_dictionary_val);
+                hw_iaa_descriptor_compress_setup_dictionary((hw_descriptor*)desc_ptr, dict_size_in_aecs,
+                                                            dictionary_data_ptr, dictionary->aecs_raw_dictionary_offset,
+                                                            state_ptr->ccfg, state_ptr->aecs_hw_read_offset,
+                                                            state_ptr->aecs_size, load_dictionary_val);
+            }
         }
 
-        status = ml::util::process_descriptor<qpl_status, ml::util::execution_mode_t::async>(
+        qpl_status status = ml::util::process_descriptor<qpl_status, ml::util::execution_mode_t::async>(
                 (hw_descriptor*)desc_ptr, (hw_completion_record*)&state_ptr->comp_ptr, qpl_job_ptr->numa_id);
 
-        HW_IMMEDIATELY_RET(0U != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
+        // if compression descriptor submission fails, skip statistics collection step in resubmitted job
+        if (0u != status) {
+            state_ptr->descriptor_not_submitted = true;
+            state_ptr->multi_desc_status        = qpl_stats_collect_completed;
+        } else {
+            state_ptr->descriptor_not_submitted = false;
+        }
+
+        HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 
         return QPL_STS_BEING_PROCESSED;
     }
@@ -332,7 +345,9 @@ extern "C" qpl_status hw_check_job(qpl_job* qpl_job_ptr) {
 
     if (!state_ptr->job_is_submitted) { return QPL_STS_JOB_NOT_SUBMITTED; }
 
-    if (AD_STATUS_INPROG == comp_ptr->status) { return QPL_STS_BEING_PROCESSED; }
+    if (AD_STATUS_INPROG == comp_ptr->status && (!state_ptr->descriptor_not_submitted)) {
+        return QPL_STS_BEING_PROCESSED;
+    }
 
     if (TRIVIAL_COMPLETE == comp_ptr->status) {
         job::update_input_stream(qpl_job_ptr, comp_ptr->bytes_completed);

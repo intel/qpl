@@ -29,7 +29,6 @@ namespace qpl::test {
 // resubmit their job. This will not make every single thread finish their job;
 // though it will allow more threads to complete work that can be tested.
 
-constexpr const uint32_t wait_time        = 10; // in milliseconds
 constexpr const uint32_t max_resubmit_cnt = 10;
 
 static uint32_t get_num_cores() {
@@ -66,16 +65,38 @@ int compress_test() {
     job->available_in  = source.size();
     job->available_out = static_cast<uint32_t>(compressed.size());
 
-    uint32_t resubmit_cnt = 0;
-    status                = qpl_execute_job(job);
-
     // If queues are busy, wait then resubmit before moving on
-    while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
+    uint32_t resubmit_cnt = 0;
+
+    bool is_sync = !util::TestEnvironment::GetInstance().IsAsynchronousApiTesting();
+    if (is_sync) {
         status = qpl_execute_job(job);
-        resubmit_cnt++;
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_execute_job(job);
+            resubmit_cnt++;
+        }
+        if (QPL_STS_OK != status) { return status; }
+    } else {
+        // Async API
+        status = qpl_submit_job(job);
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_submit_job(job);
+            resubmit_cnt++;
+        }
+        if (QPL_STS_OK != status) { return status; }
+
+        status       = qpl_wait_job(job);
+        resubmit_cnt = 0;
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_wait_job(job);
+            resubmit_cnt++;
+        }
+
+        if (QPL_STS_OK != status) { return status; }
     }
-    if (QPL_STS_OK != status) { return status; }
 
     const uint32_t compressed_size = job->total_out;
     compressed.resize(compressed_size);
@@ -88,14 +109,33 @@ int compress_test() {
     job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     resubmit_cnt = 0;
-    status       = qpl_execute_job(job);
 
-    while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(wait_time));
+    if (is_sync) {
         status = qpl_execute_job(job);
-        resubmit_cnt++;
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_execute_job(job);
+            resubmit_cnt++;
+        }
+        if (QPL_STS_OK != status) { return status; }
+    } else {
+        status = qpl_submit_job(job);
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_submit_job(job);
+            resubmit_cnt++;
+        }
+        if (QPL_STS_OK != status) { return status; }
+
+        status       = qpl_wait_job(job);
+        resubmit_cnt = 0;
+
+        while (status == QPL_STS_QUEUES_ARE_BUSY_ERR && resubmit_cnt < max_resubmit_cnt) {
+            status = qpl_wait_job(job);
+            resubmit_cnt++;
+        }
+        if (QPL_STS_OK != status) { return status; }
     }
-    if (QPL_STS_OK != status) { return status; }
 
     const uint32_t out_len = job->total_out;
 
@@ -127,8 +167,14 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
     }
 
     std::cout << "Number of threads spawned: " << num_threads << '\n';
+
+    uint32_t num_threads_with_queues_busy = 0;
+
     for (uint32_t i = 0; i < results.size(); i++) {
         auto ret = results[i].get();
+
+        if (ret == QPL_STS_QUEUES_ARE_BUSY_ERR) { num_threads_with_queues_busy++; }
+
         if (ret > QPL_STS_OK &&
             ret != QPL_STS_QUEUES_ARE_BUSY_ERR) { // QPL_STS_QUEUES_ARE_BUSY_ERR is expected when running with many cores
             test_passed = false;
@@ -141,6 +187,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(thread_stress_test, default_compression_decom
             std::cout << "Thread " << i << " compression and decompression resulted in data mismatch\n";
         }
     }
+    std::cout << "Number of threads that get QPL_STS_QUEUES_ARE_BUSY_ERR even after resubmission: "
+              << num_threads_with_queues_busy << '\n';
 
     ASSERT_EQ(test_passed, true);
 }
