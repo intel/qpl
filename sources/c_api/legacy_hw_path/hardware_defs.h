@@ -47,8 +47,8 @@ extern "C" {
 #define ADOF_WRITE_SRC2(x) (((x) & 3U) << 18U)    /**< @todo */
 #define ADOF_CRC32C        (1U << 21U)            /**< @todo */
 #define ADOF_AECS_SEL      (1U << 22U)            /**< @todo */
-#define ADOF_OPCODE(x)     (((x) & 0xFFu) << 24U) /**< @todo */
-#define ADOF_GET_OPCODE(x) (((x) >> 24U) & 0xFFu) /**< @todo */
+#define ADOF_OPCODE(x)     (((x) & 0xFFU) << 24U) /**< @todo */
+#define ADOF_GET_OPCODE(x) (((x) >> 24U) & 0xFFU) /**< @todo */
 
 // decompression flags
 #define ADDF_ENABLE_DECOMP  (1U << 0U) /**< @todo */

@@ -32,7 +32,7 @@ constexpr const uint32_t source_size = 2048U;
 // Deallocate dictionary
 uint8_t destroy_dictionary(qpl_dictionary** dictionary_ptr) {
     if (*dictionary_ptr != nullptr) {
-        free(*dictionary_ptr);
+        free(*dictionary_ptr); //NOLINT(cppcoreguidelines-no-malloc)
         *dictionary_ptr = nullptr;
     }
     return 0;
@@ -65,7 +65,7 @@ uint8_t create_dictionary(qpl_path_t execution_path, std::vector<uint8_t>& sourc
     dictionary_buffer_size = qpl_get_dictionary_size(sw_compr_level, hw_compr_level, raw_dict_size);
 
     // Allocate memory for the dictionary
-    *dictionary_ptr = (qpl_dictionary*)malloc(dictionary_buffer_size);
+    *dictionary_ptr = (qpl_dictionary*)malloc(dictionary_buffer_size); //NOLINT(cppcoreguidelines-no-malloc)
 
     if (*dictionary_ptr == nullptr) {
         std::cout << "Failed to allocate memory for the dictionary.\n";

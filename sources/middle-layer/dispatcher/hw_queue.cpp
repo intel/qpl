@@ -236,7 +236,7 @@ auto hw_queue::initialize_new_queue(void* wq_descriptor_ptr) noexcept -> hw_acce
         op_cfg_enabled_ = true;
     }
 
-#if 0
+#if 0 //NOLINT(readability-avoid-unconditional-preprocessor-if)
     DIAG("     %7s: size:        %d\n", work_queue_dev_name, accfg_wq_get_size(work_queue_ptr));
     DIAG("     %7s: threshold:   %d\n", work_queue_dev_name, accfg_wq_get_threshold(work_queue_ptr));
     DIAG("     %7s: priority:    %d\n", work_queue_dev_name, priority_);

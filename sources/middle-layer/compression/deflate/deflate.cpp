@@ -425,7 +425,7 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(
         hw_iaa_aecs_decompress_state_set_aecs_format(&state.aecs_verify_->inflate_options,
                                                      qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
-        if (verify_access_policy) {
+        if (verify_access_policy) { //NOLINT(bugprone-non-zero-enum-to-bool-conversion)
             hw_iaa_descriptor_inflate_set_aecs(state.verify_descriptor_, state.aecs_verify_,
                                                HW_AECS_FILTER_AND_DECOMPRESS, verify_access_policy);
         }

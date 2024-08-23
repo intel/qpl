@@ -1344,7 +1344,8 @@ static inline int setup_dynamic_header(struct inflate_state* state) {
 
 #if defined(QPL_LIB)
     if (!is_correct_huffman_tree(dist_count, QPL_MAX_LL_D_HUFFMAN_CODE_LEN)) return QPL_AD_ERROR_CODE_BAD_DIST_CODE_LEN;
-    if ((i = set_codes(&lit_and_dist_huff[LIT_LEN], DIST_LEN, dist_count))) return i;
+    i = set_codes(&lit_and_dist_huff[LIT_LEN], DIST_LEN, dist_count);
+    if (i) return i;
 #else
     if (set_codes(&lit_and_dist_huff[LIT_LEN], DIST_LEN, dist_count)) return ISAL_INVALID_BLOCK;
 #endif

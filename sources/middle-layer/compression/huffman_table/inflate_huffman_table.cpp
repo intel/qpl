@@ -82,8 +82,8 @@ auto decompression_huffman_table::is_sw_decompression_table_used() const noexcep
     return sw_decompression_table_flag;
 }
 
-auto decompression_huffman_table::is_deflate_header_used() noexcept
-        -> bool { //NOLINT(readability-make-member-function-const)
+auto decompression_huffman_table::is_deflate_header_used() noexcept //NOLINT(readability-make-member-function-const)
+        -> bool {
     return deflate_header_flag;
 }
 } // namespace qpl::ml::compression

@@ -124,8 +124,8 @@ public:
     }
 
     void PrepareMask() {
-        ASSERT_NO_THROW(
-                mask.resize(qpl::test::bits_to_bytes(second_input_elements))); //NOLINT(cppcoreguidelines-avoid-goto)
+        ASSERT_NO_THROW( //NOLINT(cppcoreguidelines-avoid-goto)
+                mask.resize(qpl::test::bits_to_bytes(second_input_elements)));
 
         const uint32_t size = static_cast<uint32_t>(mask.size());
 
