@@ -62,6 +62,8 @@ public:
 
     [[nodiscard]] auto numa_id() const noexcept -> uint64_t;
 
+    [[nodiscard]] auto socket_id() const noexcept -> uint64_t;
+
     [[nodiscard]] auto begin() const noexcept -> queues_container_t::const_iterator;
 
     [[nodiscard]] auto end() const noexcept -> queues_container_t::const_iterator;
@@ -90,6 +92,7 @@ private:
     uint32_t           version_minor_    = 0U;    /**< Minor version of discovered device */
     bool               op_cfg_enabled_   = false; /**< Need to check workqueue's OPCFG register */
     uint32_t           engine_count_     = 0U;    /**< Number of engines */
+    uint64_t           socket_id_        = 0U;    /**< Socket id of the device */
 };
 
 } // namespace qpl::test

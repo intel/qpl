@@ -72,7 +72,6 @@ struct extended_info_t {
 
 const extended_info_t& get_sys_info();
 
-uint32_t get_current_numa() noexcept;
 uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept;
 
 constexpr std::uint64_t submitRetryWaitNs = 0U;

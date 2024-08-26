@@ -93,14 +93,6 @@ std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept {
     return counter;
 }
 
-uint32_t get_current_numa() noexcept {
-    std::uint32_t tsc_aux = 0U;
-    __rdtscp(&tsc_aux);
-    const std::uint32_t numa = static_cast<uint32_t>(tsc_aux >> 12);
-
-    return numa;
-}
-
 static inline accel_info_t& get_accels_info() noexcept {
     static accel_info_t info;
 

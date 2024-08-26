@@ -15,6 +15,8 @@
 #include <algorithm>
 #include <queue>
 
+#include "topology.hpp"
+
 constexpr uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
 constexpr uint32_t accelerator_name_length = sizeof(accelerator_name) - 2U; /**< Last symbol index */
 
@@ -59,6 +61,10 @@ auto hw_device::numa_id() const noexcept -> uint64_t {
     return numa_node_id_;
 }
 
+auto hw_device::socket_id() const noexcept -> uint64_t {
+    return socket_id_;
+}
+
 auto hw_device::get_opcfg_enabled() const noexcept -> bool {
     return op_cfg_enabled_;
 }
@@ -82,6 +88,7 @@ auto hw_device::initialize_new_device(descriptor_t* device_descriptor_ptr) noexc
     }
 
     numa_node_id_ = qpl_test_accfg_device_get_numa_node(device_ptr);
+    socket_id_    = qpl::test::get_socket_id();
 
     // Retrieve IAACAP if available
     uint64_t      iaa_cap            = 0U;
