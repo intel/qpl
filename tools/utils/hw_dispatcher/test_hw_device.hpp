@@ -82,6 +82,8 @@ public:
 
     [[nodiscard]] auto get_engine_count() const noexcept -> uint32_t;
 
+    [[nodiscard]] auto is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool;
+
 private:
     queues_container_t working_queues_ = {}; /**< Set of available HW working queues */
     opcfg_container_t  op_configs_     = {}; /**< Array of OPCFG register content for each available HW working queue */

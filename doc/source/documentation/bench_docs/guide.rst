@@ -85,24 +85,30 @@ the following filter would work: ``--benchmark_filter="crc.*:c/.*:cpu.*:sync.*cr
 Executing using Accelerators
 ============================
 
-Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>`
-and :ref:`configure accelerator <accelerator_configuration_reference_link>` before executing using accelerator.
-
-Benchmark Framework does not support choosing a specific Intel IAA instance for execution and, by default, does not set :c:member:`qpl_job.numa_id` value.
-
-If the Intel QPL version is **`< 1.6.0`**, the library will auto-detect the NUMA node of the calling process
-and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same **NUMA node**.
-
-If the Intel QPL version is **`>= 1.6.0`**, the library will use the Intel IAA device(s) located on the **socket** of the calling thread.
-
-To set :c:member:`qpl_job.numa_id`, add the  ``--node=<numa_id>`` option to the execution command.
-
-For more details on possible values and how to configure device selection mechanism of Intel QPL,
-refer to :ref:`library_device_selection_reference_link` section.
-
 .. attention::
 
     It is the user's responsibility to configure the accelerator and ensure the availability of the device(s).
+
+    Make sure to resolve :ref:`requirements for running on hardware path <system_requirements_hw_path_reference_link>`
+    and :ref:`configure accelerator <accelerator_configuration_reference_link>` before executing using accelerator.
+
+Benchmark Framework does not support choosing a specific Intel IAA instance for execution.
+However, it is possible to limit execution to devices only from a certain NUMA node or socket using the ``--node=<integer>`` option.
+
+.. note::
+    By default, when ``--node=<integer>`` is unset, :c:member:`qpl_job.numa_id` value is set to ``-1`` for Benchmarks execution.
+
+    If the Intel QPL version is **`< 1.6.0`**, the library will auto-detect the NUMA node of the calling process
+    and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same **NUMA node**.
+
+    If the Intel QPL version is **`>= 1.6.0`**, the library will use the Intel IAA device(s) located on the **socket** of the calling thread.
+
+All possible values for ``--node=<integer>`` are as follows:
+
+- Any value ``>= 0`` is considered as a valid NUMA node ID, and only the Intel IAA device(s) located on the specified NUMA node would be used.
+- ``-1`` (:c:macro:`QPL_DEVICE_NUMA_ID_SOCKET`) is a **default** and used for selecting the Intel IAA device(s) located on the same socket as the calling thread.
+- ``-2`` (:c:macro:`QPL_DEVICE_NUMA_ID_CURRENT`) could be used for selecting the Intel IAA device(s) located on the same NUMA node as the calling thread.
+- ``-3`` (:c:macro:`QPL_DEVICE_NUMA_ID_ANY`) could be used for selecting any available Intel IAA device(s).
 
 Latency Tests
 =============

@@ -66,29 +66,11 @@ static bool init_hw() {
     return true;
 }
 
-std::uint32_t get_number_of_devices_on_numa(std::uint32_t numa) noexcept {
+std::uint32_t get_number_of_devices_matching_numa_policy(std::uint32_t user_specified_numa_id) noexcept {
     static auto& disp    = qpl::test::hw_dispatcher::get_instance();
     int          counter = 0;
     for (auto& device : disp) {
-        /*
-         * the purpose of the check below is to ensure that job would be
-         * launched on the device requested by user, meaning
-         * if user specified device_numa_id, we check that the program is
-         * indeed run on the requested NUMA node
-         *
-         * explanation regarding (device.numa_id() != (uint64_t)(-1)):
-         * accfg_device_get_numa_node() at sources/middle-layer/dispatcher/hw_device.cpp
-         * currently returns -1 in case of VM and/or when NUMA is not configured,
-         * here is the temporary w/a, so that we don't exit in this case,
-         * but just use current device
-         *
-         * @todo address w/a and remove (device.numa_id() != (uint64_t)(-1)) check
-         */
-        if (device.numa_id() == numa) {
-            counter++;
-        } else if (((device.numa_id() != (uint64_t)numa)) && (device.numa_id() == (uint64_t)(-1))) {
-            counter++;
-        }
+        if (device.is_matching_user_numa_policy(user_specified_numa_id)) counter++;
     }
     return counter;
 }

@@ -30,8 +30,7 @@ static statistics_t measure_async(benchmark::State& state, const case_params_t& 
         res.queue_size = 1;
         res.operations = threads;
     } else {
-        std::uint32_t numa    = (common_params.node_ == -1) ? qpl::test::get_numa_id() : common_params.node_;
-        std::uint32_t devices = get_number_of_devices_on_numa(numa);
+        std::uint32_t devices = get_number_of_devices_matching_numa_policy(common_params.node_);
         res.queue_size        = common_params.queue_size_;
         res.operations        = res.queue_size * devices;
     }

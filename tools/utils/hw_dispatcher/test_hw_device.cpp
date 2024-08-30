@@ -8,13 +8,14 @@
  * HW device APIs for tests
  */
 
-#if defined(__linux__)
+#include "qpl/qpl.h"
 
-#include "test_hw_device.hpp"
+#if defined(__linux__)
 
 #include <algorithm>
 #include <queue>
 
+#include "test_hw_device.hpp"
 #include "topology.hpp"
 
 constexpr uint8_t  accelerator_name[]      = "iax";                         /**< Accelerator name */
@@ -159,6 +160,34 @@ auto hw_device::end() const noexcept -> queues_container_t::const_iterator {
 
 auto hw_device::get_engine_count() const noexcept -> uint32_t {
     return engine_count_;
+}
+
+/**
+ * @brief Function to check if the device is matching the user-specified NUMA policy.
+ * User specified value could be one of the following:
+ * - QPL_DEVICE_NUMA_ID_ANY
+ * - QPL_DEVICE_NUMA_ID_CURRENT
+ * - QPL_DEVICE_NUMA_ID_SOCKET
+ * or NUMA node id
+ */
+auto hw_device::is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool {
+    // If the device is not NUMA-aware or user specifies any NUMA id, then we can't check NUMA policy
+    // and, in this case, we will be using the device for execution.
+    if (numa_node_id_ == (uint64_t)(-1) || user_specified_numa_id == QPL_DEVICE_NUMA_ID_ANY) { return true; }
+
+    if (user_specified_numa_id >= 0) { // user specified NUMA node id
+        return (numa_node_id_ == (uint64_t)(user_specified_numa_id));
+    }
+
+    if (user_specified_numa_id == QPL_DEVICE_NUMA_ID_CURRENT) {
+        return (numa_node_id_ == (uint64_t)qpl::test::get_numa_id());
+    }
+
+    if (user_specified_numa_id == QPL_DEVICE_NUMA_ID_SOCKET) {
+        return (numa_node_id_ == (uint64_t)qpl::test::get_numa_id() || socket_id_ == qpl::test::get_socket_id());
+    }
+
+    return false;
 }
 
 } // namespace qpl::test
