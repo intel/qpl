@@ -514,19 +514,28 @@ the following filter would work: <code class="docutils literal notranslate"><spa
 </section>
 <section id="executing-using-accelerators">
 <h3>Executing using Accelerators<a class="headerlink" href="#executing-using-accelerators" title="Link to this heading">#</a></h3>
-<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a>
-and <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing using accelerator.</p>
-<p>Benchmark Framework does not support choosing a specific Intel IAA instance for execution and, by default, does not set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value.</p>
-<p>If the Intel QPL version is <strong>`&lt; 1.6.0`</strong>, the library will auto-detect the NUMA node of the calling process
-and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same <strong>NUMA node</strong>.</p>
-<p>If the Intel QPL version is <strong>`&gt;= 1.6.0`</strong>, the library will use the Intel IAA device(s) located on the <strong>socket</strong> of the calling thread.</p>
-<p>To set <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a>, add the  <code class="docutils literal notranslate"><span class="pre">--node=&lt;numa_id&gt;</span></code> option to the execution command.</p>
-<p>For more details on possible values and how to configure device selection mechanism of Intel QPL,
-refer to <a class="reference internal" href="../introduction_docs/introduction.html#library-device-selection-reference-link"><span class="std std-ref">Devices Selection and NUMA Support</span></a> section.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>It is the user’s responsibility to configure the accelerator and ensure the availability of the device(s).</p>
+<p>Make sure to resolve <a class="reference internal" href="../get_started_docs/installation.html#system-requirements-hw-path-reference-link"><span class="std std-ref">requirements for running on hardware path</span></a>
+and <a class="reference internal" href="../get_started_docs/installation.html#accelerator-configuration-reference-link"><span class="std std-ref">configure accelerator</span></a> before executing using accelerator.</p>
 </div>
+<p>Benchmark Framework does not support choosing a specific Intel IAA instance for execution.
+However, it is possible to limit execution to devices only from a certain NUMA node or socket using the <code class="docutils literal notranslate"><span class="pre">--node=&lt;integer&gt;</span></code> option.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, when <code class="docutils literal notranslate"><span class="pre">--node=&lt;integer&gt;</span></code> is unset, <a class="reference internal" href="../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.numa_id" title="qpl_job.numa_id"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.numa_id</span></code></a> value is set to <code class="docutils literal notranslate"><span class="pre">-1</span></code> for Benchmarks execution.</p>
+<p>If the Intel QPL version is <strong>`&lt; 1.6.0`</strong>, the library will auto-detect the NUMA node of the calling process
+and use the Intel® In-Memory Analytics Accelerator (Intel® IAA) device(s) located on the same <strong>NUMA node</strong>.</p>
+<p>If the Intel QPL version is <strong>`&gt;= 1.6.0`</strong>, the library will use the Intel IAA device(s) located on the <strong>socket</strong> of the calling thread.</p>
+</div>
+<p>All possible values for <code class="docutils literal notranslate"><span class="pre">--node=&lt;integer&gt;</span></code> are as follows:</p>
+<ul class="simple">
+<li><p>Any value <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">0</span></code> is considered as a valid NUMA node ID, and only the Intel IAA device(s) located on the specified NUMA node would be used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> (<a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_SOCKET" title="QPL_DEVICE_NUMA_ID_SOCKET"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_SOCKET</span></code></a>) is a <strong>default</strong> and used for selecting the Intel IAA device(s) located on the same socket as the calling thread.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-2</span></code> (<a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_CURRENT" title="QPL_DEVICE_NUMA_ID_CURRENT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_CURRENT</span></code></a>) could be used for selecting the Intel IAA device(s) located on the same NUMA node as the calling thread.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-3</span></code> (<a class="reference internal" href="../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_DEVICE_NUMA_ID_ANY" title="QPL_DEVICE_NUMA_ID_ANY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_ANY</span></code></a>) could be used for selecting any available Intel IAA device(s).</p></li>
+</ul>
 </section>
 <section id="latency-tests">
 <h3>Latency Tests<a class="headerlink" href="#latency-tests" title="Link to this heading">#</a></h3>
