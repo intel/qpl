@@ -68,7 +68,7 @@ int compress_test() {
     // If queues are busy, wait then resubmit before moving on
     uint32_t resubmit_cnt = 0;
 
-    bool is_sync = !util::TestEnvironment::GetInstance().IsAsynchronousApiTesting();
+    const bool is_sync = !util::TestEnvironment::GetInstance().IsAsynchronousApiTesting();
     if (is_sync) {
         status = qpl_execute_job(job);
 

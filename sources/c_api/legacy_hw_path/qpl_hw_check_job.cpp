@@ -264,7 +264,7 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
             qpl_job_ptr->crc          = comp_ptr->crc;
             qpl_job_ptr->xor_checksum = comp_ptr->xor_checksum;
 
-            qpl_status status =
+            const qpl_status status =
                     hw_descriptor_compress_init_deflate_dynamic(desc_ptr, state_ptr, qpl_job_ptr, cfg_in_ptr, comp_ptr);
             OWN_QPL_CHECK_STATUS(status)
 
@@ -282,18 +282,18 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
             }
         }
 
-        qpl_status status = ml::util::process_descriptor<qpl_status, ml::util::execution_mode_t::async>(
+        const qpl_status status = ml::util::process_descriptor<qpl_status, ml::util::execution_mode_t::async>(
                 (hw_descriptor*)desc_ptr, (hw_completion_record*)&state_ptr->comp_ptr, qpl_job_ptr->numa_id);
 
         // if compression descriptor submission fails, skip statistics collection step in resubmitted job
-        if (0u != status) {
+        if (0U != status) {
             state_ptr->descriptor_not_submitted = true;
             state_ptr->multi_desc_status        = qpl_stats_collect_completed;
         } else {
             state_ptr->descriptor_not_submitted = false;
         }
 
-        HW_IMMEDIATELY_RET(0u != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
+        HW_IMMEDIATELY_RET(0U != status, QPL_STS_QUEUES_ARE_BUSY_ERR);
 
         return QPL_STS_BEING_PROCESSED;
     }
