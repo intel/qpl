@@ -7,9 +7,11 @@
 #ifndef QPL_TOOLS_UTILS_COMMON_OPCFG_CHECKS_HPP_
 #define QPL_TOOLS_UTILS_COMMON_OPCFG_CHECKS_HPP_
 
+// tool_hw_dispatcher
 #include "test_hw_dispatcher.hpp"
+
 // tool_common
-#include "system_info.hpp"
+#include "topology.hpp"
 
 namespace qpl::test {
 

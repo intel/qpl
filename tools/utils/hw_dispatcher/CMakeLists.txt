@@ -17,6 +17,7 @@ add_library(tool_hw_dispatcher OBJECT ${TOOLS_HW_DISPATCH_SRC})
 
 target_include_directories(tool_hw_dispatcher
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        PRIVATE $<TARGET_PROPERTY:tool_common,INTERFACE_INCLUDE_DIRECTORIES>
         PRIVATE $<TARGET_PROPERTY:qpl,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set_target_properties(tool_hw_dispatcher PROPERTIES
