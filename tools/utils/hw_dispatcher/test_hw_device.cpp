@@ -172,7 +172,8 @@ auto hw_device::get_engine_count() const noexcept -> uint32_t {
  * - QPL_DEVICE_NUMA_ID_SOCKET
  * or NUMA node id
  */
-auto hw_device::is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool {
+bool is_device_matching_user_numa_policy(uint64_t numa_node_id_, uint64_t socket_id_,
+                                         int32_t user_specified_numa_id) noexcept {
     // If the device is not NUMA-aware or user specifies any NUMA id, then we can't check NUMA policy
     // and, in this case, we will be using the device for execution.
     if (numa_node_id_ == (uint64_t)(-1) || user_specified_numa_id == QPL_DEVICE_NUMA_ID_ANY) { return true; }

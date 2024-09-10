@@ -38,6 +38,7 @@ struct extended_info_t {
     std::uint32_t         cpu_physical_cores      = 1U;
     std::uint32_t         cpu_sockets             = 1U;
     std::uint32_t         cpu_physical_per_socket = 1U;
+    std::uint32_t         cpu_numa_nodes          = 1U;
 };
 
 static void trim(std::string& str) {
@@ -110,8 +111,28 @@ static std::ostream& operator<<(std::ostream& os, const extended_info_t& info) {
     os << "    Physical Cores:   " << info.cpu_physical_cores << "\n";
     os << "    Cores per Socket: " << info.cpu_physical_per_socket << "\n";
     os << "    Sockets:          " << info.cpu_sockets << "\n";
+    os << "    NUMA Nodes:       " << info.cpu_numa_nodes << "\n";
 
     return os;
+}
+
+/**
+ * @brief Get the total number of NUMA nodes.
+ */
+static uint32_t get_total_numa_nodes() {
+    uint32_t total_nodes = 1U;
+
+#if defined(__linux__)
+    std::ifstream numa_nodes("/sys/devices/system/node/online");
+    if (!numa_nodes.is_open()) { throw std::runtime_error("Failed to open /sys/devices/system/node/online"); }
+
+    std::string line;
+    std::getline(numa_nodes, line);
+    if (line.find("-") != std::string::npos) { total_nodes = std::stoi(line.substr(line.find("-") + 1U)) + 1U; }
+    numa_nodes.close();
+#endif
+
+    return total_nodes;
 }
 
 /**
@@ -171,6 +192,8 @@ static const extended_info_t& get_sys_info() {
         is_setup = true;
     }
     guard.unlock();
+
+    info.cpu_numa_nodes = get_total_numa_nodes();
 
     return info;
 }

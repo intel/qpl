@@ -12,6 +12,7 @@
 #include "cmd_decl.hpp" // cmd flags
 
 // tool_hw_dispatcher
+#include "test_hw_device.hpp"
 #include "test_hw_dispatcher.hpp"
 
 #if defined(__linux__)
@@ -70,7 +71,9 @@ std::uint32_t get_number_of_devices_matching_numa_policy(std::uint32_t user_spec
     static auto& disp    = qpl::test::hw_dispatcher::get_instance();
     int          counter = 0;
     for (auto& device : disp) {
-        if (device.is_matching_user_numa_policy(user_specified_numa_id)) counter++;
+        if (qpl::test::is_device_matching_user_numa_policy(device.numa_id(), device.socket_id(),
+                                                           user_specified_numa_id))
+            counter++;
     }
     return counter;
 }

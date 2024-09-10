@@ -14,6 +14,7 @@
 
 #include "qpl/qpl.h"
 
+#include "qpl_test_environment.hpp"
 #include "random_generator.h"
 #include "test_hw_status.h"
 

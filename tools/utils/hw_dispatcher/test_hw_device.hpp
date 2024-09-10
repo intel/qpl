@@ -82,8 +82,6 @@ public:
 
     [[nodiscard]] auto get_engine_count() const noexcept -> uint32_t;
 
-    [[nodiscard]] auto is_matching_user_numa_policy(int32_t user_specified_numa_id) const noexcept -> bool;
-
 private:
     queues_container_t working_queues_ = {}; /**< Set of available HW working queues */
     opcfg_container_t  op_configs_     = {}; /**< Array of OPCFG register content for each available HW working queue */
@@ -96,6 +94,9 @@ private:
     uint32_t           engine_count_     = 0U;    /**< Number of engines */
     uint64_t           socket_id_        = 0U;    /**< Socket id of the device */
 };
+
+bool is_device_matching_user_numa_policy(uint64_t numa_node_id_, uint64_t socket_id_,
+                                         int32_t user_specified_numa_id) noexcept;
 
 } // namespace qpl::test
 
