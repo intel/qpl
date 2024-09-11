@@ -33,7 +33,7 @@ auto create_devices(uint64_t sockets = test_total_sockets, uint64_t numa_nodes =
         -> std::vector<toy_device> {
     std::vector<toy_device> devices;
 
-    uint64_t numa_nodes_per_socket = numa_nodes / sockets;
+    const uint64_t numa_nodes_per_socket = numa_nodes / sockets;
 
     for (uint64_t socket = 0; socket < sockets; ++socket) {
         for (uint64_t numa_node = 0; numa_node < numa_nodes_per_socket; ++numa_node) {
