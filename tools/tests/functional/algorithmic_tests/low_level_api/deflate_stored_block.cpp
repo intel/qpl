@@ -52,7 +52,7 @@ public:
         job_ptr->available_in  = input_size;
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = expected_size;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN;
         job_ptr->level         = level;
 
         ASSERT_EQ(run_job_api(job_ptr), QPL_STS_OK);
@@ -97,7 +97,7 @@ public:
         job_ptr->available_in  = input_size;
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = expected_size;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
         job_ptr->level         = level;
 
         ASSERT_EQ(run_job_api(job_ptr), QPL_STS_OK);
@@ -153,7 +153,7 @@ public:
         job_ptr->available_in  = input_size;
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = expected_size;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
         job_ptr->level         = level;
 
         status = run_job_api(job_ptr);
@@ -212,7 +212,7 @@ public:
         job_ptr->available_in  = input_size;
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = expected_size;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_CANNED_MODE | QPL_FLAG_LAST;
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
@@ -246,7 +246,7 @@ public:
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = static_cast<uint32_t>(destination.size());
         job_ptr->level         = level;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST;
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);
@@ -269,7 +269,7 @@ public:
         job_ptr->next_out_ptr  = destination.data();
         job_ptr->available_out = static_cast<uint32_t>(destination.size());
         job_ptr->level         = level;
-        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | QPL_FLAG_OMIT_VERIFY;
+        job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN;
         job_ptr->level         = level;
 
         EXPECT_EQ(run_job_api(job_ptr), QPL_STS_MORE_OUTPUT_NEEDED);

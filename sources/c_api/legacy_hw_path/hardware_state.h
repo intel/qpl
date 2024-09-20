@@ -42,7 +42,7 @@ typedef struct {
     bool                    first_job_has_been_submitted;
     qpl_task_execution_step execution_step;
     qpl_comp_style          comp_style;
-    uint32_t                compress_crc;
+    uint32_t                compress_crc; /**< Currently, contains stored CRC to be used for Verification */
     uint8_t*                saved_next_out_ptr;
 } qpl_execution_history;
 

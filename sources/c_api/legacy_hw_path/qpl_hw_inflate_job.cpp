@@ -219,8 +219,6 @@ extern "C" qpl_status hw_submit_verify_job(qpl_job* qpl_job_ptr) {
     const bool is_huffman_only     = QPL_FLAG_NO_HDRS & qpl_job_ptr->flags;
     const bool is_indexing_enabled = qpl_job_ptr->mini_block_size;
 
-    state_ptr->execution_history.compress_crc = comp_ptr->crc;
-
     desc_ptr->src1_ptr  = state_ptr->execution_history.saved_next_out_ptr;
     desc_ptr->src1_size = (uint32_t)(qpl_job_ptr->next_out_ptr - state_ptr->execution_history.saved_next_out_ptr);
 

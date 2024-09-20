@@ -179,6 +179,10 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
 
         hw_iaa_aecs_compress_set_checksums(cfg_out_ptr, crc, xor_checksum);
 
+        // CRC computed during sw fallback
+        // Used for verification
+        state_ptr->execution_history.compress_crc = crc;
+
         job::update_checksums(qpl_job_ptr, crc, xor_checksum);
 
         if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
@@ -300,6 +304,9 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
 
     // Body encoding step: Update Job with descriptor results
     state_ptr->config_valid = AECS_WRITTEN(desc_ptr);
+
+    // Used for verification
+    state_ptr->execution_history.compress_crc = comp_ptr->crc;
 
     // Calculate checksums and update their values in job ptr
     job::update_checksums(qpl_job_ptr, comp_ptr->crc, comp_ptr->xor_checksum);
