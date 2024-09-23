@@ -57,7 +57,14 @@ auto main(int argc, char** argv) -> int {
         source.reserve(path.file_size());
         source.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 
-        destination.resize(source.size() * 2);
+        // Get compression buffer size estimate
+        const uint32_t compression_size = qpl_get_safe_deflate_compression_buffer_size(source.size());
+        if (compression_size == 0) {
+            std::cout << "Invalid source size. Source size exceeds the maximum supported size.\n";
+            return 1;
+        }
+
+        destination.resize(compression_size);
         reference.resize(source.size());
 
         std::unique_ptr<uint8_t[]> job_buffer;

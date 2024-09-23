@@ -40,9 +40,16 @@ auto main(int argc, char** argv) -> int {
     const int parse_ret = parse_execution_path(argc, argv, &execution_path);
     if (parse_ret != 0) { return 1; }
 
+    // Get compression buffer size estimate
+    const uint32_t compression_size = qpl_get_safe_deflate_compression_buffer_size(source_size);
+    if (compression_size == 0) {
+        std::cout << "Invalid source size. Source size exceeds the maximum supported size.\n";
+        return 1;
+    }
+
     // Source and output containers
     std::vector<uint8_t> source(source_size, 5);
-    std::vector<uint8_t> destination(source_size * 2, 4);
+    std::vector<uint8_t> destination(compression_size, 4);
     std::vector<uint8_t> reference(source_size, 7);
 
     std::unique_ptr<uint8_t[]> job_buffer;
