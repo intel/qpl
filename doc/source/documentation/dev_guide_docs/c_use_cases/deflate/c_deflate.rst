@@ -32,6 +32,10 @@ ZLIB Format (as specified in `RFC 1950 <https://www.rfc-editor.org/info/rfc1950>
 or GZIP (as specified in `RFC 1952 <https://www.rfc-editor.org/info/rfc1952>`_).
 See the :ref:`Support of ZLIB and GZIP Formats <zlib_and_gzip_compatibility_reference_link>` section for more details.
 
+Intel QPL provides an API to estimate the size of the output buffer required for
+compression operations. For more details, refer to
+:ref:`Estimating the Size of the Deflate Compression Buffer <deflate_estimation_reference_link>`.
+
 .. toctree::
    :maxdepth: 1
 
@@ -41,3 +45,4 @@ See the :ref:`Support of ZLIB and GZIP Formats <zlib_and_gzip_compatibility_refe
    c_deflate_dictionary
    c_deflate_indexing
    c_deflate_zlib_gzip
+   c_deflate_estimate_buffer_size
