@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Creating and Using Indices &#8212; Intel® QPL v1.6.0 Documentation</title>
+    <title>Estimating the Size of the Deflate Compression Buffer &#8212; Intel® QPL v1.6.0 Documentation</title>
   
   
   
@@ -40,11 +40,11 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_estimate_buffer_size';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Support of ZLIB and GZIP Formats" href="c_deflate_zlib_gzip.html" />
-    <link rel="prev" title="Format of Indices" href="c_deflate_indexing_format.html" />
+    <link rel="next" title="Huffman-Only Compression and Decompression" href="../c_huffman_only.html" />
+    <link rel="prev" title="Support of ZLIB and GZIP Formats" href="c_deflate_zlib_gzip.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,13 +174,13 @@
 <li class="toctree-l3"><a class="reference internal" href="c_deflate_decompression.html">Deflate Decompression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c_deflate_multiple_jobs.html">Compression and Decompression across Multiple Jobs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="c_deflate_dictionary.html">Compressing with a Dictionary</a></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="c_deflate_indexing.html">Deflate with Indexing</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="c_deflate_indexing.html">Deflate with Indexing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="c_deflate_indexing_format.html">Format of Indices</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Creating and Using Indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c_deflate_indexing_usage.html">Creating and Using Indices</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="c_deflate_zlib_gzip.html">Support of ZLIB and GZIP Formats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="c_deflate_estimate_buffer_size.html">Estimating the Size of the Deflate Compression Buffer</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Estimating the Size of the Deflate Compression Buffer</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../c_huffman_only.html">Huffman-Only Compression and Decompression</a></li>
@@ -283,7 +283,7 @@
       
       
       
-      <li><a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage.rst" target="_blank"
+      <li><a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_estimate_buffer_size.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -300,7 +300,7 @@
       
       
       
-      <li><a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_guide_docs/c_use_cases/deflate/c_deflate_estimate_buffer_size.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -330,7 +330,7 @@
       
       
       
-      <li><a href="../../../../_sources/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage.rst" target="_blank"
+      <li><a href="../../../../_sources/documentation/dev_guide_docs/c_use_cases/deflate/c_deflate_estimate_buffer_size.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -414,7 +414,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Creating and Using Indices</h1>
+    <h1>Estimating the Size of the Deflate Compression Buffer</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -424,16 +424,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">Computing the Size of the Index Array</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-indices">Creating Indices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-block-usage">Multi-Block Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-the-block-header">Decompressing the Block Header</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-the-mini-block">Decompressing the Mini-block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-code-example">C++ Code Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">C Code Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-block-usage">Single Block Usage</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-overhead">Additional Overhead</a></li>
 </ul>
             </nav>
         </div>
@@ -447,147 +444,121 @@ document.write(`
                   
   <blockquote>
 <div></div></blockquote>
-<section id="creating-and-using-indices">
-<h1>Creating and Using Indices<a class="headerlink" href="#creating-and-using-indices" title="Link to this heading">#</a></h1>
-<section id="computing-the-size-of-the-index-array">
-<h2>Computing the Size of the Index Array<a class="headerlink" href="#computing-the-size-of-the-index-array" title="Link to this heading">#</a></h2>
-<p>The expected number of index values can be obtained from:</p>
-<p><code class="docutils literal notranslate"><span class="pre">uint32_t</span> <span class="pre">num_index_values(uint32_t</span> <span class="pre">buf_size,</span> <span class="pre">uint32_t</span> <span class="pre">idx_size,</span> <span class="pre">uint32_t</span> <span class="pre">blk_size);</span></code></p>
-<p>where the arguments are the size of the uncompressed data, the size of
-the mini-block, and the size of the block. It assumes all the blocks to
-have the same (uncompressed) size (as specified) or this value is 0. If
-the value is 0, all of the input is compressed into a single block
-(whose size is the same as buf_size).</p>
-<p>One index value is stored per mini-block, two values are stored per
-block, and one extra index value. In the first example (multi-block
-usage), 3 blocks and 11 mini-blocks present, so the total number of
-indices is 3*2+11+1 = 18. In the second example (single-block usage), 1
-block and 11 mini-blocks present, so the total number of indices is
-1*2+11+1 = 14.</p>
+<section id="estimating-the-size-of-the-deflate-compression-buffer">
+<span id="deflate-estimation-reference-link"></span><h1>Estimating the Size of the Deflate Compression Buffer<a class="headerlink" href="#estimating-the-size-of-the-deflate-compression-buffer" title="Link to this heading">#</a></h1>
+<p>In Intel® Query Processing Library (Intel® QPL), the user is required to
+allocate an output buffer for the compression algorithm. The Intel® QPL
+Compression Buffer Size Estimation API provides a reliable method for users to
+estimate the size of the output buffer required for compression operations.
+This document serves as a guide for developers to understand and integrate the
+API into their applications.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The Intel® QPL Compression Buffer Size Estimation API only supports
+deflate compression and does not support Huffman-Only mode compression.</p>
+</div>
+<p>The Intel® QPL Compression Buffer Size Estimation API returns the size of the
+output buffer required for deflate compression. The API returns 0 if the source
+size exceeds the maximum supported size.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that the maximum input size supported by the Intel® QPL and
+this API is 2^32 - 35 bytes due to the limitations imposed by the
+Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware. Refer to the
+<a class="reference internal" href="#limitations">Limitations</a> section for more information.</p>
+</div>
+<section id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading">#</a></h2>
+<section id="c-code-example">
+<h3>C++ Code Example<a class="headerlink" href="#c-code-example" title="Link to this heading">#</a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;qpl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024U</span><span class="p">;</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">compression_size</span><span class="p">;</span>
+
+<span class="n">compression_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_safe_deflate_compression_buffer_size</span><span class="p">(</span><span class="n">source_size</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">compression_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Invalid source size. Source size exceeds the maximum supported size.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="n">compression_size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Source size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, compression size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compression_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
 </section>
-<section id="creating-indices">
-<h2>Creating Indices<a class="headerlink" href="#creating-indices" title="Link to this heading">#</a></h2>
-<p>To generate indices, the application needs to allocate an array large
-enough to hold all of the index values. The application then defines the
-mini-block size using the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.mini_block_size" title="qpl_job.mini_block_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.mini_block_size</span></code></a> field,
-points to the index table memory with the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.idx_array" title="qpl_job.idx_array"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.idx_array</span></code></a>
-field, and specifies the size of the table with the
-<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.idx_max_size" title="qpl_job.idx_max_size"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.idx_max_size</span></code></a> field.</p>
-<p>The index generation is done as part of the verification pass, so the
-application cannot specify the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_OMIT_VERIFY" title="QPL_FLAG_OMIT_VERIFY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a> flag.</p>
-<p>Intel® Query Processing Library (Intel® QPL) implements two
-slightly different approaches:</p>
+<section id="id1">
+<h3>C Code Example<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;qpl.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024U</span><span class="p">;</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="n">compression_size</span><span class="p">;</span>
+
+<span class="n">compression_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_safe_deflate_compression_buffer_size</span><span class="p">(</span><span class="n">source_size</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">compression_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Invalid source size. Source size exceeds the maximum supported size.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">destination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">compression_size</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">destination</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Memory allocation failed.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;Source size: %u, compression size: %u.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">source_size</span><span class="p">,</span><span class="w"> </span><span class="n">compression_size</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="limitations">
+<span id="deflate-estimation-limitations"></span><h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>with multiple blocks of fixed size,</p></li>
-<li><p>with a single block.</p></li>
+<li><p>Due to the limitations imposed by the Intel® IAA hardware, the maximum bit
+size supported by the Intel® QPL compression is 32 bits. To account for the
+additional compression overhead, the maximum input size supported by the
+Intel® QPL and this API is 2^32 - 35 bytes.</p></li>
+<li><p>The function does not account for additional bytes needed for gzip/zlib
+headers and trailers. This API only estimates the overhead of the Intel® QPL
+Intel® IAA deflate operations. The user must account for the additional
+bytes needed for gzip/zlib headers and trailers.</p></li>
 </ul>
-<p>To allow for CRC checking, the entire mini-block needs to be
-decompressed. If the desired data straddles two mini-blocks, then the
-application separately decompresses each of the mini-blocks, and then
-extracts the data from both.</p>
-<p>To use this feature, specify the <code class="docutils literal notranslate"><span class="pre">ignore_start_bits</span></code> flag and the
-<code class="docutils literal notranslate"><span class="pre">ignore_end_bits</span></code> flag. Both flags should contain values from 0 through 7.
-They indicate the number of bits at the start and end of the first byte
-to be skipped/ignored. This allows the application to start and end
-decompression on a bit rather than a byte boundary.</p>
-<p>In general, for each job one would get a START bit-offset and an END
-bit-offset from the index array. More particularly, the START bit is the
-first bit to be processed. The END bit is the last bit to be processed
-plus one. So the total number of bits to be processed is just (END -
-START).</p>
-<p>To convert these to job structure parameters, one needs to calculate:</p>
+</section>
+<section id="additional-overhead">
+<span id="deflate-estimation-additional-overhead"></span><h2>Additional Overhead<a class="headerlink" href="#additional-overhead" title="Link to this heading">#</a></h2>
+<p>The Intel® QPL Compression Buffer Size Estimation API does not include the
+additional bytes required for gzip/zlib headers and trailers. Users must
+manually account for these additional bytes when dealing with compression jobs
+that are flagged as either <cite>QPL_FLAG_FIRST</cite> or <cite>QPL_FLAG_LAST</cite>.</p>
+<p>For jobs marked with the <cite>QPL_FLAG_FIRST</cite> flag, which indicates the beginning
+of a compression sequence, the following additional bytes for headers must be
+considered:</p>
+<p><strong>GZIP</strong></p>
 <ul class="simple">
-<li><p>the offsets of the byte containing the START bit,</p></li>
-<li><p>the number of bytes to process (i.e. the number of bytes starting
-with the START byte to include the byte containing the last bit to be
-processed (END - 1)),</p></li>
-<li><p>the number of bits to ignore at the start of the first byte,</p></li>
-<li><p>the number of bits to ignore at the end of the last byte.</p></li>
+<li><p>10 bytes for the gzip header</p></li>
 </ul>
-<p>One way to do this is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span> <span class="o">=</span> <span class="n">comp_buffer</span> <span class="o">+</span> <span class="n">START</span><span class="o">/</span><span class="mi">8</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">ignore_start_bits</span> <span class="o">=</span> <span class="n">START</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span> <span class="o">=</span> <span class="p">((</span><span class="n">END</span><span class="o">+</span><span class="mi">7</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">START</span><span class="o">/</span><span class="mi">8</span><span class="p">);</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">ignore_end_bits</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">END</span><span class="p">);</span>
-</pre></div>
-</div>
-<p><strong>Note</strong> that ((END+7)/8) - (START/8) is not the same as ((END+7-START)/8).</p>
-<section id="multi-block-usage">
-<h3>Multi-Block Usage<a class="headerlink" href="#multi-block-usage" title="Link to this heading">#</a></h3>
-<p>For multi-block case, there is a “block_size”, where all blocks but the
-last are exactly that size, and the last block is no larger than that
-size. The block_size is a multiple of the mini-block size.</p>
-<p>During the compression, each block of input data is submitted as a
-single job. Each job is flagged with either <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_DYNAMIC_HUFFMAN" title="QPL_FLAG_DYNAMIC_HUFFMAN"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a> or
-<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_START_NEW_BLOCK" title="QPL_FLAG_START_NEW_BLOCK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a>.</p>
-<p>Using the indices requires up to two jobs. The first parses the block
-header, and the second decompresses the specified mini-block. To
-decompress multiple mini-blocks within a given block, the header only
-needs to be parsed once. For example, the application can maintain a
-“block cache”. Then to decode a given mini-block (if its header is in
-the cache), a single job decompresses the mini-block. If its header is
-not in the cache, then some entry in the cache is replaced with the
-decompressed data from the new header, and the second job decompresses
-the mini-block.</p>
-<p>The application needs a derived value: <em>mb_per_b</em>, which is the number of
-mini-blocks per block. This is the ratio of the two sizes.</p>
-<p>To access the mini-block containing byte “B”, compute which mini-block
-needs to be decompressed first. This is “M”:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">B</span> <span class="o">/</span> <span class="n">mini</span><span class="o">-</span><span class="n">block_size</span>
-</pre></div>
-</div>
-<p>Then compute which block and mini-block within that block contains “B”:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">blk_num</span> <span class="o">=</span> <span class="n">M</span> <span class="o">/</span> <span class="n">mb_per_b</span>
-<span class="n">mblk_num</span> <span class="o">=</span> <span class="n">M</span> <span class="o">%</span> <span class="n">mb_per_b</span>
-</pre></div>
-</div>
-<p><strong>Note</strong> that if the <em>mb_per_b</em> is a power of two, then this can be done
-as a SHIFT and an AND rather than using actual divides.</p>
-<section id="decompressing-the-block-header">
-<h4>Decompressing the Block Header<a class="headerlink" href="#decompressing-the-block-header" title="Link to this heading">#</a></h4>
-<p>The index of the start of the block header is
-<code class="docutils literal notranslate"><span class="pre">(blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2))</span></code>. The index of the end is one greater
-than this.</p>
-<p>The job to parse the header is a decompress job with <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> and
-<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>. The START bit offset and the END bit offset are
-the low 32-bits of the two entries identified earlier. Those offsets are
-converted to job parameters as previously described.</p>
-</section>
-<section id="decompressing-the-mini-block">
-<h4>Decompressing the Mini-block<a class="headerlink" href="#decompressing-the-mini-block" title="Link to this heading">#</a></h4>
-<p>The index of the start of the block header is
-<code class="docutils literal notranslate"><span class="pre">(1</span> <span class="pre">+</span> <span class="pre">blk_num</span> <span class="pre">\*</span> <span class="pre">(mb_per_b</span> <span class="pre">+</span> <span class="pre">2)</span> <span class="pre">+</span> <span class="pre">mb_num)</span></code>, and the index of the end
-is one greater. That is, the start of the mini-block is found by adding
-the mini-block number within the block to the end of the block header.</p>
-<p>For example, assuming the user wants to decompress mini-block 6. In this
-case, there are 4 mb_per_b. So the blk_num is 1, and the mb_num is 2.
-The header can be found between indices 6 and 7, and the mini-block
-between indices 9 and 10.</p>
-<p>The job uses the flag <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_RND_ACCESS" title="QPL_FLAG_RND_ACCESS"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a>.</p>
-<p>The initial CRC (i.e. the value written to job crc before the job is
-executed) is the CRC value (the high 32-bits of the index array) from
-the start of the mini-block. In the previous example, that is from index 1.
-After the job completes, the returned CRC value (in job crc) should
-match the CRC value from the end of the mini-block, in this example 10.
-If it does not match, then the mini-block is not decompressed properly.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The state of decompression with mini-blocks is not saved from job
-to job. Namely the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.total_out" title="qpl_job.total_out"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.total_out</span></code></a> will not store the
-cumulative number of bytes written, but only that job’s particular
-mini-block’s number of bytes written.</p>
-</div>
-</section>
-</section>
-<section id="single-block-usage">
-<h3>Single Block Usage<a class="headerlink" href="#single-block-usage" title="Link to this heading">#</a></h3>
-<p>This scenario is similar to the Multi-block case, except that there is
-only one block, and the <em>mb_per_b</em> is not used.</p>
-<p>In this case, the header is always between indices 0 and 1, and the
-start of the mini-block is index M+1. So using the example earlier, if
-the user wants to decompress mini-block 6, the start of that mini-block
-would be index 7.</p>
-</section>
+<p><strong>ZLIB</strong></p>
+<ul class="simple">
+<li><p>2 bytes for the zlib header</p></li>
+</ul>
+<p>For jobs marked with the <cite>QPL_FLAG_LAST</cite> flag, which indicates the end of a
+compression sequence, the following additional bytes for trailers must be
+included:</p>
+<p><strong>GZIP</strong></p>
+<ul class="simple">
+<li><p>8 bytes for the gzip trailer</p></li>
+</ul>
+<p><strong>ZLIB</strong></p>
+<ul class="simple">
+<li><p>4 bytes for the zlib trailer</p></li>
+</ul>
+<p>It is important to note that jobs without the <cite>QPL_FLAG_FIRST</cite> or
+<cite>QPL_FLAG_LAST</cite> flags do not require these additional bytes for headers or
+trailers, as they are considered part of a continuous compression stream
+without the need for marking the beginning or end.</p>
 </section>
 </section>
 
@@ -603,20 +574,20 @@ would be index 7.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="c_deflate_indexing_format.html"
+       href="c_deflate_zlib_gzip.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Format of Indices</p>
+        <p class="prev-next-title">Support of ZLIB and GZIP Formats</p>
       </div>
     </a>
     <a class="right-next"
-       href="c_deflate_zlib_gzip.html"
+       href="../c_huffman_only.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Support of ZLIB and GZIP Formats</p>
+        <p class="prev-next-title">Huffman-Only Compression and Decompression</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -636,16 +607,13 @@ would be index 7.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-size-of-the-index-array">Computing the Size of the Index Array</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-indices">Creating Indices</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-block-usage">Multi-Block Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-the-block-header">Decompressing the Block Header</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decompressing-the-mini-block">Decompressing the Mini-block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-code-example">C++ Code Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">C Code Example</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-block-usage">Single Block Usage</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-overhead">Additional Overhead</a></li>
 </ul>
   </nav></div>
 

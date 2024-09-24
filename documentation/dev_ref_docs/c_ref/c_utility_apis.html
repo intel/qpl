@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Asynchronous Execution &#8212; Intel® QPL v1.6.0 Documentation</title>
+    <title>Utility APIs &#8212; Intel® QPL v1.6.0 Documentation</title>
   
   
   
@@ -40,11 +40,11 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_guide_docs/c_use_cases/c_asynchronous_execution';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'documentation/dev_ref_docs/c_ref/c_utility_apis';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Job Structure" href="c_job_structure.html" />
-    <link rel="prev" title="Low-Level C API Key Concepts" href="../low_level_developer_guide.html" />
+    <link rel="next" title="Benchmarks Framework Guide" href="../../bench_docs/guide.html" />
+    <link rel="prev" title="Status Codes" href="c_status_codes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -165,57 +165,57 @@
 <li class="toctree-l1"><a class="reference internal" href="../../get_started_docs/testing.html">Library Testing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../low_level_developer_guide.html">Low-Level C API Key Concepts</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Asynchronous Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="c_job_structure.html">Job Structure</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="deflate/c_deflate.html">Deflate Compression and Decompression</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_compression.html">Deflate Compression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_decompression.html">Deflate Decompression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_multiple_jobs.html">Compression and Decompression across Multiple Jobs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_dictionary.html">Compressing with a Dictionary</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="deflate/c_deflate_indexing.html">Deflate with Indexing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="deflate/c_deflate_indexing_format.html">Format of Indices</a></li>
-<li class="toctree-l4"><a class="reference internal" href="deflate/c_deflate_indexing_usage.html">Creating and Using Indices</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev_guide_docs/low_level_developer_guide.html">Low-Level C API Key Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_asynchronous_execution.html">Asynchronous Execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_job_structure.html">Job Structure</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate.html">Deflate Compression and Decompression</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_compression.html">Deflate Compression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_decompression.html">Deflate Decompression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_multiple_jobs.html">Compression and Decompression across Multiple Jobs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_dictionary.html">Compressing with a Dictionary</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing.html">Deflate with Indexing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_format.html">Format of Indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_indexing_usage.html">Creating and Using Indices</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_zlib_gzip.html">Support of ZLIB and GZIP Formats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="deflate/c_deflate_estimate_buffer_size.html">Estimating the Size of the Deflate Compression Buffer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_zlib_gzip.html">Support of ZLIB and GZIP Formats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/deflate/c_deflate_estimate_buffer_size.html">Estimating the Size of the Deflate Compression Buffer</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="c_huffman_only.html">Huffman-Only Compression and Decompression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="c_use_huffman_tables.html">Huffman Table Objects</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="filter_ops/c_operations.html">Filter and Other Operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="filter_ops/c_operations_op.html">Operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="filter_ops/c_operations_op_scan.html">Scan</a></li>
-<li class="toctree-l4"><a class="reference internal" href="filter_ops/c_operations_op_extract.html">Extract</a></li>
-<li class="toctree-l4"><a class="reference internal" href="filter_ops/c_operations_op_select.html">Select</a></li>
-<li class="toctree-l4"><a class="reference internal" href="filter_ops/c_operations_op_expand.html">Expand</a></li>
-<li class="toctree-l4"><a class="reference internal" href="filter_ops/c_operations_op_crc64.html">CRC-64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_huffman_only.html">Huffman-Only Compression and Decompression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/c_use_huffman_tables.html">Huffman Table Objects</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations.html">Filter and Other Operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op.html">Operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_scan.html">Scan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_extract.html">Extract</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_select.html">Select</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_expand.html">Expand</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_op_crc64.html">CRC-64</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="filter_ops/c_operations_output_modification.html">Output Modification</a></li>
-<li class="toctree-l3"><a class="reference internal" href="filter_ops/c_operations_aggregates.html">Aggregates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="filter_ops/c_operations_parsers.html">Parser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="filter_ops/c_operations_hw_path_optimization.html">Hardware Path Optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_output_modification.html">Output Modification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_aggregates.html">Aggregates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_parsers.html">Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/filter_ops/c_operations_hw_path_optimization.html">Hardware Path Optimizations</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="advanced/c_advanced_topics.html">Advanced Topics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="advanced/c_advanced_topics_decompress.html">Advanced Decompress Features</a></li>
-<li class="toctree-l3"><a class="reference internal" href="advanced/c_advanced_topics_filter.html">Advanced Filter Features</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics.html">Advanced Topics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics_decompress.html">Advanced Decompress Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev_guide_docs/c_use_cases/advanced/c_advanced_topics_filter.html">Advanced Filter Features</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Reference</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev_ref_docs/low_level_api.html">Low-Level C API Key References</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html">Job APIs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../dev_ref_docs/c_ref/c_huffman_table_apis.html">Huffman Table APIs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../dev_ref_docs/c_ref/c_common_definitions.html">Common Definitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html">Status Codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../dev_ref_docs/c_ref/c_utility_apis.html">Utility APIs</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../low_level_api.html">Low-Level C API Key References</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="c_job_apis.html">Job APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c_huffman_table_apis.html">Huffman Table APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c_common_definitions.html">Common Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c_status_codes.html">Status Codes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Utility APIs</a></li>
 </ul>
 </details></li>
 </ul>
@@ -283,7 +283,7 @@
       
       
       
-      <li><a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_guide_docs/c_use_cases/c_asynchronous_execution.rst" target="_blank"
+      <li><a href="https://github.com/intel/qpl/edit/develop/doc/source/documentation/dev_ref_docs/c_ref/c_utility_apis.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -300,7 +300,7 @@
       
       
       
-      <li><a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_guide_docs/c_use_cases/c_asynchronous_execution.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/intel/qpl/issues/new?title=Issue%20on%20page%20%2Fdocumentation/dev_ref_docs/c_ref/c_utility_apis.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -330,7 +330,7 @@
       
       
       
-      <li><a href="../../../_sources/documentation/dev_guide_docs/c_use_cases/c_asynchronous_execution.rst" target="_blank"
+      <li><a href="../../../_sources/documentation/dev_ref_docs/c_ref/c_utility_apis.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -414,7 +414,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Asynchronous Execution</h1>
+    <h1>Utility APIs</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -424,7 +424,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-execution-and-auto-path">Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 </ul>
             </nav>
         </div>
@@ -438,29 +438,34 @@ document.write(`
                   
   <blockquote>
 <div></div></blockquote>
-<section id="asynchronous-execution">
-<h1>Asynchronous Execution<a class="headerlink" href="#asynchronous-execution" title="Link to this heading">#</a></h1>
-<p>The function <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> in <a class="reference internal" href="../../get_started_docs/quick_start.html#quick-start-reference-link"><span class="std std-ref">Quick Start</span></a> is the
-<em>synchronous</em> interface. It does not return until the job has completed. If the application
-wants to do other work while the job is being processed on the accelerator, it can use the
-<em>asynchronous</em> interface. In this case, the application specifies the <code class="docutils literal notranslate"><span class="pre">Hardware</span> <span class="pre">Path</span></code> or <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code>
-for the execution and submits the job using <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>. The status of the job can then be
-periodically queried by <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>. The application may call <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>
-to wait until the job completes.</p>
+<section id="utility-apis">
+<h1>Utility APIs<a class="headerlink" href="#utility-apis" title="Link to this heading">#</a></h1>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.qpl_get_safe_deflate_compression_buffer_size">
+<span class="target" id="d3/dff/group___u_t_i_l_i_t_y___a_p_i_1ga873733932ea44f690949993da996a4f2"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_get_safe_deflate_compression_buffer_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="n"><span class="pre">source_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.qpl_get_safe_deflate_compression_buffer_size" title="Link to this definition">#</a><br /></dt>
+<dd><p>Calculate the maximum buffer size for compression, compression output should not exceed this size. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Synchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_execute_job" title="qpl_execute_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_execute_job()</span></code></a> is essentially a
-combination of the asynchronous interface <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a> followed by
-<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>.</p>
+<p>This only applies to deflate compressions, Huffman Only mode is not supported.</p>
 </div>
-<section id="asynchronous-execution-and-auto-path">
-<span id="library-async-with-auto-reference-link"></span><h2>Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code><a class="headerlink" href="#asynchronous-execution-and-auto-path" title="Link to this heading">#</a></h2>
-<p>When the application specifies <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code> for an asynchronous execution, host fallback may happen inside
-<a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_submit_job" title="qpl_submit_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_submit_job()</span></code></a>, <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a>, or <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>.</p>
-<p>If host fallback doesn’t happen, these APIs will return status from the asynchronous accelerator execution.</p>
-<p>If host fallback happens inside an API, it will switch to execution on the CPU host, finish the execution, and return its status.
-After the host fallback has happened, subsequent calls to <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_wait_job" title="qpl_wait_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_wait_job()</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_check_job" title="qpl_check_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_check_job()</span></code></a>
-will return <a class="reference internal" href="../../dev_ref_docs/c_ref/c_status_codes.html#c.qpl_status.QPL_STS_OK" title="QPL_STS_OK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a> to indicate that the execution has already completed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function does not include overhead for gzip/zlib headers and footers.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_size</strong> – <strong>[in]</strong> size of the input buffer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>uint32_t </p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -476,20 +481,20 @@ will return <a class="reference internal" href="../../dev_ref_docs/c_ref/c_statu
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../low_level_developer_guide.html"
+       href="c_status_codes.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Low-Level C API Key Concepts</p>
+        <p class="prev-next-title">Status Codes</p>
       </div>
     </a>
     <a class="right-next"
-       href="c_job_structure.html"
+       href="../../bench_docs/guide.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Job Structure</p>
+        <p class="prev-next-title">Benchmarks Framework Guide</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -509,7 +514,7 @@ will return <a class="reference internal" href="../../dev_ref_docs/c_ref/c_statu
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-execution-and-auto-path">Asynchronous Execution and <code class="docutils literal notranslate"><span class="pre">Auto</span> <span class="pre">Path</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 </ul>
   </nav></div>
 
