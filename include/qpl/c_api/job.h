@@ -58,7 +58,7 @@ typedef struct {
     uint32_t total_out;     /**< Total number of bytes written so far */
 
     qpl_operation          op;              /**< Intel QPL operation */
-    uint32_t               flags;           /**< Auxiliary operation flags - see below */
+    uint32_t               flags;           /**< Auxiliary operation flags, see QPL_FLAGS in qpl/c_api/defs.h */
     uint32_t               crc;             /**< CRC - Input and Output */
     uint32_t               xor_checksum;    /**< Simple XOR check sum */
     uint32_t               last_bit_offset; /**< Actual bits in the last written byte (or word for BE16 format) */
