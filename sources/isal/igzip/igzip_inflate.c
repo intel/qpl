@@ -608,7 +608,7 @@ static inline void make_inflate_huff_code_dist(struct inflate_huff_code_small* r
     uint32_t  code_length             = 0U;
     uint16_t  long_bits               = 0U;
     uint16_t  min_increment           = 0U;
-    uint32_t  code_list[DIST_LEN + 2]; /* The +2 is for the extra codes in the static header */
+    uint32_t  code_list[DIST_LEN + 2] = {0U}; /* The +2 is for the extra codes in the static header */
     uint32_t  count_total[17], count_total_tmp[17];
     uint32_t  insert_index      = 0U;
     uint16_t* short_code_lookup = result->short_code_lookup;

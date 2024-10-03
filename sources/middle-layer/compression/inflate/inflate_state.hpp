@@ -163,6 +163,10 @@ public:
         return inflate_state<execution_path_t::hardware>(allocator);
     };
 
+    inflate_state(const inflate_state&) = default;
+
+    inflate_state& operator=(const inflate_state&) = delete;
+
     ~inflate_state() { this->execution_state_ptr->aecs_index ^= 1U; }
 
     [[nodiscard]] static constexpr inline auto get_buffer_size() noexcept -> uint32_t {

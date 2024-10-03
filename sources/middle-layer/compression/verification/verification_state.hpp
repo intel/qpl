@@ -88,8 +88,8 @@ private:
         uint32_t           crc;
     }* verify_state_ptr;
 
-    bool     is_first_;
-    uint32_t required_crc_value;
+    bool     is_first_          = false;
+    uint32_t required_crc_value = 0U;
 };
 
 template <>
