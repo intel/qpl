@@ -29,13 +29,13 @@ static_assert(sizeof(hw_iaa_aecs_compress) == HW_AECS_COMPRESS_WITH_HT_AND_DICT,
               "hw_iaa_aecs_compress size is not correct");
 
 HW_PATH_IAA_AECS_API(void, compress_accumulator_insert_eob,
-                     (hw_iaa_aecs_compress* const eacs_deflate_ptr, const hw_huffman_code eob_symbol)) {
-    uint32_t offset = eacs_deflate_ptr->num_output_accum_bits;
-    uint32_t data   = *(uint32_t*)(eacs_deflate_ptr->output_accum + (offset / 8U));
+                     (hw_iaa_aecs_compress* const aecs_deflate_ptr, const hw_huffman_code eob_symbol)) {
+    uint32_t offset = aecs_deflate_ptr->num_output_accum_bits;
+    uint32_t data   = *(uint32_t*)(aecs_deflate_ptr->output_accum + (offset / 8U));
     data &= (1U << (offset & 7U)) - 1U;
     data |= eob_symbol.code << (offset & 7U);
-    *(uint32_t*)(eacs_deflate_ptr->output_accum + (offset / 8U)) = data;
-    eacs_deflate_ptr->num_output_accum_bits                      = offset + eob_symbol.length;
+    *(uint32_t*)(aecs_deflate_ptr->output_accum + (offset / 8U)) = data;
+    aecs_deflate_ptr->num_output_accum_bits                      = offset + eob_symbol.length;
 }
 
 HW_PATH_IAA_AECS_API(void, compress_accumulator_flush,

@@ -293,8 +293,9 @@ auto write_stored_block(deflate_state<execution_path_t::hardware>& state) noexce
     if (actual_bits_in_aecs) {
         hw_iaa_aecs_compress_accumulator_flush(actual_aecs, &output_ptr, actual_bits_in_aecs);
 
-        auto shift = actual_bits_in_aecs / byte_bit_size;
-        bytes_written += shift;
+        auto offset = actual_bits_in_aecs / byte_bit_size;
+        bytes_written += offset;
+        output_ptr += offset;
     } else {
         actual_aecs->num_output_accum_bits = 0U;
     }

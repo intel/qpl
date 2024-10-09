@@ -81,6 +81,114 @@ qpl_status set_state_to_complete_and_wrap(qpl_job* const job_ptr, qpl_hw_state* 
     return QPL_STS_OK;
 }
 
+qpl_status write_stored_block_and_update_job(qpl_job* qpl_job_ptr) {
+    constexpr uint32_t IAA_ACCUMULATOR_CAPACITY = 256U + 64U;
+
+    HW_IMMEDIATELY_RET((qpl_job_ptr->flags & (QPL_FLAG_NO_HDRS)), QPL_STS_DST_IS_SHORT_ERR);
+
+    if (qpl_job_ptr->mini_block_size) {
+        HW_IMMEDIATELY_RET((64U * 1024U <= qpl_job_ptr->available_in), QPL_STS_INDEX_GENERATION_ERR)
+        HW_IMMEDIATELY_RET(
+                (((qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_LAST)) != (QPL_FLAG_FIRST | QPL_FLAG_LAST)) &&
+                 (0U == (qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_DYNAMIC_HUFFMAN)))),
+                QPL_STS_INDEX_GENERATION_ERR)
+    }
+
+    auto* const state_ptr = reinterpret_cast<qpl_hw_state*>(job::get_state(qpl_job_ptr));
+    HW_IMMEDIATELY_RET_NULLPTR(state_ptr);
+
+    hw_iaa_aecs_compress* const cfg_in_ptr =
+            hw_iaa_aecs_compress_get_aecs_ptr(state_ptr->ccfg, state_ptr->aecs_hw_read_offset, state_ptr->aecs_size);
+    hw_iaa_aecs_compress* const cfg_out_ptr = hw_iaa_aecs_compress_get_aecs_ptr(
+            state_ptr->ccfg, state_ptr->aecs_hw_read_offset ^ 1U, state_ptr->aecs_size);
+
+    HW_IMMEDIATELY_RET(cfg_in_ptr == NULL || cfg_out_ptr == NULL, QPL_STS_LIBRARY_INTERNAL_ERR);
+
+    // Get AECS buffers accumulated bit size
+    uint32_t bits_to_flush = (qpl_task_execution_step_header_inserting == state_ptr->execution_history.execution_step)
+                                     ? state_ptr->saved_num_output_accum_bits
+                                     : hw_iaa_aecs_compress_accumulator_get_actual_bits(cfg_in_ptr);
+
+    // Insert EOB
+    if (qpl_task_execution_step_header_inserting != state_ptr->execution_history.execution_step) {
+        hw_iaa_aecs_compress_accumulator_insert_eob(cfg_in_ptr, state_ptr->eob_code);
+        bits_to_flush += state_ptr->eob_code.length;
+    }
+
+    auto stored_blocks_required_size = compression::calculate_size_needed(qpl_job_ptr->available_in, bits_to_flush);
+
+    HW_IMMEDIATELY_RET((stored_blocks_required_size > qpl_job_ptr->available_out), QPL_STS_MORE_OUTPUT_NEEDED)
+
+    const uint8_t* const input_data_ptr  = qpl_job_ptr->next_in_ptr;
+    const uint32_t       input_data_size = qpl_job_ptr->available_in;
+
+    uint8_t*       output_ptr    = qpl_job_ptr->next_out_ptr;
+    const uint32_t output_size   = qpl_job_ptr->available_out;
+    uint32_t       bytes_written = 0U;
+
+    // Flush AECS buffers
+    HW_IMMEDIATELY_RET((IAA_ACCUMULATOR_CAPACITY <= bits_to_flush), QPL_STS_LIBRARY_INTERNAL_ERR);
+
+    if (bits_to_flush) {
+        hw_iaa_aecs_compress_accumulator_flush(cfg_in_ptr, &output_ptr, bits_to_flush);
+
+        auto offset = bits_to_flush / 8U;
+        bytes_written += offset;
+        output_ptr += offset;
+    } else {
+        cfg_in_ptr->num_output_accum_bits = 0U;
+    }
+
+    const bool is_final_block = ((QPL_FLAG_LAST & qpl_job_ptr->flags) != 0);
+
+    const int64_t stored_block_bytes =
+            ml::compression::write_stored_blocks(const_cast<uint8_t*>(input_data_ptr), input_data_size, output_ptr,
+                                                 output_size, bits_to_flush & 7U, is_final_block);
+
+    if (stored_block_bytes < 0) {
+        return QPL_STS_MORE_OUTPUT_NEEDED;
+    } else {
+        bytes_written += static_cast<uint32_t>(stored_block_bytes);
+    }
+
+    // Calculate checksums and update their values in job ptr
+    uint32_t crc = 0U, xor_checksum = 0U;
+    hw_iaa_aecs_compress_get_checksums(cfg_in_ptr, &crc, &xor_checksum);
+
+    crc = !(qpl_job_ptr->flags & QPL_FLAG_CRC32C)
+                  ? util::crc32_gzip(input_data_ptr, input_data_ptr + input_data_size, crc)
+                  : util::crc32_iscsi_inv(input_data_ptr, input_data_ptr + input_data_size, crc);
+
+    xor_checksum = util::xor_checksum(input_data_ptr, input_data_ptr + input_data_size, xor_checksum);
+
+    hw_iaa_aecs_compress_set_checksums(cfg_out_ptr, crc, xor_checksum);
+
+    job::update_checksums(qpl_job_ptr, crc, xor_checksum);
+
+    state_ptr->execution_history.compress_crc = crc;
+
+    if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
+        const uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
+        const uint32_t new_acc_adler32 = qpl::ml::util::adler32(input_data_ptr, input_data_size, prev_adler32);
+        job::update_adler32(qpl_job_ptr, new_acc_adler32);
+    }
+
+    // Update output ptrs and offsets in job ptr
+    job::update_output_stream(qpl_job_ptr, bytes_written, 0U);
+
+    if (is_final_block) {
+        // Flag state as completed and wrap stream into gzip or zlib if necessary
+        set_state_to_complete_and_wrap(qpl_job_ptr, state_ptr, crc);
+    } else {
+        state_ptr->execution_history.execution_step = qpl_task_execution_step_header_inserting;
+    }
+
+    // Update input ptrs and offsets in job ptr
+    job::update_input_stream(qpl_job_ptr, input_data_size);
+
+    return QPL_STS_OK;
+}
+
 qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
     using namespace qpl;
 
@@ -95,6 +203,7 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
     hw_iaa_aecs_compress* const cfg_out_ptr = hw_iaa_aecs_compress_get_aecs_ptr(
             state_ptr->ccfg, state_ptr->aecs_hw_read_offset ^ 1U, state_ptr->aecs_size);
     if (!cfg_out_ptr) { return QPL_STS_LIBRARY_INTERNAL_ERR; }
+
     // Check verification step
     if (QPL_OPCODE_DECOMPRESS == ADOF_GET_OPCODE(desc_ptr->op_code_op_flags)) {
         OWN_QPL_CHECK_STATUS(ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record*>(comp_ptr)))
@@ -114,95 +223,8 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
 
     // Software fallback for overflowing
     if (comp_ptr->error_code == AD_ERROR_CODE_UNRECOVERABLE_OUTPUT_OVERFLOW) {
-        HW_IMMEDIATELY_RET((qpl_job_ptr->flags & (QPL_FLAG_NO_HDRS)), QPL_STS_DST_IS_SHORT_ERR);
-
-        if (qpl_job_ptr->mini_block_size) {
-            HW_IMMEDIATELY_RET((64U * 1024U <= qpl_job_ptr->available_in), QPL_STS_INDEX_GENERATION_ERR)
-            HW_IMMEDIATELY_RET(
-                    (((qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_LAST)) != (QPL_FLAG_FIRST | QPL_FLAG_LAST)) &&
-                     (0U ==
-                      (qpl_job_ptr->flags & (QPL_FLAG_FIRST | QPL_FLAG_START_NEW_BLOCK | QPL_FLAG_DYNAMIC_HUFFMAN)))),
-                    QPL_STS_INDEX_GENERATION_ERR)
-        }
-
-        // Get AECS buffers accumulated bit size
-        uint32_t bits_to_flush =
-                (qpl_task_execution_step_header_inserting == state_ptr->execution_history.execution_step)
-                        ? state_ptr->saved_num_output_accum_bits
-                        : hw_iaa_aecs_compress_accumulator_get_actual_bits(cfg_in_ptr);
-
-        // Insert EOB
-        if (qpl_task_execution_step_header_inserting != state_ptr->execution_history.execution_step) {
-            hw_iaa_aecs_compress_accumulator_insert_eob(cfg_in_ptr, state_ptr->eob_code);
-            bits_to_flush += state_ptr->eob_code.length; // @todo recheck logic
-        }
-
-        auto stored_blocks_required_size = compression::calculate_size_needed(qpl_job_ptr->available_in, bits_to_flush);
-
-        HW_IMMEDIATELY_RET((stored_blocks_required_size > qpl_job_ptr->available_out), QPL_STS_MORE_OUTPUT_NEEDED)
-
-        const uint8_t* const input_data_ptr  = qpl_job_ptr->next_in_ptr;
-        const uint32_t       input_data_size = qpl_job_ptr->available_in;
-
-        uint8_t*       output_ptr    = qpl_job_ptr->next_out_ptr;
-        const uint32_t output_size   = qpl_job_ptr->available_out;
-        uint32_t       bytes_written = 0U;
-
-        // Flush AECS buffers
-        HW_IMMEDIATELY_RET((256U + 64U <= bits_to_flush), QPL_STS_LIBRARY_INTERNAL_ERR);
-
-        if (bits_to_flush) {
-            hw_iaa_aecs_compress_accumulator_flush(cfg_in_ptr, &output_ptr, bits_to_flush);
-            bytes_written += bits_to_flush / 8U;
-        } else {
-            cfg_in_ptr->num_output_accum_bits = 0U;
-        }
-
-        const int64_t stored_block_bytes =
-                ml::compression::write_stored_blocks(const_cast<uint8_t*>(input_data_ptr), input_data_size, output_ptr,
-                                                     output_size, bits_to_flush & 7U, is_final_block);
-
-        if (stored_block_bytes < 0) {
-            return QPL_STS_MORE_OUTPUT_NEEDED;
-        } else {
-            bytes_written += static_cast<uint32_t>(stored_block_bytes);
-        }
-
-        // Calculate checksums and update their values in job ptr
-        uint32_t crc = 0U, xor_checksum = 0U;
-        hw_iaa_aecs_compress_get_checksums(cfg_in_ptr, &crc, &xor_checksum);
-        crc = !(qpl_job_ptr->flags & QPL_FLAG_CRC32C)
-                      ? util::crc32_gzip(input_data_ptr, input_data_ptr + input_data_size, crc)
-                      : util::crc32_iscsi_inv(input_data_ptr, input_data_ptr + input_data_size, crc);
-
-        xor_checksum = util::xor_checksum(input_data_ptr, input_data_ptr + input_data_size, xor_checksum);
-
-        hw_iaa_aecs_compress_set_checksums(cfg_out_ptr, crc, xor_checksum);
-
-        // CRC computed during sw fallback
-        // Used for verification
-        state_ptr->execution_history.compress_crc = crc;
-
-        job::update_checksums(qpl_job_ptr, crc, xor_checksum);
-
-        if (QPL_FLAG_ZLIB_MODE & qpl_job_ptr->flags) {
-            const uint32_t prev_adler32    = job::get_adler32(qpl_job_ptr);
-            const uint32_t new_acc_adler32 = qpl::ml::util::adler32(input_data_ptr, input_data_size, prev_adler32);
-            job::update_adler32(qpl_job_ptr, new_acc_adler32);
-        }
-
-        // Update output ptrs and offsets in job ptr
-        job::update_output_stream(qpl_job_ptr, bytes_written, bytes_written);
-
-        if (is_final_block) {
-            // Flag state as completed and wrap stream into gzip or zlib if necessary
-            set_state_to_complete_and_wrap(qpl_job_ptr, state_ptr, crc);
-        } else {
-            state_ptr->execution_history.execution_step = qpl_task_execution_step_header_inserting;
-        }
-
-        // Update input ptrs and offsets in job ptr
-        job::update_input_stream(qpl_job_ptr, input_data_size);
+        const qpl_status status = write_stored_block_and_update_job(qpl_job_ptr);
+        if (status != QPL_STS_OK) { return status; }
 
         if (!(QPL_FLAG_OMIT_VERIFY & qpl_job_ptr->flags)) { return hw_submit_verify_job(qpl_job_ptr); }
 
@@ -213,7 +235,6 @@ qpl_status hw_check_compress_job(qpl_job* qpl_job_ptr) {
     }
 
     // Validate descriptor result
-
     const ml::qpl_ml_status hw_status =
             ml::util::convert_status_iaa_to_qpl(reinterpret_cast<hw_completion_record*>(comp_ptr));
 
