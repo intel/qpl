@@ -29,47 +29,6 @@ static inline uint32_t bsr(uint32_t val) {
     return msb;
 }
 
-static inline uint32_t count_significant_bits(uint32_t value) {
-    // Variables
-    uint32_t significant_bits = 0;
-
-    // Main cycle
-    while (value > 0) {
-        significant_bits++;
-        value >>= 1U;
-    }
-
-    return significant_bits;
-}
-
-static inline void compute_offset_code(const struct isal_hufftables* huffman_table_ptr, uint16_t offset,
-                                       uint64_t* const code_ptr, uint32_t* const code_length_ptr) {
-    // Variables
-    uint32_t significant_bits     = 0U;
-    uint32_t number_of_extra_bits = 0U;
-    uint32_t extra_bits           = 0U;
-    uint32_t symbol               = 0U;
-    uint32_t length               = 0U;
-    uint32_t code                 = 0U;
-
-    offset -= 1U;
-    significant_bits = count_significant_bits(offset);
-    // TODO: look into possibility of exiting early in case of significant_bits <= 1
-
-    number_of_extra_bits = significant_bits - 2U;
-    extra_bits           = offset & ((1U << (number_of_extra_bits % 32)) - 1U);
-    offset >>= number_of_extra_bits % 32;
-    symbol = offset + 2 * number_of_extra_bits;
-
-    // Extracting information from table
-    code   = huffman_table_ptr->dcodes[symbol];
-    length = huffman_table_ptr->dcodes_sizes[symbol];
-
-    // Return of the calculated results
-    *code_ptr        = code | (extra_bits << length);
-    *code_length_ptr = length + number_of_extra_bits;
-}
-
 static inline uint32_t own_get_offset_table_index(const uint32_t offset) {
     if (offset <= 2) {
         return offset - 1;
@@ -115,10 +74,10 @@ static void compute_distance_icf_code(uint32_t distance, uint32_t* code, uint32_
 
     distance -= 1;
     msb = bsr(distance);
-    assert(msb >= 1);
+    assert(msb >= 2U);
     num_extra_bits = msb - 2;
-    *extra_bits    = distance & ((1 << (num_extra_bits % 32)) - 1);
-    distance >>= num_extra_bits % 32;
+    *extra_bits    = distance & ((1 << num_extra_bits) - 1);
+    distance >>= num_extra_bits;
     *code = distance + 2 * num_extra_bits;
     assert(*code < 30);
 }
@@ -174,18 +133,6 @@ void get_match_length_code(const struct isal_hufftables* const huffman_table_ptr
 
     *code_ptr        = match_length_info >> 5U;
     *code_length_ptr = match_length_info & 0x1FU;
-}
-
-void get_offset_code(const struct isal_hufftables* const huffman_table_ptr, uint32_t offset, uint64_t* const code_ptr,
-                     uint32_t* const code_length_ptr) {
-    if (offset <= IGZIP_DIST_TABLE_SIZE) {
-        const uint64_t offset_info = huffman_table_ptr->dist_table[offset - 1];
-
-        *code_ptr        = offset_info >> 5U;
-        *code_length_ptr = offset_info & 0x1FU;
-    } else {
-        compute_offset_code(huffman_table_ptr, offset, code_ptr, code_length_ptr);
-    }
 }
 
 void get_literal_code(const struct isal_hufftables* const huffman_table_ptr, const uint32_t literal,

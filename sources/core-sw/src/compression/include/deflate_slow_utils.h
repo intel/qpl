@@ -30,9 +30,6 @@ void update_histogram_for_match(isal_mod_hist* const histogram_ptr, const deflat
 void get_match_length_code(const struct isal_hufftables* const huffman_table_ptr, const uint32_t match_length,
                            uint64_t* const code_ptr, uint32_t* const code_length_ptr);
 
-void get_offset_code(const struct isal_hufftables* const huffman_table_ptr, uint32_t offset, uint64_t* const code_ptr,
-                     uint32_t* const code_length_ptr);
-
 void get_literal_code(const struct isal_hufftables* const huffman_table_ptr, const uint32_t literal,
                       uint64_t* const code_ptr, uint32_t* const code_length_ptr);
 

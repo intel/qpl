@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include <assert.h>
+
 #include "crc.h"
 #include "deflate_defs.h"
 #include "deflate_hash_table.h"
@@ -82,6 +84,7 @@ static inline void compute_offset_code(const struct isal_hufftables* huffman_tab
 
     offset -= 1U;
     significant_bits = own_count_significant_bits(offset);
+    assert(significant_bits >= 2);
 
     number_of_extra_bits = significant_bits - 2U;
     extra_bits           = offset & ((1U << number_of_extra_bits) - 1U);
