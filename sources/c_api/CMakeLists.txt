@@ -59,6 +59,7 @@ target_compile_definitions(qpl_c_api
         PUBLIC -DQPL_LIB          # needed for middle_layer_lib
         PUBLIC $<$<BOOL:${DYNAMIC_LOADING_LIBACCEL_CONFIG}>:DYNAMIC_LOADING_LIBACCEL_CONFIG> # needed for middle_layer_lib
         PUBLIC $<$<BOOL:${LOG_HW_INIT}>:LOG_HW_INIT>                                         # needed for middle_layer_lib
+        PUBLIC $<$<BOOL:${QPL_LOG_IAA_TIME}>:QPL_LOG_IAA_TIME>                               # needed for middle_layer_lib
         PUBLIC $<$<C_COMPILER_ID:MSVC>:_ENABLE_EXTENDED_ALIGNED_STORAGE>)
 
 set_property(GLOBAL APPEND PROPERTY QPL_LIB_DEPS

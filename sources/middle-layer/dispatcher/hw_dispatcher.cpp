@@ -11,6 +11,10 @@
 
 #include "hw_dispatcher.hpp"
 
+#ifdef QPL_LOG_IAA_TIME
+#include "util/hw_timing_util.hpp"
+#endif
+
 #if defined(__linux__)
 
 #endif
@@ -21,6 +25,15 @@
     }
 
 namespace qpl::ml::dispatcher {
+
+#ifdef QPL_LOG_IAA_TIME
+/**
+ * @brief Global vector that stores the timestamps and meta data for
+ * operation executed on Intel® In-Memory Analytics Accelerator (Intel® IAA).
+*/
+std::vector<iaa_operation_timestamp> iaa_timestamps;
+
+#endif //QPL_LOG_IAA_TIME
 
 hw_dispatcher::hw_dispatcher() noexcept : hw_init_status_(hw_dispatcher::initialize_hw()) {
     hw_support_ = hw_init_status_ == HW_ACCELERATOR_STATUS_OK;
@@ -78,6 +91,11 @@ auto hw_dispatcher::initialize_hw() noexcept -> hw_accelerator_status {
 }
 
 hw_dispatcher::~hw_dispatcher() noexcept {
+#ifdef QPL_LOG_IAA_TIME
+    // Print elapsed time if hw timing is enabled
+    calculate_iaa_elapsed_time();
+#endif
+
 #if defined(__linux__)
     // Variables
     auto* context_ptr = hw_context_.get_driver_context_ptr();

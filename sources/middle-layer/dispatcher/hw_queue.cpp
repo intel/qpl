@@ -25,6 +25,10 @@
 #include "libaccel_config.h"
 #endif //DYNAMIC_LOADING_LIBACCEL_CONFIG
 
+#ifdef QPL_LOG_IAA_TIME
+#include "util/hw_timing_util.hpp"
+#endif //QPL_LOG_IAA_TIME
+
 #define QPL_HWSTS_RET(expr, err_code)    \
     {                                    \
         if (expr) { return (err_code); } \
@@ -119,6 +123,14 @@ auto hw_queue::enqueue_descriptor(void* desc_ptr) const noexcept -> qpl_status {
                 : "=r"(retry)
                 : "a"(current_place_ptr), "d"(desc_ptr));
 
+#ifdef QPL_LOG_IAA_TIME
+        if (!retry) {
+            // If enqueue is successful, record the start time and meta data
+            record_meta_data(desc_ptr);
+            record_iaa_start_time();
+        }
+#endif
+
         // add with different verbosity level to not crowd output
         // DIAG(" ENQCMD submitted\n");
 
@@ -130,6 +142,11 @@ auto hw_queue::enqueue_descriptor(void* desc_ptr) const noexcept -> qpl_status {
         // DIAG(" write submitted\n");
 
         if (ret == sizeof(hw_decompress_analytics_descriptor)) {
+#ifdef QPL_LOG_IAA_TIME
+            // If enqueue is successful, record the start time and meta data
+            record_meta_data(desc_ptr);
+            record_iaa_start_time();
+#endif
             return QPL_STS_OK;
         } else {
             DIAG(" write returned %ld, expected %ld\n", ret, sizeof(hw_decompress_analytics_descriptor));
@@ -152,6 +169,11 @@ auto hw_queue::execute_noop() const noexcept -> qpl_status {
     hw_iaa_descriptor_set_completion_record(&desc, &completion_record);
 
     const qpl_status status = enqueue_descriptor(&desc);
+
+#ifdef QPL_LOG_IAA_TIME
+    record_invalid_end_time_to_skip_iaa_timing();
+#endif
+
     if (QPL_STS_OK == status) {
         while (completion_record.status == 0) {
             _mm_pause();

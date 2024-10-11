@@ -18,6 +18,10 @@
 #include "util/completion_record.hpp"
 #include "util/hw_status_converting.hpp"
 
+#ifdef QPL_LOG_IAA_TIME
+#include "util/hw_timing_util.hpp"
+#endif
+
 namespace qpl::ml::util {
 
 enum class execution_mode_t { sync, async };
@@ -101,6 +105,11 @@ inline auto process_descriptor(hw_descriptor* const                         desc
                     reinterpret_cast<hw_decompress_analytics_descriptor*>(descriptor_ptr)->src1_size;
         }
     } else {
+        // Async path
+#ifdef QPL_LOG_IAA_TIME
+        qpl::ml::dispatcher::record_invalid_end_time_to_skip_iaa_timing();
+#endif
+
         if constexpr (std::is_same<other::crc_operation_result_t, return_t>::value) {
             operation_result.status_code_ = convert_hw_accelerator_status_to_qpl_status(accel_status);
         } else {
