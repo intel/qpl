@@ -100,5 +100,9 @@ is returned as a bit vector. However, if the flag
 :c:macro:`QPL_FLAG_FORCE_ARRAY_OUTPUT` is specified, the output is returned
 as an array of a bit width defined by the :c:member:`qpl_job.output_bit_width`
 field. Use this feature to receive the output as an array of a larger bit width
-when the output is expected to have a bit width of 1 bit. This feature is only
-supported on the hardware path for Intel® In-Memory Analytics Accelerator 2.0 and later.
+when the output is expected to have a bit width of 1 bit.
+
+.. attention::
+
+    This feature is only supported on the ``Hardware Path`` and Intel® In-Memory Analytics Accelerator 2.0 and later.
+
