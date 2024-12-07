@@ -13,22 +13,30 @@ In Intel® Query Processing Library (Intel® QPL), the user is required to
 allocate an output buffer for the compression algorithm. The Intel® QPL
 Compression Buffer Size Estimation API provides a reliable method for users to
 estimate the size of the output buffer required for compression operations.
-This document serves as a guide for developers to understand and integrate the
-API into their applications.
 
-.. warning::
-    The Intel® QPL Compression Buffer Size Estimation API only supports
-    deflate compression and does not support Huffman-Only mode compression.
+Compression Buffer Size Estimation API :c:func:`qpl_get_safe_deflate_compression_buffer_size`
+returns the size of the output buffer required for deflate compression.
+The API returns ``0`` if the source size exceeds the maximum supported size.
 
-The Intel® QPL Compression Buffer Size Estimation API returns the size of the
-output buffer required for deflate compression. The API returns 0 if the source
-size exceeds the maximum supported size.
+.. note::
+    For multi-chunk compression, the user must call the API for each chunk of data separately.
+    Refer to the corresponding multi-chunk examples for more details.
 
-.. warning::
-    Please note that the maximum input size supported by the Intel® QPL and
-    this API is 2^32 - 35 bytes due to the limitations imposed by the
-    Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware. Refer to the
-    `Limitations`_ section for more information.
+Limitations
+***********
+
+- The Intel® QPL Compression Buffer Size Estimation API only supports
+  deflate compression and does not support Huffman-Only mode compression.
+
+- Due to the limitations imposed by the Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
+  , the maximum bit size supported by the Intel® QPL compression is 32 bits. To account for the
+  additional compression overhead, the maximum input size supported by the
+  Intel® QPL and this API is ``2^32 - 35`` bytes.
+
+- The function does not include the additional bytes required for GZIP/ZLIB
+  compatibility (i.e., when using the :c:macro:`QPL_FLAG_GZIP_MODE` or :c:macro:`QPL_FLAG_ZLIB_MODE`
+  flags). Users must manually account for these additional bytes.
+  For more details, see :ref:`additional overhead <deflate_estimation_additional_overhead>`.
 
 Usage Example
 *************
@@ -40,7 +48,7 @@ C++ Code Example
 
     #include <qpl.h>
     #include <iostream>
-    
+
     uint32_t source_size = 1024U;
     uint32_t compression_size;
 
@@ -61,7 +69,7 @@ C Code Example
 
     #include <qpl.h>
     #include <stdio.h>
-    
+
     uint32_t source_size = 1024U;
     uint32_t compression_size;
 
@@ -70,7 +78,7 @@ C Code Example
         printf("Invalid source size. Source size exceeds the maximum supported size.\n");
         return -1;
     }
-    
+
     uint8_t *destination = (uint8_t *)malloc(compression_size);
     if (destination == NULL) {
         printf("Memory allocation failed.\n");
@@ -79,56 +87,36 @@ C Code Example
 
     printf("Source size: %u, compression size: %u.\n", source_size, compression_size);
 
-.. _deflate_estimation_limitations:
-
-Limitations
-***********
-
-- Due to the limitations imposed by the Intel® IAA hardware, the maximum bit
-  size supported by the Intel® QPL compression is 32 bits. To account for the
-  additional compression overhead, the maximum input size supported by the
-  Intel® QPL and this API is 2^32 - 35 bytes.
-
-- The function does not account for additional bytes needed for gzip/zlib
-  headers and trailers. This API only estimates the overhead of the Intel® QPL
-  Intel® IAA deflate operations. The user must account for the additional
-  bytes needed for gzip/zlib headers and trailers.
-
 .. _deflate_estimation_additional_overhead:
 
 Additional Overhead
 *******************
 
-The Intel® QPL Compression Buffer Size Estimation API does not include the
-additional bytes required for gzip/zlib headers and trailers. Users must
-manually account for these additional bytes when dealing with compression jobs
-that are flagged as either `QPL_FLAG_FIRST` or `QPL_FLAG_LAST`.
+The estimation provided by :c:func:`qpl_get_safe_deflate_compression_buffer_size` does not include
+the additional bytes required for GZIP/ZLIB headers and trailers when using the :c:macro:`QPL_FLAG_GZIP_MODE` or :c:macro:`QPL_FLAG_ZLIB_MODE` flags.
 
-For jobs marked with the `QPL_FLAG_FIRST` flag, which indicates the beginning
-of a compression sequence, the following additional bytes for headers must be
-considered:
+Users must manually account for these additional bytes when dealing with compression jobs
+that are flagged with either the :c:macro:`QPL_FLAG_FIRST` or :c:macro:`QPL_FLAG_LAST` flags.
 
-**GZIP**
+Jobs marked with the :c:macro:`QPL_FLAG_FIRST` flag require additional bytes for headers.
+Similarly, jobs marked with the :c:macro:`QPL_FLAG_LAST` flag require additional bytes for trailers.
+Jobs that do not use either flag do not require additional bytes.
 
-- 10 bytes for the gzip header
+Below is a breakdown of the additional bytes required when using GZIP and ZLIB formats:
 
-**ZLIB**
+**GZIP compatible stream**
 
-- 2 bytes for the zlib header
+- ``10`` bytes for the GZIP header
+- ``8`` bytes for the GZIP trailer
 
-For jobs marked with the `QPL_FLAG_LAST` flag, which indicates the end of a
-compression sequence, the following additional bytes for trailers must be
-included:
+**ZLIB compatible stream**
 
-**GZIP**
+- ``2`` bytes for the ZLIB header
+- ``4`` bytes for the ZLIB trailer
 
-- 8 bytes for the gzip trailer
 
-**ZLIB**
 
-- 4 bytes for the zlib trailer
 
-It is important to note that jobs without the `QPL_FLAG_FIRST` or
-`QPL_FLAG_LAST` flags do not require these additional bytes for headers or
-trailers, as they are considered part of a continuous compression stream
-without the need for marking the beginning or end.
+
+
+

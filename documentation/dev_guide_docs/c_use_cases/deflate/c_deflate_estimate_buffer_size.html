@@ -405,12 +405,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-code-example">C++ Code Example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">C Code Example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-overhead">Additional Overhead</a></li>
 </ul>
             </nav>
@@ -430,24 +430,30 @@
 <p>In Intel® Query Processing Library (Intel® QPL), the user is required to
 allocate an output buffer for the compression algorithm. The Intel® QPL
 Compression Buffer Size Estimation API provides a reliable method for users to
-estimate the size of the output buffer required for compression operations.
-This document serves as a guide for developers to understand and integrate the
-API into their applications.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The Intel® QPL Compression Buffer Size Estimation API only supports
-deflate compression and does not support Huffman-Only mode compression.</p>
+estimate the size of the output buffer required for compression operations.</p>
+<p>Compression Buffer Size Estimation API <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_utility_apis.html#c.qpl_get_safe_deflate_compression_buffer_size" title="qpl_get_safe_deflate_compression_buffer_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_safe_deflate_compression_buffer_size()</span></code></a>
+returns the size of the output buffer required for deflate compression.
+The API returns <code class="docutils literal notranslate"><span class="pre">0</span></code> if the source size exceeds the maximum supported size.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For multi-chunk compression, the user must call the API for each chunk of data separately.
+Refer to the corresponding multi-chunk examples for more details.</p>
 </div>
-<p>The Intel® QPL Compression Buffer Size Estimation API returns the size of the
-output buffer required for deflate compression. The API returns 0 if the source
-size exceeds the maximum supported size.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Please note that the maximum input size supported by the Intel® QPL and
-this API is 2^32 - 35 bytes due to the limitations imposed by the
-Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware. Refer to the
-<a class="reference internal" href="#limitations">Limitations</a> section for more information.</p>
-</div>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The Intel® QPL Compression Buffer Size Estimation API only supports
+deflate compression and does not support Huffman-Only mode compression.</p></li>
+<li><p>Due to the limitations imposed by the Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
+, the maximum bit size supported by the Intel® QPL compression is 32 bits. To account for the
+additional compression overhead, the maximum input size supported by the
+Intel® QPL and this API is <code class="docutils literal notranslate"><span class="pre">2^32</span> <span class="pre">-</span> <span class="pre">35</span></code> bytes.</p></li>
+<li><p>The function does not include the additional bytes required for GZIP/ZLIB
+compatibility (i.e., when using the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GZIP_MODE" title="QPL_FLAG_GZIP_MODE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code></a> or <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_ZLIB_MODE" title="QPL_FLAG_ZLIB_MODE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_ZLIB_MODE</span></code></a>
+flags). Users must manually account for these additional bytes.
+For more details, see <a class="reference internal" href="#deflate-estimation-additional-overhead"><span class="std std-ref">additional overhead</span></a>.</p></li>
+</ul>
+</section>
 <section id="usage-example">
 <h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading">#</a></h2>
 <section id="c-code-example">
@@ -495,51 +501,26 @@ Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware. Refer to the
 </div>
 </section>
 </section>
-<section id="limitations">
-<span id="deflate-estimation-limitations"></span><h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Due to the limitations imposed by the Intel® IAA hardware, the maximum bit
-size supported by the Intel® QPL compression is 32 bits. To account for the
-additional compression overhead, the maximum input size supported by the
-Intel® QPL and this API is 2^32 - 35 bytes.</p></li>
-<li><p>The function does not account for additional bytes needed for gzip/zlib
-headers and trailers. This API only estimates the overhead of the Intel® QPL
-Intel® IAA deflate operations. The user must account for the additional
-bytes needed for gzip/zlib headers and trailers.</p></li>
-</ul>
-</section>
 <section id="additional-overhead">
 <span id="deflate-estimation-additional-overhead"></span><h2>Additional Overhead<a class="headerlink" href="#additional-overhead" title="Link to this heading">#</a></h2>
-<p>The Intel® QPL Compression Buffer Size Estimation API does not include the
-additional bytes required for gzip/zlib headers and trailers. Users must
-manually account for these additional bytes when dealing with compression jobs
-that are flagged as either <cite>QPL_FLAG_FIRST</cite> or <cite>QPL_FLAG_LAST</cite>.</p>
-<p>For jobs marked with the <cite>QPL_FLAG_FIRST</cite> flag, which indicates the beginning
-of a compression sequence, the following additional bytes for headers must be
-considered:</p>
-<p><strong>GZIP</strong></p>
+<p>The estimation provided by <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_utility_apis.html#c.qpl_get_safe_deflate_compression_buffer_size" title="qpl_get_safe_deflate_compression_buffer_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_safe_deflate_compression_buffer_size()</span></code></a> does not include
+the additional bytes required for GZIP/ZLIB headers and trailers when using the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_GZIP_MODE" title="QPL_FLAG_GZIP_MODE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code></a> or <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_ZLIB_MODE" title="QPL_FLAG_ZLIB_MODE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_ZLIB_MODE</span></code></a> flags.</p>
+<p>Users must manually account for these additional bytes when dealing with compression jobs
+that are flagged with either the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> or <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> flags.</p>
+<p>Jobs marked with the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_FIRST" title="QPL_FLAG_FIRST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a> flag require additional bytes for headers.
+Similarly, jobs marked with the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LAST" title="QPL_FLAG_LAST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a> flag require additional bytes for trailers.
+Jobs that do not use either flag do not require additional bytes.</p>
+<p>Below is a breakdown of the additional bytes required when using GZIP and ZLIB formats:</p>
+<p><strong>GZIP compatible stream</strong></p>
 <ul class="simple">
-<li><p>10 bytes for the gzip header</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">10</span></code> bytes for the GZIP header</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">8</span></code> bytes for the GZIP trailer</p></li>
 </ul>
-<p><strong>ZLIB</strong></p>
+<p><strong>ZLIB compatible stream</strong></p>
 <ul class="simple">
-<li><p>2 bytes for the zlib header</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code> bytes for the ZLIB header</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code> bytes for the ZLIB trailer</p></li>
 </ul>
-<p>For jobs marked with the <cite>QPL_FLAG_LAST</cite> flag, which indicates the end of a
-compression sequence, the following additional bytes for trailers must be
-included:</p>
-<p><strong>GZIP</strong></p>
-<ul class="simple">
-<li><p>8 bytes for the gzip trailer</p></li>
-</ul>
-<p><strong>ZLIB</strong></p>
-<ul class="simple">
-<li><p>4 bytes for the zlib trailer</p></li>
-</ul>
-<p>It is important to note that jobs without the <cite>QPL_FLAG_FIRST</cite> or
-<cite>QPL_FLAG_LAST</cite> flags do not require these additional bytes for headers or
-trailers, as they are considered part of a continuous compression stream
-without the need for marking the beginning or end.</p>
 </section>
 </section>
 
@@ -589,12 +570,12 @@ without the need for marking the beginning or end.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-example">Usage Example</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-code-example">C++ Code Example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">C Code Example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-overhead">Additional Overhead</a></li>
 </ul>
   </nav></div>
