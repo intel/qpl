@@ -172,6 +172,14 @@ Intel QPL supports the following build options:
 
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
 -  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
+
+.. attention::
+
+   By default, Intel QPL uses a busy-wait loop with a pause instruction to check for operation completion when executing on Intel IAA.
+   If this approach is not desired, the ``-DEFFICIENT_WAIT=ON`` option provides an alternative waiting mechanism.
+   When enabled, it uses inline assembly to monitor a memory address and waits until a certain timeout is reached.
+   This option is experimental and may not always provide better performance.
+
 -  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).
 -  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
    For more information on existing examples, see :ref:`code_examples_c_reference_link`.
@@ -329,8 +337,8 @@ To build the offline version of the documentation, the following tools must be i
 
 - `Doxygen <https://www.doxygen.nl/index.html>`__ 1.8.17 or higher (e.g., with ``apt install doxygen``)
 - `Python <https://www.python.org/>`__ 3.8.5 or higher (e.g., with ``apt install python3.X``)
-- `Sphinx <https://www.sphinx-doc.org/en/master/>`__ 7.2.6 or higher (e.g., with ``pip3 install sphinx``)
-- `sphinx_book_theme <https://executablebooks.org/en/latest/>`__ 1.1.2 or higher (e.g., with ``pip3 install sphinx-book-theme``)
+- `Sphinx <https://www.sphinx-doc.org/en/master/>`__ 8.1.3 or higher (e.g., with ``pip3 install sphinx``)
+- `sphinx_book_theme <https://executablebooks.org/en/latest/>`__ 1.1.3 or higher (e.g., with ``pip3 install sphinx-book-theme``)
 - `Breathe <https://breathe.readthedocs.io/en/latest/>`__ 4.35.0 or higher (e.g., with ``pip3 install breathe``)
 
 .. attention::

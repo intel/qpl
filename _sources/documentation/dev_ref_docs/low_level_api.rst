@@ -22,3 +22,4 @@ and operations used.
    c_ref/c_huffman_table_apis
    c_ref/c_common_definitions
    c_ref/c_status_codes
+   c_ref/c_utility_apis

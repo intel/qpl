@@ -10,7 +10,6 @@
 Introduction
 ############
 
-
 The Intel® Query Processing Library (Intel® QPL) can be used to improve
 performance of database, enterprise data, communications, and
 scientific/technical applications. Intel QPL provides interfaces for a
@@ -29,39 +28,29 @@ with:
 -  Faster time to market
 -  Scalability with Intel® In-Memory Analytics Accelerator (Intel® IAA) hardware
 
+Intel® In-Memory Analytics Accelerator (Intel® IAA) Overview
+************************************************************
 
-Library Architecture Overview
-*****************************
+The Intel QPL library uses Intel IAA hardware that provides compression and decompression of very high throughput combined with analytic primitive functions.
+The primitive functions are commonly used for data filtering during analytic query processing.
 
+The device supports formats such as Huffman encoding and Deflate.
+For the Deflate format, it supports indexing the compressed stream for efficient random access.
 
-The diagram below includes both the architecture of Intel QPL and the external components that the library
-interacts with. The components in the diagram are numbered from 0 to 8, each with a short description.
+Intel IAA is specifically designed for the following use cases:
 
-.. figure:: ../_images/qpl_arch_diagram.png
-  :scale: 25%
+- Big data applications and in-memory analytic databases.
+- Application-transparent usages, such as memory page compression.
+- Data integrity operations, such as CRC-64.
 
-  Architecture Diagram of Intel QPL
+For more detailed information about these use cases,
+refer to the `Intel IAA page <https://www.intel.com/content/www/us/en/products/docs/accelerator-engines/in-memory-analytics-accelerator.html>`__.
 
-0. Users should use the accelerator utility tool (``accel-config``), which cooperates with Intel® Data Accelerator
-   Driver (``idxd``), to pre-configure Intel IAA hardware.
-1. C Job API is compatible with C and C++.
-2. Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
-   handle specific query processing cases, and returns appropriate status back to users.
-3. The CPU dispatcher detects what instruction sets are available in CPU.
-4. The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.
-5. Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.
-6. Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
-   Intel QPL keeps its own copy of relevant source code from Intel ISA-L.
-7. Set of low-level descriptors and service functions for interaction with Intel IAA hardware
-   using Intel® Accelerator Interfacing Architecture.
-8. The accelerator utility library (``libaccel-config``), which is linked to Intel QPL, provides APIs for communicating
-   with Intel IAA hardware.
-9. The Intel® Data Accelerator Driver (``idxd``) is a kernel driver that manages Intel IAA devices.
+For the details on accelerator architecture,
+refer to the `Intel IAA Architecture Specification <https://www.intel.com/content/www/us/en/content-details/721858/intel-in-memory-analytics-accelerator-architecture-specification.html>`__.
 
-
-Library Functionality Overview
-******************************
-
+Functionality Overview
+**********************
 
 Intel® Query Processing Library (Intel® QPL) consists of two main
 functional blocks: analytics and compression.
@@ -135,29 +124,35 @@ direct input to the filter function), the XOR checksum of this data, and
 several “aggregates” of the output data. The CRC, XOR checksum, and
 aggregates are written to the completion record.
 
+Architecture Overview
+*********************
 
-Intel® In-Memory Analytics Accelerator (Intel® IAA)
-===================================================
+The diagram below includes both the architecture of Intel QPL and the external components that the library
+interacts with. The components in the diagram are numbered from 0 to 9, each with a short description.
 
+.. figure:: ../_images/qpl_arch_diagram.png
+  :scale: 25%
 
-The Intel QPL library uses Intel IAA hardware that provides
-compression and decompression of very high throughput combined
-with analytic primitive functions. The primitive functions are
-commonly used for data filtering during analytic query processing.
+  Architecture Diagram of Intel QPL
 
-Intel IAA primarily targets:
+0. Users should use the accelerator utility tool (``accel-config``), which cooperates with Intel® Data Accelerator
+   Driver (``idxd``), to pre-configure Intel IAA hardware.
+1. C Job API is compatible with C and C++.
+2. Contains the sequences of steps, including optimized function calls or accelerator operations, needed to
+   handle specific query processing cases, and returns appropriate status back to users.
+3. The CPU dispatcher detects what instruction sets are available in CPU.
+4. The accelerator dispatcher detects available capabilities in Intel IAA hardware and records available devices and workqueues.
+5. Set of optimized kernels for CPU that can be used if Intel IAA hardware is not available on the platform.
+6. Set of optimized kernels for CPU, which are adopted from Intel® Intelligent Storage Acceleration Library (Intel® ISA-L).
+   Intel QPL keeps its own copy of relevant source code from Intel ISA-L.
+7. Set of low-level descriptors and service functions for interaction with Intel IAA hardware
+   using Intel® Accelerator Interfacing Architecture.
+8. The accelerator utility library (``libaccel-config``), which is linked to Intel QPL, provides APIs for communicating
+   with Intel IAA hardware.
+9. The Intel® Data Accelerator Driver (``idxd``) is a kernel driver that manages Intel IAA devices.
 
--  Big data applications and in-memory analytic databases.
--  Application-transparent usages such as memory page compression.
--  Data integrity operations, e.g., CRC-64.
-
-Intel IAA supports Huffman encoding and
-Deflate. For the Deflate format, Intel IAA supports indexing of the
-compressed stream for efficient random access.
-
-
-Library Features
-****************
+Features
+********
 
 Operations
 ==========
@@ -299,8 +294,8 @@ would arise as work queues would allow all available operations.
 
 .. _library_limitations_reference_link:
 
-Library Limitations
-*******************
+Limitations
+***********
 
 - Library does not work with Dedicated Work Queues on the accelerator, but uses Shared Work Queues only.
 - Library does not have APIs for the hardware path configuration.
@@ -308,8 +303,8 @@ Library Limitations
 - Library does not support hardware path on Windows OS.
 - Library is not developed for kernel mode usage. It is user level driver library.
 
-Library APIs
-************
+APIs
+****
 
 Intel QPL provides Low-Level C API, that represents a state-based interface.
 The base idea is to allocate a single state and configure one with different ways

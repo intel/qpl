@@ -18,11 +18,12 @@ Intel® Query Processing Library (Intel® QPL) low-level C API.
 The key agent of this API is the :c:struct:`qpl_job` data structure.
 To work with Intel QPL low-level C API, the application will need to:
 
-1. Query the required memory size.
-2. Allocate memory according to the queried size.
-3. Initialize the job structure and fill in necessary parameters.
-4. Pass the job structure (along with the allocated memory) to Intel QPL.
-5. When the operations are finished, free the resources.
+1. Allocate buffer required for compression.
+2. Query the memory size required for the job structure.
+3. Allocate memory for the job structure according to the queried size.
+4. Initialize the job structure and fill in necessary parameters.
+5. Pass the job structure (along with the allocated memory) to Intel QPL.
+6. When the operations are finished, free the resources.
 
 The example below compresses and decompresses data with Deflate dynamic Huffman encoding via Intel QPL
 low-level C API. For our purpose to understand the workflow, we only focus on the compression part
@@ -30,29 +31,38 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-13, 28-35, 42-44, 46-82, 100-105, 118-
-    :emphasize-lines: 13, 31, 37-38, 40, 47-53, 56, 63
+    :lines: 1-16, 29-35, 40-88, 104-110, 123-
+    :emphasize-lines: 26, 34, 41, 47-48, 50, 57-63, 66, 75
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
 the prototypes of all the functions.
 
-At line 31, we call :c:func:`qpl_get_job_size` to query the required memory size
+At line 26, we call :c:func:`qpl_get_safe_deflate_compression_buffer_size` to estimate
+the size of the output buffer required for compression operations. The size is calculated
+based on the input data size and return 0 if the source size exceeds the maximum supported size.
+For more details, refer to
+:ref:`Estimating the Size of the Deflate Compression Buffer <deflate_estimation_reference_link>`
+page.
+
+At line 34, we allocate the output buffer based on the estimation we obtained earlier.
+
+At line 41, we call :c:func:`qpl_get_job_size` to query the required memory size
 based on the specified execution path.
 
-At lines 37-38, we allocate memory according to the returned value of ``size``.
+At lines 47-48, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
 :c:struct:`qpl_job`. The leading portion of the allocated memory is used to store
 the job structure, while the remaining portion is a buffer for internal usages.
 
-At line 40, we call :c:func:`qpl_init_job` to initialize the job structure
-and buffer, then we fill in necessary parameters at lines 47 to 53.
+At line 50, we call :c:func:`qpl_init_job` to initialize the job structure
+and buffer, then we fill in necessary parameters at lines 57 to 63.
 
-The job structure and the allocated buffer are passed to Intel QPL at line 56. After
+The job structure and the allocated buffer are passed to Intel QPL at line 66. After
 :c:func:`qpl_execute_job` completes successfully, we can retrieve the results stored
 in the job structure.
 
-Finally, we call :c:func:`qpl_fini_job` at line 63 to free the resources.
+Finally, we call :c:func:`qpl_fini_job` at line 75 to free the resources.
 
 In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
 Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.
