@@ -76,7 +76,7 @@ You need to set the :c:member:`qpl_job.ignore_end_bits` field in the Huffman-onl
 decompression. For details on the Huffman-only and the Big Endian 16 format, which is
 a special format it supports, see :ref:`huffman_only_reference_link`.
 
-Internal state that could be used and re-used for various operations and holds
+Internal state that could be used and reused for various operations and holds
 multiple internal representations is stored in :c:member:`qpl_job.data_ptr`
 and shouldn't be touched by the user. Memory for internal state is allocated
 on the user's side. A call to :c:func:`qpl_get_job_size` provides a size estimate,
@@ -86,6 +86,6 @@ and initialized properly.
 .. attention::
 
     The action of both :c:func:`qpl_get_job_size` and :c:func:`qpl_init_job` depends on
-    the provided execution path, so re-using the same job structure
+    the provided execution path, so reusing the same job structure
     for different execution paths is not possible.
 

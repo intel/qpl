@@ -472,7 +472,7 @@ The Huffman-only compression also writes the <a class="reference internal" href=
 You need to set the <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.ignore_end_bits" title="qpl_job.ignore_end_bits"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.ignore_end_bits</span></code></a> field in the Huffman-only
 decompression. For details on the Huffman-only and the Big Endian 16 format, which is
 a special format it supports, see <a class="reference internal" href="c_huffman_only.html#huffman-only-reference-link"><span class="std std-ref">Huffman-Only Compression and Decompression</span></a>.</p>
-<p>Internal state that could be used and re-used for various operations and holds
+<p>Internal state that could be used and reused for various operations and holds
 multiple internal representations is stored in <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_job.data_ptr" title="qpl_job.data_ptr"><code class="xref c c-member docutils literal notranslate"><span class="pre">qpl_job.data_ptr</span></code></a>
 and shouldn’t be touched by the user. Memory for internal state is allocated
 on the user’s side. A call to <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> provides a size estimate,
@@ -481,7 +481,7 @@ and initialized properly.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>The action of both <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_get_job_size" title="qpl_get_job_size"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_get_job_size()</span></code></a> and <a class="reference internal" href="../../dev_ref_docs/c_ref/c_job_apis.html#c.qpl_init_job" title="qpl_init_job"><code class="xref c c-func docutils literal notranslate"><span class="pre">qpl_init_job()</span></code></a> depends on
-the provided execution path, so re-using the same job structure
+the provided execution path, so reusing the same job structure
 for different execution paths is not possible.</p>
 </div>
 </section>
