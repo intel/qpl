@@ -1757,10 +1757,12 @@
 <span class="w">    </span><span class="c1">// Update destination size</span>
 <span class="w">    </span><span class="n">destination</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">compressed_size</span><span class="p">);</span>
 
+<span class="w">    </span><span class="c1">//NOLINTBEGIN(readability-avoid-nested-conditional-operator)</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Content was successfully compressed with dictionary on &quot;</span>
 <span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">execution_path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">qpl_path_software</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;software&quot;</span>
 <span class="w">                                                      </span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="n">execution_path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">qpl_path_hardware</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;hardware&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;auto&quot;</span><span class="p">))</span>
 <span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; path.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">//NOLINTEND(readability-avoid-nested-conditional-operator)</span>
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
