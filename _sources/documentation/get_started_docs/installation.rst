@@ -158,17 +158,29 @@ Available Build Options
 
 Intel QPL supports the following build options:
 
--  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default).
--  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default).
+-  ``-DSANITIZE_MEMORY=[ON|OFF]`` - Enables memory sanitizing (``OFF`` by default). **(Deprecated)**
+-  ``-DSANITIZE_THREADS=[ON|OFF]`` - Enables threads sanitizing (``OFF`` by default). **(Deprecated)**
 
 .. attention::
 
-   Options ``-DSANITIZE_THREADS=ON`` and ``-DSANITIZE_MEMORY=ON`` are incompatible and
-   can not be used for the same build.
+   The options ``-DSANITIZE_MEMORY=ON`` and ``-DSANITIZE_THREADS=ON`` are deprecated and will be removed in a future version.
+   Use the ``-DQPL_USE_CLANG_SANITIZER`` option instead.
 
-.. attention::
+   The options ``-DSANITIZE_THREADS=ON`` and ``-DSANITIZE_MEMORY=ON`` are mutually exclusive
+   and cannot be enabled simultaneously in the same build.
 
    If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.
+
+-  ``-DQPL_USE_CLANG_SANITIZER=[ADDRESS|LEAK|UNDEFINED|THREAD|ALL_COMPATIBLE]`` - Enables building with various sanitizers.
+   This option can only be used with the Clang compiler.
+   Supported values include ``ADDRESS`` for AddressSanitizer, ``LEAK`` for LeakSanitizer, ``UNDEFINED`` for UndefinedBehaviorSanitizer,
+   ``THREAD`` for ThreadSanitizer, and ``ALL_COMPATIBLE`` for a combination of compatible checks,
+   which currently includes all available checks except for ``THREAD``.
+
+.. attention::
+
+   The ``ALL_COMPATIBLE`` option is provided for convenience and may be subject to change in the future.
+   The ``THREAD`` option requires CMake* version 3.23 or higher.
 
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
 -  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
