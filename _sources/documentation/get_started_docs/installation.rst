@@ -113,8 +113,6 @@ Before building Intel® QPL, install and set up the following tools:
 - Intel QPL requires C++ compiler with C++17 standard support.
   For instance, GCC 8.2+ (or Clang 12.0.1+ for building fuzz tests).
 
-- Universally Unique ID library ``uuid-dev`` version 2.35.2 or higher
-
 - CMake* version 3.16.3 or higher. If Intel QPL is build with ``-DSANITIZE_THREADS=ON``, use CMake* version 3.23 or higher
   (see :ref:`building_library_build_options_reference_link`)
 
