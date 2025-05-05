@@ -127,9 +127,14 @@ in:
 
 - ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
 
-To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``,
-for example:
+To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``.
+
+The fuzz tests also have a suffix that can be used to select whether the test will
+be run on the accelerators (`_hw` suffix) or the host (`_sw` suffix).
+
+Example of running the fuzz executable for deflate without dictionary for 15 seconds
+on `qpl_path_software`:
 
 .. code:: shell
 
-   <qpl_library>/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test -max_total_time=15
+   <qpl_library>/build/tools/tests/fuzzing/low-level-api/deflate_nodict_fuzz_test_sw -max_total_time=15

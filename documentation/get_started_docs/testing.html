@@ -529,9 +529,12 @@ in:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/</span></code></p></li>
 </ul>
-<p>To run fuzz tests, specify the maximum run time using <code class="docutils literal notranslate"><span class="pre">-max_total_time=&lt;seconds&gt;</span></code>,
-for example:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/deflate_dynamic_default_nodict_fuzz_test<span class="w"> </span>-max_total_time<span class="o">=</span><span class="m">15</span>
+<p>To run fuzz tests, specify the maximum run time using <code class="docutils literal notranslate"><span class="pre">-max_total_time=&lt;seconds&gt;</span></code>.</p>
+<p>The fuzz tests also have a suffix that can be used to select whether the test will
+be run on the accelerators (<cite>_hw</cite> suffix) or the host (<cite>_sw</cite> suffix).</p>
+<p>Example of running the fuzz executable for deflate without dictionary for 15 seconds
+on <cite>qpl_path_software</cite>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/deflate_nodict_fuzz_test_sw<span class="w"> </span>-max_total_time<span class="o">=</span><span class="m">15</span>
 </pre></div>
 </div>
 </section>
