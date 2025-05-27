@@ -16,28 +16,25 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../../_static/documentation_options.js?v=17420014"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -50,7 +47,6 @@
     <link rel="prev" title="Huffman Table APIs" href="c_huffman_table_apis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -66,8 +62,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -75,6 +82,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -82,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -99,8 +107,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -130,11 +137,15 @@
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -226,14 +237,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -377,16 +383,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -410,9 +424,112 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flags">Flags</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enums">Enums</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structures">Structures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flags">Flags</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_FIRST"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_LAST"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC32C"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC32C</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GZIP_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_HUFFMAN_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_NO_HDRS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DECOMPRESS_ENABLE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DECOMPRESS_ENABLE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_SRC2_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_SRC2_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OUT_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OUT_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_RND_ACCESS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DECOMP_FLUSH_ALWAYS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DECOMP_FLUSH_ALWAYS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_START_NEW_BLOCK"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DYNAMIC_HUFFMAN"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_VERIFY"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GEN_LITERALS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CANNED_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CANNED_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_INV"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_INV_OUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_ZLIB_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_ZLIB_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_CHECKSUMS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_AGGREGATES"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_FORCE_ARRAY_OUTPUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FORCE_ARRAY_OUTPUT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_SOCKET"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_SOCKET</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_CURRENT"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_CURRENT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_ANY"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enums">Enums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t"><code class="docutils literal notranslate"><span class="pre">qpl_path_t</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_auto"><code class="docutils literal notranslate"><span class="pre">qpl_path_auto</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_hardware"><code class="docutils literal notranslate"><span class="pre">qpl_path_hardware</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_software"><code class="docutils literal notranslate"><span class="pre">qpl_path_software</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation"><code class="docutils literal notranslate"><span class="pre">qpl_operation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_decompress"><code class="docutils literal notranslate"><span class="pre">qpl_op_decompress</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_compress"><code class="docutils literal notranslate"><span class="pre">qpl_op_compress</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_crc64"><code class="docutils literal notranslate"><span class="pre">qpl_op_crc64</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_extract"><code class="docutils literal notranslate"><span class="pre">qpl_op_extract</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_select"><code class="docutils literal notranslate"><span class="pre">qpl_op_select</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_expand"><code class="docutils literal notranslate"><span class="pre">qpl_op_expand</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_eq"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_eq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_ne"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_ne</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_lt"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_lt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_le"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_le</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_gt"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_gt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_ge"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_ge</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_range"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_range</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_not_range"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_not_range</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels"><code class="docutils literal notranslate"><span class="pre">qpl_compression_levels</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_1"><code class="docutils literal notranslate"><span class="pre">qpl_level_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_2"><code class="docutils literal notranslate"><span class="pre">qpl_level_2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_3"><code class="docutils literal notranslate"><span class="pre">qpl_level_3</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_4"><code class="docutils literal notranslate"><span class="pre">qpl_level_4</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_5"><code class="docutils literal notranslate"><span class="pre">qpl_level_5</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_6"><code class="docutils literal notranslate"><span class="pre">qpl_level_6</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_7"><code class="docutils literal notranslate"><span class="pre">qpl_level_7</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_8"><code class="docutils literal notranslate"><span class="pre">qpl_level_8</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_9"><code class="docutils literal notranslate"><span class="pre">qpl_level_9</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_default_level"><code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_high_level"><code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode"><code class="docutils literal notranslate"><span class="pre">qpl_statistics_mode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode.qpl_compression_mode"><code class="docutils literal notranslate"><span class="pre">qpl_compression_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode.qpl_gathering_mode"><code class="docutils literal notranslate"><span class="pre">qpl_gathering_mode</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size"><code class="docutils literal notranslate"><span class="pre">qpl_mini_block_size</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_none"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_none</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_512"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_512</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_1k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_1k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_2k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_2k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_4k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_4k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_8k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_8k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_16k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_16k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_32k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_32k</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format"><code class="docutils literal notranslate"><span class="pre">qpl_out_format</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_nom"><code class="docutils literal notranslate"><span class="pre">qpl_ow_nom</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_8"><code class="docutils literal notranslate"><span class="pre">qpl_ow_8</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_16"><code class="docutils literal notranslate"><span class="pre">qpl_ow_16</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_32"><code class="docutils literal notranslate"><span class="pre">qpl_ow_32</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser"><code class="docutils literal notranslate"><span class="pre">qpl_parser</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_le_packed_array"><code class="docutils literal notranslate"><span class="pre">qpl_p_le_packed_array</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_be_packed_array"><code class="docutils literal notranslate"><span class="pre">qpl_p_be_packed_array</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_parquet_rle"><code class="docutils literal notranslate"><span class="pre">qpl_p_parquet_rle</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structures">Structures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t"><code class="docutils literal notranslate"><span class="pre">allocator_t</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t.allocator"><code class="docutils literal notranslate"><span class="pre">allocator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t.deallocator"><code class="docutils literal notranslate"><span class="pre">deallocator</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -955,8 +1072,7 @@
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -965,9 +1081,112 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flags">Flags</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enums">Enums</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structures">Structures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flags">Flags</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_FIRST"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FIRST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_LAST"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LAST</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC32C"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC32C</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GZIP_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GZIP_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_HUFFMAN_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_HUFFMAN_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_NO_HDRS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_NO_HDRS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DECOMPRESS_ENABLE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DECOMPRESS_ENABLE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_SRC2_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_SRC2_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OUT_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OUT_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_RND_ACCESS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_RND_ACCESS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DECOMP_FLUSH_ALWAYS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DECOMP_FLUSH_ALWAYS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_START_NEW_BLOCK"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_START_NEW_BLOCK</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_DYNAMIC_HUFFMAN"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_DYNAMIC_HUFFMAN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_VERIFY"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GEN_LITERALS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CANNED_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CANNED_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_INV"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_INV_OUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_ZLIB_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_ZLIB_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_CHECKSUMS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_CHECKSUMS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_AGGREGATES"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_AGGREGATES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_FORCE_ARRAY_OUTPUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_FORCE_ARRAY_OUTPUT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_SOCKET"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_SOCKET</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_CURRENT"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_CURRENT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_DEVICE_NUMA_ID_ANY"><code class="docutils literal notranslate"><span class="pre">QPL_DEVICE_NUMA_ID_ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enums">Enums</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t"><code class="docutils literal notranslate"><span class="pre">qpl_path_t</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_auto"><code class="docutils literal notranslate"><span class="pre">qpl_path_auto</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_hardware"><code class="docutils literal notranslate"><span class="pre">qpl_path_hardware</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_path_t.qpl_path_software"><code class="docutils literal notranslate"><span class="pre">qpl_path_software</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation"><code class="docutils literal notranslate"><span class="pre">qpl_operation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_decompress"><code class="docutils literal notranslate"><span class="pre">qpl_op_decompress</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_compress"><code class="docutils literal notranslate"><span class="pre">qpl_op_compress</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_crc64"><code class="docutils literal notranslate"><span class="pre">qpl_op_crc64</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_extract"><code class="docutils literal notranslate"><span class="pre">qpl_op_extract</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_select"><code class="docutils literal notranslate"><span class="pre">qpl_op_select</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_expand"><code class="docutils literal notranslate"><span class="pre">qpl_op_expand</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_eq"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_eq</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_ne"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_ne</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_lt"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_lt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_le"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_le</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_gt"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_gt</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_ge"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_ge</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_range"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_range</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_operation.qpl_op_scan_not_range"><code class="docutils literal notranslate"><span class="pre">qpl_op_scan_not_range</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels"><code class="docutils literal notranslate"><span class="pre">qpl_compression_levels</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_1"><code class="docutils literal notranslate"><span class="pre">qpl_level_1</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_2"><code class="docutils literal notranslate"><span class="pre">qpl_level_2</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_3"><code class="docutils literal notranslate"><span class="pre">qpl_level_3</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_4"><code class="docutils literal notranslate"><span class="pre">qpl_level_4</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_5"><code class="docutils literal notranslate"><span class="pre">qpl_level_5</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_6"><code class="docutils literal notranslate"><span class="pre">qpl_level_6</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_7"><code class="docutils literal notranslate"><span class="pre">qpl_level_7</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_8"><code class="docutils literal notranslate"><span class="pre">qpl_level_8</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_9"><code class="docutils literal notranslate"><span class="pre">qpl_level_9</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_default_level"><code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_high_level"><code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode"><code class="docutils literal notranslate"><span class="pre">qpl_statistics_mode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode.qpl_compression_mode"><code class="docutils literal notranslate"><span class="pre">qpl_compression_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_statistics_mode.qpl_gathering_mode"><code class="docutils literal notranslate"><span class="pre">qpl_gathering_mode</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size"><code class="docutils literal notranslate"><span class="pre">qpl_mini_block_size</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_none"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_none</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_512"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_512</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_1k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_1k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_2k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_2k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_4k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_4k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_8k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_8k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_16k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_16k</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_mini_block_size.qpl_mblk_size_32k"><code class="docutils literal notranslate"><span class="pre">qpl_mblk_size_32k</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format"><code class="docutils literal notranslate"><span class="pre">qpl_out_format</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_nom"><code class="docutils literal notranslate"><span class="pre">qpl_ow_nom</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_8"><code class="docutils literal notranslate"><span class="pre">qpl_ow_8</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_16"><code class="docutils literal notranslate"><span class="pre">qpl_ow_16</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_out_format.qpl_ow_32"><code class="docutils literal notranslate"><span class="pre">qpl_ow_32</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser"><code class="docutils literal notranslate"><span class="pre">qpl_parser</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_le_packed_array"><code class="docutils literal notranslate"><span class="pre">qpl_p_le_packed_array</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_be_packed_array"><code class="docutils literal notranslate"><span class="pre">qpl_p_be_packed_array</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_parser.qpl_p_parquet_rle"><code class="docutils literal notranslate"><span class="pre">qpl_p_parquet_rle</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structures">Structures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t"><code class="docutils literal notranslate"><span class="pre">allocator_t</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t.allocator"><code class="docutils literal notranslate"><span class="pre">allocator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.allocator_t.deallocator"><code class="docutils literal notranslate"><span class="pre">deallocator</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -1019,8 +1238,8 @@ By Intel
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

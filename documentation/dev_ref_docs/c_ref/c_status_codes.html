@@ -16,28 +16,25 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../../_static/documentation_options.js?v=17420014"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
@@ -50,7 +47,6 @@
     <link rel="prev" title="Common Definitions" href="c_common_definitions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -66,8 +62,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -75,6 +82,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -82,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -99,8 +107,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -130,11 +137,15 @@
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
@@ -226,14 +237,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -377,16 +383,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -410,9 +424,154 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">Categories and Ranges of Status Codes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-calculators-for-status-codes">Internal Calculators for Status Codes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-list-of-status-codes">Complete List of Status Codes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">Categories and Ranges of Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PROCESSING_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_PROCESSING_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PARAMETER_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_PARAMETER_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_SERVICE_LOGIC_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_SERVICE_LOGIC_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_STATUS_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_STATUS_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_INIT_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_INIT_ERROR_BASE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-calculators-for-status-codes">Internal Calculators for Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PROCESSING_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_PROCESSING_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PARAMETER_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_PARAMETER_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_SERVICE_LOGIC_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_SERVICE_LOGIC_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_STATUS"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_STATUS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_INIT_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_INIT_ERROR</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-list-of-status-codes">Complete List of Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status"><code class="docutils literal notranslate"><span class="pre">qpl_status</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OK"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BEING_PROCESSED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BEING_PROCESSED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MORE_INPUT_NEEDED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MORE_INPUT_NEEDED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_JOB_NOT_CONTINUABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_JOB_NOT_CONTINUABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_QUEUES_ARE_BUSY_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_QUEUES_ARE_BUSY_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_LIBRARY_INTERNAL_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_JOB_NOT_SUBMITTED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_JOB_NOT_SUBMITTED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NOT_SUPPORTED_BY_WQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_BY_WQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NULL_PTR_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NULL_PTR_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OPERATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OPERATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NOT_SUPPORTED_MODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_MODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_JOB_STRUCT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_JOB_STRUCT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PATH_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PATH_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_PARAM_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_PARAM_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FLAG_CONFLICT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FLAG_CONFLICT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BUFFER_TOO_LARGE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BUFFER_TOO_LARGE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BUFFER_OVERLAP_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BUFFER_OVERLAP_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_CRC64_BAD_POLYNOM"><code class="docutils literal notranslate"><span class="pre">QPL_STS_CRC64_BAD_POLYNOM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SET_TOO_LARGE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SET_TOO_LARGE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PARSER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PARSER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OUT_FORMAT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OUT_FORMAT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DROP_BITS_OVERFLOW_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DROP_BITS_OVERFLOW_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DROP_BYTES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DROP_BYTES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MISSING_HUFFMAN_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MISSING_HUFFMAN_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_HUFFMAN_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_HUFFMAN_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MISSING_INDEX_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MISSING_INDEX_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_COMPRESS_STYLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_COMPRESS_STYLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INFLATE_NEED_DICT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INFLATE_NEED_DICT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_DECOMP_END_PROC_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_DECOMP_END_PROC_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_BLOCK_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_BLOCK_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_TABLE_TYPE_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_TABLE_TYPE_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SERIALIZATION_FORMAT_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SERIALIZATION_FORMAT_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SERIALIZATION_CORRUPTED_DUMP"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SERIALIZATION_CORRUPTED_DUMP</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_DEFLATE_DATA_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_DEFLATE_DATA_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NO_MEM_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NO_MEM_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INDEX_ARRAY_TOO_SMALL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INDEX_ARRAY_TOO_SMALL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INDEX_GENERATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INDEX_GENERATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_ARCHIVE_HEADER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_ARCHIVE_HEADER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_ARCHIVE_UNSUP_METHOD_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_ARCHIVE_UNSUP_METHOD_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OBJECT_ALLOCATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OBJECT_ALLOCATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIG_HEADER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIG_HEADER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_UNDEF_CL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_UNDEF_CL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FIRST_LL_CODE_16_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FIRST_LL_CODE_16_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FIRST_D_CODE_16_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FIRST_D_CODE_16_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NO_LL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NO_LL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_WRONG_NUM_LL_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_WRONG_NUM_LL_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_WRONG_NUM_DIST_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_WRONG_NUM_DIST_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_CL_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_CL_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LL_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LL_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_DIST_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_D_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_D_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_BLOCK_TYPE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_BLOCK_TYPE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_STORED_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_STORED_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_EOF_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_EOF_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_DIST_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_REF_BEFORE_START_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_REF_BEFORE_START_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TIMEOUT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TIMEOUT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PRLE_FORMAT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PRLE_FORMAT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OUTPUT_OVERFLOW_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OUTPUT_OVERFLOW_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_AECS_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_AECS_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC1_TOO_SMALL_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC1_TOO_SMALL_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC2_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC2_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DST_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DST_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_VERIFY_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_VERIFY_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_HUFFCODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_HUFFCODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIT_WIDTH_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIT_WIDTH_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_COUNT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_COUNT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TOO_MANY_LL_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TOO_MANY_LL_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TOO_MANY_D_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TOO_MANY_D_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INPROG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INPROG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_SUCCESS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_SUCCESS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_PAGE_REQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_PAGE_REQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_ANALYTIC_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_ANALYTIC_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_OUTPUT_OVERFLOW"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_OUTPUT_OVERFLOW</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_UNSUPPORTED_OPCODE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_UNSUPPORTED_OPCODE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_OP_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_OP_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_NONZERO_RESERVED_FIELD"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_NONZERO_RESERVED_FIELD</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TRANSFER_SIZE_INVALID"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TRANSFER_SIZE_INVALID</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_OVERLAPPING_BUFFERS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_OVERLAPPING_BUFFERS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_COMP_HANDLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_COMP_HANDLE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_TRANSLATION_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_TRANSLATION_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_COMPL_RECORD_UNALIGN"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_COMPL_RECORD_UNALIGN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_MISALIGNED_ADDRESS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_MISALIGNED_ADDRESS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PRIVILIGE_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PRIVILIGE_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_TRAFFIC_CLASS_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_TRAFFIC_CLASS_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_DRAIN_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_DRAIN_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_UR_CA_RESPONSE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_UR_CA_RESPONSE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_READBACK_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_READBACK_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_HARDWARE_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_HARDWARE_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PAGE_REQUEST_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_REQUEST_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_WATCHDOG_TIMER_EXPIRE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_WATCHDOG_TIMER_EXPIRE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PASID_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PASID_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_IDPTE_HANDLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_IDPTE_HANDLE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_IDTPE_PERMISSION_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_IDTPE_PERMISSION_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_ID_WINDOW_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_ID_WINDOW_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_UPDATE_INVALID_IDPTE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_UPDATE_INVALID_IDPTE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_WINDOW_CONTROL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_WINDOW_CONTROL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INACCESSIBLE_DOMAIN"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INACCESSIBLE_DOMAIN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_DECOMP_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_DECOMP_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_FILTER_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_FILTER_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_INPUT_SIZE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_INPUT_SIZE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_NUM_ELEM"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_NUM_ELEM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_SRC1_WIDTH"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_SRC1_WIDTH</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INV_OUTPUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INV_OUTPUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_INVALID_PAGE_REQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_INVALID_PAGE_REQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_TRANSLATION_PF"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_TRANSLATION_PF</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_HW_NOT_SUPPORTED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_HW_NOT_SUPPORTED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_LIBACCEL_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_LIBACCEL_NOT_FOUND</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_LIBACCEL_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_LIBACCEL_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -1304,8 +1463,7 @@
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1314,9 +1472,154 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">Categories and Ranges of Status Codes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-calculators-for-status-codes">Internal Calculators for Status Codes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-list-of-status-codes">Complete List of Status Codes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#categories-and-ranges-of-status-codes">Categories and Ranges of Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PROCESSING_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_PROCESSING_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PARAMETER_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_PARAMETER_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_SERVICE_LOGIC_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_SERVICE_LOGIC_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_ERROR_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_STATUS_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_STATUS_BASE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_INIT_ERROR_BASE"><code class="docutils literal notranslate"><span class="pre">QPL_INIT_ERROR_BASE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-calculators-for-status-codes">Internal Calculators for Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PROCESSING_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_PROCESSING_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_PARAMETER_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_PARAMETER_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_SERVICE_LOGIC_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_SERVICE_LOGIC_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_ERROR</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_OPERATION_STATUS"><code class="docutils literal notranslate"><span class="pre">QPL_OPERATION_STATUS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_INIT_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_INIT_ERROR</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-list-of-status-codes">Complete List of Status Codes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status"><code class="docutils literal notranslate"><span class="pre">qpl_status</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OK"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OK</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BEING_PROCESSED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BEING_PROCESSED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MORE_OUTPUT_NEEDED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MORE_OUTPUT_NEEDED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MORE_INPUT_NEEDED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MORE_INPUT_NEEDED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_JOB_NOT_CONTINUABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_JOB_NOT_CONTINUABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_QUEUES_ARE_BUSY_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_QUEUES_ARE_BUSY_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_LIBRARY_INTERNAL_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_LIBRARY_INTERNAL_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_JOB_NOT_SUBMITTED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_JOB_NOT_SUBMITTED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NOT_SUPPORTED_BY_WQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_BY_WQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NULL_PTR_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NULL_PTR_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OPERATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OPERATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NOT_SUPPORTED_MODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NOT_SUPPORTED_MODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_JOB_STRUCT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_JOB_STRUCT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PATH_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PATH_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_PARAM_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_PARAM_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FLAG_CONFLICT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FLAG_CONFLICT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BUFFER_TOO_LARGE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BUFFER_TOO_LARGE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BUFFER_OVERLAP_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BUFFER_OVERLAP_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_CRC64_BAD_POLYNOM"><code class="docutils literal notranslate"><span class="pre">QPL_STS_CRC64_BAD_POLYNOM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SET_TOO_LARGE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SET_TOO_LARGE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PARSER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PARSER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OUT_FORMAT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OUT_FORMAT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DROP_BITS_OVERFLOW_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DROP_BITS_OVERFLOW_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIT_WIDTH_OUT_EXTENDED_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DROP_BYTES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DROP_BYTES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MISSING_HUFFMAN_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MISSING_HUFFMAN_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_HUFFMAN_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_HUFFMAN_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_MISSING_INDEX_TABLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_MISSING_INDEX_TABLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_COMPRESS_STYLE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_COMPRESS_STYLE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INFLATE_NEED_DICT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INFLATE_NEED_DICT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_DECOMP_END_PROC_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_DECOMP_END_PROC_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_BLOCK_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_BLOCK_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_TABLE_TYPE_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_TABLE_TYPE_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SERIALIZATION_FORMAT_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SERIALIZATION_FORMAT_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SERIALIZATION_CORRUPTED_DUMP"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SERIALIZATION_CORRUPTED_DUMP</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_BE_IGNORE_MORE_THAN_7_BITS_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_HUFFMAN_BE_ODD_INPUT_SIZE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_DEFLATE_DATA_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_DEFLATE_DATA_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NO_MEM_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NO_MEM_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INDEX_ARRAY_TOO_SMALL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INDEX_ARRAY_TOO_SMALL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INDEX_GENERATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INDEX_GENERATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_ARCHIVE_HEADER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_ARCHIVE_HEADER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_ARCHIVE_UNSUP_METHOD_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_ARCHIVE_UNSUP_METHOD_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OBJECT_ALLOCATION_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OBJECT_ALLOCATION_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIG_HEADER_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIG_HEADER_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_UNDEF_CL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_UNDEF_CL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FIRST_LL_CODE_16_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FIRST_LL_CODE_16_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_FIRST_D_CODE_16_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_FIRST_D_CODE_16_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_NO_LL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_NO_LL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_WRONG_NUM_LL_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_WRONG_NUM_LL_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_WRONG_NUM_DIST_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_WRONG_NUM_DIST_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_CL_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_CL_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LL_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LL_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_DIST_CODE_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_CODE_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LL_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LL_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_D_CODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_D_CODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_BLOCK_TYPE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_BLOCK_TYPE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_STORED_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_STORED_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_EOF_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_EOF_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_LEN_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_LEN_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BAD_DIST_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BAD_DIST_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_REF_BEFORE_START_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_REF_BEFORE_START_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TIMEOUT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TIMEOUT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_PRLE_FORMAT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_PRLE_FORMAT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_OUTPUT_OVERFLOW_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_OUTPUT_OVERFLOW_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_AECS_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_AECS_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC1_TOO_SMALL_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC1_TOO_SMALL_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC2_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC2_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_DST_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_DST_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_DIST_SPANS_MINI_BLOCKS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_LEN_SPANS_MINI_BLOCKS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_VERIF_INVALID_BLOCK_SIZE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_VERIFY_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_VERIFY_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_HUFFCODE_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_HUFFCODE_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_BIT_WIDTH_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_BIT_WIDTH_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_SRC_IS_SHORT_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_SRC_IS_SHORT_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_COUNT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_COUNT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TOO_MANY_LL_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TOO_MANY_LL_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TOO_MANY_D_CODES_ERR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TOO_MANY_D_CODES_ERR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INPROG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INPROG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_SUCCESS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_SUCCESS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_PAGE_REQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_PAGE_REQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_ANALYTIC_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_ANALYTIC_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_OUTPUT_OVERFLOW"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_OUTPUT_OVERFLOW</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_UNSUPPORTED_OPCODE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_UNSUPPORTED_OPCODE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_OP_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_OP_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_NONZERO_RESERVED_FIELD"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_NONZERO_RESERVED_FIELD</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_TRANSFER_SIZE_INVALID"><code class="docutils literal notranslate"><span class="pre">QPL_STS_TRANSFER_SIZE_INVALID</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_OVERLAPPING_BUFFERS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_OVERLAPPING_BUFFERS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_COMP_HANDLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_COMP_HANDLE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_TRANSLATION_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_TRANSLATION_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_COMPL_RECORD_UNALIGN"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_COMPL_RECORD_UNALIGN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_MISALIGNED_ADDRESS"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_MISALIGNED_ADDRESS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PRIVILIGE_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PRIVILIGE_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_TRAFFIC_CLASS_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_TRAFFIC_CLASS_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_DRAIN_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_DRAIN_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_UR_CA_RESPONSE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_UR_CA_RESPONSE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_READBACK_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_READBACK_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_HARDWARE_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_HARDWARE_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PAGE_REQUEST_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PAGE_REQUEST_TIMEOUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_WATCHDOG_TIMER_EXPIRE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_WATCHDOG_TIMER_EXPIRE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_PASID_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_PASID_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_IDPTE_HANDLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_IDPTE_HANDLE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_IDTPE_PERMISSION_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_IDTPE_PERMISSION_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_ID_WINDOW_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_ID_WINDOW_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_UPDATE_INVALID_IDPTE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_UPDATE_INVALID_IDPTE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_WINDOW_CONTROL"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_WINDOW_CONTROL</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INACCESSIBLE_DOMAIN"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INACCESSIBLE_DOMAIN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_DECOMP_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_DECOMP_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_FILTER_FLAG"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_FILTER_FLAG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_INVALID_INPUT_SIZE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_INVALID_INPUT_SIZE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_NUM_ELEM"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_NUM_ELEM</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INVALID_SRC1_WIDTH"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INVALID_SRC1_WIDTH</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INV_OUTPUT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INV_OUTPUT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_PAGE_FAULT"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_PAGE_FAULT</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_INVALID_PAGE_REQ"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_INVALID_PAGE_REQ</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INTL_W_TRANSLATION_PF"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INTL_W_TRANSLATION_PF</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_HW_NOT_SUPPORTED"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_HW_NOT_SUPPORTED</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_LIBACCEL_NOT_FOUND"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_LIBACCEL_NOT_FOUND</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_LIBACCEL_ERROR"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_LIBACCEL_ERROR</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_status.QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE"><code class="docutils literal notranslate"><span class="pre">QPL_STS_INIT_WORK_QUEUES_NOT_AVAILABLE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -1368,8 +1671,8 @@ By Intel
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
