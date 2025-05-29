@@ -181,14 +181,14 @@ Intel QPL supports the following build options:
    The ``THREAD`` option requires CMake* version 3.23 or higher.
 
 -  ``-DLOG_HW_INIT=[ON|OFF]`` - Enables hardware initialization log (``OFF`` by default).
--  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Enables usage of efficient wait instructions (``OFF`` by default).
+-  ``-DEFFICIENT_WAIT=[ON|OFF]`` - Forces usage of efficient wait instructions (``OFF`` by default).
 
 .. attention::
 
-   By default, Intel QPL uses a busy-wait loop with a pause instruction to check for operation completion when executing on Intel IAA.
-   If this approach is not desired, the ``-DEFFICIENT_WAIT=ON`` option provides an alternative waiting mechanism.
-   When enabled, it uses inline assembly to monitor a memory address and waits until a certain timeout is reached.
-   This option is experimental and may not always provide better performance.
+   Intel QPL will try to auto-detect if the build compiler can recognize the efficient wait instructions and target wait-package
+   for auto-recognition and dispatch on their availability. If not, the ``-DEFFICIENT_WAIT=ON`` option provides an alternative
+   to force the matter under windows or tools with only some support to compile but not auto-dispatch. This option should still
+   be considered experimental as hardware support or better performance is not guaranteed.
 
 -  ``-DLIB_FUZZING_ENGINE=[ON|OFF]`` - Enables fuzz testing (``OFF`` by default).
 -  ``-DQPL_BUILD_EXAMPLES=[OFF|ON]`` - Enables building library examples (``ON`` by default).
