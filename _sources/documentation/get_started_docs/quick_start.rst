@@ -31,8 +31,8 @@ here. See the comments after the code block.
 
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
-    :lines: 1-16, 29-35, 40-88, 104-110, 123-
-    :emphasize-lines: 26, 34, 41, 47-48, 50, 57-63, 66, 75
+    :lines: 1-16, 29-35, 40-50, 52-88, 104-110, 123-
+    :emphasize-lines: 26, 34, 40, 46-47, 49, 56-62, 65, 74
     :linenos:
 
 The application only needs to include one header file ``qpl/qpl.h``, which specifies
@@ -47,22 +47,22 @@ page.
 
 At line 34, we allocate the output buffer based on the estimation we obtained earlier.
 
-At line 41, we call :c:func:`qpl_get_job_size` to query the required memory size
+At line 40, we call :c:func:`qpl_get_job_size` to query the required memory size
 based on the specified execution path.
 
-At lines 47-48, we allocate memory according to the returned value of ``size``.
+At lines 46-47, we allocate memory according to the returned value of ``size``.
 Note that the value of ``size`` is greater than the size of the job structure
 :c:struct:`qpl_job`. The leading portion of the allocated memory is used to store
 the job structure, while the remaining portion is a buffer for internal usages.
 
-At line 50, we call :c:func:`qpl_init_job` to initialize the job structure
-and buffer, then we fill in necessary parameters at lines 57 to 63.
+At line 49, we call :c:func:`qpl_init_job` to initialize the job structure
+and buffer, then we fill in necessary parameters at lines 56 to 62.
 
-The job structure and the allocated buffer are passed to Intel QPL at line 66. After
+The job structure and the allocated buffer are passed to Intel QPL at line 65. After
 :c:func:`qpl_execute_job` completes successfully, we can retrieve the results stored
 in the job structure.
 
-Finally, we call :c:func:`qpl_fini_job` at line 75 to free the resources.
+Finally, we call :c:func:`qpl_fini_job` at line 74 to free the resources.
 
 In order to build the library and all the examples, including the one above, follow steps at :ref:`building_library_reference_link`.
 Compiled examples then would be located in ``<qpl_library>/build/examples/low-level-api/``.

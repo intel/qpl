@@ -162,7 +162,7 @@ Intel QPL supports the following build options:
 .. attention::
 
    The options ``-DSANITIZE_MEMORY=ON`` and ``-DSANITIZE_THREADS=ON`` are deprecated and will be removed in a future version.
-   Use the ``-DQPL_USE_CLANG_SANITIZER`` option instead.
+   Use the ``-DQPL_USE_CLANG_SANITIZER`` option instead (``-DSANITIZE_MEMORY=ON`` corresponds to ``-DQPL_USE_CLANG_SANITIZER=ADDRESS,LEAK`` and ``-DQPL_USE_CLANG_SANITIZER=ALL_COMPATIBLE``).
 
    The options ``-DSANITIZE_THREADS=ON`` and ``-DSANITIZE_MEMORY=ON`` are mutually exclusive
    and cannot be enabled simultaneously in the same build.
@@ -280,7 +280,9 @@ and benchmarks framework as well), complete the following steps:
       cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -G "NMake Makefiles" ..
       cmake --build . --target install
 
-4. The resulting library will be available in the folder ``<install_dir>/lib/``.
+4. The resulting library will be available in either ``<install_dir>/lib/`` or ``<install_dir>/lib64/`` folder,
+depending on an operating system.
+
 
 Installed Package Structure
 ===========================
@@ -316,10 +318,12 @@ are available in ``share/QPL/`` folder.
          └── pkgconfig
              └── qpl.pc
 
-On Linux OS a dynamic library is installed at ``<install_path>/lib/``, where **X**, **Y**, **Z**
-is the Intel QPL version when the ``-QPL_LIBRARY_TYPE`` is set to ``SHARED``.
+where **X.Y.Z** is the Intel QPL version when the ``-DQPL_LIBRARY_TYPE`` is set to ``SHARED``.
+On Linux OS a shared library is installed in either ``<install_dir>/lib/`` or ``<install_dir>/lib64/`` folder,
+depending on an operating system.
 
-Metadata file ``qpl.pc`` for pkg-config support is installed to `<install_path>/lib/pkgconfig`.
+Metadata file ``qpl.pc`` for pkg-config support is installed to ``<install_path>/lib/pkgconfig`` or
+``<install_path>/lib64/pkgconfig``, depending on an operating system.
 
 .. warning::
 

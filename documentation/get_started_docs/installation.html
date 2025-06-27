@@ -578,7 +578,7 @@ under different conditions.</p>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>The options <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=ON</span></code> and <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code> are deprecated and will be removed in a future version.
-Use the <code class="docutils literal notranslate"><span class="pre">-DQPL_USE_CLANG_SANITIZER</span></code> option instead.</p>
+Use the <code class="docutils literal notranslate"><span class="pre">-DQPL_USE_CLANG_SANITIZER</span></code> option instead (<code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=ON</span></code> corresponds to <code class="docutils literal notranslate"><span class="pre">-DQPL_USE_CLANG_SANITIZER=ADDRESS,LEAK</span></code> and <code class="docutils literal notranslate"><span class="pre">-DQPL_USE_CLANG_SANITIZER=ALL_COMPATIBLE</span></code>).</p>
 <p>The options <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code> and <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_MEMORY=ON</span></code> are mutually exclusive
 and cannot be enabled simultaneously in the same build.</p>
 <p>If Intel QPL is build with <code class="docutils literal notranslate"><span class="pre">-DSANITIZE_THREADS=ON</span></code>, use CMake* version 3.23 or higher to avoid issue with finding pthread library in FindThreads.</p>
@@ -686,8 +686,9 @@ cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </
 </pre></div>
 </div>
 </li>
-<li><p>The resulting library will be available in the folder <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib/</span></code>.</p></li>
 </ol>
+<p>4. The resulting library will be available in either <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib64/</span></code> folder,
+depending on an operating system.</p>
 </section>
 <section id="installed-package-structure">
 <h3>Installed Package Structure<a class="headerlink" href="#installed-package-structure" title="Link to this heading">#</a></h3>
@@ -718,9 +719,11 @@ are available in <code class="docutils literal notranslate"><span class="pre">sh
         └── qpl.pc
 </pre></div>
 </div>
-<p>On Linux OS a dynamic library is installed at <code class="docutils literal notranslate"><span class="pre">&lt;install_path&gt;/lib/</span></code>, where <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong>
-is the Intel QPL version when the <code class="docutils literal notranslate"><span class="pre">-QPL_LIBRARY_TYPE</span></code> is set to <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.</p>
-<p>Metadata file <code class="docutils literal notranslate"><span class="pre">qpl.pc</span></code> for pkg-config support is installed to <cite>&lt;install_path&gt;/lib/pkgconfig</cite>.</p>
+<p>where <strong>X.Y.Z</strong> is the Intel QPL version when the <code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE</span></code> is set to <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.
+On Linux OS a shared library is installed in either <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib/</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/lib64/</span></code> folder,
+depending on an operating system.</p>
+<p>Metadata file <code class="docutils literal notranslate"><span class="pre">qpl.pc</span></code> for pkg-config support is installed to <code class="docutils literal notranslate"><span class="pre">&lt;install_path&gt;/lib/pkgconfig</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&lt;install_path&gt;/lib64/pkgconfig</span></code>, depending on an operating system.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The pkg-config file is only generated/supported for the shared library (<code class="docutils literal notranslate"><span class="pre">-DQPL_LIBRARY_TYPE=SHARED</span></code>)
