@@ -119,12 +119,12 @@ Below are examples for compression (``deflate``) and decompression (``inflate``)
 
 .. code-block:: shell
 
-    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1s --block_size=4096
+    ./<build_dir>/tools/benchmarks/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1s --block_size=4096
 
 
 .. code-block:: shell
 
-    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*lvl:1.*" --benchmark_min_time=0.1s --block_size=4096
+    ./<build_dir>/tools/benchmarks/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:iaa.*:sync.*:fixed.*lvl:1.*" --benchmark_min_time=0.1s --block_size=4096
 
 Throughput Tests
 ================
@@ -141,12 +141,12 @@ and Fixed mode:
 
 .. code-block:: shell
 
-    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:c/.*:iaa.*:async.*:fixed.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=2
+    ./<build_dir>/tools/benchmarks/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:c/.*:iaa.*:async.*:fixed.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=2
 
 
 .. code-block:: shell
 
-    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=8
+    ./<build_dir>/tools/benchmarks/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="inflate.*:c/.*:iaa.*:async.*:fixed.*lvl:1.*" --benchmark_min_time=0.5s --block_size=4096 --queue_size=128 --threads=8
 
 .. toctree::
    :maxdepth: 1

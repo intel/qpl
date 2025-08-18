@@ -486,22 +486,22 @@ The thread tests detect the number of physical cores on the system, then spawn
 an equivalent number of threads and attempt to perform library operations
 with each thread. It then ensures that the resulting output is correct.</p></li>
 </ul>
-<p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/tests</span></code>.
+<p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;build_dir&gt;/tools/tests/functional/tests</span></code>.
 To run all the functional tests, execute the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;build_dir&gt;/tools/tests/functional/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
 </pre></div>
 </div>
 <p>To run specific tests only, use the GoogleTest option <code class="docutils literal notranslate"><span class="pre">--gtest_filter</span></code>. For example, to run algorithmic tests only, use:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/<span class="w"> </span>--gtest_filter<span class="o">=</span>ta_*
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;build_dir&gt;/tools/tests/functional/tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/<span class="w"> </span>--gtest_filter<span class="o">=</span>ta_*
 </pre></div>
 </div>
 <p>In order to get the list of GoogleTest test options, use the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--help
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;build_dir&gt;/tools/tests/functional/tests<span class="w"> </span>--help
 </pre></div>
 </div>
 <p>To see the full list of other available test options specific to the library
 (e.g., execution path, synchronous or asynchronous mode), use the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/tests<span class="w"> </span>--qpl-tests-help
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;build_dir&gt;/tools/tests/functional/tests<span class="w"> </span>--qpl-tests-help
 </pre></div>
 </div>
 <div class="admonition note">
@@ -522,9 +522,9 @@ for the same Intel QPL operation.</p></li>
 </ul>
 <p>Cross tests intend to assure that the software and hardware paths can be
 exchanged in the application code without behavior change.</p>
-<p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/cross_tests</span></code>.
+<p>The tests can be launched using a single executable <code class="docutils literal notranslate"><span class="pre">&lt;build_dir&gt;/tools/tests/cross_tests/cross_tests</span></code>.
 To run cross tests, execute the following command:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;install_dir&gt;/bin/cross_tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;build_dir&gt;/tools/tests/cross_tests/cross_tests<span class="w"> </span>--dataset<span class="o">=</span>&lt;qpl_library&gt;/tools/testdata/
 </pre></div>
 </div>
 </section>
@@ -538,11 +538,7 @@ and security loopholes.</p>
 tool</a> and requires a separate
 build using the Clang compiler (version 12.0.1 or higher) with the
 <code class="docutils literal notranslate"><span class="pre">-DLIB_FUZZING_ENGINE=ON</span></code> CMake option.</p>
-<p>Fuzz tests are not installed into <code class="docutils literal notranslate"><span class="pre">&lt;install_dir&gt;/bin/</span></code> but available
-in:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/</span></code></p></li>
-</ul>
+<p>Fuzz tests available in: <code class="docutils literal notranslate"><span class="pre">&lt;qpl_library&gt;/build/tools/tests/fuzzing/low-level-api/</span></code></p>
 <p>To run fuzz tests, specify the maximum run time using <code class="docutils literal notranslate"><span class="pre">-max_total_time=&lt;seconds&gt;</span></code>.</p>
 <p>The fuzz tests also have a suffix that can be used to select whether the test will
 be run on the accelerators (<cite>_hw</cite> suffix) or the host (<cite>_sw</cite> suffix).</p>

@@ -267,9 +267,9 @@ and benchmarks framework as well), complete the following steps:
 
       mkdir build
       cd build
-      cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> ..
-      cmake --build . --target install
-
+      cmake ..
+      make
+      sudo make install
 
    **Windows\* OS:**
 
@@ -277,7 +277,7 @@ and benchmarks framework as well), complete the following steps:
 
       mkdir build
       cd build
-      cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<install_dir> -G "NMake Makefiles" ..
+      cmake -DCMAKE_INSTALL_PREFIX=<install_dir> -G "NMake Makefiles" ..
       cmake --build . --target install
 
 4. The resulting library will be available in either ``<install_dir>/lib/`` or ``<install_dir>/lib64/`` folder,
@@ -289,21 +289,23 @@ Installed Package Structure
 
 ::
 
-     ┌── bin
+
      ├── include
-     │   └── qpl
-     |       ├── c_api
-     |       └── qpl.h
-     |
+     │   └── qpl
+     │       ├── c_api
+     │       └── qpl.h
+     │
      ├── lib or lib64
-     |   ├── cmake
-     |   └── libqpl.a
-     |
+     │   ├── cmake
+     │   │   └── QPL
+     │   └── libqpl.a
+     │
      └── share/QPL
          ├── configs
          └── scripts
 
-Executables for tests and benchmarks framework are available in ``bin/`` folder.
+Executables for tests and benchmarks framework are available in build directory, not install path.
+``<build_dir>/tools/tests/functional/tests``, ``<build_dir>/tools/tests/cross_tests/cross_tests``, ``<build_dir>/tools/benchmarks/qpl_benchmarks``.
 
 Configuration files and scripts for Intel® IAA
 (see :ref:`accelerator_configuration_reference_link` for more details)

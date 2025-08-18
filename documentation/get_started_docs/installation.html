@@ -674,14 +674,15 @@ use <code class="docutils literal notranslate"><span class="pre">-DQPL_BUILD_TES
 <p><strong>Linux* OS:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
 <span class="nb">cd</span><span class="w"> </span>build
-cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;install_dir&gt;<span class="w"> </span>..
-cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>install
+cmake<span class="w"> </span>..
+make
+sudo<span class="w"> </span>make<span class="w"> </span>install
 </pre></div>
 </div>
 <p><strong>Windows* OS:</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
 <span class="nb">cd</span><span class="w"> </span>build
-cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;install_dir&gt;<span class="w"> </span>-G<span class="w"> </span><span class="s2">&quot;NMake Makefiles&quot;</span><span class="w"> </span>..
+cmake<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>&lt;install_dir&gt;<span class="w"> </span>-G<span class="w"> </span><span class="s2">&quot;NMake Makefiles&quot;</span><span class="w"> </span>..
 cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>install
 </pre></div>
 </div>
@@ -692,22 +693,23 @@ depending on an operating system.</p>
 </section>
 <section id="installed-package-structure">
 <h3>Installed Package Structure<a class="headerlink" href="#installed-package-structure" title="Link to this heading">#</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌── bin
-├── include
-│   └── qpl
-|       ├── c_api
-|       └── qpl.h
-|
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── include
+│   └── qpl
+│       ├── c_api
+│       └── qpl.h
+│
 ├── lib or lib64
-|   ├── cmake
-|   └── libqpl.a
-|
+│   ├── cmake
+│   │   └── QPL
+│   └── libqpl.a
+│
 └── share/QPL
     ├── configs
     └── scripts
 </pre></div>
 </div>
-<p>Executables for tests and benchmarks framework are available in <code class="docutils literal notranslate"><span class="pre">bin/</span></code> folder.</p>
+<p>Executables for tests and benchmarks framework are available in build directory, not install path.
+<code class="docutils literal notranslate"><span class="pre">&lt;build_dir&gt;/tools/tests/functional/tests</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;build_dir&gt;/tools/tests/cross_tests/cross_tests</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;build_dir&gt;/tools/benchmarks/qpl_benchmarks</span></code>.</p>
 <p>Configuration files and scripts for Intel® IAA
 (see <a class="reference internal" href="#accelerator-configuration-reference-link"><span class="std std-ref">Accelerator Configuration</span></a> for more details)
 are available in <code class="docutils literal notranslate"><span class="pre">share/QPL/</span></code> folder.</p>

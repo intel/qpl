@@ -36,7 +36,7 @@ The example below demonstrates running Deflate using Fixed block on accelerator 
 
 .. code-block:: shell
 
-    ./<install_dir>/bin/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1s --block_size=0
+    ./<build_dir>/tools/benchmarks/qpl_benchmarks --dataset=<dataset_dir>/ --benchmark_filter="deflate.*:iaa.*:sync.*:fixed.*" --benchmark_min_time=0.1s --block_size=0
 
 .. code-block:: shell
     :caption: Output to terminal:

@@ -56,32 +56,32 @@ further divided into four groups:
   an equivalent number of threads and attempt to perform library operations
   with each thread. It then ensures that the resulting output is correct.
 
-The tests can be launched using a single executable ``<install_dir>/bin/tests``.
+The tests can be launched using a single executable ``<build_dir>/tools/tests/functional/tests``.
 To run all the functional tests, execute the following command:
 
 .. code:: shell
 
-   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/
+   <build_dir>/tools/tests/functional/tests --dataset=<qpl_library>/tools/testdata/
 
 To run specific tests only, use the GoogleTest option ``--gtest_filter``. For example, to run algorithmic tests only, use:
 
 .. code:: shell
 
-   <install_dir>/bin/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=ta_*
+   <build_dir>/tools/tests/functional/tests --dataset=<qpl_library>/tools/testdata/ --gtest_filter=ta_*
 
 
 In order to get the list of GoogleTest test options, use the following command:
 
 .. code:: shell
 
-   <install_dir>/bin/tests --help
+   <build_dir>/tools/tests/functional/tests --help
 
 To see the full list of other available test options specific to the library
 (e.g., execution path, synchronous or asynchronous mode), use the following command:
 
 .. code:: shell
 
-   <install_dir>/bin/tests --qpl-tests-help
+   <build_dir>/tools/tests/functional/tests --qpl-tests-help
 
 .. note::
 
@@ -102,12 +102,12 @@ Cross tests provide validation of:
 Cross tests intend to assure that the software and hardware paths can be
 exchanged in the application code without behavior change.
 
-The tests can be launched using a single executable ``<install_dir>/bin/cross_tests``.
+The tests can be launched using a single executable ``<build_dir>/tools/tests/cross_tests/cross_tests``.
 To run cross tests, execute the following command:
 
 .. code:: shell
 
-   <install_dir>/bin/cross_tests --dataset=<qpl_library>/tools/testdata/
+   <build_dir>/tools/tests/cross_tests/cross_tests --dataset=<qpl_library>/tools/testdata/
 
 Fuzz Tests
 **********
@@ -122,10 +122,7 @@ tool <https://llvm.org/docs/LibFuzzer.html>`__ and requires a separate
 build using the Clang compiler (version 12.0.1 or higher) with the
 ``-DLIB_FUZZING_ENGINE=ON`` CMake option.
 
-Fuzz tests are not installed into ``<install_dir>/bin/`` but available
-in:
-
-- ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
+Fuzz tests available in: ``<qpl_library>/build/tools/tests/fuzzing/low-level-api/``
 
 To run fuzz tests, specify the maximum run time using ``-max_total_time=<seconds>``.
 
