@@ -183,6 +183,7 @@ Example code:
 
 .. code-block:: c
 
+    /* Pointer to the allocated buffer, is checked in qpl_huffman_table_serialize() API */
     uint8_t* buffer = (uint8_t*) std::malloc(serialized_size * sizeof(uint8_t*));
 
     status = qpl_huffman_table_serialize(huffman_table,
