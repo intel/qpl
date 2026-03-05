@@ -163,7 +163,7 @@ qpl_status ref_store_1_bit(uint32_t destination_buffer, uint32_t bit_index, uint
                                                      ? (destination_8u_ptr[byte_index] | result_bit_mask)
                                                      : (destination_8u_ptr[byte_index] & (~result_bit_mask));
             break;
-        }              // Output modification: store 8u idexes of non-zero bits in LE
+        } // Output modification: store 8u idexes of non-zero bits in LE
         case qpl_ow_8: // Or BE (same as LE for bytes)
         case qpl_ow_8 | QPL_FLAG_OUT_BE: {
             destination_8u_ptr = (*pp_destination);

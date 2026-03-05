@@ -45,11 +45,11 @@ typedef qplc_status_t (*qplc_select_t_ptr)(const uint8_t* src_ptr, const uint8_t
  *      - number of selected elements.
  * @{
  */
-OWN_QPLC_API(qplc_status_t, qplc_select_8u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
+OWN_QPLC_API(qplc_status_t, qplc_select_8u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
 
-OWN_QPLC_API(qplc_status_t, qplc_select_16u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
+OWN_QPLC_API(qplc_status_t, qplc_select_16u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
 
-OWN_QPLC_API(qplc_status_t, qplc_select_32u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
+OWN_QPLC_API(qplc_status_t, qplc_select_32u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length));
 /** @} */
 
 /**

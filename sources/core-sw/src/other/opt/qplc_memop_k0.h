@@ -23,7 +23,7 @@
 
 // ********************** Zero ****************************** //
 
-OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
+OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
     uint32_t length_64u = length / sizeof(uint64_t);
 
     uint64_t* data_64u_ptr = (uint64_t*)dst_ptr;
@@ -59,7 +59,7 @@ OWN_QPLC_INLINE(void, own_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
     if (remaining_bytes) { *dst_ptr = 0U; }
 }
 
-OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t * dst_ptr, uint32_t len)) {
+OWN_QPLC_INLINE(void, k0_qplc_zero_8u_unaligned, (uint8_t* dst_ptr, uint32_t len)) {
     uint32_t length_512u = len / sizeof(__m512i);
     while (length_512u > 0) {
         _mm512_storeu_si512(dst_ptr, _mm512_setzero_si512());
@@ -76,12 +76,12 @@ OWN_QPLC_INLINE(uint32_t, own_get_align, (uint64_t ptr)) {
     return (uint32_t)(aligned_ptr - ptr);
 }
 
-OWN_QPLC_INLINE(void, k0_qplc_zero_8u_tail, (uint8_t * dst_ptr, uint32_t len)) {
+OWN_QPLC_INLINE(void, k0_qplc_zero_8u_tail, (uint8_t* dst_ptr, uint32_t len)) {
     __mmask64 store_mask = (1LLU << len) - 1U;
     _mm512_mask_storeu_epi8(dst_ptr, store_mask, _mm512_setzero_si512());
 }
 
-OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
+OWN_OPT_FUN(void, k0_qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
     if (length < 4096U) {
         k0_qplc_zero_8u_unaligned(dst_ptr, length);
         return;

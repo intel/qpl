@@ -35,15 +35,13 @@ public:
 
         explicit unpack_result_t(uint32_t status) noexcept
             : status(status) {
-                      // Empty constructor
-              };
+                // Empty constructor
+            };
 
         explicit unpack_result_t(uint32_t status, uint32_t unpacked_elements, uint32_t unpacked_bytes) noexcept
-            : status(status)
-            , unpacked_elements(unpacked_elements)
-            , unpacked_bytes(unpacked_bytes) {
-                      // Empty constructor
-              };
+            : status(status), unpacked_elements(unpacked_elements), unpacked_bytes(unpacked_bytes) {
+                // Empty constructor
+            };
 
         ~unpack_result_t() = default;
 

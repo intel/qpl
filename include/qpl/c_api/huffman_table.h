@@ -67,8 +67,7 @@ typedef enum {
 /**
 * Allocator used in Intel QPL C API by default
 */
-#define DEFAULT_ALLOCATOR_C \
-    { malloc, free }
+#define DEFAULT_ALLOCATOR_C {malloc, free}
 
 /** @} */
 

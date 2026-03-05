@@ -108,7 +108,7 @@ extern "C" {
 /**
  * Convert a number of bits to index in {8U, 16U, 32U}
  */
-#define OWN_BITS_2_DATA_TYPE_INDEX(x) (QPL_MIN((((x)-1U) >> 3U), 2U))
+#define OWN_BITS_2_DATA_TYPE_INDEX(x) (QPL_MIN((((x) - 1U) >> 3U), 2U))
 #define OWN_BITS_2_WORD(x)            (((x) + 15U) >> 4U) /**< Convert a number of bits to a number of words */
 #define OWN_BITS_2_DWORD(x)           (((x) + 31U) >> 5U) /**< Convert a number of bits to a number of double words */
 

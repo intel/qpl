@@ -44,10 +44,10 @@ QPL_INLINE int64_t QPL_INT_PTR(const void* ptr) {
 #define OWN_MAX_BIT_IDX   7U
 #define OWN_64U_BITS      64U
 
-#define QPL_BYTES_TO_ALIGN(ptr, align) ((-(QPL_INT_PTR(ptr) & ((align)-1))) & ((align)-1))
+#define QPL_BYTES_TO_ALIGN(ptr, align) ((-(QPL_INT_PTR(ptr) & ((align) - 1))) & ((align) - 1))
 #define QPL_ALIGNED_PTR(ptr, align)    (void*)((uint8_t*)(ptr) + (QPL_BYTES_TO_ALIGN(ptr, align)))
 
-#define QPL_ALIGNED_SIZE(size, align) (((size) + (align)-1) & ~((align)-1))
+#define QPL_ALIGNED_SIZE(size, align) (((size) + (align) - 1) & ~((align) - 1))
 
 #define QPL_DEFAULT_ALIGNMENT 64U
 

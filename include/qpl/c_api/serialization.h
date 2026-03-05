@@ -48,8 +48,7 @@ typedef struct {
     serialization_flags_t      flags;  /**< Advanced serialization options, placeholder for later */
 } serialization_options_t;
 
-#define DEFAULT_SERIALIZATION_OPTIONS \
-    { serialization_raw, 0 } /**< Default serialization options */
+#define DEFAULT_SERIALIZATION_OPTIONS {serialization_raw, 0} /**< Default serialization options */
 
 /** @} */
 

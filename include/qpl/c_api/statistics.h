@@ -73,7 +73,7 @@ typedef struct {
  * @return One of statuses presented in the @ref qpl_status
  */
 QPL_API(qpl_status, qpl_gather_deflate_statistics,
-        (uint8_t * source_ptr, const uint32_t source_length, qpl_histogram* histogram_ptr,
+        (uint8_t* source_ptr, const uint32_t source_length, qpl_histogram* histogram_ptr,
          const qpl_compression_levels level, const qpl_path_t path));
 
 /** @} */

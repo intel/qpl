@@ -26,7 +26,7 @@
 
 #endif
 
-OWN_QPLC_FUN(uint32_t, qplc_select_8u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
+OWN_QPLC_FUN(uint32_t, qplc_select_8u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_select_8u)((const uint8_t*)src_dst_ptr, src2_ptr, src_dst_ptr, length);
 #else
@@ -41,7 +41,7 @@ OWN_QPLC_FUN(uint32_t, qplc_select_8u_i, (uint8_t * src_dst_ptr, const uint8_t* 
 #endif
 }
 
-OWN_QPLC_FUN(uint32_t, qplc_select_16u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
+OWN_QPLC_FUN(uint32_t, qplc_select_16u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_select_16u)((const uint8_t*)src_dst_ptr, src2_ptr, src_dst_ptr, length);
 #else
@@ -56,7 +56,7 @@ OWN_QPLC_FUN(uint32_t, qplc_select_16u_i, (uint8_t * src_dst_ptr, const uint8_t*
 #endif
 }
 
-OWN_QPLC_FUN(uint32_t, qplc_select_32u_i, (uint8_t * src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
+OWN_QPLC_FUN(uint32_t, qplc_select_32u_i, (uint8_t* src_dst_ptr, const uint8_t* src2_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     return CALL_OPT_FUNCTION(k0_qplc_select_32u)((const uint8_t*)src_dst_ptr, src2_ptr, src_dst_ptr, length);
 #else

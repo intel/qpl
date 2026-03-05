@@ -144,7 +144,7 @@ void get_literal_code(const struct isal_hufftables* const huffman_table_ptr, con
 #endif
 
 OWN_QPLC_FUN(void, setup_dictionary,
-             (uint8_t * dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr)) {
+             (uint8_t* dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_setup_dictionary)(dictionary_ptr, dictionary_size, hash_table_ptr);
 #else

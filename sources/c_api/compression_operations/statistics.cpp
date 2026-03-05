@@ -11,7 +11,7 @@
 extern "C" {
 
 QPL_FUN(qpl_status, qpl_gather_deflate_statistics,
-        (uint8_t * source_ptr, const uint32_t source_length, qpl_histogram* histogram_ptr,
+        (uint8_t* source_ptr, const uint32_t source_length, qpl_histogram* histogram_ptr,
          const qpl_compression_levels level, const qpl_path_t path)) {
     using namespace qpl::ml;
 

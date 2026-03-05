@@ -55,8 +55,8 @@ private:
 
     verification_state_builder(const qpl::ml::util::linear_allocator& allocator)
         : state_(allocator) {
-                  // No actions required
-          };
+            // No actions required
+        };
 };
 
 } // namespace qpl::ml::compression

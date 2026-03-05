@@ -616,7 +616,7 @@ void expand_len_tree(uint32_t* codes) {
                 *p_code++ = code | (j << len);
             }
         } // end for k
-    }     // end for eb
+    } // end for eb
     // fix up last record
     code       = orig[i];
     p_code[-1] = orig[i];

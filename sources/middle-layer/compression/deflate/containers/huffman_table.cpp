@@ -58,7 +58,7 @@ void huffman_table_icf::expand_huffman_tables() const noexcept {
                 p_code++;
             }
         } // end for k
-    }     // end for eb
+    } // end for eb
     // fix up last record
     p_code[-1] = length_codes[i];
 

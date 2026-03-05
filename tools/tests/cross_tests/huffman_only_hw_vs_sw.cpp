@@ -43,10 +43,9 @@ protected:
 
 public:
     SimpleHuffmanOnlyCompressDecompressFixture()
-        : c_huffman_table(NULL)
-        , d_huffman_table(NULL) {
+        : c_huffman_table(NULL), d_huffman_table(NULL) {
 
-          };
+        };
     SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture&)             = delete;
     SimpleHuffmanOnlyCompressDecompressFixture(const SimpleHuffmanOnlyCompressDecompressFixture&&)            = delete;
     SimpleHuffmanOnlyCompressDecompressFixture& operator=(const SimpleHuffmanOnlyCompressDecompressFixture&)  = delete;

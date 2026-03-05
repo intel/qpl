@@ -52,13 +52,13 @@ typedef qplc_status_t (*qplc_extract_t_ptr)(const uint8_t* src_ptr, uint8_t* dst
  * @{
  */
 OWN_QPLC_API(qplc_status_t, qplc_extract_8u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
 
 OWN_QPLC_API(qplc_status_t, qplc_extract_16u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
 
 OWN_QPLC_API(qplc_status_t, qplc_extract_32u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value));
 /** @} */
 
 /**

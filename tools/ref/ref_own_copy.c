@@ -44,7 +44,7 @@ qpl_status ref_copy_le_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                     dst_ptr++;                            // and shift pointer to the next byte
                 }
             } // for s_bit
-        }     // for len
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -65,7 +65,7 @@ qpl_status ref_copy_le_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -93,7 +93,7 @@ qpl_status ref_copy_le_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -121,7 +121,7 @@ qpl_status ref_copy_le_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -178,9 +178,9 @@ qpl_status ref_copy_le_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                     current_dst_ptr--;                    // and shift pointer to the next byte
                 }
             } // for s_bit
-        }     // for len
+        } // for len
         *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-        dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+        dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
         if (0U != dst_mask) {
             (**pp_dst) &= dst_mask; // zero unused bits in the last byte
             (*pp_dst)++;
@@ -200,7 +200,7 @@ qpl_status ref_copy_le_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -229,7 +229,7 @@ qpl_status ref_copy_le_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -258,7 +258,7 @@ qpl_status ref_copy_le_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -307,7 +307,7 @@ qpl_status ref_copy_be_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                     dst_ptr++;                                   // and shift pointer to the next byte
                 }
             } // for s_bit
-        }     // for len
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -333,7 +333,7 @@ qpl_status ref_copy_be_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -364,7 +364,7 @@ qpl_status ref_copy_be_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -396,7 +396,7 @@ qpl_status ref_copy_be_le_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -449,9 +449,9 @@ qpl_status ref_copy_be_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                     current_dst_ptr--;                    // and shift pointer to the next byte
                 }
             } // for s_bit
-        }     // for len
+        } // for len
         *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-        dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+        dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
         if (0U != dst_mask) {
             (**pp_dst) &= dst_mask; // zero unused bits in the last byte
             (*pp_dst)++;
@@ -475,7 +475,7 @@ qpl_status ref_copy_be_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -507,7 +507,7 @@ qpl_status ref_copy_be_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -539,7 +539,7 @@ qpl_status ref_copy_be_be_nu(uint8_t* src_ptr, uint32_t src_bit_offset, uint8_t*
                 }
                 // put current bit value to proper dst position
                 val = (src_bit) ? (val | (1 << i)) : val;
-            }                  // for s_bit
+            } // for s_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -718,10 +718,10 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                         dst_mask = (uint8_t)REF_LOW_BIT_MASK; // set it to initial bit of the byte
                         dst_ptr++;                            // and shift pointer to the next byte
                     }
-                }                    // for s_bit
-            }                        // if m_bit
+                } // for s_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -754,7 +754,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -774,9 +774,9 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst_ptr++;
                     *output_bits_ptr -= REF_8U_BITS; // for dst upper boundary check
                 }
-            }                        // if m_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = dst_ptr;
     } else if (qpl_ow_16 == o_fmt) {
         uint16_t* dst16_ptr = (uint16_t*)(*pp_dst);
@@ -804,7 +804,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -824,9 +824,9 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst16_ptr++;
                     *output_bits_ptr -= REF_16U_BITS; // for dst upper boundary check
                 }
-            }                        // if m_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = (uint8_t*)dst16_ptr;
     } else if (qpl_ow_32 == o_fmt) {
         uint32_t* dst32_ptr = (uint32_t*)(*pp_dst);
@@ -855,7 +855,7 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -876,9 +876,9 @@ qpl_status ref_copy_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst32_ptr++;
                     *output_bits_ptr -= REF_32U_BITS; // for dst upper boundary check
                 }
-            }                        // if m_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = (uint8_t*)dst32_ptr;
     }
     return QPL_STS_OK;
@@ -940,13 +940,13 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                         dst_mask = (uint8_t)REF_LOW_BIT_MASK; // set it to initial bit of the byte
                         current_dst_ptr--;                    // and shift pointer to the next byte
                     }
-                }                    // for s_bit
-            }                        // if m_bit
+                } // for s_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         if (0U < dst_bit_offset) {
             *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-            dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+            dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
             if (0U != dst_mask) {
                 (**pp_dst) &= dst_mask; // zero unused bits in the last byte
                 (*pp_dst)++;
@@ -979,7 +979,7 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -999,9 +999,9 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst_ptr++;
                     *output_bits_ptr -= REF_8U_BITS; // for dst upper boundary check
                 }
-            }                        // if m_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = dst_ptr;
     } else if (qpl_ow_16 == o_fmt) {
         uint16_t* dst16_ptr = (uint16_t*)(*pp_dst);
@@ -1030,7 +1030,7 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1050,9 +1050,9 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst16_ptr++;
                     *output_bits_ptr -= REF_16U_BITS; // for dst upper boundary check
                 }
-            }                        // if m_bit
+            } // if m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = (uint8_t*)dst16_ptr;
     } else if (qpl_ow_32 == o_fmt) {
         uint32_t* dst32_ptr = (uint32_t*)(*pp_dst);
@@ -1081,8 +1081,8 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                         current_src_ptr++; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-                if (1U == s_bit) {                            // store non-zero value index for bit vector
+                } // for s_bit
+                if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                         if (REF_32U_BITS > *output_bits_ptr) { // control dst buffer
@@ -1101,9 +1101,9 @@ qpl_status ref_copy_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     dst32_ptr++;
                     *output_bits_ptr -= REF_32U_BITS; // for dst upper boundary check
                 }
-            }                        // if !m_bit
+            } // if !m_bit
             src_bit_offset += s_bit; // next src value
-        }                            // for len
+        } // for len
         *pp_dst = (uint8_t*)dst32_ptr;
     }
     return QPL_STS_OK;
@@ -1160,8 +1160,8 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                         dst_ptr++;                            // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -1197,7 +1197,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1218,7 +1218,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     *output_bits_ptr -= REF_8U_BITS; // for dst upper boundary check
                 }
             } // if m_bit
-        }     // for len
+        } // for len
         *pp_dst = dst_ptr;
     } else if (qpl_ow_16 == o_fmt) {
         uint16_t* dst16_ptr = (uint16_t*)(*pp_dst);
@@ -1248,7 +1248,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1269,7 +1269,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     *output_bits_ptr -= REF_16U_BITS; // for dst upper boundary check
                 }
             } // if !m_bit
-        }     // for len
+        } // for len
         *pp_dst = (uint8_t*)dst16_ptr;
     } else if (qpl_ow_32 == o_fmt) {
         uint32_t* dst32_ptr = (uint32_t*)(*pp_dst);
@@ -1300,7 +1300,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1322,7 +1322,7 @@ qpl_status ref_copy_mask_be_le__nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t
                     *output_bits_ptr -= REF_32U_BITS; // for dst upper boundary check
                 }
             } // if !m_bit
-        }     // for len
+        } // for len
         *pp_dst = (uint8_t*)dst32_ptr;
     }
     return QPL_STS_OK;
@@ -1384,11 +1384,11 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                         current_dst_ptr--;                    // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         if (0U < dst_bit_offset) {
             *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-            dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+            dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
             if (0U != dst_mask) {
                 (**pp_dst) &= dst_mask; // zero unused bits in the last byte
                 (*pp_dst)++;
@@ -1423,7 +1423,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0 < val) {
                         if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1444,7 +1444,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     *output_bits_ptr -= REF_8U_BITS; // for dst upper boundary check
                 }
             } // if !m_bit
-        }     // for len
+        } // for len
         *pp_dst = dst_ptr;
     } else if (qpl_ow_16 == o_fmt) {
         uint16_t* dst16_ptr = (uint16_t*)(*pp_dst);
@@ -1474,7 +1474,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1495,7 +1495,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     *output_bits_ptr -= REF_16U_BITS; // for dst upper boundary check
                 }
             } // if !m_bit
-        }     // for len
+        } // for len
         *pp_dst = (uint8_t*)dst16_ptr;
     } else if (qpl_ow_32 == o_fmt) {
         uint32_t* dst32_ptr = (uint32_t*)(*pp_dst);
@@ -1525,7 +1525,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }                  // for s_bit
+                } // for s_bit
                 if (1U == s_bit) { // store non-zero value index for bit vector
                     if (0U < val) {
                         if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1546,7 +1546,7 @@ qpl_status ref_copy_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_t 
                     *output_bits_ptr -= REF_32U_BITS; // for dst upper boundary check
                 }
             } // if !m_bit
-        }     // for len
+        } // for len
         *pp_dst = (uint8_t*)dst32_ptr;
     }
     return QPL_STS_OK;
@@ -1604,8 +1604,8 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         dst_ptr++;                            // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -1643,8 +1643,8 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }              // for s_bit
-            }                  // if !m_bit
+                } // for s_bit
+            } // if !m_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1689,8 +1689,8 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }              // for s_bit
-            }                  // if !m_bit
+                } // for s_bit
+            } // if !m_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1734,9 +1734,9 @@ qpl_status ref_expand_mask_le_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         (*i_bytes_ptr)--; // for src upper boundary check
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst32_ptr = idx;
@@ -1815,10 +1815,10 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_dst_ptr--;                    // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-        dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+        dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
         if (0U != dst_mask) {
             (**pp_dst) &= dst_mask; // zero unused bits in the last byte
             (*pp_dst)++;
@@ -1854,8 +1854,8 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }              // for s_bit
-            }                  // if !m_bit
+                } // for s_bit
+            } // if !m_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -1899,9 +1899,9 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         (*i_bytes_ptr)--; // for src upper boundary check
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst16_ptr = ref_cvt_le_2_be_16u(idx);
@@ -1944,9 +1944,9 @@ qpl_status ref_expand_mask_le_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         (*i_bytes_ptr)--; // for src upper boundary check
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst32_ptr = ref_cvt_le_2_be_32u(idx);
@@ -2023,8 +2023,8 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         dst_ptr++;                            // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         *pp_dst = dst_ptr;
         if (REF_LOW_BIT_MASK < dst_mask) {
             (**pp_dst) &= (dst_mask - 1); // zero unused bits in the last byte
@@ -2065,8 +2065,8 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                     }
                     // put current bit value to proper dst position
                     val = (src_bit) ? (val | (1 << i)) : val;
-                }              // for s_bit
-            }                  // if !m_bit
+                } // for s_bit
+            } // if !m_bit
             if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
@@ -2112,9 +2112,9 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_src_ptr--; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst16_ptr = (uint16_t)idx;
@@ -2160,9 +2160,9 @@ qpl_status ref_expand_mask_be_le_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_src_ptr--; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst32_ptr = idx;
@@ -2246,10 +2246,10 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_dst_ptr--;                    // and shift pointer to the next byte
                     }
                 } // for s_bit
-            }     // if !m_bit
-        }         // for len
+            } // if !m_bit
+        } // for len
         *pp_dst += ((dst_bit_offset - 1) >> REF_BIT_LEN_2_BYTE);
-        dst_mask = (uint8_t) ~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
+        dst_mask = (uint8_t)~((REF_HIGH_BIT_MASK >> ((dst_bit_offset - 1) & REF_MAX_BIT_IDX)) - 1);
         if (0 != dst_mask) {
             (**pp_dst) &= dst_mask; // zero unused bits in the last byte
             (*pp_dst)++;
@@ -2288,9 +2288,9 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_src_ptr--; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT8_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst_ptr = (uint8_t)idx;
@@ -2336,9 +2336,9 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_src_ptr--; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT16_MAX < idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst16_ptr = ref_cvt_le_2_be_16u(idx);
@@ -2384,9 +2384,9 @@ qpl_status ref_expand_mask_be_be_nu(uint8_t* src_ptr, uint8_t* mask_ptr, uint32_
                         current_src_ptr--; // and shift source pointer to the next byte
                     }
                     val = (src_bit) ? (val | (1 << i)) : val; // put current bit value to proper dst position
-                }                                             // for s_bit
-            }                                                 // if !m_bit
-            if (1U == s_bit) {                                // store non-zero value index for bit vector
+                } // for s_bit
+            } // if !m_bit
+            if (1U == s_bit) { // store non-zero value index for bit vector
                 if (0U < val) {
                     if (UINT32_MAX == idx) { return QPL_STS_OUTPUT_OVERFLOW_ERR; }
                     *dst32_ptr = ref_cvt_le_2_be_32u(idx);

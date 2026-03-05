@@ -21,7 +21,7 @@
 #include "qplc_memop.h"
 
 OWN_QPLC_FUN(uint32_t, qplc_extract_8u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
     uint32_t start   = 0U;
     uint32_t stop    = 0U;
     uint8_t* src_ptr = src_dst_ptr;
@@ -45,7 +45,7 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_8u_i,
 }
 
 OWN_QPLC_FUN(uint32_t, qplc_extract_16u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
     uint32_t  start   = 0U;
     uint32_t  stop    = 0U;
     uint16_t* src_ptr = (uint16_t*)src_dst_ptr;
@@ -69,7 +69,7 @@ OWN_QPLC_FUN(uint32_t, qplc_extract_16u_i,
 }
 
 OWN_QPLC_FUN(uint32_t, qplc_extract_32u_i,
-             (uint8_t * src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
+             (uint8_t* src_dst_ptr, uint32_t length, uint32_t* index_ptr, uint32_t low_value, uint32_t high_value)) {
     uint32_t  start   = 0U;
     uint32_t  stop    = 0U;
     uint32_t* src_ptr = (uint32_t*)src_dst_ptr;

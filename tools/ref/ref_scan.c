@@ -303,7 +303,7 @@ REF_INLINE qpl_status own_compare_output_to_format(const uint32_t* const source_
 
             if (qpl_job_ptr->flags & QPL_FLAG_OUT_BE) {
                 bit_mask =
-                        (uint8_t) ~((REF_HIGH_BIT_MASK >> (qpl_job_ptr->last_bit_offset - QPL_ONE_32U)) - QPL_ONE_32U);
+                        (uint8_t)~((REF_HIGH_BIT_MASK >> (qpl_job_ptr->last_bit_offset - QPL_ONE_32U)) - QPL_ONE_32U);
             } else {
                 bit_mask = (uint8_t)((REF_LOW_BIT_MASK << qpl_job_ptr->last_bit_offset) - QPL_ONE_32U);
             }

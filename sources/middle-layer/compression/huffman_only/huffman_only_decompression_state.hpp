@@ -96,7 +96,7 @@ public:
         : descriptor_(allocator.allocate<hw_descriptor, qpl::ml::util::memory_block_t::aligned_64u>(1U))
         , completion_record_(allocator.allocate<hw_completion_record, qpl::ml::util::memory_block_t::aligned_64u>(1U)) {
 
-          };
+        };
 
     template <class iterator_t>
     inline auto output(iterator_t begin, iterator_t end) noexcept -> huffman_only_decompression_state&;

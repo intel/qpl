@@ -58,7 +58,7 @@ typedef int            GenStatus;
 #define GEN_MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define GEN_MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-#define LAST_FROM(count) ((count)-1)
+#define LAST_FROM(count) ((count) - 1)
 
 /**
  * @brief list of definitions which was declared in accordance with DEFLATE STANDARD

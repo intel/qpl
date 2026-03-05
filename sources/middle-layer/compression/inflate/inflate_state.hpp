@@ -131,7 +131,7 @@ private:
 
             // Fulfill inflate byte buffer
             while (inflate_state_->read_in_length < 64 && inflate_state_->avail_in > 1U) {
-                inflate_state_->read_in |= ((uint64_t) * (inflate_state_->next_in++))
+                inflate_state_->read_in |= ((uint64_t)*(inflate_state_->next_in++))
                                            << (uint32_t)(inflate_state_->read_in_length);
                 inflate_state_->avail_in--;
                 inflate_state_->read_in_length += 8U;

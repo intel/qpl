@@ -91,7 +91,7 @@ OWN_QPLC_FUN(void, qplc_copy_32u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uin
  * @param[in,out]  dst_ptr  pointer to destination byte buffer
  * @param[in]      len      number of bytes to set
  */
-OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length)) {
+OWN_QPLC_FUN(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length)) {
 #if PLATFORM >= K0
     CALL_OPT_FUNCTION(k0_qplc_zero_8u)(dst_ptr, length);
 #else

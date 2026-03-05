@@ -38,7 +38,7 @@ void get_distance_icf_code(uint32_t distance, uint32_t* code, uint32_t* extra_bi
 void write_deflate_icf(struct deflate_icf* icf, uint32_t lit_len, uint32_t lit_dist, uint32_t extra_bits);
 
 OWN_QPLC_FUN(void, setup_dictionary,
-             (uint8_t * dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr));
+             (uint8_t* dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr));
 
 #ifdef __cplusplus
 }

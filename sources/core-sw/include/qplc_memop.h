@@ -87,7 +87,7 @@ OWN_QPLC_API(void, qplc_copy_32u, (const uint8_t* src_ptr, uint8_t* dst_ptr, uin
  *      - n/a (void).
  * @{
  */
-OWN_QPLC_API(void, qplc_zero_8u, (uint8_t * dst_ptr, uint32_t length));
+OWN_QPLC_API(void, qplc_zero_8u, (uint8_t* dst_ptr, uint32_t length));
 /** @} */
 
 /**

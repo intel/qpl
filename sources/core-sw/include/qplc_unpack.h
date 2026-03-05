@@ -271,15 +271,15 @@ OWN_QPLC_API(void, qplc_unpack_be_32u32u,
  * @{
  */
 OWN_QPLC_API(qplc_status_t, qplc_unpack_prle_8u,
-             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+             (uint8_t** pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
               int32_t* count_ptr, uint32_t* value_ptr));
 
 OWN_QPLC_API(qplc_status_t, qplc_unpack_prle_16u,
-             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+             (uint8_t** pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
               int32_t* count_ptr, uint32_t* value_ptr));
 
 OWN_QPLC_API(qplc_status_t, qplc_unpack_prle_32u,
-             (uint8_t * *pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
+             (uint8_t** pp_src, uint32_t src_length, uint32_t bit_width, uint8_t** pp_dst, uint32_t dst_length,
               int32_t* count_ptr, uint32_t* value_ptr));
 /** @} */
 

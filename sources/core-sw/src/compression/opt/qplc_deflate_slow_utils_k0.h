@@ -21,7 +21,7 @@
 
 OWN_OPT_FUN(
         void, k0_setup_dictionary,
-        (uint8_t * dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr) {
+        (uint8_t* dictionary_ptr, uint32_t dictionary_size, deflate_hash_table_t* hash_table_ptr) {
             uint8_t* current_ptr = dictionary_ptr;
 
             for (uint32_t index = 0; index < dictionary_size; index++) {
