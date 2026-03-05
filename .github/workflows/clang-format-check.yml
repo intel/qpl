@@ -17,7 +17,7 @@ permissions: "read-all"
 
 jobs:
   clang-format-check:
-    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'service' }}
+    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'innersource.prod.amr.dind' }}
     # Grant status permission for MULTI_STATUS
     permissions:
       contents: "read"
@@ -32,9 +32,10 @@ jobs:
           clean: "true"
 
       - name: "Validation with Super-Linter"
-        uses: "super-linter/super-linter@v6.3.0"
+        uses: "super-linter/super-linter@v8.5.0"
         env:
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_CLANG_FORMAT: true
+          LINTER_RULES_PATH: .
           FILTER_REGEX_EXCLUDE: ".*tools/third_party.*"
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

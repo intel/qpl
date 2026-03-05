@@ -14,7 +14,7 @@ env:
 
 jobs:
   scan:
-    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'service' }}
+    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'innersource.prod.amr.dind' }}
     container:
       image: "ubuntu:latest"
 
