@@ -36,7 +36,7 @@ public:
         *
         * @rеturn This method does not return anything
         */
-    void AddNewTestCase(TestCase test_case) {
+    void AddNewTestCase(const TestCase& test_case) {
         test_cases.push_back(test_case);
         current_test_case_it = test_cases.begin();
     }
