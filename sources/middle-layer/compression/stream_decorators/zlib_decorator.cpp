@@ -59,7 +59,7 @@ auto zlib_decorator::read_header(const uint8_t* stream_ptr, uint32_t stream_size
     header.dictionary_flag = (flags & zlib_flags::dictionary) != 0;
 
     if (header.dictionary_flag) {
-        if (stream_ptr + zlib_fields::ZLIB_DICTIONARY_ID_SIZE <= stream_end_ptr) {
+        if (stream_ptr + zlib_fields::ZLIB_DICTIONARY_ID_SIZE >= stream_end_ptr) {
             return status_list::input_too_small;
         }
 
