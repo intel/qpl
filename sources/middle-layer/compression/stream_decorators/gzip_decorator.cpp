@@ -44,15 +44,13 @@ std::array<uint8_t, gzip_sizes::gzip_header_size> default_gzip_header = {0x1f, 0
 static inline auto seek_until_zero(const uint8_t** begin_ptr, const uint8_t* end_ptr) noexcept -> qpl_ml_status {
     auto current_ptr = begin_ptr;
 
-    do { //NOLINT(cppcoreguidelines-avoid-do-while)
-        if (*current_ptr == end_ptr) {
-            return status_list::input_too_small;
-        } else {
+    while ((*current_ptr < end_ptr)) {
+        if ((**current_ptr) == 0U)
+            return status_list::ok;
+        else
             (*current_ptr)++;
-        }
-    } while ((**current_ptr) != 0U);
-
-    return status_list::ok;
+    }
+    return status_list::input_too_small;
 }
 
 static inline bool parse_gzip_flags(const uint8_t* begin_ptr, const uint8_t* end_ptr, uint8_t flags,
