@@ -109,7 +109,10 @@ REF_INLINE qpl_status own_extract_le_be(qpl_job* const qpl_job_ptr) {
     uint32_t first_index = qpl_job_ptr->param_low;
 
     // End index of the operation
-    uint32_t last_index = QPL_MIN(qpl_job_ptr->param_high, number_of_elements);
+    uint32_t last_index = QPL_MIN(qpl_job_ptr->param_high, number_of_elements - 1);
+
+    // Check if last, first are reversed (when first_index > last_index, it's an invalid range)
+    REF_BAD_ARG_RET(first_index > last_index, QPL_STS_SRC_IS_SHORT_ERR);
 
     // Number of elements in destination_ptr
     uint32_t destination_length = last_index - first_index + 1U;
@@ -183,6 +186,9 @@ REF_INLINE qpl_status own_extract_prle(qpl_job* const qpl_job_ptr) {
 
     // End index of the operation
     uint32_t last_index = qpl_job_ptr->param_high;
+
+    // Check if last, first are reversed (when first_index > last_index, it's an invalid range)
+    REF_BAD_ARG_RET(first_index > last_index, QPL_STS_SRC_IS_SHORT_ERR);
 
     // Number of elements to process
     uint32_t number_of_elements = 0U;
