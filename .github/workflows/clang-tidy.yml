@@ -14,9 +14,9 @@ env:
 
 jobs:
   scan:
-    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-latest' || 'innersource.prod.amr.dind' }}
+    runs-on: ${{ github.repository_owner == 'intel' && 'ubuntu-24.04' || 'innersource.prod.amr.dind' }}
     container:
-      image: "ubuntu:latest"
+      image: "ubuntu:24.04"
 
     steps:
       - name: "Install dependencies and create temp dir"
