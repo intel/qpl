@@ -103,3 +103,18 @@ if (NOT MSVC)
     # Setting POSIX compliance level for Linux builds (to use strnlen() function on Linux)
     target_compile_definitions(isal PRIVATE _POSIX_C_SOURCE=200809L)
 endif()
+
+# Enable Intel CET support in assembler sources
+check_c_source_compiles("
+    #if !defined(__CET__) || (__CET__ & 1) == 0
+    #error CET_BIT_0_NOT_SET
+    #endif
+    int main() { return 0; }
+" INTEL_CET_ENABLED)
+
+if(INTEL_CET_ENABLED)
+    target_compile_options(isal_asm PUBLIC "-DINTEL_CET_ENABLED")
+    message(STATUS "Intel CET protection is ENABLED")
+else()
+    message(STATUS "Intel CET protection is NOT enabled")
+endif()
