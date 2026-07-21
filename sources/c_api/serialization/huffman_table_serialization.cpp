@@ -144,6 +144,14 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t* const stream_buffer, con
     // and initialization of the Huffman table, will be discarded at the end
     huffman_table_meta_t* meta_ptr = new (buffer) huffman_table_meta_t();
 
+    size_t meta_size = 0;
+    qpl::ml::serialization::get_meta_size(*meta_ptr, &meta_size);
+    if (stream_buffer_size < meta_size) {
+        std::destroy_at(meta_ptr);
+        meta_allocator.deallocator(buffer);
+        return QPL_STS_SIZE_ERR;
+    }
+
     // todo: move impl to a special namespace to reflect meta struct version,
     // to accommodate future implementations
     // e.g. qpl::ml::serialization::v1::deserialize_meta
