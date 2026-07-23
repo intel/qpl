@@ -298,12 +298,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high) {
     }
 }
 
-/*
- * A common function for deflate stateful testing with dynamic default verify
- *
- * Input: small_block_sizes - if true, skip the test cases with the big block_size for SW path.
- */
-static void deflate_stateful_dynamic_default_verify_common(bool small_block_sizes) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify) {
     auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
     uint32_t job_size       = 0;
 
@@ -323,11 +318,6 @@ static void deflate_stateful_dynamic_default_verify_common(bool small_block_size
         source = dataset.second;
         for (auto block_size : get_chunk_sizes()) {
             if (block_size == 0) { block_size = source.size(); }
-
-            // Skip the test case with the big block_size for SW path.
-            // It should be turned on when the problem is fixed in the library.
-            if (small_block_sizes && (block_size >= 32872)) { continue; }
-
             const std::string error_message =
                     "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
@@ -346,29 +336,7 @@ static void deflate_stateful_dynamic_default_verify_common(bool small_block_size
     }
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify_small_block_size) {
-    const bool test_only_small_block_sizes = true;
-    deflate_stateful_dynamic_default_verify_common(test_only_small_block_sizes);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify_large_block_size) {
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    // Skip the test case with the big block_size for SW and Auto paths.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for big block sizes (32KB and more) on SW and Auto paths\n");
-    const bool test_only_small_block_sizes = false;
-    deflate_stateful_dynamic_default_verify_common(test_only_small_block_sizes);
-}
-
-/*
- * A common function for deflate stateful testing with dynamic high verify
- *
- * Input: small_block_sizes - if true, skip the test cases with the big block_size for SW path.
- */
-static void deflate_stateful_dynamic_high_verify_common(bool small_block_sizes) {
+QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
@@ -391,11 +359,6 @@ static void deflate_stateful_dynamic_high_verify_common(bool small_block_sizes) 
         source = dataset.second;
         for (auto block_size : get_chunk_sizes()) {
             if (block_size == 0) { block_size = source.size(); }
-
-            // Skip the test case with the big block_size for SW path.
-            // It should be turned on when the problem is fixed in the library.
-            if (small_block_sizes && (block_size >= 32872)) { continue; }
-
             const std::string error_message =
                     "File name - " + dataset.first + ", block size = " + std::to_string(block_size);
             std::vector<uint8_t> compressed_source(source.size() * 2);
@@ -412,23 +375,6 @@ static void deflate_stateful_dynamic_high_verify_common(bool small_block_sizes) 
             ASSERT_EQ(source, reference) << "Compressed and decompressed vectors mismatch. " << error_message;
         }
     }
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify_small_block_size) {
-    const bool test_only_small_block_sizes = true;
-    deflate_stateful_dynamic_high_verify_common(test_only_small_block_sizes);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify_large_block_size) {
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    // Skip the test case with the big block_size for SW and Auto paths.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for big block sizes (32KB and more) on SW and Auto paths\n");
-    const bool test_only_small_block_sizes = false;
-    deflate_stateful_dynamic_high_verify_common(test_only_small_block_sizes);
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default) {
@@ -511,15 +457,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high) {
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default_verify) {
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    // Skip the testing for SW and Auto paths, since all test cases are failing.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for this test cases on SW and Auto paths\n");
-
-    uint32_t job_size = 0;
+    auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    uint32_t job_size       = 0;
 
     auto status = qpl_get_job_size(execution_path, &job_size);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
@@ -559,12 +498,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
-
-    // Skip the testing for SW and Auto paths, since all test cases are failing.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for this test cases on SW and Auto paths\n");
 
     uint32_t job_size = 0;
 
@@ -707,15 +640,8 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
 }
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
-    auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    // Skip the testing for SW and Auto paths, since all test cases are failing.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for this test cases on SW and Auto paths\n");
-
-    uint32_t job_size = 0;
+    auto     execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
+    uint32_t job_size       = 0;
 
     auto status = qpl_get_job_size(execution_path, &job_size);
     ASSERT_EQ(QPL_STS_OK, status) << "Failed to get job size\n";
@@ -768,12 +694,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
     QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
-
-    // Skip the testing for SW and Auto paths, since all test cases are failing.
-    // The test should be turned on when the problem is fixed in the library.
-    QPL_SKIP_TEST_FOR_EXPR_VERBOSE(
-            (execution_path == qpl_path_software) || (execution_path == qpl_path_auto),
-            "There is the known issue with the verification mode for this test cases on SW and Auto paths\n");
 
     uint32_t job_size = 0;
 
