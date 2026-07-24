@@ -22,10 +22,12 @@ auto perform_verification<execution_path_t::software, verification_mode_t::verif
         verification_result += verify_deflate_stream_body(state);
 
         switch (verification_result.status) {
-            case parser_status_t::end_of_mini_block: state.reset_miniblock_state(); break;
+            // Output buffer filled: recycle it while preserving the 32 KB history window so a
+            // match spanning the recycle boundary can still resolve its look-back.
+            case parser_status_t::end_of_mini_block: state.slide_output_buffer(); break;
             case parser_status_t::end_of_block:
             case parser_status_t::final_end_of_block:
-                state.reset_miniblock_state();
+                state.slide_output_buffer();
                 break_loop = true;
                 break;
             case parser_status_t::error: return verification_result;
@@ -61,13 +63,16 @@ auto perform_verification<execution_path_t::software, verification_mode_t::verif
             verification_result += verify_deflate_stream_body(state);
 
             switch (verification_result.status) {
+                // Recycle the output buffer while preserving the 32 KB history window: deflate's
+                // LZ77 back-references persist across block boundaries and buffer recycles, so a
+                // match may look back into output produced before this point.
                 case parser_status_t::end_of_block:
-                    state.reset_miniblock_state();
+                    state.slide_output_buffer();
                     state.set_parser_position(parser_position_t::verify_header);
                     break;
-                case parser_status_t::end_of_mini_block: state.reset_miniblock_state(); break;
+                case parser_status_t::end_of_mini_block: state.slide_output_buffer(); break;
                 case parser_status_t::final_end_of_block:
-                    state.reset_miniblock_state();
+                    state.slide_output_buffer();
                     state.set_parser_position(parser_position_t::verify_header);
                     break_loop = true;
                     break;

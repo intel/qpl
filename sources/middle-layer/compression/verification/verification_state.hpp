@@ -7,6 +7,8 @@
 #ifndef QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_VERIFICATION_VERIFICATION_STATE_HPP
 #define QPL_SOURCES_MIDDLE_LAYER_COMPRESSION_VERIFICATION_VERIFICATION_STATE_HPP
 
+#include <cstring>
+
 #include "common/defs.hpp"
 #include "common/linear_allocator.hpp"
 #include "compression/huffman_table/inflate_huffman_table.hpp"
@@ -46,6 +48,8 @@ public:
 
     inline auto reset_miniblock_state() noexcept -> verify_state&;
 
+    inline auto slide_output_buffer() noexcept -> verify_state&;
+
     inline auto reset_state() noexcept -> verify_state&;
 
     [[nodiscard]] inline auto is_first() const noexcept -> bool;
@@ -62,10 +66,16 @@ public:
 
     [[nodiscard]] inline auto get_state() -> isal_inflate_state*;
 
+    // The verify decompression buffer must hold a full 32 KB history window (so that
+    // matches spanning an output-buffer recycle can still look back the maximal deflate
+    // distance) plus room to decode the next window and the kernel look-ahead slack.
+    // This mirrors the sizing of isal_inflate_state::tmp_out_buffer.
+    static constexpr uint32_t decompression_buffer_bytes = 2U * ISAL_DEF_HIST_SIZE + ISAL_LOOK_AHEAD;
+
     [[nodiscard]] constexpr static inline auto get_buffer_size() noexcept -> uint32_t {
         size_t size = 0;
         size += sizeof(state_buffer);
-        size += sizeof(uint8_t) * 32_kb;
+        size += sizeof(uint8_t) * decompression_buffer_bytes;
 
         return static_cast<uint32_t>(util::align_size(size, 1_kb));
     }
@@ -76,8 +86,8 @@ private:
     explicit verify_state(const qpl::ml::util::linear_allocator& allocator)
         : verify_state_ptr(allocator.allocate<state_buffer, qpl::ml::util::memory_block_t::not_aligned>(1U)) {
         verify_state_ptr->decompression_buffer_ptr =
-                allocator.allocate<uint8_t, util::memory_block_t::not_aligned>(32_kb);
-        verify_state_ptr->decompression_buffer_size = 32_kb;
+                allocator.allocate<uint8_t, util::memory_block_t::not_aligned>(decompression_buffer_bytes);
+        verify_state_ptr->decompression_buffer_size = decompression_buffer_bytes;
     };
 
     struct state_buffer {
@@ -164,6 +174,26 @@ inline auto verify_state<execution_path_t::software>::reset_miniblock_state() no
     verify_state_ptr->state_ptr.next_out  = verify_state_ptr->decompression_buffer_ptr;
     verify_state_ptr->state_ptr.avail_out = verify_state_ptr->decompression_buffer_size;
     verify_state_ptr->state_ptr.total_out = 0;
+
+    return *this;
+}
+
+inline auto verify_state<execution_path_t::software>::slide_output_buffer() noexcept -> verify_state& {
+    auto&    state     = verify_state_ptr->state_ptr;
+    uint8_t* buf_start = verify_state_ptr->decompression_buffer_ptr;
+
+    const auto decoded_bytes = static_cast<uint32_t>(state.next_out - buf_start);
+
+    // Recycle the decompression buffer while keeping the last 32 KB of output as history.
+    // A match may span the recycle boundary (deflate distances reach back up to 32 KB), so
+    // that history must remain physically present for the copy to resolve correctly. This
+    // mirrors the sliding-window logic of qpl_isal_inflate.
+    if (decoded_bytes > ISAL_DEF_HIST_SIZE) {
+        std::memmove(buf_start, state.next_out - ISAL_DEF_HIST_SIZE, ISAL_DEF_HIST_SIZE);
+        state.next_out = buf_start + ISAL_DEF_HIST_SIZE;
+    }
+
+    state.avail_out = verify_state_ptr->decompression_buffer_size - static_cast<uint32_t>(state.next_out - buf_start);
 
     return *this;
 }

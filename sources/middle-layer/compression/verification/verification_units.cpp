@@ -72,9 +72,26 @@ auto verify_deflate_stream_body(verify_state<execution_path_t::software>& state)
     }
 
     if (inflate_state.copy_overflow_length != 0) {
-        // The match didn't fit into the output, mini block is overflowed
-        result.status = parser_status_t::error;
-        return result;
+        // A match spanned the previous output-buffer recycle: the leading part was already
+        // written (and checksummed) before the recycle, the trailing copy_overflow_length
+        // bytes are emitted now. The recycle preserves a full 32 KB history window, so the
+        // look-back source is still present in the buffer. These bytes are counted into the
+        // current iteration's CRC through initial_next_out_ptr captured above.
+        uint8_t*       dst = inflate_state.next_out;
+        const uint8_t* src = dst - inflate_state.copy_overflow_distance;
+
+        // Byte-wise (potentially self-overlapping) copy, matching the deflate LZ77 semantics
+        // used by the decode kernel for distance < length runs.
+        for (int32_t i = 0; i < inflate_state.copy_overflow_length; ++i) {
+            dst[i] = src[i];
+        }
+
+        inflate_state.next_out += inflate_state.copy_overflow_length;
+        inflate_state.total_out += inflate_state.copy_overflow_length;
+        inflate_state.avail_out -= inflate_state.copy_overflow_length;
+
+        inflate_state.copy_overflow_length   = 0;
+        inflate_state.copy_overflow_distance = 0;
     }
 
     if (inflate_state.avail_in == 0U && inflate_state.read_in_length == 0U) {
