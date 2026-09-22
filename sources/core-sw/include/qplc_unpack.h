@@ -267,7 +267,7 @@ OWN_QPLC_API(void, qplc_unpack_be_32u32u,
  * @return
  *      - @ref QPLC_STS_OK;
  *      - @ref QPLC_STS_MORE_OUTPUT_NEEDED;
- *      - @ref QPLC_STS_SRC_IS_SHORT_ERR.
+ *      - @ref QPLC_STS_SRC_IS_SHORT_ERR, also if a header count exceeds INT32_MAX.
  * @{
  */
 OWN_QPLC_API(qplc_status_t, qplc_unpack_prle_8u,

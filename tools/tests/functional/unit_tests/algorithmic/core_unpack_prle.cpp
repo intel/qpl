@@ -5,6 +5,7 @@
  ******************************************************************************/
 #include <algorithm>
 #include <array>
+#include <cstddef>
 
 #include "gtest/gtest.h"
 #include "qpl_test_environment.hpp"
@@ -119,6 +120,7 @@ static uint32_t ownc_decode_prle_header(uint8_t** pp_src, const uint8_t* src_sto
             }
         }
     }
+    QPL_TEST_RETURN_ERROR((*count_ptr > (uint32_t)INT32_MAX), QPL_TEST_STS_SRC_IS_SHORT_ERR);
     return QPL_TEST_STS_OK;
 }
 
@@ -508,6 +510,214 @@ constexpr uint32_t TEST_BUFFER_SIZE = 128U;
 
 namespace qpl::test {
 using randomizer = qpl::test::random;
+
+/*
+ * Header count limits.
+ *
+ * A Parquet header is a 32-bit value (count << 1 | format), so the kernels
+ * reject a decoded count above INT32_MAX as a short source (as hardware does). That also
+ * keeps every remainder within the int32_t resume state (*count_ptr): positive
+ * for RLE values left, negative for literal octa-groups left.
+ *
+ * These cases need only small stack buffers: the large counts live in the 5-byte
+ * header and the kernel stops at the small destination.
+ */
+constexpr uint32_t PRLE_HEADER_SIZE = 5U;
+constexpr uint32_t PRLE_RLE_FORMAT  = 0U;
+constexpr uint32_t PRLE_MAX_COUNT   = (uint32_t)INT32_MAX;
+constexpr uint32_t PRLE_DST_LENGTH  = 64U;
+
+// Encodes a PRLE header of `format` (literal octa-group or RLE) for `count`,
+// inverting the layout that QPL_TEST_PRLE_COUNT / QPL_TEST_VARINT_BYTE_1..4
+// decode. Always emits the full 5 bytes so the encoded length does not depend on
+// `count`.
+static void encode_prle_header(uint32_t format, uint32_t count, uint8_t* dst_ptr) {
+    dst_ptr[0] = (uint8_t)(format | ((count & 0x3FU) << 1U));
+    dst_ptr[1] = (uint8_t)((count >> 6U) & QPL_TEST_7_BIT_MASK);
+    dst_ptr[2] = (uint8_t)((count >> 13U) & QPL_TEST_7_BIT_MASK);
+    dst_ptr[3] = (uint8_t)((count >> 20U) & QPL_TEST_7_BIT_MASK);
+    dst_ptr[4] = (uint8_t)((count >> 27U) & QPL_TEST_5_BIT_MASK);
+    for (uint32_t i = 0U; i < PRLE_HEADER_SIZE - 1U; i++) {
+        dst_ptr[i] |= (uint8_t)QPL_TEST_HIGH_BIT_MASK;
+    }
+}
+
+// Number of source bytes holding one RLE value: 32u kernels use 3 bytes for bit
+// widths up to 24, else 4; 8u and 16u kernels use the element size.
+static uint32_t rle_value_bytes(uint32_t bit_width, uint32_t element_size) {
+    if (sizeof(uint32_t) != element_size) { return element_size; }
+    return (24U < bit_width) ? 4U : 3U;
+}
+
+// Writes `value` as an RLE value at `dst_ptr`; returns the bytes written.
+static uint32_t encode_rle_value(uint32_t value, uint32_t bit_width, uint32_t element_size, uint8_t* dst_ptr) {
+    const uint32_t value_bytes = rle_value_bytes(bit_width, element_size);
+    for (uint32_t i = 0U; i < value_bytes; i++) {
+        dst_ptr[i] = (uint8_t)(value >> (8U * i));
+    }
+    return value_bytes;
+}
+
+static uint32_t read_element(const uint8_t* buffer, uint32_t index, uint32_t element_size) {
+    switch (element_size) {
+        case sizeof(uint8_t): return buffer[index];
+        case sizeof(uint16_t): return ((const uint16_t*)buffer)[index];
+        default: return ((const uint32_t*)buffer)[index];
+    }
+}
+
+/*
+ * Literal octa-groups at the INT32_MAX limit are accepted, and the resume state
+ * holds the exact negated number of groups left.
+ */
+static testing::AssertionResult check_literal_max_count(uint32_t fun_index, uint32_t bit_width, uint32_t element_size) {
+    constexpr uint32_t src_length = 40U;
+
+    std::array<uint8_t, 64U>                                source {};
+    std::array<uint8_t, PRLE_DST_LENGTH * sizeof(uint32_t)> destination {};
+    uint32_t                                                value_state = 0U;
+    int32_t                                                 count_state = 0;
+    uint8_t*                                                p_src       = source.data();
+    uint8_t*                                                p_dst       = destination.data();
+
+    encode_prle_header(QPL_TEST_LITERAL_OCTA_GROUP, PRLE_MAX_COUNT, source.data());
+    const uint32_t status = qplc_unpack_prle(fun_index)(&p_src, src_length, bit_width, &p_dst, PRLE_DST_LENGTH,
+                                                        &count_state, &value_state);
+
+    if (QPL_TEST_STS_SRC_IS_SHORT_ERR != status && QPL_TEST_STS_DST_IS_SHORT_ERR != status) {
+        return testing::AssertionFailure() << "literal: expected a short src/dst status, got " << status;
+    }
+    // Each decoded octa-group advances the source by bit_width bytes past the header.
+    const ptrdiff_t src_consumed = p_src - source.data() - (ptrdiff_t)PRLE_HEADER_SIZE;
+    if (src_consumed < 0 || 0 != src_consumed % bit_width) {
+        return testing::AssertionFailure() << "literal: source advanced " << src_consumed << " bytes past the header";
+    }
+    const int32_t expected_state = -(int32_t)(PRLE_MAX_COUNT - (uint32_t)(src_consumed / bit_width));
+    if (expected_state != count_state) {
+        return testing::AssertionFailure()
+               << "literal: *count_ptr = " << count_state << ", expected " << expected_state;
+    }
+    const ptrdiff_t written = p_dst - destination.data();
+    if (written < 0 || (size_t)written > (size_t)PRLE_DST_LENGTH * element_size) {
+        return testing::AssertionFailure() << "literal: destination advanced " << written << " bytes, capacity is "
+                                           << (size_t)PRLE_DST_LENGTH * element_size;
+    }
+    return testing::AssertionSuccess();
+}
+
+/*
+ * An RLE run at the INT32_MAX limit is accepted: the resume state holds the exact
+ * number of values left, and a resumed call keeps repeating the same value
+ * without reading the source.
+ */
+static testing::AssertionResult check_rle_max_count(uint32_t fun_index, uint32_t bit_width, uint32_t element_size) {
+    const uint32_t rle_value = (uint32_t)((1ULL << bit_width) - 1U);
+
+    // Bytes after the value would decode as non-zero literals if misread.
+    std::array<uint8_t, 64U> source {};
+    source.fill(0x5AU);
+    encode_prle_header(PRLE_RLE_FORMAT, PRLE_MAX_COUNT, source.data());
+    encode_rle_value(rle_value, bit_width, element_size, source.data() + PRLE_HEADER_SIZE);
+
+    std::array<uint8_t, PRLE_DST_LENGTH * sizeof(uint32_t)> destination {};
+    uint32_t                                                value_state = 0U;
+    int32_t                                                 count_state = 0;
+    uint8_t*                                                p_src       = source.data();
+
+    for (uint32_t call = 1U; call <= 2U; call++) {
+        destination.fill(0U);
+        uint8_t*       p_dst         = destination.data();
+        uint8_t* const call_src      = p_src;
+        const auto     call_src_size = (uint32_t)(source.size() - (size_t)(p_src - source.data()));
+        const uint32_t status = qplc_unpack_prle(fun_index)(&p_src, call_src_size, bit_width, &p_dst, PRLE_DST_LENGTH,
+                                                            &count_state, &value_state);
+
+        if (QPL_TEST_STS_DST_IS_SHORT_ERR != status) {
+            return testing::AssertionFailure() << "rle call " << call << ": expected dst-short status, got " << status;
+        }
+        const auto expected_state = (int32_t)(PRLE_MAX_COUNT - call * PRLE_DST_LENGTH);
+        if (expected_state != count_state) {
+            return testing::AssertionFailure()
+                   << "rle call " << call << ": *count_ptr = " << count_state << ", expected " << expected_state;
+        }
+        if ((size_t)(p_dst - destination.data()) != (size_t)PRLE_DST_LENGTH * element_size) {
+            return testing::AssertionFailure()
+                   << "rle call " << call << ": destination advanced " << (p_dst - destination.data()) << " bytes";
+        }
+        if (2U == call && p_src != call_src) {
+            return testing::AssertionFailure() << "rle: resumed call consumed " << (p_src - call_src) << " bytes";
+        }
+        for (uint32_t i = 0U; i < PRLE_DST_LENGTH; i++) {
+            const uint32_t element = read_element(destination.data(), i, element_size);
+            if (rle_value != element) {
+                return testing::AssertionFailure()
+                       << "rle call " << call << ": element " << i << " = " << element << ", expected " << rle_value;
+            }
+        }
+    }
+    return testing::AssertionSuccess();
+}
+
+/*
+ * A count above INT32_MAX, in either format, is rejected as a short source even
+ * though source bytes remain. Output decoded before the bad header is kept, the
+ * source stops at the bad header, and the resume state stays 0. The status alone
+ * cannot tell rejection from an unsatisfiable literal count, so the source
+ * position and resume state are what show the header was not consumed.
+ */
+static testing::AssertionResult check_count_above_max_rejected(uint32_t fun_index, uint32_t bit_width,
+                                                               uint32_t element_size, uint32_t format) {
+    constexpr uint32_t good_count = 3U;
+    const uint32_t     rle_value  = (uint32_t)((1ULL << bit_width) - 1U);
+
+    // A valid 3-element RLE run (1-byte header), then the bad header.
+    std::array<uint8_t, 64U> source {};
+    source.fill(0x5AU);
+    source[0]              = (uint8_t)((good_count << 1U) | PRLE_RLE_FORMAT);
+    const uint32_t bad_pos = 1U + encode_rle_value(rle_value, bit_width, element_size, source.data() + 1U);
+    encode_prle_header(format, PRLE_MAX_COUNT + 1U, source.data() + bad_pos);
+
+    std::array<uint8_t, PRLE_DST_LENGTH * sizeof(uint32_t)> destination {};
+    uint32_t                                                value_state = 0U;
+    int32_t                                                 count_state = 0;
+    uint8_t*                                                p_src       = source.data();
+    uint8_t*                                                p_dst       = destination.data();
+
+    const uint32_t status = qplc_unpack_prle(fun_index)(&p_src, (uint32_t)source.size(), bit_width, &p_dst,
+                                                        PRLE_DST_LENGTH, &count_state, &value_state);
+
+    if (QPL_TEST_STS_SRC_IS_SHORT_ERR != status) {
+        return testing::AssertionFailure() << "format " << format << ": expected src-short status, got " << status;
+    }
+    if (p_src != source.data() + bad_pos) {
+        return testing::AssertionFailure() << "format " << format << ": source stopped at offset "
+                                           << (p_src - source.data()) << ", expected " << bad_pos;
+    }
+    if (0 != count_state) {
+        return testing::AssertionFailure() << "format " << format << ": *count_ptr = " << count_state;
+    }
+    if ((size_t)(p_dst - destination.data()) != (size_t)good_count * element_size) {
+        return testing::AssertionFailure()
+               << "format " << format << ": destination advanced " << (p_dst - destination.data()) << " bytes";
+    }
+    for (uint32_t i = 0U; i < good_count; i++) {
+        if (rle_value != read_element(destination.data(), i, element_size)) {
+            return testing::AssertionFailure() << "format " << format << ": element " << i << " was not kept";
+        }
+    }
+    return testing::AssertionSuccess();
+}
+
+static void check_header_count_limits(uint32_t fun_index, uint32_t max_bit_width, uint32_t element_size) {
+    for (uint32_t bit_width = 1U; bit_width <= max_bit_width; bit_width++) {
+        SCOPED_TRACE(testing::Message() << "bit_width " << bit_width);
+        EXPECT_TRUE(check_literal_max_count(fun_index, bit_width, element_size));
+        EXPECT_TRUE(check_rle_max_count(fun_index, bit_width, element_size));
+        EXPECT_TRUE(check_count_above_max_rejected(fun_index, bit_width, element_size, QPL_TEST_LITERAL_OCTA_GROUP));
+        EXPECT_TRUE(check_count_above_max_rejected(fun_index, bit_width, element_size, PRLE_RLE_FORMAT));
+    }
+}
+
 QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, base) {
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint8_t)>  source {};
     std::array<uint8_t, TEST_BUFFER_SIZE * sizeof(uint32_t)> value {};
@@ -813,5 +1023,17 @@ QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, base) {
             }
         }
     }
+}
+
+QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_8u, header_count_limits) {
+    check_header_count_limits(fun_indx_unpack_prle_8u, QPL_TEST_BYTE_WIDTH, sizeof(uint8_t));
+}
+
+QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_16u, header_count_limits) {
+    check_header_count_limits(fun_indx_unpack_prle_16u, QPL_TEST_WORD_WIDTH, sizeof(uint16_t));
+}
+
+QPL_UNIT_API_ALGORITHMIC_TEST(qplc_unpack_prle_32u, header_count_limits) {
+    check_header_count_limits(fun_indx_unpack_prle_32u, 32U, sizeof(uint32_t));
 }
 } // namespace qpl::test
