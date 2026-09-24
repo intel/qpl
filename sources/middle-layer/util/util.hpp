@@ -19,7 +19,7 @@ namespace qpl::ml {
  * @param value integer to convert
  * @return number of kilobytes
  */
-constexpr auto operator"" _kb(unsigned long long value) -> uint32_t {
+constexpr auto operator""_kb(unsigned long long value) -> uint32_t {
     return static_cast<uint32_t>(value * 1024U);
 }
 
