@@ -48,13 +48,24 @@ static inline qpl_status sw_execute_job(qpl_job* const qpl_job_ptr) {
     switch (qpl_job_ptr->op) {
         // processing compression
         case qpl_op_decompress: {
+            // Accumulate the checksum over only the bytes produced by this call;
+            // the output buffer may be reused between calls, so total_out cannot
+            // be used to reach back to the start of the stream.
+            const bool     is_first  = qpl_job_ptr->flags & QPL_FLAG_FIRST;
+            auto* const    start_out = qpl_job_ptr->next_out_ptr;
+            const uint32_t prior_out = is_first ? 0U : qpl_job_ptr->total_out;
+            const uint32_t prior_xor = is_first ? 0U : qpl_job_ptr->xor_checksum;
+
             status = perform_decompress<ml::execution_path_t::software>(qpl_job_ptr);
 
-            if (qpl_job_ptr->flags & QPL_FLAG_LAST && QPL_STS_OK == status) {
-                auto* const data_begin_ptr = qpl_job_ptr->next_out_ptr - qpl_job_ptr->total_out;
-                auto* const data_end_ptr   = qpl_job_ptr->next_out_ptr;
+            if (QPL_STS_OK == status || QPL_STS_MORE_OUTPUT_NEEDED == status) {
+                uint32_t chunk_xor = ml::util::xor_checksum(start_out, qpl_job_ptr->next_out_ptr, 0U);
 
-                qpl_job_ptr->xor_checksum = ml::util::xor_checksum(data_begin_ptr, data_end_ptr, 0);
+                // XOR is over 16-bit LE words; a chunk starting at an odd stream
+                // offset has its bytes in the opposite halves of each word.
+                if (prior_out & 1U) { chunk_xor = ((chunk_xor & 0xFFU) << 8U) | ((chunk_xor >> 8U) & 0xFFU); }
+
+                qpl_job_ptr->xor_checksum = prior_xor ^ chunk_xor;
             }
             break;
         }
