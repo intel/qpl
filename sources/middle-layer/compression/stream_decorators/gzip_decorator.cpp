@@ -99,7 +99,7 @@ static inline bool parse_gzip_flags(const uint8_t* begin_ptr, const uint8_t* end
 
 auto gzip_decorator::read_header(const uint8_t* stream_ptr, uint32_t stream_size, gzip_header& header) noexcept
         -> qpl_ml_status {
-    if (stream_size < gzip_fields::GZIP_HEADER_MIN_BYTE_SIZE) { return false; }
+    if (stream_size < gzip_fields::GZIP_HEADER_MIN_BYTE_SIZE) { return status_list::input_too_small; }
 
     const uint8_t* stream_end_ptr     = stream_ptr + stream_size;
     const uint8_t* current_stream_ptr = stream_ptr;
@@ -158,7 +158,7 @@ auto gzip_decorator::unwrap(F function, state_t& state, arguments... args) noexc
     decompression_operation_result_t result {};
 
     if (state.is_first()) {
-        gzip_header header;
+        gzip_header header {};
         uint8_t*    input_ptr = state.get_input_data();
 
         auto status = read_header(input_ptr, origin_input_size, header);
@@ -174,6 +174,12 @@ auto gzip_decorator::unwrap(F function, state_t& state, arguments... args) noexc
     }
 
     if (state.is_last()) {
+        if (state.get_input_size() < sizeof(gzip_trailer)) {
+            result.status_code_ = status_list::input_too_small;
+
+            return result;
+        }
+
         state.input(state.get_input_data(), state.get_input_data() + state.get_input_size() - sizeof(gzip_trailer));
 
         wrapper_bytes += sizeof(gzip_trailer);

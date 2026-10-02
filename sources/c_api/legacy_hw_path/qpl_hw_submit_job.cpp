@@ -189,7 +189,7 @@ static inline qpl_status hw_submit_analytic_task(qpl_job* const job_ptr) {
 
     if (job_ptr->flags & QPL_FLAG_DECOMPRESS_ENABLE) {
         if (job_ptr->flags & QPL_FLAG_GZIP_MODE) {
-            qpl::ml::compression::gzip_decorator::gzip_header header;
+            qpl::ml::compression::gzip_decorator::gzip_header header {};
 
             auto status = qpl::ml::compression::gzip_decorator::read_header(job_ptr->next_in_ptr, job_ptr->available_in,
                                                                             header);
@@ -408,7 +408,7 @@ extern "C" qpl_status hw_submit_job(qpl_job* qpl_job_ptr) {
         desc_ptr->src2_size = state_ptr->aecs_size;
 
         if (flags & QPL_FLAG_GZIP_MODE) {
-            qpl::ml::compression::gzip_decorator::gzip_header header;
+            qpl::ml::compression::gzip_decorator::gzip_header header {};
 
             auto status = qpl::ml::compression::gzip_decorator::read_header(qpl_job_ptr->next_in_ptr,
                                                                             qpl_job_ptr->available_in, header);
