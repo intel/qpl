@@ -10,6 +10,7 @@
  *
  */
 
+#include <algorithm>
 #include <array>
 
 #include "qpl/qpl.h"
@@ -254,6 +255,96 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, canned_indexing) {
     qpl_huffman_table_destroy(huffman_table);
 
     ASSERT_EQ(status, QPL_STS_NOT_SUPPORTED_MODE_ERR);
+}
+
+// Complete gzip member (RFC 1952) holding GZIP_PAYLOAD_SIZE bytes of (i * 7 + 3) in one stored deflate block
+constexpr uint32_t GZIP_HEADER_SIZE  = 10U;
+constexpr uint32_t GZIP_TRAILER_SIZE = 8U;
+constexpr uint32_t GZIP_PAYLOAD_SIZE = 32U;
+
+constexpr std::array<uint8_t, 55U> gzip_member = {
+        // Header: ID1, ID2, CM = deflate, FLG = 0, MTIME = 0, XFL = 0, OS = unknown
+        0x1FU, 0x8BU, 0x08U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0x00U, 0xFFU,
+        // Stored block: BFINAL = 1, BTYPE = 00, LEN = 32, NLEN = ~32
+        0x01U, 0x20U, 0x00U, 0xDFU, 0xFFU,
+        // Payload
+        0x03U, 0x0AU, 0x11U, 0x18U, 0x1FU, 0x26U, 0x2DU, 0x34U, 0x3BU, 0x42U, 0x49U, 0x50U, 0x57U, 0x5EU, 0x65U, 0x6CU,
+        0x73U, 0x7AU, 0x81U, 0x88U, 0x8FU, 0x96U, 0x9DU, 0xA4U, 0xABU, 0xB2U, 0xB9U, 0xC0U, 0xC7U, 0xCEU, 0xD5U, 0xDCU,
+        // Trailer: CRC32 = 0xA10E8695, ISIZE = 32
+        0x95U, 0x86U, 0x0EU, 0xA1U, 0x20U, 0x00U, 0x00U, 0x00U};
+
+static void set_gzip_decompress_job(qpl_job* job_ptr, uint8_t* source_ptr, uint32_t source_size,
+                                    uint8_t* destination_ptr, uint32_t destination_size) {
+    job_ptr->op            = qpl_op_decompress;
+    job_ptr->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_GZIP_MODE;
+    job_ptr->next_in_ptr   = source_ptr;
+    job_ptr->available_in  = source_size;
+    job_ptr->next_out_ptr  = destination_ptr;
+    job_ptr->available_out = destination_size;
+}
+
+/**
+ * @brief Test @ref qpl_op_decompress operation in gzip mode with a final job too short for the gzip header
+ */
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, gzip_truncated_header) {
+    std::array<uint8_t, gzip_member.size()>     source = gzip_member;
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
+
+    for (uint32_t source_size = 1U; source_size < GZIP_HEADER_SIZE; source_size++) {
+        ASSERT_EQ(QPL_STS_OK, qpl_init_job(GetExecutionPath(), job_ptr));
+        set_gzip_decompress_job(job_ptr, source.data(), source_size, destination.data(), DESTINATION_ARRAY_SIZE);
+
+        EXPECT_EQ(QPL_STS_MORE_INPUT_NEEDED, run_job_api(job_ptr)) << "source_size = " << source_size;
+        EXPECT_EQ(0U, job_ptr->total_out) << "source_size = " << source_size;
+    }
+}
+
+/**
+ * @brief Test @ref qpl_op_decompress operation in gzip mode with a final job too short for the gzip trailer
+ *
+ * A complete gzip member is placed right after the bytes the job may read. Any read past
+ * available_in decodes that member and reports output, so no output means no over-read.
+ */
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, gzip_truncated_trailer) {
+    std::array<uint8_t, GZIP_HEADER_SIZE + GZIP_TRAILER_SIZE + gzip_member.size()> source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE>                                    destination {};
+
+    // Sanity check: the complete member decompresses on this path
+    ASSERT_EQ(QPL_STS_OK, qpl_init_job(GetExecutionPath(), job_ptr));
+    std::copy(gzip_member.begin(), gzip_member.end(), source.begin());
+    set_gzip_decompress_job(job_ptr, source.data(), static_cast<uint32_t>(gzip_member.size()), destination.data(),
+                            DESTINATION_ARRAY_SIZE);
+
+    ASSERT_EQ(QPL_STS_OK, run_job_api(job_ptr));
+    ASSERT_EQ(GZIP_PAYLOAD_SIZE, job_ptr->total_out);
+    ASSERT_EQ(0xA10E8695U, job_ptr->crc);
+
+    // Header followed by 0 to 7 body bytes, then a complete member outside of available_in
+    for (uint32_t body_size = 0U; body_size < GZIP_TRAILER_SIZE; body_size++) {
+        const uint32_t source_size = GZIP_HEADER_SIZE + body_size;
+
+        source.fill(0U);
+        std::copy(gzip_member.begin(), gzip_member.begin() + source_size, source.begin());
+        std::copy(gzip_member.begin(), gzip_member.end(), source.begin() + source_size);
+        destination.fill(0U);
+
+        ASSERT_EQ(QPL_STS_OK, qpl_init_job(GetExecutionPath(), job_ptr));
+        set_gzip_decompress_job(job_ptr, source.data(), source_size, destination.data(), DESTINATION_ARRAY_SIZE);
+
+        const qpl_status status = run_job_api(job_ptr);
+
+        // Asynchronous hardware submission does not strip the trailer, so the
+        // accelerator itself reports the deflate stream as truncated
+        if (GetExecutionPath() == qpl_path_hardware && TestEnviroment::GetInstance().IsAsynchronousApiTesting()) {
+            EXPECT_TRUE(QPL_STS_MORE_INPUT_NEEDED == status || QPL_STS_BAD_EOF_ERR == status)
+                    << "body_size = " << body_size << ", status = " << status;
+        } else {
+            EXPECT_EQ(QPL_STS_MORE_INPUT_NEEDED, status) << "body_size = " << body_size;
+        }
+        EXPECT_EQ(0U, job_ptr->total_out) << "body_size = " << body_size;
+        EXPECT_TRUE(std::all_of(destination.begin(), destination.end(), [](uint8_t value) { return value == 0U; }))
+                << "body_size = " << body_size;
+    }
 }
 
 } // namespace qpl::test
