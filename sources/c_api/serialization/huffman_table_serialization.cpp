@@ -166,6 +166,16 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t* const stream_buffer, con
         return QPL_STS_SERIALIZATION_FORMAT_ERROR;
     }
 
+    // Only deflate and Huffman only tables can be created below, anything else would
+    // return QPL_STS_OK without ever setting *table_ptr
+    if (meta_ptr->algorithm != compression_algorithm_e::deflate &&
+        meta_ptr->algorithm != compression_algorithm_e::huffman_only) {
+        std::destroy_at(meta_ptr);
+        meta_allocator.deallocator(buffer);
+
+        return QPL_STS_SERIALIZATION_FORMAT_ERROR;
+    }
+
     // creation
     qpl_status status = QPL_STS_OK;
     if (meta_ptr->algorithm == compression_algorithm_e::deflate) {
@@ -200,6 +210,12 @@ qpl_status qpl_huffman_table_deserialize(const uint8_t* const stream_buffer, con
 
     std::destroy_at(meta_ptr);
     meta_allocator.deallocator(buffer);
+
+    // Don't hand back a partially initialized table, callers don't expect to free it on failure
+    if (status != QPL_STS_OK) {
+        qpl_huffman_table_destroy(*table_ptr);
+        *table_ptr = nullptr;
+    }
 
     return status;
 }

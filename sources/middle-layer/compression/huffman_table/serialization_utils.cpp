@@ -246,7 +246,7 @@ void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_default_f
     read_impl(&src, &(table.offsets));
 }
 
-void deserialize_table(const uint8_t* const buffer, isal_hufftables& table) {
+qpl_ml_status deserialize_table(const uint8_t* const buffer, isal_hufftables& table) {
     uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.deflate_hdr));
@@ -258,6 +258,13 @@ void deserialize_table(const uint8_t* const buffer, isal_hufftables& table) {
     read_impl(&src, &(table.lit_table_sizes));
     read_impl(&src, &(table.dcodes));
     read_impl(&src, &(table.dcodes_sizes));
+
+    // ISA-L reads the partial byte at deflate_hdr[deflate_hdr_count], so the count must stay inside the array
+    if (table.deflate_hdr_count >= ISAL_DEF_MAX_HDR_SIZE || table.deflate_hdr_extra_bits > 7U) {
+        return status_list::status_invalid_params;
+    }
+
+    return status_list::ok;
 }
 
 void deserialize_table(const uint8_t* const buffer, hw_compression_huffman_table& table) {
@@ -266,11 +273,15 @@ void deserialize_table(const uint8_t* const buffer, hw_compression_huffman_table
     read_impl(&src, &(table.data));
 }
 
-void deserialize_table(const uint8_t* const buffer, deflate_header& table) {
+qpl_ml_status deserialize_table(const uint8_t* const buffer, deflate_header& table) {
     uint8_t* src = const_cast<uint8_t*>(buffer); // adding an offset internally
 
     read_impl(&src, &(table.header_bit_size));
     read_impl(&src, &(table.data));
+
+    if (table.header_bit_size > deflate_header_size * 8U) { return status_list::status_invalid_params; }
+
+    return status_list::ok;
 }
 
 void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_flat_format& table) {

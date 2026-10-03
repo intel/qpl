@@ -591,13 +591,13 @@ static inline auto init_compression_table_with_stream(const uint8_t* const      
 
     deserialize_table(src, *compression_table.get_sw_compression_table());
     src += flatten_table_size(*compression_table.get_sw_compression_table());
-    deserialize_table(src, *compression_table.get_isal_compression_table());
+    auto status = deserialize_table(src, *compression_table.get_isal_compression_table());
+    if (status_list::ok != status) { return status; }
     src += flatten_table_size(*compression_table.get_isal_compression_table());
     deserialize_table(src, *compression_table.get_hw_compression_table());
     src += flatten_table_size(*compression_table.get_hw_compression_table());
-    deserialize_table(src, *compression_table.get_deflate_header());
 
-    return status_list::ok;
+    return deserialize_table(src, *compression_table.get_deflate_header());
 }
 
 static inline auto init_decompression_table_with_stream(const uint8_t* const        buffer,
@@ -611,7 +611,8 @@ static inline auto init_decompression_table_with_stream(const uint8_t* const    
     src += flatten_table_size(*decompression_table.get_sw_decompression_table());
     deserialize_table(src, *decompression_table.get_hw_decompression_state());
     src += flatten_table_size(*decompression_table.get_hw_decompression_state());
-    deserialize_table(src, *decompression_table.get_deflate_header());
+    const auto status = deserialize_table(src, *decompression_table.get_deflate_header());
+    if (status_list::ok != status) { return status; }
     src += flatten_table_size(*decompression_table.get_deflate_header());
     deserialize_table(src, *decompression_table.get_canned_table());
 

@@ -73,15 +73,15 @@ void serialize_table(const inflate_huff_code_large& table, uint8_t* buffer);
 void serialize_table(const inflate_huff_code_small& table, uint8_t* buffer);
 void serialize_table(const canned_table& table, uint8_t* buffer);
 
-void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_default_format& table);
-void deserialize_table(const uint8_t* const buffer, isal_hufftables& table);
-void deserialize_table(const uint8_t* const buffer, hw_compression_huffman_table& table);
-void deserialize_table(const uint8_t* const buffer, deflate_header& table);
-void deserialize_table(const uint8_t* const buffer, qplc_huffman_table_flat_format& table);
-void deserialize_table(const uint8_t* const buffer, hw_decompression_state& table);
-void deserialize_table(const uint8_t* const buffer, inflate_huff_code_large& table);
-void deserialize_table(const uint8_t* const buffer, inflate_huff_code_small& table);
-void deserialize_table(const uint8_t* const buffer, canned_table& table);
+void                        deserialize_table(const uint8_t* const buffer, qplc_huffman_table_default_format& table);
+[[nodiscard]] qpl_ml_status deserialize_table(const uint8_t* const buffer, isal_hufftables& table);
+void                        deserialize_table(const uint8_t* const buffer, hw_compression_huffman_table& table);
+[[nodiscard]] qpl_ml_status deserialize_table(const uint8_t* const buffer, deflate_header& table);
+void                        deserialize_table(const uint8_t* const buffer, qplc_huffman_table_flat_format& table);
+void                        deserialize_table(const uint8_t* const buffer, hw_decompression_state& table);
+void                        deserialize_table(const uint8_t* const buffer, inflate_huff_code_large& table);
+void                        deserialize_table(const uint8_t* const buffer, inflate_huff_code_small& table);
+void                        deserialize_table(const uint8_t* const buffer, canned_table& table);
 
 } // namespace qpl::ml::serialization
 
