@@ -157,6 +157,10 @@ auto hw_queue::enqueue_descriptor(void* desc_ptr, qpl::ml::util::execution_recor
  * @brief Execute NOOP operation to test out whether submitting to the Intel (R) Analytics Accelerator is possible.
  * Particularly, this function is used to test out whether the write system call is supported.
  *
+ * @note Getting a completion record back is already a proof that submission works, so an
+ * unsupported opcode status is accepted as well: the WQ operation configuration may forbid
+ * NOOP itself while still allowing the operations the library is going to submit.
+ *
  * @return The status of the enqueue + wait operation.
  */
 auto hw_queue::execute_noop() const noexcept -> qpl_status {
@@ -172,7 +176,12 @@ auto hw_queue::execute_noop() const noexcept -> qpl_status {
         while (completion_record.status == 0) {
             _mm_pause();
         }
-        if (completion_record.status == AD_STATUS_SUCCESS) { return QPL_STS_OK; }
+        const uint8_t completion_status = completion_record.status & STATUS_MASK;
+        if (AD_STATUS_SUCCESS == completion_status || AD_STATUS_UNSUPPORTED_OPCODE == completion_status) {
+            return QPL_STS_OK;
+        }
+
+        DIAG(" NOOP completed with status 0x%02x\n", (unsigned)completion_record.status);
     } else
         return status;
 
