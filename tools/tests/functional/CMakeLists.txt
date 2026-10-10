@@ -22,6 +22,8 @@ add_executable(tests main.cpp
                $<TARGET_OBJECTS:unit_tests>)
 
 qpl_set_common_target_settings(tests)
+set_target_properties(tests PROPERTIES
+                      OUTPUT_NAME qpl-func-tests)
 
 get_property(LIB_DEPS GLOBAL PROPERTY QPL_LIB_DEPS)
 
@@ -40,6 +42,9 @@ target_compile_definitions(tests
 
 target_compile_options(tests
         PRIVATE $<TARGET_PROPERTY:tests_common,COMPILE_OPTIONS>)
+
+install(TARGETS tests
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # Test groups that run under target: make test
 

@@ -14,6 +14,8 @@ file(GLOB SOURCES *.cpp)
 add_executable(cross_tests ${SOURCES})
 
 qpl_set_common_target_settings(cross_tests)
+set_target_properties(cross_tests PROPERTIES
+                      OUTPUT_NAME qpl-cross-tests)
 
 get_target_property(QPL_SOURCE_DIR qpl SOURCE_DIR)
 
@@ -31,3 +33,6 @@ target_link_libraries(cross_tests
 
 target_compile_definitions(cross_tests PRIVATE $<TARGET_PROPERTY:tests_common,COMPILE_DEFINITIONS>)
 target_compile_options(cross_tests PRIVATE $<TARGET_PROPERTY:tests_common,COMPILE_OPTIONS>)
+
+install(TARGETS cross_tests
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
