@@ -428,6 +428,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canned-mode-with-data">Canned Mode with Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canned-mode-with-dictionary">Canned Mode with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression">Compression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-levels">Compression with Levels</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-huffman-only">Compression with Huffman-only</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-dictionary">Compression with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-paths-for-compression-and-decompression-with-dictionary">Mixing Paths For Compression and Decompression with Dictionary</a></li>
@@ -459,13 +460,14 @@ document.write(`
 <li><p><a class="reference internal" href="#canned-mode-with-data" id="id3">Canned Mode with Data</a></p></li>
 <li><p><a class="reference internal" href="#canned-mode-with-dictionary" id="id4">Canned Mode with Dictionary</a></p></li>
 <li><p><a class="reference internal" href="#compression" id="id5">Compression</a></p></li>
-<li><p><a class="reference internal" href="#compression-with-huffman-only" id="id6">Compression with Huffman-only</a></p></li>
-<li><p><a class="reference internal" href="#compression-with-dictionary" id="id7">Compression with Dictionary</a></p></li>
-<li><p><a class="reference internal" href="#mixing-paths-for-compression-and-decompression-with-dictionary" id="id8">Mixing Paths For Compression and Decompression with Dictionary</a></p></li>
-<li><p><a class="reference internal" href="#multi-chunk-compression-with-fixed-block" id="id9">Multi-chunk Compression with Fixed Block</a></p></li>
-<li><p><a class="reference internal" href="#multi-chunk-compression-with-static-block" id="id10">Multi-chunk Compression with Static Block</a></p></li>
-<li><p><a class="reference internal" href="#decompression-output-overflow-error" id="id11">Decompression “Output Overflow” error</a></p></li>
-<li><p><a class="reference internal" href="#serialization" id="id12">Serialization</a></p></li>
+<li><p><a class="reference internal" href="#compression-with-levels" id="id6">Compression with Levels</a></p></li>
+<li><p><a class="reference internal" href="#compression-with-huffman-only" id="id7">Compression with Huffman-only</a></p></li>
+<li><p><a class="reference internal" href="#compression-with-dictionary" id="id8">Compression with Dictionary</a></p></li>
+<li><p><a class="reference internal" href="#mixing-paths-for-compression-and-decompression-with-dictionary" id="id9">Mixing Paths For Compression and Decompression with Dictionary</a></p></li>
+<li><p><a class="reference internal" href="#multi-chunk-compression-with-fixed-block" id="id10">Multi-chunk Compression with Fixed Block</a></p></li>
+<li><p><a class="reference internal" href="#multi-chunk-compression-with-static-block" id="id11">Multi-chunk Compression with Static Block</a></p></li>
+<li><p><a class="reference internal" href="#decompression-output-overflow-error" id="id12">Decompression “Output Overflow” error</a></p></li>
+<li><p><a class="reference internal" href="#serialization" id="id13">Serialization</a></p></li>
 </ul>
 </li>
 </ul>
@@ -1194,8 +1196,165 @@ document.write(`
 </pre></div>
 </div>
 </section>
+<section id="compression-with-levels">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Compression with Levels</a><a class="headerlink" href="#compression-with-levels" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
+<span class="cm"> * Copyright (C) 2026 Intel Corporation</span>
+<span class="cm"> *</span>
+<span class="cm"> * SPDX-License-Identifier: MIT</span>
+<span class="cm"> ******************************************************************************/</span>
+
+<span class="c1">//* [QPL_LOW_LEVEL_COMPRESSION_LEVELS_EXAMPLE] */</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"qpl/qpl.h"</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"examples_utils.hpp"</span><span class="w"> </span><span class="c1">// for argument parsing function</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief This example requires a command line argument to set the execution path. Valid values are `software_path`</span>
+<span class="cm"> * and `hardware_path`.</span>
+<span class="cm"> * In QPL, @ref qpl_path_software (`Software Path`) means that computations will be done with CPU.</span>
+<span class="cm"> * Accelerator can be used instead of CPU. In this case, @ref qpl_path_hardware (`Hardware Path`) must be specified.</span>
+<span class="cm"> * If there is no difference where calculations should be done, @ref qpl_path_auto (`Auto Path`) can be used to allow</span>
+<span class="cm"> * the library to chose the path to execute.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The example compresses and decompresses the same buffer at every compression level defined by</span>
+<span class="cm"> * @ref qpl_compression_levels. A requested level that exceeds what the execution path supports is</span>
+<span class="cm"> * automatically saturated to the highest supported level (software up to qpl_high_level,</span>
+<span class="cm"> * accelerator generation 3.0 supports 0-7, and earlier generations use the default level only),</span>
+<span class="cm"> * so the same code runs correctly on any hardware.</span>
+<span class="cm"> *</span>
+<span class="cm"> * The compression level is orthogonal to the Huffman mode: every level, including qpl_level_0,</span>
+<span class="cm"> * works with dynamic Huffman coding.</span>
+<span class="cm"> */</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">source_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
+
+<span class="c1">// Compresses and decompresses source at the given level, returns the compressed size (0 on failure).</span>
+<span class="c1">// The job is expected to be already initialized; it is reused across levels.</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">compress_and_verify</span><span class="p">(</span><span class="n">qpl_job</span><span class="o">*</span><span class="w"> </span><span class="n">job</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_compression_levels</span><span class="w"> </span><span class="n">level</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">destination</span><span class="p">(</span><span class="n">qpl_get_safe_deflate_compression_buffer_size</span><span class="p">(</span><span class="n">source_size</span><span class="p">));</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reference</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">level</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="k">const_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">destination</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_DYNAMIC_HUFFMAN</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_OMIT_VERIFY</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"An error "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" acquired during compression at level "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+<span class="w">                  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">".</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">total_out</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_decompress</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">destination</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">reference</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">compressed_size</span><span class="p">;</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">available_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">reference</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_execute_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"An error "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" acquired during decompression at level "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+<span class="w">                  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">".</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">reference</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Content wasn't successfully compressed and decompressed at level "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+<span class="w">                  </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">".</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">compressed_size</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">auto</span><span class="w"> </span><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Intel(R) Query Processing Library version is "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">qpl_get_library_version</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">".</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Default to Software Path</span>
+<span class="w">        </span><span class="n">qpl_path_t</span><span class="w"> </span><span class="n">execution_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_path_software</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Get path from input argument</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">parse_ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parse_execution_path</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">execution_path</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parse_ret</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Source buffer filled with pseudo-random text drawn from a small vocabulary.</span>
+<span class="w">        </span><span class="c1">// This mimics realistic, moderately compressible data so different levels can</span>
+<span class="w">        </span><span class="c1">// produce visibly different ratios, unlike a trivially repeating pattern.</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w">    </span><span class="n">words</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"the"</span><span class="p">,</span><span class="w">   </span><span class="s">"quick"</span><span class="p">,</span><span class="w"> </span><span class="s">"brown"</span><span class="p">,</span><span class="w"> </span><span class="s">"fox"</span><span class="p">,</span><span class="w">  </span><span class="s">"jumps"</span><span class="p">,</span><span class="w"> </span><span class="s">"over"</span><span class="p">,</span><span class="w"> </span><span class="s">"lazy"</span><span class="p">,</span>
+<span class="w">                                        </span><span class="s">"dog"</span><span class="p">,</span><span class="w">   </span><span class="s">"and"</span><span class="p">,</span><span class="w">   </span><span class="s">"then"</span><span class="p">,</span><span class="w">  </span><span class="s">"runs"</span><span class="p">,</span><span class="w"> </span><span class="s">"away"</span><span class="p">,</span><span class="w">  </span><span class="s">"into"</span><span class="p">,</span><span class="w"> </span><span class="s">"forest"</span><span class="p">,</span>
+<span class="w">                                        </span><span class="s">"where"</span><span class="p">,</span><span class="w"> </span><span class="s">"trees"</span><span class="p">,</span><span class="w"> </span><span class="s">"grow"</span><span class="p">,</span><span class="w">  </span><span class="s">"tall"</span><span class="p">,</span><span class="w"> </span><span class="s">"near"</span><span class="p">,</span><span class="w">  </span><span class="s">"river"</span><span class="p">};</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">source</span><span class="p">;</span>
+<span class="w">        </span><span class="n">source</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">source_size</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">rng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">source_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">rng</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="n">rng</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1103515245U</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12345U</span><span class="p">;</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">words</span><span class="p">[(</span><span class="n">rng</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="p">];</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">word</span><span class="p">;</span><span class="w"> </span><span class="o">*</span><span class="n">c</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">'\0'</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">source</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">));</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">source</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="sc">' '</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">source</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">source_size</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">uint32_t</span><span class="w">   </span><span class="n">job_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">qpl_status</span><span class="w"> </span><span class="n">status</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_get_job_size</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">job_size</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"An error "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" acquired during job size getting.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">auto</span><span class="w">     </span><span class="n">job_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">job_size</span><span class="p">);</span>
+<span class="w">        </span><span class="n">qpl_job</span><span class="o">*</span><span class="w"> </span><span class="n">job</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">qpl_job</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">job_buffer</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_init_job</span><span class="p">(</span><span class="n">execution_path</span><span class="p">,</span><span class="w"> </span><span class="n">job</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"An error "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" acquired during job initializing.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">qpl_compression_levels</span><span class="w"> </span><span class="n">all_levels</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">qpl_level_0</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_1</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_2</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_3</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_4</span><span class="p">,</span>
+<span class="w">                                                     </span><span class="n">qpl_level_5</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_6</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_7</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_8</span><span class="p">,</span><span class="w"> </span><span class="n">qpl_level_9</span><span class="p">};</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">qpl_compression_levels</span><span class="w"> </span><span class="n">level</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">all_levels</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compress_and_verify</span><span class="p">(</span><span class="n">job</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">compressed_size</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Level "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">level</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">": input size "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">", compressed size "</span>
+<span class="w">                      </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compressed_size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">", compression ratio "</span>
+<span class="w">                      </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">source</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">compressed_size</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">".</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_fini_job</span><span class="p">(</span><span class="n">job</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">QPL_STS_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"An error "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" acquired during job finalization.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Content was successfully compressed and decompressed at every level.</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(...)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">exception_handler</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//* [QPL_LOW_LEVEL_COMPRESSION_LEVELS_EXAMPLE] */</span>
+</pre></div>
+</div>
+</section>
 <section id="compression-with-huffman-only">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Compression with Huffman-only</a><a class="headerlink" href="#compression-with-huffman-only" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Compression with Huffman-only</a><a class="headerlink" href="#compression-with-huffman-only" title="Link to this heading">#</a></h2>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2023 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1457,7 +1616,7 @@ document.write(`
 </div>
 </section>
 <section id="compression-with-dictionary">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Compression with Dictionary</a><a class="headerlink" href="#compression-with-dictionary" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Compression with Dictionary</a><a class="headerlink" href="#compression-with-dictionary" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2023 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1635,7 +1794,7 @@ document.write(`
 </div>
 </section>
 <section id="mixing-paths-for-compression-and-decompression-with-dictionary">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Mixing Paths For Compression and Decompression with Dictionary</a><a class="headerlink" href="#mixing-paths-for-compression-and-decompression-with-dictionary" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Mixing Paths For Compression and Decompression with Dictionary</a><a class="headerlink" href="#mixing-paths-for-compression-and-decompression-with-dictionary" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2024 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -1892,7 +2051,7 @@ document.write(`
 </div>
 </section>
 <section id="multi-chunk-compression-with-fixed-block">
-<span id="multi-chunk-compression-with-fixed-block-reference-link"></span><h2><a class="toc-backref" href="#id9" role="doc-backlink">Multi-chunk Compression with Fixed Block</a><a class="headerlink" href="#multi-chunk-compression-with-fixed-block" title="Link to this heading">#</a></h2>
+<span id="multi-chunk-compression-with-fixed-block-reference-link"></span><h2><a class="toc-backref" href="#id10" role="doc-backlink">Multi-chunk Compression with Fixed Block</a><a class="headerlink" href="#multi-chunk-compression-with-fixed-block" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2023 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -2182,7 +2341,7 @@ document.write(`
 </div>
 </section>
 <section id="multi-chunk-compression-with-static-block">
-<h2><a class="toc-backref" href="#id10" role="doc-backlink">Multi-chunk Compression with Static Block</a><a class="headerlink" href="#multi-chunk-compression-with-static-block" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Multi-chunk Compression with Static Block</a><a class="headerlink" href="#multi-chunk-compression-with-static-block" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2023 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -2388,7 +2547,7 @@ document.write(`
 </div>
 </section>
 <section id="decompression-output-overflow-error">
-<h2><a class="toc-backref" href="#id11" role="doc-backlink">Decompression “Output Overflow” error</a><a class="headerlink" href="#decompression-output-overflow-error" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Decompression “Output Overflow” error</a><a class="headerlink" href="#decompression-output-overflow-error" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2023 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -2542,7 +2701,7 @@ document.write(`
 </div>
 </section>
 <section id="serialization">
-<h2><a class="toc-backref" href="#id12" role="doc-backlink">Serialization</a><a class="headerlink" href="#serialization" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Serialization</a><a class="headerlink" href="#serialization" title="Link to this heading">#</a></h2>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*******************************************************************************</span>
 <span class="cm"> * Copyright (C) 2022 Intel Corporation</span>
 <span class="cm"> *</span>
@@ -2723,6 +2882,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canned-mode-with-data">Canned Mode with Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#canned-mode-with-dictionary">Canned Mode with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression">Compression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-levels">Compression with Levels</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-huffman-only">Compression with Huffman-only</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-with-dictionary">Compression with Dictionary</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-paths-for-compression-and-decompression-with-dictionary">Mixing Paths For Compression and Decompression with Dictionary</a></li>

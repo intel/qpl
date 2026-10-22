@@ -590,7 +590,7 @@ document.write(`
 <li><p><strong>source_ptr</strong> – <strong>[in]</strong> Pointer to source vector that should be processed </p></li>
 <li><p><strong>source_length</strong> – <strong>[in]</strong> Source vector length </p></li>
 <li><p><strong>histogram_ptr</strong> – <strong>[out]</strong> Pointer to histogram to be updated </p></li>
-<li><p><strong>level</strong> – <strong>[in]</strong> Level of compression algorithm </p></li>
+<li><p><strong>level</strong> – <strong>[in]</strong> Level of compression algorithm. Honored on <a class="reference internal" href="c_common_definitions.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68da71beb5bbb5562347a9c66017328facc3"><span class="std std-ref">qpl_path_software</span></a> and, starting from accelerator generation 3.0, on <a class="reference internal" href="c_common_definitions.html#d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gga96695093f866a112f78a2d8696d2c68dac59129dbc777045902eace2e5c58784b"><span class="std std-ref">qpl_path_hardware</span></a> (levels above 7 are saturated to 7); earlier generations always gather default-level statistics </p></li>
 <li><p><strong>path</strong> – <strong>[in]</strong> Execution path</p></li>
 </ul>
 </dd>

@@ -441,6 +441,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_VERIFY"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GEN_LITERALS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CANNED_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CANNED_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_LONG_MATCH_HINT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LONG_MATCH_HINT</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_INV"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_INV_OUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a></li>
@@ -478,6 +479,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels"><code class="docutils literal notranslate"><span class="pre">qpl_compression_levels</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_0"><code class="docutils literal notranslate"><span class="pre">qpl_level_0</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_1"><code class="docutils literal notranslate"><span class="pre">qpl_level_1</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_2"><code class="docutils literal notranslate"><span class="pre">qpl_level_2</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_3"><code class="docutils literal notranslate"><span class="pre">qpl_level_3</span></code></a></li>
@@ -488,6 +490,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_8"><code class="docutils literal notranslate"><span class="pre">qpl_level_8</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_9"><code class="docutils literal notranslate"><span class="pre">qpl_level_9</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_default_level"><code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_fast_level"><code class="docutils literal notranslate"><span class="pre">qpl_fast_level</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_high_level"><code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code></a></li>
 </ul>
 </li>
@@ -641,6 +644,12 @@ document.write(`
 <dt class="sig sig-object c" id="c.QPL_FLAG_CANNED_MODE">
 <span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga771db56733ee3aa96065ca08ee439146"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_CANNED_MODE</span></span></span> <span class="pre">0x00400000U</span><a class="headerlink" href="#c.QPL_FLAG_CANNED_MODE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Flag to enable canned compression and decompression </p>
+</dd></dl>
+
+<dl class="c macro">
+<dt class="sig sig-object c" id="c.QPL_FLAG_LONG_MATCH_HINT">
+<span class="target" id="de/de8/group___q_p_l___f_l_a_g_s_1ga47ed47681a1087616b70c19cf18e591c"></span><span class="sig-name descname"><span class="n"><span class="pre">QPL_FLAG_LONG_MATCH_HINT</span></span></span> <span class="pre">0x01000000U</span><a class="headerlink" href="#c.QPL_FLAG_LONG_MATCH_HINT" title="Link to this definition">#</a><br /></dt>
+<dd><p>Compression only: hint the compressor to search for 4-byte (long) matches, which may improve the compression ratio. Accelerator generation 3.0 and later only; ignored on earlier hardware generations and on the software path. </p>
 </dd></dl>
 
 <dl class="c macro">
@@ -818,72 +827,75 @@ document.write(`
 <dl class="c enum">
 <dt class="sig sig-object c" id="c.qpl_compression_levels">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1gaed76a570da7342dc2dcd93001ba2e9b1"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_compression_levels</span></span></span><a class="headerlink" href="#c.qpl_compression_levels" title="Link to this definition">#</a><br /></dt>
-<dd><p>Enumerates different compressions levels. </p>
+<dd><p>Enumerates different compression levels. </p>
 <p><em>Values:</em></p>
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_0">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1acdb134a61ebd0057850d3c03e68df587"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_0</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_0" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_1">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a95fc7a385d6264d9cdaa41323b8afae8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_1</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_1" title="Link to this definition">#</a><br /></dt>
-<dd><p>The fastest compression with low compression ratio </p>
+<dd><p>Fastest compression, low compression ratio </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_2">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a264b1fa08eca5d3d61d89a98b8db65d4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_2</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_2" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_3">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a9a66ec72a8fe975165553723b4e75f92"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_3</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_3" title="Link to this definition">#</a><br /></dt>
-<dd><p>Medium compression speed, medium compression ratio </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_4">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae091bdb19d0c0b2f6914596196ebfdd2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_4</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_4" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_5">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1aa4c8de9f889f343bc597165481bd081a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_5</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_5" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_6">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a85dd2db62a4ec898aa7c9b4dea31c7bb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_6</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_6" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_7">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a0105780385805a47b0884b657da8e57a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_7</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">7</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_7" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_8">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8a029139b2784b3cb06534e7663e1b41"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">8</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_8" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_level_9">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ac737165907910c60d18ce2f9161aef7d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_level_9</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">9</span></span><a class="headerlink" href="#c.qpl_compression_levels.qpl_level_9" title="Link to this definition">#</a><br /></dt>
-<dd><p>Not supported </p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_default_level">
 <span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1ae68ba7d0b6ab3820c5d1003d17e1c4e4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_default_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_1" title="qpl_level_1"><span class="n"><span class="pre">qpl_level_1</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_default_level" title="Link to this definition">#</a><br /></dt>
-<dd><p>Default compression level defined by the highest compression level supported by Accelerator </p>
+<dd><p>Default compression level </p>
+</dd></dl>
+
+<dl class="c enumerator">
+<dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_fast_level">
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a4ee60ae726f9fd8c24028403adfaf4ff"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_fast_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_1" title="qpl_level_1"><span class="n"><span class="pre">qpl_level_1</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_fast_level" title="Link to this definition">#</a><br /></dt>
+<dd><p>Alias for fastest compression </p>
 </dd></dl>
 
 <dl class="c enumerator">
 <dt class="sig sig-object c" id="c.qpl_compression_levels.qpl_high_level">
-<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8e88c7b7bc55c37d2bdeab63d2a2c653"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_high_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_3" title="qpl_level_3"><span class="n"><span class="pre">qpl_level_3</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_high_level" title="Link to this definition">#</a><br /></dt>
-<dd><p>The level with highest compression level from supported by Intel QPL </p>
+<span class="target" id="d8/d9f/group___j_o_b___a_p_i___d_e_f_i_n_i_t_i_o_n_s_1ggaed76a570da7342dc2dcd93001ba2e9b1a8e88c7b7bc55c37d2bdeab63d2a2c653"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">qpl_high_level</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#c.qpl_compression_levels.qpl_level_7" title="qpl_level_7"><span class="n"><span class="pre">qpl_level_7</span></span></a><a class="headerlink" href="#c.qpl_compression_levels.qpl_high_level" title="Link to this definition">#</a><br /></dt>
+<dd><p>Highest level (saturates to what the path supports) </p>
 </dd></dl>
 
 </dd></dl>
@@ -1098,6 +1110,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_OMIT_VERIFY"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_OMIT_VERIFY</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_GEN_LITERALS"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_GEN_LITERALS</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CANNED_MODE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CANNED_MODE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_LONG_MATCH_HINT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_LONG_MATCH_HINT</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_BE"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_BE</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_CRC64_INV"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_CRC64_INV</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.QPL_FLAG_INV_OUT"><code class="docutils literal notranslate"><span class="pre">QPL_FLAG_INV_OUT</span></code></a></li>
@@ -1135,6 +1148,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels"><code class="docutils literal notranslate"><span class="pre">qpl_compression_levels</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_0"><code class="docutils literal notranslate"><span class="pre">qpl_level_0</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_1"><code class="docutils literal notranslate"><span class="pre">qpl_level_1</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_2"><code class="docutils literal notranslate"><span class="pre">qpl_level_2</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_3"><code class="docutils literal notranslate"><span class="pre">qpl_level_3</span></code></a></li>
@@ -1145,6 +1159,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_8"><code class="docutils literal notranslate"><span class="pre">qpl_level_8</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_level_9"><code class="docutils literal notranslate"><span class="pre">qpl_level_9</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_default_level"><code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_fast_level"><code class="docutils literal notranslate"><span class="pre">qpl_fast_level</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#c.qpl_compression_levels.qpl_high_level"><code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code></a></li>
 </ul>
 </li>

@@ -426,6 +426,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supported-compressed-data-formats">Supported Compressed Data Formats</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#job-structure-settings">Job Structure Settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-level">Compression Level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#long-match-hint">Long-Match Hint</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-blocks">Fixed Blocks</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-blocks">Dynamic Blocks</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-blocks-and-canned-mode">Static Blocks and Canned Mode</a></li>
@@ -500,11 +502,68 @@ refer to <a class="reference internal" href="c_deflate_multiple_jobs.html#multip
 For example, it is not supported to start a sequence of jobs using <strong>Dynamic Compression</strong>
 and then switch to <strong>Static Compression</strong> halfway through the sequence.</p>
 </div>
+<section id="compression-level">
+<span id="compression-levels-reference-link"></span><h3>Compression Level<a class="headerlink" href="#compression-level" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">job-&gt;level</span></code> field selects a compression level from the
+<a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.qpl_compression_levels" title="qpl_compression_levels"><code class="xref c c-enum docutils literal notranslate"><span class="pre">qpl_compression_levels</span></code></a> enumeration. Higher levels generally trade
+compression speed for a better compression ratio. Levels <code class="docutils literal notranslate"><span class="pre">qpl_level_0</span></code> through
+<code class="docutils literal notranslate"><span class="pre">qpl_level_9</span></code> are accepted, along with the aliases <code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code> and
+<code class="docutils literal notranslate"><span class="pre">qpl_fast_level</span></code> (both equal to <code class="docutils literal notranslate"><span class="pre">qpl_level_1</span></code>) and <code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code>
+(equal to <code class="docutils literal notranslate"><span class="pre">qpl_level_7</span></code>).</p>
+<p>A requested level that exceeds what the execution path supports is automatically
+saturated to the highest supported level, so the same code runs correctly on any
+hardware:</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id3">
+<caption><span class="caption-text">Supported compression levels by execution path</span><a class="headerlink" href="#id3" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Execution path</p></th>
+<th class="head"><p>Behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Software (ISA-L)</p></td>
+<td><p>two operating points: levels 0-1 map to <code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code> (fast),
+levels 2-9 map to <code class="docutils literal notranslate"><span class="pre">qpl_high_level</span></code> (highest ratio ISA-L provides)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hardware, Intel® In-Memory Analytics Accelerator (Intel® IAA) 3.0</p></td>
+<td><p>levels 0-7 native; levels 8-9 saturate to level 7</p></td>
+</tr>
+<tr class="row-even"><td><p>Hardware, Intel® IAA 2.0 and earlier</p></td>
+<td><p>default level only; every level behaves as <code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On Intel® IAA 3.0, <code class="docutils literal notranslate"><span class="pre">qpl_level_0</span></code> is a compatibility level; its compression
+ratio is comparable to the higher levels. On the software path <code class="docutils literal notranslate"><span class="pre">qpl_level_0</span></code>
+behaves the same as <code class="docutils literal notranslate"><span class="pre">qpl_default_level</span></code> and still produces compressed
+(non-stored) output.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The level does not affect the compressed data format: a stream produced at any
+level can be decompressed by any Deflate-compliant decompressor, on any path.</p>
+</div>
+</section>
+<section id="long-match-hint">
+<span id="long-match-hint-reference-link"></span><h3>Long-Match Hint<a class="headerlink" href="#long-match-hint" title="Link to this heading">#</a></h3>
+<p>Setting the <a class="reference internal" href="../../../dev_ref_docs/c_ref/c_common_definitions.html#c.QPL_FLAG_LONG_MATCH_HINT" title="QPL_FLAG_LONG_MATCH_HINT"><code class="xref c c-macro docutils literal notranslate"><span class="pre">QPL_FLAG_LONG_MATCH_HINT</span></code></a> flag on a compression job hints the
+compressor to search for 4-byte (long) matches instead of the standard 3-byte match.
+This may improve the compression ratio, but the improvement is not guaranteed and
+depends on the input.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QPL_FLAG_FIRST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LAST</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">QPL_FLAG_LONG_MATCH_HINT</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The hint is available only on Intel® IAA 3.0 and later. On earlier hardware
+generations and on the software path the flag is silently ignored, so the same
+code runs correctly everywhere. Like the compression level, the hint does not
+affect the compressed data format.</p>
+</section>
 <section id="fixed-blocks">
 <h3>Fixed Blocks<a class="headerlink" href="#fixed-blocks" title="Link to this heading">#</a></h3>
 <p>The job structure for fixed compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// see Compression Level above</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
@@ -518,7 +577,7 @@ and then switch to <strong>Static Compression</strong> halfway through the seque
 <h3>Dynamic Blocks<a class="headerlink" href="#dynamic-blocks" title="Link to this heading">#</a></h3>
 <p>The job structure for dynamic compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// see Compression Level above</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
@@ -532,7 +591,7 @@ and then switch to <strong>Static Compression</strong> halfway through the seque
 <h3>Static Blocks and Canned Mode<a class="headerlink" href="#static-blocks-and-canned-mode" title="Link to this heading">#</a></h3>
 <p>The job structure for static compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// see Compression Level above</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
@@ -543,7 +602,7 @@ and then switch to <strong>Static Compression</strong> halfway through the seque
 </div>
 <p>The job structure for canned compression can be set using:</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">job</span><span class="o">-&gt;</span><span class="n">op</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_op_compress</span><span class="p">;</span>
-<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// or qpl_high_level</span>
+<span class="n">job</span><span class="o">-&gt;</span><span class="n">level</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="n">qpl_default_level</span><span class="p">;</span><span class="w">   </span><span class="c1">// see Compression Level above</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_in_ptr</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_buffer</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">available_in</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">input_size</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="n">job</span><span class="o">-&gt;</span><span class="n">next_out_ptr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">output_buffer</span><span class="o">&gt;</span><span class="p">;</span>
@@ -700,6 +759,8 @@ indexing and data of size smaller than 32 KB in other modes.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supported-compressed-data-formats">Supported Compressed Data Formats</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#job-structure-settings">Job Structure Settings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compression-level">Compression Level</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#long-match-hint">Long-Match Hint</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-blocks">Fixed Blocks</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-blocks">Dynamic Blocks</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-blocks-and-canned-mode">Static Blocks and Canned Mode</a></li>

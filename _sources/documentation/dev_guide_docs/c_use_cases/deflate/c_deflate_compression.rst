@@ -57,6 +57,64 @@ refer to :ref:`multiple_jobs_reference_link`.
    For example, it is not supported to start a sequence of jobs using **Dynamic Compression**
    and then switch to **Static Compression** halfway through the sequence.
 
+.. _compression_levels_reference_link:
+
+Compression Level
+=================
+
+The ``job->level`` field selects a compression level from the
+:c:enum:`qpl_compression_levels` enumeration. Higher levels generally trade
+compression speed for a better compression ratio. Levels ``qpl_level_0`` through
+``qpl_level_9`` are accepted, along with the aliases ``qpl_default_level`` and
+``qpl_fast_level`` (both equal to ``qpl_level_1``) and ``qpl_high_level``
+(equal to ``qpl_level_7``).
+
+A requested level that exceeds what the execution path supports is automatically
+saturated to the highest supported level, so the same code runs correctly on any
+hardware:
+
+.. list-table:: Supported compression levels by execution path
+   :header-rows: 1
+
+   * - Execution path
+     - Behavior
+   * - Software (ISA-L)
+     - two operating points: levels 0-1 map to ``qpl_default_level`` (fast),
+       levels 2-9 map to ``qpl_high_level`` (highest ratio ISA-L provides)
+   * - Hardware, Intel® In-Memory Analytics Accelerator (Intel® IAA) 3.0
+     - levels 0-7 native; levels 8-9 saturate to level 7
+   * - Hardware, Intel® IAA 2.0 and earlier
+     - default level only; every level behaves as ``qpl_default_level``
+
+On Intel® IAA 3.0, ``qpl_level_0`` is a compatibility level; its compression
+ratio is comparable to the higher levels. On the software path ``qpl_level_0``
+behaves the same as ``qpl_default_level`` and still produces compressed
+(non-stored) output.
+
+.. note::
+   The level does not affect the compressed data format: a stream produced at any
+   level can be decompressed by any Deflate-compliant decompressor, on any path.
+
+.. _long_match_hint_reference_link:
+
+Long-Match Hint
+===============
+
+Setting the :c:macro:`QPL_FLAG_LONG_MATCH_HINT` flag on a compression job hints the
+compressor to search for 4-byte (long) matches instead of the standard 3-byte match.
+This may improve the compression ratio, but the improvement is not guaranteed and
+depends on the input.
+
+.. code-block:: c
+
+    job->op    = qpl_op_compress;
+    job->flags = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_LONG_MATCH_HINT;
+
+The hint is available only on Intel® IAA 3.0 and later. On earlier hardware
+generations and on the software path the flag is silently ignored, so the same
+code runs correctly everywhere. Like the compression level, the hint does not
+affect the compressed data format.
+
 Fixed Blocks
 ============
 
@@ -65,7 +123,7 @@ The job structure for fixed compression can be set using:
 .. code-block:: c
 
     job->op            = qpl_op_compress;
-    job->level         = qpl_default_level;   // or qpl_high_level
+    job->level         = qpl_default_level;   // see Compression Level above
     job->next_in_ptr   = <input_buffer>;
     job->available_in  = <input_size>;
     job->next_out_ptr  = <output_buffer>;
@@ -82,7 +140,7 @@ The job structure for dynamic compression can be set using:
 .. code-block:: c
 
     job->op            = qpl_op_compress;
-    job->level         = qpl_default_level;   // or qpl_high_level
+    job->level         = qpl_default_level;   // see Compression Level above
     job->next_in_ptr   = <input_buffer>;
     job->available_in  = <input_size>;
     job->next_out_ptr  = <output_buffer>;
@@ -99,7 +157,7 @@ The job structure for static compression can be set using:
 .. code-block:: c
 
     job->op            = qpl_op_compress;
-    job->level         = qpl_default_level;   // or qpl_high_level
+    job->level         = qpl_default_level;   // see Compression Level above
     job->next_in_ptr   = <input_buffer>;
     job->available_in  = <input_size>;
     job->next_out_ptr  = <output_buffer>;
@@ -113,7 +171,7 @@ The job structure for canned compression can be set using:
 .. code-block:: c
 
     job->op            = qpl_op_compress;
-    job->level         = qpl_default_level;   // or qpl_high_level
+    job->level         = qpl_default_level;   // see Compression Level above
     job->next_in_ptr   = <input_buffer>;
     job->available_in  = <input_size>;
     job->next_out_ptr  = <output_buffer>;
