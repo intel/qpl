@@ -63,12 +63,11 @@ protected:
         } else
             throw std::runtime_error(format("invalid Huffman mode: %s", to_string(params_.huffman_).c_str()));
 
-        if (params_.level_ == 1)
-            job_->level = qpl_level_1;
-        else if (params_.level_ == 3)
-            job_->level = qpl_level_3;
-        else
+        if (params_.level_ < 0 || params_.level_ > qpl_level_9)
             throw std::runtime_error(format("invalid level: %d", params_.level_));
+        job_->level = static_cast<qpl_compression_levels>(params_.level_);
+
+        if (params_.long_match_hint_) job_->flags |= QPL_FLAG_LONG_MATCH_HINT;
     }
 
     void sync_execute_impl() {

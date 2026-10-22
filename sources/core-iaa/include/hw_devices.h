@@ -116,6 +116,7 @@ typedef struct {
     bool     decompression_support_enabled;    /**< @todo */
     bool     block_on_fault_enabled;           /**< @todo */
     bool     gen_2_min_capabilities_available; /**< @todo */
+    bool     gen_3_min_capabilities_available; /**< @todo */
     bool     header_gen_supported;             /**< @todo */
     bool     dict_compression_supported;       /**< @todo */
     bool     load_partial_aecs_supported;      /**< @todo */

@@ -62,6 +62,8 @@ public:
 
     auto compression_level(compression_level_t level) noexcept -> common_type&;
 
+    auto long_match_hint(bool value) noexcept -> common_type&;
+
     auto start_new_block(bool value) noexcept -> common_type&;
 
     auto load_current_position(uint32_t total_bytes_written) noexcept -> common_type&;
@@ -196,6 +198,8 @@ public:
 
     inline auto compression_level(compression_level_t level) noexcept -> common_type&;
 
+    inline auto long_match_hint(bool value) noexcept -> common_type&;
+
     inline auto start_new_block(bool value) noexcept -> common_type&;
 
     inline auto load_current_position(uint32_t total_bytes_written) noexcept -> common_type&;
@@ -232,9 +236,15 @@ private:
 };
 
 /* ------ HARDWARE ------ */
-inline auto deflate_state_builder<execution_path_t::hardware>::compression_level(
-        compression_level_t UNREFERENCED_PARAMETER(level)) noexcept -> common_type& {
-    // HW supports only default level
+inline auto deflate_state_builder<execution_path_t::hardware>::compression_level(compression_level_t level) noexcept
+        -> common_type& {
+    state_.meta_data_->compression_level = static_cast<uint8_t>(level);
+    return *this;
+}
+
+inline auto deflate_state_builder<execution_path_t::hardware>::long_match_hint(bool value) noexcept -> common_type& {
+    // The hint is gen3-only; it is applied when written to the descriptor.
+    state_.meta_data_->long_match_hint = value;
     return *this;
 }
 

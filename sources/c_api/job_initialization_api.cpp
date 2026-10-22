@@ -84,6 +84,8 @@ QPL_FUN(qpl_status, qpl_init_job, (qpl_path_t qpl_path, qpl_job* qpl_job_ptr)) {
 
     core_sw::util::set_zeros((uint8_t*)qpl_job_ptr, job_size);
 
+    qpl_job_ptr->level = qpl_default_level;
+
     // qpl_job_ptr can have any alignment when allocated,
     // therefore need to manually calculate and align pointers to the auxiliary buffers
     //NOLINTBEGIN(bugprone-casting-through-void)

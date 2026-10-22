@@ -24,10 +24,11 @@ public:
     static constexpr auto path_v = path;
 
     void operator()(benchmark::State& state, const case_params_t& common_params, const data_t& data,
-                    huffman_type_e huffman, const std::shared_ptr<qpl_huffman_table>& table, std::int32_t level) const {
+                    huffman_type_e huffman, const std::shared_ptr<qpl_huffman_table>& table, std::int32_t level,
+                    bool long_match_hint) const {
         try {
             // Prepare compression
-            const ops::deflate_params_t            params(data, level, huffman, false, false, table);
+            const ops::deflate_params_t            params(data, level, huffman, false, false, table, long_match_hint);
             std::vector<ops::deflate_t<api, path>> operations;
 
             // Measuring loop
@@ -55,21 +56,23 @@ public:
 
 template <path_e path>
 static inline void register_deflate_case(const data_t& data_block, const huffman_type_e& mode,
-                                         const std::shared_ptr<qpl_huffman_table>& table, const std::int32_t& level) {
+                                         const std::shared_ptr<qpl_huffman_table>& table, const std::int32_t& level,
+                                         bool long_match_hint) {
+    const auto name = to_name(mode) + level_to_name(level) + long_match_hint_to_name(long_match_hint);
+
     if (continue_register(execution_e::sync))
-        register_benchmarks_common("deflate", to_name(mode) + level_to_name(level),
-                                   deflate_t<execution_e::sync, api_e::c, path> {}, case_params_t {}, data_block, mode,
-                                   table, level);
+        register_benchmarks_common("deflate", name, deflate_t<execution_e::sync, api_e::c, path> {}, case_params_t {},
+                                   data_block, mode, table, level, long_match_hint);
 
     if (continue_register(execution_e::async))
-        register_benchmarks_common("deflate", to_name(mode) + level_to_name(level),
-                                   deflate_t<execution_e::async, api_e::c, path> {}, case_params_t {}, data_block, mode,
-                                   table, level);
+        register_benchmarks_common("deflate", name, deflate_t<execution_e::async, api_e::c, path> {}, case_params_t {},
+                                   data_block, mode, table, level, long_match_hint);
 }
 
 template <path_e path>
 static inline void prepare_cases(bench::dataset_t& dataset, const std::vector<std::int32_t>& levels,
-                                 const std::vector<huffman_type_e>& compression_mode) {
+                                 const std::vector<huffman_type_e>& compression_mode,
+                                 const std::vector<bool>&           long_match_hints) {
     for (const auto& data : dataset) {
         auto block_sizes = (cmd::get_block_size() >= 0)
                                    ? std::vector<std::uint32_t> {static_cast<uint32_t>(cmd::get_block_size())}
@@ -83,7 +86,9 @@ static inline void prepare_cases(bench::dataset_t& dataset, const std::vector<st
                 auto blocks = data::split_data(data, size);
                 for (const auto& block : blocks) {
                     for (const auto& mode : compression_mode) {
-                        register_deflate_case<path>(block, mode, table, level);
+                        for (const auto long_match_hint : long_match_hints) {
+                            register_deflate_case<path>(block, mode, table, level, long_match_hint);
+                        }
                     }
                 }
             }
@@ -105,10 +110,17 @@ BENCHMARK_SET_DELAYED(deflate) {
     }
 
     const std::vector<std::int32_t> sw_levels {1, 3};
-    const std::vector<std::int32_t> hw_levels {1};
+    // Generation 3.0 supports levels 0-7; on earlier generations they saturate to the default level.
+    const std::vector<std::int32_t> hw_levels {0, 1, 2, 3, 4, 5, 6, 7};
     bench::dataset_t                dataset = data::read_dataset(cmd::FLAGS_dataset);
 
-    if (continue_register(path_e::cpu)) prepare_cases<path_e::cpu>(dataset, sw_levels, compression_mode);
+    // The long-match hint is a hardware-only feature; benchmark it on the accelerator only.
+    const std::vector<bool> sw_long_match_hints {false};
+    const std::vector<bool> hw_long_match_hints {false, true};
 
-    if (continue_register(path_e::iaa)) prepare_cases<path_e::iaa>(dataset, hw_levels, compression_mode);
+    if (continue_register(path_e::cpu))
+        prepare_cases<path_e::cpu>(dataset, sw_levels, compression_mode, sw_long_match_hints);
+
+    if (continue_register(path_e::iaa))
+        prepare_cases<path_e::iaa>(dataset, hw_levels, compression_mode, hw_long_match_hints);
 }

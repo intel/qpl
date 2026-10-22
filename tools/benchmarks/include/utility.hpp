@@ -93,6 +93,9 @@ static inline std::string to_string(operation_e op) {
 static inline std::string level_to_name(std::int32_t level) {
     return std::string("/lvl:") + std::to_string(level);
 }
+static inline std::string long_match_hint_to_name(bool hint) {
+    return hint ? std::string("/hint:on") : std::string();
+}
 static inline std::string to_string(huffman_type_e huffman) {
     switch (huffman) {
         case huffman_type_e::fixed: return "fixed";

@@ -90,14 +90,8 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_
 
     /* Check for Unsupported Compression Levels */
 
-    // Check for unsupported compression levels
-    if (job_ptr->level != qpl_high_level && job_ptr->level != qpl_default_level) {
-        return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
-    }
-    // Check for high compression level on hw path
-    if (job_ptr->level == qpl_high_level && (job::get_execution_path(job_ptr) == ml::execution_path_t::hardware)) {
-        return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
-    }
+    // Levels outside [qpl_level_0, qpl_level_9] are invalid; supported levels saturate per path
+    if (job_ptr->level < qpl_level_0 || job_ptr->level > qpl_level_9) { return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL; }
 
     constexpr auto USER_HUFFMAN_TABLE_USED = 1U;
     constexpr auto NO_USER_HUFFMAN_TABLE   = 0U;

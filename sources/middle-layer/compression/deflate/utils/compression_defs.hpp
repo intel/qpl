@@ -30,6 +30,14 @@ enum compression_level_t : std::uint8_t {
     high_level    = level_3
 };
 
+/**
+ * SW has two operating points: level <= default_level maps to default_level,
+ * anything higher saturates to high_level.
+ */
+constexpr auto saturate_software_level(compression_level_t level) noexcept -> compression_level_t {
+    return level <= default_level ? default_level : high_level;
+}
+
 enum endianness_t : std::uint8_t { little_endian, big_endian };
 
 // In case of changing the number of states, update @compression_states constant

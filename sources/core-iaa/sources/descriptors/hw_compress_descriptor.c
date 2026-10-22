@@ -218,3 +218,28 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs,
         }
     }
 }
+
+HW_PATH_IAA_API(void, descriptor_compress_set_compression_level,
+                (hw_descriptor* const descriptor_ptr, const uint32_t compression_level)) {
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
+
+    // Generation 3.0 compression level, bits 12:10 of compression_2_flags. The field holds 0-7 only,
+    // so higher levels are saturated here: the mask would otherwise wrap them to the fastest levels.
+    const uint32_t level =
+            (compression_level > ADCF2_MAX_COMPRESSION_LEVEL) ? ADCF2_MAX_COMPRESSION_LEVEL : compression_level;
+
+    this_ptr->compression_2_flags =
+            (this_ptr->compression_2_flags & ~ADCF2_COMPRESSION_LEVEL(0x7U)) | ADCF2_COMPRESSION_LEVEL(level);
+}
+
+HW_PATH_IAA_API(void, descriptor_compress_set_long_match_hint,
+                (hw_descriptor* const descriptor_ptr, const bool enable)) {
+    hw_compress_descriptor* const this_ptr = (hw_compress_descriptor*)descriptor_ptr;
+
+    // Generation 3.0 long-match hint, bit 9 of compression_2_flags.
+    if (enable) {
+        this_ptr->compression_2_flags |= ADCF2_LONG_MATCH_HINT;
+    } else {
+        this_ptr->compression_2_flags &= ~ADCF2_LONG_MATCH_HINT;
+    }
+}

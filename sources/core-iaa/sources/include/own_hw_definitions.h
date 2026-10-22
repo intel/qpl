@@ -94,6 +94,11 @@ extern "C" {
 #define ADCF_WRITE_AECS_HT     (1U << 1U)                    /**< Write AECS Huffman Tables */
 #define ADCF_LOAD_DICT(x)      (((uint32_t)(x) & 3U) << 10U) /**< Load dictionary */
 
+// compression 2 flags
+#define ADCF2_COMPRESSION_LEVEL(x)  (((uint32_t)(x) & 7U) << 10U) /**< IAA 3.0 compression level (bits 12:10) */
+#define ADCF2_MAX_COMPRESSION_LEVEL 7U                            /**< Highest level the 3-bit field can hold  */
+#define ADCF2_LONG_MATCH_HINT       (1U << 9U)                    /**< IAA 3.0 long-match hint (bit 9)        */
+
 // crc64 flags
 #define ADC64F_INVCRC (1U << 14U) /**< @todo */
 #define ADC64F_BE     (1U << 15U) /**< @todo */

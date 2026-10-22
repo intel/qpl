@@ -42,6 +42,26 @@ inline bool are_iaa_gen_2_min_capabilities_present() {
     return are_gen2_capabilities_present;
 }
 
+/**
+ * @brief Returns whether the accelerator is generation 3.0 or newer (supports configurable compression levels 0-7).
+ *
+ * @note It is safe to query a single device only, since we do not expect to have devices with different generations
+ * available on the same host.
+ */
+inline bool are_iaa_gen_3_min_capabilities_present() {
+    bool are_gen3_capabilities_present = false;
+
+#if defined(__linux__)
+    static auto& dispatcher = qpl::ml::dispatcher::hw_dispatcher::get_instance();
+    if (dispatcher.is_hw_support()) {
+        const auto& device            = dispatcher.device(0);
+        are_gen3_capabilities_present = device.get_gen_3_min_capabilities();
+    }
+#endif
+
+    return are_gen3_capabilities_present;
+}
+
 } // namespace qpl::ml::util
 
 #endif //QPL_SOURCES_MIDDLE_LAYER_UTIL_IAA_FEATURES_CHECKS_HPP

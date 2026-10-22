@@ -155,11 +155,10 @@ static inline bool is_verification_supported(const qpl_job* const qpl_job_ptr) n
 }
 
 /**
- * @brief Check for skipping high level compression on hardware/auto execution paths.
+ * @brief Check if the job runs on the hardware/auto execution paths.
 */
 static inline bool is_supported_on_hardware(const qpl_job* const qpl_ptr) {
-    return ((qpl_path_hardware == qpl_ptr->data_ptr.path || qpl_path_auto == qpl_ptr->data_ptr.path) &&
-            !is_high_level_compression(qpl_ptr));
+    return (qpl_path_hardware == qpl_ptr->data_ptr.path || qpl_path_auto == qpl_ptr->data_ptr.path);
 }
 
 /**

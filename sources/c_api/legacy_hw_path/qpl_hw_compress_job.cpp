@@ -34,6 +34,20 @@ static inline qpl_comp_style own_get_compression_style(const qpl_job* const job_
     }
 }
 
+// The compression level is a gen3+ feature; the descriptor saturates levels the hardware cannot encode.
+static inline void own_set_compression_level(hw_descriptor* const descriptor_ptr, const uint32_t level) {
+    if (qpl::ml::util::are_iaa_gen_3_min_capabilities_present()) {
+        hw_iaa_descriptor_compress_set_compression_level(descriptor_ptr, level);
+    }
+}
+
+// The long-match hint is a gen3-only feature; ignored on earlier hardware.
+static inline void own_set_long_match_hint(hw_descriptor* const descriptor_ptr, const uint32_t flags) {
+    if (qpl::ml::util::are_iaa_gen_3_min_capabilities_present()) {
+        hw_iaa_descriptor_compress_set_long_match_hint(descriptor_ptr, (flags & QPL_FLAG_LONG_MATCH_HINT) != 0);
+    }
+}
+
 extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*                                  qpl_job_ptr,
                                                                hw_decompress_analytics_descriptor* const descriptor_ptr,
                                                                hw_completion_record* const completion_record_ptr,
@@ -212,6 +226,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*         
         }
         hw_iaa_descriptor_compress_set_mini_block_size((hw_descriptor*)descriptor_ptr,
                                                        (hw_iaa_mini_block_size_t)qpl_job_ptr->mini_block_size);
+        own_set_compression_level((hw_descriptor*)descriptor_ptr, qpl_job_ptr->level);
+        own_set_long_match_hint((hw_descriptor*)descriptor_ptr, qpl_job_ptr->flags);
         hw_iaa_descriptor_set_completion_record((hw_descriptor*)descriptor_ptr, completion_record_ptr);
         completion_record_ptr->status = 0U;
 
@@ -340,6 +356,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_base(qpl_job*         
                                                         state_ptr->ccfg, state_ptr->aecs_hw_read_offset,
                                                         state_ptr->aecs_size, load_dictionary_val);
         }
+        own_set_compression_level((hw_descriptor*)descriptor_ptr, qpl_job_ptr->level);
+        own_set_long_match_hint((hw_descriptor*)descriptor_ptr, qpl_job_ptr->flags);
         hw_iaa_descriptor_set_completion_record((hw_descriptor*)descriptor_ptr, completion_record_ptr);
         completion_record_ptr->status = 0U;
 
@@ -419,6 +437,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_dynamic(hw_decompress_
                                         static_cast<hw_iaa_aecs_access_policy>(access_policy),
                                         !qpl::ml::util::are_iaa_gen_2_min_capabilities_present());
 
+    own_set_compression_level((hw_descriptor*)desc_ptr, qpl_job_ptr->level);
+    own_set_long_match_hint((hw_descriptor*)desc_ptr, qpl_job_ptr->flags);
     hw_iaa_descriptor_set_completion_record((hw_descriptor*)desc_ptr, (hw_completion_record*)comp_ptr);
     comp_ptr->status = 0U;
 
@@ -501,6 +521,8 @@ extern "C" qpl_status hw_descriptor_compress_init_deflate_canned(qpl_job* const 
 
     descriptor_ptr->decomp_flags |= ADCF_END_PROC(AD_APPEND_EOB);
 
+    own_set_compression_level((hw_descriptor*)descriptor_ptr, job_ptr->level);
+    own_set_long_match_hint((hw_descriptor*)descriptor_ptr, job_ptr->flags);
     hw_iaa_descriptor_set_completion_record((hw_descriptor*)descriptor_ptr,
                                             (hw_completion_record*)&state_ptr->comp_ptr);
 

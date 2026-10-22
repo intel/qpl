@@ -21,9 +21,6 @@ namespace qpl::test {
     * it also covers basic test function needs.
     */
 class JobFixture : public testing::Test {
-public:
-    int32_t num_test = 0;
-
 protected:
     /**
         * @briеf Allocates and initializes qpl_job structure, sets seed and execution path

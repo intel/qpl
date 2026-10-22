@@ -10,6 +10,7 @@
 #include "igenerator.h"
 
 // tests_common
+#include "dispatcher_checks.hpp"
 #include "iaa_features_checks.hpp"
 #include "operation_test.hpp"
 #include "source_provider.hpp"
@@ -129,7 +130,7 @@ private:
         TestFactor test_factor;
         test_factor.seed = GetSeed();
         test_factor.type = test_type;
-        if (util::TestEnvironment::GetInstance().GetExecutionPath() == qpl_path_t::qpl_path_hardware) {
+        if (is_effective_hardware(util::TestEnvironment::GetInstance().GetExecutionPath())) {
             test_factor.specialTestOptions.is_aecs_format2_expected = are_iaa_gen_2_min_capabilities_present();
         }
 

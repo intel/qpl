@@ -22,6 +22,7 @@ namespace bench {
 */
 static inline qpl_compression_levels level_to_qpl(std::int32_t level) {
     switch (level) {
+        case 0: return qpl_level_0;
         case 1: return qpl_level_1;
         case 2: return qpl_level_2;
         case 3: return qpl_level_3;

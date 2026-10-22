@@ -67,7 +67,10 @@ typedef struct {
  * @param[in]   source_ptr     Pointer to source vector that should be processed
  * @param[in]   source_length  Source vector length
  * @param[out]  histogram_ptr  Pointer to histogram to be updated
- * @param[in]   level          Level of compression algorithm
+ * @param[in]   level          Level of compression algorithm. Honored on @ref qpl_path_software and,
+ *                             starting from accelerator generation 3.0, on @ref qpl_path_hardware
+ *                             (levels above 7 are saturated to 7); earlier generations always gather
+ *                             default-level statistics
  * @param[in]   path           Execution path
  *
  * @return One of statuses presented in the @ref qpl_status

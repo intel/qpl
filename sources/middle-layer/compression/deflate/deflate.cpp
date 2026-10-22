@@ -21,6 +21,21 @@
 
 namespace qpl::ml::compression {
 
+// The compression level is a gen3+ feature; the descriptor saturates levels the hardware cannot encode.
+static inline void set_compression_level(hw_descriptor* const descriptor_ptr,
+                                         const uint8_t        compression_level) noexcept {
+    if (qpl::ml::util::are_iaa_gen_3_min_capabilities_present()) {
+        hw_iaa_descriptor_compress_set_compression_level(descriptor_ptr, compression_level);
+    }
+}
+
+// The long-match hint is a gen3+ feature; ignored on earlier hardware.
+static inline void set_long_match_hint(hw_descriptor* const descriptor_ptr, const bool enable) noexcept {
+    if (qpl::ml::util::are_iaa_gen_3_min_capabilities_present()) {
+        hw_iaa_descriptor_compress_set_long_match_hint(descriptor_ptr, enable);
+    }
+}
+
 auto deflate_pass(deflate_state<execution_path_t::software>& stream, uint8_t* begin, uint32_t size) noexcept
         -> compression_operation_result_t {
     compression_operation_result_t result;
@@ -105,6 +120,9 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_no_headers>(
                                                     state.meta_data_->aecs_index, state.meta_data_->aecs_size,
                                                     load_dictionary_val);
     }
+
+    set_compression_level(state.compress_descriptor_, state.meta_data_->compression_level);
+    set_long_match_hint(state.compress_descriptor_, state.meta_data_->long_match_hint);
 
     result = util::process_descriptor<compression_operation_result_t, util::execution_mode_t::sync>(
             state.compress_descriptor_, state.completion_record_);
@@ -268,6 +286,9 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(
                             state.meta_data_->aecs_index, state.meta_data_->aecs_size, load_dictionary_val);
                 }
 
+                set_compression_level(state.collect_statistic_descriptor_, state.meta_data_->compression_level);
+                set_long_match_hint(state.collect_statistic_descriptor_, state.meta_data_->long_match_hint);
+
                 // The 1st pass will generate Huffman table and deflate header
                 result = util::process_descriptor<compression_operation_result_t, util::execution_mode_t::sync>(
                         state.collect_statistic_descriptor_, state.completion_record_);
@@ -291,6 +312,9 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(
                                                            source_size, &actual_aecs_ptr->histogram);
                 hw_iaa_descriptor_compress_set_mini_block_size(state.collect_statistic_descriptor_,
                                                                state.meta_data_->mini_block_size_);
+
+                set_compression_level(state.collect_statistic_descriptor_, state.meta_data_->compression_level);
+                set_long_match_hint(state.collect_statistic_descriptor_, state.meta_data_->long_match_hint);
 
                 result = util::process_descriptor<compression_operation_result_t, util::execution_mode_t::sync>(
                         state.collect_statistic_descriptor_, state.completion_record_);
@@ -370,6 +394,9 @@ auto deflate<execution_path_t::hardware, deflate_mode_t::deflate_default>(
                                                         state.meta_data_->aecs_, state.meta_data_->aecs_index,
                                                         state.meta_data_->aecs_size, load_dictionary_val);
         }
+
+        set_compression_level(state.compress_descriptor_, state.meta_data_->compression_level);
+        set_long_match_hint(state.compress_descriptor_, state.meta_data_->long_match_hint);
     }
 
     // Submit compression descriptor if previous submission(s) fail to submit successfully

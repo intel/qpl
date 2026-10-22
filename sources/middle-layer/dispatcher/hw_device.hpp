@@ -70,6 +70,8 @@ public:
 
     [[nodiscard]] auto get_gen_2_min_capabilities() const noexcept -> bool;
 
+    [[nodiscard]] auto get_gen_3_min_capabilities() const noexcept -> bool;
+
     [[nodiscard]] auto get_header_gen_support() const noexcept -> bool;
 
     [[nodiscard]] auto get_dict_compress_support() const noexcept -> bool;

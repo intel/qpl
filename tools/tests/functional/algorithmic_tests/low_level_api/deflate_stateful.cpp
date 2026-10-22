@@ -260,8 +260,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default) {
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
-
     uint32_t job_size = 0;
 
     auto status = qpl_get_job_size(execution_path, &job_size);
@@ -338,8 +336,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_default_verify) {
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, dynamic_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
 
     uint32_t job_size = 0;
 
@@ -418,8 +414,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default) {
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
 
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
-
     uint32_t job_size = 0;
 
     auto status = qpl_get_job_size(execution_path, &job_size);
@@ -496,8 +490,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_default_verify) {
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, fixed_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
 
     uint32_t job_size = 0;
 
@@ -587,8 +579,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default) {
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
 
     uint32_t job_size = 0;
 
@@ -692,8 +682,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_default_verify) {
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST(deflate_stateful, static_high_verify) {
     auto execution_path = util::TestEnvironment::GetInstance().GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Hardware path doesn't support high level compression");
 
     uint32_t job_size = 0;
 

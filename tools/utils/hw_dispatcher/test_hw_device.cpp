@@ -51,6 +51,10 @@ auto hw_device::get_gen_2_min_capabilities() const noexcept -> bool {
     return QPL_TEST_IC_GEN_2_MIN_CAP(iaa_cap_register_);
 }
 
+auto hw_device::get_gen_3_min_capabilities() const noexcept -> bool {
+    return version_major_ >= 3U;
+}
+
 auto hw_device::get_dict_compress_support() const noexcept -> bool {
     return QPL_TEST_IC_DICT_COMP(iaa_cap_register_);
 }

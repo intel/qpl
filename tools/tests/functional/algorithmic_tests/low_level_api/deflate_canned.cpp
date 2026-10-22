@@ -111,12 +111,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, default_level, JobFixture) 
 
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, high_level, JobFixture) {
     auto path = GetExecutionPath();
-    if (path == qpl_path_hardware) {
-        if (0 == JobFixture::num_test++) {
-            GTEST_SKIP() << "Deflate operation doesn't support high compression level on the hardware path";
-        }
-        return;
-    }
 
     for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         source = dataset.second;
@@ -202,8 +196,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, complex_high_level, JobFixt
     std::vector<uint32_t> compressed_file_sizes;
 
     auto path = GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path");
 
     // Create and initialize compression table
     const unique_huffman_table c_table(deflate_huffman_table_maker(compression_table_type, path, DEFAULT_ALLOCATOR_C),
@@ -492,9 +484,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_default_level, JobFixtu
 // Test if the CRC is correct when reusing job structure
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(deflate_canned, crc_high_level, JobFixture) {
     auto path = GetExecutionPath();
-
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Deflate operation doesn't support high compression level on the hardware path");
 
     uint32_t job_size = 0U;
     auto     status   = qpl_get_job_size(path, &job_size);

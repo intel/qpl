@@ -7,7 +7,9 @@
 // ml
 #include "compression/deflate/histogram.hpp"
 
+#include "compression/deflate/utils/compression_defs.hpp"
 #include "util/descriptor_processing.hpp"
+#include "util/iaa_features_checks.hpp"
 
 // qpl_c_api
 #include "compression_operations/bit_writer.h"
@@ -70,8 +72,7 @@ static inline void remove_empty_places_in_histogram(qpl_histogram& histogram) {
 
 template <>
 auto update_histogram<execution_path_t::hardware>(const uint8_t* begin, const uint8_t* end,
-                                                  deflate_histogram& histogram,
-                                                  deflate_level      UNREFERENCED_PARAMETER(level)) noexcept
+                                                  deflate_histogram& histogram, deflate_level level) noexcept
         -> qpl_ml_status {
     hw_descriptor HW_PATH_ALIGN_STRUCTURE                         descriptor;
     HW_PATH_VOLATILE hw_completion_record HW_PATH_ALIGN_STRUCTURE completion_record;
@@ -82,6 +83,11 @@ auto update_histogram<execution_path_t::hardware>(const uint8_t* begin, const ui
 
     hw_iaa_descriptor_init_statistic_collector(&descriptor, begin, static_cast<uint32_t>(std::distance(begin, end)),
                                                reinterpret_cast<hw_iaa_histogram*>(&hw_histogram));
+
+    // Statistics depend on the level on gen3+ only; the descriptor saturates unsupported levels.
+    if (qpl::ml::util::are_iaa_gen_3_min_capabilities_present()) {
+        hw_iaa_descriptor_compress_set_compression_level(&descriptor, static_cast<uint32_t>(level));
+    }
 
     hw_iaa_descriptor_set_completion_record(&descriptor, &completion_record);
     completion_record.status = 0U;
@@ -112,7 +118,7 @@ auto update_histogram<execution_path_t::software>(const uint8_t* begin, const ui
             ((qplc_deflate_histogram_reset_ptr)(core_sw::dispatcher::kernels_dispatcher::get_instance()
                                                         .get_deflate_table()[1]));
 
-    if (qpl_default_level == level) {
+    if (default_level == saturate_software_level(static_cast<compression_level_t>(level))) {
         isal_histogram isal_histogram_v = {{0U}, {0U}, {0U}};
         details::isal_histogram_set_statistics(&isal_histogram_v, histogram.literal_lengths, histogram.distances);
 

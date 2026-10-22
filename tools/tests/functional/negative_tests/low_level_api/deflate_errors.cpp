@@ -12,6 +12,7 @@
 
 // tool_common
 #include "compression_huffman_table.hpp"
+#include "dispatcher_checks.hpp"
 #include "huffman_table_unique.hpp"
 #include "util.hpp"
 
@@ -145,7 +146,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_default_stored_bl
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, dynamic_high_stored_block_overflow) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Index generation is not supported on the hardware path.");
 
     qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
@@ -189,7 +190,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_default_stored_blo
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, static_high_stored_block_overflow) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Index generation is not supported on the hardware path.");
 
     qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
@@ -232,7 +233,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_default_stored_bloc
 }
 
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_overflow) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
+    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "Index generation is not supported on the hardware path.");
 
     qpl::test::random random_number(0U, UINT8_MAX, GetSeed());
 
@@ -255,7 +256,7 @@ QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_stored_block_o
  * @note The source buffer size and data is hardcoded to simulate this edge case.
  */
 QPL_LOW_LEVEL_API_NEGATIVE_TEST_F(deflate, JobFixture, fixed_high_overflow_with_slop) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware, "High level compression is not supported on hardware path.");
+    if (is_effective_hardware(GetExecutionPath())) { GTEST_SKIP() << "Test asserts software-path compressed size."; }
 
     // This hardcoded source data and size will result in a compressed stream of 10 Bytes.
     // The destination buffer (14 Bytes) is not large enough to accommodate the compressed

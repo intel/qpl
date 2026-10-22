@@ -138,6 +138,7 @@ uint32_t perform_compression(qpl_job* const job_ptr) noexcept {
 
         builder.output(job_ptr->next_out_ptr, job_ptr->available_out)
                 .compression_level(static_cast<compression_level_t>(job_ptr->level))
+                .long_match_hint(job_ptr->flags & QPL_FLAG_LONG_MATCH_HINT)
                 .crc_seed({job_ptr->crc, 1})
                 .terminate(job_ptr->flags & QPL_FLAG_LAST)
                 .verify(!(job_ptr->flags & QPL_FLAG_OMIT_VERIFY))

@@ -43,8 +43,14 @@ auto deflate_state_builder<execution_path_t::software>::set_isal_internal_buffer
 
 auto deflate_state_builder<execution_path_t::software>::compression_level(compression_level_t level) noexcept
         -> common_type& {
-    stream_.level_ = level;
+    stream_.level_ = saturate_software_level(level);
 
+    return *reinterpret_cast<common_type*>(this);
+}
+
+auto deflate_state_builder<execution_path_t::software>::long_match_hint(bool UNREFERENCED_PARAMETER(value)) noexcept
+        -> common_type& {
+    // The long-match hint is a hardware-only feature; ignored on the software path.
     return *reinterpret_cast<common_type*>(this);
 }
 

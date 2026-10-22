@@ -16,13 +16,15 @@ namespace bench::ops {
 struct deflate_params_t {
     explicit deflate_params_t() = default;
     deflate_params_t(const data_t& data, std::int32_t level, huffman_type_e huffman, bool huffman_only = false,
-                     bool no_headers = false, std::shared_ptr<qpl_huffman_table> huffman_table = nullptr)
+                     bool no_headers = false, std::shared_ptr<qpl_huffman_table> huffman_table = nullptr,
+                     bool long_match_hint = false)
         : p_source_data_(&data)
         , level_(level)
         , huffman_(huffman)
         , huffman_only_(huffman_only)
         , no_headers_(no_headers)
-        , p_huffman_table_(std::move(huffman_table)) {}
+        , p_huffman_table_(std::move(huffman_table))
+        , long_match_hint_(long_match_hint) {}
 
     const data_t*                      p_source_data_ {nullptr};
     std::int32_t                       level_ {0};
@@ -30,6 +32,7 @@ struct deflate_params_t {
     bool                               huffman_only_ {false};
     bool                               no_headers_ {false};
     std::shared_ptr<qpl_huffman_table> p_huffman_table_ {nullptr};
+    bool                               long_match_hint_ {false};
 };
 
 struct inflate_params_t {

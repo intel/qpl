@@ -1366,10 +1366,10 @@ int qpl_isal_create_hufftables(struct isal_hufftables* hufftables, struct isal_h
     // Code lengths will be encoded independently and distance length codes won't span literal/lengths.
 
     // Perform RLE for literal/length length codes
-    rl_huff_len = rl_encode(combined_table, hlit + 257 + 1, count_histogram, rl_huff);
+    rl_huff_len = rl_encode(combined_table, hlit + 257, count_histogram, rl_huff);
 
     // Perform RLE for distance length codes
-    rl_huff_len += rl_encode(combined_table + hlit + 257 + 1, hdist, count_histogram, rl_huff + rl_huff_len);
+    rl_huff_len += rl_encode(combined_table + hlit + 257, hdist + 1, count_histogram, rl_huff + rl_huff_len);
 #endif
 
     /* Create header */

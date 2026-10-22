@@ -41,6 +41,13 @@ Compression
 .. literalinclude:: ../../../../examples/low-level-api/compression_example.cpp
     :language: cpp
 
+Compression with Levels
+=======================
+
+
+.. literalinclude:: ../../../../examples/low-level-api/compression_levels_example.cpp
+    :language: cpp
+
 Compression with Huffman-only
 =============================
 

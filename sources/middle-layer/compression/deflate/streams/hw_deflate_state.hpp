@@ -96,8 +96,10 @@ private:
                                                               indicate which half should be read */
         hw_iaa_mini_block_size_t mini_block_size_ = static_cast<hw_iaa_mini_block_size_t>(mini_block_size_none);
         /**< @todo */
-        uint32_t prologue_size_    = 0U; /**< @todo */
-        uint8_t  verify_aecs_index = 0U; /**< AECS read index for verify AECS */
+        uint32_t prologue_size_    = 0U;    /**< @todo */
+        uint8_t  verify_aecs_index = 0U;    /**< AECS read index for verify AECS */
+        uint8_t  compression_level = 0U;    /**< Compression level */
+        bool     long_match_hint   = false; /**< Long-match hint */
         uint32_t aecs_size         = HW_AECS_COMPRESS_WITH_HT;
         /**< The actual compress AECS size, which includes any dictionary used.
                                                               This size will be used as the Source 2 transfer size. The default

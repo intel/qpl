@@ -165,6 +165,13 @@ extern "C" {
  */
 #define QPL_FLAG_CANNED_MODE 0x00400000U
 
+/**
+ * Compression only: hint the compressor to search for 4-byte (long) matches, which may
+ * improve the compression ratio. Accelerator generation 3.0 and later only; ignored on
+ * earlier hardware generations and on the software path.
+ */
+#define QPL_FLAG_LONG_MATCH_HINT 0x01000000U
+
 /* CRC64 flags */
 /**
  * The data should be viewed as Big-Endian
@@ -382,21 +389,22 @@ typedef enum {
 } qpl_decomp_end_proc;
 
 /**
- * @brief Enumerates different compressions levels
+ * @brief Enumerates different compression levels
  */
 typedef enum {
-    qpl_level_1 = 1, /**< The fastest compression with low compression ratio*/
-    qpl_level_2 = 2, /**< Not supported */
-    qpl_level_3 = 3, /**< Medium compression speed, medium compression ratio*/
-    qpl_level_4 = 4, /**< Not supported */
-    qpl_level_5 = 5, /**< Not supported */
-    qpl_level_6 = 6, /**< Not supported */
-    qpl_level_7 = 7, /**< Not supported */
-    qpl_level_8 = 8, /**< Not supported */
-    qpl_level_9 = 9, /**< Not supported */
-    qpl_default_level =
-            qpl_level_1, /**< Default compression level defined by the highest compression level supported by Accelerator */
-    qpl_high_level = qpl_level_3 /**< The level with highest compression level from supported by Intel QPL */
+    qpl_level_0       = 0,
+    qpl_level_1       = 1, /**< Fastest compression, low compression ratio */
+    qpl_level_2       = 2,
+    qpl_level_3       = 3,
+    qpl_level_4       = 4,
+    qpl_level_5       = 5,
+    qpl_level_6       = 6,
+    qpl_level_7       = 7,
+    qpl_level_8       = 8,
+    qpl_level_9       = 9,
+    qpl_default_level = qpl_level_1, /**< Default compression level */
+    qpl_fast_level    = qpl_level_1, /**< Alias for fastest compression */
+    qpl_high_level    = qpl_level_7  /**< Highest level (saturates to what the path supports) */
 } qpl_compression_levels;
 
 #ifdef __cplusplus

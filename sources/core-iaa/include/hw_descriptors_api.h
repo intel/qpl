@@ -398,6 +398,28 @@ HW_PATH_IAA_API(void, descriptor_compress_set_aecs,
                  const hw_iaa_aecs_access_policy access_policy, bool is_gen1));
 
 /**
+ * @brief Set compression level in descriptor
+ *
+ * @note Levels above the highest one the descriptor field can hold (7) are saturated to it.
+ *
+ * @param[out] descriptor_ptr        @ref hw_descriptor
+ * @param[in]  compression_level     Compression level
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_compress_set_compression_level,
+                (hw_descriptor* const descriptor_ptr, const uint32_t compression_level));
+
+/**
+ * @brief Enable or disable the long-match hint in descriptor
+ *
+ * @param[out] descriptor_ptr        @ref hw_descriptor
+ * @param[in]  enable                whether to search for 4-byte (long) matches
+ *
+ */
+HW_PATH_IAA_API(void, descriptor_compress_set_long_match_hint,
+                (hw_descriptor* const descriptor_ptr, const bool enable));
+
+/**
  * @todo API will be described after refactoring completed
  */
 HW_PATH_IAA_API(void, descriptor_compress_verification_write_initial_index,

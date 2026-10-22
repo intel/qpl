@@ -146,14 +146,6 @@ QPL_FUN("C" qpl_status, qpl_submit_job, (qpl_job * qpl_job_ptr)) {
         // Reset is_sw_fallback for the first job
         if (qpl_job_ptr->flags & QPL_FLAG_FIRST) { job::update_is_sw_fallback(qpl_job_ptr, false); }
 
-        if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
-            if (qpl_path_hardware == path) {
-                return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
-            } else if (qpl_path_auto == path) {
-                job::update_is_sw_fallback(qpl_job_ptr, true);
-            }
-        }
-
         if (job::is_unsupported_on_hw_supported_on_sw(qpl_job_ptr)) { job::update_is_sw_fallback(qpl_job_ptr, true); }
 
         // Execute job on HW path
@@ -257,7 +249,7 @@ QPL_FUN("C" qpl_status, qpl_wait_job, (qpl_job * qpl_job_ptr)) {
     auto stored_status = job::get_async_job_status(qpl_job_ptr);
     if (stored_status != QPL_STS_BEING_PROCESSED) { return stored_status; }
 
-    // HW path doesn't support qpl_high_level compression ratio and ZLIB headers/trailers
+    // HW path doesn't support ZLIB headers/trailers
     if (job::is_supported_on_hardware(qpl_job_ptr)) {
         do { //NOLINT(cppcoreguidelines-avoid-do-while)
             status = hw_check_job(qpl_job_ptr);
@@ -297,14 +289,6 @@ QPL_FUN("C" qpl_status, qpl_execute_job, (qpl_job * qpl_job_ptr)) {
         if (qpl_job_ptr->flags & QPL_FLAG_FIRST) { job::update_is_sw_fallback(qpl_job_ptr, false); }
 
         if (job::is_unsupported_on_hw_supported_on_sw(qpl_job_ptr)) { job::update_is_sw_fallback(qpl_job_ptr, true); }
-
-        if ((qpl_op_compress == qpl_job_ptr->op) && (qpl_high_level == qpl_job_ptr->level)) {
-            if (qpl_path_hardware == path) {
-                return QPL_STS_UNSUPPORTED_COMPRESSION_LEVEL;
-            } else if (qpl_path_auto == path) {
-                job::update_is_sw_fallback(qpl_job_ptr, true);
-            }
-        }
 
         auto* const analytics_state_ptr =
                 reinterpret_cast<own_analytics_state_t*>(qpl_job_ptr->data_ptr.analytics_state_ptr);
