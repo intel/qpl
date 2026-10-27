@@ -514,7 +514,10 @@ extern "C" qpl_status hw_check_job(qpl_job* qpl_job_ptr) {
     // Handle output overflow
     if (AD_STATUS_OUTPUT_OVERFLOW == comp_ptr->status) {
         if (0U == comp_ptr->output_size) {
-            // No progress was made
+            // No output was written. Decompression is still continuable: the hardware may have
+            // buffered input in the AECS and emits it once a larger output buffer is provided.
+            // Match the synchronous path, which reports this case as QPL_STS_MORE_OUTPUT_NEEDED.
+            if (qpl_op_decompress == qpl_job_ptr->op) { return QPL_STS_MORE_OUTPUT_NEEDED; }
             return QPL_STS_DST_IS_SHORT_ERR;
         }
         if (0U == available_out) { return QPL_STS_MORE_OUTPUT_NEEDED; }

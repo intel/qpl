@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+#include <algorithm>
 #include <iostream>
 #include <random>
 #include <vector>
@@ -126,12 +127,13 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(decompress_checksum, xor_reused_output_buff
     const uint32_t reference_xor = ref_xor_checksum(data.data(), data_size, 0U);
 
     // Odd chunk sizes exercise continuation at odd stream offsets
-    for (const uint32_t chunk_size : {1U, 2U, 3U, 15U, 16U, 17U, 64U, 255U, 256U}) {
+    for (const uint32_t chunk_size : {1U, 2U, 3U, 4U, 7U, 8U, 15U, 16U, 17U, 64U, 255U, 256U}) {
         ASSERT_EQ(QPL_STS_OK, qpl_init_job(GetExecutionPath(), job_ptr));
 
         // Place the reused buffer after a pseudo-random prefix so that any read
-        // before its start changes the checksum
-        std::vector<uint8_t> arena(data_size + chunk_size);
+        // before its start changes the checksum. Leave room to grow the buffer
+        // to data_size in case the hardware cannot write into chunk_size bytes.
+        std::vector<uint8_t> arena(data_size + std::max<uint32_t>(chunk_size, data_size));
         std::minstd_rand     prefix_generator(chunk_size);
         for (uint32_t i = 0U; i < data_size; i++) {
             arena[i] = static_cast<uint8_t>(prefix_generator() >> 8U);
@@ -144,27 +146,29 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(decompress_checksum, xor_reused_output_buff
         job_ptr->flags        = QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
         std::vector<uint8_t> recovered;
-        qpl_status           status      = QPL_STS_MORE_OUTPUT_NEEDED;
-        bool                 no_progress = false;
+        qpl_status           status   = QPL_STS_MORE_OUTPUT_NEEDED;
+        uint32_t             out_size = chunk_size;
 
-        while (status == QPL_STS_MORE_OUTPUT_NEEDED && !no_progress) {
-            const uint32_t available_in = job_ptr->available_in;
-            job_ptr->next_out_ptr       = output_ptr;
-            job_ptr->available_out      = chunk_size;
+        while (status == QPL_STS_MORE_OUTPUT_NEEDED) {
+            job_ptr->next_out_ptr  = output_ptr;
+            job_ptr->available_out = out_size;
 
             status = run_job_api(job_ptr);
 
-            const uint32_t produced = chunk_size - job_ptr->available_out;
+            const uint32_t produced = out_size - job_ptr->available_out;
             recovered.insert(recovered.end(), output_ptr, output_ptr + produced);
             job_ptr->flags &= ~QPL_FLAG_FIRST;
 
-            // Documented: unchanged available_in and available_out means the output buffer is too small
-            no_progress = produced == 0U && job_ptr->available_in == available_in;
-        }
-
-        if (no_progress && GetExecutionPath() == qpl_path_hardware) {
-            std::cout << "Hardware can't make progress with chunk_size = " << chunk_size << ", skipping it\n";
-            continue;
+            if (status == QPL_STS_MORE_OUTPUT_NEEDED && produced == 0U) {
+                // Hardware writes nothing into an output buffer below its minimum size (8 bytes on IAA),
+                // though it may consume and buffer input. Resume the same job with a larger buffer so the
+                // checksum is still verified across continuation calls.
+                ASSERT_NE(qpl_path_software, GetExecutionPath()) << "No output produced, chunk_size = " << chunk_size;
+                ASSERT_LT(out_size, static_cast<uint32_t>(data_size)) << "No output produced with a large buffer";
+                std::cout << "Hardware can't write into chunk_size = " << chunk_size << ", continuing with "
+                          << data_size << " bytes\n";
+                out_size = data_size;
+            }
         }
 
         ASSERT_EQ(QPL_STS_OK, status) << "chunk_size = " << chunk_size;
