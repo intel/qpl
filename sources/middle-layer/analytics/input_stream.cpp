@@ -129,12 +129,13 @@ auto input_stream_t::unpack<analytic_pipeline::inflate_prle>(limited_buffer_t& o
 
     required_elements = std::min(static_cast<uint32_t>(required_elements), current_number_of_elements_);
 
-    auto status = unpack_prle_kernel_(
-            &unpack_source_ptr, static_cast<uint32_t>(std::distance(unpack_source_ptr, decompress_end_)), bit_width_,
-            &current_ptr, static_cast<uint32_t>(required_elements), &prle_count_, &prle_value_);
-
-    uint32_t       elements_processed = (static_cast<uint32_t>(current_ptr - output_buffer.data())) >> prle_index_;
+    // Only the bytes actually produced by inflate (plus the leftover from the previous iteration) are valid input
     const uint32_t valid_decompressed_bytes = result.output_bytes_ + prev_decompressed_bytes_;
+
+    auto status = unpack_prle_kernel_(&unpack_source_ptr, valid_decompressed_bytes, bit_width_, &current_ptr,
+                                      static_cast<uint32_t>(required_elements), &prle_count_, &prle_value_);
+
+    uint32_t elements_processed = (static_cast<uint32_t>(current_ptr - output_buffer.data())) >> prle_index_;
 
     if (unpack_source_ptr != (decompress_begin_ + valid_decompressed_bytes)) {
         core_sw::util::copy(unpack_source_ptr, decompress_begin_ + valid_decompressed_bytes, decompress_begin_);
