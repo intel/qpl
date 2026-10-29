@@ -236,58 +236,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate, fixed_blocks_default_level, Defla
     CompressFixedMode(qpl_default_level);
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size = qpl_mblk_size_512;
-    CompressDynamicMode(qpl_high_level);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size = qpl_mblk_size_512;
-    CompressStaticMode(qpl_high_level);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_high_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size     = qpl_mblk_size_512;
-    const bool omit_verification = false;
-    CompressDynamicMode(qpl_high_level, omit_verification);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_high_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size     = qpl_mblk_size_512;
-    const bool omit_verification = false;
-    CompressStaticMode(qpl_high_level, omit_verification);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, dynamic_blocks_default_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size     = qpl_mblk_size_512;
-    const bool omit_verification = false;
-    CompressDynamicMode(qpl_default_level, omit_verification);
-}
-
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_index, static_blocks_default_level_verify, DeflateTest) {
-    QPL_SKIP_TEST_FOR_VERBOSE(qpl_path_hardware,
-                              "Resource management mistake when HW test (replaced by test deflate_high.dynamic_verify");
-
-    job_ptr->mini_block_size     = qpl_mblk_size_512;
-    const bool omit_verification = false;
-    CompressStaticMode(qpl_default_level, omit_verification);
-}
-
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, DeflateTest) {
     uint32_t job_size = 0;
     auto     path     = util::TestEnvironment::GetInstance().GetExecutionPath();
@@ -305,22 +253,18 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, dynamic_high_level, Deflat
 
     for (auto& dataset : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         for (const uint32_t header : {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
-            auto                  source = dataset.second;
-            std::vector<uint8_t>  destination(source.size(), 0);
-            std::vector<uint8_t>  reference(source.size(), 0);
-            std::vector<uint64_t> indexes(source.size(), 0);
+            auto                 source = dataset.second;
+            std::vector<uint8_t> destination(source.size(), 0);
+            std::vector<uint8_t> reference(source.size(), 0);
 
             // Compress
-            compr_job->next_in_ptr     = source.data();
-            compr_job->available_in    = static_cast<uint32_t>(source.size());
-            compr_job->next_out_ptr    = destination.data();
-            compr_job->available_out   = static_cast<uint32_t>(destination.size());
-            compr_job->op              = qpl_op_compress;
-            compr_job->flags           = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | header;
-            compr_job->level           = qpl_high_level;
-            compr_job->mini_block_size = qpl_mblk_size_512;
-            compr_job->idx_array       = (uint64_t*)indexes.data();
-            compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
+            compr_job->next_in_ptr   = source.data();
+            compr_job->available_in  = static_cast<uint32_t>(source.size());
+            compr_job->next_out_ptr  = destination.data();
+            compr_job->available_out = static_cast<uint32_t>(destination.size());
+            compr_job->op            = qpl_op_compress;
+            compr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN | header;
+            compr_job->level         = qpl_high_level;
 
             auto status = run_job_api(compr_job);
             ASSERT_EQ(status, QPL_STS_OK)
@@ -381,23 +325,19 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(deflate_verify, static_high_level, Deflate
 
     for (auto& data : util::TestEnvironment::GetInstance().GetAlgorithmicDataset().get_data()) {
         for (const uint32_t header : {0U, QPL_FLAG_GZIP_MODE, QPL_FLAG_ZLIB_MODE}) {
-            auto                  source = data.second;
-            std::vector<uint8_t>  destination(source.size() * 2, 0);
-            std::vector<uint8_t>  reference(source.size(), 0);
-            std::vector<uint64_t> indexes(source.size(), 0);
+            auto                 source = data.second;
+            std::vector<uint8_t> destination(source.size() * 2, 0);
+            std::vector<uint8_t> reference(source.size(), 0);
 
             // Compress
-            compr_job->next_in_ptr     = source.data();
-            compr_job->available_in    = static_cast<uint32_t>(source.size());
-            compr_job->next_out_ptr    = destination.data();
-            compr_job->available_out   = static_cast<uint32_t>(destination.size());
-            compr_job->op              = qpl_op_compress;
-            compr_job->flags           = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
-            compr_job->level           = qpl_high_level;
-            compr_job->huffman_table   = c_table.get();
-            compr_job->mini_block_size = qpl_mblk_size_512;
-            compr_job->idx_array       = (uint64_t*)indexes.data();
-            compr_job->idx_max_size    = static_cast<uint32_t>(indexes.size());
+            compr_job->next_in_ptr   = source.data();
+            compr_job->available_in  = static_cast<uint32_t>(source.size());
+            compr_job->next_out_ptr  = destination.data();
+            compr_job->available_out = static_cast<uint32_t>(destination.size());
+            compr_job->op            = qpl_op_compress;
+            compr_job->flags         = QPL_FLAG_FIRST | QPL_FLAG_LAST | header;
+            compr_job->level         = qpl_high_level;
+            compr_job->huffman_table = c_table.get();
 
             status = run_job_api(compr_job);
             ASSERT_EQ(status, QPL_STS_OK) << "Compression failed with status: " << status << " source: " << data.first;

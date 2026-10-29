@@ -136,11 +136,6 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_conflict) {
     set_output_stream(job_ptr, destination.data(), (uint32_t)destination.size(),
                       static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
 
-    job_ptr->flags = QPL_FLAG_RND_ACCESS | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
-
-    ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
-            << "Don't found flag conflict: user try decompress huffman_only in random mode";
-
     job_ptr->flags = QPL_FLAG_GZIP_MODE | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST;
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
@@ -155,6 +150,29 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, flags_conflict) {
 
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr))
             << "Don't found flag conflict: user try decompress with zlib and gzip header both";
+}
+
+/**
+ * @brief Tests that random access (indexed) decompression returns the mode not supported error,
+ * since indexing is de-featured.
+ */
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, random_access_not_supported) {
+    std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
+    std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
+
+    job_ptr->op = qpl_op_decompress;
+    set_input_stream(job_ptr, source.data(), (uint32_t)source.size(), NOT_APPLICABLE_PARAMETER,
+                     NOT_APPLICABLE_PARAMETER, static_cast<qpl_parser>(NOT_APPLICABLE_PARAMETER));
+    set_output_stream(job_ptr, destination.data(), (uint32_t)destination.size(),
+                      static_cast<qpl_out_format>(NOT_APPLICABLE_PARAMETER));
+
+    for (const uint32_t flags : {QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST, QPL_FLAG_RND_ACCESS,
+                                 QPL_FLAG_RND_ACCESS | QPL_FLAG_FIRST | QPL_FLAG_LAST,
+                                 QPL_FLAG_RND_ACCESS | QPL_FLAG_NO_HDRS | QPL_FLAG_FIRST | QPL_FLAG_LAST}) {
+        job_ptr->flags = flags;
+
+        ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, run_job_api(job_ptr)) << "flags: " << flags;
+    }
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(inflate, buffers_overlap) {

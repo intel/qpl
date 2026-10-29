@@ -133,68 +133,6 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, analytic_with_decompress, Extract
     test_case_counter++;
 }
 
-QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, DISABLED_analytic_with_random_decompress, ExtractTest) {
-    static uint32_t test_case_counter = 0;
-
-    if (0U == test_case_counter % 5000U) { std::cout << " Running test case number " << test_case_counter << '\n'; }
-
-    std::vector<uint8_t> compressed_source;
-    ASSERT_NO_THROW(compressed_source = GetCompressedSource(true)); //NOLINT(cppcoreguidelines-avoid-goto)
-
-    if (GetExecutionPath() == qpl_path_software && current_test_case.parser == qpl_p_parquet_rle) {
-        job_ptr->src1_bit_width = 0U;
-    }
-
-    auto saved_in_ptr = compressed_source.data();
-    auto saved_flags  = job_ptr->flags;
-    auto saved_op     = job_ptr->op;
-
-    auto header_index        = index_table.findHeaderBlockIndex(0);
-    auto header_index_start  = index_table[header_index];
-    auto header_index_finish = index_table[header_index + 1U];
-
-    auto bit_start = header_index_start.bit_offset;
-    auto bit_end   = header_index_finish.bit_offset;
-
-    uint8_t* start = saved_in_ptr + bit_start / 8U;
-
-    // Decompress header for random access
-    job_ptr->op    = qpl_op_decompress;
-    job_ptr->flags = QPL_FLAG_FIRST | QPL_FLAG_RND_ACCESS;
-
-    job_ptr->ignore_start_bits = bit_start & 7U;
-    job_ptr->ignore_end_bits   = 7U & (0U - bit_end);
-    job_ptr->available_in      = ((bit_end + 7U) / 8U) - (bit_start / 8U);
-    job_ptr->next_in_ptr       = start;
-
-    auto status = run_job_api(job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status);
-
-    // Filter with random access
-    auto mini_block_index = index_table.findMiniBlockIndex(0);
-
-    bit_start = index_table[mini_block_index].bit_offset;
-    bit_end   = index_table[mini_block_index + 1U].bit_offset;
-
-    job_ptr->next_in_ptr       = saved_in_ptr + bit_start / 8U;
-    job_ptr->ignore_start_bits = bit_start & 7U;
-    job_ptr->ignore_end_bits   = 7U & (0U - bit_end);
-    job_ptr->available_in      = ((bit_end + 7U) / 8U) - (bit_start / 8U);
-    job_ptr->crc               = index_table[mini_block_index].crc;
-
-    job_ptr->op    = saved_op;
-    job_ptr->flags = saved_flags | QPL_FLAG_DECOMPRESS_ENABLE | QPL_FLAG_RND_ACCESS;
-
-    status = run_job_api(job_ptr);
-    ASSERT_EQ(QPL_STS_OK, status);
-
-    auto reference_status = ref_extract(reference_job_ptr);
-    ASSERT_EQ(QPL_STS_OK, reference_status);
-
-    EXPECT_TRUE(CompareVectors(destination, reference_destination));
-    test_case_counter++;
-}
-
 QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_TC(extract, initial_output_index, ExtractTest) {
     static uint32_t test_case_counter = 0;
 

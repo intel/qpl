@@ -89,26 +89,36 @@ QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, missed_flags) {
     ASSERT_EQ(QPL_STS_FLAG_CONFLICT_ERR, run_job_api(job_ptr));
 }
 
-QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, null_index_array) {
-    qpl_status status = QPL_STS_OPERATION_ERR;
-
+/**
+ * @brief Tests that deflate with indexing (any mini-block size, with or without an index table)
+ * returns the mode not supported error, since indexing is de-featured.
+ */
+QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, indexing_not_supported) {
     std::array<uint8_t, SOURCE_ARRAY_SIZE>      source {};
     std::array<uint8_t, DESTINATION_ARRAY_SIZE> destination {};
+    std::array<uint64_t, INDEX_ARRAY_SIZE>      index_array {};
 
     std::fill(std::begin(source), std::end(source), 1);
-    std::fill(std::begin(destination), std::end(destination), 1);
 
-    job_ptr->op              = qpl_op_compress;
-    job_ptr->next_in_ptr     = source.data();
-    job_ptr->available_in    = static_cast<uint32_t>(source.size());
-    job_ptr->next_out_ptr    = destination.data();
-    job_ptr->available_out   = static_cast<uint32_t>(destination.size());
-    job_ptr->mini_block_size = qpl_mblk_size_1k;
-    job_ptr->flags           = QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN;
+    for (auto mini_block_size : {qpl_mblk_size_512, qpl_mblk_size_1k, qpl_mblk_size_2k, qpl_mblk_size_4k,
+                                 qpl_mblk_size_8k, qpl_mblk_size_16k, qpl_mblk_size_32k}) {
+        for (uint64_t* idx_array : {static_cast<uint64_t*>(nullptr), index_array.data()}) {
+            for (const uint32_t flags : {QPL_FLAG_FIRST | QPL_FLAG_LAST | QPL_FLAG_DYNAMIC_HUFFMAN,
+                                         QPL_FLAG_FIRST | QPL_FLAG_LAST, QPL_FLAG_FIRST | QPL_FLAG_DYNAMIC_HUFFMAN}) {
+                job_ptr->op            = qpl_op_compress;
+                job_ptr->next_in_ptr   = source.data();
+                job_ptr->available_in  = static_cast<uint32_t>(source.size());
+                job_ptr->next_out_ptr  = destination.data();
+                job_ptr->available_out = static_cast<uint32_t>(destination.size());
+                job_ptr->flags         = flags;
+                set_indexing_parameters(job_ptr, mini_block_size, idx_array, INDEX_ARRAY_SIZE);
 
-    status = run_job_api(job_ptr);
-
-    ASSERT_EQ(QPL_STS_MISSING_INDEX_TABLE_ERR, status) << "idx_array equals to NULL";
+                ASSERT_EQ(QPL_STS_NOT_SUPPORTED_MODE_ERR, run_job_api(job_ptr))
+                        << "mini_block_size: " << mini_block_size << ", idx_array: " << idx_array
+                        << ", flags: " << flags;
+            }
+        }
+    }
 }
 
 QPL_LOW_LEVEL_API_BAD_ARGUMENT_TEST(deflate, flag_conflict) {
