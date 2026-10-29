@@ -44,10 +44,11 @@ static inline qpl_status bad_arguments_check(const qpl_job* const job_ptr) {
 
 template <>
 inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_job* const job_ptr) noexcept {
+    // Indexing is de-featured
+    if (job::is_indexing_enabled(job_ptr)) { return QPL_STS_NOT_SUPPORTED_MODE_ERR; }
+
     // Check for Size Errors
     if (job_ptr->available_in == 0 || job_ptr->available_out == 0) { return QPL_STS_SIZE_ERR; }
-    // Check for indexing w/o index table
-    if (job::is_indexing_enabled(job_ptr) && job_ptr->idx_array == nullptr) { return QPL_STS_MISSING_INDEX_TABLE_ERR; }
 
     /* Check for Flag conflicts */
 
@@ -83,11 +84,6 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
-    // Check for Canned & Indexing mode
-    if (job::is_canned_mode_compression(job_ptr) && job::is_indexing_enabled(job_ptr)) {
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-    }
-
     /* Check for Unsupported Compression Levels */
 
     // Levels outside [qpl_level_0, qpl_level_9] are invalid; supported levels saturate per path
@@ -113,13 +109,10 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_compress>(const qpl_
 
 template <>
 inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qpl_job* const job_ptr) noexcept {
-    /* Check for Flag conflicts */
+    // Random access (indexed) decompression is de-featured
+    if (job::is_random_decompression(job_ptr)) { return QPL_STS_NOT_SUPPORTED_MODE_ERR; }
 
-    // Check for conflict between writing no headers (QPL_FLAG_NO_HDRS) and
-    // Indexing mode, which contains a header (QPL_FLAG_RND_ACCESS)
-    if ((job_ptr->flags & QPL_FLAG_RND_ACCESS) && (job_ptr->flags & QPL_FLAG_NO_HDRS)) {
-        return QPL_STS_FLAG_CONFLICT_ERR;
-    }
+    /* Check for Flag conflicts */
 
     // Check for conflict between writing no headers (QPL_FLAG_NO_HDRS) and
     // gzip mode, which contains a header (QPL_FLAG_GZIP_MODE)
@@ -171,11 +164,6 @@ inline qpl_status bad_arguments_check<qpl_operation::qpl_op_decompress>(const qp
 
     // Check for huffman only decompression w/o huffman table
     if (!(job_ptr->huffman_table) && job::is_huffman_only_decompression(job_ptr)) {
-        return QPL_STS_NOT_SUPPORTED_MODE_ERR;
-    }
-
-    // Check for canned w/ random access
-    if (job::is_canned_mode_decompression(job_ptr) && job::is_random_decompression(job_ptr)) {
         return QPL_STS_NOT_SUPPORTED_MODE_ERR;
     }
 
