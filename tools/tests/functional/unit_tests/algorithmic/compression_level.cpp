@@ -29,6 +29,7 @@
 
 // tool_common
 #include "dispatcher_checks.hpp"
+#include "huffman_table_unique.hpp"
 #include "iaa_features_checks.hpp"
 
 namespace qpl::test {
@@ -314,13 +315,10 @@ QPL_UNIT_API_ALGORITHMIC_TEST(compression_levels, canned_round_trip_all_levels) 
     if (data.empty()) { GTEST_SKIP() << "Algorithmic dataset not available"; }
 
     for (int level = 0; level <= 9; level++) {
-        qpl_huffman_table_t table = canned_table(path, data, level);
-        ASSERT_NE(table, nullptr) << "Canned table creation failed. level=" << level;
+        const unique_huffman_table table(canned_table(path, data, level), any_huffman_table_deleter);
+        ASSERT_NE(table.get(), nullptr) << "Canned table creation failed. level=" << level;
 
-        const bool restored = canned_round_trip(path, data, level, table);
-        qpl_huffman_table_destroy(table);
-
-        EXPECT_TRUE(restored) << "Canned round-trip failed. level=" << level;
+        EXPECT_TRUE(canned_round_trip(path, data, level, table.get())) << "Canned round-trip failed. level=" << level;
     }
 }
 

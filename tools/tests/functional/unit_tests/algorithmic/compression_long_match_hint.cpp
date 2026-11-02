@@ -12,6 +12,7 @@
  */
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "qpl/qpl.h"
@@ -133,11 +134,13 @@ QPL_UNIT_API_ALGORITHMIC_TEST(compression_long_match_hint, improves_ratio_on_gen
         GTEST_SKIP() << "Long-match hint requires accelerator generation 3.0";
     }
 
-    const auto& dataset = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
-    if (dataset.get_data().find("file2") == dataset.get_data().end()) {
-        GTEST_SKIP() << "Reference file 'file2' not available in dataset";
+    static const std::string reference_file = "file2";
+    const auto&              dataset        = util::TestEnvironment::GetInstance().GetAlgorithmicDataset();
+    const auto               file_it        = dataset.get_data().find(reference_file);
+    if (file_it == dataset.get_data().end()) {
+        GTEST_SKIP() << "Reference file '" << reference_file << "' not available in dataset";
     }
-    const std::vector<uint8_t>& data = dataset["file2"];
+    const std::vector<uint8_t>& data = file_it->second;
 
     const std::vector<uint8_t> without_hint = compress(qpl_path_hardware, data, false);
     const std::vector<uint8_t> with_hint    = compress(qpl_path_hardware, data, true);

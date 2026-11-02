@@ -7,7 +7,9 @@
 //* [QPL_LOW_LEVEL_COMPRESSION_LEVELS_EXAMPLE] */
 
 #include <iostream>
+#include <iterator>
 #include <memory>
+#include <random>
 #include <vector>
 
 #include "qpl/qpl.h"
@@ -98,10 +100,9 @@ auto main(int argc, char** argv) -> int {
                                         "where", "trees", "grow",  "tall", "near",  "river"};
         std::vector<uint8_t> source;
         source.reserve(source_size);
-        uint32_t rng = 42;
+        std::mt19937 rng(42);
         while (source.size() < source_size) {
-            rng                    = rng * 1103515245U + 12345U;
-            const char* const word = words[(rng >> 16) % 20];
+            const char* const word = words[rng() % std::size(words)];
             for (const char* c = word; *c != '\0'; c++) {
                 source.push_back(static_cast<uint8_t>(*c));
             }

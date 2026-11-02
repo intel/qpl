@@ -144,7 +144,7 @@ QPL_UNIT_API_ALGORITHMIC_TEST(huffman_table_deserialize, valid_table) {
     ASSERT_EQ(isal_bits, read_field(serialized, decompression_deflate_header_offset()));
 
     qpl_huffman_table_t table = nullptr;
-    ASSERT_EQ(QPL_STS_OK,
+    EXPECT_EQ(QPL_STS_OK,
               qpl_huffman_table_deserialize(serialized.data(), serialized.size(), DEFAULT_ALLOCATOR_C, &table));
     EXPECT_EQ(QPL_STS_OK, qpl_huffman_table_destroy(table));
 }
