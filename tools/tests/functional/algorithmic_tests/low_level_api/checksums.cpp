@@ -160,7 +160,7 @@ QPL_LOW_LEVEL_API_ALGORITHMIC_TEST_F(decompress_checksum, xor_reused_output_buff
             job_ptr->flags &= ~QPL_FLAG_FIRST;
 
             if (status == QPL_STS_MORE_OUTPUT_NEEDED && produced == 0U) {
-                // Hardware writes nothing into an output buffer below its minimum size (8 bytes on IAA),
+                // Hardware writes nothing into an output buffer below its minimum size, 8 bytes,
                 // though it may consume and buffer input. Resume the same job with a larger buffer so the
                 // checksum is still verified across continuation calls.
                 ASSERT_NE(qpl_path_software, GetExecutionPath()) << "No output produced, chunk_size = " << chunk_size;
