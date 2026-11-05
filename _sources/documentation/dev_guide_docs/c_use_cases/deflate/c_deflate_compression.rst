@@ -281,7 +281,3 @@ with the :c:macro:`QPL_FLAG_OMIT_VERIFY` flag.
     Currently verification is not performed for Huffman-only compression
     on the hardware path. For more information on Huffman-only, see
     :ref:`huffman_only_reference_link`.
-
-.. warning::
-    Currently compression verification on the software path only works with
-    indexing and data of size smaller than 32 KB in other modes.

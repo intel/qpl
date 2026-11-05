@@ -24,7 +24,6 @@ For instructions on how the Deflate stream could be decompressed,
 use :ref:`Deflate Decompression <decompress_settings_for_deflate_reference_link>`.
 
 Additionally Intel QPL supports :ref:`compressing with a Dictionary <compressing_with_dictionary_reference_link>`,
-:ref:`using Deflate with Indexing <deflate_with_indexing_reference_link>`,
 and dividing :ref:`compression and decompression into multiple jobs <multiple_jobs_reference_link>`.
 
 Intel QPL Deflate could be made compatible with
@@ -36,6 +35,8 @@ Intel QPL provides an API to estimate the size of the output buffer required for
 compression operations. For more details, refer to
 :ref:`Estimating the Size of the Deflate Compression Buffer <deflate_estimation_reference_link>`.
 
+Deflate with Indexing is no longer supported.
+
 .. toctree::
    :maxdepth: 1
 
@@ -43,6 +44,5 @@ compression operations. For more details, refer to
    c_deflate_decompression
    c_deflate_multiple_jobs
    c_deflate_dictionary
-   c_deflate_indexing
    c_deflate_zlib_gzip
    c_deflate_estimate_buffer_size
